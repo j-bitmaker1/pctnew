@@ -1,0 +1,50 @@
+#topheader
+    background: srgb(--background-total-theme)
+    z-index: 4
+    color : srgb(--text-color)
+
+    .iconbutton
+        cursor: pointer
+
+    .headerLine
+        display: flex
+        align-items: center
+        padding: 0
+        height: 64px
+
+
+        .iconsmall
+            width : 22px
+            min-width: 22px
+
+        .icon
+            width : 44px
+            min-width: 44px
+
+        .rightaddIcons
+            margin-right: 11px
+
+        .leftaddIcon
+            margin-left: 11px
+
+        .infoPart
+            flex-grow: 1
+            padding : 0 2 * $r
+            overflow: hidden
+
+            /deep/ span,
+            span
+                font-size: 1.5em
+                font-weight: 500
+
+    &.hasback
+        padding-left: $r
+        .headerLine
+            .infoPart
+                padding : 0
+
+    .rightaddIcons,
+    .rightIcons
+        justify-content: space-between
+
+    

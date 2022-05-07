@@ -1,0 +1,33 @@
+.message
+    font-weight: 400
+    text-align: center
+
+    div
+        margin: 0 auto
+        padding: $r 2 * $r
+        background: srgb(--background-total-theme)
+        border: 1px solid srgba(--neutral-grad-1, 0.3)
+        border-radius: 30px
+        width: 200px
+        font-size: 0.8em
+        +shadowSmaller()
+
+.iconWrapper
+    transform: scale(0.5)
+
+.wrapper
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    bottom: 0
+    z-index: 2900
+    backdrop-filter: blur(5px)
+    background: srgba(--background-total-theme, 0.2)
+    +transition(0.3s)
+    
+    .table
+        height: 100%
+        >div
+            vertical-align: middle
+

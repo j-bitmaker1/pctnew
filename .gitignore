@@ -1,0 +1,15 @@
+# Include your project-specific ignores in this file
+# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
+**/node_modules
+.env
+.vscode
+.vs
+.idea
+dist
+cordova-built
+src-cordova/*
+cordova-resources/build.json
+cordova-resources/google-services.json
+cordova-resources/GoogleService-Info.plist
+package-lock.json
+*.zip
