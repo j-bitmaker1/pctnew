@@ -1,27 +1,24 @@
 Before push need to create new branch and merge PR to DEV =)
 
 
-# vue-chat
+# portfoliocrashtestnew
 
 ## Project setup
 ```
-yarn install
+npm i
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+npm run serve
 ```
 
-### Compiles and minifies for production
+### Compile for cordova
 ```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
+npm run cordova
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Compiles and hot-reloads for cordova development
+```
+npm run cordova-serve-android
+```
