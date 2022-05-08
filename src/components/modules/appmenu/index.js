@@ -1,8 +1,13 @@
 import { mapState } from 'vuex';
+import themeToggle from "@/components/assets/themetoggle/index.vue";
 
 export default {
     name: 'appmenu',
     props: {
+    },
+
+    components : {
+        themeToggle
     },
 
     data : function(){

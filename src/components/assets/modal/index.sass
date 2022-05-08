@@ -1,72 +1,23 @@
 .modal-backdrop 
     position: absolute
-    z-index: 30
     top: 0
     bottom: 0
     left: 0
     right: 0
-    background: srgba(--background-total-theme, 0.15)
-    backdrop-filter: blur(5px)
-    -webkit-backdrop-filter: blur(5px)
-    
+    background: srgba(--color-shadow-base, 0.85)
     display: block
     justify-content: center
     align-items: center
-    z-index: 2023
     opacity: 1
-    +transition(0.3s)
 
-#modal.mobile
-    .modal-wrapper,
-    .modal-backdrop 
-        position: fixed
-
-    .modal-backdrop
-        background: rgba(0,17,44,.75)
-
-    .modal-wrapper
-        border : 0px
-
-#modal.bout
-    .modal-backdrop 
-        position: fixed
-
-    .modal-wrapper
-        position: fixed
-        z-index: 2023
 
 #modal
-    &.minimized
-        .modal-wrapper
-            top : -30px
-            left : auto
-            right : 0
-            width : 344px
-            position: fixed
-            z-index: 2023222
-            border-bottom : 0
-
-        .modal-backdrop 
-            left : auto
-            border-radius: 8px
-            top : -60px
-            right : 0
-            width : 344px
-            position: fixed
-
-        .modal
-            &::-webkit-scrollbar
-                width: 0!important
-
-        &.bin
-            display: none
-            
-            &.active
-                display: block
-
-            .modal-backdrop,
-            .modal-wrapper
-                position: absolute
+    position: fixed
+    left : 0
+    top : 0
+    bottom : 0
+    right: 0
+    z-index: 2023
 
 
 .modal-wrapper
@@ -75,7 +26,6 @@
     right : 0
     top : 7%
     bottom : 0
-    +transition(0.3s)
     overflow: hidden
     
 
@@ -89,7 +39,6 @@
     margin : 0 auto
     +shadowSmall()
     position: absolute
-    z-index: 2023
     left : 0
     right : 0
     top : 0
@@ -97,22 +46,19 @@
     overscroll-behavior : contain
 
 .modal-close
-    position: absolute
-    top : 0
-    right : 0
+    margin-left: auto
     padding : 2 * $r
     width : 50px
     text-align: center
     color : srgb(--neutral-grad-4)
     cursor: pointer
-    +transition(0.3s)
+    z-index: 1
 
     &:hover
         color : srgb(--text-color)
 
 .modal-header,
 .modal-footer 
-    padding: 2 * $r  2 * $r
     display: flex
     max-width: 640px
     margin : 0 auto
@@ -122,6 +68,16 @@
     color: srgb(--text-color)
     justify-content: space-between
     font-weight: 700
+    position: sticky
+    display: flex
+    justify-content: space-between
+    left : 0
+    top : 0
+    right: 0
+    background: srgb(--background-total-theme)
+
+    .headerWrapper
+        padding : 2 * $r
 
 
 .modal-footer 

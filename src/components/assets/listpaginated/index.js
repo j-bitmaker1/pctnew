@@ -13,7 +13,12 @@ export default {
         perpage : {
             type : Number,
             default : 20
-        }
+        },
+
+        elheight : {
+			type : Number,
+			default : 0
+		}
     },
 
     data : function(){
@@ -133,6 +138,10 @@ export default {
 
         next : function(){
             this.load()
-        }
+        },
+
+        click : function(item){
+			this.$emit('click', item)
+		}
     },
 }

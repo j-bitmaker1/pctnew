@@ -10,26 +10,35 @@
 <style lang="css" src="./fontawesome/css/all.css"></style>
 
 <script>
-
+import Vue2TouchEvents from 'vue2-touch-events'
 import vuescroll from 'vue-scroll'
 import store from "@/vuex/store";
 import router from "@/router/router";
 import modal from "@/components/assets/modal/index.vue";
+import modals from "@/components/assets/modals/index.vue";
 import pmenu from "@/components/assets/pmenu/index.vue";
 import _ from "underscore";
 import VueI18n from "vue-i18n";
 import Message from "@/editedplugins/vue-m-message/src/index.js";
 import "@/editedplugins/vue-m-message/dist/index.css";
-import Vue2TouchEvents from "vue2-touch-events";
 
 import VuejsDialog from "vuejs-dialog";
 Vue.use(VuejsDialog);
 
 ////////
 
+Vue.use(Vue2TouchEvents, {
+    disableClick: false,
+    touchClass: '',
+    tapTolerance: 10,
+    touchHoldTolerance: 400,
+    swipeTolerance: 30,
+    longTapTimeInterval: 400,
+    namespace: 'touch'
+})
+
 Vue.use(Message);
 Vue.use(VueI18n);
-Vue.use(Vue2TouchEvents);
 
 ////////
 
@@ -78,6 +87,8 @@ import root from "@/root/index.vue";
 
 Vue.component("pmenu", pmenu);
 Vue.component("modal", modal);
+Vue.component("modals", modals);
+
 Vue.component("preloader", preloader);
 Vue.component("date", date);
 Vue.component("userpic", userpic);

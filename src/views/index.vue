@@ -9,7 +9,7 @@
 
     <maincontent>
       <template v-slot:content>
-        page
+        <home />
       </template>
     </maincontent>
 
@@ -23,12 +23,12 @@
 
 <script>
 
+import home from "@/components/modules/app/home/index.vue";
 
 export default {
-  name: 'page',
+  name: 'home_page',
   components: {
-
-
+    home
   },
 
   computed:{

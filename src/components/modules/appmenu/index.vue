@@ -20,6 +20,11 @@
     
 
     <div class="footer">
+
+      <div class="themeToggleWrapper">
+        <themeToggle />
+      </div>
+
       <div class="help">
         <i class="far fa-question-circle"></i> <span>{{$t('caption.helpfooter')}}</span>
       </div>

@@ -1,5 +1,9 @@
 import { mapState } from 'vuex';
 
+/// TO DO DYNAMIC IMPORT
+import home from "@/components/modules/app/home/index.vue";
+
+
 export default {
     name: 'modal',
     props: {
@@ -7,13 +11,16 @@ export default {
             default : true,
             type : Boolean
         },
-        cantclose : Boolean
+        cantclose : Boolean,
+        module : String
+       
     },
 
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            scroll : 0
         }
 
     },
@@ -28,19 +35,34 @@ export default {
         //$route: 'getdata'
     },
 
-  
+    components : {
+        home
+    },
  
     computed: mapState({
         auth : state => state.auth,
-        pocketnet: state => state.pocketnet,
-        minimized : state => state.minimized,
-        active: state => state.active,
-        mobile: state => state.mobile,
+
+        /*moduleInstance () {
+            console.log('./' + this.module)
+            //return (resolve) => {require([this.module], resolve) }
+            return () => import(this.module)
+        }*/
     }),
 
     methods : {
         close : function(){
             this.$emit('close')
+        },
+
+        swipeHandler : function(e){
+            console.log("E", e)
+        },
+
+        scrolling : function(e){
+            this.scroll = e.target.scrollTop
+        },
+
+        moving : function(e, h){
         }
     },
 }

@@ -2,7 +2,7 @@
 <div class="listpaginated">
 
     <div class="listWrapper" >
-        <list :items="records">
+        <list :items="records" :elheight="elheight" @click="click">
             <template v-slot:default="slotProps">
                 <slot v-bind:item="slotProps.item">
                 </slot>

@@ -1,0 +1,13 @@
+.fade-enter-active, .fade-leave-active 
+    +transition(0.3s)
+    /deep/
+        .modal
+            +transition(0.3s)
+
+.fade-enter, .fade-leave-to
+    opacity: 0
+
+    /deep/
+        .modal
+            -webkit-transform: translateY(100%)
+            transform: translateY(100%)

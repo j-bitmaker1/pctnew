@@ -1,5 +1,5 @@
 import { mapState } from 'vuex';
-
+import f from "@/application/functions.js";
 import lead from './lead/index.vue'
 
 export default {
@@ -27,7 +27,8 @@ export default {
                     field : 'FName',
                     sort : 'desc'
                 }
-            }
+            },
+
         }
 
     },
@@ -66,6 +67,10 @@ export default {
                 orderBy,
                 query : this.core.crm.query('simplesearch', {search : this.searchvalue, type : "LEAD"})
             }
+        },
+
+        elheight : function(){
+            return f.mobileview() ? 195 : 70
         }
     }),
 
@@ -81,6 +86,14 @@ export default {
 
         sortchange : function(v){
             this.sort = v
+        },
+
+        click : function(lead){
+            this.$store.commit('OPEN_MODAL', {
+                id : 'modal_' + lead.ID,
+                module : "home",
+                caption : "SD"
+            })
         }
 
         /*load : function(){

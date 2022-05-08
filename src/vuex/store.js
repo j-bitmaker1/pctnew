@@ -6,9 +6,21 @@ import _ from 'underscore'
 Vue.use(Vuex);
 
 var themes = {
-	white: "White",
-	black: "Dark",
-	classic: "Classic"
+	white: {
+		name: 'black', ////ch
+		class: "stwhite",
+		color : "#ffffff",
+		media : '(prefers-color-scheme: light)',
+		rootid : ''
+	},
+
+	black: {
+		name: 'white',
+		class: "stblack",
+		color : "#1e2235",
+		media : '(prefers-color-scheme: dark)',
+		rootid : 'black'
+	}
 }
 
 var mex = {
@@ -16,11 +28,26 @@ var mex = {
 
 		if (themes[value]) {
 			state.theme = value
+
+			if (document.documentElement.hasAttribute('theme')){
+				document.documentElement.removeAttribute('theme');
+			}
+
+			document.documentElement.setAttribute('theme', themes[value].rootid);
+
+			var root = document.querySelector(':root');
+
+			var rootStyles = getComputedStyle(root);
+
+			state.currentStyles = rootStyles
+
+			/*$('meta[name="theme-color"]').attr('content', themes[value].color)
+			$('meta[name="msapplication-navbutton-color"]').attr('content', themes[value].color)
+			$('meta[name="apple-mobile-web-app-status-bar-style"]').attr('content', themes[value].color)*/
 		}
 	}
 }
 
-var activetimeout = null
 
 var store = new Vuex.Store({
 	state: {
@@ -34,7 +61,6 @@ var store = new Vuex.Store({
 		allnotifications: 0,
 		gallery: null,
 		share: null,
-		modalShowed: null,
 		menu: null,
 		redirect: '',
 		auth : -1,
@@ -49,7 +75,11 @@ var store = new Vuex.Store({
 		theight : 0,
 		twidth : 0,
 		dheight : 0,
-		dwidth : 0
+		dwidth : 0,
+
+		currentStyles : {},
+
+		modals : []
 
 	},
 	getters: {
@@ -69,12 +99,11 @@ var store = new Vuex.Store({
 			state.allnotifications = 0
 
 			state.gallery = null
-			state.modalShowed = null
 			state.menu = null
 			state.redirect = ''
 			state.auth = -1
 			state.wssready = false
-			
+			//state.modals = []
 			
 		},
 
@@ -89,6 +118,22 @@ var store = new Vuex.Store({
 		},
 		dscrollx(state, value) {
 			state.dscrollx = value;
+		},
+
+		theight(state, value) {
+			state.theight = value;
+		},
+
+		twidth(state, value) {
+			state.twidth = value;
+		},
+
+		dheight(state, value) {
+			state.dheight = value;
+		},
+
+		dwidth(state, value) {
+			state.dwidth = value;
 		},
 
 		wssready(state, value) {
@@ -111,9 +156,7 @@ var store = new Vuex.Store({
 			state.auth = value
 		},
 
-		setmodal(state, v) {
-			state.modalShowed = v;
-		},
+		
 
 		userinfo(state, v) {
 			state.userinfo = v;
@@ -135,7 +178,6 @@ var store = new Vuex.Store({
 			localStorage.setItem('lastlogin', v)
 		},
 
-
 		GALLERY(state, v) {
 			state.gallery = v || null
 		},
@@ -150,10 +192,57 @@ var store = new Vuex.Store({
 
 		SET_MENU(state, v) {
 			state.menu = v
-		}
+		},
+
+		OPEN_MODAL(state, modal) {
+			state.modals.push(modal);
+
+			if (state.modals.length){
+				var h = document.getElementById( 'html' );
+
+				h.style.overflow = 'hidden'
+			}
+		},
+
+		CLOSE_MODAL(state, id){
+			state.modals = _.filter(state.modals, function(m){
+				return m.id != id
+			})
+
+			console.log('state.modals.length', state.modals.length)
+
+			if(!state.modals.length){
+				var h = document.getElementById( 'html' );
+
+				h.style.overflow = null
+			}
+		},
+
+		
 
 	},
 	actions: {
+
+		OPEN_MODAL({ commit }, { modal }) {
+
+
+			
+			if (!index) index = 0
+
+			if (!images) images = []
+
+			if (images.length) {
+
+				commit('GALLERY', {
+					images: images,
+					index: index
+				})
+
+			} else {
+				commit('GALLERY', null)
+			}
+
+		},
 
 		SHOW_GALLERY({ commit }, { images, index }) {
 

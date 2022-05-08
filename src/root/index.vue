@@ -13,6 +13,8 @@
       @close="closeGallery"
     />
 
+    <modals />
+
     <!-- and other modals -->
 
     <preloader v-if="globalpreloader" />

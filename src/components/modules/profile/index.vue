@@ -6,6 +6,10 @@
 
     <div class="infoWrapper">Additional Info</div>
 
+    <div class="themeToggleWrapper">
+        <themeToggle />
+    </div>
+
     <div class="actions">
         <div class="action">
             <router-link to="/changepassword">

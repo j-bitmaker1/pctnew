@@ -3,7 +3,7 @@
     <div class="controls">
         <listcontrols :searchvalue="searchvalue" :count="count" :sorting="sorting" @search="search" @sort="sortchange"/>
     </div>
-    <listpaginated api="crm.contacts.list" :payload="payload" ref="list" @count="setcount">
+    <listpaginated api="crm.contacts.list" :payload="payload" ref="list" @count="setcount" :elheight="elheight" @click="click">
         <template v-slot:default="slotProps">
             <div class="cardWrapper">
                 <lead :profile="slotProps.item"/>

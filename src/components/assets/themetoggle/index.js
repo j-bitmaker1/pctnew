@@ -1,14 +1,9 @@
 import { mapState } from 'vuex';
-import card from "@/components/assets/user/card/index.vue";
-import themeToggle from "@/components/assets/themetoggle/index.vue";
-
 
 export default {
-    name: 'profile',
+    name: 'themeToggle',
     props: {
     },
-
-    components : {card, themeToggle},
 
     data : function(){
 
@@ -27,13 +22,12 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
-        userinfo : state => state.userinfo
+        theme : state => state.theme
     }),
 
     methods : {
-        signout : function(){
-            this.core.user.signout()
-            this.$router.push('/')
+        set : function(v){
+            this.$store.commit('theme', v)
         }
     },
 }
