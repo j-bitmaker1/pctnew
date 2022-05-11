@@ -8,9 +8,7 @@
   >
     <slot name="content"> &nbsp; </slot>
 
-    <transition name="fade" v-if="iconshow">
-      <fixedmessageicon />
-    </transition>
+    
   </div>
 </template>
 

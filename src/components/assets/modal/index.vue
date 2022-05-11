@@ -1,9 +1,9 @@
 <template>
   <transition name="fade">
 
-    <div id="modal">
+    <div id="modal" :class="(mclass || '')">
       <div class="modal-backdrop" @click="close"></div>
-      <div class="modal-wrapper" v-touch:swipe.bottom="close" v-touch:moving="moving">
+      <div class="modal-wrapper" v-touch:swipe.bottom="closeiftop" v-touch:moving="moving">
         <div class="modal customscroll" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription" v-scroll="scrolling">
 
           
@@ -22,7 +22,7 @@
           <div class="modal-body" id="modalDescription">
             <slot v-if="!module" name="body" :scroll="scroll">
             </slot>
-            <component v-else :is="module" />
+            <component v-else :is="module" @close="close" v-bind="data || {}"/>
           </div>
           
           <div class="modal-footer" v-if="displayFooter">

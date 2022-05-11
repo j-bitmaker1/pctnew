@@ -1,6 +1,6 @@
 <template>
-  <div id="_emptySimple">
-  </div>
+<div id="_emptySimple">
+</div>
 </template>
 
 <style scoped lang="sass">
@@ -8,19 +8,21 @@
 </style>
 
 <script>
-import { mapState } from 'vuex';
+import {
+    mapState
+} from 'vuex';
 
 export default {
     name: '_emptySimple',
     props: {
-        data : Object
+        data: Object
     },
     computed: mapState({
-        auth : state => state.auth,
+        auth: state => state.auth,
     }),
 
-    methods : {
-        
+    methods: {
+
     },
 }
 </script>

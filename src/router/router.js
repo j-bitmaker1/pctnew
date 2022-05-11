@@ -99,6 +99,26 @@ const routes = [
     },
 
     {
+        path: '/terms',
+        name: 'terms',
+        component: () => import('@/views/terms')
+    },
+
+    {
+        path: '/support',
+        name: 'support',
+        component: () => import('@/views/support')
+    },
+
+    
+    {
+        path: '/portfolios',
+        name: 'portfolios',
+        component: () => import('@/views/portfolios'),
+        customRedirect : redirects.authorized
+    },
+
+    {
         path: '/changepassword',
         name: 'changepassword',
         component: () => import('@/views/changepassword')
@@ -121,6 +141,13 @@ const routes = [
         path: '/leads',
         name: 'leads',
         component: () => import('@/views/leads'),
+        customRedirect : redirects.authorized
+    },
+
+    {
+        path: '/clients',
+        name: 'clients',
+        component: () => import('@/views/clients'),
         customRedirect : redirects.authorized
     },
     

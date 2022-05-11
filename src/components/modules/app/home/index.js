@@ -2,6 +2,7 @@ import { mapState } from 'vuex';
 
 
 import bigmainbutton from "@/components/delements/bigmainbutton/index.vue";
+import notifications from "@/components/modules/notifications/index.vue";
 
 export default {
     name: 'home',
@@ -9,7 +10,8 @@ export default {
     },
 
     components : {
-        bigmainbutton
+        bigmainbutton,
+        notifications
     },
 
     data : function(){

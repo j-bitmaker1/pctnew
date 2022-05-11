@@ -26,8 +26,10 @@ export default {
         auth : state => state.auth,
         gallery : state => state.gallery,
         globalpreloader : state => state.globalpreloader,
-        online : state => state.online
-
+        online : state => state.online,
+        iconshow: function() {
+			return this.$store.state.icon ? true : false
+		},
     }),
 
     methods : {

@@ -1,0 +1,61 @@
+.assets_fromsearch,
+.assets_edit
+    display: flex
+    justify-content: space-between
+    align-items: center
+    background: srgb(--neutral-grad-0)
+    font-size: 0.9em
+    border-radius: 6px
+    position: relative
+
+
+
+.searchresult
+    position: absolute
+    left : 0
+    top : 100%
+    right: 0
+    max-height: 380px
+    margin-top : $r
+    border-radius: 5px
+    background: srgb(--background-total-theme)
+    padding : 2 * $r
+    border : 1px solid srgb(--neutral-grad-0)
+    +shadowSmaller()
+    z-index: 2
+
+    .assets_fromsearch
+        margin-bottom: $r
+
+.name
+    flex-grow: 2
+    margin-right : auto
+    input
+        width: 100%
+
+.ticker
+    min-width: 70px
+    max-width: 150px
+    background: srgb(--neutral-grad-1)
+    height: 55px
+    border-radius: 6px
+    border-top-right-radius: 0
+    border-bottom-right-radius: 0
+    display: flex
+    align-items: center
+    justify-content: space-around
+    border-right : 1px solid srgb(--background-total-theme)
+
+    span
+        font-weight: 700
+
+.value
+    max-width: 90px
+    border-left : 1px solid srgb(--background-total-theme)
+
+
+input
+    padding : 0 $r
+    height: 55px
+    width: 100%
+

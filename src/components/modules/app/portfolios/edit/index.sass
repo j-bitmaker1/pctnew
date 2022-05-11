@@ -1,0 +1,56 @@
+.addwrapper
+    padding : $r
+    display: flex
+    flex-wrap: wrap
+
+    .button
+        min-width: 0
+        margin-right: $r
+        margin-bottom: $r
+        white-space: nowrap
+
+.captionRow
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    .totalwrapper
+        margin-left: auto
+        padding-right: 2 * $r
+
+        span
+            font-size: 1.2em
+            font-weight: 100
+
+.assetWrapper
+    margin-bottom: 10px
+    padding: 0 0.5 * $r
+    display: flex
+    align-items: center
+
+    .assets_edit
+        flex-grow: 2
+        scroll-snap-align: start
+
+    .remove
+        scroll-snap-align: start
+        text-align: center
+        width: 10%
+        color : srgb(--neutral-grad-1)
+    
+
+.assetsList
+    margin-bottom: 3 * $r
+    overflow-x: scroll
+    scroll-snap-type: x mandatory
+    &::-webkit-scrollbar
+        display: none!important
+
+    .assetsListWrapper
+        width: 110%
+
+.caption
+    padding : 2 * $r
+
+    span
+        font-weight: 700

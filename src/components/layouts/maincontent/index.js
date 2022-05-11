@@ -29,9 +29,7 @@ export default {
 
     computed: mapState({
         auth : state => state.auth,
-        iconshow: function() {
-			return this.$store.state.icon ? true : false
-		},
+        
        
         modalShowed : state => state.modalShowed,
     }),

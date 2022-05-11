@@ -5,6 +5,9 @@ export default {
     name: 'listpaginated',
     props: {
         api : String,
+        start: Number,
+        from : String,
+        to : String,
         payload : {
             type : Object,
             default : () => {return {}}
@@ -14,6 +17,8 @@ export default {
             type : Number,
             default : 20
         },
+
+        bypages : Boolean,
 
         elheight : {
 			type : Number,
@@ -53,9 +58,15 @@ export default {
         epayload : function(){
             var epayload = _.clone(this.payload || {})
 
-            epayload.From = (this.page) *  this.perpage
-            epayload.To = this.perpage
+            if (this.bypages){
+                epayload[this.from || "From"] = (this.page) 
+            }
+            else{
+                epayload[this.from || "From"] = (this.page) * this.perpage + (this.start || 0)
+            }
 
+            
+            epayload[this.to || "To"] = this.perpage
 
             return epayload
         }
@@ -64,8 +75,6 @@ export default {
     methods : {
        
         changed : function(){
-
-            console.log('changed')
 
             this.refresh = true
             this.end = false
@@ -105,14 +114,15 @@ export default {
 
 
                 this.refresh = false
-                
 
                 this.records = this.records.concat(data.data)
 
                 if(!this.count)
                     this.count = data.count
 
-                if((this.page + 1) *  this.perpage < this.count){
+                console.log('this.page + 1', this.page + 1, this.perpage, this.count, data)
+
+                if((this.page + 1) * this.perpage < this.count){
                     this.page++
                 }
                 else{

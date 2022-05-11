@@ -79,7 +79,9 @@ var store = new Vuex.Store({
 
 		currentStyles : {},
 
-		modals : []
+		modals : [],
+
+		portfolios : []
 
 	},
 	getters: {
@@ -88,7 +90,6 @@ var store = new Vuex.Store({
 	mutations: {
 
 		clearall(state) {
-
 
 			state.icon = null
 			state.loading = false
@@ -216,6 +217,11 @@ var store = new Vuex.Store({
 
 				h.style.overflow = null
 			}
+		},
+
+		/// temp
+		addportfolio(state, v) {
+			state.portfolios.push(v);
 		},
 
 		

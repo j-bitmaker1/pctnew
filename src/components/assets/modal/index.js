@@ -2,6 +2,10 @@ import { mapState } from 'vuex';
 
 /// TO DO DYNAMIC IMPORT
 import home from "@/components/modules/app/home/index.vue";
+import portfolios_edit from "@/components/modules/app/portfolios/edit/index.vue";
+import clients_edit from "@/components/modules/app/clients/edit/index.vue";
+
+import share from "@/components/common/share/index.vue";
 
 
 export default {
@@ -12,8 +16,9 @@ export default {
             type : Boolean
         },
         cantclose : Boolean,
-        module : String
-       
+        module : String,
+        data : Object,
+        mclass : String
     },
 
     data : function(){
@@ -36,7 +41,7 @@ export default {
     },
 
     components : {
-        home
+        home, portfolios_edit, share, clients_edit
     },
  
     computed: mapState({
@@ -52,6 +57,10 @@ export default {
     methods : {
         close : function(){
             this.$emit('close')
+        },
+
+        closeiftop : function(e){
+            //if(!this.scroll) this.close()
         },
 
         swipeHandler : function(e){

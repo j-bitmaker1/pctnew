@@ -1,19 +1,26 @@
 <template>
   <div id="root">
 
-    <appmenu v-if="auth == 1"/>
-    <vue-page-transition name="fade-in-right">
-      <router-view></router-view>
-    </vue-page-transition>
+    <div class="rootapp">
+      <appmenu v-if="auth == 1"/>
 
-    <gallery
-      v-if="gallery"
-      :images="gallery.images"
-      :index="gallery.index"
-      @close="closeGallery"
-    />
+      <vue-page-transition name="fade-in-right">
+        <router-view></router-view>
+      </vue-page-transition>
+
+      <gallery
+        v-if="gallery"
+        :images="gallery.images"
+        :index="gallery.index"
+        @close="closeGallery"
+      />
+    </div>
 
     <modals />
+
+    <transition name="fade" v-if="iconshow">
+      <fixedmessageicon />
+    </transition>
 
     <!-- and other modals -->
 

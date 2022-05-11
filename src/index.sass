@@ -139,6 +139,15 @@ input
             font-size: 2em
             font-weight: 100
 
+.buttonpanel
+    display: flex
+    flex-direction: row-reverse
+
+    i
+        width: 33px
+        height: 44px
+        line-height: 44px
+        margin-left: 2 * $r
 
 @keyframes gradient
 	0%
@@ -424,6 +433,20 @@ button.button
             border-bottom : 1px solid srgba((--neutral-grad-0), 0.9)
             border-radius: 0
 
+.savePanel
+    height: 10 * $r
+    padding : $r 2 * $r
+    background: srgb(--background-total-theme)
+    position: sticky
+    bottom : 0
+    left : 0
+    right: 0
+    text-align: right
+
+    .button
+        min-width: 130px
+        margin-left: 2 * $r
+        
 .bgpage
     display: flex
     width: 100%

@@ -16,15 +16,18 @@
     transform: scale(0.5)
 
 .wrapper
-    position: absolute
+    position: fixed
     left: 0
     right: 0
     top: 0
     bottom: 0
     z-index: 2900
     backdrop-filter: blur(5px)
-    background: srgba(--background-total-theme, 0.2)
+    background: srgba(--background-total-theme, 0.8)
     +transition(0.3s)
+    display: flex
+    justify-content: space-around
+    align-items: center
     
     .table
         height: 100%

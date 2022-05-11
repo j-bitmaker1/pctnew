@@ -156,7 +156,9 @@ var Request = function (core = {}, url, system) {
 
 	self.fetch = function (path, data, p) {
 
-		return direct(url ? (url + '/' + path) : path, data, p)
+		if(!path) path = ''
+
+		return direct(url ? (url + (path.indexOf('?') == 0 ? '' : '/') + path) : path, data, p)
 	}
 
 	return self
@@ -195,7 +197,7 @@ var ApiWrapper = function (core) {
 		var datahash = ''
 
 		_.each(data, function(v, k){
-			if(k != p.from && k != p.to && v && k!= 'Count') datahash += JSON.stringify(v)
+			if(k != p.from && k != p.to && v && k != p.includeCount) datahash += JSON.stringify(v)
 		})
 
 		datahash = sha1(datahash)
@@ -205,7 +207,6 @@ var ApiWrapper = function (core) {
 			data : {}
 		})
 
-		console.log('liststorage', liststorage)
 
 		return datahash
 	}
@@ -214,6 +215,8 @@ var ApiWrapper = function (core) {
 
 		var _fr = data[p.from] || 0
 		var _count = data[p.count] || 100
+
+		if(p.bypages) _fr = (_fr * _count)
 
 		var storage = liststorage[system][to][datahash]
 
@@ -240,11 +243,14 @@ var ApiWrapper = function (core) {
 
 	var paginatedrequest = function(data, system, to, p){
 
+
+
 		if(!p) p = {}
 		if(!data) data = {}
 
 		p.from || (p.from = "From")
 		p.count || (p.count = "To")
+		p.includeCount || (p.includeCount = "Count")
 
 		var datahash = prepareliststorage(data, system, to, p)
 
@@ -259,21 +265,28 @@ var ApiWrapper = function (core) {
 
 		if (loaded) return Promise.resolve(loaded)
 
-		if(!liststorage[system][to][datahash].count) data.Count = true
+		if(!liststorage[system][to][datahash].count) data[p.includeCount] = true
+		
+		
 
 		return request(data, system, to, p).then(r => {
+
+
+			if(r.pagination) r.count = r.pagination.total
 
 			prepareliststorage(data, system, to, p) /// async. maybe clear
 
 			if(!data[p.from]) data[p.from] = 0
 
 			_.each(r.records || [], (e, i) => {
-				var c = data[p.from] + i
+				var c = 0
+				
+				if(p.bypages){c = data[p.from] * data[p.count] + i}else{c = data[p.from] + i}
 
 				liststorage[system][to][datahash].data[c] = e
 			})
 
-			if (typeof r.count != 'undefined' && data.Count)
+			if (typeof r.count != 'undefined' && data[p.includeCount])
 				liststorage[system][to][datahash].count = r.count
 
 			var loaded = getloaded(datahash, data, system, to, p)
@@ -445,6 +458,44 @@ var ApiWrapper = function (core) {
 
 	}
 
+	var dbrequest = function(data, system, to, p){
+
+		var _storage = null
+		
+		return (p.storageparameters ? getstorage(p.storageparameters) : f.ep()).then(storage => {
+
+			_storage = storage
+
+			var datahash = sha1(system + to + JSON.stringify(data))
+			
+			if (storage && !p.refresh) {
+				return storage.get(datahash)
+			}
+			return Promise.resolve()
+
+		}).then(cached => {
+
+			if(!cached){
+				return request(data, system, to, p).then(r => {
+
+					if(_storage){
+						return _storage.set(datahash, r).then(() => {
+
+							return Promise.resolve(r)
+	
+						})
+					}
+					return Promise.resolve(r)
+					
+
+				})
+			}
+
+			return Promise.resolve(cached)
+
+		})
+	}	
+
 	var request = function (data, system, to, p, attempt) {
 
 		if (!attempt) attempt = 0
@@ -486,6 +537,7 @@ var ApiWrapper = function (core) {
 
 
 	}
+	
 
 	self.clearCache = function (key) {
 		var keys = []
@@ -517,6 +569,25 @@ var ApiWrapper = function (core) {
 	}
 
 	self.pct = {
+		tickers : {
+			search : function(d){
+
+				if(!d.value) return Promise.resolve([])
+
+				d.count || (d.count = 7)
+
+				/*return Promise.resolve({ "IncrementalSearch": { "c": [ {"ID": "MAX US", "n": "MEDIAALPHA INC-CLASS A", "Price": "0" }, {"ID": "MAX TB", "n": "MAX METAL CORP PCL", "Price": "0" }, {"ID": "MAX CN", "n": "MIDAS GOLD CORP", "Price": "0" }, {"ID": "MAXW US", "n": "MAXWORLDWIDE INC", "Price": "0" }, {"ID": "MAXS PM", "n": "MAX\u0027S GROUP INC", "Price": "0" }, {"ID": "MAXF IN", "n": "MAX FINANCIAL SERVICES LTD", "Price": "0" }, {"ID": "MAXI IN", "n": "MAX INDIA LTD-NEW SPUN OFF", "Price": "0" }, {"ID": "MAXR CN", "n": "MAXAR TECHNOLOGIES LTD", "Price": "0" }, {"ID": "MAXR CT", "n": "MAXAR TECHNOLOGIES LTD", "Price": "0" }, {"ID": "MAXR US", "n": "MAXAR TECHNOLOGIES LTD", "Price": "0" } ], "Result": "Success" }}).then(r => {
+					return Promise.resolve(f.deep(r, 'IncrementalSearch.c') || [])
+				})*/
+
+				return dbrequest({RowsToReturn : d.count, SearchStr : d.value}, 'pct', '?Action=GETINCREMENTALSEARCHONTICKERS', {
+					method: "POST"
+				}).then(r => {
+
+					return Promise.resolve(f.deep(r, 'IncrementalSearch.c') || [])
+				})
+			}
+		}
 
 	}
 
@@ -531,6 +602,20 @@ var ApiWrapper = function (core) {
 				return paginatedrequest(data, 'api', 'crm/Contacts/List', p)
 
 			}
+		}
+	}
+
+	self.notifications = {
+		list : function(data, p){
+			if(!p) p = {}
+
+			p.method = "POST"
+			p.count = 'pageSize'
+			p.from = 'pageNumber'
+			p.bypages = true
+			p.includeCount = "includeCount"
+
+			return paginatedrequest(data, 'api', 'notifier/Event/webSocketsList', p)
 		}
 	}
 

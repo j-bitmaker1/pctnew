@@ -1,22 +1,30 @@
-#root
+.rootapp
     display: flex
     >div
         min-height: 100vh
         padding : 3 * $r
+        padding-top : 0
 
     #appmenu
         width: 240px
         background: srgb(--background-secondary-theme)
         border-right: 1px solid srgb(--neutral-grad-0)
+        padding-top : 3 * $r
         
     .page
         min-width: 640px
         flex-grow: 1
+        
+.fade-enter-active, .fade-leave-active
+    transition: opacity .5s
+
+.fade-enter, .fade-leave-to
+    opacity: 0
 
 
 
 @media only screen and (max-width: 768px)
-    #root
+    .rootapp
         display: block
 
         .bgpage

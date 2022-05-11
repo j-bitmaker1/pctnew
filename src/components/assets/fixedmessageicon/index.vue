@@ -3,7 +3,6 @@
     id="wai-fixedmessageicon"
   >
     <div class="wrapper">
-      <div class="table">
         <div class="cell">
           <div class="iconWrapper" v-if="icon">
             <sweetalert :icon="icon" />
@@ -14,7 +13,6 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 

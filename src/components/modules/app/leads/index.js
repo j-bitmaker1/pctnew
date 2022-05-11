@@ -70,7 +70,8 @@ export default {
         },
 
         elheight : function(){
-            return f.mobileview() ? 195 : 70
+
+            return f.mobileview() ? 195 : 120
         }
     }),
 

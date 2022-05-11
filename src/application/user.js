@@ -277,6 +277,10 @@ var User = function ({
 
     function extendA({ headers, data, system }) {
 
+        var extendedobj = headers
+
+        if (system == 'pct') extendedobj = data
+
         /*data.fingerprint = fingerprint
         data.device = device*/
 
@@ -285,16 +289,18 @@ var User = function ({
         }
 
         if (token.value) {
-            headers.Token = token.value
+            extendedobj.Token = token.value
+
+            //if(system == 'pct')  extendedobj.Login = 'maximgrishkov@yandex.ru' ////TODO
         }
 
         else {
 
-            if (login.value) headers.Login = login.value
-            if (pwdhash.value) headers.password = pwdhash.value
+            if (login.value) extendedobj.Login = login.value
+            if (pwdhash.value) extendedobj.password = pwdhash.value
         }
 
-        headers.fingerPrint = fingerprint
+        extendedobj.fingerPrint = fingerprint
 
 
         return Promise.resolve({ headers, data, system })

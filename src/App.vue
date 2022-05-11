@@ -75,6 +75,7 @@ import coloredNumber from "@/components/assets/coloredNumber/index.vue";
 import list from "@/components/assets/list/index.vue";
 import listpaginated from "@/components/assets/listpaginated/index.vue";
 import listcontrols from "@/components/assets/listcontrols/index.vue";
+import forms from "@/components/assets/forms/index.vue";
 
 import topheader from "@/components/layouts/topheader/index.vue";
 import maincontent from "@/components/layouts/maincontent/index.vue";
@@ -88,6 +89,7 @@ import root from "@/root/index.vue";
 Vue.component("pmenu", pmenu);
 Vue.component("modal", modal);
 Vue.component("modals", modals);
+Vue.component("forms", forms);
 
 Vue.component("preloader", preloader);
 Vue.component("date", date);

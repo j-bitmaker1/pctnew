@@ -1,17 +1,21 @@
 <template>
 <div class="bigmainbutton" :class="{active}">
-    <div class="iconwrapper">
-		<i :class="icon" />
+
+    <div class="fline">
+      <div class="iconwrapper">
+          <i :class="icon" />
+      </div>
+      <div class="label">
+          <span>{{label}}</span>
+      </div>
     </div>
-    <div class="label">
-		<span>{{label}}</span>
-    </div>
+
     <div class="labels">
         <div class="blabel" v-if="blabel">
-			<span>{{blabel}}</span>
+            <span>{{blabel}}</span>
         </div>
         <div class="nlabel" v-if="nlabel">
-			<div class="notification">{{nlabel}}</div>
+            <div class="notification">{{nlabel}}</div>
         </div>
     </div>
 </div>
