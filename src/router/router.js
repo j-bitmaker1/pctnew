@@ -119,6 +119,13 @@ const routes = [
     },
 
     {
+        path: '/portfolio',
+        name: 'portfolio',
+        component: () => import('@/views/portfolio'),
+        customRedirect : redirects.authorized
+    },
+
+    {
         path: '/changepassword',
         name: 'changepassword',
         component: () => import('@/views/changepassword')

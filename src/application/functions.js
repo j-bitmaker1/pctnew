@@ -602,7 +602,7 @@ var imgDimensions = function (data) {
     return data
 }
 
-var knsites = ['bastyon.com', 'pocketnet.app', 'zoom.us', 'youtube', 'facebook', 'instagram', 'vk.com', 'twitter', 'pinterest', 'vimeo', 'ask.fm', 'change.org', 'wikipedia', 'livejournal', 'linkedin', 'myspace', 'reddit', 'tumblr', 'ok.ru', 'flickr', 'google', 'yandex', 'yahoo', 'bing', 'gmail', 'mail']
+var knsites = [ 'zoom.us', 'youtube', 'facebook', 'instagram', 'vk.com', 'twitter', 'pinterest', 'vimeo', 'ask.fm', 'change.org', 'wikipedia', 'livejournal', 'linkedin', 'myspace', 'reddit', 'tumblr', 'ok.ru', 'flickr', 'google', 'yandex', 'yahoo', 'bing', 'gmail', 'mail']
 
 var knsite = function (url) {
     return _.find(knsites, function (u) {
@@ -614,8 +614,6 @@ var getUrl = function (data) {
 
     if(!linkify){
         linkify = require('linkifyjs');
-        linkify.registerCustomProtocol('pocketnet')
-        linkify.registerCustomProtocol('bastyon')
     }
 
     var links = linkify.find(data)
@@ -675,26 +673,6 @@ var formatBytes = function (bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-var poketnetUrlParser = function (url) {
-    var newURL = new URL(url)
-    return {
-        post: newURL.searchParams.get('s'),
-        user: newURL.pathname.replace('/', ''),
-    }
-}
-
-// Takes a url and returns another one that fits into iframe
-var videoUrlParser = function (url) {
-    var youtube_host = ['www.youtube.com', 'youtube.com', 'youtu.be']
-    var vimeo_host = ['www.vimeo.com', 'vimeo.com']
-    var peertube_host = ['peer.tube', 'peertube.social']
-
-    var newURL = new URL(url)
-
-    if (youtube_host.indexOf(newURL.hostname) > -1) return `https://www.youtube.com/embed/${newURL.searchParams.get('v')}`
-    if (vimeo_host.indexOf(newURL.hostname) > -1) return `https://player.vimeo.com/video${newURL.pathname}`
-    if (peertube_host.indexOf(newURL.hostname) > -1) return `https://pocketnetpeertube1.nohost.me/${newURL.pathname.replace('watch', 'embed')}`
-}
 
 // Cuts string if its length longer than 'lenght'
 var textFormatter = function (text, length) {
@@ -723,6 +701,15 @@ var dateParser = function (data) {
 
     return `${months[month]} ${day}, ${year} at ${hour}:${minutes} ${meridian}`
 }
+
+var numberParse = function(str){
+    str || (str = "")
+
+    str = str.replace(/[^\-\.0-9]/g, "")
+    return Number(str)
+}
+
+var round = (a, b) => a - a % b
 
 // calculates rating and returns star icons
 var setRating = function (total_score, votes) {
@@ -1120,6 +1107,13 @@ f.date = {
 			s = str.substring(12, 14) || 0;
 
 		return new Date(y, M - 1, d, h, m, s);
+	},
+    fromshortstring : function (str) {
+		var y = str.substring(0, 4),
+			M = str.substring(4, 6),
+			d = str.substring(6, 8);
+
+		return new Date(y, M - 1, d);
 	}
 }
 
@@ -1336,15 +1330,15 @@ f.hexDecode = hexDecode
 f.imgDimensions = imgDimensions
 f.getUrl = getUrl
 f.getTxt = getTxt
-f.poketnetUrlParser = poketnetUrlParser
 f.textFormatter = textFormatter
 f.urlSeparator = urlSeparator
 f.dateParser = dateParser
 f.setRating = setRating
-f.videoUrlParser = videoUrlParser
 f.isVisible = isVisible
 f.copytext = copytext
 f.md5 = md5
 f.knsite = knsite
 f.stringify = stringify
+f.numberParse = numberParse
+f.round = round
 export default f

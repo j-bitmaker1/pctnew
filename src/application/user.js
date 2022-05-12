@@ -8,7 +8,8 @@ import f from './functions'
 var User = function ({
     vm,
     api,
-    wss
+    wss,
+    pct
 }) {
 
     var self = this
@@ -509,6 +510,8 @@ var User = function ({
 
             vm.$store.commit('userinfo', self.info)
 
+            self.prepare()
+
             return state.value
 
         }).then(() => {
@@ -523,6 +526,14 @@ var User = function ({
             state.value = 0
 
             return Promise.reject(e)
+        })
+    }
+
+    self.prepare = function(){
+        return pct.prepare().catch(e => {
+            console.error(e)
+
+            return Promise.resolve()
         })
     }
 

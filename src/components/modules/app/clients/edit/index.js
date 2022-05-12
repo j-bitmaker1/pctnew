@@ -24,6 +24,18 @@ export default {
                 },
 
                 {
+                    id : 'firstname',
+                    text : 'fields.firstname',
+                    type : '',
+
+                    rules : [
+                        {
+                            rule : 'required'
+                        }
+                    ]
+                },
+
+                {
                     id : 'lastname',
                     text : 'fields.lastname',
                     type : '',
@@ -57,10 +69,10 @@ export default {
         save : function(){
             var r = this.$refs['form'].get()
 
-            console.log("R", r)
-
             if (r){
 
+                this.$emit('close')
+                
             }
         },
         cancel : function(){

@@ -9,10 +9,17 @@
 
     "fields" : {
         "email" : "Email",
-        "lastname" : "Lastname"
+        "lastname" : "Lastname",
+        "firstname" : "Firstname"
     },
 
-    
+    "labels" : {
+        "crashtest" : "Crashtest",
+        "shares" : "Shares",
+        "capacity" : "Capacity",
+        "allocation" : "Allocation",
+        "distribution" : "Distribution"
+    },
 
     "caption" : {
         "create": "Create",

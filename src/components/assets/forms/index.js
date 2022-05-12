@@ -52,10 +52,15 @@ export default {
     }),
 
     methods : {
+
         get : function(ignoreerrors){
             if (this.form.validate().errors().any() && !ignoreerrors) return null;
 
             return this.form.all()
+        },
+
+        onEnter : function(i){
+            if(this.$refs[i + 1]) this.$refs[i + 1][0].focus()
         }
     },
 }

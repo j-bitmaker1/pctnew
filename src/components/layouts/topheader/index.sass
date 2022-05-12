@@ -27,7 +27,6 @@
                 font-weight: 500
 
     &.hasback
-        padding-left: $r
         .headerLine
             .infoPart
                 padding : 0
@@ -36,11 +35,25 @@
     .rightIcons
         justify-content: space-between
 
+    .additionalWrapper
+        /deep/
+            #linenavigation
+
+               
+    
+    &.gray
+        background: srgb(--background-secondary-theme)
+        .headerLine
+            .infoPart
+                /deep/ span,
+                span
+                    font-size: 1em
+                    font-weight: 500
+
 @media only screen and (max-width: 768px)
     #topheader
         margin-top: 2 * $r
 
-       
         .headerLine
             height: 84px
 
@@ -58,4 +71,12 @@
                     font-size: 2em
                     font-weight: 700
 
+        &.gray
+            margin-top: 0
+            .headerLine
+                .infoPart
+                    /deep/ span,
+                    span
+                        font-size: 1em
+                        font-weight: 500
       

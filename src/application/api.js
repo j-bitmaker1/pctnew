@@ -87,7 +87,7 @@ var Request = function (core = {}, url, system) {
 			}
 
 			if (parameters.method == 'POST') parameters.body = JSON.stringify(data)
-			if (parameters.method == 'GET') url = url + '?' + new URLSearchParams(data)
+			if (parameters.method == 'GET') url = url + (url.indexOf('?') > -1 ? '&' : '?') + new URLSearchParams(data)
 
 			return fetch(url, parameters)
 
@@ -585,6 +585,44 @@ var ApiWrapper = function (core) {
 				}).then(r => {
 
 					return Promise.resolve(f.deep(r, 'IncrementalSearch.c') || [])
+				})
+			}
+		},
+
+		settings : {
+			get : function(){
+				return dbrequest({Type : 'UserSettings', ValStr : ''}, 'pct', '?Action=GETUSERDATA', {
+					method: "GET"
+				}).then(r => {
+
+					var data = {}	
+					
+					try{
+						data = JSON.parse(f.deep(r, 'GetUserData.ValObj') || "{}")
+					}
+					catch(e){}
+					
+
+					return Promise.resolve(data)
+				})
+			}
+		},
+
+		crashtest : {
+			get : function(){
+
+				////temp
+
+				return request({
+					UseIntegration: 0,
+					CalculateSW: 0,
+					CountPlausibility: 0,
+					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
+
+				}, 'pct', '?Action=GETPCT', {
+					method: "GET"
+				}).then(r => {
+					return Promise.resolve(r.PCT)
 				})
 			}
 		}

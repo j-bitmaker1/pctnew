@@ -3,7 +3,8 @@
     id="topheader"
     class="fixedOnPageTop"
     :class="{
-      hasback:back
+      hasback:back,
+      gray
     }"
   >
     <div class="topheader">
@@ -23,7 +24,9 @@
             <slot name="right"> &nbsp; </slot>
           </div>
         </div>
-        <slot name="additional"> </slot>
+        <div class="additionalWrapper">
+          <slot name="additional"></slot>
+        </div>
       </div>
     </div>
   </div>

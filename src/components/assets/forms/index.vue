@@ -1,11 +1,11 @@
 <template>
 <div class="forms">
     <div class="form" v-if="form">
-        <div class="field" v-for="field in fields" :key="field.id">
+        <div class="field" v-for="(field, i) in fields" :key="field.id">
 
             <label>{{$t(field.text)}}</label>
 
-            <input :type="field.type" v-model="form[field.id]" />
+            <input :ref="i" :type="field.type" v-model="form[field.id]" v-on:keyup.enter="onEnter(i)"/>
 
             <span class="error" v-if="form.errors().has(field.id)">
                 {{ form.errors().get(field.id) }}

@@ -7,6 +7,7 @@ import f from './functions'
 import user from './user'
 import wss from './wss'
 import CRM from './lib/crm'
+import PCT from './lib/pct'
 
 
 class Core {
@@ -39,9 +40,14 @@ class Core {
         this.external = {}
         this.hiddenInParent = false
 
+        this.crm = new CRM(this)
+        this.pct = new PCT(this)
+
+        console.log('this.pct', this.pct)
+
         this.user = new user(this)
 
-        this.crm = new CRM(this)
+        
 
     }
 

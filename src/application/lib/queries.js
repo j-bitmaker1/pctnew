@@ -1,4 +1,4 @@
-import _, { templateSettings } from "underscore"
+import _ from "underscore"
 
 const and = "AND"
 const or = "OR"
