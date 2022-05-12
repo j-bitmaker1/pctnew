@@ -78,10 +78,9 @@ var store = new Vuex.Store({
 		dwidth : 0,
 
 		currentStyles : {},
-
 		modals : [],
-
-		portfolios : []
+		portfolios : [],
+		valuemode : 'd'
 
 	},
 	getters: {
@@ -157,7 +156,9 @@ var store = new Vuex.Store({
 			state.auth = value
 		},
 
-		
+		valuemode(state, value) {
+			state.valuemode = value
+		},
 
 		userinfo(state, v) {
 			state.userinfo = v;

@@ -29,7 +29,9 @@ export default {
         },
         roundbase : function(){
             return Math.pow(10, Math.max((this.maxabs.toFixed(0)).length - 3, 1))
-        }
+        },
+
+        currentStyles : state => state.currentStyles
     }),
 
     methods : {
@@ -42,17 +44,18 @@ export default {
         },
 
         color : function(scenario){
-            if(scenario.loss > 0) return 'rgb(7, 108, 52)'
 
-            if(scenario.loss < 0) return 'rgb(244, 26, 77)'
+            var st = '--neutral-grad-0'
+
+            if(scenario.loss > 0) st = '--color-bad' 
+
+            if(scenario.loss < 0) st = '--color-good' 
+
+            return 'rgb(' + this.currentStyles.getPropertyValue(st) + ')'
         },
 
         num : function(index){
-
-            console.log('roundbase', this.roundbase)
-
             return f.round((index + 1) * (this.maxabs / this.intervals), this.roundbase)
-            
         }
     },
 }

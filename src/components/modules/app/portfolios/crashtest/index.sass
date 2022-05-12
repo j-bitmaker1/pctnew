@@ -1,0 +1,70 @@
+.header
+    display: flex
+    justify-content: space-between
+    padding : $r 0
+
+    .forsettigns
+        margin-left : auto
+
+.subheader
+    display: flex
+    justify-content: space-between
+    align-items: flex-start
+    padding : $r 0
+
+
+    .forvalue
+        span
+            font-size: 2em
+            font-weight: 700
+
+    .forvalues
+        margin-left : auto
+        text-align: right
+
+        .positive
+            color : srgb(--color-good)
+
+        .negative
+            color : srgb(--color-bad)
+
+        span
+            font-weight: 700
+
+.chartWrapper
+    margin-top : 3 * $r
+
+.summary
+    display: grid
+    grid-gap: $r
+    grid-template-columns: repeat(2, 1fr)
+    margin-bottom: 2 * $r
+
+    .block
+        padding : $r
+        border-radius: 12px
+        border : 1px solid srgb(--neutral-grad-1)
+        position: relative
+        padding-top : 1.5 * $r
+
+        .tip
+            position: absolute
+            bottom : $r
+            right: $r
+            color: srgb(--neutral-grad-1)
+
+        .label
+            span
+                font-size: 0.9em
+                font-weight: 700
+
+        .value
+            span
+                font-size: 2em
+
+.caption
+    margin-top : 4 * $r
+    margin-bottom: 2 * $r
+    span
+        font-size: 1.2em
+        font-weight: 700

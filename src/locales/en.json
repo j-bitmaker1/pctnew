@@ -18,7 +18,9 @@
         "shares" : "Shares",
         "capacity" : "Capacity",
         "allocation" : "Allocation",
-        "distribution" : "Distribution"
+        "distribution" : "Distribution",
+        "tolerance" : "Tolerance",
+        "crashrating" : "Crash Rating"
     },
 
     "caption" : {

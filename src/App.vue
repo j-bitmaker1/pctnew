@@ -76,6 +76,8 @@ import list from "@/components/assets/list/index.vue";
 import listpaginated from "@/components/assets/listpaginated/index.vue";
 import listcontrols from "@/components/assets/listcontrols/index.vue";
 import forms from "@/components/assets/forms/index.vue";
+import iconstoggle from "@/components/assets/iconstoggle/index.vue";
+import value from "@/components/assets/value/index.vue";
 
 import topheader from "@/components/layouts/topheader/index.vue";
 import maincontent from "@/components/layouts/maincontent/index.vue";
@@ -104,6 +106,8 @@ Vue.component("search", search);
 Vue.component("upload", upload);
 Vue.component("linepreloader", linepreloader);
 Vue.component("coloredNumber", coloredNumber);
+Vue.component("iconstoggle", iconstoggle);
+Vue.component("value", value);
 
 Vue.component("list", list);
 Vue.component("listpaginated", listpaginated);

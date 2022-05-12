@@ -1,6 +1,7 @@
 import { mapState } from 'vuex';
 
 import chart from './chart/index.vue'
+import ctdetails from './details/index.vue'
 
 export default {
     name: 'portfolios_crashtest',
@@ -8,7 +9,8 @@ export default {
     },
 
     components : {
-        chart
+        chart, 
+        ctdetails
     },
 
     data : function(){
@@ -16,7 +18,32 @@ export default {
         return {
             loading : false,
 
-            ct : {}
+            ct : {},
+
+            valuemodes : [
+                {
+                    icon : "fas fa-dollar-sign",
+                    id : 'd'
+                },
+                {
+                    icon : "fas fa-percent",
+                    id : 'p'
+                }
+            ],
+
+            summary : [
+
+                {
+                    text : 'labels.crashrating',
+                    index : 'ocr'
+                },
+                {
+                    text : 'labels.tolerance',
+                    index : 'pcr'
+                }
+                
+            ]
+
         }
 
     },
@@ -30,6 +57,7 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+        valuemode: state => state.valuemode,
     }),
 
     methods : {
@@ -47,6 +75,10 @@ export default {
             }).finally(() => {
                 this.loading = false
             })
+        },
+
+        changevaluemode : function(v){
+            this.$store.commit('valuemode', v)
         }
     },
 }

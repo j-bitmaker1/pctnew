@@ -2,8 +2,8 @@
 <div class="portfolios_crashtest_chart">
 
     <div class="scale">
-        <div class="num" v-for="index in intervals">
-            <div>{{num(index)}}</div>
+        <div class="num" v-for="index in intervals" :key="index">
+            <div><value :value="num(index)" mode="auto"/></div>
         </div>
     </div>
 

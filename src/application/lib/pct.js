@@ -54,10 +54,10 @@ class PCT {
         d.portfPath = ct.PortfPath
         
         d.ocr = f.numberParse(ct.ocr)
-        d.pcr = f.numberParse(d.pcr)
-        d.ocrPos = f.numberParse(d.ocrPos)
-        d.pcrPos = f.numberParse(d.pcrPos)
-        d.sumWeights = f.numberParse(d.sumWeights)
+        d.pcr = f.numberParse(ct.pcr)
+        d.ocrPos = f.numberParse(ct.ocrPos)
+        d.pcrPos = f.numberParse(ct.pcrPos)
+        d.total = f.numberParse(ct.sumWeights)
 
         d.gf = _.clone(ct.gf)
 

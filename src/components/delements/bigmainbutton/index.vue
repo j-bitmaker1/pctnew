@@ -2,7 +2,7 @@
 <div class="bigmainbutton" :class="{active}">
 
     <div class="fline">
-      <div class="iconwrapper">
+      <div class="iconwrapper" v-if="icon">
           <i :class="icon" />
       </div>
       <div class="label">
