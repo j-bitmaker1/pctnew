@@ -20,7 +20,9 @@
         "allocation" : "Allocation",
         "distribution" : "Distribution",
         "tolerance" : "Tolerance",
-        "crashrating" : "Crash Rating"
+        "crashrating" : "Crash Rating",
+        "byclass" : "By class",
+        "bysector" : "By sector"
     },
 
     "caption" : {

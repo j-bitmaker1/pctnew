@@ -1,5 +1,5 @@
 <template>
-  <div id="linepreloader">
+  <div id="linepreloader" class="mobp">
     <span></span><span></span><span></span>
   </div>
 </template>

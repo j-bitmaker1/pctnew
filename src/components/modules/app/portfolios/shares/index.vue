@@ -1,9 +1,11 @@
 <template>
-<div class="portfolios_shares">
+<div class="portfolios_shares mobp">
 
     <linenavigation :items="navigation" :navdefault="navdefault" :buttons="true" :navkey="navkey"/>
+    
+    <linepreloader v-if="loading"/>
 
-    <component :is="module"/>
+    <component v-else :is="module" :assets="assets"/>
     
 </div>
 </template>

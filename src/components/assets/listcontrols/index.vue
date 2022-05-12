@@ -12,7 +12,7 @@
 
         <div class="sorting" v-if="sorting">
             <label>Sort: </label>
-            <select class="custom" @change="sort">
+            <select class="custom" @change="sort" :value="sortvalue">
                 <option :value="i" v-for="(sort, i) in sorting" :key="i">{{$t('sort.' + sort.text)}}</option>
             </select>
         </div>

@@ -45,6 +45,10 @@ export default {
 
         color : function(scenario){
 
+            if (scenario.id < 0){
+                return 'rgb(' +this.$store.getters.currentStyleValue('--color-yellow') + ')'
+            }
+
             return this.$store.getters.colorByValue(scenario.loss)
 
         },

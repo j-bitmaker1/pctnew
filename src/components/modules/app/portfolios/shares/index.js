@@ -38,13 +38,15 @@ export default {
              
             ],
             navkey : 's',
-            navdefault : 'allocation'
+            navdefault : 'allocation',
+
+            assets : []
         }
 
     },
 
-    created : () => {
-
+    created : function(){
+        this.get()
     },
 
     watch: {
@@ -61,6 +63,21 @@ export default {
     }),
 
     methods : {
-        
+        get : function(){
+
+            this.loading = true
+
+            this.core.pct.getassets().then(r => {
+
+                this.assets = r
+
+                console.log('this.assets', this.assets)
+
+                return Promise.resolve(r)
+            }).finally(() => {
+                this.loading = false
+            })
+        },
+
     },
 }

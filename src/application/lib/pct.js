@@ -63,6 +63,18 @@ class PCT {
 
         d.scenarios = []
 
+        d.scenarios.push({
+            id : -1,
+            loss : d.assetClasses.longTermReturn,
+            name : "Long Term Annualized Return"
+        })
+
+        d.scenarios.push({
+            id : -2,
+            loss : d.assetClasses.dy,
+            name : "Yield"
+        })
+
         _.each(ct.sc, (s) => {
             var scenario = {}
 
@@ -93,7 +105,11 @@ class PCT {
                 scenario.shocks.push(shock)
             })
 
-            d.scenarios.unshift(scenario)
+            d.scenarios.push(scenario)
+        })
+
+        d.scenarios = _.sortBy(d.scenarios, (s) => {
+            return s.loss
         })
 
         d.profit = _.max(d.scenarios, (scenario) =>{
@@ -124,6 +140,26 @@ class PCT {
         return contributors
     }
 
+    parseAssets = function(as){
+        var assets = []
+
+        _.each(as, (a) => {
+            var asset = {}
+
+                asset.value = f.numberParse(a.WP)
+                asset.expRatio  = f.numberParse(a.ExpRatio)
+                asset.group = a.Group
+                asset.sector = a.Sector
+                asset.ticker = a.TickerID
+                asset.Yield = f.numberParse(a.Yield)
+                asset.country = a.Country
+                
+            assets.push(asset)
+        })
+
+        return assets
+    }
+
     get = function(){
         return this.api.pct.crashtest.get().then(r => {
             return Promise.resolve(this.parseCt(r))
@@ -133,6 +169,12 @@ class PCT {
     getcontributors = function(id){
         return this.api.pct.contributors.get(id).then(r => {
             return Promise.resolve(this.parseContributors(r))
+        })
+    }
+
+    getassets = function(id){
+        return this.api.pct.portfolio.getassets(id).then(r => {
+            return Promise.resolve(this.parseAssets(r))
         })
     }
 

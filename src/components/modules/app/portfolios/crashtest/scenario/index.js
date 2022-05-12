@@ -36,9 +36,11 @@ export default {
 
         color : function(){
 
+            if (this.scenario.id < 0){
+                return 'rgb(' +this.$store.getters.currentStyleValue('--color-yellow') + ')'
+            }
+
             return this.$store.getters.colorByValue(this.scenario.loss)
-
-
         }
     }),
 

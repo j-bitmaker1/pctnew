@@ -3,7 +3,7 @@
 
     <listpaginated api="notifications.list" :payload="payload" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
         <template v-slot:default="slotProps">
-            <div class="cardWrapper">
+            <div class="cardWrapper mobp">
                 <notification :event="slotProps.item"/>
             </div>
         </template>

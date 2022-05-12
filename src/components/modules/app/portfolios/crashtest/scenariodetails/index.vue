@@ -4,7 +4,7 @@
         <value :value="scenario.loss" mode="auto" colored="true" />
     </div>
 
-    <div class="descriptions">
+    <div class="descriptions" v-if="scenario.shock && scenario.shortDescription">
         <div class="caption">
             <span>Description</span>
         </div>

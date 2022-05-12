@@ -11,14 +11,15 @@
 			</div>
 		</template>
 
-        <template v-slot:additional>
-			<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
-		</template>
+    
         
 	</topheader>
 
     <maincontent>
         <template v-slot:content>
+            <div class="linenavigation">
+            <linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
+            </div>
             <component :is="module"/>
         </template>
     </maincontent>
@@ -27,7 +28,9 @@
 </template>
 
 <style scoped lang="sass">
-
+.linenavigation
+    background: srgb(--background-secondary-theme)
+    margin-bottom: $r
 </style>
 
 <script>

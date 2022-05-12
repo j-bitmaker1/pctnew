@@ -8,7 +8,8 @@ export default {
         sorting : {
             type : Object,
             default : () => {}
-        }
+        },
+        sortvalue : String
     },
 
     data : function(){

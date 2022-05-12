@@ -6,12 +6,25 @@ import options from '@/application/hc.js'
 export default {
     name: 'allocation',
     props: {
+        assets : Array
     },
 
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            activegrouping : 'byclass',
+            groups : [
+                {
+                    text : 'labels.byclass',
+                    id : 'byclass'
+                },
+
+                {
+                    text : 'labels.bysector',
+                    id : 'bysector'
+                }
+            ]
         }
 
     },
@@ -66,6 +79,8 @@ export default {
     }),
 
     methods : {
-        
+        grouping : function(){
+
+        }
     },
 }

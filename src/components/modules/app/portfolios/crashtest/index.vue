@@ -4,7 +4,7 @@
 
     <div class="ct" v-else>
 
-        <div class="summary">
+        <div class="summary mobp">
             <div class="block" v-for="item in summary" :key="item.index">
 
                 <div class="label">
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="header">
+        <div class="header mobp">
             <div class="forpanel">
                 <iconstoggle :icons="valuemodes" :value="valuemode" @change="changevaluemode"/>
             </div>
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div class="subheader">
+        <div class="subheader mobp">
             <div class="forvalue">
                 <value :value="ct.total" mode="auto"/>
             </div>
@@ -43,15 +43,15 @@
             </div>
         </div>
 
-        <div class="chartWrapper">
+        <div class="chartWrapper mobp">
             <chart :ct="ct"/>
         </div>
 
-        <div class="caption">
+        <div class="caption mobp">
             <span>Details</span>
         </div>
 
-        <div class="detailsWrapper">
+        <div class="detailsWrapper mobp">
             <ctdetails :ct="ct"/>
         </div>
 

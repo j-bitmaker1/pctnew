@@ -1,6 +1,6 @@
 <template>
 <div id="distribution">
-    <div class="chartWrapper">
+    <div class="chartWrapper mobp">
         <highcharts :options="chartOptions"></highcharts>
     </div>
 </div>

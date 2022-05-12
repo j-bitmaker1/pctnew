@@ -1,6 +1,6 @@
 <template>
 <div id="home">
-    <div class="buttonsWrapper">
+    <div class="buttonsWrapper mobp">
         <router-link to="/clients">
             <bigmainbutton icon="fas fa-users" :label="$t('menu.clients')" blabel="55" :active="true" nlabel="+4" />
         </router-link>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="notificationsWrapper">
-        <div class="caption">
+        <div class="caption mobp">
             <span>Watch List</span>
         </div>
         <notifications />
