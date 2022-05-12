@@ -4,6 +4,7 @@ import { mapState } from 'vuex';
 import home from "@/components/modules/app/home/index.vue";
 import portfolios_edit from "@/components/modules/app/portfolios/edit/index.vue";
 import clients_edit from "@/components/modules/app/clients/edit/index.vue";
+import portfolios_crashtest_scenariodetails from "@/components/modules/app/portfolios/crashtest/scenariodetails/index.vue";
 
 import share from "@/components/common/share/index.vue";
 
@@ -41,7 +42,7 @@ export default {
     },
 
     components : {
-        home, portfolios_edit, share, clients_edit
+        home, portfolios_edit, share, clients_edit, portfolios_crashtest_scenariodetails
     },
  
     computed: mapState({

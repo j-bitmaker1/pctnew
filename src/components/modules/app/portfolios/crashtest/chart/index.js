@@ -45,13 +45,8 @@ export default {
 
         color : function(scenario){
 
-            var st = '--neutral-grad-0'
+            return this.$store.getters.colorByValue(scenario.loss)
 
-            if(scenario.loss > 0) st = '--color-bad' 
-
-            if(scenario.loss < 0) st = '--color-good' 
-
-            return 'rgb(' + this.currentStyles.getPropertyValue(st) + ')'
         },
 
         num : function(index){

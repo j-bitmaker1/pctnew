@@ -38,8 +38,8 @@
                 <value :value="ct.total" mode="auto"/>
             </div>
             <div class="forvalues">
-               <div class="positive"><i class="fas fa-arrow-up"></i> <value :value="ct.profit" mode="auto"/></div>
-               <div class="negative"><i class="fas fa-arrow-down"></i> <value :value="ct.loss" mode="auto"/></div>
+               <div class="positive"><i class="fas fa-arrow-up"></i> <value :value="ct.profit" mode="auto" colored="true"/></div>
+               <div class="negative"><i class="fas fa-arrow-down"></i> <value :value="ct.loss" mode="auto" colored="true"/></div>
             </div>
         </div>
 

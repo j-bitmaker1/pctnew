@@ -1,5 +1,5 @@
 <template>
-<span class="value">
+<span class="value" :style="{color : color}">
     {{formatted}}
 </span>
 </template>
@@ -11,9 +11,10 @@ import {
 
 export default {
     name: 'value',
-    props: ['value', 'mode'],
+    props: ['value', 'mode', 'colored'],
     computed: mapState({
         auth: state => state.auth,
+        currentStyles : state => state.currentStyles,
         valuemode : function(state){
 
             if(!this.mode) return null
@@ -23,6 +24,15 @@ export default {
                 return state.valuemode
 
             return this.mode
+        },
+
+        color : function(){
+
+            if (this.colored){
+
+                return this.$store.getters.colorByValue(this.value)
+            }
+
         },
 
         formatted : function(){

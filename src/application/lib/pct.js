@@ -107,9 +107,32 @@ class PCT {
         return d
     }
 
+    parseContributors = function(cs){
+        var contributors = []
+
+
+        _.each(cs, (c) => {
+            var contributor = {}
+
+            contributor.name = c.Name
+            contributor.value = f.numberParse(c.Val)
+            contributor.pos = f.numberParse(c.pos)
+
+            contributors.push(contributor)
+        })
+        
+        return contributors
+    }
+
     get = function(){
         return this.api.pct.crashtest.get().then(r => {
             return Promise.resolve(this.parseCt(r))
+        })
+    }
+
+    getcontributors = function(id){
+        return this.api.pct.contributors.get(id).then(r => {
+            return Promise.resolve(this.parseContributors(r))
         })
     }
 

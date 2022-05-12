@@ -35,6 +35,18 @@ export default {
     }),
 
     methods : {
-        
+        select : function(scenario){
+
+            this.$store.commit('OPEN_MODAL', {
+                id: 'modal_portfolios_crashtest_scenariodetails',
+                module: "portfolios_crashtest_scenariodetails",
+                caption: scenario.name,
+                data : {
+                    ct : this.ct,
+                    scenario : scenario
+                }
+            })
+
+        }
     },
 }

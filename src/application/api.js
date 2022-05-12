@@ -576,10 +576,6 @@ var ApiWrapper = function (core) {
 
 				d.count || (d.count = 7)
 
-				/*return Promise.resolve({ "IncrementalSearch": { "c": [ {"ID": "MAX US", "n": "MEDIAALPHA INC-CLASS A", "Price": "0" }, {"ID": "MAX TB", "n": "MAX METAL CORP PCL", "Price": "0" }, {"ID": "MAX CN", "n": "MIDAS GOLD CORP", "Price": "0" }, {"ID": "MAXW US", "n": "MAXWORLDWIDE INC", "Price": "0" }, {"ID": "MAXS PM", "n": "MAX\u0027S GROUP INC", "Price": "0" }, {"ID": "MAXF IN", "n": "MAX FINANCIAL SERVICES LTD", "Price": "0" }, {"ID": "MAXI IN", "n": "MAX INDIA LTD-NEW SPUN OFF", "Price": "0" }, {"ID": "MAXR CN", "n": "MAXAR TECHNOLOGIES LTD", "Price": "0" }, {"ID": "MAXR CT", "n": "MAXAR TECHNOLOGIES LTD", "Price": "0" }, {"ID": "MAXR US", "n": "MAXAR TECHNOLOGIES LTD", "Price": "0" } ], "Result": "Success" }}).then(r => {
-					return Promise.resolve(f.deep(r, 'IncrementalSearch.c') || [])
-				})*/
-
 				return dbrequest({RowsToReturn : d.count, SearchStr : d.value}, 'pct', '?Action=GETINCREMENTALSEARCHONTICKERS', {
 					method: "POST"
 				}).then(r => {
@@ -624,6 +620,26 @@ var ApiWrapper = function (core) {
 				}).then(r => {
 					return Promise.resolve(r.PCT)
 				})
+
+
+			}
+		},
+
+		contributors : {
+			get : function(id){
+				return request({
+					ScenarioID: id,
+					ContributorsCnt: 10000,
+					ModelType: 'RIXTREMA',
+					WeightType: 'HBWPORTFOLIO',
+					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
+
+				}, 'pct', '?Action=GETPCTCONTRIBUTORSWITHOPTIONS', {
+					method: "GET"
+				}).then(r => {
+					return Promise.resolve(r.PCTContributors.c)
+				})
+
 			}
 		}
 

@@ -84,7 +84,20 @@ var store = new Vuex.Store({
 
 	},
 	getters: {
+		currentStyleValue : (state) => (id) => {
+			return state.currentStyles.getPropertyValue(id)
+		},
 
+		colorByValue : (state, store) => (value) => {
+
+			var st = '--neutral-grad-0'
+
+            if(value < 0) st = '--color-bad' 
+
+            if(value > 0) st = '--color-good' 
+
+			return 'rgb(' + store.currentStyleValue(st) + ')'
+		}
 	},
 	mutations: {
 

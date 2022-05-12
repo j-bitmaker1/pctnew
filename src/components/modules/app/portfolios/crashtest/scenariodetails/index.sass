@@ -1,0 +1,56 @@
+.losswrapper
+    padding : 0 2 * $r
+    padding-bottom: 2 * $r
+    border-bottom: $r solid srgb(--neutral-grad-0)
+    span
+        font-weight: 700
+
+.descriptions
+    padding : 2 * $r
+
+.caption
+    margin-top: 3 * $r
+    margin-bottom: 2 * $r
+    span
+        font-size: 1.2em
+        font-weight: 700
+
+.headercaption
+    span
+        font-size: 1.2em
+        font-weight: 700
+
+.contributors
+    padding : 2 * $r
+
+    .contributorWrapper
+        padding : 2 * $r 0
+
+    .contributorsList
+        margin-top : 2 * $r
+
+.header
+    display: flex
+    justify-content: space-between
+
+    .lossicons
+        margin-left : auto
+        display: flex
+        align-items: center
+
+        div
+            margin-left: 2 * $r
+            display: flex
+            align-items: center
+
+        span
+            font-weight: 700
+
+        i
+            font-size: 0.8em
+
+    .positive
+        color : srgb(--color-good)
+
+    .negative
+        color : srgb(--color-bad)

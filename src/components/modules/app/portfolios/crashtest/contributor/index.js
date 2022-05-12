@@ -1,9 +1,9 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: 'portfolios_crashtest_scenario',
+    name: 'portfolios_crashtest_contributor',
     props: {
-        scenario : Object,
+        contributor : Object,
         ct : Object,
         maxabs : Number
     },
@@ -30,15 +30,12 @@ export default {
 
             if(!this.maxabs) return 0
 
-            return 100 * Math.abs(this.scenario.loss) / this.maxabs
+            return 100 * Math.abs(this.contributor.value) / this.maxabs
 
         },
 
         color : function(){
-
-            return this.$store.getters.colorByValue(this.scenario.loss)
-
-
+            return this.$store.getters.colorByValue(this.contributor.value)
         }
     }),
 
