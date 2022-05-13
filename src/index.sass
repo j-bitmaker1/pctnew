@@ -44,6 +44,14 @@ select.custom
     option
         background: 0
 
+    &.likecaption
+        font-size: 1.5em
+        font-weight: 700
+        border : 0
+
+        option
+            font-size: 0.7em
+
 .sorting
     display: flex
     align-items: center
@@ -244,10 +252,11 @@ button.button
         font-weight: 500
         color : srgb(--color-bad)
 
-    &[disabled="disabled"]
+    &[disabled]
         cursor: default
         background : srgb(--neutral-grad-2)
         border-color : srgb(--neutral-grad-2)
+        color : #fff
 
         &:hover
             color : #fff

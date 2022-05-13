@@ -7,7 +7,6 @@ export default {
         ticker : String,
         name : String,
         value : Number
-       
     },
 
     data : function(){

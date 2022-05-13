@@ -22,7 +22,9 @@
         "tolerance" : "Tolerance",
         "crashrating" : "Crash Rating",
         "byclass" : "By class",
-        "bysector" : "By sector"
+        "bygroup" : "By group",
+        "bysector" : "By sector",
+        "assetslist" : "List"
     },
 
     "caption" : {

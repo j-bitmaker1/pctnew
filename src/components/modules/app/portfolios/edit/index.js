@@ -7,6 +7,7 @@ var sha1 = require('sha1');
 export default {
     name: 'portfolios_edit',
     props: {
+        edit : Array
     },
 
     components : {
@@ -25,7 +26,17 @@ export default {
     },
 
     created : function() {
+
+        if (this.edit){
+            this.assets = []
+            
+            _.each(this.edit, (e) => {
+                this.assets.push(_.clone(e))
+            })
+        }
+
         this.hash = this.datahash()
+        
     },
 
     mounted : function(){
@@ -111,12 +122,17 @@ export default {
                 return
             }
 
-            var name = 's'
+            var name = 'tempname'
 
-            this.$store.commit('addportfolio', {
-                assets : this.assets,
-                name
-            })
+            if(this.edit){
+                console.log("SUCCESS")
+            }
+            else{
+                this.$store.commit('addportfolio', {
+                    assets : this.assets,
+                    name
+                })
+            }
 
             
             //this.$emit('save', this.assets)
@@ -125,8 +141,12 @@ export default {
         },
         assetchanged : function(index, v){
             var old = this.assets[index]
+            var af = false
 
             if(!old){
+
+                af = true
+
                 if (v.ticker && v.name)
                     this.assets.push({
                         ticker : v.ticker,
@@ -136,11 +156,14 @@ export default {
             }
             else{
                 old = _.extend(old, v)
+
+                if(index == this.assets.length - 1) af = true
             }
 
-            setTimeout(() => {
-                this.autofocus()
-            })
+            if (af)
+                setTimeout(() => {
+                    this.autofocus()
+                })
             
         },
 

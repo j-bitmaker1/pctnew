@@ -1,14 +1,17 @@
-.assets_fromsearch,
-.assets_edit
+.assets_inputs
     display: flex
     justify-content: space-between
     align-items: center
-    background: srgb(--neutral-grad-0)
+    border-bottom: 1px solid srgb(--neutral-grad-1)
     font-size: 0.9em
-    border-radius: 6px
     position: relative
 
-
+.assets_fromsearch
+    display: flex
+    justify-content: space-between
+    align-items: center
+    font-size: 0.9em
+    position: relative
 
 .searchresult
     position: absolute
@@ -17,15 +20,28 @@
     right: 0
     max-height: 380px
     margin-top : $r
-    border-radius: 5px
+    border-radius: 6px
     background: srgb(--background-total-theme)
     padding : 2 * $r
     border : 1px solid srgb(--neutral-grad-0)
     +shadowSmaller()
     z-index: 2
+    
+    overflow-x: hidden
 
     .assets_fromsearch
         margin-bottom: $r
+
+    .ticker
+        display: block
+        margin: 0
+        margin-right: 2 * $r
+
+    .name
+        text-overflow: ellipsis
+        white-space: nowrap
+        overflow: hidden
+        
 
 .name
     flex-grow: 2
@@ -34,28 +50,29 @@
         width: 100%
 
 .ticker
-    min-width: 70px
-    max-width: 150px
-    background: srgb(--neutral-grad-1)
-    height: 55px
-    border-radius: 6px
-    border-top-right-radius: 0
-    border-bottom-right-radius: 0
-    display: flex
-    align-items: center
-    justify-content: space-around
-    border-right : 1px solid srgb(--background-total-theme)
+    display: inline-block
+    background: srgb(--neutral-grad-0)
+    padding : 0 $r
+    height: 25px
+    line-height: 25px
+    border-radius: 12px
+    margin-top : 0.5 * $r
+    margin-left: $r
+    min-width: 50px
+    text-align: center
+    
 
     span
         font-weight: 700
 
 .value
     max-width: 90px
-    border-left : 1px solid srgb(--background-total-theme)
 
+    input
+        text-align: right
 
 input
-    padding : 0 $r
-    height: 55px
+    padding : 0 2 * $r
+    height: 44px
     width: 100%
 

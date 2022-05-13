@@ -25,7 +25,7 @@
             <span>Assets</span>
         </div>
         <div class="totalwrapper" v-if="total">
-            <b>Total:</b> <span>{{total}}</span>
+            <b>Total:</b> <value :value="total" mode="auto"/>
         </div>
     </div>
 

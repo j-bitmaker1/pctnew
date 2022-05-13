@@ -151,8 +151,9 @@ class PCT {
                 asset.group = a.Group
                 asset.sector = a.Sector
                 asset.ticker = a.TickerID
-                asset.Yield = f.numberParse(a.Yield)
+                asset.yield = f.numberParse(a.Yield)
                 asset.country = a.Country
+                asset.name = a.Name
                 
             assets.push(asset)
         })

@@ -45,6 +45,10 @@
             padding : 0 2 * $r
             border : 0
 
+            i,
+            span
+                font-size: 0.9em
+
 
             &.active
                 background: srgb(--color-bg-ac-bright)

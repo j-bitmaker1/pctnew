@@ -1,12 +1,14 @@
 <template>
-<div class="portfolios_shares mobp">
+<div class="portfolios_shares ">
 
-    <linenavigation :items="navigation" :navdefault="navdefault" :buttons="true" :navkey="navkey"/>
-    
-    <linepreloader v-if="loading"/>
+    <div class="navwrapper mobp">
+        <linenavigation :items="navigation" :navdefault="navdefault" :buttons="true" :navkey="navkey" />
+    </div>
 
-    <component v-else :is="module" :assets="assets"/>
-    
+    <linepreloader v-if="loading" />
+
+    <component v-else :is="module" :assets="assets" />
+
 </div>
 </template>
 

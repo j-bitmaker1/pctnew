@@ -1,11 +1,9 @@
 import { mapState } from 'vuex';
 
 import linenavigation from "@/components/assets/linenavigation/index.vue";
-
-
 import distribution from "@/components/modules/app/portfolios/distribution/index.vue";
 import allocation from "@/components/modules/app/portfolios/allocation/index.vue";
-
+import assets from "@/components/modules/app/portfolios/assets/index.vue";
 
 export default {
     name: 'portfolios_shares',
@@ -15,7 +13,8 @@ export default {
     components : {
         linenavigation,
         allocation,
-        distribution
+        distribution,
+        assets
     },
 
     data : function(){
@@ -24,11 +23,19 @@ export default {
             loading : false,
             navigation : [
                 {
+                    text : 'labels.assetslist',
+                    id : 'assets',
+                    icon : 'fas fa-list'
+                   
+                },
+
+                {
                     text : 'labels.allocation',
                     id : 'allocation',
                     icon : 'fas fa-chart-pie'
                    
                 },
+                
                 {
                     text : 'labels.distribution',
                     id : 'distribution',
@@ -38,7 +45,7 @@ export default {
              
             ],
             navkey : 's',
-            navdefault : 'allocation',
+            navdefault : 'assets',
 
             assets : []
         }

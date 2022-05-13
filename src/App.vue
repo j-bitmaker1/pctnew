@@ -73,6 +73,8 @@ import upload from "@/components/assets/upload/index.vue";
 import linepreloader from "@/components/assets/linepreloader/index.vue";
 import coloredNumber from "@/components/assets/coloredNumber/index.vue";
 import list from "@/components/assets/list/index.vue";
+import listgrouped from "@/components/assets/listgrouped/index.vue";
+
 import listpaginated from "@/components/assets/listpaginated/index.vue";
 import listcontrols from "@/components/assets/listcontrols/index.vue";
 import forms from "@/components/assets/forms/index.vue";
@@ -86,7 +88,10 @@ import gallery from "@/components/modules/gallery/index.vue";
 
 import root from "@/root/index.vue";
 
+import Highcharts from 'highcharts'
+import drilldownInit from 'highcharts/modules/drilldown'
 
+drilldownInit(Highcharts)
 
 Vue.component("pmenu", pmenu);
 Vue.component("modal", modal);
@@ -110,6 +115,7 @@ Vue.component("iconstoggle", iconstoggle);
 Vue.component("value", value);
 
 Vue.component("list", list);
+Vue.component("listgrouped", listgrouped);
 Vue.component("listpaginated", listpaginated);
 Vue.component("listcontrols", listcontrols);
 
