@@ -2,9 +2,9 @@ import { mapState } from 'vuex';
 
 /// TO DO DYNAMIC IMPORT
 import home from "@/components/modules/app/home/index.vue";
-import portfolios_edit from "@/components/modules/app/portfolios/edit/index.vue";
+import portfolio_edit from "@/components/modules/app/portfolio/edit/index.vue";
 import clients_edit from "@/components/modules/app/clients/edit/index.vue";
-import portfolios_crashtest_scenariodetails from "@/components/modules/app/portfolios/crashtest/scenariodetails/index.vue";
+import portfolio_crashtest_scenariodetails from "@/components/modules/app/portfolio/crashtest/scenariodetails/index.vue";
 
 import share from "@/components/common/share/index.vue";
 
@@ -42,7 +42,7 @@ export default {
     },
 
     components : {
-        home, portfolios_edit, share, clients_edit, portfolios_crashtest_scenariodetails
+        home, portfolio_edit, share, clients_edit, portfolio_crashtest_scenariodetails
     },
  
     computed: mapState({

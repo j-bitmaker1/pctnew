@@ -1,6 +1,6 @@
 <template>
   <span class="coloredNumber" :style="'color:' + color">
-    <value :value="number" v-if="number"/>
+    <value :value="number" :mode="mode" v-if="number"/>
     <span v-else>&mdash;</span>
   </span>
 </template>

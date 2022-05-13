@@ -26,7 +26,9 @@
         "bysector" : "By sector",
         "assetslist" : "List",
         "sharperatio" : "Sharpe Ratio",
-        "standartdeviation" : "Standart Deviation"
+        "standartdeviation" : "Standart Deviation",
+        "1year" : "1 Year",
+        "95std" : "95%"
     },
 
     "caption" : {

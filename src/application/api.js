@@ -1,6 +1,6 @@
 import f from './functions'
 var sha1 = require('sha1');
-var { error } = require('./error')
+var { parseerror } = require('./error')
 
 import dbstorage from "./dbstorage";
 import _ from 'underscore';
@@ -129,7 +129,9 @@ var Request = function (core = {}, url, system) {
 
 			if (er) {
 
-				return Promise.reject(result)
+				console.log('result', result)
+
+				return Promise.reject(parseerror(result))
 			}
 
 			else {
@@ -173,6 +175,7 @@ var ApiWrapper = function (core) {
 	var storages = {}
 	var requests = {
 		pct: new Request(core, "https://rixtrema.net/RixtremaWS/AJAXPCT.aspx", 'pct'),
+		pctapi: new Request(core, "https://rixtrema.net/api/pct", 'pctapi'),
 		api: new Request(core, "https://rixtrema.net/api", 'api'),
 		default: new Request(core)
 	}
@@ -667,6 +670,31 @@ var ApiWrapper = function (core) {
 			}
 		}
 
+	}
+
+	self.pctapi = {
+		portfolios : {
+			list : function(data, p = {}){
+
+				p.method = "POST"
+				p.count = 'pageSize'
+				p.from = 'pageNumber'
+				p.bypages = true
+				p.includeCount = "includeCount"
+
+				return paginatedrequest(data, 'pctapi', 'Portfolio/List', p)
+
+			},
+			add : function(data, p = {}){
+
+				p.method = "POST"
+
+				return request(data, 'pctapi', 'Portfolio/Add', p)
+			},
+			update : function(){
+				
+			}
+		}
 	}
 
 	self.crm = {

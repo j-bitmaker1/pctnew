@@ -225,7 +225,6 @@ var options = function(p){
 				}
 			},
 			areaspline: {
-				animation: false,
 				lineWidth: 1 * p.sizeRatio,
 
 				marker: {

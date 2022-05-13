@@ -1,0 +1,40 @@
+.chartWrapper
+    padding : 4 * $r 0
+    padding-top : 0
+
+.summary
+    margin-top: 2 * $r
+    display: grid
+    grid-gap: $r
+    grid-template-columns: repeat(2, 1fr)
+    padding-bottom: 2 * $r
+    padding-top: $r
+    border-bottom: $r solid srgb(--neutral-grad-0)
+
+.controls
+    position: sticky
+    z-index: 1
+    bottom : 76px
+    left : 0
+    right: 0
+    display: flex
+    align-items: center
+    justify-content: space-between
+    background: srgb(--background-total-theme)
+    grid-gap: $r
+    padding-top : $r
+    padding-bottom: $r
+
+    div
+        flex-basis: 50%
+        text-align: center
+
+        .scaption
+            font-weight: 500
+            color : srgb(--neutral-grad-3)
+            font-size: 0.8em
+            margin-bottom: $r
+
+    select
+        width: 100%
+        text-align: center

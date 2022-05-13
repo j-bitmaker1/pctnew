@@ -37,9 +37,9 @@
 
 import linenavigation from "@/components/assets/linenavigation/index.vue";
 
-import shares from "@/components/modules/app/portfolios/shares/index.vue";
-import crashtest from "@/components/modules/app/portfolios/crashtest/index.vue";
-import capacity from "@/components/modules/app/portfolios/capacity/index.vue";
+import shares from "@/components/modules/app/portfolio/shares/index.vue";
+import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
+import capacity from "@/components/modules/app/portfolio/capacity/index.vue";
 
 export default {
     name: 'portfolios_page',

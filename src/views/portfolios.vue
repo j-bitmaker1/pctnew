@@ -43,7 +43,7 @@ export default {
 		newportfolio : function(){
 			this.$store.commit('OPEN_MODAL', {
                 id : 'modal_portfolios_edit',
-                module : "portfolios_edit",
+                module : "portfolio_edit",
                 caption : "New Portfolio"
             })
 		}

@@ -18,11 +18,29 @@ export default {
     },
 
     watch: {
-        //$route: 'getdata'
+        tscrolly : function(){
+
+            if (this.$refs['list']){
+
+                if (this.$refs['list'].height() - 1000 < this.tscrolly + this.dheight){
+                    this.$refs['list'].next()
+                }
+                
+            }
+            
+        }
     },
     computed: mapState({
+        dheight: state => state.dheight,
+        tscrolly : state => state.tscrolly,
         auth : state => state.auth,
-        portfolios : state => state.portfolios
+
+        payload : function(){
+            return {
+                IncludePositions : true
+                //crmContactIdFilter : 0
+            }
+        }
     }),
 
     methods : {

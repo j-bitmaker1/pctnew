@@ -168,6 +168,8 @@ class PCT {
             points : []
         }
 
+        re.sharpeRatio = re.longTermReturn / re.standardDeviation
+
         _.each(r.points, (p) => {
             var point = {
                 x : f.numberParse(p.x),

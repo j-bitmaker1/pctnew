@@ -1,12 +1,12 @@
 <template>
 <div id="portfolios_list">
-    <list :items="portfolios" @click="select">
+    <listpaginated api="pctapi.portfolios.list" :payload="payload" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
         <template v-slot:default="slotProps">
-
-            sa
-
+            <div class="cardWrapper mobp">
+                sa
+            </div>
         </template>
-    </list>
+    </listpaginated>
 </div>
 </template>
 

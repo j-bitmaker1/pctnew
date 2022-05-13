@@ -1,7 +1,7 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: 'portfolios_portfolio',
+    name: 'portfolio_capacity',
     props: {
     },
 

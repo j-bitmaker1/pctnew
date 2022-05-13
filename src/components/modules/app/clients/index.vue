@@ -1,7 +1,7 @@
 <template>
 <div id="leads">
-    <div class="controls">
-        <listcontrols :searchvalue="searchvalue" :count="count" :sorting="sorting" @search="search" @sort="sortchange"/>
+    <div class="controls mobp">
+        <listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange"/>
     </div>
     <listpaginated api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount" :elheight="elheight" @click="click">
         <template v-slot:default="slotProps">
