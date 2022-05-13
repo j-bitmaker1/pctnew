@@ -8,7 +8,17 @@ export default {
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+
+            selected : null,
+            menu : [
+               
+                {
+                    text : 'labels.deletenotifications',
+                    icon : 'fas fa-trash',
+                    action : 'deletenotifications'
+                }
+            ]
         }
 
     },
@@ -46,6 +56,23 @@ export default {
 
 
     methods : {
-        
+
+        selectionSuccess : function(notifications){
+            this.selected = notifications
+        },
+
+        closeselected : function(){
+            this.selected = null
+        },
+
+        menuaction : function(action){
+            if (this[action]){
+                this[action]()
+            }   
+        },
+
+        deletenotifications : function(){
+
+        }
     },
 }

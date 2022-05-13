@@ -10,7 +10,20 @@ export default {
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            menu : [
+                {
+                    text : 'labels.editportfolio',
+                    icon : 'fas fa-pen',
+                    action : 'edit'
+                },
+                {
+                    text : 'labels.deleteportfolio',
+                    icon : 'fas fa-trash',
+                    action : 'delete'
+
+                }
+            ]
         }
 
     },
@@ -32,13 +45,36 @@ export default {
     }),
 
     methods : {
-        menu : function(e){
-
-            return false
-        },
 
         click : function(){
             this.$emit('click')
+        },
+
+        menuaction : function(action){
+            if (this[action]){
+                this[action]()
+            }   
+        },
+
+        edit : function(){
+            
+            this.$store.commit('OPEN_MODAL', {
+                id : 'modal_portfolio_edit',
+                module : "portfolio_edit",
+                caption : "Edit Portfolio",
+                data : {
+                    edit : {
+                        name : this.portfolio.name,
+                        assets : this.portfolio.positions,
+                        id : this.portfolio.id
+                    }
+                }
+            })
+
+        },
+
+        delete : function(){
+            console.log("ASAS2")
         }
     },
 }

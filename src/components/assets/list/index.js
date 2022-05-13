@@ -1,3 +1,5 @@
+import _ from "underscore";
+
 export default {
 	name: 'list',
 	props: {
@@ -9,15 +11,28 @@ export default {
 		elheight : {
 			type : Number,
 			default : 0
-		}
+		},
+
+		selectMultiple : Boolean
 	},
 	computed: {
 		readyItems: function () {
 			return this.items;
+		},
+
+		selectionLength : function(){
+			return _.toArray(this.selection || {}).length
+		}
+	},
+
+	data : function(){
+		return {
+			selection : null,
 		}
 	},
 
 	methods: {
+
 		beforeEnter: function (el) {
 			el.style.opacity = 0
 			el.style.height = 0
@@ -46,9 +61,44 @@ export default {
 				)
 			}, delay)
 		},
-
 		click : function(item){
 			this.$emit('click', item)
+		},
+
+		enterSelectionMode : function(){
+			if (this.selectMultiple)
+				this.selection = {}
+		},
+
+		leaveSelectionMode : function(){
+			this.selection = null
+		},
+
+		selectionSuccess : function(){
+
+			var selected = _.filter(this.items, (v, i) => {
+				return this.selection[i]
+			})
+
+			this.$emit('selectionSuccess', selected)
+
+			this.selection = null
+
+		},
+
+		selectionCancel : function(){
+
+			console.log('selectionCancel')
+			
+			this.$emit('selectionCancel')
+
+			this.selection = null
+		},
+
+		select : function(i){
+
+			if(this.selection[i]) this.$delete(this.selection, i)
+			else this.$set(this.selection, i, true)
 		}
 	}
 }

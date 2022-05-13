@@ -9,7 +9,21 @@ export default {
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+
+            menu : [
+                {
+                    text : 'labels.editlead',
+                    icon : 'fas fa-pen',
+                    action : 'edit'
+                },
+                {
+                    text : 'labels.deletelead',
+                    icon : 'fas fa-trash',
+                    action : 'delete'
+
+                }
+            ]
         }
 
     },
@@ -26,6 +40,18 @@ export default {
     }),
 
     methods : {
-        
+        menuaction : function(action){
+            if (this[action]){
+                this[action]()
+            }   
+        },
+
+        edit : function(){
+            console.log("ASAS")
+        },
+
+        delete : function(){
+            console.log("ASAS2")
+        }
     },
 }

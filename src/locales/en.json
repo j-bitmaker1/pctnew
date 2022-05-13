@@ -28,7 +28,14 @@
         "sharperatio" : "Sharpe Ratio",
         "standartdeviation" : "Standart Deviation",
         "1year" : "1 Year",
-        "95std" : "95%"
+        "95std" : "95%",
+        "editportfolio" : "Edit Portfolio",
+        "deleteportfolio" : "Delete Portfolio",
+        "editlead" : "Edit Lead",
+        "deletelead" : "Delete Lead",
+        "deleteleads" : "Delete selected Leads",
+        "deletenotifications" : "Delete Notifications",
+        "deleteportfolios" : "Delete Portfolios"
     },
 
     "caption" : {

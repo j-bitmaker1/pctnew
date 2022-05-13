@@ -7,7 +7,7 @@ var sha1 = require('sha1');
 export default {
     name: 'portfolios_edit',
     props: {
-        edit : Array
+        edit : Object
     },
 
     components : {
@@ -27,6 +27,8 @@ export default {
     },
 
     created : function() {
+
+        console.log('this.edit', this.edit)
 
         if (this.edit){
             this.assets = []
@@ -126,45 +128,47 @@ export default {
                 return
             }
 
-            var name = this.name
+            var action = null
+            var positions = this.joinassets(this.assets)
 
             if(this.edit){
-                console.log("SUCCESS")
+
+                action = this.core.api.pctapi.portfolios.update({
+                    name : this.name,
+                    positions,
+                    id : this.edit.id
+                })
+            }
+            else{
+
+                action = this.core.api.pctapi.portfolios.add({
+                    name : this.name,
+                    positions,
+                })
+               
+            }
+
+            this.$store.commit('globalpreloader', true)
+
+            action.then(r => {
 
                 this.$store.commit('icon', {
                     icon: 'success',
                 })
 
                 this.$emit('close')
-            }
-            else{
 
-                this.core.api.pctapi.portfolios.add({
-                    name,
-                    positions : this.assets,
-                }).then(r => {
+            }).catch((e = {}) => {
 
-                    this.$store.commit('icon', {
-                        icon: 'success',
-                    })
+                console.log("E", e)
 
-                    this.$emit('close')
-
-                }).catch((e = {}) => {
-
-                    console.log("E", e)
-
-                    this.$store.commit('icon', {
-                        icon: 'error',
-                        message: e.error
-                    })
+                this.$store.commit('icon', {
+                    icon: 'error',
+                    message: e.error
                 })
-
-                /*this.$store.commit('addportfolio', {
-                    assets : this.assets,
-                    name
-                })*/
-            }
+            }).finally(() => {
+                this.$store.commit('globalpreloader', false)
+            })
 
             //this.$emit('save', this.assets)
 
@@ -218,6 +222,20 @@ export default {
 
         changename : function(e){
             this.name = e.target.value
-        }
+        },
+        joinassets : function(assets){
+            var jg = {}
+
+            _.each(assets, (a) => {
+                if(!jg[a.ticker]){
+                    jg[a.ticker] = a 
+                }
+                else{
+                    jg[a.ticker].value += a.value
+                }
+            })
+            
+            return _.toArray(jg)
+        },
     },
 }

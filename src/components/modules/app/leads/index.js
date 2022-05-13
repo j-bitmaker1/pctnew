@@ -15,6 +15,7 @@ export default {
             loading : false,
             searchvalue : '',
             count : 0,
+           
             sort : 'FName_asc',
             sorting : {
                 FName_asc : {
@@ -28,6 +29,17 @@ export default {
                     sort : 'desc'
                 }
             },
+
+
+            selected : null,
+            menu : [
+               
+                {
+                    text : 'labels.deleteleads',
+                    icon : 'fas fa-trash',
+                    action : 'deleteleads'
+                }
+            ]
 
         }
 
@@ -89,13 +101,35 @@ export default {
             this.sort = v
         },
 
-        click : function(lead){
+        selectionSuccess : function(leads){
+            this.selected = leads
+        },
+
+        closeselected : function(){
+            this.selected = null
+        },
+
+        menuaction : function(action){
+            if (this[action]){
+                this[action]()
+            }   
+        },
+
+        deleteleads : function(){
+
+            console.log('deleteleads')
+            this.closeselected()
+
+        },
+
+
+        /*click : function(lead){
             this.$store.commit('OPEN_MODAL', {
                 id : 'modal_' + lead.ID,
                 module : "home",
                 caption : "SD"
             })
-        }
+        }*/
 
         /*load : function(){
             this.loading = true

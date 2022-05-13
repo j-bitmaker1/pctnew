@@ -9,7 +9,7 @@
 
         <template v-slot:popover>
             <div class="content">
-                <slot name="content">
+                <slot name="content" :close="close">
                 </slot>
             </div>
         </template>
@@ -23,11 +23,11 @@
             </slot>
         </div>
 
-        <transition name="fade">
+        <transition name="fademodal">
             <modal v-if="showed" @close="close" mclass="small likemenu">
 
                 <template v-slot:body>
-                    <slot name="content">
+                    <slot name="content" :close="close">
                     </slot>
                 </template>
 
@@ -40,19 +40,7 @@
 </template>
 
 <style scoped lang="sass">
-.fade-enter-active, .fade-leave-active 
-    +transition(0.3s)
-    /deep/
-        .modal
-            +transition(0.3s)
 
-.fade-enter, .fade-leave-to
-    opacity: 0
-
-    /deep/
-        .modal
-            -webkit-transform: translateY(100%)
-            transform: translateY(100%)
 
 </style>
 

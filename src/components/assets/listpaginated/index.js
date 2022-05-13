@@ -8,6 +8,7 @@ export default {
         start: Number,
         from : String,
         to : String,
+        selectMultiple : Boolean,
         payload : {
             type : Object,
             default : () => {return {}}
@@ -152,6 +153,14 @@ export default {
 
         click : function(item){
 			this.$emit('click', item)
-		}
+		},
+
+        selectionSuccess : function(v){
+            this.$emit('selectionSuccess', v)
+        },
+        
+        selectionCancel : function(){
+            this.$emit('selectionCancel')
+        }
     },
 }

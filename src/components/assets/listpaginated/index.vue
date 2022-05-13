@@ -2,7 +2,7 @@
 <div class="listpaginated">
 
     <div class="listWrapper" >
-        <list :items="records" :elheight="elheight" @click="click">
+        <list :selectMultiple="selectMultiple" :items="records" :elheight="elheight" @click="click" @selectionSuccess="selectionSuccess" @selectionCancel="selectionCancel">
             <template v-slot:default="slotProps">
                 <slot v-bind:item="slotProps.item">
                 </slot>

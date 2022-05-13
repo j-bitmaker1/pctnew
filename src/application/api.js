@@ -691,8 +691,10 @@ var ApiWrapper = function (core) {
 
 				return request(data, 'pctapi', 'Portfolio/Add', p)
 			},
-			update : function(){
-				
+			update : function(data, p = {}){
+				p.method = "POST"
+
+				return request(data, 'pctapi', 'Portfolio/Update', p)
 			}
 		}
 	}

@@ -16,7 +16,6 @@ import store from "@/vuex/store";
 import router from "@/router/router";
 import modal from "@/components/assets/modal/index.vue";
 import modals from "@/components/assets/modals/index.vue";
-import pmenu from "@/components/assets/pmenu/index.vue";
 import _ from "underscore";
 import VueI18n from "vue-i18n";
 import Message from "@/editedplugins/vue-m-message/src/index.js";
@@ -67,7 +66,6 @@ import userpic from "@/components/assets/user/userpic/index.vue";
 import userspic from "@/components/assets/user/userspic/index.vue";
 import bgimage from "@/components/assets/bgimage.vue";
 import logotype from "@/components/assets/logotype/index.vue";
-import dropdownMenu from "@/components/assets/dropdownMenu/index.vue";
 import backButton from "@/components/assets/backButton/index.vue";
 import search from "@/components/assets/search/index.vue";
 import upload from "@/components/assets/upload/index.vue";
@@ -76,6 +74,7 @@ import coloredNumber from "@/components/assets/coloredNumber/index.vue";
 import list from "@/components/assets/list/index.vue";
 import listgrouped from "@/components/assets/listgrouped/index.vue";
 import tooltip from "@/components/assets/tooltip/index.vue"; 
+import listmenu from "@/components/assets/listmenu/index.vue"; 
 
 import listpaginated from "@/components/assets/listpaginated/index.vue";
 import listcontrols from "@/components/assets/listcontrols/index.vue";
@@ -95,7 +94,6 @@ import drilldownInit from 'highcharts/modules/drilldown'
 
 drilldownInit(Highcharts)
 
-Vue.component("pmenu", pmenu);
 Vue.component("modal", modal);
 Vue.component("modals", modals);
 Vue.component("forms", forms);
@@ -107,7 +105,6 @@ Vue.component("userspic", userspic);
 Vue.component("fixedmessageicon", fixedmessageicon);
 Vue.component("bgimage", bgimage);
 Vue.component("logotype", logotype);
-Vue.component("dropdownMenu", dropdownMenu);
 Vue.component("backButton", backButton);
 Vue.component("search", search);
 Vue.component("upload", upload);
@@ -115,7 +112,7 @@ Vue.component("linepreloader", linepreloader);
 Vue.component("coloredNumber", coloredNumber);
 Vue.component("iconstoggle", iconstoggle);
 Vue.component("value", value);
-
+Vue.component("listmenu", listmenu);
 Vue.component("list", list);
 Vue.component("listgrouped", listgrouped);
 Vue.component("listpaginated", listpaginated);

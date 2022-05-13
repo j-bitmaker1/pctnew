@@ -30,6 +30,16 @@ export default {
                     sort : 'desc'
                 }
             },
+
+            selected : null,
+            menu : [
+               
+                {
+                    text : 'labels.deleteportfolios',
+                    icon : 'fas fa-trash',
+                    action : 'deleteportfolios'
+                }
+            ]
         }
 
     },
@@ -80,6 +90,24 @@ export default {
         sortchange : function(v){
             this.sort = v
         },
+
+        selectionSuccess : function(portfolios){
+            this.selected = portfolios
+        },
+
+        closeselected : function(){
+            this.selected = null
+        },
+
+        menuaction : function(action){
+            if (this[action]){
+                this[action]()
+            }   
+        },
+
+        deleteportfolios : function(){
+
+        }
 
     },
 }

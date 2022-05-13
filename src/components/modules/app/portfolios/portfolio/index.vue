@@ -12,14 +12,12 @@
             <tooltip>
                 <template v-slot:item>
                     <div class="diconbutton">
-                        <i class="fas fa-ellipsis-v" @click="menu"></i>
+                        <i class="fas fa-ellipsis-v"></i>
                     </div>
                 </template>
 
-                <template v-slot:content>
-                    <div class="as">
-                        
-                    </div>
+                <template v-slot:content="i">
+                    <listmenu :items="menu" @action="menuaction" :close="i.close"/>
                 </template>
 
             </tooltip>

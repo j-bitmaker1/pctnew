@@ -1,2 +1,56 @@
 .list
+    &.selectMultiple
+        .item
+            +transitionopt(0.3s, transform)
+
+.selection
     .item
+        position: relative
+        transform : translateX(44px)
+
+.selectionControls
+    padding : 2 * $r
+    margin-bottom: 2 * $r
+    position: fixed
+    left : 0
+    bottom : 0
+    right: 0
+    z-index: 1000
+    background: srgb(--background-total-theme)
+    
+    .caption
+        margin-bottom: $r
+        span
+            font-size: 0.8em
+            font-weight: 700
+    .controls
+        display: flex
+        grid-gap: $r
+        align-items: center
+        justify-content: flex-end
+
+    button
+        min-width: 120px
+        
+
+.selectionmarker
+    position: absolute
+    left : -44px
+    top : 0
+    right: 0
+    bottom : 0
+    display: flex
+    align-items: center
+
+    i
+        width: 44px
+        height: 44px
+        line-height: 44px
+        text-align: center
+
+    .fa-check-circle
+        color : srgb(--color-txt-ac)
+
+    .fa-circle
+        color : srgb(--neutral-grad-1)
+        

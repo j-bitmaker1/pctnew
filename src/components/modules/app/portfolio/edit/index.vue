@@ -2,7 +2,7 @@
 <div id="portfolios_edit">
 
     <div class="namewrapper" >
-        <input placeholder="Portfolio name" @change="changename"/>
+        <input placeholder="Portfolio name" @keyup="changename" :value="name"/>
     </div>
 
     <div class="addwrapper">
