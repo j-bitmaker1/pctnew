@@ -166,6 +166,7 @@ export default {
                     icon: 'error',
                     message: e.error
                 })
+                
             }).finally(() => {
                 this.$store.commit('globalpreloader', false)
             })

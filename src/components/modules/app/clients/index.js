@@ -29,6 +29,19 @@ export default {
                 }
             },
 
+            selected : null,
+            menu : [
+
+                
+               
+                {
+                    text : 'labels.deleteclients',
+                    icon : 'fas fa-trash',
+                    action : 'clients'
+                },
+
+            ]
+
         }
 
     },
@@ -91,6 +104,24 @@ export default {
 
         click : function(client){
             
+        },
+
+        selectionSuccess : function(clients){
+            this.selected = clients
+        },
+
+        closeselected : function(){
+            this.selected = null
+        },
+
+        menuaction : function(action){
+            if (this[action]){
+                this[action]()
+            }   
+        },
+
+        deleteclients : function(){
+
         }
 
     },

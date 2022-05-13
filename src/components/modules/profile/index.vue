@@ -1,16 +1,16 @@
 <template>
 <div id="rx-profile">
-    <div class="cardWrapper">
+    <div class="cardWrapper mobp">
         <card :userinfo="userinfo" />
     </div>
 
-    <div class="infoWrapper">Additional Info</div>
+    <div class="infoWrapper mobp">Additional Info</div>
 
-    <div class="themeToggleWrapper">
+    <div class="themeToggleWrapper mobp">
         <themeToggle />
     </div>
 
-    <div class="actions">
+    <div class="actions mobp">
         <div class="action">
             <router-link to="/changepassword">
                 <button class="button">Change Password</button>
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="signout" @click="signout">
+    <div class="signout mobp" @click="signout">
         <span>{{ $t("common.2901049") }}</span>
     </div>
 </div>

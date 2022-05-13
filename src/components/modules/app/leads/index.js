@@ -1,6 +1,7 @@
 import { mapState } from 'vuex';
 import f from "@/application/functions.js";
 import lead from './lead/index.vue'
+import _ from 'underscore';
 
 export default {
     name: 'app_leads',
@@ -33,12 +34,19 @@ export default {
 
             selected : null,
             menu : [
+
+                {
+                    text : 'labels.leadstocontacts',
+                    icon : 'fas fa-user-friends',
+                    action : 'leadstocontacts'
+                },
                
                 {
                     text : 'labels.deleteleads',
                     icon : 'fas fa-trash',
                     action : 'deleteleads'
-                }
+                },
+
             ]
 
         }
@@ -117,32 +125,43 @@ export default {
 
         deleteleads : function(){
 
-            console.log('deleteleads')
             this.closeselected()
 
         },
 
+        leadstocontacts : function(){
 
-        /*click : function(lead){
-            this.$store.commit('OPEN_MODAL', {
-                id : 'modal_' + lead.ID,
-                module : "home",
-                caption : "SD"
-            })
-        }*/
+            this.$store.commit('globalpreloader', true)
 
-        /*load : function(){
-            this.loading = true
-            this.core.api.crm.contacts.list().then(data => {
+            console.log('_.map(selected, (s) => {return s.ID})', _.map(this.selected, (s) => {return s.ID}))
 
-                console.log('data', data)
+            this.core.crm.leadtocontacts(_.map(this.selected, (s) => {return s.ID})).then(r => {
+
+                console.log("R", r)
+
+                this.closeselected()
+
+                //this.$router.push('/clients')
 
             }).catch(e => {
-                console.error('e', e)
+
+                console.log("E", e)
+
+                this.$store.commit('icon', {
+                    icon: 'error',
+                    message: e.error
+                })
 
             }).finally(() => {
-                this.loading = false
+
+                this.$store.commit('globalpreloader', false)
+
             })
-        }*/
+
+            
+
+        },
+
+
     },
 }

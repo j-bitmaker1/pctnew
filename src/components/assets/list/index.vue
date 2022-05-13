@@ -15,7 +15,7 @@
 
     <transition-group v-if="elheight" name="staggered-fade" tag="div" :css="false" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
 
-        <div class="item" v-touch:longtap="enterSelectionMode" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
+        <div class="item" v-touch:longtap="e => enterSelectionMode(i)" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
             
             <div class="selectionmarker" v-if="selection" @click="select(i)">
                 <i class="fas fa-circle" v-if="!selection[i]"></i>
@@ -30,7 +30,7 @@
     </transition-group>
 
 	<div v-else>
-		<div class="item" v-touch:longtap="enterSelectionMode" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
+		<div class="item" v-touch:longtap="e => enterSelectionMode(i)" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
 
             <div class="selectionmarker" v-if="selection" @click="select(i)">
                 <i class="fas fa-circle" v-if="!selection[i]"></i>

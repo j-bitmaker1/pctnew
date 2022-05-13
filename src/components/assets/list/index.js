@@ -65,9 +65,12 @@ export default {
 			this.$emit('click', item)
 		},
 
-		enterSelectionMode : function(){
-			if (this.selectMultiple)
+		enterSelectionMode : function(i){
+			if (this.selectMultiple){
 				this.selection = {}
+				this.selection[i] = true
+			}
+				
 		},
 
 		leaveSelectionMode : function(){
@@ -88,8 +91,6 @@ export default {
 
 		selectionCancel : function(){
 
-			console.log('selectionCancel')
-			
 			this.$emit('selectionCancel')
 
 			this.selection = null
@@ -99,6 +100,8 @@ export default {
 
 			if(this.selection[i]) this.$delete(this.selection, i)
 			else this.$set(this.selection, i, true)
+
+			if(_.isEmpty(this.selection)) this.selectionCancel()
 		}
 	}
 }

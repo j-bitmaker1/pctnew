@@ -709,6 +709,14 @@ var ApiWrapper = function (core) {
 
 				return paginatedrequest(data, 'api', 'crm/Contacts/List', p)
 
+			},
+
+			update : function(data = {}, p){
+				if(!p) p = {}
+
+				p.method = "POST"
+
+				return request(data, 'api', 'crm/Contacts/Update', p)
 			}
 		}
 	}

@@ -35,7 +35,10 @@
         "deletelead" : "Delete Lead",
         "deleteleads" : "Delete selected Leads",
         "deletenotifications" : "Delete Notifications",
-        "deleteportfolios" : "Delete Portfolios"
+        "deleteportfolios" : "Delete Portfolios",
+        "leadstocontacts" : "Make as clients",
+        "deleteclients" : "Delete selected clients"
+        
     },
 
     "caption" : {
