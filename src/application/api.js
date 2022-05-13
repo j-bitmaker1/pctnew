@@ -596,6 +596,16 @@ var ApiWrapper = function (core) {
 				}).then(r => {
 					return Promise.resolve(r.PortfolioAssets.c)
 				})
+			},
+
+			standartDeviation : function(){
+				return request({
+					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
+				}, 'pct', '?Action=GETPORTFOLIOSTANDARDDEVIATION', {
+					method: "GET"
+				}).then(r => {
+					return Promise.resolve(r.GetPortfolioStandardDeviation)
+				})
 			}
 		},
 

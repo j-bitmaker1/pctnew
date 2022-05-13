@@ -161,6 +161,25 @@ class PCT {
         return assets
     }
 
+    parseStandartDeviation = function(r){
+        var re = {
+            longTermReturn : f.numberParse(r.LongTermReturn),
+            standardDeviation : f.numberParse(r.StandardDeviation),
+            points : []
+        }
+
+        _.each(r.points, (p) => {
+            var point = {
+                x : f.numberParse(p.x),
+                y : f.numberParse(p.y)
+            }
+
+            re.points.push(point)
+        })
+       
+        return re
+    }
+
     get = function(){
         return this.api.pct.crashtest.get().then(r => {
             return Promise.resolve(this.parseCt(r))
@@ -176,6 +195,12 @@ class PCT {
     getassets = function(id){
         return this.api.pct.portfolio.getassets(id).then(r => {
             return Promise.resolve(this.parseAssets(r))
+        })
+    }
+
+    getStandartDeviation = function(id){
+        return this.api.pct.portfolio.standartDeviation(id).then(r => {
+            return Promise.resolve(this.parseStandartDeviation(r))
         })
     }
 

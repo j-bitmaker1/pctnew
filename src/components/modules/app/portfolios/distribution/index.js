@@ -3,6 +3,7 @@ import { mapState } from 'vuex';
 import {Chart} from 'highcharts-vue'
 
 import options from '@/application/hc.js'
+import summarybutton from '@/components/delements/summarybutton/index.vue'
 
 export default {
     name: 'distribution',
@@ -10,19 +11,40 @@ export default {
     },
 
     components : {
-        highcharts : Chart
+        highcharts : Chart,
+        summarybutton
     },
 
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            deviation : {},
+
+            colors : [
+                'rgba(100,101,100,1)',
+                'rgba(248,95,29,1)',
+                'rgba(100,101,100,1)'
+            ],
+
+            summary : [
+
+                {
+                    text : 'labels.sharperatio',
+                    index : 'longTermReturn'
+                },
+                {
+                    text : 'labels.standartdeviation',
+                    index : 'standardDeviation'
+                }
+                
+            ]
         }
 
     },
 
-    created : () => {
-
+    created : function(){
+        this.load()
     },
 
     watch: {
@@ -35,17 +57,13 @@ export default {
 
             var series = [];
 
-            var series_colors = [
-                'rgba(100,101,100,1)',
-                'rgba(248,95,29,1)',
-                'rgba(100,101,100,1)'
-            ];
+        
 
             series.push({
 	            name: 'Before SDR',
 	            type: 'areaspline',
-	            lineColor: series_colors[0],
-	            fillColor: series_colors[0].replace(',1)', ',0.60)'),
+	            lineColor: this.colors[0],
+	            fillColor: this.colors[0].replace(',1)', ',0.60)'),
 	            showInLegend: false,
 	            data: [{
                     x : 10,
@@ -59,9 +77,9 @@ export default {
 	        series.push({
 	            name: 'Standart Deviation Range',
 	            type: 'areaspline',
-	            color: series_colors[1],
-	            lineColor: series_colors[1],
-	            fillColor: series_colors[1].replace(',1)', ',0.60)'),
+	            color: this.colors[1],
+	            lineColor: this.colors[1],
+	            fillColor: this.colors[1].replace(',1)', ',0.60)'),
 	            showInLegend: true,
 	            data: [{
                     x : 10,
@@ -75,8 +93,8 @@ export default {
 	        series.push({
 	            name: 'After SDR',
 	            type: 'areaspline',
-	            lineColor: series_colors[2],
-	            fillColor: series_colors[2].replace(',1)', ',0.60)'),
+	            lineColor: this.colors[2],
+	            fillColor: this.colors[2].replace(',1)', ',0.60)'),
 	            showInLegend: false,
 	            data: [{
                     x : 10,
@@ -91,8 +109,6 @@ export default {
         },
 
         chartOptions: function(){
-
-            console.log('options', options)
 
             var d = options()
 
@@ -113,13 +129,24 @@ export default {
                
                 d.series = this.series
 
-            console.log("D,", d)
-
             return d
         }
     }),
 
     methods : {
-        
+        load : function(){
+            this.loading = true
+
+            this.core.pct.getStandartDeviation().then(r => {
+
+                this.deviation = r
+
+                console.log('this.deviation', this.deviation)
+
+                return Promise.resolve(r)
+            }).finally(() => {
+                this.loading = false
+            })
+        }
     },
 }

@@ -78,8 +78,6 @@ export default {
 
                 this.assets = r
 
-                console.log('this.assets', this.assets)
-
                 return Promise.resolve(r)
             }).finally(() => {
                 this.loading = false

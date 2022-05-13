@@ -3,7 +3,7 @@ import colors from "@/application/utils/colors.js";
 
 export default {
     name: 'coloredNumber',
-    props: ['number'],
+    props: ['number', 'mode'],
 
     computed: mapState({
         auth : state => state.auth,

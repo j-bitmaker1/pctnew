@@ -1,0 +1,64 @@
+<template>
+<div class="summarybutton">
+    <div class="label">
+        <span>{{$t(text)}}</span>
+    </div>
+
+    <div class="value">
+        <coloredNumber v-if="colored" :number="number" :mode="mode"/>
+        <value v-else :value="number" :mode="mode"/>
+    </div>
+
+    <div class="tip" :tooltip="tip">
+        <i class="fas fa-question-circle"></i>
+    </div>
+</div>
+</template>
+
+<style scoped lang="sass">
+.summarybutton
+    padding : $r
+    border-radius: 12px
+    border : 1px solid srgb(--neutral-grad-1)
+    position: relative
+    padding-top : 1.5 * $r
+
+    .tip
+        position: absolute
+        bottom : $r
+        right: $r
+        color: srgb(--neutral-grad-1)
+
+    .label
+        span
+            font-size: 0.9em
+            font-weight: 700
+
+    .value
+        span
+            font-size: 2em
+</style>
+
+<script>
+import {
+    mapState
+} from 'vuex';
+
+export default {
+    name: 'summarybutton',
+    props: {
+        text: String,
+        number : Number,
+        tip : String,
+        mode : String,
+        colored : Boolean
+    },
+    computed: mapState({
+        auth: state => state.auth,
+    }),
+
+    methods: {
+
+    },
+}
+</script>

@@ -3,6 +3,8 @@ import { mapState } from 'vuex';
 import chart from './chart/index.vue'
 import ctdetails from './details/index.vue'
 
+import summarybutton from '@/components/delements/summarybutton/index.vue'
+
 export default {
     name: 'portfolios_crashtest',
     props: {
@@ -10,7 +12,8 @@ export default {
 
     components : {
         chart, 
-        ctdetails
+        ctdetails,
+        summarybutton
     },
 
     data : function(){

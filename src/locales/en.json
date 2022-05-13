@@ -24,7 +24,9 @@
         "byclass" : "By class",
         "bygroup" : "By group",
         "bysector" : "By sector",
-        "assetslist" : "List"
+        "assetslist" : "List",
+        "sharperatio" : "Sharpe Ratio",
+        "standartdeviation" : "Standart Deviation"
     },
 
     "caption" : {

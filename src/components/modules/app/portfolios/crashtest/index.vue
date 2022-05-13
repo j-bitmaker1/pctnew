@@ -1,25 +1,13 @@
 <template>
 <div id="portfolios_crashtest">
+
     <linepreloader v-if="loading"/>
 
     <div class="ct" v-else>
 
         <div class="summary mobp">
-            <div class="block" v-for="item in summary" :key="item.index">
-
-                <div class="label">
-                    <span>{{$t(item.text)}}</span>
-                </div>
-
-                <div class="value">
-                    <coloredNumber :number="ct[item.index]"/>
-                </div>
-
-                <div class="tip">
-                    <i class="fas fa-question-circle"></i>
-                </div>
-
-            </div>
+            <summarybutton :colored="true" v-for="item in summary" :key="item.index" :text="item.text" :number="ct[item.index]"/>
+        
         </div>
 
         <div class="header mobp">
