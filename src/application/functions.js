@@ -155,8 +155,6 @@ f.permutations = function (array, k) {
 f.mobileview = function(){
     let mql = window.matchMedia('only screen and (max-width: 768px)');
 
-
-
     return mql.matches
 }
 

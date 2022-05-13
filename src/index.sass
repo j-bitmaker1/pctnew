@@ -158,7 +158,24 @@ input
         margin-left: 2 * $r
         text-align: center
 
+//// tootltips
 
+.tooltip
+    &.popover
+        $color: #f9f9f9
+
+        .popover-inner
+            background: $color
+            color: black
+            padding: 24px
+            border-radius: 5px
+            box-shadow: 0 5px 30px rgba(black, .1)
+
+        .popover-arrow
+            border-color: $color
+
+
+//// tootltips
 
 @keyframes gradient
 	0%
@@ -263,6 +280,18 @@ button.button
             background : srgb(--neutral-grad-2)
             border-color : srgb(--neutral-grad-2)
 
+.ticker
+    display: inline-block
+    background: srgb(--neutral-grad-0)
+    padding : 0 $r
+    height: 25px
+    line-height: 25px
+    border-radius: 12px
+    min-width: 50px
+    text-align: center
+
+    span
+        font-weight: 700
 
 .iconbuttonRound
     width : 44px

@@ -23,7 +23,7 @@ import Message from "@/editedplugins/vue-m-message/src/index.js";
 import "@/editedplugins/vue-m-message/dist/index.css";
 
 import VuejsDialog from "vuejs-dialog";
-Vue.use(VuejsDialog);
+import VTooltip from 'v-tooltip'
 
 ////////
 
@@ -36,7 +36,8 @@ Vue.use(Vue2TouchEvents, {
     longTapTimeInterval: 400,
     namespace: 'touch'
 })
-
+Vue.use(VuejsDialog);
+Vue.use(VTooltip)
 Vue.use(Message);
 Vue.use(VueI18n);
 
@@ -74,6 +75,7 @@ import linepreloader from "@/components/assets/linepreloader/index.vue";
 import coloredNumber from "@/components/assets/coloredNumber/index.vue";
 import list from "@/components/assets/list/index.vue";
 import listgrouped from "@/components/assets/listgrouped/index.vue";
+import tooltip from "@/components/assets/tooltip/index.vue"; 
 
 import listpaginated from "@/components/assets/listpaginated/index.vue";
 import listcontrols from "@/components/assets/listcontrols/index.vue";
@@ -97,7 +99,7 @@ Vue.component("pmenu", pmenu);
 Vue.component("modal", modal);
 Vue.component("modals", modals);
 Vue.component("forms", forms);
-
+Vue.component("tooltip", tooltip)
 Vue.component("preloader", preloader);
 Vue.component("date", date);
 Vue.component("userpic", userpic);

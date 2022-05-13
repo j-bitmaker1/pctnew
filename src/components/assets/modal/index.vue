@@ -10,7 +10,6 @@
           <div class="modal-header">
               <div class="headerWrapper">
                 <slot name="header">
-                  {{ $t("caption.header") }}
                 </slot> 
               </div>
 

@@ -1,9 +1,14 @@
 <template>
 <div id="portfolios_list">
-    <listpaginated api="pctapi.portfolios.list" :payload="payload" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
+
+    <div class="controls mobp">
+        <listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange"/>
+    </div>
+
+    <listpaginated api="pctapi.portfolios.list" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
         <template v-slot:default="slotProps">
-            <div class="cardWrapper mobp">
-                sa
+            <div class="cardWrapper mobp" >
+                <portfolio :portfolio="slotProps.item" @click="open(slotProps.item)"/>
             </div>
         </template>
     </listpaginated>
