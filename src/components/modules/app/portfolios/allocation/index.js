@@ -7,13 +7,19 @@ import f from '@/application/functions.js'
 import assets from '@/components/modules/app/assets/list/index.vue'
 import _ from 'underscore';
 
+import serie from './serie/index.vue'
+
 export default {
     name: 'allocation',
     props: {
         assets : Array
     },
 
-
+    components : {
+        highcharts : Chart,
+        assets,
+        serie
+    },
     data : function(){
 
         return {
@@ -29,15 +35,16 @@ export default {
                     text : 'labels.bysector',
                     id : 'sector'
                 }
-            ]
+            ],
+
+            chartcolors : ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757'],
+
+            drilldown : null
         }
 
     },
 
-    components : {
-        highcharts : Chart,
-        assets
-    },
+   
 
     created : () => {
 
@@ -80,15 +87,22 @@ export default {
                 size: '100%'
             }
             var drilldown = []
+
+            var c = 0
             
             _.each(this.grouped, (g, i) => {
                 var point = {}
 
                 point.name = i
                 point.drilldown = i
+                point.color = this.colorbyindex(c)
+
+                c++
+
                 point.y = _.reduce(g, (m, asset) => {
                     return m + asset.value
                 }, 0)
+                
 
                 serie.data.push(point)
 
@@ -100,16 +114,16 @@ export default {
                     innerSize: '80%',
                     colorByPoint : true,
                     data : [],
-                    color : "#000"
                 }
 
-                _.each(g, (asset) => {
-                    //var point = [asset.ticker, asset.value]
+                _.each(g, (asset, i) => {
+
                     var point = {
                         name : asset.ticker,
                         y : asset.value,
-                        color : "#000"
+                        color : this.colorbyindex(i)
                     }
+
                     drilldownserie.data.push(point)
                 })
 
@@ -142,13 +156,23 @@ export default {
                 d.series = [chartdata.serie]
                 d.drilldown = chartdata.drilldown
 
-            console.log("D,", d)
+                d.chart.events = {}
+                d.chart.events.drilldown = this.drilldownevent
+                d.chart.events.drillup = this.drillup
+                
 
             return d
         },
 
         currentSerie : function(){
-            return chartdata.serie.data
+
+            if(this.drilldown){
+                return _.find(this.chartdata.drilldown.series, (s) => {
+                    return s.id == this.drilldown.id
+                })
+            }
+
+            return this.chartdata.serie
         },
 
         legend : function(){
@@ -158,10 +182,20 @@ export default {
     }),
 
     methods : {
-        grouping : function(){
-
+        grouping : function(e){
+            this.activegrouping = e.target.value
         },
 
-       
+        colorbyindex : function(i){
+            return this.chartcolors[i % this.chartcolors.length]
+        },
+        drillup : function(e){
+
+            this.drilldown = null
+        }, 
+        drilldownevent : function(e){
+
+            this.drilldown = e.seriesOptions
+        }
     },
 }
