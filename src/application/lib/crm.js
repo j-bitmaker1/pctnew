@@ -20,8 +20,6 @@ class CRM {
             "ID" : id
         }
 
-        console.log("data", data)
-
         return this.api.crm.contacts.update(data)
     }
 
@@ -30,6 +28,26 @@ class CRM {
         return Promise.all(_.map(contacts, (c) => {
             
             return this.leadtocontact(c)
+        }))
+
+    }
+
+    contacttolead = function(id){
+
+        var data = {
+            "Type": "LEAD",
+            "Status": "ACTIVE",
+            "ID" : id
+        }
+
+        return this.api.crm.contacts.update(data)
+    }
+
+    contacttoleads = function(contacts){
+
+        return Promise.all(_.map(contacts, (c) => {
+            
+            return this.contacttolead(c)
         }))
 
     }

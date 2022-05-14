@@ -194,7 +194,7 @@ class Capacity {
         var terminalValues = [];
         var termValue = this.calculate.terminalValue();
         var acceptValue = this.calculate.acceptValue();
-        
+
         var sigma = this.sigma;
         var hv = this.options.simulationCount / 10;
 
@@ -264,7 +264,7 @@ class Capacity {
                 sigma : sigma
             }) * 100;
 
-            if(z.toString() == 'NaN') z = null
+            if(z.toString() == 'NaN') z = 'null'
             
         }
 

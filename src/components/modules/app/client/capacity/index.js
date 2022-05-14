@@ -199,7 +199,7 @@ export default {
                 'ages': [20, 40],
                 'savings' : 10000,
                 'save' : 0,
-                'salary' : 0,
+                'salary' : 20000,
 
                 //// extra
 
@@ -360,7 +360,7 @@ export default {
 
             d.yAxis[0].labels.enabled = false
             //d.yAxis[0].plotLines = plotLines.capacity.y(this.simulation.terminalValue, this.options)
-            d.yAxis[0].min = this.options.savings * 0.66;
+            /*d.yAxis[0].min = this.options.savings * 0.66;*/
             d.yAxis[0].endOnTick = false
             d.yAxis[0].gridLineWidth = 0
             d.yAxis[0].offset = 0
