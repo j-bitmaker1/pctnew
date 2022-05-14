@@ -1,16 +1,15 @@
 <template>
-  <div class="page">   
+<div class="page">
 
-    <topheader/>
+    <topheader />
 
     <maincontent>
-      <template v-slot:content>
-        page
-      </template>
+        <template v-slot:content>
+            page
+        </template>
     </maincontent>
 
-    
-  </div>
+</div>
 </template>
 
 <style scoped lang="sass">
@@ -18,25 +17,22 @@
 </style>
 
 <script>
-
-
 export default {
-  name: 'page',
-  components: {
+    name: 'page',
+    components: {
 
+    },
 
-  },
+    computed: {
 
-  computed:{
-   
-  },
+    },
 
-  methods : {
-   
-  },
+    methods: {
 
-  mounted() {
-    
-  }
+    },
+
+    mounted() {
+
+    }
 }
 </script>

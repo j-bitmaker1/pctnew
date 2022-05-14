@@ -13,7 +13,11 @@ export default {
 			default : 0
 		},
 
-		selectMultiple : Boolean
+		selectMultiple : Boolean,
+		selectMultipleClass : {
+			type : String,
+			default : 'leftselection'
+		}
 	},
 	computed: {
 		readyItems: function () {

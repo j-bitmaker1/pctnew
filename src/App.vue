@@ -91,8 +91,10 @@ import root from "@/root/index.vue";
 
 import Highcharts from 'highcharts'
 import drilldownInit from 'highcharts/modules/drilldown'
+import HighchartsMore from 'highcharts/highcharts-more'
 
 drilldownInit(Highcharts)
+HighchartsMore(Highcharts)
 
 Vue.component("modal", modal);
 Vue.component("modals", modals);

@@ -228,10 +228,10 @@ var options = function(p){
 				lineWidth: 1 * p.sizeRatio,
 
 				marker: {
-					enabled: false,
+					enabled: true,
 					lineColor: 'transparent',
-					radius: 4 * p.sizeRatio,
-					symbol: "circle",
+					radius: 2 * p.sizeRatio,
+					//symbol: "circle",
 					states: {
 						hover: {
 							lineWidthPlus: 0
@@ -261,7 +261,12 @@ var options = function(p){
 			areasplinerange : {
 				animation: false,
 				fillOpacity : 0.2,
-				dashStyle : 'dot'
+				dashStyle : 'dot',
+
+				marker: {
+					enabled: false,
+					
+				},
 				
 			},
 

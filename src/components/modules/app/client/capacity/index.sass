@@ -1,0 +1,93 @@
+.chartWrapper
+    margin-top : 4 * $r
+    padding-block-end: 2 * $r
+    position: relative
+
+    .unrealistic
+        position: absolute
+        left: 0
+        top : 0
+        right: 0
+        bottom : 0
+        background: srgba(--background-total-theme,0.9)
+        display: flex
+        align-items: center
+        text-align: center
+        color : srgb(--neutral-grad-3)
+    
+    /*-webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,1)), color-stop(70%, rgba(0,0,0,1)), color-stop(95%, rgba(0,0,0,0)))*/
+.options
+    border-top: $r solid srgb(--neutral-grad-0)
+.slider
+    padding : $r
+    border-bottom: 1px solid srgb(--neutral-grad-0)
+
+.inputwrapper
+    padding-left: $r
+    padding-right: $r
+    margin-top : $r
+    
+.minmax,
+.sheader
+    display: flex
+    padding : $r 0.5 * $r
+    justify-content: space-between
+    align-items: center
+
+    .name
+        span
+            font-size: 0.9em
+            font-weight: 700
+
+.minmax
+    span
+        font-size: 0.8em
+
+.header
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding : $r 2 * $r
+    position: sticky
+    left : 0
+    right: 0
+    top : 83px
+    z-index: 10
+    background: srgb(--background-total-theme)
+
+    .caption
+        span
+            font-size: 1.5em
+
+    .result
+        margin-left: auto
+
+        span
+            font-size: 1.5em
+            font-weight: 700
+
+.legend
+    padding : $r
+
+    .item
+        border-top: 1px solid srgb(--neutral-grad-0)
+        padding : $r
+        display: flex
+        align-items: center
+
+    .text
+        margin-left: $r
+        font-size: 0.9em
+
+    .icon
+        max-width: 22px
+        flex-basis: 22px
+        border-radius: 6px
+        height: 12px
+        background: srgb(--neutral-grad-0)
+
+        &.green
+            background: srgb(--color-good)
+
+        &.bad
+            background: srgb(--color-bad)

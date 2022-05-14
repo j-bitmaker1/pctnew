@@ -14,7 +14,7 @@
 
     <maincontent>
         <template v-slot:content>
-            <portfolioslist />
+            <portfoliosmainlist />
         </template>
     </maincontent>
 
@@ -27,12 +27,12 @@
 
 <script>
 
-import portfolioslist from "@/components/modules/app/portfolios/list/index.vue";
+import portfoliosmainlist from "@/components/modules/app/portfolios/main/index.vue";
 
 export default {
     name: 'portfolios_page',
     components: {
-        portfolioslist
+        portfoliosmainlist
     },
 
     computed: {

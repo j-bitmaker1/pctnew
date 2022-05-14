@@ -10,15 +10,12 @@
 				<i class="fas fa-ellipsis-v"></i>
 			</div>
 		</template>
-
-    
-        
 	</topheader>
 
     <maincontent>
         <template v-slot:content>
             <div class="linenavigation">
-            <linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
+                <linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
             </div>
             <component :is="module"/>
         </template>
@@ -39,15 +36,14 @@ import linenavigation from "@/components/assets/linenavigation/index.vue";
 
 import shares from "@/components/modules/app/portfolio/shares/index.vue";
 import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
-import capacity from "@/components/modules/app/portfolio/capacity/index.vue";
+
 
 export default {
     name: 'portfolios_page',
     components: {
         linenavigation,
         shares,
-        crashtest,
-        capacity
+        crashtest
     },
 
     computed: {
@@ -74,10 +70,6 @@ export default {
                 {
                     text : 'labels.shares',
                     id : 'shares'
-                },
-                {
-                    text : 'labels.capacity',
-                    id : 'capacity'
                 }
             ],
 

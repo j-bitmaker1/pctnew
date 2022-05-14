@@ -1,6 +1,8 @@
 import f from '@/application/functions'
 import _ from "underscore"
 
+import Capacity from "./capacity";
+
 class PCT {
 
     defaults = {
@@ -25,7 +27,10 @@ class PCT {
     }
 
     constructor({api, user}){
+
         this.api = api
+        this.capacity = Capacity
+        
     }
 
     prepare = function(){

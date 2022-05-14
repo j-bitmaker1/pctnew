@@ -157,6 +157,14 @@ const routes = [
         component: () => import('@/views/clients'),
         customRedirect : redirects.authorized
     },
+
+    {
+        path: '/client',
+        name: 'client',
+        component: () => import('@/views/client'),
+        customRedirect : redirects.authorized
+    },
+
     
 ]
 

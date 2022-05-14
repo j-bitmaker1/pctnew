@@ -5,6 +5,8 @@ import portfolio from '../portfolio/index.vue'
 export default {
     name: 'portfolios_list',
     props: {
+        data : Object,
+        actions : Array
     },
 
     components : {
@@ -32,14 +34,7 @@ export default {
             },
 
             selected : null,
-            menu : [
-               
-                {
-                    text : 'labels.deleteportfolios',
-                    icon : 'fas fa-trash',
-                    action : 'deleteportfolios'
-                }
-            ]
+            
         }
 
     },
@@ -68,9 +63,23 @@ export default {
 
         payload : function(){
             return {
-                IncludePositions : true
-                //crmContactIdFilter : 0
+                IncludePositions : true,
+                ... this.data || {}
             }
+        },
+
+        menu : function(){
+            return [
+
+                ... this.actions,
+
+                {
+                    text : 'labels.deleteportfolios',
+                    icon : 'fas fa-trash',
+                    action : 'deleteportfolios'
+                }
+                
+            ]
         }
     }),
 

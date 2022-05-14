@@ -1,6 +1,6 @@
 <template>
-<div id="portfolio_capacity">
-portfolios_capacity
+<div id="client_portfolios">
+    <portfoliolist :data="payload"/>
 </div>
 </template>
 

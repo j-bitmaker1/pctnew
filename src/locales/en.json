@@ -37,7 +37,8 @@
         "deletenotifications" : "Delete Notifications",
         "deleteportfolios" : "Delete Portfolios",
         "leadstocontacts" : "Make as clients",
-        "deleteclients" : "Delete selected clients"
+        "deleteclients" : "Delete selected clients",
+        "portfolios" : "Portfolios"
         
     },
 

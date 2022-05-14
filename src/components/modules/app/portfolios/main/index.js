@@ -1,8 +1,16 @@
 import { mapState } from 'vuex';
 
+import portfoliolist from '../list/index.vue'
+import filesystem from '@/components/common/filesystem/index.vue'
+
 export default {
-    name: 'portfolio_capacity',
+    name: 'portfolios_main',
     props: {
+    },
+
+    components : {
+        portfoliolist, 
+        filesystem
     },
 
     data : function(){

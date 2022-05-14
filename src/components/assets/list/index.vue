@@ -1,5 +1,5 @@
 <template>
-<div class="list" :class="{selection, selectMultiple}">
+<div class="list" :class="[selection ? 'selection' : '', selectMultiple ? 'selectMultiple' : '', selectMultipleClass]">
 
     <div class="selectionControls mobp" v-if="selection">
         <div class="caption">
@@ -29,7 +29,7 @@
 
     </transition-group>
 
-	<div v-else>
+	<div class="simplelist" v-else>
 		<div class="item" v-touch:longtap="e => enterSelectionMode(i)" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
 
             <div class="selectionmarker" v-if="selection" @click="select(i)">

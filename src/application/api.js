@@ -735,6 +735,45 @@ var ApiWrapper = function (core) {
 		}
 	}
 
+	self.filesystem = {
+		/* {root} */
+		get : function(data){
+
+			return Promise.resolve([{
+				name : 'folder' + f.rand(0, 10),
+				type : 'directory',
+				id : f.rand(0, 1000)
+			},{
+				name : 'folder' + f.rand(0, 10),
+				id : f.rand(0, 1000),
+				type : 'directory'
+			},{
+				name : 'portfolio' + f.rand(0, 10),
+				id : f.rand(0, 1000),
+				type : 'portfolio'
+			},{
+				name : 'folder' + f.rand(0, 10),
+				type : 'directory',
+				id : f.rand(0, 1000)
+			},{
+				name : 'folder' + f.rand(0, 10),
+				id : f.rand(0, 1000),
+				type : 'directory'
+			},{
+				name : 'portfolio' + f.rand(0, 10),
+				id : f.rand(0, 1000),
+				type : 'portfolio'
+			}])
+		},
+
+		create : {
+			/* {root, name} */
+			folder : function(data){
+
+			}
+		}
+	}
+
 	self.user = {
 		signin: function (headers) {
 			return request({}, 'api', 'userdata/user/SignIn', {
