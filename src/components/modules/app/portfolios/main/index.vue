@@ -1,7 +1,9 @@
 <template>
 <div id="portfolios_main">
-    <div class="filesystemwrapper mobp">
-        <filesystem :initialroot="0" />
+    <div class="fs mobp">
+        <div class="filesystemwrapper">
+            <filesystem :initialroot="0" />
+        </div>
     </div>
 
     <portfoliolist />
