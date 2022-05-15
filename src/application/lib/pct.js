@@ -34,10 +34,11 @@ class PCT {
     }
 
     prepare = function(){
+
+        return Promise.resolve()
+
         return this.api.pct.settings.get().then(r => {
 
-            console.log("R", r)
-            
             return Promise.resolve(r)
         })
     }

@@ -6,7 +6,7 @@ var prependcssvars = `
 
 module.exports = {
 
-	publicPath: '',
+	publicPath: '/',
 	lintOnSave: false,
 
 	css: {

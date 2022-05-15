@@ -8,6 +8,9 @@ import portfolio_crashtest_scenariodetails from "@/components/modules/app/portfo
 
 import share from "@/components/common/share/index.vue";
 
+
+import client_page from "@/views/client.vue";
+import lead_page from "@/views/lead.vue";
 import portfolios_main from "@/components/modules/app/portfolios/main/index.vue";
 
 
@@ -51,7 +54,7 @@ export default {
     components : {
         home, portfolio_edit, share, client_edit, 
         portfolio_crashtest_scenariodetails, 
-        portfolios_main
+        portfolios_main, client_page, lead_page
     },
  
     computed: mapState({

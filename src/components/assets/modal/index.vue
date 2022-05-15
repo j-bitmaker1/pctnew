@@ -21,7 +21,7 @@
           <div class="modal-body" id="modalDescription">
             <slot v-if="!module" name="body" :scroll="scroll">
             </slot>
-            <component v-else :is="module" @close="close" v-bind="data || {}" v-on="events"/>
+            <component v-else :is="module" @close="close" :wnd="true" v-bind="data || {}" v-on="events"/>
           </div>
           
           <div class="modal-footer" v-if="displayFooter">

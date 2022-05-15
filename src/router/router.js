@@ -152,6 +152,13 @@ const routes = [
     },
 
     {
+        path: '/lead/:id',
+        name: 'lead',
+        component: () => import('@/views/lead'),
+        customRedirect : redirects.authorized
+    },
+
+    {
         path: '/clients',
         name: 'clients',
         component: () => import('@/views/clients'),
@@ -159,7 +166,7 @@ const routes = [
     },
 
     {
-        path: '/client',
+        path: '/client/:id',
         name: 'client',
         component: () => import('@/views/client'),
         customRedirect : redirects.authorized
@@ -198,6 +205,7 @@ const scrollBehavior = function (to, from, savedPosition) {
 }
 
 const router = new Router({
+    base: process.env.BASE_URL,
     routes,
     scrollBehavior,
     mode: window.cordova ? "" : 'history',

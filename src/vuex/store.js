@@ -88,6 +88,10 @@ var store = new Vuex.Store({
 			return state.currentStyles.getPropertyValue(id)
 		},
 
+		currentColorValue : (state, store) => (id) => {
+			return (store.currentStyleValue(id) || "").split(', ')
+		},
+
 		colorByValue : (state, store) => (value) => {
 
 			var st = '--neutral-grad-0'

@@ -129,6 +129,25 @@ export default {
 
         },
 
+        open : function(client){
+
+            this.$store.commit('OPEN_MODAL', {
+                id : 'modal_client_page',
+                module : "lead_page",
+                caption : "",
+                mclass : 'withoutheader',
+                data : {
+                    
+                    leadid : client.ID
+                },
+
+                events : {
+                    
+                }
+            })
+
+        },
+
         leadstocontacts : function(){
 
             this.$store.commit('globalpreloader', true)

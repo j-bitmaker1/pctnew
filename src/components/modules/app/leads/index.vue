@@ -5,7 +5,7 @@
     </div>
     <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="true" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
         <template v-slot:default="slotProps">
-            <div class="cardWrapper mobp">
+            <div class="cardWrapper mobp" @click="open(slotProps.item)">
                 <lead :profile="slotProps.item" />
             </div>
         </template>

@@ -2,9 +2,13 @@
 <div id="linenavigation" :class="{buttons}">
     
     <div class="item" :class="{active : active == item.id}" v-for="item in items">
-        <router-link :to="'?' + navkey + '=' + item.id" >
+        <router-link :to="'?' + navkey + '=' + item.id" v-if="mode == 'history'">
             <i :class="item.icon" v-if="item.icon"></i> <span>{{$t(item.text)}}</span>
         </router-link>
+
+        <div v-else @click="change(item.id)">
+            <i :class="item.icon" v-if="item.icon"></i> <span>{{$t(item.text)}}</span>
+        </div>
     </div>
     
 </div>
@@ -71,7 +75,11 @@ export default {
         items: Array,
         navdefault : String,
         buttons : Boolean,
-        navkey : String
+        navkey : String,
+        mode : {
+            type : String,
+            default : 'history'
+        }
     },
     computed: mapState({
         auth: state => state.auth,
@@ -79,6 +87,10 @@ export default {
         active : function(){
             return this.$route.query[this.navkey] || this.navdefault
         },
+
+        change : function(v){
+            this.$emit('change', v)
+        }
 
     }),
 

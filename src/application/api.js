@@ -464,15 +464,16 @@ var ApiWrapper = function (core) {
 	var dbrequest = function(data, system, to, p){
 
 		var _storage = null
+		var datahash = sha1(system + to + JSON.stringify(data))
 		
 		return (p.storageparameters ? getstorage(p.storageparameters) : f.ep()).then(storage => {
 
 			_storage = storage
 
-			var datahash = sha1(system + to + JSON.stringify(data))
-			
 			if (storage && !p.refresh) {
-				return storage.get(datahash)
+				return storage.get(datahash).catch(e => {
+					return Promise.resolve()
+				})
 			}
 			return Promise.resolve()
 
@@ -701,9 +702,7 @@ var ApiWrapper = function (core) {
 
 	self.crm = {
 		contacts : {
-			list : function(data, p){
-
-				if(!p) p = {}
+			list : function(data, p = {}){
 
 				p.method = "POST"
 
@@ -711,13 +710,30 @@ var ApiWrapper = function (core) {
 
 			},
 
-			update : function(data = {}, p){
-				if(!p) p = {}
-
+			update : function(data = {}, p = {}){
 				p.method = "POST"
 
 				return request(data, 'api', 'crm/Contacts/Update', p)
-			}
+			},
+
+			get : function(id, p = {}){
+				p.method = "GET"
+
+				return request({}, 'api', 'crm/Contacts/' + id, p)
+			},
+
+			scheme : function(p = {}){
+				p.method = "GET"
+
+				p.storageparameters = {
+					storage : 'system',
+					time : 60 * 60 * 48 
+				}
+
+				return dbrequest({}, 'api', 'crm/Contacts/Scheme', p).then(r => {
+					return r.Contacts
+				})
+			},
 		}
 	}
 

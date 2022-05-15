@@ -4,6 +4,10 @@ class CRM {
     constructor({api, user}){
         this.queries = new Queries()
         this.api = api
+
+        this.schemas = {
+            contact : {}
+        }
     }
 
     query = function(query, p){
@@ -50,6 +54,15 @@ class CRM {
             return this.contacttolead(c)
         }))
 
+    }
+
+    prepare = function(){
+        return this.api.crm.contacts.scheme().then(r => {
+            this.schemas.contact = r
+
+            console.log('this.schemas.contact', this.schemas.contact)
+            return Promise.resolve()
+        })
     }
 }
 

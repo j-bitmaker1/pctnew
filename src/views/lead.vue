@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-    <topheader :back="wnd ? '' : '/clients'" :gray="true">
+    <topheader :back="wnd ? '' : '/leads'" :gray="true">
         <template v-slot:info>
             <div id="clientprofile">
                 <div class="userpicWrapper">
@@ -15,7 +15,7 @@
             </div>
         </template>
         <template v-slot:right>
-            <div class="buttonpanel" v-if="!loading">
+            <div class="buttonpanel">
                 <i class="fas fa-ellipsis-v"></i>
             </div>
         </template>
@@ -24,7 +24,7 @@
 
     <maincontent>
         <template v-slot:content>
-            <div v-if="!loading">
+            <div>
                 <div class="linenavigation">
                     <linenavigation @change="changenav" :items="navigation" :navdefault="navdefault" :navkey="navkey" :mode="wnd ? 'emit' : 'history'"/>
                 </div>
@@ -73,7 +73,7 @@ export default {
     props : {
         wnd : Boolean,
 
-        clientid : Number
+        leadid : Number
     },
 
     components: {
@@ -93,10 +93,9 @@ export default {
         },
 
         id : function(){
-            return this.clientid || this.$route.params.id
+            return this.leadid || this.$route.params.id
         },
 
-      
 
     },
 
@@ -106,17 +105,13 @@ export default {
             loading : true,
 
             navkey: 'p',
-            navdefault: 'portfolios',
+            navdefault: 'capacity',
+
             navigation : [
-                {
-                    text: 'labels.portfolios',
-                    id: 'portfolios'
-                },
                 {
                     text: 'labels.capacity',
                     id: 'capacity'
-                },
-
+                }
             ]
         }
     },
@@ -128,6 +123,7 @@ export default {
             this.core.api.crm.contacts.get(this.id).then(r => {
 
                 this.profile = r
+
 
                 return Promise.resolve(r)
             }).finally(() => {

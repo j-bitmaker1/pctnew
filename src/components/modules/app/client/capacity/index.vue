@@ -1,7 +1,7 @@
 <template>
 <div id="client_capacity">
 
-    <div class="header mobp">
+    <div class="header mobp stickedTop">
         <div class="caption">
             <span>Capacity</span>
         </div>

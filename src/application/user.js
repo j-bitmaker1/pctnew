@@ -9,8 +9,9 @@ var User = function ({
     vm,
     api,
     wss,
-    pct
-}) {
+    pct, 
+    crm
+}, signinclbk) {
 
     var self = this
 
@@ -530,11 +531,12 @@ var User = function ({
     }
 
     self.prepare = function(){
-        return pct.prepare().catch(e => {
-            console.error(e)
 
-            return Promise.resolve()
+        return Promise.all([pct.prepare(), crm.prepare()]).catch(e => {
+            console.error(e)
+            return Promise.reject(e)
         })
+
     }
 
     self.changePassword = function(pwd){

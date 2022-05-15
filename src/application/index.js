@@ -121,6 +121,7 @@ class Core {
 
     }
 
+
     removeEvents = function(){
         delete this.focusListener.clbks.resume.core
         delete this.focusListener.clbks.pause.core
