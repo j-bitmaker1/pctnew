@@ -28,7 +28,7 @@
                 <div class="linenavigation">
                     <linenavigation @change="changenav" :items="navigation" :navdefault="navdefault" :navkey="navkey" :mode="wnd ? 'emit' : 'history'"/>
                 </div>
-                <component :is="module" />
+                <component :is="module" :profile="profile"/>
             </div>
         </template>
     </maincontent>
@@ -66,20 +66,22 @@
 import linenavigation from "@/components/assets/linenavigation/index.vue";
 import capacity from "@/components/modules/app/client/capacity/index.vue";
 import portfolios from "@/components/modules/app/client/portfolios/index.vue";
+import info from "@/components/modules/app/client/info/index.vue";
+
 
 export default {
     name: 'page',
 
     props : {
         wnd : Boolean,
-
         clientid : Number
     },
 
     components: {
         linenavigation,
         capacity,
-        portfolios
+        portfolios,
+        info
     },
 
     computed: {
@@ -108,6 +110,10 @@ export default {
             navkey: 'p',
             navdefault: 'portfolios',
             navigation : [
+                {
+                    text: 'labels.info',
+                    id: 'info'
+                },
                 {
                     text: 'labels.portfolios',
                     id: 'portfolios'

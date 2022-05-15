@@ -80,7 +80,9 @@ var store = new Vuex.Store({
 		currentStyles : {},
 		modals : [],
 		portfolios : [],
-		valuemode : 'd'
+		valuemode : 'd',
+
+		crmschemas : {}
 
 	},
 	getters: {
@@ -179,6 +181,10 @@ var store = new Vuex.Store({
 
 		userinfo(state, v) {
 			state.userinfo = v;
+		},
+
+		crmschemas(state, v) {
+			state.crmschemas = v;
 		},
 
 		init(state) {

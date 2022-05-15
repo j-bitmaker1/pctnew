@@ -8,19 +8,23 @@
     },
 
     "fields" : {
-        "email" : "Email",
-        "lastname" : "Lastname",
-        "firstname" : "Firstname",
-        "title" : "Title",
-        "country" : "Country",
-        "state" : "State",
-        "city" : "City",
-        "zip" : "ZIP",
-        "phone" : "Phone",
-        "status" : "Status",
+        "Email" : "Email",
+        "LName" : "Lastname",
+        "FName" : "Firstname",
+        "Title" : "Title",
+        "Country" : "Country",
+        "State" : "State",
+        "City" : "City",
+        "Zip" : "ZIP",
+        "Phone" : "Phone",
+        "Status" : "Status",
         "deleted" : "Deleted",
         "newlead" : "New lead",
-        "client" : "Client"
+        "client" : "Client",
+        "generalInfo" : "General Information",
+        "additionalInfo" : "Additional Information"
+
+
     },
 
     "labels" : {
@@ -49,7 +53,8 @@
         "leadstocontacts" : "Make as clients",
         "deleteclients" : "Delete selected clients",
         "portfolios" : "Portfolios",
-        "setportfoliostoclient" : "Set portfolios to client"
+        "setportfoliostoclient" : "Set portfolios to client",
+        "info" : "Information"
         
     },
 

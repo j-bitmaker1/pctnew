@@ -11,7 +11,7 @@ var User = function ({
     wss,
     pct, 
     crm
-}, signinclbk) {
+}) {
 
     var self = this
 

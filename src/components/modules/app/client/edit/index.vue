@@ -14,7 +14,7 @@
         <forms :value="additional" @change="changeAdditional" ref="additional" :fields="additionalFields"/>
     </div>
 
-    <div class="savePanel">
+    <div class="savePanel" v-if="editing">
         <button class="button black" @click="cancel">
             Cancel
         </button>

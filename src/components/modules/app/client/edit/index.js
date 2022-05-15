@@ -8,6 +8,11 @@ export default {
         payload : {
             type : Object,
             default : () => {return {}}
+        },
+
+        editing : {
+            type : Boolean,
+            default : true
         }
     },
 
@@ -49,148 +54,20 @@ export default {
             return true
         },
 
+        schema : state => state.crmschemas.contact,
+
         generalFields : function(){
-            var f = [
-                
-                {
-                    id : 'firstname',
-                    text : 'fields.firstname',
-                    type : '',
-
-                    rules : [
-                        {
-                            rule : 'required'
-                        }
-                    ]
-                },
-
-                {
-                    id : 'lastname',
-                    text : 'fields.lastname',
-                    type : '',
-
-                    rules : [
-                        {
-                            rule : 'required'
-                        }
-                    ]
-                },
-
-                {
-                    id : 'email',
-                    text : 'fields.email',
-                    type : 'email',
-
-                    rules : [
-                        {
-                            rule : 'required'
-                        }
-                    ]
-                },
-                
-                {
-                    id : 'status',
-                    text : 'fields.status',
-                    type : '',
-
-                    input : 'select',
-
-                    values : [
-                        {
-                            text : 'fields.deleted',
-                            value : 'deleted',
-                        },
-                        {
-                            text : 'fields.newlead',
-                            value : 'newlead',
-                        },
-                        {
-                            text : 'fields.client',
-                            value : 'client',
-                        }
-
-                    ],
-
-                    rules : [
-                        {
-                            rule : 'required'
-                        }
-                    ]
-                }
-                
-            ]
+            var f = this.schema.general.fields
 
             f = _.filter(f, (f) => {
                 return !this.payload[f.id]
             })
 
-
             return f
         },
 
         additionalFields : function(){
-            var f = [
-
-                {
-                    id : 'title',
-                    text : 'fields.title',
-                    type : '',
-
-                    rules : [
-                       
-                    ]
-                },
-
-                {
-                    id : 'country',
-                    text : 'fields.country',
-                    type : '',
-                    placeholder : "",
-                    rules : [
-                       
-                    ]
-                },
-
-                {
-                    id : 'state',
-                    text : 'fields.state',
-                    type : '',
-                    placeholder : "NY",
-                    rules : [
-                       
-                    ]
-                },
-
-                {
-                    id : 'city',
-                    text : 'fields.city',
-                    type : '',
-                    placeholder : "",
-                    rules : [
-                       
-                    ]
-                },
-
-                {
-                    id : 'zip',
-                    text : 'fields.zip',
-                    type : '',
-                    placeholder : "10003",
-                    rules : [
-                       
-                    ]
-                },
-
-                {
-                    id : 'phone',
-                    text : 'fields.phone',
-                    type : 'tel',
-                    placeholder : "",
-                    rules : [
-                       
-                    ]
-                }
-            ]
+            var f = this.schema.additional.fields
 
             f = _.filter(f, (f) => {
                 return !this.payload[f.id]

@@ -28,7 +28,7 @@
                 <div class="linenavigation">
                     <linenavigation @change="changenav" :items="navigation" :navdefault="navdefault" :navkey="navkey" :mode="wnd ? 'emit' : 'history'"/>
                 </div>
-                <component :is="module" />
+                <component :is="module" :profile="profile"/>
             </div>
         </template>
     </maincontent>
@@ -66,6 +66,7 @@
 import linenavigation from "@/components/assets/linenavigation/index.vue";
 import capacity from "@/components/modules/app/client/capacity/index.vue";
 import portfolios from "@/components/modules/app/client/portfolios/index.vue";
+import info from "@/components/modules/app/client/info/index.vue";
 
 export default {
     name: 'page',
@@ -79,7 +80,8 @@ export default {
     components: {
         linenavigation,
         capacity,
-        portfolios
+        portfolios,
+        info
     },
 
     computed: {
@@ -105,9 +107,13 @@ export default {
             loading : true,
 
             navkey: 'p',
-            navdefault: 'capacity',
+            navdefault: 'info',
 
             navigation : [
+                {
+                    text: 'labels.info',
+                    id: 'info'
+                },
                 {
                     text: 'labels.capacity',
                     id: 'capacity'

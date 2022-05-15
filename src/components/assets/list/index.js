@@ -4,7 +4,7 @@ export default {
 	name: 'list',
 	props: {
 		items: {
-			type: Array,
+			type: [Array, Object],
 			required: true,
 		},
 
