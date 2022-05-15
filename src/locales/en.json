@@ -10,7 +10,17 @@
     "fields" : {
         "email" : "Email",
         "lastname" : "Lastname",
-        "firstname" : "Firstname"
+        "firstname" : "Firstname",
+        "title" : "Title",
+        "country" : "Country",
+        "state" : "State",
+        "city" : "City",
+        "zip" : "ZIP",
+        "phone" : "Phone",
+        "status" : "Status",
+        "deleted" : "Deleted",
+        "newlead" : "New lead",
+        "client" : "Client"
     },
 
     "labels" : {
@@ -38,7 +48,8 @@
         "deleteportfolios" : "Delete Portfolios",
         "leadstocontacts" : "Make as clients",
         "deleteclients" : "Delete selected clients",
-        "portfolios" : "Portfolios"
+        "portfolios" : "Portfolios",
+        "setportfoliostoclient" : "Set portfolios to client"
         
     },
 

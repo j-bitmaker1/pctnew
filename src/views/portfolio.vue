@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-	<topheader back="back" :gray="true">
+	<topheader back="/portfolios" :gray="true">
 		<template v-slot:info>
 			<span>{{name}}</span>
 		</template>

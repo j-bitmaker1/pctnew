@@ -77,6 +77,9 @@ export default {
        
         changed : function(){
 
+            if (this.$refs['list'])
+                this.$refs['list'].leaveSelectionMode()
+
             this.refresh = true
             this.end = false
             this.loading = false

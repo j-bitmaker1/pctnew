@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-    <topheader back="back" :gray="true">
+    <topheader back="/clients" :gray="true">
         <template v-slot:info>
             <div id="clientprofile">
                 <div class="userpicWrapper">

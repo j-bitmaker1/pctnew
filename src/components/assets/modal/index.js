@@ -3,10 +3,12 @@ import { mapState } from 'vuex';
 /// TO DO DYNAMIC IMPORT
 import home from "@/components/modules/app/home/index.vue";
 import portfolio_edit from "@/components/modules/app/portfolio/edit/index.vue";
-import clients_edit from "@/components/modules/app/clients/edit/index.vue";
+import client_edit from "@/components/modules/app/client/edit/index.vue";
 import portfolio_crashtest_scenariodetails from "@/components/modules/app/portfolio/crashtest/scenariodetails/index.vue";
 
 import share from "@/components/common/share/index.vue";
+
+import portfolios_main from "@/components/modules/app/portfolios/main/index.vue";
 
 
 export default {
@@ -19,6 +21,10 @@ export default {
         cantclose : Boolean,
         module : String,
         data : Object,
+        events : {
+            type : Object,
+            default : () => {return {}}
+        },
         mclass : String
     },
 
@@ -32,6 +38,7 @@ export default {
     },
 
     mounted() {
+
     },
     
     destroyed() {
@@ -42,11 +49,15 @@ export default {
     },
 
     components : {
-        home, portfolio_edit, share, clients_edit, portfolio_crashtest_scenariodetails
+        home, portfolio_edit, share, client_edit, 
+        portfolio_crashtest_scenariodetails, 
+        portfolios_main
     },
  
     computed: mapState({
         auth : state => state.auth,
+
+       
 
         /*moduleInstance () {
             console.log('./' + this.module)

@@ -3,6 +3,9 @@
     <div class="controls mobp">
         <listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
     </div>
+
+    
+    
     <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="true" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount" :elheight="elheight" @click="click">
         <template v-slot:default="slotProps">
             <router-link :to="'client'">
@@ -11,6 +14,7 @@
                 </div>
             </router-link>
         </template>
+       
     </listpaginated>
 
     <transition name="fademodal">

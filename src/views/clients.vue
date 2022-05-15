@@ -44,8 +44,8 @@ export default {
     methods: {
         newclient : function(){
 			this.$store.commit('OPEN_MODAL', {
-                id : 'modal_clients_edit',
-                module : "clients_edit",
+                id : 'modal_client_edit',
+                module : "client_edit",
                 caption : "New client"
             })
 		}

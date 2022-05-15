@@ -3,7 +3,7 @@
 
     <transition-group name="fade" tag="div">
 
-		<modal v-for="modal in modals" :key="modal.id" @close="e => close(modal.id)" :mclass="modal.mclass || ''" :module="modal.module" :data="modal.data || {}">
+		<modal v-for="modal in modals" :key="modal.id" @close="e => close(modal.id)" :mclass="modal.mclass || ''" :module="modal.module" :data="modal.data || {}" :events="modal.events || {}">
 
 			<template v-slot:header>{{modal.caption}}</template>
 

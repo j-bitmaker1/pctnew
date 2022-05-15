@@ -38,6 +38,45 @@ export default {
     }),
 
     methods : {
-        
+        create : function(){
+            this.$store.commit('OPEN_MODAL', {
+                id : 'modal_portfolios_edit',
+                module : "portfolio_edit",
+                caption : "New Portfolio For Client",
+
+                data : {
+                    payload : {}
+                }
+            })
+        },
+
+        select : function(){
+
+            this.$store.commit('OPEN_MODAL', {
+                id : 'modal_portfolios_main',
+                module : "portfolios_main",
+                caption : "Select Portfolios For Client",
+
+                data : {
+                    
+                    select : {
+                        actions : [{
+                            text : 'labels.setportfoliostoclient',
+                            icon : 'fas fa-check',
+                            action : 'setportfoliostoclient'
+                        }]
+                    },
+
+                    additional : {}
+                },
+
+                events : {
+                    selected : function(portfolios){
+                        console.log("PORTFOLIOS", portfolios)
+                    }
+                }
+            })
+            
+        }
     },
 }

@@ -1,11 +1,12 @@
 <template>
 <div id="portfolios_list">
 
-    
-
     <div class="controls mobp">
         <listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange"/>
     </div>
+
+    <slot name="prepend">
+    </slot>
 
     <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="true" api="pctapi.portfolios.list" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
         <template v-slot:default="slotProps">

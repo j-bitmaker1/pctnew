@@ -1,6 +1,12 @@
 <template>
 <div id="client_portfolios">
-    <portfoliolist :data="payload"/>
+
+    <div class="panel mobp">
+        <button class="button" @click="create">Create portfolio</button>
+        <button class="button black" @click="select">Select portfolio</button>
+    </div>
+
+    <portfoliolist :additional="payload"></portfoliolist>
 </div>
 </template>
 

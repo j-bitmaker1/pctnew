@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="cnt createnew">
+        <div class="cnt createnew" v-if="!select">
 
             <div class="icon">
                 <i class="fas fa-plus small"></i>

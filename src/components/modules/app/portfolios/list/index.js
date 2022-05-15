@@ -5,8 +5,12 @@ import portfolio from '../portfolio/index.vue'
 export default {
     name: 'portfolios_list',
     props: {
-        data : Object,
-        actions : Array
+        additional : Object,
+        actions : {
+            type : Array,
+            default : () => {return []}
+        },
+        select : Object
     },
 
     components : {
@@ -64,11 +68,16 @@ export default {
         payload : function(){
             return {
                 IncludePositions : true,
-                ... this.data || {}
+                ... this.additional || {}
             }
         },
 
         menu : function(){
+
+            if (this.select){
+                return this.select.actions
+            }
+
             return [
 
                 ... this.actions,
@@ -85,7 +94,15 @@ export default {
 
     methods : {
         open : function(portfolio){
-            this.$router.push('portfolio?id=' + portfolio.id)
+
+            if (this.select){
+                this.$emit('selected', [portfolio])
+            }
+            else{
+                this.$router.push('portfolio?id=' + portfolio.id)
+            }
+
+            
         },
 
         search : function(v){
@@ -116,6 +133,11 @@ export default {
 
         deleteportfolios : function(){
 
+        },
+
+        setportfoliostoclient : function(){
+            this.$emit('selected', [this.selected])
+            this.selected = null
         }
 
     },

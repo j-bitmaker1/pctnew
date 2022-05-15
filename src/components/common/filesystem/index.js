@@ -4,7 +4,8 @@ import { mapState } from 'vuex';
 export default {
     name: 'filesystem',
     props: {
-        initialroot : Number
+        initialroot : Number,
+        select : Object
     },
 
     data : function(){
@@ -108,6 +109,10 @@ export default {
         open : function(c){
             if (c.type == 'directory'){
                 this.down(c.id)
+            }
+
+            if(c.type == 'portfolio'){
+                if(this.select) this.$emit('selectFile', c)
             }
         }
     },

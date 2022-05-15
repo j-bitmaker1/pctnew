@@ -7,7 +7,8 @@ var sha1 = require('sha1');
 export default {
     name: 'portfolios_edit',
     props: {
-        edit : Object
+        edit : Object,
+        payload : Object
     },
 
     components : {
@@ -136,7 +137,9 @@ export default {
                 action = this.core.api.pctapi.portfolios.update({
                     name : this.name,
                     positions,
-                    id : this.edit.id
+                    id : this.edit.id,
+
+                    ... this.payload || {}
                 })
             }
             else{
@@ -144,6 +147,8 @@ export default {
                 action = this.core.api.pctapi.portfolios.add({
                     name : this.name,
                     positions,
+
+                    ... this.payload || {}
                 })
                
             }
