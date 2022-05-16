@@ -10,7 +10,8 @@ variables:
 build_main:
     stage: build
     script: 
-        - npm ci --prefer-offline --no-audit
+        - node --version
+        - npm i --prefer-offline --no-audit -f
         - npm run build
     artifacts:
         expire_in: 1 week
@@ -40,7 +41,7 @@ deploy_main:
 build_develop:
     stage: build
     script: 
-        - npm ci --prefer-offline --no-audit
+        - npm i --prefer-offline --no-audit
         - npm run build
     artifacts:
         expire_in: 1 week
