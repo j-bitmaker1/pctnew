@@ -2,7 +2,7 @@
 <div class="client_menu">
     <tooltip>
         <template v-slot:item>
-            <div class="buttonpanel">
+            <div :class="buttonclass">
                 <i class="fas fa-ellipsis-v"></i>
             </div>
         </template>
@@ -27,7 +27,11 @@ import {
 export default {
     name: 'client_menu',
     props: {
-        profile: Object
+        profile: Object,
+        buttonclass : {
+            type : String,
+            default : 'buttonpanel'
+        }
     },
     computed: mapState({
         auth: state => state.auth,
@@ -52,6 +56,11 @@ export default {
              if(this.profile.Type == "LEAD"){
                 return [
                     {
+                        text : 'labels.leadtocontact',
+                        icon : 'fas fa-user-friends',
+                        action : 'leadtocontact'
+                    },
+                    {
                         text : 'labels.editlead',
                         icon : 'fas fa-pen',
                         action : 'editclient'
@@ -72,6 +81,17 @@ export default {
             if (this[action]){
                 this[action]()
             }   
+        },
+
+        leadtocontact : function(){
+            this.core.crm.leadtocontact(this.profile.ID, {
+                preloader : true,
+                showStatus : true
+            }).then(r => {
+                this.$emit('leadtocontact', this.profile)
+            }).catch(e => {
+
+            })
         },
 
         deleteclient : function(){

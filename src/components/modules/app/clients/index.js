@@ -132,8 +132,6 @@ export default {
 
         edit : function(profile){
 
-            console.log("EDITED", profile)
-
             if(this.$refs['list']) this.$refs['list'].datachanged(profile, "ID")
         },
 

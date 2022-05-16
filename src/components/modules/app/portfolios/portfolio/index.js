@@ -1,29 +1,21 @@
 import _ from 'underscore';
 import { mapState } from 'vuex';
-
+import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 export default {
     name: 'portfolios_portfolio',
     props: {
         portfolio : Object
     },
 
+    components : {
+        portfoliomenu
+    },
+
     data : function(){
 
         return {
             loading : false,
-            menu : [
-                {
-                    text : 'labels.editportfolio',
-                    icon : 'fas fa-pen',
-                    action : 'edit'
-                },
-                {
-                    text : 'labels.deleteportfolio',
-                    icon : 'fas fa-trash',
-                    action : 'delete'
-
-                }
-            ]
+           
         }
 
     },
@@ -47,34 +39,19 @@ export default {
     methods : {
 
         click : function(){
-            this.$emit('click')
+            this.$emit('click', this.portfolio)
         },
 
-        menuaction : function(action){
-            if (this[action]){
-                this[action]()
-            }   
-        },
-
-        edit : function(){
+        editportfolio : function(){
             
-            this.$store.commit('OPEN_MODAL', {
-                id : 'modal_portfolio_edit',
-                module : "portfolio_edit",
-                caption : "Edit Portfolio",
-                data : {
-                    edit : {
-                        name : this.portfolio.name,
-                        assets : this.portfolio.positions,
-                        id : this.portfolio.id
-                    }
-                }
-            })
+           this.$emit('editportfolio', this.portfolio)
 
         },
 
-        delete : function(){
-            console.log("ASAS2")
+        deleteportfolio : function(){
+
+            this.$emit('deleteportfolio', this.portfolio)
+            
         }
     },
 }

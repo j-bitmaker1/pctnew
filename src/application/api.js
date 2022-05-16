@@ -717,7 +717,19 @@ var ApiWrapper = function (core) {
 				p.method = "POST"
 
 				return request(data, 'pctapi', 'Portfolio/Update', p)
-			}
+			},
+
+			get : function(id, p = {}){
+
+				p.method = "POST"
+
+				var data = {
+					id, 
+					includePositions : true
+				}
+
+				return request(data, 'pctapi', 'Portfolio/GetById', p)
+			},
 		}
 	}
 

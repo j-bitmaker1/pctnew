@@ -13714,6 +13714,14 @@
   "resolved" "https://registry.npmjs.org/vue-i18n/-/vue-i18n-8.27.0.tgz"
   "version" "8.27.0"
 
+"vue-iframes@^0.0.19":
+  "integrity" "sha512-E9fpI0qanue7GNIKrss3d7HY5CWW3H1Z4n8wZT/LAthA++JYrKKUyrNh8BMswJ7f4Wu0KAbgdbFbon/jeYK7QA=="
+  "resolved" "https://registry.npmjs.org/vue-iframes/-/vue-iframes-0.0.19.tgz"
+  "version" "0.0.19"
+  dependencies:
+    "lodash.debounce" "^4.0.8"
+    "uuid" "^8.3.2"
+
 "vue-images-loaded@^1.1.2":
   "integrity" "sha1-/E3bf+cIJRvN9hmYeVcUkb9YP8g="
   "resolved" "https://registry.npmjs.org/vue-images-loaded/-/vue-images-loaded-1.1.2.tgz"

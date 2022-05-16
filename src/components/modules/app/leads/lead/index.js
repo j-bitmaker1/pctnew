@@ -61,5 +61,9 @@ export default {
         open : function(e){
             this.$emit('open', this.profile)
         },
+
+        leadtocontact: function(){
+            this.$emit('leadtocontact', this.profile)
+        },
     },
 }

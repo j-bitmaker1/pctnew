@@ -98,9 +98,6 @@ export default {
         id : function(){
             return this.clientid || this.$route.params.id
         },
-    
-        
-      
 
     },
 

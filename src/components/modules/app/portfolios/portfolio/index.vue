@@ -9,19 +9,8 @@
 
         <div class="forsettings">
 
-            <tooltip>
-                <template v-slot:item>
-                    <div class="diconbutton">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </div>
-                </template>
+            <portfoliomenu @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" buttonclass="diconbutton"/>
 
-                <template v-slot:content="i">
-                    <listmenu :items="menu" @action="menuaction" :close="i.close"/>
-                </template>
-
-            </tooltip>
-            
         </div>
     </div>
 

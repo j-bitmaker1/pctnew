@@ -119,7 +119,7 @@ const routes = [
     },
 
     {
-        path: '/portfolio',
+        path: '/portfolio/:id',
         name: 'portfolio',
         component: () => import('@/views/portfolio'),
         customRedirect : redirects.authorized

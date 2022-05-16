@@ -99,7 +99,7 @@ export default {
                 this.$emit('selected', [portfolio])
             }
             else{
-                this.$router.push('portfolio?id=' + portfolio.id)
+                this.$router.push('portfolio/' + portfolio.id)
             }
 
             
@@ -131,8 +131,23 @@ export default {
             }   
         },
 
-        deleteportfolios : function(){
+        deleteportfolios : function(portfolios){
+            _.each(portfolios, (portfolio) => {
 
+                if(this.$refs['list']) this.$refs['list'].datadeleted(portfolio, "id")
+
+            })
+
+            this.closeselected()
+        },
+
+        deleteportfolio : function(portfolio){
+            this.deleteportfolios([portfolio])
+        },
+
+        editportfolio : function(portfolio){
+
+            if(this.$refs['list']) this.$refs['list'].datachanged(portfolio, "id")
         },
 
         setportfoliostoclient : function(){

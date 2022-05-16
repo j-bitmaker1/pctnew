@@ -6,9 +6,7 @@
 			<span>{{name}}</span>
 		</template>
 		<template v-slot:right>
-			<div class="buttonpanel">
-				<i class="fas fa-ellipsis-v"></i>
-			</div>
+			<portfoliomenu v-if="!loading && portfolio" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
 		</template>
 	</topheader>
 
@@ -17,7 +15,7 @@
             <div class="linenavigation">
                 <linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
             </div>
-            <component :is="module"/>
+            <component :is="module" v-if="!loading && portfolio"/>
         </template>
     </maincontent>
 
@@ -36,19 +34,23 @@ import linenavigation from "@/components/assets/linenavigation/index.vue";
 
 import shares from "@/components/modules/app/portfolio/shares/index.vue";
 import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
-
+import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 
 export default {
     name: 'portfolios_page',
     components: {
         linenavigation,
         shares,
-        crashtest
+        crashtest,
+        portfoliomenu
     },
 
     computed: {
         name : function(){
-            return 'Sample moderate'
+
+            if(this.portfolio) return this.portfolio.name
+            
+            return ''
         },
 
         module : function(){
@@ -57,6 +59,10 @@ export default {
 
         active : function(){
             return this.$route.query[this.navkey] || this.navdefault
+        },
+
+        id : function(){
+            return this.portfolioid || this.$route.params.id
         },
     },
 
@@ -73,24 +79,38 @@ export default {
                 }
             ],
 
+            portfolio : null,
+
             navkey : 'p',
+
+            loading : false,
 
             navdefault : 'shares'
         }
     },
 
     methods: {
-		newportfolio : function(){
-			this.$store.commit('OPEN_MODAL', {
-                id : 'modal_portfolios_edit',
-                module : "portfolios_edit",
-                caption : "New Portfolio"
+		load : function(){
+            this.loading = true
+            this.core.api.pctapi.portfolios.get(this.id).then(r => {
+
+                this.portfolio = r
+
+            }).finally(() => {
+                this.loading = false
             })
-		}
+        },
+        deleteportfolio : function(){
+            this.$router.push('/portfolios')
+        },
+
+        editportfolio : function(portfolio){
+            this.portfolio = portfolio
+        }
     },
 
-    mounted() {
-
+    created() {
+        this.load()
     }
 }
 </script>

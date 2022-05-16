@@ -142,8 +142,8 @@ export default {
         edit : function(profile){
 
             if(this.$refs['list']) this.$refs['list'].datachanged(profile, "ID")
-        },
 
+        },
 
         open : function(client){
 
@@ -168,11 +168,13 @@ export default {
 
             this.$store.commit('globalpreloader', true)
 
-            console.log('_.map(selected, (s) => {return s.ID})', _.map(this.selected, (s) => {return s.ID}))
+            var leads = this.selected
 
-            this.core.crm.leadtocontacts(_.map(this.selected, (s) => {return s.ID})).then(r => {
+            this.core.crm.leadtocontacts(_.map(leads, (s) => {return s.ID})).then(r => {
 
                 console.log("R", r)
+
+                this.deleteleads(leads)
 
                 this.closeselected()
 
@@ -193,9 +195,11 @@ export default {
 
             })
 
-            
-
         },
+
+        leadtocontact : function(profile){
+            this.deletelead(profile) /// from list
+        }
 
 
     },
