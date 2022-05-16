@@ -1,0 +1,67 @@
+stages:
+    - build
+    - deploy
+
+variables:
+    DEPLOY_MAIN_FOLDER: 'C:\inetpub\wwwroot\pctnew'
+    DEPLOY_DEVELOP_FOLDER: 'C:\inetpub\wwwroot\Test\pctnew'
+
+# ------------------------------------------
+build_main:
+    stage: build
+    script: 
+        - npm ci --prefer-offline --no-audit
+        - npm run build
+    artifacts:
+        expire_in: 1 week
+        paths:
+            - './dist/'
+    tags:
+        - build
+        - web
+    only:
+        - main
+
+deploy_main:
+    stage: deploy
+    script:
+        - rm -Recurse -Force ${DEPLOY_MAIN_FOLDER}/*
+        - cp -Recurse -Force ./dist/* ${DEPLOY_MAIN_FOLDER}/
+    dependencies:
+        - build_main
+    tags:
+        - deploy
+        - rxnet
+        - web
+    only:
+        - main
+
+# ------------------------------------------
+build_develop:
+    stage: build
+    script: 
+        - npm ci --prefer-offline --no-audit
+        - npm run build
+    artifacts:
+        expire_in: 1 week
+        paths:
+            - './dist/'
+    tags:
+        - build
+        - web
+    only:
+        - develop
+
+deploy_develop:
+    stage: deploy
+    script:
+        - rm -Recurse -Force ${DEPLOY_DEVELOP_FOLDER}/*
+        - cp -Recurse -Force ./dist/* ${DEPLOY_DEVELOP_FOLDER}/
+    dependencies:
+        - build_develop
+    tags:
+        - deploy
+        - rxnet
+        - web
+    only:
+        - develop
