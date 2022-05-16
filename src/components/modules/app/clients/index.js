@@ -1,6 +1,7 @@
 import { mapState } from 'vuex';
 import f from "@/application/functions.js";
 import client from './client/index.vue'
+import _ from 'underscore';
 
 export default {
     name: 'app_clients',
@@ -31,11 +32,10 @@ export default {
 
             selected : null,
             menu : [
-
                 
                
                 {
-                    text : 'labels.deleteclients',
+                    text : 'labels.deleteclient',
                     icon : 'fas fa-trash',
                     action : 'clients'
                 },
@@ -52,16 +52,13 @@ export default {
     watch: {
         tscrolly : function(){
 
-
             if (this.$refs['list']){
-
 
                 if (this.$refs['list'].height() - 1000 < this.tscrolly + this.dheight){
                     this.$refs['list'].next()
                 }
                 
             }
-
             
         }
     },
@@ -120,8 +117,28 @@ export default {
             }   
         },
 
-        deleteclients : function(){
+        deleteclients : function(cc){
+            _.each(cc, (profile) => {
 
+                if(this.$refs['list']) this.$refs['list'].datadeleted(profile, "ID")
+
+            })
+
+        },
+
+        deleteclient : function(c){
+            return this.deleteclients([c])
+        },
+
+        edit : function(profile){
+
+            console.log("EDITED", profile)
+
+            if(this.$refs['list']) this.$refs['list'].datachanged(profile, "ID")
+        },
+
+        open : function(profile){
+            this.$router.push('client/' + profile.ID)
         }
 
     },

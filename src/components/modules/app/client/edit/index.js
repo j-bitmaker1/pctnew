@@ -8,11 +8,6 @@ export default {
         payload : {
             type : Object,
             default : () => {return {}}
-        },
-
-        editing : {
-            type : Boolean,
-            default : true
         }
     },
 
@@ -22,27 +17,27 @@ export default {
             loading : false,
 
             general : {
-                email : '',
-                lastname : '',
-                firstname : '',
-                status : ''
+                Email : '',
+                FName : '',
+                LName : '',
+                Status : ''
             },
 
             additional : {
-                title : '',
-                country : '',
-                state : '',
-                city : '',
-                zip : '',
-                phone : ''
+                Title : '',
+                Country : '',
+                State : '',
+                City : '',
+                Zip : '',
+                Phone : ''
             }
 
         }
 
     },
 
-    created : () => {
-
+    created(){
+        this.init()
     },
 
     watch: {
@@ -81,6 +76,7 @@ export default {
         save : function(){
             var r = this.$refs['general'].get()
             var a = this.$refs['additional'].get()
+            var action = null
 
             if (r && a){
 
@@ -92,14 +88,14 @@ export default {
 
                 if(this.edit){
 
-                    action = this.core.crm.contacts.update({
-                        id : this.edit.id,
+                    action = this.core.api.crm.contacts.update({
+                        ID : this.edit.ID,
                         ... data
                     })
                 }
                 else{
     
-                    action = this.core.crm.contacts.add({
+                    action = this.core.api.crm.contacts.add({
                         ... data
                     })
                    
@@ -112,6 +108,8 @@ export default {
                     this.$store.commit('icon', {
                         icon: 'success',
                     })
+
+                    this.$emit('success', data)
     
                     this.$emit('close')
     
@@ -138,6 +136,19 @@ export default {
 
         changeAdditional : function(additional){
             console.log('additional', additional)
+        },
+
+        init : function(){
+
+            console.log("this.edit", this.edit)
+
+            if (this.edit){
+                _.each(this.schema, (g, i) => {
+                    _.each(g.fields, (f) => {
+                        this[i][f.id] = this.edit[f.id]
+                    })
+                })
+            }
         }
     },
 }

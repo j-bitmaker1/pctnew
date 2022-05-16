@@ -1,5 +1,6 @@
 import { mapState } from 'vuex';
 import themeToggle from "@/components/assets/themetoggle/index.vue";
+import _, { zip } from 'underscore';
 
 export default {
     name: 'appmenu',
@@ -26,20 +27,26 @@ export default {
                     route : '/clients',
                     id : 'clients',
                     text : 'menu.clients',
-                    icon : "fas fa-users"
+                    icon : "fas fa-users",
+
+                    childrens : ['/client']
               
                 },
                 {
                     route : '/leads',
                     id : 'leads',
                     text : 'menu.leads',
-                    icon : "fas fa-user-plus"
+                    icon : "fas fa-user-plus",
+
+                    childrens : ['/lead']
                 },
                 {
                     route : '/portfolios',
                     id : 'portfolios',
                     text : 'menu.portfolios',
-                    icon : "fas fa-suitcase"
+                    icon : "fas fa-suitcase",
+
+                    childrens : ['/portfolio']
                 },
                 {
                     route : '/profile',
@@ -66,8 +73,16 @@ export default {
 
             var path = this.$route.path
 
+            console.log("this.items", this.items)
+
             var r = _.find(this.items, function(i){
-                return i.route == path
+                
+                if(i.route == '/') return path == i.route
+
+                return path.indexOf(i.route) > -1 || (i.childrens && _.find(i.childrens, (i) => {
+                    console.log("I", i)
+                    return path.indexOf(i) > -1
+                }))
             })
 
             if(r) return r.id

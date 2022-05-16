@@ -8,11 +8,9 @@
     
     <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="true" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount" :elheight="elheight" @click="click">
         <template v-slot:default="slotProps">
-            <router-link :to="'client/' + slotProps.item.ID">
-                <div class="cardWrapper mobp">
-                    <client :profile="slotProps.item" />
-                </div>
-            </router-link>
+            <div class="cardWrapper mobp">
+                <client :profile="slotProps.item" @click="open" @edit="edit"/>
+            </div>
         </template>
        
     </listpaginated>

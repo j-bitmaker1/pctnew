@@ -75,7 +75,7 @@ class CRM {
             })
 
             if(field.size) c.rules.push({
-                max : field.size
+                rule : 'max:' + field.size
             })
 
 
@@ -92,18 +92,13 @@ class CRM {
                     Status : convert(r.Status, {
                         values : [
                             {
+                                text : 'fields.active',
+                                value : 'ACTIVE',
+                            },
+                            {
                                 text : 'fields.deleted',
-                                value : 'deleted',
-                            },
-                            {
-                                text : 'fields.newlead',
-                                value : 'newlead',
-                            },
-                            {
-                                text : 'fields.client',
-                                value : 'client',
+                                value : 'DELETED',
                             }
-
                         ]
                     })
                 }

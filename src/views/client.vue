@@ -15,9 +15,9 @@
             </div>
         </template>
         <template v-slot:right>
-            <div class="buttonpanel" v-if="!loading">
-                <i class="fas fa-ellipsis-v"></i>
-            </div>
+
+            <profilemenu @edit="edit" :profile="profile" v-if="!loading" />
+            
         </template>
     </topheader>
 
@@ -67,7 +67,7 @@ import linenavigation from "@/components/assets/linenavigation/index.vue";
 import capacity from "@/components/modules/app/client/capacity/index.vue";
 import portfolios from "@/components/modules/app/client/portfolios/index.vue";
 import info from "@/components/modules/app/client/info/index.vue";
-
+import profilemenu from "@/components/modules/app/client/menu/index.vue";
 
 export default {
     name: 'page',
@@ -81,7 +81,8 @@ export default {
         linenavigation,
         capacity,
         portfolios,
-        info
+        info,
+        profilemenu
     },
 
     computed: {
@@ -97,7 +98,8 @@ export default {
         id : function(){
             return this.clientid || this.$route.params.id
         },
-
+    
+        
       
 
     },
@@ -143,7 +145,12 @@ export default {
 
         changenav : function(v){
             this.navdefault = v
+        },
+
+        edit : function(profile){
+            this.profile = profile
         }
+        
     },
 
     created() {

@@ -164,6 +164,28 @@ export default {
         
         selectionCancel : function(){
             this.$emit('selectionCancel')
+        },
+
+        datachanged : function(obj, key){
+            var i = _.findIndex(this.records, (r) => {
+                return r[key] == obj[key]
+            })
+
+            if (i > -1){
+                this.$set(this.records, i, obj)
+            }
+        },
+
+        datadeleted : function(obj, key){
+            var i = _.findIndex(this.records, (r) => {
+                return r[key] == obj[key]
+            })
+
+            if (i > -1){
+                this.$delete(this.records, i)
+
+                this.count--
+            }
         }
     },
 }

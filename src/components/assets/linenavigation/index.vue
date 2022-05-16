@@ -2,11 +2,9 @@
 <div id="linenavigation" :class="{buttons}">
     
     <div class="item" :class="{active : active == item.id}" v-for="item in items">
-        <router-link :to="'?' + navkey + '=' + item.id" v-if="mode == 'history'">
-            <i :class="item.icon" v-if="item.icon"></i> <span>{{$t(item.text)}}</span>
-        </router-link>
+      
 
-        <div v-else @click="change(item.id)">
+        <div @click="e => {change(item.id)}">
             <i :class="item.icon" v-if="item.icon"></i> <span>{{$t(item.text)}}</span>
         </div>
     </div>
@@ -88,14 +86,25 @@ export default {
             return this.$route.query[this.navkey] || this.navdefault
         },
 
-        change : function(v){
-            this.$emit('change', v)
-        }
+        
 
     }),
 
     methods: {
+        change : function(v){
+            
+            console.log("v", v)
+            if(this.mode == 'history'){
+                this.$router.push({
+                    path : '?' + this.navkey + '=' + v,
+                    replace : true
+                })
+            }
+            else{
+                this.$emit('change', v)
+            }
 
+        }
     },
 }
 </script>

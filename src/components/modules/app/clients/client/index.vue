@@ -3,7 +3,7 @@
 
     <div class="line">
 
-        <div class="profilerow row">
+        <div class="profilerow row" @click="open">
             <div class="userpicWrapper">
                 <userpic :userinfo="profile" />
             </div>
@@ -16,7 +16,7 @@
             <!---->
         </div>
 
-        <div class="statsrow row">
+        <div class="statsrow row" @click="open">
             <div>
                 <span class="label">Crash Rating</span>
                 <coloredNumber :number="15"/>
@@ -35,7 +35,7 @@
 
         <div class="menurow row">
             <div class="menuWrapper">
-                <i class="fas fa-ellipsis-v"></i>
+                <profilemenu @edit="edit" :profile="profile"/>
             </div>
         </div>
     </div>

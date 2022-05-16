@@ -18,13 +18,12 @@
         "Zip" : "ZIP",
         "Phone" : "Phone",
         "Status" : "Status",
+        "active" : "Active",
         "deleted" : "Deleted",
         "newlead" : "New lead",
         "client" : "Client",
         "generalInfo" : "General Information",
         "additionalInfo" : "Additional Information"
-
-
     },
 
     "labels" : {
@@ -52,10 +51,11 @@
         "deleteportfolios" : "Delete Portfolios",
         "leadstocontacts" : "Make as clients",
         "deleteclients" : "Delete selected clients",
+        "deleteclient" : "Delete client",
+        "editclient" : "Edit Client",
         "portfolios" : "Portfolios",
         "setportfoliostoclient" : "Set portfolios to client",
         "info" : "Information"
-        
     },
 
     "caption" : {
