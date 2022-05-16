@@ -8,10 +8,10 @@
     <slot name="prepend">
     </slot>
 
-    <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="true" api="pctapi.portfolios.list" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
+    <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="selectMultiple" api="pctapi.portfolios.list" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
         <template v-slot:default="slotProps">
             <div class="cardWrapper mobp" >
-                <portfolio :portfolio="slotProps.item" @click="open" @editportfolio="editportfolio" @deleteportfolio="deleteportfolio"/>
+                <portfolio :hasmenu="select ? false : true" :portfolio="slotProps.item" @click="open" @editportfolio="editportfolio" @deleteportfolio="deleteportfolio"/>
             </div>
         </template>
     </listpaginated>

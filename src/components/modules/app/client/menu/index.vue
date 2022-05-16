@@ -41,6 +41,11 @@ export default {
             if(this.profile.Type == "CLIENT"){
                 return [
                     {
+                        text : 'labels.setportfoliostoclient',
+                        icon : 'fas fa-suitcase',
+                        action : 'setportfoliostoclient'
+                    },
+                    {
                         text : 'labels.editclient',
                         icon : 'fas fa-pen',
                         action : 'editclient'
@@ -123,6 +128,36 @@ export default {
                         var profile = _.extend(this.profile, data)
 
                         this.$emit('edit', profile)
+                    }
+                }
+            })
+        },
+
+        setportfoliostoclient : function(){
+            this.$store.commit('OPEN_MODAL', {
+                id : 'modal_portfolios_main',
+                module : "portfolios_main",
+                caption : "Select Portfolios For Client", /// TODO name
+
+                data : {
+                    
+                    select : {
+                        multiple : true
+                    }
+                },
+
+                events : {
+                    selected : (portfolios) => {
+
+                        this.core.pct.setPortfoliosToClient(this.profile.ID, portfolios, {
+                            preloader : true,
+                            showStatus : true
+                        }).then(r => {
+
+                            this.$emit('portfoliosChanged', portfolios)
+
+                        })
+
                     }
                 }
             })

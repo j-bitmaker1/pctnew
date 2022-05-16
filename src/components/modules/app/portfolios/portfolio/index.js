@@ -4,7 +4,11 @@ import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 export default {
     name: 'portfolios_portfolio',
     props: {
-        portfolio : Object
+        portfolio : Object,
+        hasmenu : {
+            type : Boolean,
+            default : true
+        }
     },
 
     components : {

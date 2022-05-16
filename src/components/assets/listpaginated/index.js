@@ -94,6 +94,10 @@ export default {
 
         },
 
+        reload : function(){
+            this.changed()
+        },
+
         height : function(){
             return this.$el.clientHeight
         },  

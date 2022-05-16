@@ -6,6 +6,7 @@ import _ from 'underscore';
 export default {
     name: 'app_clients',
     props: {
+        select : Object
     },
 
     components : {client},
@@ -66,7 +67,9 @@ export default {
         auth : state => state.auth,
         tscrolly : state => state.tscrolly,
         dheight : state => state.dheight,
-
+        selectMultiple : function(){
+            return !this.select || this.select.multiple
+        },
         payload : function(){
 
             var orderBy = {}
@@ -99,14 +102,17 @@ export default {
             this.sort = v
         },
 
-        click : function(client){
-            
-        },
+       
 
         selectionSuccess : function(clients){
-            this.selected = clients
+            if (this.select){
+                this.$emit('selected', clients)
+            }
+            else{
+                this.selected = clients
+            }
+            
         },
-
         closeselected : function(){
             this.selected = null
         },
@@ -137,8 +143,20 @@ export default {
 
         open : function(profile){
 
+            console.log('profile', profile)
+
+            if(this.select){
+                this.$emit('selected', [profile])
+                this.$emit('close')
+            }
+            else{
+                this.$router.push('client/' + profile.ID)
+            }
             
-            this.$router.push('client/' + profile.ID)
+        },
+
+        portfoliosChanged : function(client, p){
+            
         }
 
     },

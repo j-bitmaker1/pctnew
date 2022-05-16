@@ -5,6 +5,7 @@ import portfoliolist from '@/components/modules/app/portfolios/list/index.vue'
 export default {
     name: 'client_portfolios',
     props: {
+        profile : Object
     },
 
     components : {
@@ -32,7 +33,7 @@ export default {
 
         payload : function(){
             return {
-                crmContactIdFilter : 1
+                crmContactIdFilter : this.profile.ID
             }
         }
     }),
@@ -60,18 +61,24 @@ export default {
                 data : {
                     
                     select : {
-                        actions : [{
-                            text : 'labels.setportfoliostoclient',
-                            icon : 'fas fa-check',
-                            action : 'setportfoliostoclient'
-                        }]
-                    },
-
-                    additional : {}
+                        multiple : true
+                    }
                 },
 
                 events : {
-                    selected : function(portfolios){
+                    selected : (portfolios) => {
+
+                        this.core.pct.setPortfoliosToClient(this.profile.ID, portfolios, {
+                            preloader : true,
+                            showStatus : true
+                        }).then(r => {
+
+                            if (this.$refs['list'])
+                                this.$refs['list'].reload()
+
+                            ///// clientChanged
+                        })
+
                     }
                 }
             })

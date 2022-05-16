@@ -6,6 +6,7 @@ import _ from 'underscore';
 export default {
     name: 'app_leads',
     props: {
+        select : Object
     },
 
     components : {lead},
@@ -76,7 +77,9 @@ export default {
         auth : state => state.auth,
         tscrolly : state => state.tscrolly,
         dheight : state => state.dheight,
-
+        selectMultiple : function(){
+            return !this.select || this.select.multiple
+        },
         payload : function(){
 
             var orderBy = {}
@@ -109,8 +112,16 @@ export default {
             this.sort = v
         },
 
+     
+
         selectionSuccess : function(leads){
-            this.selected = leads
+            if (this.select){
+                this.$emit('selected', leads)
+            }
+            else{
+                this.selected = leads
+            }
+            
         },
 
         closeselected : function(){
@@ -147,20 +158,28 @@ export default {
 
         open : function(client){
 
-            this.$store.commit('OPEN_MODAL', {
-                id : 'modal_client_page',
-                module : "lead_page",
-                caption : "",
-                mclass : 'withoutheader',
-                data : {
-                    
-                    leadid : client.ID
-                },
+            if (this.select){
+                this.$emit('selected', [client])
+                this.$emit('close')
+            }
+            else{
+                this.$store.commit('OPEN_MODAL', {
+                    id : 'modal_client_page',
+                    module : "lead_page",
+                    caption : "",
+                    mclass : 'withoutheader',
+                    data : {
+                        
+                        leadid : client.ID
+                    },
+    
+                    events : {
+                        
+                    }
+                })
+            }
 
-                events : {
-                    
-                }
-            })
+            
 
         },
 
@@ -198,7 +217,6 @@ export default {
         leadtocontact : function(profile){
             this.deletelead(profile) /// from list
         }
-
 
     },
 }

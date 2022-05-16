@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import { mapState } from 'vuex';
 
 import portfolio from '../portfolio/index.vue'
@@ -72,6 +73,10 @@ export default {
             }
         },
 
+        selectMultiple : function(){
+            return !this.select || this.select.multiple
+        },
+
         menu : function(){
 
             if (this.select){
@@ -93,10 +98,16 @@ export default {
     }),
 
     methods : {
+
+        reload : function(){
+            if(this.$refs['list']) this.$refs['list'].reload()
+        },
+
         open : function(portfolio){
 
             if (this.select){
                 this.$emit('selected', [portfolio])
+                this.$emit('close')
             }
             else{
                 this.$router.push('portfolio/' + portfolio.id)
@@ -118,7 +129,13 @@ export default {
         },
 
         selectionSuccess : function(portfolios){
-            this.selected = portfolios
+            if (this.select){
+                this.$emit('selected', portfolios)
+            }
+            else{
+                this.selected = portfolios
+            }
+            
         },
 
         closeselected : function(){
@@ -151,8 +168,37 @@ export default {
         },
 
         setportfoliostoclient : function(){
-            this.$emit('selected', [this.selected])
-            this.selected = null
+
+            this.$store.commit('OPEN_MODAL', {
+                id : 'modal_clients',
+                module : "clients",
+                caption : "Select Client",
+                data : {
+                    select : {
+                        multiple : false
+                    }
+                },
+
+                events : {
+                    selected : (clients) => {
+
+                        var client = clients[0]
+
+                        this.core.pct.setPortfoliosToClient(client.ID, this.selected, {
+                            preloader : true,
+                            showStatus : true
+                        }).then(r => {
+                            this.selected = null
+
+
+                            ///// clientChanged
+                        })
+
+                        
+                    }
+                }
+            })
+
         }
 
     },

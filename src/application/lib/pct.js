@@ -36,11 +36,6 @@ class PCT {
     prepare = function(){
 
         return Promise.resolve()
-
-        return this.api.pct.settings.get().then(r => {
-
-            return Promise.resolve(r)
-        })
     }
 
     parseCt = function(ct){
@@ -248,6 +243,32 @@ class PCT {
         return this.api.pct.portfolio.fromfile(data, p).then(r => {
             return Promise.resolve(this.parseAssetsFromFile(r))
         })
+    }
+
+
+    //////////////
+
+
+    setPortfolioToClient = function(clientid, portfolio, p){
+
+        var portfolioid = portfolio
+
+        if(_.isObject(portfolioid)) portfolioid = portfolio.id
+
+        var data = {
+            id : portfolioid,
+            crmContactId : clientid
+        }
+
+        return this.api.pctapi.portfolios.update(data, p)
+    }
+
+    setPortfoliosToClient = function(clientid, portfolioids, p){
+
+        return Promise.all(_.map(portfolioids, (portfolio) => {
+            return this.setPortfolioToClient(clientid, portfolio, p)
+        }))
+
     }
 
 }

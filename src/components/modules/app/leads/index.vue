@@ -3,10 +3,10 @@
     <div class="controls mobp">
         <listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
     </div>
-    <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="true" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
+    <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="selectMultiple" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
         <template v-slot:default="slotProps">
             <div class="cardWrapper mobp">
-                <lead :profile="slotProps.item"  @open="open" @leadtocontact="leadtocontact" @edit="edit" @deletelead="deletelead"/>
+                <lead :hasmenu="select ? false : true" :profile="slotProps.item"  @open="open" @leadtocontact="leadtocontact" @edit="edit" @deletelead="deletelead"/>
             </div>
         </template>
     </listpaginated>

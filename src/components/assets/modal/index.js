@@ -13,6 +13,7 @@ import client_page from "@/views/client.vue";
 import lead_page from "@/views/lead.vue";
 import portfolios_main from "@/components/modules/app/portfolios/main/index.vue";
 
+import clients from "@/components/modules/app/clients/index.vue";
 
 export default {
     name: 'modal',
@@ -55,7 +56,7 @@ export default {
         home, portfolio_edit, share, client_edit, 
         portfolio_crashtest_scenariodetails, 
         portfolios_main, client_page, lead_page,
-        pdfparser 
+        pdfparser, clients
     },
  
     computed: mapState({

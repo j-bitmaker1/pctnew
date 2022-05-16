@@ -43,7 +43,6 @@ class Core {
         this.crm = new CRM(this)
         this.pct = new PCT(this)
 
-        console.log('this.pct', this.pct)
 
         this.user = new user(this)
 

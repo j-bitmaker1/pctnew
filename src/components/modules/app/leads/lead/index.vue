@@ -35,7 +35,7 @@
 
         <div class="menurow row">
             <div class="menuWrapper">
-                <profilemenu @edit="edit" @leadtocontact="leadtocontact" @delete="deletelead" :profile="profile"/>
+                <profilemenu v-if="hasmenu" @edit="edit" @leadtocontact="leadtocontact" @delete="deletelead" :profile="profile"/>
             </div>
         </div>
     </div>

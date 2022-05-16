@@ -3,7 +3,11 @@ import profilemenu from "@/components/modules/app/client/menu/index.vue";
 export default {
     name: 'leads_lead',
     props: {
-        profile : Object
+        profile : Object,
+        hasmenu : {
+            type : Boolean,
+            default : true
+        }
     },
 
     components : {

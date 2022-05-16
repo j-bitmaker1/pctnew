@@ -3,10 +3,10 @@
 
     <div class="panel mobp">
         <button class="button" @click="create">Create portfolio</button>
-        <button class="button black" @click="select">Select portfolio</button>
+        <button class="button black" @click="select">Select portfolios</button>
     </div>
 
-    <portfoliolist :additional="payload"></portfoliolist>
+    <portfoliolist ref="list" :additional="payload"></portfoliolist>
 </div>
 </template>
 

@@ -56,7 +56,9 @@
         "editclient" : "Edit Client",
         "portfolios" : "Portfolios",
         "setportfoliostoclient" : "Set portfolios to client",
-        "info" : "Information"
+        "info" : "Information",
+        "setportfoliotoclient" : "Set portfolio to client",
+        "changeClient" : "Change client"
     },
 
     "caption" : {

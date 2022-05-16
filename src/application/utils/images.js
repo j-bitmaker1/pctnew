@@ -161,7 +161,6 @@ var Images = function(){
                     newHeight = imageObj.height;
                     newWidth = imageObj.width;
 
-                    console.log(imageObj.width, imageObj.height)
         
                     if(newHeight <= height && newWidth <= width)
                     {

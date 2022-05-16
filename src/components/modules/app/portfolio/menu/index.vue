@@ -52,6 +52,21 @@ export default {
                 }
             ]
 
+            if(!this.portfolio.crmContactId){
+                menu.unshift({
+                    text : 'labels.setportfoliotoclient',
+                    icon : 'fas fa-user-check',
+                    action : 'linkToClient'
+                })
+            }  
+            else{
+                menu.unshift({
+                    text : 'labels.changeClient',
+                    icon : 'fas fa-user-edit',
+                    action : 'changeClient'
+                })
+            } 
+
             return menu
         
         }
@@ -83,6 +98,48 @@ export default {
         },
 
         delete : function(){
+            
+
+            this.core.api.pctapi.portfolios.delete(this.portfolio.id, {
+                preloader : true,
+                showStatus : true
+            }).then(r => {
+                this.$emit('delete', this.portfolio)
+            })
+        },
+
+        linkToClient : function(){
+
+            this.$store.commit('OPEN_MODAL', {
+                id : 'modal_clients',
+                module : "clients",
+                caption : "Select Client",
+                data : {
+                    select : {
+                        multiple : false
+                    }
+                },
+
+                events : {
+                    selected : (clients) =>{
+
+                        var client = clients[0]
+
+                        this.core.pct.setPortfoliosToClient(client.ID, [this.portfolio], {
+                            preloader : true,
+                            showStatus : true
+                        }).then(r => {
+                            this.$emit('changeClient', client)
+                        })
+                    }
+                }
+            })
+
+            //this.$emit('linkedToClient', this.portfolio)
+        },
+
+        changeClient : function(){
+
         }
 
         

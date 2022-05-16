@@ -3,7 +3,11 @@ import profilemenu from "@/components/modules/app/client/menu/index.vue";
 export default {
     name: 'clients_client',
     props: {
-        profile : Object
+        profile : Object,
+        hasmenu : {
+            type : Boolean,
+            default : true
+        }
     },
 
     components : {profilemenu},
@@ -38,6 +42,10 @@ export default {
 
         open : function(e){
             this.$emit('open', this.profile)
+        },
+
+        portfoliosChanged: function(p){
+            this.$emit('portfoliosChanged', p)
         },
     },
 }

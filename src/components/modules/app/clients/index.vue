@@ -6,10 +6,10 @@
 
     
     
-    <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="true" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount" :elheight="elheight" @click="click">
+    <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="selectMultiple" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount" :elheight="elheight">
         <template v-slot:default="slotProps">
             <div class="cardWrapper mobp">
-                <client :profile="slotProps.item" @open="open" @edit="edit" @deleteclient="deleteclient"/>
+                <client :hasmenu="select ? false : true" :profile="slotProps.item" @open="open" @edit="edit" @deleteclient="deleteclient" @portfoliosChanged="p => {portfoliosChanged(slotProps.item, p)}"/>
             </div>
         </template>
        

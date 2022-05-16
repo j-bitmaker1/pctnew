@@ -356,7 +356,6 @@ var WSS = function(core, url, system){
 
             self.state.opened.value = true
 
-            console.log('self.clbks', self.clbks)
 
             _.each(self.clbks.open, function(o, i){
                 o()
@@ -370,7 +369,6 @@ var WSS = function(core, url, system){
 
         rws.addEventListener('close', (message) => {
 
-            console.warn('websocket closed')
 
             self.state.opened.value = false
             self.state.wssready.value = false

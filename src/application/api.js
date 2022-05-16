@@ -127,8 +127,6 @@ var Request = function (core = {}, url, system) {
 
 			result.code = status
 
-			console.log("result", result)
-
 
 			if (result.AuthSession && result.AuthSession.Error){ /// oldpct
 				result.code = 500
@@ -138,7 +136,6 @@ var Request = function (core = {}, url, system) {
 
 			if (er) {
 
-				console.log('result', result)
 
 				return Promise.reject(parseerror(result))
 			}
@@ -529,7 +526,6 @@ var ApiWrapper = function (core) {
 
 			}).catch(e => {
 
-				console.log("ERROR", e, p)
 
 				if (attempt < 3 && e && e.code == 20) {
 
@@ -756,6 +752,17 @@ var ApiWrapper = function (core) {
 				}
 
 				return request(data, 'pctapi', 'Portfolio/GetById', p)
+			},
+
+			delete : function(id, p = {}){
+
+				p.method = "POST"
+
+				var data = {
+					id 
+				}
+
+				return request(data, 'pctapi', 'Portfolio/Delete', p)
 			},
 		}
 	}

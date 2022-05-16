@@ -128,7 +128,6 @@ class CRM {
             }
         }
 
-        console.log('schema', schema, r)
 
         return schema
     }

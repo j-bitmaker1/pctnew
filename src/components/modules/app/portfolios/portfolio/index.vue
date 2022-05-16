@@ -7,7 +7,7 @@
             <div class="date"><date :date="portfolio.created" /></div>
         </div>
 
-        <div class="forsettings">
+        <div class="forsettings" v-if="hasmenu">
 
             <portfoliomenu @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" buttonclass="diconbutton"/>
 
