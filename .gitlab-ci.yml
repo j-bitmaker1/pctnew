@@ -28,7 +28,7 @@ deploy_main:
         - rm -Recurse -Force ${DEPLOY_MAIN_FOLDER}/*
         - cp -Recurse -Force ./dist/* ${DEPLOY_MAIN_FOLDER}/
     dependencies:
-        - build_master
+        - build_main
     tags:
         - deploy
         - rxnet
