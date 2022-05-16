@@ -10,6 +10,7 @@ variables:
 build_main:
     stage: build
     script: 
+        - node --version
         - npm ci --prefer-offline --no-audit
         - npm run build
     artifacts:
