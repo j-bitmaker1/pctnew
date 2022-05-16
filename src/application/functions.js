@@ -20,6 +20,19 @@ f.ep = function(){
     return Promise.resolve()
 }
 
+f.openexternallink = function(href = ''){
+
+    if (href.indexOf('tel:') > -1 || href.indexOf('mailto:') > -1 || typeof cordova == 'undefined'){
+        window.open(href, '_blank')
+        return
+    }
+
+
+    return cordova.InAppBrowser.open(href, link.attr('cordovalink') || '_system');
+
+    
+}
+
 f.language = function () {
 
     var language;

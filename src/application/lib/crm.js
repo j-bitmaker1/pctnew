@@ -17,7 +17,16 @@ class CRM {
 
     }
 
-    leadtocontact = function(id){
+    deletecontact = function(id, p){
+        var data = {
+            "Status": "DELETED",
+            "ID" : id
+        }
+
+        return this.api.crm.contacts.update(data, p)
+    }
+
+    leadtocontact = function(id, p){
 
         var data = {
             "Type": "CLIENT",
@@ -25,19 +34,19 @@ class CRM {
             "ID" : id
         }
 
-        return this.api.crm.contacts.update(data)
+        return this.api.crm.contacts.update(data, p)
     }
 
-    leadtocontacts = function(contacts){
+    leadtocontacts = function(contacts, p){
 
         return Promise.all(_.map(contacts, (c) => {
             
-            return this.leadtocontact(c)
+            return this.leadtocontact(c, p)
         }))
 
     }
 
-    contacttolead = function(id){
+    contacttolead = function(id, p){
 
         var data = {
             "Type": "LEAD",
@@ -45,14 +54,14 @@ class CRM {
             "ID" : id
         }
 
-        return this.api.crm.contacts.update(data)
+        return this.api.crm.contacts.update(data, p)
     }
 
-    contacttoleads = function(contacts){
+    contacttoleads = function(contacts, p){
 
         return Promise.all(_.map(contacts, (c) => {
             
-            return this.contacttolead(c)
+            return this.contacttolead(c, p)
         }))
 
     }

@@ -123,11 +123,27 @@ export default {
             }   
         },
 
-        deleteleads : function(){
+
+        deleteleads : function(cc){
+            _.each(cc, (profile) => {
+
+                if(this.$refs['list']) this.$refs['list'].datadeleted(profile, "ID")
+
+            })
 
             this.closeselected()
 
         },
+
+        deletelead : function(c){
+            return this.deleteleads([c])
+        },
+
+        edit : function(profile){
+
+            if(this.$refs['list']) this.$refs['list'].datachanged(profile, "ID")
+        },
+
 
         open : function(client){
 

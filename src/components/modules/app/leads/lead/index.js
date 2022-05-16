@@ -1,9 +1,13 @@
 import { mapState } from 'vuex';
-
+import profilemenu from "@/components/modules/app/client/menu/index.vue";
 export default {
     name: 'leads_lead',
     props: {
         profile : Object
+    },
+
+    components : {
+        profilemenu
     },
 
     data : function(){
@@ -46,12 +50,16 @@ export default {
             }   
         },
 
-        edit : function(){
-            console.log("ASAS")
+        edit : function(profile){
+            this.$emit('edit', profile)
         },
 
-        delete : function(){
-            console.log("ASAS2")
-        }
+        deletelead : function(){
+            this.$emit('deletelead', this.profile)
+        },
+
+        open : function(e){
+            this.$emit('open', this.profile)
+        },
     },
 }

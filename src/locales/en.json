@@ -53,6 +53,8 @@
         "deleteclients" : "Delete selected clients",
         "deleteclient" : "Delete client",
         "editclient" : "Edit Client",
+        "deletelead" : "Delete Lead",
+        "editlead" : "Edit Lead",
         "portfolios" : "Portfolios",
         "setportfoliostoclient" : "Set portfolios to client",
         "info" : "Information"

@@ -1,5 +1,5 @@
 <template>
-<div class="action">
+<div class="action" @click="click">
     <i :class="action.icon" /> <span>{{action.text}}</span>
 </div>
 </template>
@@ -27,6 +27,8 @@ import {
     mapState
 } from 'vuex';
 
+import f from '@/application/functions.js'
+
 export default {
     name: 'notifications_action',
     props: {
@@ -35,7 +37,19 @@ export default {
     computed: mapState({}),
 
     methods: {
+        click : function(){
+            if (this.action.link){
+                if(this.action.link.type == 'externalLink'){
+                    f.openexternallink(this.action.link.address)
+                }
 
+                if(this.action.link.type == 'internalLink'){
+                    this.$router.push(this.action.link.address)
+                }
+
+                
+            }
+        }
     },
 }
 </script>

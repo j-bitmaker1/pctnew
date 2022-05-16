@@ -91,37 +91,31 @@ export default {
                     action = this.core.api.crm.contacts.update({
                         ID : this.edit.ID,
                         ... data
+                    }, {
+                        preloader : true,
+                        showStatus : true
                     })
                 }
                 else{
     
                     action = this.core.api.crm.contacts.add({
                         ... data
+                    }, {
+                        preloader : true,
+                        showStatus : true
                     })
                    
                 }
     
-                this.$store.commit('globalpreloader', true)
     
                 action.then(r => {
     
-                    this.$store.commit('icon', {
-                        icon: 'success',
-                    })
-
                     this.$emit('success', data)
     
                     this.$emit('close')
     
                 }).catch((e = {}) => {
-    
-                    this.$store.commit('icon', {
-                        icon: 'error',
-                        message: e.error
-                    })
                     
-                }).finally(() => {
-                    this.$store.commit('globalpreloader', false)
                 })
 
             }

@@ -9,7 +9,7 @@
     <listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="true" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount" :elheight="elheight" @click="click">
         <template v-slot:default="slotProps">
             <div class="cardWrapper mobp">
-                <client :profile="slotProps.item" @click="open" @edit="edit"/>
+                <client :profile="slotProps.item" @open="open" @edit="edit" @deleteclient="deleteclient"/>
             </div>
         </template>
        

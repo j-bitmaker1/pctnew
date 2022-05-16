@@ -132,48 +132,44 @@ export default {
             var action = null
             var positions = this.joinassets(this.assets)
 
+            var data = {
+                name : this.name,
+                positions,
+                ... this.payload || {}
+            }
+
             if(this.edit){
 
                 action = this.core.api.pctapi.portfolios.update({
-                    name : this.name,
-                    positions,
+                    
                     id : this.edit.id,
-
-                    ... this.payload || {}
+                    ... data
+                    
+                }, {
+                    preloader : true,
+                    showStatus : true
                 })
             }
             else{
 
                 action = this.core.api.pctapi.portfolios.add({
-                    name : this.name,
-                    positions,
-
-                    ... this.payload || {}
+                    ... data
+                }, {
+                    preloader : true,
+                    showStatus : true
                 })
                
             }
 
-            this.$store.commit('globalpreloader', true)
 
             action.then(r => {
 
-                this.$store.commit('icon', {
-                    icon: 'success',
-                })
+                this.$emit('edit', data)
 
                 this.$emit('close')
 
             }).catch((e = {}) => {
-
-                console.log("E", e)
-
-                this.$store.commit('icon', {
-                    icon: 'error',
-                    message: e.error
-                })
                 
-            }).finally(() => {
-                this.$store.commit('globalpreloader', false)
             })
 
             //this.$emit('save', this.assets)

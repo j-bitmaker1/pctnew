@@ -3,7 +3,7 @@
 
     <div class="line">
 
-        <div class="profilerow row">
+        <div class="profilerow row" @click="open">
             <div class="userpicWrapper">
                 <userpic :userinfo="profile" />
             </div>
@@ -16,7 +16,7 @@
             <!---->
         </div>
 
-        <div class="statsrow row">
+        <div class="statsrow row" @click="open">
             <div>
                 <span class="label">Crash Rating</span>
                 <coloredNumber :number="15"/>
@@ -34,20 +34,9 @@
         </div>
 
         <div class="menurow row">
-
-            <tooltip>
-                <template v-slot:item>
-                    <div class="diconbutton">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </div>
-                </template>
-
-                <template v-slot:content="i">
-                    <listmenu :items="menu" @action="menuaction" :close="i.close"/>
-                </template>
-
-            </tooltip>
-            
+            <div class="menuWrapper">
+                <profilemenu @edit="edit" @delete="deletelead" :profile="profile"/>
+            </div>
         </div>
     </div>
 

@@ -16,7 +16,7 @@
         </template>
         <template v-slot:right>
 
-            <profilemenu @edit="edit" :profile="profile" v-if="!loading" />
+            <profilemenu @delete="deleted" @edit="edit" :profile="profile" v-if="!loading" />
             
         </template>
     </topheader>
@@ -149,6 +149,10 @@ export default {
 
         edit : function(profile){
             this.profile = profile
+        },
+
+        deleted : function(){
+            this.$router.push('/clients')
         }
         
     },

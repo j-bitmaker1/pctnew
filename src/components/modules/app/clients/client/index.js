@@ -32,8 +32,12 @@ export default {
             this.$emit('edit', profile)
         },
 
-        open : function(profile){
-            this.$emit('open', profile)
+        deleteclient: function(profile){
+            this.$emit('deleteclient', profile)
+        },
+
+        open : function(e){
+            this.$emit('open', this.profile)
         },
     },
 }

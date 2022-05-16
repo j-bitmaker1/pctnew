@@ -27,7 +27,9 @@
         display: none!important
 
     .more
-        color : srgb(--neutral-grad-2)
+        /deep/
+            .buttonpanel
+                color : srgb(--neutral-grad-2)
     
 
 .actions
@@ -38,3 +40,9 @@
 
     .action
         margin-right: 2 * $r
+
+.menuactions
+    .action
+        padding : 2 * $r
+        font-size: 1em
+        margin-bottom: $r

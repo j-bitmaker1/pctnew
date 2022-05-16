@@ -17,12 +17,28 @@
                 <date :date="event.created" />
             </div>
 
-            <div class="actionsWrapper" v-if="event.actions">
+            <div class="actionsWrapper" v-if="actions.length">
                 <div class="actions">
-                    <action v-for="(action, i) in event.actions" :key="action.text" :action="action" v-if="i < 2" />
+                    <action v-for="(action, i) in actions" :key="action.text" :action="action" v-if="i < 2" />
 
-                    <div class="more" v-if="event.actions.length > 2">
-                        <i class="fas fa-ellipsis-h"></i>
+                    <div class="more" v-if="actions.length > 2">
+
+                        <tooltip>
+                            <template v-slot:item>
+                                <div class="buttonpanel">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </template>
+
+                            <template v-slot:content>
+                                <div class="menuactions">
+                                    <action v-for="(action, i) in actions" :key="action.text" :action="action"/>
+                                </div>
+
+                                <!-- <listmenu :items="menu" @action="menuaction" :close="i.close"/> -->
+                            </template>
+
+                        </tooltip>
                     </div>
 
                 </div>

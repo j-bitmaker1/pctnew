@@ -35,7 +35,7 @@
 
         <div class="menurow row">
             <div class="menuWrapper">
-                <profilemenu @edit="edit" :profile="profile"/>
+                <profilemenu @edit="edit" @delete="deleteclient" :profile="profile"/>
             </div>
         </div>
     </div>

@@ -33,18 +33,36 @@ export default {
         auth: state => state.auth,
 
         menu : function(){
-            return [
-                {
-                    text : 'labels.editclient',
-                    icon : 'fas fa-pen',
-                    action : 'editclient'
-                },
-                {
-                    text : 'labels.deleteclients',
-                    icon : 'fas fa-trash',
-                    action : 'deleteclient'
-                }
-            ]
+
+            if(this.profile.Type == "CLIENT"){
+                return [
+                    {
+                        text : 'labels.editclient',
+                        icon : 'fas fa-pen',
+                        action : 'editclient'
+                    },
+                    {
+                        text : 'labels.deleteclient',
+                        icon : 'fas fa-trash',
+                        action : 'deleteclient'
+                    }
+                ]
+            }
+
+             if(this.profile.Type == "LEAD"){
+                return [
+                    {
+                        text : 'labels.editlead',
+                        icon : 'fas fa-pen',
+                        action : 'editclient'
+                    },
+                    {
+                        text : 'labels.deletelead',
+                        icon : 'fas fa-trash',
+                        action : 'deleteclient'
+                    }
+                ]
+            }
         }
 
     }),
@@ -56,8 +74,17 @@ export default {
             }   
         },
 
-        deleteclient : function(c){
-           
+        deleteclient : function(){
+
+            this.core.crm.deletecontact(this.profile.ID, {
+                preloader : true,
+                showStatus : true
+            }).then(r => {
+                this.$emit('delete', this.profile)
+            }).catch(e => {
+
+            })
+            
         },
 
         editclient : function(){

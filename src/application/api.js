@@ -500,15 +500,25 @@ var ApiWrapper = function (core) {
 		})
 	}	
 
-	var request = function (data, system, to, p, attempt) {
+	var request = function (data, system, to, p = {}, attempt) {
 
 		if (!attempt) attempt = 0
+
+		if (p.preloader){
+			core.store.commit('globalpreloader', true)
+		}
 
 		return waitonline().then(() => {
 
 			data || (data = {})
 
 			return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
+
+				if (p.showStatus){
+					core.store.commit('icon', {
+						icon: 'success',
+					})
+				}
 
 				return Promise.resolve(r)
 
@@ -532,8 +542,19 @@ var ApiWrapper = function (core) {
 
 				}
 
+				if (p.showStatus){
+					core.store.commit('icon', {
+                        icon: 'error',
+                        message: e.error
+                    })
+				}
+
 				return Promise.reject(e)
 
+			}).finally(() => {
+				if (p.preloader){
+					core.store.commit('globalpreloader', false)
+				}
 			})
 
 
