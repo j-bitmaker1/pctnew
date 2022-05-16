@@ -29,8 +29,6 @@ export default {
 
     created : function() {
 
-        console.log('this.edit', this.edit)
-
         if (this.edit){
             this.assets = []
             
@@ -247,7 +245,11 @@ export default {
                 module : "pdfparser",
                 caption : "Parse portfolio from PDF",
                 data : {},
-                events : {},
+                events : {
+                    assets : (assets) => {
+                        this.assets = this.assets.concat(assets)
+                    }
+                },
                 mclass : 'absoluteContent'
             })
 

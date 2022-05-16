@@ -72,8 +72,6 @@ export default {
 
                 this.ct = r
 
-                console.log('this.ct', this.ct)
-
                 return Promise.resolve(r)
             }).finally(() => {
                 this.loading = false

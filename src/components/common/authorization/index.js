@@ -43,8 +43,6 @@ export default {
 
             }).catch(e => {
 
-                console.error(e)
-
                 if(e.code == '401'){
 
                     this.$message({

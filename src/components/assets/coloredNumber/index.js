@@ -12,8 +12,6 @@ export default {
 
             if(!this.number) return "#000000"
 
-            console.log("[...this.$store.getters.currentStyleValue('--color-bad'), 1]", this.$store.getters.currentStyleValue('--color-bad'))
-
             var color = colors.colorFromGradient({
                 gradient: [
                     {

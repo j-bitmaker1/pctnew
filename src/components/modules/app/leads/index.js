@@ -172,7 +172,6 @@ export default {
 
             this.core.crm.leadtocontacts(_.map(leads, (s) => {return s.ID})).then(r => {
 
-                console.log("R", r)
 
                 this.deleteleads(leads)
 
@@ -182,7 +181,6 @@ export default {
 
             }).catch(e => {
 
-                console.log("E", e)
 
                 this.$store.commit('icon', {
                     icon: 'error',

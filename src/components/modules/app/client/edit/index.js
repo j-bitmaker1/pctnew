@@ -125,16 +125,13 @@ export default {
         },
 
         changeGeneral : function(general){
-            console.log('general', general)
         },
 
         changeAdditional : function(additional){
-            console.log('additional', additional)
         },
 
         init : function(){
 
-            console.log("this.edit", this.edit)
 
             if (this.edit){
                 _.each(this.schema, (g, i) => {

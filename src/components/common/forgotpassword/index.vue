@@ -115,7 +115,6 @@ export default {
                     });
                 })
                 .catch((e) => {
-                    console.log("E", e);
                     this.$store.state.globalpreloader = false;
 
                     this.$store.commit("icon", {

@@ -183,6 +183,22 @@ class PCT {
         return assets
     }
 
+    parseAssetsFromPdfParser = function(as){
+        var assets = []
+
+        _.each(as, (a) => {
+            var asset = {}
+
+                asset.value = f.numberParse(a.MarketValue)
+                asset.ticker = a.Ticker
+                asset.name = a.FullTextInOriginalFile
+                
+            assets.push(asset)
+        })
+
+        return assets
+    }
+
     parseStandartDeviation = function(r){
         var re = {
             longTermReturn : f.numberParse(r.LongTermReturn),

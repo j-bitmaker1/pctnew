@@ -44,7 +44,6 @@ export default {
 		enter: function (el, done) {
 			var delay = el.dataset.index * 50
 
-			console.log('this.elheight', this.elheight)
 
 			setTimeout( () => {
 				Velocity(

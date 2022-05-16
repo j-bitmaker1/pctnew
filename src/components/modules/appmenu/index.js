@@ -73,14 +73,12 @@ export default {
 
             var path = this.$route.path
 
-            console.log("this.items", this.items)
 
             var r = _.find(this.items, function(i){
                 
                 if(i.route == '/') return path == i.route
 
                 return path.indexOf(i.route) > -1 || (i.childrens && _.find(i.childrens, (i) => {
-                    console.log("I", i)
                     return path.indexOf(i) > -1
                 }))
             })

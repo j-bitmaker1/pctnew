@@ -137,7 +137,6 @@ export default {
 
         open : function(profile){
 
-            console.log('profile', profile)
             
             this.$router.push('client/' + profile.ID)
         }

@@ -38,7 +38,8 @@ export default {
 
         menu : function(){
 
-            return [
+            var menu = [
+                
                 {
                     text : 'labels.editportfolio',
                     icon : 'fas fa-pen',
@@ -50,6 +51,8 @@ export default {
                     action : 'delete'
                 }
             ]
+
+            return menu
         
         }
 
@@ -80,7 +83,6 @@ export default {
         },
 
         delete : function(){
-            console.log("ASAS2")
         }
 
         

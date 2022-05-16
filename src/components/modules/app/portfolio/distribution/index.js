@@ -214,9 +214,6 @@ export default {
                 d.yAxis[0].gridLineWidth = 0
                 d.yAxis[0].offset = 0
                 
-
-                console.log("D",d)
-
             return d
         }
     }),
@@ -228,8 +225,6 @@ export default {
             this.core.pct.getStandartDeviation().then(r => {
 
                 this.deviation = r
-
-                console.log('this.deviation', this.deviation)
 
                 return Promise.resolve(r)
             }).finally(() => {

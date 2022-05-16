@@ -72,7 +72,6 @@ export default {
 
                 events : {
                     selected : function(portfolios){
-                        console.log("PORTFOLIOS", portfolios)
                     }
                 }
             })

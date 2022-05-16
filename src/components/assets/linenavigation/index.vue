@@ -93,7 +93,6 @@ export default {
     methods: {
         change : function(v){
             
-            console.log("v", v)
             if(this.mode == 'history'){
                 this.$router.push({
                     path : '?' + this.navkey + '=' + v,

@@ -42,8 +42,6 @@ export default {
 
             if (this.history.length > 1) return true
 
-            console.log('this.root', this.root)
-
             return this.root ? true : false
         },
 
@@ -89,8 +87,6 @@ export default {
                 this.currentroot = 0
             }
 
-            console.log('this.history', this.history)
-
             this.load().then(r => {
                 this.movescroll()
             })
@@ -103,7 +99,6 @@ export default {
                 this.$refs['items'].scrollLeft = 0
             }, 50)
 
-            console.log('movescroll')
         },
 
         open : function(c){

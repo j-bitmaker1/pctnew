@@ -45,7 +45,6 @@ export default {
             
         })
 
-        console.log(f1, r1, m1, this.fields)
 
         this.form = new form(f1).rules(r1).messages(m1)
 

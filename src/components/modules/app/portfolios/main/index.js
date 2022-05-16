@@ -37,7 +37,6 @@ export default {
     methods : {
         selected : function(portfolios){
 
-            console.log('portfolios', portfolios)
             this.$emit('selected', portfolios)
             this.$emit('close')
         },

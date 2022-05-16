@@ -165,7 +165,6 @@ export default {
           this.$router.push("/authorization/");
         })
         .catch((e) => {
-          console.log("E", e);
           this.$store.state.globalpreloader = false;
 
           this.$store.commit("icon", {

@@ -391,9 +391,6 @@ export default {
             })
 
             this.simulation = capacity.simulation()
-            console.log('this.options', this.options)
-            console.log('this.extra', this.extra)
-            console.log('this.simulation', this.simulation)
         }
     },
 }

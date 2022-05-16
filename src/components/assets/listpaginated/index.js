@@ -124,8 +124,6 @@ export default {
                 if(!this.count)
                     this.count = data.count
 
-                console.log('this.page + 1', this.page + 1, this.perpage, this.count, data)
-
                 if((this.page + 1) * this.perpage < this.count){
                     this.page++
                 }
