@@ -1,6 +1,6 @@
 var prependcssvars = `
-@import "~@/styles/variables/common.sass"; 
-@import "~@/styles/mixins/common.sass";
+@import "~@/styles/variables/common.sass"
+@import "~@/styles/mixins/common.sass"
 `
 console.log('process.env.publicPath', process.env.publicPath)
 
