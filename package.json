@@ -40,6 +40,7 @@
         "random": "^3.0.6",
         "reconnecting-websocket": "^4.4.0",
         "rf-phone-validator": "^0.0.3",
+        "sass": "^1.51.0",
         "sha1": "^1.1.1",
         "underscore": "^1.13.2",
         "unhomoglyph": "^1.0.6",
