@@ -41,7 +41,7 @@ var parseerror = function(_error = {}){
     var message = ''
 
     if(!_.isObject(_error)) message = _error
-    else message = _error.errors || _error.error
+    else message = _error.errors || _error.error || _error.Error
 
     if(!_error.code) _error.code = 500
 
@@ -70,7 +70,7 @@ var parseerror = function(_error = {}){
 
  
 
-    return error(error.code, message)
+    return error(_error.code, message)
 
     /* 
     

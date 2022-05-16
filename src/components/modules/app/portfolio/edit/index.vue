@@ -7,9 +7,22 @@
 
     <div class="addwrapper">
 
-        <button class="button" key="file">
-            <i class="fas fa-file"></i> Add from file
+        <div>
+            <upload :extensions="['csv', 'xls', 'xlsx']" @start="uploadFromFileStart" @uploadedAll="uploadFromFileUploadedAll" @uploaded="uploadFromFileUploaded" @error="uploadFromFileError">
+                <template v-slot:content>
+                    <button class="button" key="file">
+                        <i class="fas fa-file"></i> Add from file
+                    </button>
+                </template>
+            </upload>
+        </div>
+        
+
+        <button class="button" key="pdfparser" @click="pdfparser">
+            <i class="fas fa-file-pdf"></i> Recognize PDF
         </button>
+
+        
 
         <button class="button black" key="other" :disabled="assets.length > 0">
             <i class="fas fa-cloud"></i> Get from other applications

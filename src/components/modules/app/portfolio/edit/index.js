@@ -239,5 +239,50 @@ export default {
             
             return _.toArray(jg)
         },
+
+        pdfparser : function(){
+
+            this.$store.commit('OPEN_MODAL', {
+                id : 'modal_pdfparser',
+                module : "pdfparser",
+                caption : "Parse portfolio from PDF",
+                data : {},
+                events : {},
+                mclass : 'absoluteContent'
+            })
+
+        },
+
+        uploadFromFileStart : function(){
+            //this.$store.commit('globalpreloader', true)
+        },
+
+        uploadFromFileUploadedAll : function(){
+            //this.$store.commit('globalpreloader', false)
+        },
+
+        uploadFromFileUploaded: function(file){
+
+            this.core.pct.loadFromfile({
+                File : file.base64,
+                FileType : (file.extension || "").toUpperCase()
+            }, {
+                preloader : true,
+                showStatus : true
+            }).then(assets => {
+                this.assets = this.assets.concat(assets)
+            })
+        },
+
+        uploadFromFileError : function(e){
+
+            if (e.text){
+                this.$store.commit('icon', {
+                    icon: 'error',
+                    message: e.text
+                })
+            }
+
+        },
     },
 }

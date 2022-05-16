@@ -127,6 +127,15 @@ var Request = function (core = {}, url, system) {
 
 			result.code = status
 
+			console.log("result", result)
+
+
+			if (result.AuthSession && result.AuthSession.Error){ /// oldpct
+				result.code = 500
+				result.Error = result.AuthSession.Error
+				er = true
+			}
+
 			if (er) {
 
 				console.log('result', result)
@@ -147,10 +156,6 @@ var Request = function (core = {}, url, system) {
 			return Promise.resolve(data)
 
 		}).catch(e => {
-
-			/*if (e.code == 20){
-				return Promise.reject(e)
-			}*/
 
 			return Promise.reject(e)
 		})
@@ -524,6 +529,8 @@ var ApiWrapper = function (core) {
 
 			}).catch(e => {
 
+				console.log("ERROR", e, p)
+
 				if (attempt < 3 && e && e.code == 20) {
 
 					return new Promise((resolve, reject) => {
@@ -631,6 +638,26 @@ var ApiWrapper = function (core) {
 				}).then(r => {
 					return Promise.resolve(r.GetPortfolioStandardDeviation)
 				})
+			},
+
+			fromfile : function(data = {}, p = {}){
+
+				/*
+
+				data.File
+				data.FileType
+
+				*/
+
+				data.JustParse = 1
+				data.Portfolio = 'uploadtemp'
+
+				p.method = "GET"
+
+				return request(data, 'pct', '?Action=LOADPORTFOLIOFROMFILE', p).then(r => {
+					return Promise.resolve(r.LoadPortfolioFromFile.Position)
+				})
+
 			}
 		},
 

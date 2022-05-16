@@ -23,6 +23,11 @@ body {
   margin: 0;
 }
 
+iframe{
+  border : 0;
+  outline: none;
+}
+
 /**
  * Render the `main` element consistently in IE.
  */

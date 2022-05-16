@@ -23,7 +23,7 @@ import "@/editedplugins/vue-m-message/dist/index.css";
 
 import VuejsDialog from "vuejs-dialog";
 import VTooltip from 'v-tooltip'
-
+import VueIframe from 'vue-iframes'
 ////////
 
 Vue.use(Vue2TouchEvents, {
@@ -39,6 +39,8 @@ Vue.use(VuejsDialog);
 Vue.use(VTooltip)
 Vue.use(Message);
 Vue.use(VueI18n);
+Vue.use(VueIframe);
+
 
 ////////
 

@@ -167,6 +167,22 @@ class PCT {
         return assets
     }
 
+    parseAssetsFromFile = function(as){
+        var assets = []
+
+        _.each(as, (a) => {
+            var asset = {}
+
+                asset.value = f.numberParse(a.Weight)
+                asset.ticker = a.SrcTicker
+                asset.name = a.Name
+                
+            assets.push(asset)
+        })
+
+        return assets
+    }
+
     parseStandartDeviation = function(r){
         var re = {
             longTermReturn : f.numberParse(r.LongTermReturn),
@@ -209,6 +225,12 @@ class PCT {
     getStandartDeviation = function(id){
         return this.api.pct.portfolio.standartDeviation(id).then(r => {
             return Promise.resolve(this.parseStandartDeviation(r))
+        })
+    }
+
+    loadFromfile = function(data, p){
+        return this.api.pct.portfolio.fromfile(data, p).then(r => {
+            return Promise.resolve(this.parseAssetsFromFile(r))
         })
     }
 

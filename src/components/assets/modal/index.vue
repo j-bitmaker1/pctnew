@@ -4,7 +4,7 @@
     <div id="modal" :class="(mclass || '')">
       <div class="modal-backdrop" @click="close"></div>
       <div class="modal-wrapper" v-touch:swipe.bottom="closeiftop" v-touch:moving="moving">
-        <div class="modal customscroll" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription" v-scroll="scrolling">
+        <div :class="'modal ' + (mclass == 'absoluteContent' ? '' : 'customscroll')" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription" v-scroll="scrolling">
 
           
           <div class="modal-header">
