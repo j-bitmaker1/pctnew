@@ -15,7 +15,7 @@
             </div>
         </template>
         <template v-slot:right>
-            <profilemenu @delete="deleted" @edit="edit" :profile="profile" v-if="!loading" />
+            <profilemenu @leadtocontact="leadtocontact" @delete="deleted" @edit="edit" :profile="profile" v-if="!loading" />
         </template>
     </topheader>
 
@@ -147,6 +147,14 @@ export default {
 
         deleted : function(){
             this.$router.push('/leads')
+        },
+
+        leadtocontact : function(lead){
+
+            this.$router.push('/client/' + lead.ID)
+
+            this.$emit('leadtocontact', lead)
+            this.$emit('close')
         }
     },
 

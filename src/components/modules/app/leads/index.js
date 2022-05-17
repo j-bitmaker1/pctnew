@@ -136,6 +136,9 @@ export default {
 
 
         deleteleads : function(cc){
+
+            console.log("CCC", cc)
+
             _.each(cc, (profile) => {
 
                 if(this.$refs['list']) this.$refs['list'].datadeleted(profile, "ID")
@@ -174,7 +177,10 @@ export default {
                     },
     
                     events : {
-                        
+                        leadtocontact : (lead) => {
+                            console.log("leadtocontact", lead)
+                            this.deletelead(lead)
+                        }
                     }
                 })
             }

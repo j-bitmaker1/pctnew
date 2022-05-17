@@ -200,7 +200,6 @@ const scrollBehavior = function (to, from, savedPosition) {
         resolve(position)
 
     }).catch(e => {
-        console.log(e)
     })
 }
 
@@ -219,7 +218,6 @@ router.beforeEach((to, from, next) => {
 
     if (r && r.customRedirect) {
 
-        console.log('router.app', router.app.core, to, r)
 
         return f.pretry(() => {
             return router.app.core
@@ -229,12 +227,10 @@ router.beforeEach((to, from, next) => {
 
         }).catch(obj => {
 
-            console.log("OBJ", obj)
 
             return Promise.resolve(obj)
         }).then(obj => {
 
-            console.log("SA")
 
             obj ? next(obj.to) : next()
         })

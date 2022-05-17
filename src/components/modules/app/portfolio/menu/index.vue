@@ -92,6 +92,15 @@ export default {
                         assets : this.portfolio.positions,
                         id : this.portfolio.id
                     }
+                },
+
+                events : {
+                    edit : (portfolio) => {
+
+                        
+
+                        this.$emit('edit', portfolio)
+                    }
                 }
             })
 

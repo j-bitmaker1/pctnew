@@ -136,11 +136,12 @@ export default {
                 ... this.payload || {}
             }
 
+            if(this.edit) data.id = this.edit.id
+
             if(this.edit){
 
                 action = this.core.api.pctapi.portfolios.update({
                     
-                    id : this.edit.id,
                     ... data
                     
                 }, {

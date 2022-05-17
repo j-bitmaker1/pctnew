@@ -46,9 +46,10 @@ export default {
             this.$emit('click', this.portfolio)
         },
 
-        editportfolio : function(){
+        editportfolio : function(data){
+
             
-           this.$emit('editportfolio', this.portfolio)
+            this.$emit('editportfolio', data)
 
         },
 

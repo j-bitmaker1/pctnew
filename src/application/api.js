@@ -504,10 +504,35 @@ var ApiWrapper = function (core) {
 
 	var request = function (data, system, to, p = {}, attempt) {
 
+		var alreadyLoaded = []
+
+
 		if (!attempt) attempt = 0
 
 		if (p.preloader){
 			core.store.commit('globalpreloader', true)
+		}
+
+		if (p.vxstorage && p.vxstorage.index){
+			var r = core.vxstorage.get(p.vxstorage.index, p.vxstorage.type)
+
+			if (r) return Promise.resolve(r)
+		}
+
+		if (p.vxstorage && p.vxstorage.getloaded){
+
+			alreadyLoaded = _.filter(_.map(data[p.vxstorage.getloaded], function(index){
+				return core.vxstorage.get(index, p.vxstorage.type)
+			}), (r) => {
+				return r
+			})
+
+			data[p.vxstorage.getloaded] = _.filter(data[p.vxstorage.getloaded], (index) => {
+				return !_.find(alreadyLoaded, (obj) => {
+					return obj.index[core.vxstorage.index(p.vxstorage.type)] == index
+				})
+			})
+
 		}
 
 		return waitonline().then(() => {
@@ -515,6 +540,25 @@ var ApiWrapper = function (core) {
 			data || (data = {})
 
 			return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
+
+				if (p.vxstorage){
+
+					var ds = r
+
+					if(p.vxstorage.path) ds = f.deep(ds, p.vxstorage.path) || []
+
+					var stored = core.vxstorage.sets(ds, p.vxstorage.type)
+
+					stored = stored.concat(alreadyLoaded)
+
+					if (p.vxstorage.path){
+						f.deepInsert(r, p.vxstorage.path, stored)
+					}	
+					else{
+						r = stored
+					}
+
+				}
 
 				if (p.showStatus){
 					core.store.commit('icon', {
@@ -727,6 +771,12 @@ var ApiWrapper = function (core) {
 				p.bypages = true
 				p.includeCount = "includeCount"
 
+
+				p.vxstorage = {
+					type : 'portfolio',
+					path : 'records'
+				}
+
 				return paginatedrequest(data, 'pctapi', 'Portfolio/List', p)
 
 			},
@@ -751,8 +801,36 @@ var ApiWrapper = function (core) {
 					includePositions : true
 				}
 
+				p.vxstorage = {
+					type : 'portfolio',
+					index : id
+				}
+
 				return request(data, 'pctapi', 'Portfolio/GetById', p)
 			},
+
+			gets : function(ids = [], p = {}){
+
+
+				if(!ids.length) return Promise.resolve([])
+
+				var data = {
+					pageSize : ids.length,
+					idsFilter : ids
+				}
+
+				p.method = "POST"
+				p.vxstorage = {
+					type : 'portfolio',
+					path : 'records',
+					getloaded : 'idsFilter'
+				}
+
+				return request(data, 'pctapi', 'Portfolio/List', p).then(r => {
+					return r.records
+				})
+
+			}, 
 
 			delete : function(id, p = {}){
 
@@ -775,6 +853,14 @@ var ApiWrapper = function (core) {
 
 				return paginatedrequest(data, 'api', 'crm/Contacts/List', p)
 
+			},
+
+			gets : function(data, p = {}){
+				p.method = "POST"
+
+				return request(data, 'api', 'crm/Contacts/List', p).then(r => {
+					return f.deep(r, 'data.records')
+				})
 			},
 
 			update : function(data = {}, p = {}){

@@ -36,7 +36,13 @@ export default {
 
         return {
             loading : false,
-            scroll : 0
+            scroll : 0,
+
+            swipeableOptions : {
+                type : 'vertical',
+                allowedDirection : 'bottom',
+                
+            }
         }
 
     },

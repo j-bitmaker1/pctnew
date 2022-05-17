@@ -48,6 +48,7 @@ export default {
     },
 
     created : function() {
+        this.core.crm.getbyids([413791, 413756])
     },
 
     watch: {

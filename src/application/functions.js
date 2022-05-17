@@ -66,6 +66,30 @@ f.deep = function (obj, key) {
     }
 }
 
+f.deepInsert = function(obj, key, _insert){
+    if(!key) return;
+
+    var  _key = key.split(".");
+
+    var tkey = _key[0];
+
+    if(_key.length == 1)
+    {
+        obj[tkey] = _insert;
+    }
+    else
+    {
+        if(!obj[tkey])
+        {
+            obj[tkey] = {};
+        }
+
+        _key.splice(0, 1);
+
+        return deepInsert(obj[tkey], _key.join("."), _insert)
+    }
+}
+
 var renderFrameEqualizer = function (canvas, ctx, analyser, stop, colornumbers, offset) {
 
 

@@ -14,6 +14,7 @@ class Core {
     constructor(vm, p){
         if(!p) p = {}
 
+        this.vxstorage = p.vxstorage
 
         this.apiHandlers = {
             error : function(){},

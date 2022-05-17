@@ -162,9 +162,12 @@ export default {
             this.deleteportfolios([portfolio])
         },
 
-        editportfolio : function(portfolio){
+        editportfolio : function(data){
+            //console.log('editportfolio', portfolio)
+            this.core.vxstorage.update(data,  'portfolio')
 
-            if(this.$refs['list']) this.$refs['list'].datachanged(portfolio, "id")
+            //if(this.$refs['list']) this.$refs['list'].datachanged(portfolio, "id")
+
         },
 
         setportfoliostoclient : function(){

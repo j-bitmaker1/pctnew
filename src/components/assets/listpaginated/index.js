@@ -120,6 +120,8 @@ export default {
 
             }).then(data => {
 
+                console.log("data", data)
+
 
                 this.refresh = false
 
@@ -182,6 +184,8 @@ export default {
             var i = _.findIndex(this.records, (r) => {
                 return r[key] == obj[key]
             })
+
+            console.log("DEL", i, obj, key, this.records)
 
             if (i > -1){
                 this.$delete(this.records, i)

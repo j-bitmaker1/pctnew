@@ -48,9 +48,10 @@ var mex = {
 	}
 }
 
+var storeFactory = function(vxstorage){
 
-var store = new Vuex.Store({
-	state: {
+
+	var state = {
 		icon: null,
 		loading: false,
 		wssready : false,
@@ -84,8 +85,11 @@ var store = new Vuex.Store({
 
 		crmschemas : {}
 
-	},
-	getters: {
+	}
+
+	
+
+	var getters = {
 		currentStyleValue : (state) => (id) => {
 			return state.currentStyles.getPropertyValue(id)
 		},
@@ -98,15 +102,16 @@ var store = new Vuex.Store({
 
 			var st = '--neutral-grad-0'
 
-            if(value < 0) st = '--color-bad' 
+			if(value < 0) st = '--color-bad' 
 
-            if(value > 0) st = '--color-good' 
+			if(value > 0) st = '--color-good' 
 
 			return 'rgb(' + store.currentStyleValue(st) + ')'
 		}
-	},
-	mutations: {
+	}
 
+	var mutations = {
+	
 		clearall(state) {
 
 			state.icon = null
@@ -248,11 +253,10 @@ var store = new Vuex.Store({
 			state.portfolios.push(v);
 		},
 
-		
+	}
 
-	},
-	actions: {
-
+	var actions = {
+	
 		OPEN_MODAL({ commit }, { modal }) {
 
 
@@ -293,7 +297,30 @@ var store = new Vuex.Store({
 
 		},
 	}
-})
 
+	_.each(vxstorage.storage, function(storage){
+		state['_' + storage.type] = {}
 
-export default store;
+		mutations['_set_' + storage.type] = function(state, obj){
+
+			console.log('obj[storage.index]', obj[storage.index], obj)
+
+			Vue.set(state['_' + storage.type], obj[storage.index], obj)
+		}
+
+		mutations['_delete_' + storage.type] = function(){
+			state[storage.type] = {}
+		}
+	})
+
+	console.log('mutations', mutations)
+
+	return new Vuex.Store({
+		state,
+		getters,
+		mutations,
+		actions 
+	})
+}
+
+export default storeFactory;

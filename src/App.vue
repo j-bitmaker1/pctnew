@@ -12,7 +12,8 @@
 <script>
 import Vue2TouchEvents from 'vue2-touch-events'
 import vuescroll from 'vue-scroll'
-import store from "@/vuex/store";
+import VXStorage from '@/application/lib/vxstorage'
+import storeFactory from "@/vuex/store";
 import router from "@/router/router";
 import modal from "@/components/assets/modal/index.vue";
 import modals from "@/components/assets/modals/index.vue";
@@ -97,6 +98,9 @@ import HighchartsMore from 'highcharts/highcharts-more'
 
 drilldownInit(Highcharts)
 HighchartsMore(Highcharts)
+
+import { Swipeable } from 'vue-swipeable';
+Vue.directive('swipeable', Swipeable);
 
 Vue.component("modal", modal);
 Vue.component("modals", modals);
@@ -188,7 +192,20 @@ const i18n = new VueI18n({
 
 ///
 
+var vxstorage = new VXStorage([{
+    type : "client",
+    index : "ID"
+}, {
+    type : "lead",
+    index : "ID"
+}, {
+    type : "portfolio",
+    index : "id"
+}])
 var core = null;
+var store = storeFactory(vxstorage)
+
+    vxstorage.link(store)
 
 var g = {
     install: function (Vue) {
@@ -273,7 +290,7 @@ export default {
     created() {
         this.$store.commit("clearall");
 
-        core = new Core(this, {});
+        core = new Core(this, {vxstorage});
 
         core.init();
 

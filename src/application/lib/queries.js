@@ -7,6 +7,7 @@ const conditions = {
     startswith : 'startswith',
     like : 'like',
     notinlist : 'notinlist',
+    inlist : 'inlist',
     eq : 'eq'
 }
 
@@ -24,6 +25,12 @@ class Templates {
     type_eq = function(type){
 
         return this.condition(conditions.eq, "Type", type)
+
+    }
+
+    ids_inlist = function(ids){
+
+        return this.condition(conditions.inlist, "ID", ids)
 
     }
 
@@ -49,7 +56,6 @@ class Templates {
             operands.push( this.condition(conditions.like, 'Phone', value) )
         }
         
-
         return operands
 
         //return this.group(operands, join.or)
@@ -95,6 +101,20 @@ class Queries {
         return {
             groups,
             join : join.and
+        }
+    }
+
+    byids = function({ids}){
+        var groups = []
+
+        groups.push(
+            this.t.group([
+                this.t.ids_inlist(ids)
+            ])
+        )
+
+        return {
+            groups
         }
     }
 }

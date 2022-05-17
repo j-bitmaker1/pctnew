@@ -10,7 +10,8 @@ var User = function ({
     api,
     wss,
     pct, 
-    crm
+    crm,
+    vxstorage
 }) {
 
     var self = this
@@ -387,6 +388,8 @@ var User = function ({
         //vm.$store.commit('userprofile', null)
         vm.$store.commit('clearall')
 
+
+
         state.value = 0
         pwdhash.value = ''
         login.value = ''
@@ -394,6 +397,8 @@ var User = function ({
 
         self.info = {}
         self.features = {}
+
+        vxstorage.clear()
     }
 
     function signup({

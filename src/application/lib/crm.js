@@ -66,6 +66,14 @@ class CRM {
 
     }
 
+    getbyids = function(ids, p){
+        var query = this.query('byids', {ids})
+
+        return this.api.crm.contacts.gets({query}, p).then(r => {
+            console.log("R", r)
+        })
+    }
+
     rewriteContactSchema = function(r){
 
         var convert = function(field, a){
