@@ -1,41 +1,41 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: 'topheader',
-    props: {
-        back : {
-            type: String,
-            default: "",
-        },
+	name: 'topheader',
+	props: {
+		back : {
+			type: String,
+			default: "",
+		},
 
-        gray : Boolean
-    },
+		gray : Boolean
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false
-        }
+		return {
+			loading : false
+		}
 
-    },
+	},
 
-    created : function() {
-    },
+	created : function() {
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
+	watch: {
+		//$route: 'getdata'
+	},
 
-    
+	
 
-    computed: mapState({
-        auth : state => state.auth,
-        pocketnet: state => state.pocketnet,
-        minimized: state => state.minimized,
-        active : state => state.active,
-    }),
+	computed: mapState({
+		auth : state => state.auth,
+		pocketnet: state => state.pocketnet,
+		minimized: state => state.minimized,
+		active : state => state.active,
+	}),
 
-    methods : {
-       
-    },
+	methods : {
+	   
+	},
 }

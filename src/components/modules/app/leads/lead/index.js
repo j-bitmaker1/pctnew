@@ -1,73 +1,73 @@
 import { mapState } from 'vuex';
 import profilemenu from "@/components/modules/app/client/menu/index.vue";
 export default {
-    name: 'leads_lead',
-    props: {
-        profile : Object,
-        hasmenu : {
-            type : Boolean,
-            default : true
-        }
-    },
+	name: 'leads_lead',
+	props: {
+		profile : Object,
+		hasmenu : {
+			type : Boolean,
+			default : true
+		}
+	},
 
-    components : {
-        profilemenu
-    },
+	components : {
+		profilemenu
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false,
+		return {
+			loading : false,
 
-            menu : [
-                {
-                    text : 'labels.editlead',
-                    icon : 'fas fa-pen',
-                    action : 'edit'
-                },
-                {
-                    text : 'labels.deletelead',
-                    icon : 'fas fa-trash',
-                    action : 'delete'
+			menu : [
+				{
+					text : 'labels.editlead',
+					icon : 'fas fa-pen',
+					action : 'edit'
+				},
+				{
+					text : 'labels.deletelead',
+					icon : 'fas fa-trash',
+					action : 'delete'
 
-                }
-            ]
-        }
+				}
+			]
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-    }),
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+	}),
 
-    methods : {
-        menuaction : function(action){
-            if (this[action]){
-                this[action]()
-            }   
-        },
+	methods : {
+		menuaction : function(action){
+			if (this[action]){
+				this[action]()
+			}   
+		},
 
-        edit : function(profile){
-            this.$emit('edit', profile)
-        },
+		edit : function(profile){
+			this.$emit('edit', profile)
+		},
 
-        deletelead : function(){
-            this.$emit('deletelead', this.profile)
-        },
+		deletelead : function(){
+			this.$emit('deletelead', this.profile)
+		},
 
-        open : function(e){
-            this.$emit('open', this.profile)
-        },
+		open : function(e){
+			this.$emit('open', this.profile)
+		},
 
-        leadtocontact: function(){
-            this.$emit('leadtocontact', this.profile)
-        },
-    },
+		leadtocontact: function(){
+			this.$emit('leadtocontact', this.profile)
+		},
+	},
 }

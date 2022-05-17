@@ -2,61 +2,61 @@ import _ from 'underscore';
 import { mapState } from 'vuex';
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 export default {
-    name: 'portfolios_portfolio',
-    props: {
-        portfolio : Object,
-        hasmenu : {
-            type : Boolean,
-            default : true
-        }
-    },
+	name: 'portfolios_portfolio',
+	props: {
+		portfolio : Object,
+		hasmenu : {
+			type : Boolean,
+			default : true
+		}
+	},
 
-    components : {
-        portfoliomenu
-    },
+	components : {
+		portfoliomenu
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false,
-           
-        }
+		return {
+			loading : false,
+		   
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-        total : function(){
-            return _.reduce(this.portfolio.positions, (m, p) => {
-                return m + p.value
-            }, 0)
-        }
-    }),
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+		total : function(){
+			return _.reduce(this.portfolio.positions, (m, p) => {
+				return m + p.value
+			}, 0)
+		}
+	}),
 
-    methods : {
+	methods : {
 
-        click : function(){
-            this.$emit('click', this.portfolio)
-        },
+		click : function(){
+			this.$emit('click', this.portfolio)
+		},
 
-        editportfolio : function(data){
+		editportfolio : function(data){
 
-            
-            this.$emit('editportfolio', data)
+			
+			this.$emit('editportfolio', data)
 
-        },
+		},
 
-        deleteportfolio : function(){
+		deleteportfolio : function(){
 
-            this.$emit('deleteportfolio', this.portfolio)
-            
-        }
-    },
+			this.$emit('deleteportfolio', this.portfolio)
+			
+		}
+	},
 }

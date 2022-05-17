@@ -1,9 +1,9 @@
 .filesystemwrapper
-    margin-bottom: 2 * $r
-    background: srgb(--background-secondary-theme)
-    border-radius: 12px
+	margin-bottom: 2 * $r
+	background: srgb(--background-secondary-theme)
+	border-radius: 12px
 
-    /deep/
-        .filesystem
-            -webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,1)), color-stop(70%, rgba(0,0,0,1)), color-stop(100%, rgba(0,0,0,0)))
-            
+	::v-deep
+		.filesystem
+			-webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,1)), color-stop(70%, rgba(0,0,0,1)), color-stop(100%, rgba(0,0,0,0)))
+			

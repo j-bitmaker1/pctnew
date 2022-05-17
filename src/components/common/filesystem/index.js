@@ -2,113 +2,113 @@ import _ from 'underscore';
 import { mapState } from 'vuex';
 
 export default {
-    name: 'filesystem',
-    props: {
-        initialroot : Number,
-        select : Object
-    },
+	name: 'filesystem',
+	props: {
+		initialroot : Number,
+		select : Object
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false,
-            contents : [],
-            currentroot : undefined,
-            history : []
-        }
+		return {
+			loading : false,
+			contents : [],
+			currentroot : undefined,
+			history : []
+		}
 
-    },
+	},
 
-    created : function() {
-        this.history.push(this.root)
+	created : function() {
+		this.history.push(this.root)
 
-        this.load()
-    },
+		this.load()
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-        root : function(){
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+		root : function(){
 
-            if(typeof currentroot != 'undefined') return currentroot
+			if(typeof currentroot != 'undefined') return currentroot
 
-            return this.initialroot || 0
+			return this.initialroot || 0
 
-        },
+		},
 
-        showback : function(){
+		showback : function(){
 
-            if (this.history.length > 1) return true
+			if (this.history.length > 1) return true
 
-            return this.root ? true : false
-        },
+			return this.root ? true : false
+		},
 
-        sorted : function(){
-            return _.sortBy(this.contents, function(c){
+		sorted : function(){
+			return _.sortBy(this.contents, function(c){
 
-                if(c.type == 'directory') return 0
-                if(c.type == 'portfolio') return 1
+				if(c.type == 'directory') return 0
+				if(c.type == 'portfolio') return 1
 
-            })
-        }
-    }),
+			})
+		}
+	}),
 
-    methods : {
-        load : function(){
-            this.loading = true
+	methods : {
+		load : function(){
+			this.loading = true
 
-            return this.core.api.filesystem.get(this.root).then(r => {
+			return this.core.api.filesystem.get(this.root).then(r => {
 
-                this.contents = r
+				this.contents = r
 
-                return Promise.resolve(r)
-            }).finally(() => {
-                this.loading = false
-            })
-        },
+				return Promise.resolve(r)
+			}).finally(() => {
+				this.loading = false
+			})
+		},
 
-        down : function(r){
-            this.currentroot = r
-            this.history.push(r)
+		down : function(r){
+			this.currentroot = r
+			this.history.push(r)
 
-            this.load().then(r => {
-                this.movescroll()
-            })
-        },
+			this.load().then(r => {
+				this.movescroll()
+			})
+		},
 
-        up : function(){
-            if (this.history.length > 1){
-                this.currentroot = this.history[this.history.length - 2]
-                this.history.pop();
-            }
-            else{
-                this.currentroot = 0
-            }
+		up : function(){
+			if (this.history.length > 1){
+				this.currentroot = this.history[this.history.length - 2]
+				this.history.pop();
+			}
+			else{
+				this.currentroot = 0
+			}
 
-            this.load().then(r => {
-                this.movescroll()
-            })
+			this.load().then(r => {
+				this.movescroll()
+			})
 
-            
-        },
+			
+		},
 
-        movescroll : function(){
-            setTimeout(() => {
-                this.$refs['items'].scrollLeft = 0
-            }, 50)
+		movescroll : function(){
+			setTimeout(() => {
+				this.$refs['items'].scrollLeft = 0
+			}, 50)
 
-        },
+		},
 
-        open : function(c){
-            if (c.type == 'directory'){
-                this.down(c.id)
-            }
+		open : function(c){
+			if (c.type == 'directory'){
+				this.down(c.id)
+			}
 
-            if(c.type == 'portfolio'){
-                if(this.select) this.$emit('selectFile', c)
-            }
-        }
-    },
+			if(c.type == 'portfolio'){
+				if(this.select) this.$emit('selectFile', c)
+			}
+		}
+	},
 }

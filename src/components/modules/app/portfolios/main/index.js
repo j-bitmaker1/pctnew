@@ -4,47 +4,47 @@ import portfoliolist from '../list/index.vue'
 import filesystem from '@/components/common/filesystem/index.vue'
 
 export default {
-    name: 'portfolios_main',
-    props: {
-        additional : Object,
-        select : Object
-    },
+	name: 'portfolios_main',
+	props: {
+		additional : Object,
+		select : Object
+	},
 
-    components : {
-        portfoliolist, 
-        filesystem
-    },
+	components : {
+		portfoliolist, 
+		filesystem
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false
-        }
+		return {
+			loading : false
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-    }),
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+	}),
 
-    methods : {
-        selected : function(portfolios){
+	methods : {
+		selected : function(portfolios){
 
-            this.$emit('selected', portfolios)
-            this.$emit('close')
-        },
+			this.$emit('selected', portfolios)
+			this.$emit('close')
+		},
 
-        selectedFile : function(file){
+		selectedFile : function(file){
 
-            this.selected()
-            ////
-        }
-    },
+			this.selected()
+			////
+		}
+	},
 }

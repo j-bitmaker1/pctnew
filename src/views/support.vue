@@ -1,19 +1,19 @@
 <template>
   <div class="page">   
 
-    <topheader back="/">
-      <template v-slot:info>
-        <span>Support</span>
-      </template>
-    </topheader>
+	<topheader back="/">
+	  <template v-slot:info>
+		<span>Support</span>
+	  </template>
+	</topheader>
 
-    <maincontent>
-      <template v-slot:content>
-        
-      </template>
-    </maincontent>
+	<maincontent>
+	  <template v-slot:content>
+		
+	  </template>
+	</maincontent>
 
-    
+	
   </div>
 </template>
 
@@ -40,7 +40,7 @@ export default {
   },
 
   mounted() {
-    
+	
   }
 }
 </script>

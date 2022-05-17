@@ -1,15 +1,15 @@
 <template>
   <div class="page">   
 
-    <topheader back="back"/>
+	<topheader back="back"/>
 
-    <maincontent>
-      <template v-slot:content>
-        <forgotpassword />
-      </template>
-    </maincontent>
+	<maincontent>
+	  <template v-slot:content>
+		<forgotpassword />
+	  </template>
+	</maincontent>
 
-    
+	
   </div>
 </template>
 
@@ -23,7 +23,7 @@ import forgotpassword from "@/components/common/forgotpassword/index.vue";
 export default {
   name: 'forgotpassword_page',
   components: {
-    forgotpassword
+	forgotpassword
   },
 
   computed:{
@@ -35,7 +35,7 @@ export default {
   },
 
   mounted() {
-    
+	
   }
 }
 </script>

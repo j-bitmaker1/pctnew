@@ -1,61 +1,61 @@
 <template>
 <div id="portfolio_crashtest_scenariodetails">
-    <div class="losswrapper">
-        <value :value="scenario.loss" mode="auto" colored="true" />
-    </div>
+	<div class="losswrapper">
+		<value :value="scenario.loss" mode="auto" colored="true" />
+	</div>
 
-    <div class="descriptions" v-if="scenario.shock && scenario.shortDescription">
-        <div class="caption">
-            <span>Description</span>
-        </div>
+	<div class="descriptions" v-if="scenario.shock && scenario.shortDescription">
+		<div class="caption">
+			<span>Description</span>
+		</div>
 
-        <div class="shortDescription">
-            {{scenario.shock}}
-        </div>
+		<div class="shortDescription">
+			{{scenario.shock}}
+		</div>
 
-        <div class="caption">
-            <span>Event duration</span>
-        </div>
+		<div class="caption">
+			<span>Event duration</span>
+		</div>
 
-        <div class="shortDescription">
-            {{scenario.shortDescription}}
-        </div>
+		<div class="shortDescription">
+			{{scenario.shortDescription}}
+		</div>
 
-    </div>
+	</div>
 
-    <div class="contributors">
+	<div class="contributors">
 
-        <linepreloader v-if="loading" />
+		<linepreloader v-if="loading" />
 
-        <div v-else>
-            <div class="header">
-                <div class="headercaption">
-                    <span>Contributors</span>
-                </div>
-                <div class="lossicons">
-                    <div class="positive" v-if="positives"><i class="fas fa-arrow-up"></i>
-                        <value :value="positives" />
-                    </div>
-                    <div class="negative" v-if="negatives"><i class="fas fa-arrow-down"></i>
-                        <value :value="negatives" />
-                    </div>
-                </div>
-            </div>
+		<div v-else>
+			<div class="header">
+				<div class="headercaption">
+					<span>Contributors</span>
+				</div>
+				<div class="lossicons">
+					<div class="positive" v-if="positives"><i class="fas fa-arrow-up"></i>
+						<value :value="positives" />
+					</div>
+					<div class="negative" v-if="negatives"><i class="fas fa-arrow-down"></i>
+						<value :value="negatives" />
+					</div>
+				</div>
+			</div>
 
-            <div class="contributorsList">
-                <list :items="contributors">
-                    <template v-slot:default="slotProps">
+			<div class="contributorsList">
+				<list :items="contributors">
+					<template v-slot:default="slotProps">
 
-                        <div class="contributorWrapper">
-                            <contributor :contributor="slotProps.item" :ct="ct" :maxabs="maxabs" />
-                        </div>
+						<div class="contributorWrapper">
+							<contributor :contributor="slotProps.item" :ct="ct" :maxabs="maxabs" />
+						</div>
 
-                    </template>
-                </list>
-            </div>
+					</template>
+				</list>
+			</div>
 
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
 </template>
 

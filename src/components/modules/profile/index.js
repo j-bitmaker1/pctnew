@@ -4,36 +4,36 @@ import themeToggle from "@/components/assets/themetoggle/index.vue";
 
 
 export default {
-    name: 'profile',
-    props: {
-    },
+	name: 'profile',
+	props: {
+	},
 
-    components : {card, themeToggle},
+	components : {card, themeToggle},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false
-        }
+		return {
+			loading : false
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-        userinfo : state => state.userinfo
-    }),
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+		userinfo : state => state.userinfo
+	}),
 
-    methods : {
-        signout : function(){
-            this.core.user.signout()
-            this.$router.push('/')
-        }
-    },
+	methods : {
+		signout : function(){
+			this.core.user.signout()
+			this.$router.push('/')
+		}
+	},
 }

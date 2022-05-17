@@ -1,15 +1,15 @@
 <template>
 <div class="portfolio_crashtest_details">.
 
-    <list :items="ct.scenarios" @click="select">
-        <template v-slot:default="slotProps">
+	<list :items="ct.scenarios" @click="select">
+		<template v-slot:default="slotProps">
 
-            <div class="scenarioWrapper">
-                <scenario :scenario="slotProps.item" :ct="ct" :maxabs="maxabs" />
-            </div>
+			<div class="scenarioWrapper">
+				<scenario :scenario="slotProps.item" :ct="ct" :maxabs="maxabs" />
+			</div>
 
-        </template>
-    </list>
+		</template>
+	</list>
 
 </div>
 </template>

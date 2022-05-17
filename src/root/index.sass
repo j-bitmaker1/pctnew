@@ -1,62 +1,62 @@
 .rootapp
-    display: flex
-    >div
-        min-height: 100vh
-        padding : 3 * $r
-        padding-top : 0
+	display: flex
+	>div
+		min-height: 100vh
+		padding : 3 * $r
+		padding-top : 0
 
-    #appmenu
-        width: 240px
-        background: srgb(--background-secondary-theme)
-        border-right: 1px solid srgb(--neutral-grad-0)
-        padding-top : 3 * $r
-        
-    .page
-        min-width: 640px
-        flex-grow: 1
-        
+	#appmenu
+		width: 240px
+		background: srgb(--background-secondary-theme)
+		border-right: 1px solid srgb(--neutral-grad-0)
+		padding-top : 3 * $r
+		
+	.page
+		min-width: 640px
+		flex-grow: 1
+		
 .fade-enter-active, .fade-leave-active
-    transition: opacity .5s
+	transition: opacity .5s
 
 .fade-enter, .fade-leave-to
-    opacity: 0
+	opacity: 0
 
 
 
 @media only screen and (max-width: 768px)
-    .rootapp
-        display: block
+	.rootapp
+		display: block
 
-        .bgpage
-            padding: 2 * $r
+		.bgpage
+			padding: 2 * $r
 
-        .page
-            min-width: 0
-            padding-bottom: 120px
-
-
-        >div
-            min-height: 0
-            padding : 0
+		.page
+			min-width: 0
+			padding-bottom: 120px
 
 
-        #appmenu
-            width: 100%
-            position: fixed
-            z-index: 10
-            bottom : 0
-            left : 0
-            padding: 2 * $r
-            background: srgb(--background-total-theme)
+		>div
+			min-height: 0
+			padding : 0
 
-        #topheader
-            position: sticky
-            left: 0
-            top : 0
-            right: 0
 
-            /*&:stuck
-                .headerLine
-                    +transition(0.3s)
-                    height: 32px
-                    font-size: 0.7*/
+		#appmenu
+			width: 100%
+			position: fixed
+			z-index: 10
+			bottom : 0
+			left : 0
+			padding: 2 * $r
+			background: srgb(--background-total-theme)
+
+		#topheader
+			position: sticky
+			left: 0
+			top : 0
+			right: 0
+
+			/*&:stuck
+				.headerLine
+					+transition(0.3s)
+					height: 32px
+					font-size: 0.7*/

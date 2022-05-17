@@ -2,64 +2,64 @@ import { mapState } from 'vuex';
 import contributor from '../contributor/index.vue'
 
 export default {
-    name: 'portfolio_crashtest_scenariodetails',
+	name: 'portfolio_crashtest_scenariodetails',
 
-    props: {
-        scenario : Object,
-        ct : Object
-    },
+	props: {
+		scenario : Object,
+		ct : Object
+	},
 
-    components : {
-        contributor
-    },
+	components : {
+		contributor
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false,
-            contributors : []
-        }
+		return {
+			loading : false,
+			contributors : []
+		}
 
-    },
+	},
 
-    created : function(){
-        this.loadcontributors()
-    },
+	created : function(){
+		this.loadcontributors()
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-        positives : function(){
-            return _.filter(this.contributors, (c) => {
-                return c.value >= 0
-            }).length
-        },
-        negatives : function(){
-            return _.filter(this.contributors, (c) => {
-                return c.value < 0
-            }).length
-        },
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+		positives : function(){
+			return _.filter(this.contributors, (c) => {
+				return c.value >= 0
+			}).length
+		},
+		negatives : function(){
+			return _.filter(this.contributors, (c) => {
+				return c.value < 0
+			}).length
+		},
 
-        maxabs : function(){
-            return Math.max(Math.abs(this.ct.profit), Math.abs(this.ct.loss))
-        }
-    }),
+		maxabs : function(){
+			return Math.max(Math.abs(this.ct.profit), Math.abs(this.ct.loss))
+		}
+	}),
 
-    methods : {
-        loadcontributors : function(){
-            this.loading = true
+	methods : {
+		loadcontributors : function(){
+			this.loading = true
 
-            this.core.pct.getcontributors(this.scenario.id).then(r => {
+			this.core.pct.getcontributors(this.scenario.id).then(r => {
 
-                this.contributors = _.sortBy(r, (c)=>{return c.value})
+				this.contributors = _.sortBy(r, (c)=>{return c.value})
 
-                return Promise.resolve(r)
-            }).finally(() => {
-                this.loading = false
-            })
+				return Promise.resolve(r)
+			}).finally(() => {
+				this.loading = false
+			})
 
-        }
-    },
+		}
+	},
 }

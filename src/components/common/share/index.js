@@ -1,78 +1,78 @@
 import { mapState } from 'vuex';
 import f from "@/application/functions.js";
 export default {
-    name: 'share',
-    props: {
-        url : String
-    },
+	name: 'share',
+	props: {
+		url : String
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false
-        }
+		return {
+			loading : false
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-    }),
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+	}),
 
-    methods : {
-        sharelink : function(e){
-            this.nativeshare(e)
-        },
+	methods : {
+		sharelink : function(e){
+			this.nativeshare(e)
+		},
 
-        nativeshare : function(e){
+		nativeshare : function(e){
 
-            e.target.blur();
+			e.target.blur();
 
-            var plugin = f.deep(window, 'plugins.socialsharing')
+			var plugin = f.deep(window, 'plugins.socialsharing')
 
-            if(!plugin){
+			if(!plugin){
 
-             
+			 
 
-                this.$store.commit('icon', {
-                    icon : 'error',
-                    message : "Socialsharing plugin hasn't exist"
-                })
+				this.$store.commit('icon', {
+					icon : 'error',
+					message : "Socialsharing plugin hasn't exist"
+				})
 
-                return
-            }
+				return
+			}
 
-            plugin.shareWithOptions({
+			plugin.shareWithOptions({
 
-                message: ed.sharing.text.body || '', 
-                subject: ed.sharing.text.title || '',
-                images : ed.sharing.images || [],
-                url: ed.url
+				message: ed.sharing.text.body || '', 
+				subject: ed.sharing.text.title || '',
+				images : ed.sharing.images || [],
+				url: ed.url
 
-            }, () => {
+			}, () => {
 
-               this.$emit('close')
+			   this.$emit('close')
 
-            }, function(){
+			}, function(){
 
-            });
-        },
+			});
+		},
 
-        copylink : function(){
-            f.copytext(this.url || '')
+		copylink : function(){
+			f.copytext(this.url || '')
 
-            this.$store.commit('icon', {
-                icon : 'success',
-                message : "Link copied to clipboard"
-            })
+			this.$store.commit('icon', {
+				icon : 'success',
+				message : "Link copied to clipboard"
+			})
 
-            this.$emit('close')
-        }
-    },
+			this.$emit('close')
+		}
+	},
 }

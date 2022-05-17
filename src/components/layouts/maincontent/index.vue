@@ -1,14 +1,14 @@
 <template>
   <div
-    id="maincontent"
-    class="fixedOnPageTop"
-    :class="{
-      modalShowed: modalShowed ? true : false,
-    }"
+	id="maincontent"
+	class="fixedOnPageTop"
+	:class="{
+	  modalShowed: modalShowed ? true : false,
+	}"
   >
-    <slot name="content"> &nbsp; </slot>
+	<slot name="content"> &nbsp; </slot>
 
-    
+	
   </div>
 </template>
 

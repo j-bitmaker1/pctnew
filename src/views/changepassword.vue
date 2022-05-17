@@ -1,15 +1,15 @@
 <template>
   <div class="page">   
 
-    <topheader back="back"/>
+	<topheader back="back"/>
 
-    <maincontent>
-      <template v-slot:content>
-        <changepassword />
-      </template>
-    </maincontent>
+	<maincontent>
+	  <template v-slot:content>
+		<changepassword />
+	  </template>
+	</maincontent>
 
-    
+	
   </div>
 </template>
 
@@ -23,7 +23,7 @@ import changepassword from "@/components/common/changepassword/index.vue";
 export default {
   name: 'changepassword_page',
   components: {
-    changepassword
+	changepassword
   },
 
   computed:{
@@ -35,7 +35,7 @@ export default {
   },
 
   mounted() {
-    
+	
   }
 }
 </script>

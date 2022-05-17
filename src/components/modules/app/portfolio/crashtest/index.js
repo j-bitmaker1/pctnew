@@ -6,80 +6,80 @@ import ctdetails from './details/index.vue'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
 
 export default {
-    name: 'portfolios_crashtest',
-    props: {
-    },
+	name: 'portfolios_crashtest',
+	props: {
+	},
 
-    components : {
-        chart, 
-        ctdetails,
-        summarybutton
-    },
+	components : {
+		chart, 
+		ctdetails,
+		summarybutton
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false,
+		return {
+			loading : false,
 
-            ct : {},
+			ct : {},
 
-            valuemodes : [
-                {
-                    icon : "fas fa-dollar-sign",
-                    id : 'd'
-                },
-                {
-                    icon : "fas fa-percent",
-                    id : 'p'
-                }
-            ],
+			valuemodes : [
+				{
+					icon : "fas fa-dollar-sign",
+					id : 'd'
+				},
+				{
+					icon : "fas fa-percent",
+					id : 'p'
+				}
+			],
 
-            summary : [
+			summary : [
 
-                {
-                    text : 'labels.crashrating',
-                    index : 'ocr'
-                },
-                {
-                    text : 'labels.tolerance',
-                    index : 'pcr'
-                }
-                
-            ]
+				{
+					text : 'labels.crashrating',
+					index : 'ocr'
+				},
+				{
+					text : 'labels.tolerance',
+					index : 'pcr'
+				}
+				
+			]
 
-        }
+		}
 
-    },
+	},
 
-    created : function(){
-        this.get()
-    },
+	created : function(){
+		this.get()
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-        valuemode: state => state.valuemode,
-    }),
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+		valuemode: state => state.valuemode,
+	}),
 
-    methods : {
-        get : function(){
+	methods : {
+		get : function(){
 
-            this.loading = true
+			this.loading = true
 
-            this.core.pct.get().then(r => {
+			this.core.pct.get().then(r => {
 
-                this.ct = r
+				this.ct = r
 
-                return Promise.resolve(r)
-            }).finally(() => {
-                this.loading = false
-            })
-        },
+				return Promise.resolve(r)
+			}).finally(() => {
+				this.loading = false
+			})
+		},
 
-        changevaluemode : function(v){
-            this.$store.commit('valuemode', v)
-        }
-    },
+		changevaluemode : function(v){
+			this.$store.commit('valuemode', v)
+		}
+	},
 }

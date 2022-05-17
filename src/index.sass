@@ -1,195 +1,195 @@
 body
-    color : $color-text-common
-    background: srgb(--background-total-theme)
-    font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
-    color : srgb(--text-color)
+	color : $color-text-common
+	background: srgb(--background-total-theme)
+	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
+	color : srgb(--text-color)
 
 a
-    text-decoration: none
+	text-decoration: none
 
 select.custom
-    -moz-appearance: none!important
-    -webkit-appearance: none!important
-    appearance: none!important
-    font-family: inherit
-    font-size: inherit
-    cursor: inherit
-    line-height: inherit
-    width: 100%
-    min-width: 7ch
-    max-width: 30ch
-    background-color: srgb(--background-total-theme)
-    border-radius: 12px
-    border : 1px solid srgb(--neutral-grad-0)
-    padding : $r
-    padding-right: 4 * $r
-    display: grid
-    outline: none
-    grid-area: select
-    grid-template-areas: "select"
-    align-items: center
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')
-    background-repeat: no-repeat, repeat
-    background-position: right .7em top 50%, 0 0
-    background-size: .65em auto, 100%
-    &:-ms-expand
-        display: none
+	-moz-appearance: none!important
+	-webkit-appearance: none!important
+	appearance: none!important
+	font-family: inherit
+	font-size: inherit
+	cursor: inherit
+	line-height: inherit
+	width: 100%
+	min-width: 7ch
+	max-width: 30ch
+	background-color: srgb(--background-total-theme)
+	border-radius: 12px
+	border : 1px solid srgb(--neutral-grad-0)
+	padding : $r
+	padding-right: 4 * $r
+	display: grid
+	outline: none
+	grid-area: select
+	grid-template-areas: "select"
+	align-items: center
+	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')
+	background-repeat: no-repeat, repeat
+	background-position: right .7em top 50%, 0 0
+	background-size: .65em auto, 100%
+	&:-ms-expand
+		display: none
 
 
-    &::after 
-        grid-area: select
-        content: ""
-        width: 0.8em
-        height: 0.5em
-        background-color: #111
-        clip-path: polygon(100% 0%, 0 0%, 50% 100%)
-        justify-self: end
+	&::after 
+		grid-area: select
+		content: ""
+		width: 0.8em
+		height: 0.5em
+		background-color: #111
+		clip-path: polygon(100% 0%, 0 0%, 50% 100%)
+		justify-self: end
 
-    option
-        background: 0
+	option
+		background: 0
 
-    &.likecaption
-        font-size: 1.5em
-        font-weight: 700
-        border : 0
+	&.likecaption
+		font-size: 1.5em
+		font-weight: 700
+		border : 0
 
-        option
-            font-size: 0.7em
+		option
+			font-size: 0.7em
 
 .sorting
-    display: flex
-    align-items: center
+	display: flex
+	align-items: center
 
-    select
-        margin-left: $r
-        
+	select
+		margin-left: $r
+		
 input
-    outline: none
+	outline: none
 
-    &:focus
-        border: 10px
+	&:focus
+		border: 10px
 
 
 .fademodal-enter-active, .fademodal-leave-active 
-    +transition(0.3s)
-    .modal
-        +transition(0.3s)
+	+transition(0.3s)
+	.modal
+		+transition(0.3s)
 
 .fademodal-enter, .fademodal-leave-to
-    opacity: 0
+	opacity: 0
 
-    .modal
-        -webkit-transform: translateY(100%)
-        transform: translateY(100%)
+	.modal
+		-webkit-transform: translateY(100%)
+		transform: translateY(100%)
 
 .unselectable
-    -webkit-touch-callout: none
-    -webkit-user-select: none
-    -khtml-user-select: none
-    -moz-user-select: none
-    -ms-user-select: none
-    user-select: none
+	-webkit-touch-callout: none
+	-webkit-user-select: none
+	-khtml-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
 
 
 .loadinggradient
-    background: linear-gradient(-45deg, srgb(--background-secondary-theme), srgb(--background-total-theme), srgb(--background-main)) 
-    background-size: 400% 400%
-    animation: gradient 2s ease infinite
+	background: linear-gradient(-45deg, srgb(--background-secondary-theme), srgb(--background-total-theme), srgb(--background-main)) 
+	background-size: 400% 400%
+	animation: gradient 2s ease infinite
 
 .messagesLine
-    display: flex
-    justify-content: flex-start
-    align-items: center
-    margin: 20px 0
-    +transition(0.3s)
+	display: flex
+	justify-content: flex-start
+	align-items: center
+	margin: 20px 0
+	+transition(0.3s)
 
 .circlePreview
-    width: 22px
-    height: 22px
-    margin: 0 10px 0 0
-    background-color: black
-    border-radius: 50%
-    +transition(0.3s)
+	width: 22px
+	height: 22px
+	margin: 0 10px 0 0
+	background-color: black
+	border-radius: 50%
+	+transition(0.3s)
 
 .messageLine
-    margin: 0 auto 0 0
-    border-radius: 13px
-    //width: 200px
-    height: 34px
-    +transition(0.3s)
+	margin: 0 auto 0 0
+	border-radius: 13px
+	//width: 200px
+	height: 34px
+	+transition(0.3s)
 
 .myMessageLine
-    margin: 0 0 0 auto
-    border-radius: 13px
-    +transition(0.3s)
-    //width: 200px
-    height: 34px
+	margin: 0 0 0 auto
+	border-radius: 13px
+	+transition(0.3s)
+	//width: 200px
+	height: 34px
 
 
 .dg-container
-    font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
+	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
 
-    .dg-main-content
-        padding : 3 * $r
+	.dg-main-content
+		padding : 3 * $r
 
-    .dg-main-content
-        border : 0
-        border-radius: 0
-        background: srgb(--background-total-theme)
-        color : srgb(--text-color)
+	.dg-main-content
+		border : 0
+		border-radius: 0
+		background: srgb(--background-total-theme)
+		color : srgb(--text-color)
 
-    .dg-content-footer
-        overflow: hidden
+	.dg-content-footer
+		overflow: hidden
 
-        button
-            margin-left: $r
-            display: block
-            float: right
-            font-size: 1em
-            font-weight: 400
-            color : srgb(--color-bg-ac)
-            background: transparent
-            border : 1px solid transparent
+		button
+			margin-left: $r
+			display: block
+			float: right
+			font-size: 1em
+			font-weight: 400
+			color : srgb(--color-bg-ac)
+			background: transparent
+			border : 1px solid transparent
 
-            &.dg-pull-right
-                border : 1px solid srgb(--color-bg-ac)
-                background: srgb(--color-bg-ac)
-                color : srgb(--text-on-bg-ac-color)
+			&.dg-pull-right
+				border : 1px solid srgb(--color-bg-ac)
+				background: srgb(--color-bg-ac)
+				color : srgb(--text-on-bg-ac-color)
 
-    .dg-content-body
-        border : 0
-        padding-bottom: 0
+	.dg-content-body
+		border : 0
+		padding-bottom: 0
 
-        .dg-content
-            font-size: 2em
-            font-weight: 100
+		.dg-content
+			font-size: 2em
+			font-weight: 100
 
 .buttonpanel
-    display: flex
-    flex-direction: row-reverse
+	display: flex
+	flex-direction: row-reverse
 
-    i
-        width: 33px
-        height: 44px
-        line-height: 44px
-        margin-left: 2 * $r
-        text-align: center
+	i
+		width: 33px
+		height: 44px
+		line-height: 44px
+		margin-left: 2 * $r
+		text-align: center
 
 //// tootltips
 
 .tooltip
-    &.popover
-        $color: #f9f9f9
+	&.popover
+		$color: #f9f9f9
 
-        .popover-inner
-            background: $color
-            color: black
-            padding: 24px
-            border-radius: 5px
-            box-shadow: 0 5px 30px rgba(black, .1)
+		.popover-inner
+			background: $color
+			color: black
+			padding: 24px
+			border-radius: 5px
+			box-shadow: 0 5px 30px rgba(black, .1)
 
-        .popover-arrow
-            border-color: $color
+		.popover-arrow
+			border-color: $color
 
 
 //// tootltips
@@ -203,344 +203,343 @@ input
 		background-position: 0% 50%
 
 mark
-    background-color : srgb(--color-bg-selection)!important 
+	background-color : srgb(--color-bg-selection)!important 
 
 button.button
-    background: srgb(--color-bg-ac)
-    border : 1px solid srgb(--color-bg-ac)
-    outline: none
-    color : srgb(--text-on-bg-ac-color)
-    padding : $r 2 * $r
-    text-align: center
-    +transition(0.3s)
-    min-width: 150px
-    cursor: pointer
-    outline: none
-    text-decoration: none
-    font-size: 0.9em
-    border-radius: 24px
+	background: srgb(--color-bg-ac)
+	border : 1px solid srgb(--color-bg-ac)
+	outline: none
+	color : srgb(--text-on-bg-ac-color)
+	padding : $r 2 * $r
+	text-align: center
+	+transition(0.3s)
+	min-width: 150px
+	cursor: pointer
+	outline: none
+	text-decoration: none
+	font-size: 0.9em
+	border-radius: 24px
 
-    &.small
-        font-size: 0.8em
+	&.small
+		font-size: 0.8em
 
-    &.good
-        background: srgb(--color-good)
-        border : 1px solid srgb(--color-good)
+	&.good
+		background: srgb(--color-good)
+		border : 1px solid srgb(--color-good)
 
-        &:hover
-            background: srgba((--color-good), 0.9)
-            color : srgb(--text-on-bg-ac-color)
+		&:hover
+			background: srgba((--color-good), 0.9)
+			color : srgb(--text-on-bg-ac-color)
 
-    &.black
-        background: srgb(--neutral-grad-0)
-        border : 1px solid srgb(--neutral-grad-0)
-        color : srgb(--neutral-grad-3)
+	&.black
+		background: srgb(--neutral-grad-0)
+		border : 1px solid srgb(--neutral-grad-0)
+		color : srgb(--neutral-grad-3)
 
-        &:hover
-            background: srgba((--neutral-grad-3), 0.9)
-            color : srgb(--text-on-bg-ac-color)
+		&:hover
+			background: srgba((--neutral-grad-3), 0.9)
+			color : srgb(--text-on-bg-ac-color)
 
-    &.orange
-        background: srgb(--color-bg-orange)
-        border : 1px solid  srgb(--color-bg-orange)
+	&.orange
+		background: srgb(--color-bg-orange)
+		border : 1px solid srgb(--color-bg-orange)
 
-        &:hover
-            background : srgba((--color-bg-orange), 0.9)
-            color :  srgb(--text-on-bg-ac-color)
+		&:hover
+			background : srgba((--color-bg-orange), 0.9)
+			color : srgb(--text-on-bg-ac-color)
 
-    &.round
-        width: 44px
-        height: 44px
-        border-radius: 50%
-        font-size: 0.8em
-        min-width: 0
-        padding : 0
-        line-height: 42px
+	&.round
+		width: 44px
+		height: 44px
+		border-radius: 50%
+		font-size: 0.8em
+		min-width: 0
+		padding : 0
+		line-height: 42px
 
-    &.rounded
-        border-radius: 22px
+	&.rounded
+		border-radius: 22px
 
-    &.border
-        background: transparent
-        color : srgb(--color-txt-ac)
-        font-size: 0.8em
+	&.border
+		background: transparent
+		color : srgb(--color-txt-ac)
+		font-size: 0.8em
 
-    &.ghost
-        background: transparent
-        border : 1px solid transparent
-        color : srgb(--color-txt-ac)
+	&.ghost
+		background: transparent
+		border : 1px solid transparent
+		color : srgb(--color-txt-ac)
 
-        &:hover
-            color : srgb(--color-txt-gray)
+		&:hover
+			color : srgb(--color-txt-gray)
 
-    &:hover
-        background: transparent
-        color : srgb(--color-txt-ac)
+	&:hover
+		background: transparent
+		color : srgb(--color-txt-ac)
 
-    &.underscored
-        text-decoration: underline
+	&.underscored
+		text-decoration: underline
 
-    &.badbutton
-        background: transparent
-        border : 1px solid transparent
-        font-weight: 500
-        color : srgb(--color-bad)
+	&.badbutton
+		background: transparent
+		border : 1px solid transparent
+		font-weight: 500
+		color : srgb(--color-bad)
 
-    &[disabled]
-        cursor: default
-        background : srgb(--neutral-grad-2)
-        border-color : srgb(--neutral-grad-2)
-        color : #fff
+	&[disabled]
+		cursor: default
+		background : srgb(--neutral-grad-2)
+		border-color : srgb(--neutral-grad-2)
+		color : #fff
 
-        &:hover
-            color : #fff
-            background : srgb(--neutral-grad-2)
-            border-color : srgb(--neutral-grad-2)
+		&:hover
+			color : #fff
+			background : srgb(--neutral-grad-2)
+			border-color : srgb(--neutral-grad-2)
 
 .ticker
-    display: inline-block
-    background: srgb(--neutral-grad-0)
-    padding : 0 $r
-    height: 25px
-    line-height: 25px
-    border-radius: 12px
-    min-width: 50px
-    text-align: center
+	display: inline-block
+	background: srgb(--neutral-grad-0)
+	padding : 0 $r
+	height: 25px
+	line-height: 25px
+	border-radius: 12px
+	min-width: 50px
+	text-align: center
 
-    span
-        font-weight: 700
+	span
+		font-weight: 700
 
 .iconbuttonRound
-    width : 44px
-    height: 44px
-    line-height: 42px
-    text-align: center
-    cursor: pointer
-    color : srgb(--color-txt-ac)
-    font-size: 0.9em
-    border-radius: 50%
-    +transition(0.3s)
+	width : 44px
+	height: 44px
+	line-height: 42px
+	text-align: center
+	cursor: pointer
+	color : srgb(--color-txt-ac)
+	font-size: 0.9em
+	border-radius: 50%
+	+transition(0.3s)
 
-    &:hover
-        color : srgb(--neutral-grad-4)
+	&:hover
+		color : srgb(--neutral-grad-4)
 
-    &.second
-        background: srgb(--neutral-grad-2)
+	&.second
+		background: srgb(--neutral-grad-2)
 
-        &:hover
-            color : srgb(--color-txt-ac)
+		&:hover
+			color : srgb(--color-txt-ac)
 
-    &.bright
-        color : srgb(--text-on-bg-ac-color)
-        background: srgb(--color-txt-ac)
+	&.bright
+		color : srgb(--text-on-bg-ac-color)
+		background: srgb(--color-txt-ac)
 
-        &:hover
-            color : srgb(--color-txt-ac-1)
+		&:hover
+			color : srgb(--color-txt-ac-1)
 
 .iconbuttonsmall
-    cursor: pointer
-    color : srgb(--color-txt-ac)
-    text-align: center
-    +transition(0.3s)
+	cursor: pointer
+	color : srgb(--color-txt-ac)
+	text-align: center
+	+transition(0.3s)
 
-    i
-        font-size: 0.8em
+	i
+		font-size: 0.8em
 
-    &:hover
-        color : srgb(--neutral-grad-3)
+	&:hover
+		color : srgb(--neutral-grad-3)
 
 .iconbutton
-    cursor: pointer
-    text-align: center
-    +transition(0.3s)
+	cursor: pointer
+	text-align: center
+	+transition(0.3s)
 
-  
 
 .rootcontent
-    -webkit-font-smoothing: antialiased
-    -moz-osx-font-smoothing: grayscale
-    font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
-    color : srgb(--text-color)
-    font-size: 1em
+	-webkit-font-smoothing: antialiased
+	-moz-osx-font-smoothing: grayscale
+	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
+	color : srgb(--text-color)
+	font-size: 1em
 
-    .dmdv
-        width: 1px
-        height: 1px
-        opacity: 0
-        background: srgb(--background-total-theme)
+	.dmdv
+		width: 1px
+		height: 1px
+		opacity: 0
+		background: srgb(--background-total-theme)
 
-    .content
-        padding-top : 66px
+	.content
+		padding-top : 66px
 
-    .work
-        padding : 0 $r
-        margin : 0 auto
-        max-width: 640px
+	.work
+		padding : 0 $r
+		margin : 0 auto
+		max-width: 640px
 
 .table
-    display: table
-    table-layout: fixed
-    width : 100%
-    >div
-        display: table-cell
+	display: table
+	table-layout: fixed
+	width : 100%
+	>div
+		display: table-cell
 
 .notificationWrapper
-    display: block
-    max-width: none
-    font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
+	display: block
+	max-width: none
+	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
 
-    &.m-message-wrapper + .m-message-wrapper
-        margin-top : $r
+	&.m-message-wrapper + .m-message-wrapper
+		margin-top : $r
 
-    .m-message
-        padding : 2 * $r
-        border : 1px solid srgba((--neutral-grad-0), 0.9)
-        border-radius: 5px
-        box-shadow: none
-        background: srgb(--background-total-theme)
-        font-size: 1em
+	.m-message
+		padding : 2 * $r
+		border : 1px solid srgba((--neutral-grad-0), 0.9)
+		border-radius: 5px
+		box-shadow: none
+		background: srgb(--background-total-theme)
+		font-size: 1em
 
-    .m-message--title
-        font-weight: bold
-        color : srgb(--color-txt-gray-dark)
-        &:first-letter
-            text-transform: capitalize
+	.m-message--title
+		font-weight: bold
+		color : srgb(--color-txt-gray-dark)
+		&:first-letter
+			text-transform: capitalize
 
-    .m-message--description
-        margin-top: 0
+	.m-message--description
+		margin-top: 0
 
 
-    .m-message-content
-        flex-grow: 1
-        .listPreview
-          cursor: pointer
+	.m-message-content
+		flex-grow: 1
+		.listPreview
+			cursor: pointer
 
-          .invitedEvent
-            width: 180px
-            text-overflow: ellipsis
-            white-space: nowrap
-            overflow: hidden
-            display: flex
-            justify-content: space-between
-            align-items: center
-            span
-              display: block
-              font-size: .8em
-            .txt
-              color: srgb(--color-txt-gray-dark)
+			.invitedEvent
+				width: 180px
+				text-overflow: ellipsis
+				white-space: nowrap
+				overflow: hidden
+				display: flex
+				justify-content: space-between
+				align-items: center
+			span
+				display: block
+				font-size: .8em
+			.txt
+				color: srgb(--color-txt-gray-dark)
 
-            .txtNew
-              color: srgb(--color-good)
-              
-          .linkPreview
-            span
-              &:first-letter
-                text-transform: uppercase
-            .senderName
-              font-weight: bold
-              color: srgb(--color-txt-gray-dark)
-            .linkTitle
-              color: $color-text-mlight
-            .pocketnetLink
-              color: srgb(--color-txt-gray-dark)
+			.txtNew
+				color: srgb(--color-good)
+				
+			.linkPreview
+				span
+					&:first-letter
+						text-transform: uppercase
+				.senderName
+					font-weight: bold
+					color: srgb(--color-txt-gray-dark)
+			.linkTitle
+				color: $color-text-mlight
+			.pocketnetLink
+				color: srgb(--color-txt-gray-dark)
 
-          .previewMessageList
-            span
-              color: srgb(--color-txt-gray-dark)
-              text-overflow: ellipsis
-              overflow: hidden
-              white-space: nowrap
-              text-align: left
+			.previewMessageList
+				span
+					color: srgb(--color-txt-gray-dark)
+					text-overflow: ellipsis
+					overflow: hidden
+					white-space: nowrap
+					text-align: left
 
-          .previewMessage
-            display: flex
-            justify-content: flex-start
-            align-items: center
-            width: 100%
+			.previewMessage
+				display: flex
+				justify-content: flex-start
+				align-items: center
+				width: 100%
 
-            span
-              display: block
-              color: srgb(--color-txt-gray-dark)
-              font-size: 0.8em
-              text-overflow: ellipsis
-              overflow: hidden
-              white-space: nowrap
-              text-align: left
-              max-width: 150px
+			span
+				display: block
+				color: srgb(--color-txt-gray-dark)
+				font-size: 0.8em
+				text-overflow: ellipsis
+				overflow: hidden
+				white-space: nowrap
+				text-align: left
+				max-width: 150px
 
-    .m-message-icons
-        float: none
+	.m-message-icons
+		float: none
 
-    .m-message--icon
-        display: block
-        vertical-align: top
-        text-align: center
+	.m-message--icon
+		display: block
+		vertical-align: top
+		text-align: center
 
-    .m-message--button.m-message--arrow-down
-        display: none
+	.m-message--button.m-message--arrow-down
+		display: none
 
 .is-top-left
-    padding : 0
+	padding : 0
 
-    .notificationWrapper
-        width: 100%
-        +shadowSmaller()
+	.notificationWrapper
+		width: 100%
+		+shadowSmaller()
 
-        .m-message
-            border : 0
-            border-bottom : 1px solid srgba((--neutral-grad-0), 0.9)
-            border-radius: 0
+		.m-message
+			border : 0
+			border-bottom : 1px solid srgba((--neutral-grad-0), 0.9)
+			border-radius: 0
 .diconbutton
-    padding : $r
-    border-radius: 6px
-    border : 1px solid srgb(--neutral-grad-0)
-    color : srgb(--neutral-grad-2)
-    i
-        width: 22px
-        text-align: center
+	padding : $r
+	border-radius: 6px
+	border : 1px solid srgb(--neutral-grad-0)
+	color : srgb(--neutral-grad-2)
+	i
+		width: 22px
+		text-align: center
 
 .savePanel
-    height: 10 * $r
-    padding : $r 2 * $r
-    background: srgb(--background-total-theme)
-    position: sticky
-    bottom : 0
-    left : 0
-    right: 0
-    text-align: right
+	height: 10 * $r
+	padding : $r 2 * $r
+	background: srgb(--background-total-theme)
+	position: sticky
+	bottom : 0
+	left : 0
+	right: 0
+	text-align: right
 
-    .button
-        min-width: 130px
-        margin-left: 2 * $r
-        
+	.button
+		min-width: 130px
+		margin-left: 2 * $r
+		
 .bgpage
-    display: flex
-    width: 100%
-    height: 100%
-    align-items: center
-    justify-content: space-between
+	display: flex
+	width: 100%
+	height: 100%
+	align-items: center
+	justify-content: space-between
 
 @media only screen and (max-width: 768px)
-    .bgpage
-        align-items: flex-start
-        display: flex
-        flex-direction: column
+	.bgpage
+		align-items: flex-start
+		display: flex
+		flex-direction: column
 
-    .mobp
-        padding-left: $r
-        padding-right: $r
+	.mobp
+		padding-left: $r
+		padding-right: $r
 
 .dummy
-    .block
-        border-radius: 6px
-        background: srgb(--neutral-grad-0)
-        height: 30px
-        width: 30px
-        margin-bottom: $r
+	.block
+		border-radius: 6px
+		background: srgb(--neutral-grad-0)
+		height: 30px
+		width: 30px
+		margin-bottom: $r
 
-    .line
-        width: 320px
+	.line
+		width: 320px
 
-    .medium
-        height: 60px
+	.medium
+		height: 60px
 

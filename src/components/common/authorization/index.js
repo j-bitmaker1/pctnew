@@ -1,73 +1,73 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: 'Authorization',
+	name: 'Authorization',
 
 
-    data : function(){
+	data : function(){
 
-        return {
-            login : '',
-            password : '',
-            loading : false
-        }
+		return {
+			login : '',
+			password : '',
+			loading : false
+		}
 
-    },
+	},
 
-    created : function(){
-        this.login = this.$store.state.lastlogin || ''
-    },
+	created : function(){
+		this.login = this.$store.state.lastlogin || ''
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
+	watch: {
+		//$route: 'getdata'
+	},
 
-    computed: mapState({
-        auth : state => state.auth,
-    }),
+	computed: mapState({
+		auth : state => state.auth,
+	}),
 
-    methods : {
-      
-        signin : function(){
+	methods : {
+	  
+		signin : function(){
 
-            this.$store.commit('lastlogin', this.login)
+			this.$store.commit('lastlogin', this.login)
 
-            this.core.user.signin({
+			this.core.user.signin({
 
-                password_value : this.password,
-                login_value :  this.login
+				password_value : this.password,
+				login_value :  this.login
 
-            }).then(state => {
+			}).then(state => {
 
-                this.$router.push('/')
+				this.$router.push('/')
 
-            }).catch(e => {
+			}).catch(e => {
 
-                if(e.code == '401'){
+				if(e.code == '401'){
 
-                    this.$message({
-                        title : "Invalid Access Details",
-                        message : "Wrong Username or Password"
-                    })
-                }
-                
-            })
+					this.$message({
+						title : "Invalid Access Details",
+						message : "Wrong Username or Password"
+					})
+				}
+				
+			})
 
-        },
+		},
 
-        keyuplogin : function(v){
+		keyuplogin : function(v){
 			this.login = v.target.value
 		},
 
-        changelogin : function(v){
+		changelogin : function(v){
 			this.login = v.target.value
-        },
+		},
 
-       
-    },
+	   
+	},
 
-    props: {
-        caption : String
-    },
+	props: {
+		caption : String
+	},
 
 }

@@ -1,50 +1,50 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: 'maincontent',
-    props: {
-    },
+	name: 'maincontent',
+	props: {
+	},
 
-    components : {
+	components : {
 
-    },
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false
-        }
+		return {
+			loading : false
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
+	watch: {
+		//$route: 'getdata'
+	},
 
-    
+	
 
-    computed: mapState({
-        auth : state => state.auth,
-        
-       
-        modalShowed : state => state.modalShowed,
-    }),
+	computed: mapState({
+		auth : state => state.auth,
+		
+	   
+		modalShowed : state => state.modalShowed,
+	}),
 
-    methods : {
-     
-      
-        closeModal : function(){
-            this.$store.commit('setmodal', null)
-        },
+	methods : {
+	 
+	  
+		closeModal : function(){
+			this.$store.commit('setmodal', null)
+		},
 
-        scroll : function(v){
-            this.$refs['scrollable'].scrollTop = v || 0
-        },
-        
-      
-    },
+		scroll : function(v){
+			this.$refs['scrollable'].scrollTop = v || 0
+		},
+		
+	  
+	},
 }

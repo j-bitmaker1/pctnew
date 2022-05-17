@@ -1,74 +1,74 @@
 .bigmainbutton
-    border-radius: 12px
-    background: srgb(--neutral-grad-1)
-    padding : 2 * $r
-    color : srgb(--neutral-grad-3)
-    display: flex
-    flex-direction: column
-    justify-content: space-between
+	border-radius: 12px
+	background: srgb(--neutral-grad-1)
+	padding : 2 * $r
+	color : srgb(--neutral-grad-3)
+	display: flex
+	flex-direction: column
+	justify-content: space-between
 
-    .fline
-        display: flex
-        align-items: center
-        margin-bottom: 2 * $r
+	.fline
+		display: flex
+		align-items: center
+		margin-bottom: 2 * $r
 
-    .label
-        margin-left: 2 * $r
-        span
-            font-size: 1.2em
+	.label
+		margin-left: 2 * $r
+		span
+			font-size: 1.2em
 
-    .iconwrapper
-        width: 6 * $r
-        height: 6 * $r
-        border-radius: $r
-        background: srgb(--neutral-grad-0)
-        line-height: 6 * $r
-        text-align: center
+	.iconwrapper
+		width: 6 * $r
+		height: 6 * $r
+		border-radius: $r
+		background: srgb(--neutral-grad-0)
+		line-height: 6 * $r
+		text-align: center
 
-        i
-            font-size: 0.8em
+		i
+			font-size: 0.8em
 
-    .labels
-        margin-top : auto
-        display: flex
-        align-items: flex-end
-        justify-content: space-between
+	.labels
+		margin-top : auto
+		display: flex
+		align-items: flex-end
+		justify-content: space-between
 
-        .blabel
-            margin-right: auto
-            span
-                font-size: 1.5em
-                font-weight: 700
+		.blabel
+			margin-right: auto
+			span
+				font-size: 1.5em
+				font-weight: 700
 
-    .notification
-        background: srgb(--color-bg-ac-bright)
-        color : srgb(--text-on-bg-ac-color)
-        border-radius: 50%
-        width: 24px
-        height: 24px
-        line-height: 24px
-        text-align: center
-        font-size: 0.6em
+	.notification
+		background: srgb(--color-bg-ac-bright)
+		color : srgb(--text-on-bg-ac-color)
+		border-radius: 50%
+		width: 24px
+		height: 24px
+		line-height: 24px
+		text-align: center
+		font-size: 0.6em
 
-    &.active
-        background: srgb(--color-bg-ac-bright)
-        color : srgba(--text-on-bg-ac-color, 0.9)
+	&.active
+		background: srgb(--color-bg-ac-bright)
+		color : srgba(--text-on-bg-ac-color, 0.9)
 
-        .iconwrapper
-            background: srgba(--text-on-bg-ac-color, 0.3)
+		.iconwrapper
+			background: srgba(--text-on-bg-ac-color, 0.3)
 
-        .notification
-            color : srgba(--text-on-bg-ac-color, 1)
-            background: srgba(--text-on-bg-ac-color, 0.3)
+		.notification
+			color : srgba(--text-on-bg-ac-color, 1)
+			background: srgba(--text-on-bg-ac-color, 0.3)
 
 @media only screen and (max-width: 768px)
-    .bigmainbutton
-        .fline
-            align-items: flex-start
-            flex-direction: column
-            margin-bottom: 3 * $r
+	.bigmainbutton
+		.fline
+			align-items: flex-start
+			flex-direction: column
+			margin-bottom: 3 * $r
 
 
-        .label
-            margin-left: 0
-            margin-top: 2 * $r
+		.label
+			margin-left: 0
+			margin-top: 2 * $r

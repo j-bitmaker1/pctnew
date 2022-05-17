@@ -10,192 +10,192 @@ import _ from 'underscore';
 import serie from './serie/index.vue'
 
 export default {
-    name: 'allocation',
-    props: {
-        assets : Array
-    },
+	name: 'allocation',
+	props: {
+		assets : Array
+	},
 
-    components : {
-        highcharts : Chart,
-        assets,
-        serie
-    },
-    data : function(){
+	components : {
+		highcharts : Chart,
+		assets,
+		serie
+	},
+	data : function(){
 
-        return {
-            loading : false,
-            activegrouping : 'group',
-            groups : [
-                {
-                    text : 'labels.bygroup',
-                    id : 'group'
-                },
+		return {
+			loading : false,
+			activegrouping : 'group',
+			groups : [
+				{
+					text : 'labels.bygroup',
+					id : 'group'
+				},
 
-                {
-                    text : 'labels.bysector',
-                    id : 'sector'
-                }
-            ],
+				{
+					text : 'labels.bysector',
+					id : 'sector'
+				}
+			],
 
-            chartcolors : ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757'],
+			chartcolors : ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757'],
 
-            drilldown : null
-        }
+			drilldown : null
+		}
 
-    },
+	},
 
    
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
 
-        joined : function(){
-            var jg = {}
+		joined : function(){
+			var jg = {}
 
-            _.each(this.assets, (a) => {
-                if(!jg[a.ticker]){
-                    jg[a.ticker] = a 
-                }
-                else{
-                    jg[a.ticker].value += a.value
-                }
-            })
-            
-            return _.toArray(jg)
-        },
+			_.each(this.assets, (a) => {
+				if(!jg[a.ticker]){
+					jg[a.ticker] = a 
+				}
+				else{
+					jg[a.ticker].value += a.value
+				}
+			})
+			
+			return _.toArray(jg)
+		},
 
-        grouped : function(){
-            return f.group(this.joined, (a) => {
-                return a[this.activegrouping]
-            })
-        },
+		grouped : function(){
+			return f.group(this.joined, (a) => {
+				return a[this.activegrouping]
+			})
+		},
 
-        chartdata : function(){
-            var serie = {
-                minPointSize: 10,
-                innerSize: '80%',
-                name: "Portfolio Weight",
-                data : [],
-                colorByPoint: true,
-                size: '100%'
-            }
-            var drilldown = []
+		chartdata : function(){
+			var serie = {
+				minPointSize: 10,
+				innerSize: '80%',
+				name: "Portfolio Weight",
+				data : [],
+				colorByPoint: true,
+				size: '100%'
+			}
+			var drilldown = []
 
-            var c = 0
-            
-            _.each(this.grouped, (g, i) => {
-                var point = {}
+			var c = 0
+			
+			_.each(this.grouped, (g, i) => {
+				var point = {}
 
-                point.name = i
-                point.drilldown = i
-                point.color = this.colorbyindex(c)
+				point.name = i
+				point.drilldown = i
+				point.color = this.colorbyindex(c)
 
-                c++
+				c++
 
-                point.y = _.reduce(g, (m, asset) => {
-                    return m + asset.value
-                }, 0)
-                
+				point.y = _.reduce(g, (m, asset) => {
+					return m + asset.value
+				}, 0)
+				
 
-                serie.data.push(point)
+				serie.data.push(point)
 
-                var drilldownserie = {
-                    name : i,
-                    id : i,
-                    minPointSize: 10,
-                    size: '100%',
-                    innerSize: '80%',
-                    colorByPoint : true,
-                    data : [],
-                }
+				var drilldownserie = {
+					name : i,
+					id : i,
+					minPointSize: 10,
+					size: '100%',
+					innerSize: '80%',
+					colorByPoint : true,
+					data : [],
+				}
 
-                _.each(g, (asset, i) => {
+				_.each(g, (asset, i) => {
 
-                    var point = {
-                        name : asset.ticker,
-                        y : asset.value,
-                        color : this.colorbyindex(i)
-                    }
+					var point = {
+						name : asset.ticker,
+						y : asset.value,
+						color : this.colorbyindex(i)
+					}
 
-                    drilldownserie.data.push(point)
-                })
+					drilldownserie.data.push(point)
+				})
 
-                drilldown.push(drilldownserie)
-            })
+				drilldown.push(drilldownserie)
+			})
 
-            return {
-                serie,
-                drilldown : {
-                    series : drilldown
-                }
-            }
-        },
+			return {
+				serie,
+				drilldown : {
+					series : drilldown
+				}
+			}
+		},
 
-        chartOptions: function(){
+		chartOptions: function(){
 
-            var d = options()
-            var chartdata = this.chartdata
+			var d = options()
+			var chartdata = this.chartdata
 
-                d.chart.height = 400
-                d.chart.type = 'pie'
-                d.legend.enabled = false
-                d.title = { text: (''), style: { color: "#000000", fontSize : 12  + 'px' } }
-                d.plotOptions.pie.showInLegend = false
-                d.plotOptions.pie.animation = true
-                d.plotOptions.pie.allowPointSelect = false
-                d.plotOptions.pie.size = '90%'
-                d.plotOptions.pie.colorByPoint = true
+				d.chart.height = 400
+				d.chart.type = 'pie'
+				d.legend.enabled = false
+				d.title = { text: (''), style: { color: "#000000", fontSize : 12  + 'px' } }
+				d.plotOptions.pie.showInLegend = false
+				d.plotOptions.pie.animation = true
+				d.plotOptions.pie.allowPointSelect = false
+				d.plotOptions.pie.size = '90%'
+				d.plotOptions.pie.colorByPoint = true
 
-                d.series = [chartdata.serie]
-                d.drilldown = chartdata.drilldown
+				d.series = [chartdata.serie]
+				d.drilldown = chartdata.drilldown
 
-                d.chart.events = {}
-                d.chart.events.drilldown = this.drilldownevent
-                d.chart.events.drillup = this.drillup
-                
+				d.chart.events = {}
+				d.chart.events.drilldown = this.drilldownevent
+				d.chart.events.drillup = this.drillup
+				
 
-            return d
-        },
+			return d
+		},
 
-        currentSerie : function(){
+		currentSerie : function(){
 
-            if(this.drilldown){
-                return _.find(this.chartdata.drilldown.series, (s) => {
-                    return s.id == this.drilldown.id
-                })
-            }
+			if(this.drilldown){
+				return _.find(this.chartdata.drilldown.series, (s) => {
+					return s.id == this.drilldown.id
+				})
+			}
 
-            return this.chartdata.serie
-        },
+			return this.chartdata.serie
+		},
 
-        legend : function(){
+		legend : function(){
 
-        }
+		}
 
-    }),
+	}),
 
-    methods : {
-        grouping : function(e){
-            this.activegrouping = e.target.value
-        },
+	methods : {
+		grouping : function(e){
+			this.activegrouping = e.target.value
+		},
 
-        colorbyindex : function(i){
-            return this.chartcolors[i % this.chartcolors.length]
-        },
-        drillup : function(e){
+		colorbyindex : function(i){
+			return this.chartcolors[i % this.chartcolors.length]
+		},
+		drillup : function(e){
 
-            this.drilldown = null
-        }, 
-        drilldownevent : function(e){
+			this.drilldown = null
+		}, 
+		drilldownevent : function(e){
 
-            this.drilldown = e.seriesOptions
-        }
-    },
+			this.drilldown = e.seriesOptions
+		}
+	},
 }

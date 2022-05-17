@@ -9,20 +9,20 @@
 
 <script>
 import {
-    mapState
+	mapState
 } from 'vuex';
 
 export default {
-    name: '_emptySimple',
-    props: {
-        data: Object
-    },
-    computed: mapState({
-        auth: state => state.auth,
-    }),
+	name: '_emptySimple',
+	props: {
+		data: Object
+	},
+	computed: mapState({
+		auth: state => state.auth,
+	}),
 
-    methods: {
+	methods: {
 
-    },
+	},
 }
 </script>

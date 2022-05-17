@@ -1,66 +1,66 @@
 <template>
   <v-photoswipe
-    v-if="images && images.length" :isOpen="isOpen" :items="images" :options="options" @close="close" @sharecordova="sharecordova"
+	v-if="images && images.length" :isOpen="isOpen" :items="images" :options="options" @close="close" @sharecordova="sharecordova"
   ></v-photoswipe>
 </template>
 <script>
 
 export default {
   props: {
-    images : Array,
-    index : Number
+	images : Array,
+	index : Number
   },
 
   data: () => {
 
-    return {
-      isOpen : false
-    }
+	return {
+	  isOpen : false
+	}
 
   },
 
   mounted(){
-    this.init()
+	this.init()
   },
 
   computed: {
 
-    options : function(){
+	options : function(){
 
-      var o = {
-        index : 0,
-        arrowEl: true,
-        fullscreenEl: false,
-        shareEl: false,
-        history : false
-      }
+	  var o = {
+		index : 0,
+		arrowEl: true,
+		fullscreenEl: false,
+		shareEl: false,
+		history : false
+	  }
 
 
-      return o
-    }
+	  return o
+	}
 
   },
 
   methods: {
 
-    close() {
-      this.isOpen = false
-      this.$emit('close')
-    },
+	close() {
+	  this.isOpen = false
+	  this.$emit('close')
+	},
 
-    init() {
+	init() {
 
-      this.isOpen = true
-      this.$set(this.options, 'index', this.index)
-    },
+	  this.isOpen = true
+	  this.$set(this.options, 'index', this.index)
+	},
 
-    sharecordova : function(src){
-      if (window.plugins && window.plugins.socialsharing){
-        window.plugins.socialsharing.shareWithOptions({
-          files : [src]
-        });
-      }     
-    },
+	sharecordova : function(src){
+	  if (window.plugins && window.plugins.socialsharing){
+		window.plugins.socialsharing.shareWithOptions({
+		  files : [src]
+		});
+	  }	 
+	},
 
 
 

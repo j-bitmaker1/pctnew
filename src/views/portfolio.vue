@@ -10,22 +10,22 @@
 		</template>
 	</topheader>
 
-    <maincontent>
-        <template v-slot:content>
-            <div class="linenavigation">
-                <linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
-            </div>
-            <component :is="module" v-if="!loading && portfolio"/>
-        </template>
-    </maincontent>
+	<maincontent>
+		<template v-slot:content>
+			<div class="linenavigation">
+				<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
+			</div>
+			<component :is="module" v-if="!loading && portfolio"/>
+		</template>
+	</maincontent>
 
 </div>
 </template>
 
 <style scoped lang="sass">
 .linenavigation
-    background: srgb(--background-secondary-theme)
-    margin-bottom: $r
+	background: srgb(--background-secondary-theme)
+	margin-bottom: $r
 </style>
 
 <script>
@@ -37,80 +37,80 @@ import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 
 export default {
-    name: 'portfolios_page',
-    components: {
-        linenavigation,
-        shares,
-        crashtest,
-        portfoliomenu
-    },
+	name: 'portfolios_page',
+	components: {
+		linenavigation,
+		shares,
+		crashtest,
+		portfoliomenu
+	},
 
-    computed: {
-        name : function(){
+	computed: {
+		name : function(){
 
-            if(this.portfolio) return this.portfolio.name
-            
-            return ''
-        },
+			if(this.portfolio) return this.portfolio.name
+			
+			return ''
+		},
 
-        module : function(){
-            return this.active
-        },
+		module : function(){
+			return this.active
+		},
 
-        active : function(){
-            return this.$route.query[this.navkey] || this.navdefault
-        },
+		active : function(){
+			return this.$route.query[this.navkey] || this.navdefault
+		},
 
-        id : function(){
-            return this.portfolioid || this.$route.params.id
-        },
-    },
+		id : function(){
+			return this.portfolioid || this.$route.params.id
+		},
+	},
 
-    data : function(){
-        return {
-            navigation : [
-                {
-                    text : 'labels.crashtest',
-                    id : 'crashtest'
-                },
-                {
-                    text : 'labels.shares',
-                    id : 'shares'
-                }
-            ],
+	data : function(){
+		return {
+			navigation : [
+				{
+					text : 'labels.crashtest',
+					id : 'crashtest'
+				},
+				{
+					text : 'labels.shares',
+					id : 'shares'
+				}
+			],
 
-            portfolio : null,
+			portfolio : null,
 
-            navkey : 'p',
+			navkey : 'p',
 
-            loading : false,
+			loading : false,
 
-            navdefault : 'shares'
-        }
-    },
+			navdefault : 'shares'
+		}
+	},
 
-    methods: {
+	methods: {
 		load : function(){
-            this.loading = true
-            this.core.api.pctapi.portfolios.get(this.id).then(r => {
+			this.loading = true
+			this.core.api.pctapi.portfolios.get(this.id).then(r => {
 
-                this.portfolio = r
+				this.portfolio = r
 
-            }).finally(() => {
-                this.loading = false
-            })
-        },
-        deleteportfolio : function(){
-            this.$router.push('/portfolios')
-        },
+			}).finally(() => {
+				this.loading = false
+			})
+		},
+		deleteportfolio : function(){
+			this.$router.push('/portfolios')
+		},
 
-        editportfolio : function(portfolio){
-            this.portfolio = portfolio
-        }
-    },
+		editportfolio : function(portfolio){
+			this.portfolio = portfolio
+		}
+	},
 
-    created() {
-        this.load()
-    }
+	created() {
+		this.load()
+	}
 }
 </script>

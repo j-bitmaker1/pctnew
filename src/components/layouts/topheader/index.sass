@@ -1,84 +1,84 @@
 #topheader
-    background: srgb(--background-total-theme)
-    z-index: 11
-    color : srgb(--text-color)
+	background: srgb(--background-total-theme)
+	z-index: 11
+	color : srgb(--text-color)
 
-    .iconbutton
-        cursor: pointer
+	.iconbutton
+		cursor: pointer
 
-    .headerLine
-        display: flex
-        align-items: center
-        padding: 0
-        height: 66px
+	.headerLine
+		display: flex
+		align-items: center
+		padding: 0
+		height: 66px
 
-        .leftIcon
-            width: 55px
-            display: none
+		.leftIcon
+			width: 55px
+			display: none
 
-        .infoPart
-            flex-grow: 1
-            padding : 0 2 * $r
-            overflow: hidden
+		.infoPart
+			flex-grow: 1
+			padding : 0 2 * $r
+			overflow: hidden
 
-            /deep/ span,
-            span
-                font-size: 1.5em
-                font-weight: 500
+			::v-deep span,
+			span
+				font-size: 1.5em
+				font-weight: 500
 
-    &.hasback
-        .headerLine
-            .infoPart
-                padding : 0
+	&.hasback
+		.headerLine
+			.infoPart
+				padding : 0
 
-    .rightaddIcons,
-    .rightIcons
-        justify-content: space-between
+	.rightaddIcons,
+	.rightIcons
+		justify-content: space-between
 
 
 
-    .additionalWrapper
-        /deep/
-            #linenavigation
+	.additionalWrapper
+		::v-deep
+			#linenavigation
 
-               
-    
-    &.gray
-        background: srgb(--background-secondary-theme)
-        .headerLine
-            .infoPart
-                /deep/ span,
-                span
-                    font-size: 1em
-                    font-weight: 500
+			   
+	
+	&.gray
+		background: srgb(--background-secondary-theme)
+		.headerLine
+			.infoPart
+				::v-deep span,
+				span
+					font-size: 1em
+					font-weight: 500
 
 @media only screen and (max-width: 768px)
-    #topheader
-        margin-top: 2 * $r
+	#topheader
+		margin-top: 2 * $r
 
-        .headerLine
-            height: 84px
+		.headerLine
+			height: 84px
 
-            .leftIcon
-                display: block
+			.leftIcon
+				display: block
 
-            .rightIcons
-                padding-right: 2 * $r
+			.rightIcons
+				padding-right: 2 * $r
 
-            .infoPart
-                padding : 0 2 * $r
+			.infoPart
+				padding : 0 2 * $r
 
-                /deep/ span,
-                span
-                    font-size: 2em
-                    font-weight: 700
+				::v-deep span,
+				span
+					font-size: 2em
+					font-weight: 700
 
-        &.gray
-            margin-top: 0
-            .headerLine
-                .infoPart
-                    /deep/ span,
-                    span
-                        font-size: 1em
-                        font-weight: 500
-      
+		&.gray
+			margin-top: 0
+			.headerLine
+				.infoPart
+					::v-deep span,
+					span
+						font-size: 1em
+						font-weight: 500
+	  

@@ -6,239 +6,239 @@ import store from '@/vuex/store';
 Vue.use(Router);
 
 const redirects = {
-    authorized: function (core, to) {
+	authorized: function (core, to) {
 
-        var rs = ''
+		var rs = ''
 
-        return f.pretry(() => {
-            return core.user
-        }).then(() => {
-            return core.user.state.is()
-        }).then(state => {
+		return f.pretry(() => {
+			return core.user
+		}).then(() => {
+			return core.user.state.is()
+		}).then(state => {
 
-            if (state == 1) {
-                return Promise.resolve(null)
-            }
-            else {
+			if (state == 1) {
+				return Promise.resolve(null)
+			}
+			else {
 
-                if (to) {
+				if (to) {
 
-                    var redirect = f.hexEncode(to.query.redirect || to.fullPath);
+					var redirect = f.hexEncode(to.query.redirect || to.fullPath);
 
-                    store.commit('redirect', redirect);
+					store.commit('redirect', redirect);
 
-                    rs = '?redirect=' + redirect
+					rs = '?redirect=' + redirect
 
-                }
+				}
 
-                return Promise.reject({
-                    to: '/authorization' + rs
-                })
-            }
-        })
-    },
+				return Promise.reject({
+					to: '/authorization' + rs
+				})
+			}
+		})
+	},
 
-    redirect: function (core, to) {
-        return redirects.authorized(core, to).then(r => {
+	redirect: function (core, to) {
+		return redirects.authorized(core, to).then(r => {
 
-            if (store.state.redirect) {
+			if (store.state.redirect) {
 
-                var redirect = f.hexDecode(store.state.redirect)
+				var redirect = f.hexDecode(store.state.redirect)
 
-                store.commit('redirect', '');
+				store.commit('redirect', '');
 
-                return Promise.resolve({
-                    to: redirect
-                })
-            }
+				return Promise.resolve({
+					to: redirect
+				})
+			}
 
-            return Promise.resolve(null)
+			return Promise.resolve(null)
 
-        })
-    },
+		})
+	},
 
-    notauthorized: function (core, to) {
-        return f.pretry(() => {
-            return core.user
-        }).then(() => {
-            return core.user.state.is()
-        }).then(state => {
+	notauthorized: function (core, to) {
+		return f.pretry(() => {
+			return core.user
+		}).then(() => {
+			return core.user.state.is()
+		}).then(state => {
 
-            if (!state) {
-                return Promise.resolve(null)
-            }
-            else {
-                return Promise.resolve({
-                    to: '/'
-                })
-            }
-        })
-    }
+			if (!state) {
+				return Promise.resolve(null)
+			}
+			else {
+				return Promise.resolve({
+					to: '/'
+				})
+			}
+		})
+	}
 }
 
 const routes = [
-    {
-        path: '/',
-        name: 'index',
-        component: () => import('@/views/index'),
-        customRedirect : redirects.redirect
-    },
+	{
+		path: '/',
+		name: 'index',
+		component: () => import('@/views/index'),
+		customRedirect : redirects.redirect
+	},
 
-    {
-        path: '/authorization',
-        name: 'authorization',
-        component: () => import('@/views/authorization'),
-        customRedirect : redirects.notauthorized
-    },
+	{
+		path: '/authorization',
+		name: 'authorization',
+		component: () => import('@/views/authorization'),
+		customRedirect : redirects.notauthorized
+	},
 
-    {
-        path: '/profile',
-        name: 'profile',
-        component: () => import('@/views/profile'),
-        customRedirect : redirects.authorized
-    },
+	{
+		path: '/profile',
+		name: 'profile',
+		component: () => import('@/views/profile'),
+		customRedirect : redirects.authorized
+	},
 
-    {
-        path: '/terms',
-        name: 'terms',
-        component: () => import('@/views/terms')
-    },
+	{
+		path: '/terms',
+		name: 'terms',
+		component: () => import('@/views/terms')
+	},
 
-    {
-        path: '/support',
-        name: 'support',
-        component: () => import('@/views/support')
-    },
+	{
+		path: '/support',
+		name: 'support',
+		component: () => import('@/views/support')
+	},
 
-    
-    {
-        path: '/portfolios',
-        name: 'portfolios',
-        component: () => import('@/views/portfolios'),
-        customRedirect : redirects.authorized
-    },
+	
+	{
+		path: '/portfolios',
+		name: 'portfolios',
+		component: () => import('@/views/portfolios'),
+		customRedirect : redirects.authorized
+	},
 
-    {
-        path: '/portfolio/:id',
-        name: 'portfolio',
-        component: () => import('@/views/portfolio'),
-        customRedirect : redirects.authorized
-    },
+	{
+		path: '/portfolio/:id',
+		name: 'portfolio',
+		component: () => import('@/views/portfolio'),
+		customRedirect : redirects.authorized
+	},
 
-    {
-        path: '/changepassword',
-        name: 'changepassword',
-        component: () => import('@/views/changepassword')
-    },
+	{
+		path: '/changepassword',
+		name: 'changepassword',
+		component: () => import('@/views/changepassword')
+	},
 
-    {
-        path: '/setpassword',
-        name: 'setpassword',
-        component: () => import('@/views/setpassword')
-    },
+	{
+		path: '/setpassword',
+		name: 'setpassword',
+		component: () => import('@/views/setpassword')
+	},
 
-    {
-        path: '/changepassword',
-        name: 'changepassword',
-        component: () => import('@/views/changepassword')
-    },
+	{
+		path: '/changepassword',
+		name: 'changepassword',
+		component: () => import('@/views/changepassword')
+	},
 
-    
-    {
-        path: '/leads',
-        name: 'leads',
-        component: () => import('@/views/leads'),
-        customRedirect : redirects.authorized
-    },
+	
+	{
+		path: '/leads',
+		name: 'leads',
+		component: () => import('@/views/leads'),
+		customRedirect : redirects.authorized
+	},
 
-    {
-        path: '/lead/:id',
-        name: 'lead',
-        component: () => import('@/views/lead'),
-        customRedirect : redirects.authorized
-    },
+	{
+		path: '/lead/:id',
+		name: 'lead',
+		component: () => import('@/views/lead'),
+		customRedirect : redirects.authorized
+	},
 
-    {
-        path: '/clients',
-        name: 'clients',
-        component: () => import('@/views/clients'),
-        customRedirect : redirects.authorized
-    },
+	{
+		path: '/clients',
+		name: 'clients',
+		component: () => import('@/views/clients'),
+		customRedirect : redirects.authorized
+	},
 
-    {
-        path: '/client/:id',
-        name: 'client',
-        component: () => import('@/views/client'),
-        customRedirect : redirects.authorized
-    },
+	{
+		path: '/client/:id',
+		name: 'client',
+		component: () => import('@/views/client'),
+		customRedirect : redirects.authorized
+	},
 
-    
+	
 ]
 
 const scrollBehavior = function (to, from, savedPosition) {
 
-    const position = {}
+	const position = {}
 
-    if (to.hash) {
-        position.selector = to.hash
+	if (to.hash) {
+		position.selector = to.hash
 
-        if (document.querySelector(to.hash)) {
-            return position
-        }
+		if (document.querySelector(to.hash)) {
+			return position
+		}
 
-        return false
-    }
+		return false
+	}
 
-    return new Promise(resolve => {
+	return new Promise(resolve => {
 
-        if (to.matched.some(m => !m.meta || !m.meta.dontScrollToTop)) {
-            position.x = 0
-            position.y = 0
-        }
+		if (to.matched.some(m => !m.meta || !m.meta.dontScrollToTop)) {
+			position.x = 0
+			position.y = 0
+		}
 
 
-        resolve(position)
+		resolve(position)
 
-    }).catch(e => {
-    })
+	}).catch(e => {
+	})
 }
 
 const router = new Router({
-    base: process.env.BASE_URL,
-    routes,
-    scrollBehavior,
-    mode: window.cordova ? "" : 'history',
+	base: process.env.BASE_URL,
+	routes,
+	scrollBehavior,
+	mode: window.cordova ? "" : 'history',
 
 })
 
 
 router.beforeEach((to, from, next) => {
 
-    var r = _.find(routes, (r) => r.name == to.name)
+	var r = _.find(routes, (r) => r.name == to.name)
 
-    if (r && r.customRedirect) {
-
-
-        return f.pretry(() => {
-            return router.app.core
-        }).then(() => {
-
-            return r.customRedirect(router.app.core, to)
-
-        }).catch(obj => {
+	if (r && r.customRedirect) {
 
 
-            return Promise.resolve(obj)
-        }).then(obj => {
+		return f.pretry(() => {
+			return router.app.core
+		}).then(() => {
+
+			return r.customRedirect(router.app.core, to)
+
+		}).catch(obj => {
 
 
-            obj ? next(obj.to) : next()
-        })
+			return Promise.resolve(obj)
+		}).then(obj => {
 
-        return
-    }
 
-    next()
+			obj ? next(obj.to) : next()
+		})
+
+		return
+	}
+
+	next()
 })
 
 export default router

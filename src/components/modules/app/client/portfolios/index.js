@@ -3,86 +3,86 @@ import { mapState } from 'vuex';
 import portfoliolist from '@/components/modules/app/portfolios/list/index.vue'
 
 export default {
-    name: 'client_portfolios',
-    props: {
-        profile : Object
-    },
+	name: 'client_portfolios',
+	props: {
+		profile : Object
+	},
 
-    components : {
-        portfoliolist, 
-    },
+	components : {
+		portfoliolist, 
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false
-        }
+		return {
+			loading : false
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
 
-        payload : function(){
-            return {
-                crmContactIdFilter : this.profile.ID
-            }
-        }
-    }),
+		payload : function(){
+			return {
+				crmContactIdFilter : this.profile.ID
+			}
+		}
+	}),
 
-    methods : {
-        create : function(){
-            this.$store.commit('OPEN_MODAL', {
-                id : 'modal_portfolios_edit',
-                module : "portfolio_edit",
-                caption : "New Portfolio For Client",
+	methods : {
+		create : function(){
+			this.$store.commit('OPEN_MODAL', {
+				id : 'modal_portfolios_edit',
+				module : "portfolio_edit",
+				caption : "New Portfolio For Client",
 
-                data : {
-                    payload : {}
-                }
-            })
-        },
+				data : {
+					payload : {}
+				}
+			})
+		},
 
-        select : function(){
+		select : function(){
 
-            this.$store.commit('OPEN_MODAL', {
-                id : 'modal_portfolios_main',
-                module : "portfolios_main",
-                caption : "Select Portfolios For Client",
+			this.$store.commit('OPEN_MODAL', {
+				id : 'modal_portfolios_main',
+				module : "portfolios_main",
+				caption : "Select Portfolios For Client",
 
-                data : {
-                    
-                    select : {
-                        multiple : true
-                    }
-                },
+				data : {
+					
+					select : {
+						multiple : true
+					}
+				},
 
-                events : {
-                    selected : (portfolios) => {
+				events : {
+					selected : (portfolios) => {
 
-                        this.core.pct.setPortfoliosToClient(this.profile.ID, portfolios, {
-                            preloader : true,
-                            showStatus : true
-                        }).then(r => {
+						this.core.pct.setPortfoliosToClient(this.profile.ID, portfolios, {
+							preloader : true,
+							showStatus : true
+						}).then(r => {
 
-                            if (this.$refs['list'])
-                                this.$refs['list'].reload()
+							if (this.$refs['list'])
+								this.$refs['list'].reload()
 
-                            ///// clientChanged
-                        })
+							///// clientChanged
+						})
 
-                    }
-                }
-            })
-            
-        }
-    },
+					}
+				}
+			})
+			
+		}
+	},
 }

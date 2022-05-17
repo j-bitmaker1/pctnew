@@ -4,205 +4,205 @@ import { mapState } from 'vuex';
 import portfolio from '../portfolio/index.vue'
 
 export default {
-    name: 'portfolios_list',
-    props: {
-        additional : Object,
-        actions : {
-            type : Array,
-            default : () => {return []}
-        },
-        select : Object
-    },
+	name: 'portfolios_list',
+	props: {
+		additional : Object,
+		actions : {
+			type : Array,
+			default : () => {return []}
+		},
+		select : Object
+	},
 
-    components : {
-        portfolio
-    },
+	components : {
+		portfolio
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false,
-            searchvalue : '',
-            count : 0,
-            sort : 'FName_asc',
-            sorting : {
-                FName_asc : {
-                    text : 'fname_asc',
-                    field : 'FName',
-                    sort : 'asc'
-                },
-                FName_desc : {
-                    text : 'fname_desc',
-                    field : 'FName',
-                    sort : 'desc'
-                }
-            },
+		return {
+			loading : false,
+			searchvalue : '',
+			count : 0,
+			sort : 'FName_asc',
+			sorting : {
+				FName_asc : {
+					text : 'fname_asc',
+					field : 'FName',
+					sort : 'asc'
+				},
+				FName_desc : {
+					text : 'fname_desc',
+					field : 'FName',
+					sort : 'desc'
+				}
+			},
 
-            selected : null,
-            
-        }
+			selected : null,
+			
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        tscrolly : function(){
+	watch: {
+		tscrolly : function(){
 
-            if (this.$refs['list']){
+			if (this.$refs['list']){
 
-                if (this.$refs['list'].height() - 1000 < this.tscrolly + this.dheight){
-                    this.$refs['list'].next()
-                }
-                
-            }
-            
-        }
-    },
-    computed: mapState({
-        dheight: state => state.dheight,
-        tscrolly : state => state.tscrolly,
-        auth : state => state.auth,
+				if (this.$refs['list'].height() - 1000 < this.tscrolly + this.dheight){
+					this.$refs['list'].next()
+				}
+				
+			}
+			
+		}
+	},
+	computed: mapState({
+		dheight: state => state.dheight,
+		tscrolly : state => state.tscrolly,
+		auth : state => state.auth,
 
-        payload : function(){
-            return {
-                IncludePositions : true,
-                ... this.additional || {}
-            }
-        },
+		payload : function(){
+			return {
+				IncludePositions : true,
+				... this.additional || {}
+			}
+		},
 
-        selectMultiple : function(){
-            return !this.select || this.select.multiple
-        },
+		selectMultiple : function(){
+			return !this.select || this.select.multiple
+		},
 
-        menu : function(){
+		menu : function(){
 
-            if (this.select){
-                return this.select.actions
-            }
+			if (this.select){
+				return this.select.actions
+			}
 
-            return [
+			return [
 
-                ... this.actions,
+				... this.actions,
 
-                {
-                    text : 'labels.deleteportfolios',
-                    icon : 'fas fa-trash',
-                    action : 'deleteportfolios'
-                }
-                
-            ]
-        }
-    }),
+				{
+					text : 'labels.deleteportfolios',
+					icon : 'fas fa-trash',
+					action : 'deleteportfolios'
+				}
+				
+			]
+		}
+	}),
 
-    methods : {
+	methods : {
 
-        reload : function(){
-            if(this.$refs['list']) this.$refs['list'].reload()
-        },
+		reload : function(){
+			if(this.$refs['list']) this.$refs['list'].reload()
+		},
 
-        open : function(portfolio){
+		open : function(portfolio){
 
-            if (this.select){
-                this.$emit('selected', [portfolio])
-                this.$emit('close')
-            }
-            else{
-                this.$router.push('portfolio/' + portfolio.id)
-            }
+			if (this.select){
+				this.$emit('selected', [portfolio])
+				this.$emit('close')
+			}
+			else{
+				this.$router.push('portfolio/' + portfolio.id)
+			}
 
-            
-        },
+			
+		},
 
-        search : function(v){
-            this.searchvalue = v
-        },
+		search : function(v){
+			this.searchvalue = v
+		},
 
-        setcount : function(v){
-            this.count = v
-        },
+		setcount : function(v){
+			this.count = v
+		},
 
-        sortchange : function(v){
-            this.sort = v
-        },
+		sortchange : function(v){
+			this.sort = v
+		},
 
-        selectionSuccess : function(portfolios){
-            if (this.select){
-                this.$emit('selected', portfolios)
-            }
-            else{
-                this.selected = portfolios
-            }
-            
-        },
+		selectionSuccess : function(portfolios){
+			if (this.select){
+				this.$emit('selected', portfolios)
+			}
+			else{
+				this.selected = portfolios
+			}
+			
+		},
 
-        closeselected : function(){
-            this.selected = null
-        },
+		closeselected : function(){
+			this.selected = null
+		},
 
-        menuaction : function(action){
-            if (this[action]){
-                this[action]()
-            }   
-        },
+		menuaction : function(action){
+			if (this[action]){
+				this[action]()
+			}   
+		},
 
-        deleteportfolios : function(portfolios){
-            _.each(portfolios, (portfolio) => {
+		deleteportfolios : function(portfolios){
+			_.each(portfolios, (portfolio) => {
 
-                if(this.$refs['list']) this.$refs['list'].datadeleted(portfolio, "id")
+				if(this.$refs['list']) this.$refs['list'].datadeleted(portfolio, "id")
 
-            })
+			})
 
-            this.closeselected()
-        },
+			this.closeselected()
+		},
 
-        deleteportfolio : function(portfolio){
-            this.deleteportfolios([portfolio])
-        },
+		deleteportfolio : function(portfolio){
+			this.deleteportfolios([portfolio])
+		},
 
-        editportfolio : function(data){
-            //console.log('editportfolio', portfolio)
-            this.core.vxstorage.update(data,  'portfolio')
+		editportfolio : function(data){
+			//console.log('editportfolio', portfolio)
+			this.core.vxstorage.update(data,  'portfolio')
 
-            //if(this.$refs['list']) this.$refs['list'].datachanged(portfolio, "id")
+			//if(this.$refs['list']) this.$refs['list'].datachanged(portfolio, "id")
 
-        },
+		},
 
-        setportfoliostoclient : function(){
+		setportfoliostoclient : function(){
 
-            this.$store.commit('OPEN_MODAL', {
-                id : 'modal_clients',
-                module : "clients",
-                caption : "Select Client",
-                data : {
-                    select : {
-                        multiple : false
-                    }
-                },
+			this.$store.commit('OPEN_MODAL', {
+				id : 'modal_clients',
+				module : "clients",
+				caption : "Select Client",
+				data : {
+					select : {
+						multiple : false
+					}
+				},
 
-                events : {
-                    selected : (clients) => {
+				events : {
+					selected : (clients) => {
 
-                        var client = clients[0]
+						var client = clients[0]
 
-                        this.core.pct.setPortfoliosToClient(client.ID, this.selected, {
-                            preloader : true,
-                            showStatus : true
-                        }).then(r => {
-                            this.selected = null
+						this.core.pct.setPortfoliosToClient(client.ID, this.selected, {
+							preloader : true,
+							showStatus : true
+						}).then(r => {
+							this.selected = null
 
 
-                            ///// clientChanged
-                        })
+							///// clientChanged
+						})
 
-                        
-                    }
-                }
-            })
+						
+					}
+				}
+			})
 
-        }
+		}
 
-    },
+	},
 }

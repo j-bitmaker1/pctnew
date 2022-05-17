@@ -1,13 +1,13 @@
 <template>
 <div class="page">
 
-    <topheader />
+	<topheader />
 
-    <maincontent>
-        <template v-slot:content>
-            page
-        </template>
-    </maincontent>
+	<maincontent>
+		<template v-slot:content>
+			page
+		</template>
+	</maincontent>
 
 </div>
 </template>
@@ -18,21 +18,21 @@
 
 <script>
 export default {
-    name: 'page',
-    components: {
+	name: 'page',
+	components: {
 
-    },
+	},
 
-    computed: {
+	computed: {
 
-    },
+	},
 
-    methods: {
+	methods: {
 
-    },
+	},
 
-    mounted() {
+	mounted() {
 
-    }
+	}
 }
 </script>

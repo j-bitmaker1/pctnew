@@ -1,10 +1,10 @@
 <template>
 <div id="rxiframe" class="absmodal">
-    <iframe ref="hiddenrxcom" class="hidden" :src="src" @load="onLoadHidden"/>
+	<iframe ref="hiddenrxcom" class="hidden" :src="src" @load="onLoadHidden"/>
 
-    <slot v-if="!loading">
-        rx iframe here
-    </slot>
+	<slot v-if="!loading">
+		rx iframe here
+	</slot>
 </div>
 </template>
 

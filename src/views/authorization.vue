@@ -1,11 +1,11 @@
 <template>
   <div class="bgpage">
-    <div class="brandWrapper">
+	<div class="brandWrapper">
 		<logotype />
 	</div>
-    <div class="authorizationWrapper">
-      <authorization />
-    </div>
+	<div class="authorizationWrapper">
+	  <authorization />
+	</div>
   </div>
 </template>
 
@@ -41,7 +41,7 @@ import authorization from "@/components/common/authorization/index.vue";
 export default {
   name: "authorization_page",
   components: {
-    authorization,
+	authorization,
   },
 
   computed: {},

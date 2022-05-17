@@ -12,11 +12,11 @@
 		</template>
 	</topheader>
 
-    <maincontent>
-        <template v-slot:content>
-            <portfoliosmainlist />
-        </template>
-    </maincontent>
+	<maincontent>
+		<template v-slot:content>
+			<portfoliosmainlist />
+		</template>
+	</maincontent>
 
 </div>
 </template>
@@ -30,27 +30,27 @@
 import portfoliosmainlist from "@/components/modules/app/portfolios/main/index.vue";
 
 export default {
-    name: 'portfolios_page',
-    components: {
-        portfoliosmainlist
-    },
+	name: 'portfolios_page',
+	components: {
+		portfoliosmainlist
+	},
 
-    computed: {
-        
-    },
+	computed: {
+		
+	},
 
-    methods: {
+	methods: {
 		newportfolio : function(){
 			this.$store.commit('OPEN_MODAL', {
-                id : 'modal_portfolios_edit',
-                module : "portfolio_edit",
-                caption : "New Portfolio"
-            })
+				id : 'modal_portfolios_edit',
+				module : "portfolio_edit",
+				caption : "New Portfolio"
+			})
 		}
-    },
+	},
 
-    mounted() {
+	mounted() {
 
-    }
+	}
 }
 </script>

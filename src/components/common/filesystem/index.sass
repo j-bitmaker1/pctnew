@@ -1,46 +1,46 @@
 .items
-    display: flex
-    align-items: center
-    overflow-x: scroll
-    scroll-snap-type: x mandatory
-    scroll-behavior: smooth
-    &::-webkit-scrollbar
-        display: none!important
+	display: flex
+	align-items: center
+	overflow-x: scroll
+	scroll-snap-type: x mandatory
+	scroll-behavior: smooth
+	&::-webkit-scrollbar
+		display: none!important
 
-    /deep/
+	::v-deep
 
-        .simplelist
-            display: flex
-            align-items: center
+		.simplelist
+			display: flex
+			align-items: center
 
-            >div
-                display: flex
-                align-items: center
+			>div
+				display: flex
+				align-items: center
 
-    .cnt
-        min-width: 80px
-        max-width: 80px
-        padding : $r
-        text-align: center
-        scroll-snap-align: start
+	.cnt
+		min-width: 80px
+		max-width: 80px
+		padding : $r
+		text-align: center
+		scroll-snap-align: start
 
-        i
-            font-size: 1.5em
-            color : srgb(--color-txt-ac)
-            height: 33px
-            line-height: 33px
+		i
+			font-size: 1.5em
+			color : srgb(--color-txt-ac)
+			height: 33px
+			line-height: 33px
 
-            &.small
-                font-size: 0.8em
+			&.small
+				font-size: 0.8em
 
-        .name
-            text-overflow: ellipsis
-            white-space: nowrap
-            overflow: hidden
-            color : srgb(--neutral-grad-3)
+		.name
+			text-overflow: ellipsis
+			white-space: nowrap
+			overflow: hidden
+			color : srgb(--neutral-grad-3)
 
-            span
-                font-size: 0.8em
+			span
+				font-size: 0.8em
 
 .filesystem
-    padding : $r 0
+	padding : $r 0

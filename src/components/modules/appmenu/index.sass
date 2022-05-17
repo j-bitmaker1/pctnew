@@ -1,79 +1,79 @@
 
 #appmenu
-    position: relative
+	position: relative
 
 .logowrapper
-    margin-bottom: 4 * $r
+	margin-bottom: 4 * $r
 
 .items
-    .item
-        border-radius: 12px
-        padding : $r
-        display: flex
-        align-items: center
-        color : srgb(--neutral-grad-4)
-        +transition(0.3s)
+	.item
+		border-radius: 12px
+		padding : $r
+		display: flex
+		align-items: center
+		color : srgb(--neutral-grad-4)
+		+transition(0.3s)
 
-        span
-            font-size: 0.9em
-            font-weight: 500
-            margin-left: $r
-        i
-            font-size: 0.8em
-            width: 30px
-            text-align: center
+		span
+			font-size: 0.9em
+			font-weight: 500
+			margin-left: $r
+		i
+			font-size: 0.8em
+			width: 30px
+			text-align: center
 
-        &.active
-            background: srgba(--neutral-grad-0, 0.5)
+		&.active
+			background: srgba(--neutral-grad-0, 0.5)
 
-        .notifications
-            margin-left: auto
-            background: srgb(--color-bg-ac)
-            color : srgb(--text-on-bg-ac-color)
-            border-radius: 50%
-            width: 24px
-            height: 24px
-            line-height: 24px
-            text-align: center
-            font-size: 0.6em
+		.notifications
+			margin-left: auto
+			background: srgb(--color-bg-ac)
+			color : srgb(--text-on-bg-ac-color)
+			border-radius: 50%
+			width: 24px
+			height: 24px
+			line-height: 24px
+			text-align: center
+			font-size: 0.6em
 
 .footer
-    position: absolute
-    left : 3 * $r
-    bottom : 3 * $r
+	position: absolute
+	left : 3 * $r
+	bottom : 3 * $r
 
-    .help
-        i,
-        span
-            font-size: 0.8em
+	.help
+		i,
+		span
+			font-size: 0.8em
 
 .tempexit
-    margin-top : 2 * $r
-    padding: 2 * $r
-    cursor: pointer
+	margin-top : 2 * $r
+	padding: 2 * $r
+	cursor: pointer
 
 @media (pointer:fine)
-    .items
-        &:hover
-            .item
-                &.active
-                    background: transparent
-            .item
-                cursor: pointer
+	.items
+		&:hover
+			.item
+				&.active
+					background: transparent
+			.item
+				cursor: pointer
 
-                &:hover
-                    background: srgba(--neutral-grad-0, 0.5)
+				&:hover
+					background: srgba(--neutral-grad-0, 0.5)
 
 @media only screen and (max-width: 768px)
-    .tempexit,
-    .logowrapper
-        display: none
-    .items
-        display: flex
-        justify-content: space-around
-        .item
-            height: 44px
-            span
-                display: none
-    .footer
-        display: none
+	.tempexit,
+	.logowrapper
+		display: none
+	.items
+		display: flex
+		justify-content: space-around
+		.item
+			height: 44px
+			span
+				display: none
+	.footer
+		display: none

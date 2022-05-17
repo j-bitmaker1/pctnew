@@ -1,111 +1,111 @@
 .clients_client
-    border-radius: 12px
-    border : 1px solid srgba(--neutral-grad-1, 0.5)
-    
+	border-radius: 12px
+	border : 1px solid srgba(--neutral-grad-1, 0.5)
+	
 
-    .line
-        align-items: center
-        display: flex
-        justify-content: space-between
-        padding-right: 2 * $r
+	.line
+		align-items: center
+		display: flex
+		justify-content: space-between
+		padding-right: 2 * $r
 
-    .row
-        align-items: center
-        display: flex
+	.row
+		align-items: center
+		display: flex
 
-    .menurow
-        justify-content: flex-end
-    
+	.menurow
+		justify-content: flex-end
+	
 
-    
+	
 
-    .statsrow
-        
-        >div
-            
-            padding : 2 * $r
-            flex-grow: 1
+	.statsrow
+		
+		>div
+			
+			padding : 2 * $r
+			flex-grow: 1
 
-        span
-            display: block
+		span
+			display: block
 
-        .label
-            font-size: 0.8em
-            color : srgb(--neutral-grad-2)
-        
-        /deep/
-            .coloredNumber
-                font-size: 1.2em
-                font-weight: 700
-    
+		.label
+			font-size: 0.8em
+			color : srgb(--neutral-grad-2)
+		
+		::v-deep
+			.coloredNumber
+				font-size: 1.2em
+				font-weight: 700
+	
 
-    .daterow
-        padding : 0.5 * $r 2 * $r 
-        border-top : 1px solid srgba(--neutral-grad-1, 0.5)
-        background: srgba(--neutral-grad-0, 0.1)
+	.daterow
+		padding : 0.5 * $r 2 * $r 
+		border-top : 1px solid srgba(--neutral-grad-1, 0.5)
+		background: srgba(--neutral-grad-0, 0.1)
 
-        span
-            font-size: 0.9em
-            color : srgb(--neutral-grad-2)
+		span
+			font-size: 0.9em
+			color : srgb(--neutral-grad-2)
 
-    .menuWrapper
-        margin-left: auto
-        /deep/
-            .itemWrapper
-                color : srgb(--neutral-grad-2)
+	.menuWrapper
+		margin-left: auto
+		::v-deep
+			.itemWrapper
+				color : srgb(--neutral-grad-2)
 
-    .profilerow
-        padding : 2 * $r
-        align-items: center
-        justify-content: space-between
+	.profilerow
+		padding : 2 * $r
+		align-items: center
+		justify-content: space-between
 
-    /deep/
-        .userpicWrapper
-            max-width: 44px
-            min-width: 44px
-            width: 44px
-            line-height: 44px
-            font-size: 0.8em
-            margin-right: 2 * $r
-    
+	::v-deep
+		.userpicWrapper
+			max-width: 44px
+			min-width: 44px
+			width: 44px
+			line-height: 44px
+			font-size: 0.8em
+			margin-right: 2 * $r
+	
 .data
-    .email
-        span
-            font-size: 0.8em
-            color : srgb(--neutral-grad-2)
-    .name
-        span
-            font-weight: 700
+	.email
+		span
+			font-size: 0.8em
+			color : srgb(--neutral-grad-2)
+	.name
+		span
+			font-weight: 700
 
 
 @media only screen and (max-width: 768px)
-    .clients_client
-        border-radius: 18px
-        background: srgba(--neutral-grad-0, 0.1)
+	.clients_client
+		border-radius: 18px
+		background: srgba(--neutral-grad-0, 0.1)
 
-        .line
-            flex-wrap: wrap
-            padding-right: 0
+		.line
+			flex-wrap: wrap
+			padding-right: 0
 
-        .menurow
-            order : 2
-            padding-right: 2 * $r
+		.menurow
+			order : 2
+			padding-right: 2 * $r
 
-        .profilerow
-            order : 1
-            justify-content: flex-start
-        
-        .statsrow
-            width: 100%
-            order : 3
-            flex-grow: 2
-            border-top : 1px solid srgba(--neutral-grad-1, 0.5)
-            
-            >div
-                width: 33%
-                border-right : 1px solid srgba(--neutral-grad-1, 0.5)
+		.profilerow
+			order : 1
+			justify-content: flex-start
+		
+		.statsrow
+			width: 100%
+			order : 3
+			flex-grow: 2
+			border-top : 1px solid srgba(--neutral-grad-1, 0.5)
+			
+			>div
+				width: 33%
+				border-right : 1px solid srgba(--neutral-grad-1, 0.5)
 
-                &:nth-last-child(1)
-                    border-right : 0
-            
-      
+				&:nth-last-child(1)
+					border-right : 0
+			
+	  

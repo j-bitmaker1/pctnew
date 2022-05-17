@@ -5,35 +5,35 @@ import bigmainbutton from "@/components/delements/bigmainbutton/index.vue";
 import notifications from "@/components/modules/notifications/index.vue";
 
 export default {
-    name: 'home',
-    props: {
-    },
+	name: 'home',
+	props: {
+	},
 
-    components : {
-        bigmainbutton,
-        notifications
-    },
+	components : {
+		bigmainbutton,
+		notifications
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false
-        }
+		return {
+			loading : false
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-    }),
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+	}),
 
-    methods : {
-        
-    },
+	methods : {
+		
+	},
 }

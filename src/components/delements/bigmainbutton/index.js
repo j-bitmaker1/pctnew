@@ -1,36 +1,36 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: 'bigmainbutton',
+	name: 'bigmainbutton',
 
-    props: {
-        icon : String,
-        label : String,
-        blabel : String,
-        nlabel : String,
-        active: Boolean
-    },
+	props: {
+		icon : String,
+		label : String,
+		blabel : String,
+		nlabel : String,
+		active: Boolean
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false
-        }
+		return {
+			loading : false
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-    }),
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+	}),
 
-    methods : {
-        
-    },
+	methods : {
+		
+	},
 }

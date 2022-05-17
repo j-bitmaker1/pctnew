@@ -1,15 +1,15 @@
 <template>
   <div class="page">   
 
-    <topheader/>
+	<topheader/>
 
-    <maincontent>
-      <template v-slot:content>
-        <setpassword />
-      </template>
-    </maincontent>
+	<maincontent>
+	  <template v-slot:content>
+		<setpassword />
+	  </template>
+	</maincontent>
 
-    
+	
   </div>
 </template>
 
@@ -23,7 +23,7 @@ import setpassword from "@/components/common/setpassword/index.vue";
 export default {
   name: 'setpassword_page',
   components: {
-    setpassword
+	setpassword
   },
 
   computed:{
@@ -35,7 +35,7 @@ export default {
   },
 
   mounted() {
-    
+	
   }
 }
 </script>

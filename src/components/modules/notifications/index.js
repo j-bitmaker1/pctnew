@@ -1,78 +1,78 @@
 import { mapState } from 'vuex';
 import notification from "@/components/modules/notifications/notification/index.vue";
 export default {
-    name: 'notifications',
-    props: {
-    },
+	name: 'notifications',
+	props: {
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false,
+		return {
+			loading : false,
 
-            selected : null,
-            menu : [
-               
-                {
-                    text : 'labels.deletenotifications',
-                    icon : 'fas fa-trash',
-                    action : 'deletenotifications'
-                }
-            ]
-        }
+			selected : null,
+			menu : [
+			   
+				{
+					text : 'labels.deletenotifications',
+					icon : 'fas fa-trash',
+					action : 'deletenotifications'
+				}
+			]
+		}
 
-    },
+	},
 
-    created : () => {
+	created : () => {
 
-    },
+	},
 
-    components : {
-        notification
-    },
+	components : {
+		notification
+	},
 
-    watch: {
-        tscrolly : function(){
+	watch: {
+		tscrolly : function(){
 
-            if (this.$refs['list']){
+			if (this.$refs['list']){
 
-                if (this.$refs['list'].height() - 1000 < this.tscrolly + this.dheight){
-                    this.$refs['list'].next()
-                }
-                
-            }
-            
-        }
-    },
-    computed: mapState({
-        dheight: state => state.dheight,
-        tscrolly : state => state.tscrolly,
-        auth : state => state.auth,
+				if (this.$refs['list'].height() - 1000 < this.tscrolly + this.dheight){
+					this.$refs['list'].next()
+				}
+				
+			}
+			
+		}
+	},
+	computed: mapState({
+		dheight: state => state.dheight,
+		tscrolly : state => state.tscrolly,
+		auth : state => state.auth,
 
-        payload : function(){
-            return {}
-        }
-    }),
+		payload : function(){
+			return {}
+		}
+	}),
 
 
-    methods : {
+	methods : {
 
-        selectionSuccess : function(notifications){
-            this.selected = notifications
-        },
+		selectionSuccess : function(notifications){
+			this.selected = notifications
+		},
 
-        closeselected : function(){
-            this.selected = null
-        },
+		closeselected : function(){
+			this.selected = null
+		},
 
-        menuaction : function(action){
-            if (this[action]){
-                this[action]()
-            }   
-        },
+		menuaction : function(action){
+			if (this[action]){
+				this[action]()
+			}   
+		},
 
-        deletenotifications : function(){
+		deletenotifications : function(){
 
-        }
-    },
+		}
+	},
 }

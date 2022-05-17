@@ -1,31 +1,31 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: 'client_info',
-    props: {
-        profile : Object
-    },
+	name: 'client_info',
+	props: {
+		profile : Object
+	},
 
-    data : function(){
+	data : function(){
 
-        return {
-            loading : false
-        }
+		return {
+			loading : false
+		}
 
-    },
+	},
 
-    created (){
-    },
+	created (){
+	},
 
-    watch: {
-        //$route: 'getdata'
-    },
-    computed: mapState({
-        auth : state => state.auth,
-        schema : state => state.crmschemas.contact
-    }),
+	watch: {
+		//$route: 'getdata'
+	},
+	computed: mapState({
+		auth : state => state.auth,
+		schema : state => state.crmschemas.contact
+	}),
 
-    methods : {
-       
-    },
+	methods : {
+	   
+	},
 }

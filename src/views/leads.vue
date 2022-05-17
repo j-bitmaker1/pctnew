@@ -1,24 +1,24 @@
 <template>
 <div class="page">
 
-    <topheader>
-        <template v-slot:info>
-            <span>Leads</span>
-        </template>
-        <template v-slot:right>
-            <div class="buttonpanel" @click="sharequestionnaire">
-                <i class="fas fa-link"></i>
-            </div>
-        </template>
-    </topheader>
+	<topheader>
+		<template v-slot:info>
+			<span>Leads</span>
+		</template>
+		<template v-slot:right>
+			<div class="buttonpanel" @click="sharequestionnaire">
+				<i class="fas fa-link"></i>
+			</div>
+		</template>
+	</topheader>
 
-    <maincontent>
+	<maincontent>
 
-        <template v-slot:content>
-            <leads />
-        </template>
+		<template v-slot:content>
+			<leads />
+		</template>
 
-    </maincontent>
+	</maincontent>
 
 </div>
 </template>
@@ -31,32 +31,32 @@
 import leads from "@/components/modules/app/leads/index.vue";
 
 export default {
-    name: 'leads_page',
-    components: {
-        leads
+	name: 'leads_page',
+	components: {
+		leads
 
-    },
+	},
 
-    computed: {
+	computed: {
 
-    },
+	},
 
-    methods: {
-        sharequestionnaire: function () {
-            this.$store.commit('OPEN_MODAL', {
-                id: 'modal_share',
-                module: "share",
-                caption: "Share Questionnaire",
-                mclass : 'small',
-                data : {
-                    url : ''
-                }
-            })
-        }
-    },
+	methods: {
+		sharequestionnaire: function () {
+			this.$store.commit('OPEN_MODAL', {
+				id: 'modal_share',
+				module: "share",
+				caption: "Share Questionnaire",
+				mclass : 'small',
+				data : {
+					url : ''
+				}
+			})
+		}
+	},
 
-    mounted() {
+	mounted() {
 
-    }
+	}
 }
 </script>
