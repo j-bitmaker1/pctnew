@@ -9,7 +9,7 @@
     justify-content: center
     align-items: center
     opacity: 1
-
+    
 
 #modal
     position: fixed
@@ -19,7 +19,16 @@
     right: 0
     z-index: 2023
 
+    .swipable
+        position: absolute
+        left : 0
+        right : 0
+        top : 0
+        bottom : 0
+
     &.small
+        .swipable
+            position: static
         .modal-wrapper
             top : auto
             max-height: 90vh

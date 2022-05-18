@@ -1,34 +1,38 @@
 <template>
   <transition name="fade">
-
-    <div id="modal" :class="(mclass || '')">
+    <!-- v-swipeable="swipeableOptions" -->
+    <div id="modal" :class="(mclass || '')" >
       <div class="modal-backdrop" @click="close"></div>
-      <div class="modal-wrapper" > <!-- v-swipeable="swipeableOptions" -->
-        <div :class="'modal ' + (mclass == 'absoluteContent' ? '' : 'customscroll')" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription" v-scroll="scrolling">
+      <div class="modal-wrapper" >
+        <swipable :directions="directions" @end="endswipe">
+          <template v-slot:default>
+            <div :class="'modal ' + (mclass == 'absoluteContent' ? '' : 'customscroll')" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription" v-scroll="scrolling">
 
-          
-          <div class="modal-header">
-              <div class="headerWrapper">
-                <slot name="header">
-                </slot> 
+              
+              <div class="modal-header">
+                  <div class="headerWrapper">
+                    <slot name="header">
+                    </slot> 
+                  </div>
+
+                  <div class="modal-close" @click="close">
+                    <i class="fas fa-times"></i>
+                  </div>
               </div>
 
-              <div class="modal-close" @click="close">
-                <i class="fas fa-times"></i>
+              <div class="modal-body" id="modalDescription">
+                <slot v-if="!module" name="body" :scroll="scroll">
+                </slot>
+                <component v-else :is="module" @close="close" :wnd="true" v-bind="data || {}" v-on="events"/>
               </div>
-          </div>
+              
+              <div class="modal-footer" v-if="displayFooter">
 
-          <div class="modal-body" id="modalDescription">
-            <slot v-if="!module" name="body" :scroll="scroll">
-            </slot>
-            <component v-else :is="module" @close="close" :wnd="true" v-bind="data || {}" v-on="events"/>
-          </div>
-          
-          <div class="modal-footer" v-if="displayFooter">
+              </div>
 
-          </div>
-
-        </div>
+            </div>
+          </template>
+        </swipable>
       </div>
 
     </div>

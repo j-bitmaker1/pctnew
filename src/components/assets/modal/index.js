@@ -40,7 +40,17 @@ export default {
             loading : false,
             scroll : 0,
 
-            
+            blockTouch : false,
+
+            directions : {
+                bottom : {
+                    distance : 100,
+                    direction : 'bottom',
+                    constraints : (e) => {
+                        return this.scroll == 0 && !this.blockTouch
+                    }   
+                }  
+            }
         }
 
     },
@@ -66,7 +76,7 @@ export default {
     computed: mapState({
         auth : state => state.auth,
 
-        /*swipeableOptions : function(){
+        swipeableOptions : function(){
             return {
                 swipeOutBy : '0px',
                 swipeAwayBy : '0px',
@@ -76,7 +86,7 @@ export default {
                 allowedDirection : this.scroll ? '' : 'bottom',
                 debug : true
             }
-        }*/
+        }
 
         /*moduleInstance () {
             console.log('./' + this.module)
@@ -86,6 +96,9 @@ export default {
     }),
 
     methods : {
+        endswipe : function(direction){
+            this.$emit('close')
+        },
         close : function(){
             this.$emit('close')
         },
@@ -99,6 +112,11 @@ export default {
 
         scrolling : function(e){
             this.scroll = e.target.scrollTop
+            this.blockTouch = true
+
+            setTimeout(() => {
+                this.blockTouch = false
+            }, 500)
         },
 
         moving : function(e, h){

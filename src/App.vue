@@ -78,6 +78,7 @@ import list from "@/components/assets/list/index.vue";
 import listgrouped from "@/components/assets/listgrouped/index.vue";
 import tooltip from "@/components/assets/tooltip/index.vue"; 
 import listmenu from "@/components/assets/listmenu/index.vue"; 
+import swipable from "@/components/assets/swipable/index.vue"; 
 
 import listpaginated from "@/components/assets/listpaginated/index.vue";
 import listcontrols from "@/components/assets/listcontrols/index.vue";
@@ -99,9 +100,10 @@ import HighchartsMore from 'highcharts/highcharts-more'
 drilldownInit(Highcharts)
 HighchartsMore(Highcharts)
 
+/*
 import { Swipeable } from 'vue-swipeable';
-Vue.directive('swipeable', Swipeable);
-
+Vue.directive('swipeable', Swipeable);*/
+Vue.component("swipable", swipable);
 Vue.component("modal", modal);
 Vue.component("modals", modals);
 Vue.component("forms", forms);

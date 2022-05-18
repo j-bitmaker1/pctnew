@@ -70,10 +70,16 @@ export default {
     methods: {
         show : function(){
             this.showed = true
+
+            var h = document.getElementById( 'html' );
+			    h.style.overflow = 'hidden'
         },
 
         close : function(){
             this.showed = false
+
+            var h = document.getElementById( 'html' );
+				h.style.overflow = null
         }
     },
 }
