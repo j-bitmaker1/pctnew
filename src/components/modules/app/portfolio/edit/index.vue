@@ -63,9 +63,16 @@
 		<button class="button black" @click="cancel">
 			Cancel
 		</button>
-		<button class="button" @click="save" :disabled="!haschanges">
+
+		<button class="button black" @click="saveas" :disabled="!haschanges || validate">
+			Save As
+		</button>
+
+		<button class="button" @click="save" :disabled="!haschanges || validate">
 			Save
 		</button>
+
+		
 	</div>
 </div>
 </template>

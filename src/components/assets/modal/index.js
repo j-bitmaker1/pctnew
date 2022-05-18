@@ -14,9 +14,8 @@ import lead_page from "@/views/lead.vue";
 import portfolios_main from "@/components/modules/app/portfolios/main/index.vue";
 
 import clients from "@/components/modules/app/clients/index.vue";
-
-
 import filesystem_edit from "@/components/common/filesystem/edit/index.vue";
+import filesystem from "@/components/common/filesystem/index.vue";
 
 export default {
     name: 'modal',
@@ -61,7 +60,7 @@ export default {
         home, portfolio_edit, share, client_edit, 
         portfolio_crashtest_scenariodetails, 
         portfolios_main, client_page, lead_page,
-        pdfparser, clients, filesystem_edit
+        pdfparser, clients, filesystem_edit, filesystem
     },
  
     computed: mapState({

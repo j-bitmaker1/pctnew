@@ -5,7 +5,11 @@ export default {
 	name: 'filesystem',
 	props: {
 		initialroot : Number,
-		select : Object
+		select : Object,
+		fclass : {
+			type : String,
+			default : 'mini'
+		}
 	},
 
 	data : function(){
@@ -56,6 +60,10 @@ export default {
 
 		},
 
+		selectMultiple : function(){
+			return !this.select || this.select.multiple
+		},
+
 		contents : function(){
 			return this.current.content
 		},
@@ -78,6 +86,10 @@ export default {
 					})
 				}
 
+				if(this.select){
+					if(this.select.type && c.type != this.select.type) e = false
+				}
+
 				return e
 			})
 			
@@ -94,9 +106,11 @@ export default {
 	}),
 
 	methods : {
-		load : function(){
+		load : function(id){
 			this.loading = true
 			this.selected = null
+
+			if(id) this.currentroot = id
 
 			return this.core.api.filesystem.get(this.root).then(r => {
 
@@ -137,8 +151,8 @@ export default {
 		movescroll : function(itemid){
 			setTimeout(() => {
 				if (itemid){
-					if (this.refs[itemid]){
-						this.$refs['items'].scrollLeft = this.refs[itemid].offsetLeft()
+					if (this.$refs[itemid]){
+						this.$refs['items'].scrollLeft = this.$refs[itemid].offsetLeft()
 					}	
 				}
 				else{
@@ -157,7 +171,12 @@ export default {
 			if(c.type == 'portfolio'){
 
 				if(this.moving) return
-				if(this.select) this.$emit('selectFile', c)
+				if(this.select) {
+					this.$emit('selected', [c])
+					return
+				}
+
+				this.$router.push('portfolio/' + c.id)
 
 			}
 		},
@@ -280,6 +299,18 @@ export default {
 			//this.moving
 
 			
+		},
+
+		selectCurrent : function(){
+			
+			this.$emit('selected', [this.current])
+
+			this.close()
+			
+		},
+
+		close : function(){
+			this.$emit('close')
 		}
 	},
 }

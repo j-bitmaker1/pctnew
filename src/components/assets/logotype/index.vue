@@ -2,10 +2,7 @@
   <div class="logotype">
     <div class="item">
       <div class="logo">
-        <img src="@/assets/logo24.png"> 
-      </div>
-      <div class="label">
-        <span>PCT</span>
+        <img src="@/assets/logo.svg"> 
       </div>
     </div>
   

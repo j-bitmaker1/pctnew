@@ -64,7 +64,7 @@ class VXStorage {
     }
 
     clear(){
-        _.each(this.storage, function(storage){
+        _.each(this.storage, (storage) => {
             this.store.commit('_delete_' + storage.type)
         })
     }

@@ -116,7 +116,8 @@ export default {
 
 			this.$emit('close')
 		},
-		save : function(){
+
+		cansave : function(){
 			if (this.validate){
 
 				this.$store.commit('icon', {
@@ -124,6 +125,15 @@ export default {
 					message: 'Validation Error'
 				})
 
+				return false
+			}
+
+			return true
+		},
+
+		save : function(catalogId){
+			if (!this.cansave()){
+				
 				return
 			}
 
@@ -134,6 +144,10 @@ export default {
 				name : this.name,
 				positions,
 				... this.payload || {}
+			}
+
+			if (catalogId){
+				data.catalogId = catalogId
 			}
 
 			if(this.edit) data.id = this.edit.id
@@ -287,5 +301,33 @@ export default {
 			}
 
 		},
+
+		saveas : function(){
+
+			if (!this.cansave()){
+				return
+			}
+
+			this.$store.commit('OPEN_MODAL', {
+				id : 'modal_filesystem',
+				module : "filesystem",
+				caption : "Select folder for saving",
+				data : {
+					fclass : 'expanded',
+					select : {
+						type : 'folder',
+						multiple : false
+					}
+				},
+				events : {
+					selected : (items) => {
+						var item = items[0]
+
+
+						this.save(item.id)
+					}
+				}
+			})
+		}
 	},
 }

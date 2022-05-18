@@ -1,46 +1,28 @@
-.items
-	display: flex
-	align-items: center
-	overflow-x: scroll
-	scroll-snap-type: x mandatory
-	scroll-behavior: smooth
-	&::-webkit-scrollbar
-		display: none!important
+.cnt
+	min-width: 80px
+	max-width: 80px
+	height: 80px
+	padding : $r
+	text-align: center
+	scroll-snap-align: start
 
-	::v-deep
+	i
+		font-size: 1.5em
+		color : srgb(--color-txt-ac)
+		height: 33px
+		line-height: 33px
 
-		.simplelist
-			display: flex
-			align-items: center
+		&.small
+			font-size: 0.8em
 
-			>div
-				display: flex
-				align-items: center
+	.name
+		text-overflow: ellipsis
+		white-space: nowrap
+		overflow: hidden
+		color : srgb(--neutral-grad-3)
 
-	.cnt
-		min-width: 80px
-		max-width: 80px
-		padding : $r
-		text-align: center
-		scroll-snap-align: start
-
-		i
-			font-size: 1.5em
-			color : srgb(--color-txt-ac)
-			height: 33px
-			line-height: 33px
-
-			&.small
-				font-size: 0.8em
-
-		.name
-			text-overflow: ellipsis
-			white-space: nowrap
-			overflow: hidden
-			color : srgb(--neutral-grad-3)
-
-			span
-				font-size: 0.8em
+		span
+			font-size: 0.8em
 
 .filesystem
 	padding : $r 0
@@ -54,3 +36,52 @@
 
 .preloaderWrapper
 	opacity: 0.6
+
+.filesystem
+	&.expanded
+
+		.preloaderWrapper,
+		.emptyWrapper
+			width: 100%
+			text-align: center
+			padding : 8 * $r 4 * $r
+
+		.list
+			width : 100%
+
+		.items
+			display: flex
+			align-items: center
+			flex-wrap: wrap
+			
+
+			::v-deep
+				.simplelist
+					display: flex
+					align-items: center
+					flex-wrap: wrap
+					justify-content: space-between
+
+					>div
+						display: flex
+						align-items: center
+
+	&.mini
+		.items
+			display: flex
+			align-items: center
+			overflow-x: scroll
+			scroll-snap-type: x mandatory
+			scroll-behavior: smooth
+			&::-webkit-scrollbar
+				display: none!important
+
+			::v-deep
+
+				.simplelist
+					display: flex
+					align-items: center
+
+					>div
+						display: flex
+						align-items: center

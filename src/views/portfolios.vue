@@ -14,7 +14,7 @@
 
 	<maincontent>
 		<template v-slot:content>
-			<portfoliosmainlist />
+			<portfoliosmainlist ref="portfolios" />
 		</template>
 	</maincontent>
 
@@ -44,7 +44,13 @@ export default {
 			this.$store.commit('OPEN_MODAL', {
 				id : 'modal_portfolios_edit',
 				module : "portfolio_edit",
-				caption : "New Portfolio"
+				caption : "New Portfolio",
+
+				events : {
+					edit : (data) => {
+						this.$refs.portfolios.reload(data)
+					}
+				}
 			})
 		}
 	},

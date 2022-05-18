@@ -1,5 +1,5 @@
 <template>
-<div class="filesystem">
+<div class="filesystem" :class="fclass">
 	
 
 	<div class="items" ref="items">
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 
-		<div class="cnt createnew" v-if="!select" @click="create">
+		<div class="cnt createnew" v-if="!select || select.type == 'folder'" @click="create">
 			<div class="icon">
 				<i class="fas fa-plus small"></i>
 			</div>
@@ -41,7 +41,7 @@
 		</div>
 		
 		<!--  -->
-		<list :selectMultiple="true" selectMultipleClass="onobject" @selectionSuccess="selectionSuccess" v-if="!loading && sorted.length" :items="sorted">
+		<list :selectMultiple="selectMultiple" selectMultipleClass="onobject" @selectionSuccess="selectionSuccess" v-if="!loading && sorted.length" :items="sorted">
 			<template v-slot:default="slotProps">
 
 				<div class="cnt" :ref="slotProps.item.id" @click="e => { open(slotProps.item) }">
@@ -61,6 +61,21 @@
 
 		
 	</div>
+
+	
+
+	<div class="savePanel" v-if="select && select.type == 'folder'">
+		<button class="button black" @click="close">
+			Cancel
+		</button>
+
+		<button class="button" @click="selectCurrent">
+			Select
+		</button>
+
+		
+	</div>
+
 	<transition name="fademodal">
 		<modal v-if="selected" @close="closeselected" mclass="small likemenu">
 			<template v-slot:body>

@@ -13,11 +13,11 @@ export default {
 
             var date = this.date
 
-            if(typeof date == 'string') date = f.date.fromstring(date)
+            if(typeof date == 'string') date = f.date.fromstring(date, true)
 
             moment.locale(this.$i18n.locale)
 
-            return moment(moment.utc(date).toDate()).local().fromNow();
+            return moment(moment.utc(date)).local().fromNow();
 
         }
     }),

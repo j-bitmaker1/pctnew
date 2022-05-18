@@ -1132,7 +1132,7 @@ f.date = {
 
         return d
     },
-    fromstring : function (str) {
+    fromstring : function (str, utc) {
 		var y = str.substring(0, 4),
 			M = str.substring(4, 6),
 			d = str.substring(6, 8);
@@ -1140,6 +1140,10 @@ f.date = {
 		var h = str.substring(8, 10),
 			m = str.substring(10, 12),
 			s = str.substring(12, 14) || 0;
+
+        if(utc){
+            return Date.UTC(y, M - 1, d, h, m, s)
+        }
 
 		return new Date(y, M - 1, d, h, m, s);
 	},

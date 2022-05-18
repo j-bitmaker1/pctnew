@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import f from '@/application/functions';
-import store from '@/vuex/store';
+import storeFactory from "@/vuex/store";
+
+var store = storeFactory()
 
 Vue.use(Router);
+
 
 const redirects = {
 	authorized: function (core, to) {
@@ -40,6 +43,8 @@ const redirects = {
 
 	redirect: function (core, to) {
 		return redirects.authorized(core, to).then(r => {
+
+			console.log("R", r)
 
 			if (store.state.redirect) {
 
@@ -214,7 +219,11 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
 
+	console.log("R", to)
+
 	var r = _.find(routes, (r) => r.name == to.name)
+
+	console.log("R2", r)
 
 	if (r && r.customRedirect) {
 
@@ -223,10 +232,13 @@ router.beforeEach((to, from, next) => {
 			return router.app.core
 		}).then(() => {
 
+			console.log("HER")
+
 			return r.customRedirect(router.app.core, to)
 
 		}).catch(obj => {
 
+				console.error(obj)
 
 			return Promise.resolve(obj)
 		}).then(obj => {

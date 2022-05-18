@@ -298,22 +298,22 @@ var storeFactory = function(vxstorage){
 		},
 	}
 
-	_.each(vxstorage.storage, function(storage){
-		state['_' + storage.type] = {}
-
-		mutations['_set_' + storage.type] = function(state, obj){
-
-			console.log('obj[storage.index]', obj[storage.index], obj)
-
-			Vue.set(state['_' + storage.type], obj[storage.index], obj)
-		}
-
-		mutations['_delete_' + storage.type] = function(){
-			state[storage.type] = {}
-		}
-	})
-
-	console.log('mutations', mutations)
+	if(vxstorage){
+		_.each(vxstorage.storage, function(storage){
+			state['_' + storage.type] = {}
+	
+			mutations['_set_' + storage.type] = function(state, obj){
+	
+				console.log('obj[storage.index]', obj[storage.index], obj)
+	
+				Vue.set(state['_' + storage.type], obj[storage.index], obj)
+			}
+	
+			mutations['_delete_' + storage.type] = function(){
+				state[storage.type] = {}
+			}
+		})
+	}
 
 	return new Vuex.Store({
 		state,

@@ -12,6 +12,11 @@
 
 	<maincontent>
 		<template v-slot:content>
+
+			<div class="clientinfo">
+				<client :profile="{}" :hasmenu="false" />
+			</div>
+
 			<div class="linenavigation">
 				<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
 			</div>
@@ -36,13 +41,16 @@ import shares from "@/components/modules/app/portfolio/shares/index.vue";
 import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 
+import client from '@/components/modules/app/clients/client/index.vue'
+
 export default {
 	name: 'portfolios_page',
 	components: {
 		linenavigation,
 		shares,
 		crashtest,
-		portfoliomenu
+		portfoliomenu,
+		client
 	},
 
 	computed: {

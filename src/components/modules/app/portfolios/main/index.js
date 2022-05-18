@@ -36,15 +36,15 @@ export default {
 
 	methods : {
 		selected : function(portfolios){
-
+			
 			this.$emit('selected', portfolios)
 			this.$emit('close')
+
 		},
 
-		selectedFile : function(file){
-
-			this.selected()
-			////
+		reload : function(data){
+			this.$refs['list'].reload()
+			this.$refs['filesystem'].load(data.catalogId || "0")
 		}
 	},
 }
