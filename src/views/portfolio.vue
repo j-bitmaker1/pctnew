@@ -27,12 +27,12 @@
 	<maincontent>
 		<template v-slot:content>
 
-			
-
 			<div class="linenavigation">
 				<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
 			</div>
+
 			<component :is="module" v-if="!loading && portfolio"/>
+			
 		</template>
 	</maincontent>
 

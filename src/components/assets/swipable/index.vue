@@ -283,6 +283,7 @@ export default {
 		movingHandler : function(e){
 
 			if(!this.validateDefaultEvent(e)) return
+			if(!e.touches || !e.touches.length) return
 
 			var phase = 'move'
 
@@ -301,6 +302,7 @@ export default {
 		startHandler : function(e){
 
 			if(!this.validateDefaultEvent(e)) return
+			if(!e.touches || !e.touches.length) return
 
 			var phase = 'start'
 
