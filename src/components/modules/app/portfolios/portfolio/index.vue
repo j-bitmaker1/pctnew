@@ -1,6 +1,9 @@
 <template>
 <div class="portfolios_portfolio" :class="{deleted : portfolio.status == 'DELETED'}">
 
+	
+
+
 	<div class="namerow">
 		<div class="namewrapper" @click="click">
 			<div class="name"><span>{{portfolio.name}}</span></div> 
@@ -14,11 +17,18 @@
 		</div>
 	</div>
 
-   
+	
 
 	<div class="assets" @click="click">
-		<div class="ticker" v-if="i < 5" v-for="(asset, i) in portfolio.positions">
-			<span>{{asset.ticker}}</span>
+
+		<div class="assetsClList">
+			
+			<div class="ticker" v-if="i < 5" v-for="(asset, i) in portfolio.positions">
+				<span>{{asset.ticker}}</span>
+			</div>
+			<div class="clientrow" v-if="showClient && profile">
+				<client :profile="profile" :small="true"/>
+			</div>
 		</div>
 
 		<div class="total">

@@ -8,8 +8,8 @@
 
           <bgimage v-if="props.userinfo.image" :src="props.userinfo.image"/>
 
-          <div v-if="!props.userinfo.image && props.userinfo.FName && props.userinfo.LName" class="charAvatar">
-            <span>{{props.userinfo.FName.charAt(0)}}{{props.userinfo.LName.charAt(0)}}</span>
+          <div v-if="!props.userinfo.image && (props.userinfo.FName || props.userinfo.LName)" class="charAvatar">
+            <span v-if="props.userinfo.FName">{{props.userinfo.FName.charAt(0)}}</span><span v-if="props.userinfo.LName">{{props.userinfo.LName.charAt(0)}}</span>
           </div>
 
           <div class="statusIcon">  

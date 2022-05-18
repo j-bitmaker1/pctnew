@@ -521,17 +521,25 @@ var ApiWrapper = function (core) {
 
 		if (p.vxstorage && p.vxstorage.getloaded){
 
-			alreadyLoaded = _.filter(_.map(data[p.vxstorage.getloaded], function(index){
-				return core.vxstorage.get(index, p.vxstorage.type)
-			}), (r) => {
-				return r
-			})
-
-			data[p.vxstorage.getloaded] = _.filter(data[p.vxstorage.getloaded], (index) => {
-				return !_.find(alreadyLoaded, (obj) => {
-					return obj.index[core.vxstorage.index(p.vxstorage.type)] == index
+			if(!p.vxstorage.one){
+				alreadyLoaded = _.filter(_.map(data[p.vxstorage.getloaded], function(index){
+					return core.vxstorage.get(index, p.vxstorage.type)
+				}), (r) => {
+					return r
 				})
-			})
+	
+				data[p.vxstorage.getloaded] = _.filter(data[p.vxstorage.getloaded], (index) => {
+					return !_.find(alreadyLoaded, (obj) => {
+						return obj.index[core.vxstorage.index(p.vxstorage.type)] == index
+					})
+				})
+			}
+
+			else{
+				var r = core.vxstorage.get(p.vxstorage.getloaded, p.vxstorage.type)
+
+				if (r) return Promise.resolve(r)
+			}
 
 		}
 
@@ -545,11 +553,19 @@ var ApiWrapper = function (core) {
 
 					var ds = r
 
-					if(p.vxstorage.path) ds = f.deep(ds, p.vxstorage.path) || []
+					if(p.vxstorage.path) ds = f.deep(ds, p.vxstorage.path) || (p.vxstorage.one ? null : [])
 
-					var stored = core.vxstorage.sets(ds, p.vxstorage.type)
+					if(p.vxstorage.one){
+						var stored = core.vxstorage.set(ds, p.vxstorage.type)
+					}
+					else{
 
-					stored = stored.concat(alreadyLoaded)
+						var stored = core.vxstorage.sets(ds, p.vxstorage.type)
+
+						if (p.vxstorage.getloaded)
+							stored = stored.concat(alreadyLoaded)
+
+					}
 
 					if (p.vxstorage.path){
 						f.deepInsert(r, p.vxstorage.path, stored)
@@ -783,6 +799,26 @@ var ApiWrapper = function (core) {
 				return paginatedrequest(data, 'pctapi', 'Portfolio/List', p)
 
 			},
+
+			listwithClients : function(data, p){
+
+				return self.pctapi.portfolios.list(data, p).then(r => {
+
+					
+					var clientsIds = _.map(r.data, (p) => {
+						return p.crmContactId
+					})
+
+					clientsIds = _.filter(clientsIds, (c) => {return c})
+
+
+					return self.crm.contacts.gets({Ids : clientsIds}).then(c => {
+						return Promise.resolve(r)
+					})
+				})
+
+			},
+
 			add : function(data, p = {}){
 
 				p.method = "POST"
@@ -890,6 +926,11 @@ var ApiWrapper = function (core) {
 
 				p.method = "POST"
 
+				p.vxstorage = {
+					type : 'client',
+					path : 'records'
+				}
+
 				return paginatedrequest(data, 'api', 'crm/Contacts/List', p)
 
 			},
@@ -897,7 +938,13 @@ var ApiWrapper = function (core) {
 			gets : function(data, p = {}){
 				p.method = "POST"
 
-				return request(data, 'api', 'crm/Contacts/List', p).then(r => {
+				p.vxstorage = {
+					type : 'client',
+					path : 'records',
+					getloaded : 'Ids'
+				}
+
+				return request(data, 'api', 'crm/Contacts/GetByIds', p).then(r => {
 					return f.deep(r, 'data.records')
 				})
 			},
@@ -910,6 +957,12 @@ var ApiWrapper = function (core) {
 
 			get : function(id, p = {}){
 				p.method = "GET"
+
+				p.vxstorage = {
+					type : 'client',
+					getloaded : id,
+					one : true
+				}
 
 				return request({}, 'api', 'crm/Contacts/' + id, p)
 			},
@@ -948,6 +1001,12 @@ var ApiWrapper = function (core) {
 		get : function(rootid, p = {}){
 
 			p.method = "POST"
+
+			p.vxstorage = {
+				type : 'filesystem',
+				getloaded : rootid,
+				one : true
+			}
 
 			return request({
 				id : rootid || '0'

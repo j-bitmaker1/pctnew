@@ -63,6 +63,13 @@ class VXStorage {
         return this.store.state['_' + type][index] || null
     }
 
+    invalidate(index, type){
+        if(!this.storage[type]) throw new Error('type')
+        if(!this.store) throw new Error('notlinked')
+
+        this.store.commit('_invalidate_' + type, index)
+    }
+
     clear(){
         _.each(this.storage, (storage) => {
             this.store.commit('_delete_' + storage.type)

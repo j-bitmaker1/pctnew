@@ -1,6 +1,7 @@
 import _ from 'underscore';
 import { mapState } from 'vuex';
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
+import client from '@/components/modules/app/portfolio/client/index.vue'
 export default {
 	name: 'portfolios_portfolio',
 	props: {
@@ -8,11 +9,12 @@ export default {
 		hasmenu : {
 			type : Boolean,
 			default : true
-		}
+		},
+		showClient : Boolean
 	},
 
 	components : {
-		portfoliomenu
+		portfoliomenu, client
 	},
 
 	data : function(){
@@ -37,6 +39,12 @@ export default {
 			return _.reduce(this.portfolio.positions, (m, p) => {
 				return m + p.value
 			}, 0)
+		},
+
+		profile : function(){
+			if(this.showClient && this.portfolio.crmContactId){
+				return this.core.vxstorage.get(this.portfolio.crmContactId, 'client')
+			}
 		}
 	}),
 

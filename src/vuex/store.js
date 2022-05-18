@@ -312,6 +312,10 @@ var storeFactory = function(vxstorage){
 			mutations['_delete_' + storage.type] = function(){
 				state[storage.type] = {}
 			}
+
+			mutations['_invalidate_' + storage.type] = function(index, storage){
+				Vue.delete(state['_' + storage.type], index)
+			}
 		})
 	}
 

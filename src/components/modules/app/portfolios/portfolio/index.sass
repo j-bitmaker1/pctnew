@@ -21,16 +21,22 @@
 
 .assets
 	display: flex
-	flex-wrap: wrap
+	flex-wrap: nowrap
 	align-content: space-between
-	align-items: center
+	align-items: flex-start
 	grid-gap: $r
 
-
+	.assetsClList
+		display: flex
+		flex-wrap: wrap
+		align-content: space-between
+		align-items: center
+		grid-gap: $r
 
 	.total
 		margin-left: auto
 		padding-right: $r
+		margin-top: 0.8 * $r
 
 		span
 			font-size: 1.1em

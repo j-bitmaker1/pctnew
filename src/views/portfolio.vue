@@ -13,8 +13,8 @@
 	<maincontent>
 		<template v-slot:content>
 
-			<div class="clientinfo">
-				<client :profile="{}" :hasmenu="false" />
+			<div class="clientinfo" v-if="client">
+				<client :profile="client"/>
 			</div>
 
 			<div class="linenavigation">
@@ -31,6 +31,9 @@
 .linenavigation
 	background: srgb(--background-secondary-theme)
 	margin-bottom: $r
+.clientinfo
+	background: srgb(--background-secondary-theme)
+
 </style>
 
 <script>
@@ -41,7 +44,7 @@ import shares from "@/components/modules/app/portfolio/shares/index.vue";
 import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 
-import client from '@/components/modules/app/clients/client/index.vue'
+import client from '@/components/modules/app/portfolio/client/index.vue'
 
 export default {
 	name: 'portfolios_page',
@@ -72,6 +75,10 @@ export default {
 		id : function(){
 			return this.portfolioid || this.$route.params.id
 		},
+
+		client : function(){
+			return null
+		}
 	},
 
 	data : function(){

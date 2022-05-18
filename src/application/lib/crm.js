@@ -67,11 +67,8 @@ class CRM {
     }
 
     getbyids = function(ids, p){
-        var query = this.query('byids', {ids})
 
-        return this.api.crm.contacts.gets({query}, p).then(r => {
-            console.log("R", r)
-        })
+        return this.api.crm.contacts.gets({Ids : ids}, p)
     }
 
     rewriteContactSchema = function(r){

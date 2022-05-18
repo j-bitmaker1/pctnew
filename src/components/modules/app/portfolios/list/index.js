@@ -11,7 +11,9 @@ export default {
 			type : Array,
 			default : () => {return []}
 		},
-		select : Object
+		select : Object,
+
+		showClient : Boolean
 	},
 
 	components : {
@@ -94,6 +96,16 @@ export default {
 				}
 				
 			]
+		},
+
+		api : function(){
+			if(this.showClient){
+				return 'pctapi.portfolios.listwithClients'
+			}
+			else{
+				return 'pctapi.portfolios.list'
+			}
+			
 		}
 	}),
 
@@ -112,8 +124,6 @@ export default {
 			else{
 				this.$router.push('portfolio/' + portfolio.id)
 			}
-
-			
 		},
 
 		search : function(v){

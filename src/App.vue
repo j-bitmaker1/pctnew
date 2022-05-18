@@ -201,6 +201,9 @@ var vxstorage = new VXStorage([{
 }, {
     type : "portfolio",
     index : "id"
+},{
+    type : 'filesystem',
+    index : 'id'
 }])
 var core = null;
 var store = storeFactory(vxstorage)

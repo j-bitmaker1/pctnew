@@ -1,0 +1,58 @@
+.portfolio_client
+
+	.line
+		align-items: center
+		display: flex
+		justify-content: space-between
+		padding-right: 2 * $r
+
+	.row
+		align-items: center
+		display: flex
+
+	.menurow
+		justify-content: flex-end
+
+	.profilerow
+		padding : 2 * $r
+		align-items: center
+		justify-content: space-between
+
+	::v-deep
+		.userpicWrapper
+			max-width: 44px
+			min-width: 44px
+			width: 44px
+			line-height: 44px
+			font-size: 0.8em
+			margin-right: 2 * $r
+
+	&.small
+		.profilerow
+			padding : 0
+		.name
+			span
+				font-size: 0.9em
+		::v-deep
+			.userpicWrapper
+				max-width: 25px
+				min-width: 25px
+				width: 25px
+				line-height: 25px
+				font-size: 0.5em
+				margin-right: $r
+
+@media only screen and (max-width: 768px)
+	.portfolio_client
+
+		.line
+			flex-wrap: wrap
+			padding-right: 0
+
+		.menurow
+			order : 2
+			padding-right: 2 * $r
+
+		.profilerow
+			order : 1
+			justify-content: flex-start

@@ -6,7 +6,7 @@
 		</div>
 	</div>
 
-	<portfoliolist ref="list" @selected="selected" :additional="additional" :select="select"/>
+	<portfoliolist :showClient="true" ref="list" @selected="selected" :additional="additional" :select="select"/>
 </div>
 </template>
 
