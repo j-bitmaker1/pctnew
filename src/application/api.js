@@ -519,9 +519,12 @@ var ApiWrapper = function (core) {
 			if (r) return Promise.resolve(r)
 		}
 
+		var breakLoading = false
+
 		if (p.vxstorage && p.vxstorage.getloaded){
 
 			if(!p.vxstorage.one){
+
 				alreadyLoaded = _.filter(_.map(data[p.vxstorage.getloaded], function(index){
 					return core.vxstorage.get(index, p.vxstorage.type)
 				}), (r) => {
@@ -530,16 +533,41 @@ var ApiWrapper = function (core) {
 	
 				data[p.vxstorage.getloaded] = _.filter(data[p.vxstorage.getloaded], (index) => {
 					return !_.find(alreadyLoaded, (obj) => {
-						return obj.index[core.vxstorage.index(p.vxstorage.type)] == index
+						return obj[core.vxstorage.index(p.vxstorage.type)] == index
 					})
 				})
+
+				if(!data[p.vxstorage.getloaded].length){
+
+					breakLoading = true
+
+				}
 			}
 
 			else{
-				var r = core.vxstorage.get(p.vxstorage.getloaded, p.vxstorage.type)
+
+				breakLoading = true
+
+				alreadyLoaded = core.vxstorage.get(p.vxstorage.getloaded, p.vxstorage.type)
+				
 
 				if (r) return Promise.resolve(r)
 			}
+
+			if(breakLoading){
+				var r = {}
+
+				if (p.vxstorage.path){
+					f.deepInsert(r, p.vxstorage.path, alreadyLoaded)
+				}	
+				else{
+					r = alreadyLoaded
+				}
+
+				if (r) return Promise.resolve(r)
+			}
+
+			
 
 		}
 
@@ -811,7 +839,6 @@ var ApiWrapper = function (core) {
 
 					clientsIds = _.filter(clientsIds, (c) => {return c})
 
-
 					return self.crm.contacts.gets({Ids : clientsIds}).then(c => {
 						return Promise.resolve(r)
 					})
@@ -866,7 +893,7 @@ var ApiWrapper = function (core) {
 				}
 
 				return request(data, 'pctapi', 'Portfolio/List', p).then(r => {
-					return r.records
+					return Promise.resolve(r.records)
 				})
 
 			}, 
@@ -945,7 +972,8 @@ var ApiWrapper = function (core) {
 				}
 
 				return request(data, 'api', 'crm/Contacts/GetByIds', p).then(r => {
-					return f.deep(r, 'data.records')
+					console.log("R", r)
+					return f.deep(r, 'records')
 				})
 			},
 

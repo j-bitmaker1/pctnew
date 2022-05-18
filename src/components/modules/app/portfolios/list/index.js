@@ -13,7 +13,12 @@ export default {
 		},
 		select : Object,
 
-		showClient : Boolean
+		showClient : Boolean,
+
+		path : {
+			type : String,
+			default : ''
+		}
 	},
 
 	components : {
@@ -122,7 +127,7 @@ export default {
 				this.$emit('close')
 			}
 			else{
-				this.$router.push('portfolio/' + portfolio.id)
+				this.$router.push(this.path + 'portfolio/' + portfolio.id)
 			}
 		},
 

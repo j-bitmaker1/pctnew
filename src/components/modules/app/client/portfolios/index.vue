@@ -6,7 +6,7 @@
 		<button class="button black" @click="select">Select portfolios</button>
 	</div>
 
-	<portfoliolist ref="list" :additional="payload"></portfoliolist>
+	<portfoliolist path="/" ref="list" :additional="payload"></portfoliolist>
 </div>
 </template>
 

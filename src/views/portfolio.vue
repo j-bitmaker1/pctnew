@@ -3,7 +3,21 @@
 
 	<topheader back="/portfolios" :gray="true">
 		<template v-slot:info>
-			<span>{{name}}</span>
+
+			<div class="captionsl">
+				<div class="clientinfo" v-if="profile">
+					<router-link :to="'/client/' + profile.ID">
+						<client :profile="profile" :small="true"/>
+					</router-link>
+				</div>
+				<div class="divider" v-if="profile">
+					<span>/</span>
+				</div>
+				<div>
+					<span>{{name}}</span>
+				</div>
+			</div>
+			
 		</template>
 		<template v-slot:right>
 			<portfoliomenu v-if="!loading && portfolio" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
@@ -13,9 +27,7 @@
 	<maincontent>
 		<template v-slot:content>
 
-			<div class="clientinfo" v-if="client">
-				<client :profile="client"/>
-			</div>
+			
 
 			<div class="linenavigation">
 				<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
@@ -33,7 +45,12 @@
 	margin-bottom: $r
 .clientinfo
 	background: srgb(--background-secondary-theme)
-
+.captionsl
+	display: flex
+	flex-wrap: nowrap
+	align-content: space-between
+	align-items: center
+	grid-gap: $r
 </style>
 
 <script>
@@ -95,7 +112,7 @@ export default {
 			],
 
 			portfolio : null,
-
+			profile : null,
 			navkey : 'p',
 
 			loading : false,
@@ -111,10 +128,21 @@ export default {
 
 				this.portfolio = r
 
+				if(!r.crmContactId){
+					return Promise.resolve()
+				}
+
+				return this.core.api.crm.contacts.gets({Ids : [r.crmContactId]}).then(c => {
+			
+					this.profile = c[0]
+				})
+
 			}).finally(() => {
 				this.loading = false
 			})
 		},
+
+
 		deleteportfolio : function(){
 			this.$router.push('/portfolios')
 		},
