@@ -3,7 +3,7 @@
 
     <div id="modal" :class="(mclass || '')">
       <div class="modal-backdrop" @click="close"></div>
-      <div class="modal-wrapper" v-swipeable="swipeableOptions">
+      <div class="modal-wrapper" > <!-- v-swipeable="swipeableOptions" -->
         <div :class="'modal ' + (mclass == 'absoluteContent' ? '' : 'customscroll')" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription" v-scroll="scrolling">
 
           

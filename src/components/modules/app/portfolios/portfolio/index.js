@@ -43,6 +43,9 @@ export default {
 	methods : {
 
 		click : function(){
+
+			if(this.portfolio.status == 'DELETED') return
+
 			this.$emit('click', this.portfolio)
 		},
 

@@ -67,6 +67,16 @@ export default {
 				})
 			} 
 
+			if(this.portfolio.status == 'DELETED'){
+				menu = [
+					{
+						text : 'labels.recoverportfolio',
+						icon : 'fas fa-undo',
+						action : 'recover'
+					}
+				]
+			}
+
 			return menu
 		
 		}
@@ -114,6 +124,17 @@ export default {
 				showStatus : true
 			}).then(r => {
 				this.$emit('delete', this.portfolio)
+			})
+		},
+
+		recover: function(){
+			
+
+			this.core.api.pctapi.portfolios.recover(this.portfolio.id, {
+				preloader : true,
+				showStatus : true
+			}).then(r => {
+				this.$emit('recover', this.portfolio)
 			})
 		},
 

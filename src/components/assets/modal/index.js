@@ -15,6 +15,9 @@ import portfolios_main from "@/components/modules/app/portfolios/main/index.vue"
 
 import clients from "@/components/modules/app/clients/index.vue";
 
+
+import filesystem_edit from "@/components/common/filesystem/edit/index.vue";
+
 export default {
     name: 'modal',
     props: {
@@ -38,11 +41,7 @@ export default {
             loading : false,
             scroll : 0,
 
-            swipeableOptions : {
-                type : 'vertical',
-                allowedDirection : 'bottom',
-                
-            }
+            
         }
 
     },
@@ -62,13 +61,23 @@ export default {
         home, portfolio_edit, share, client_edit, 
         portfolio_crashtest_scenariodetails, 
         portfolios_main, client_page, lead_page,
-        pdfparser, clients
+        pdfparser, clients, filesystem_edit
     },
  
     computed: mapState({
         auth : state => state.auth,
 
-       
+        /*swipeableOptions : function(){
+            return {
+                swipeOutBy : '0px',
+                swipeAwayBy : '0px',
+                swipeAwayThreshold : '0px',
+                swipeOutThreshold : '0px',
+                type : 'vertical',
+                allowedDirection : this.scroll ? '' : 'bottom',
+                debug : true
+            }
+        }*/
 
         /*moduleInstance () {
             console.log('./' + this.module)
@@ -87,7 +96,6 @@ export default {
         },
 
         swipeHandler : function(e){
-            console.log("E", e)
         },
 
         scrolling : function(e){

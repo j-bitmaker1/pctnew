@@ -130,9 +130,6 @@ class CRM {
                     Zip : convert(r.Zip),
                     Phone : convert(r.Phone)
                 }
-
-                
-
             }
         }
 

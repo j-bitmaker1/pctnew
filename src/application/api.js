@@ -763,7 +763,7 @@ var ApiWrapper = function (core) {
 
 	self.pctapi = {
 		portfolios : {
-			list : function(data, p = {}){
+			list : function(data = {}, p = {}){
 
 				p.method = "POST"
 				p.count = 'pageSize'
@@ -776,6 +776,9 @@ var ApiWrapper = function (core) {
 					type : 'portfolio',
 					path : 'records'
 				}
+
+				data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
+
 
 				return paginatedrequest(data, 'pctapi', 'Portfolio/List', p)
 
@@ -832,15 +835,51 @@ var ApiWrapper = function (core) {
 
 			}, 
 
-			delete : function(id, p = {}){
+			delete : function(ids, p = {}){
+
+				if(!_.isArray(ids)) ids = [ids]
 
 				p.method = "POST"
 
 				var data = {
-					id 
+					ids 
 				}
 
-				return request(data, 'pctapi', 'Portfolio/Delete', p)
+				return request(data, 'pctapi', 'Portfolio/DeleteByIds', p).then(r => {
+
+					_.each(ids, (id) => {
+						core.vxstorage.update({
+							status : "DELETED",
+							id
+						}, 'portfolio')
+					})
+
+					return Promise.resolve(r)
+					
+				})
+			},
+
+			recover : function(ids, p = {}){
+
+				if(!_.isArray(ids)) ids = [ids]
+
+				p.method = "POST"
+
+				var data = {
+					ids 
+				}
+
+				return request(data, 'pctapi', 'Portfolio/RecoverByIds', p).then(r => {
+					_.each(ids, (id) => {
+						core.vxstorage.update({
+							status : "ACTIVE",
+							id
+						}, 'portfolio')
+					})
+
+					return Promise.resolve(r)
+					
+				})
 			},
 		}
 	}
@@ -906,39 +945,80 @@ var ApiWrapper = function (core) {
 
 	self.filesystem = {
 		/* {root} */
-		get : function(data){
+		get : function(rootid, p = {}){
 
-			return Promise.resolve([{
-				name : 'folder' + f.rand(0, 10),
-				type : 'directory',
-				id : f.rand(0, 1000)
-			},{
-				name : 'folder' + f.rand(0, 10),
-				id : f.rand(0, 1000),
-				type : 'directory'
-			},{
-				name : 'portfolio' + f.rand(0, 10),
-				id : f.rand(0, 1000),
-				type : 'portfolio'
-			},{
-				name : 'folder' + f.rand(0, 10),
-				type : 'directory',
-				id : f.rand(0, 1000)
-			},{
-				name : 'folder' + f.rand(0, 10),
-				id : f.rand(0, 1000),
-				type : 'directory'
-			},{
-				name : 'portfolio' + f.rand(0, 10),
-				id : f.rand(0, 1000),
-				type : 'portfolio'
-			}])
+			p.method = "POST"
+
+			return request({
+				id : rootid || '0'
+			}, 'pctapi', '/Catalog/GetCatalogContent', p).then(r => {
+
+				var result = {
+					name : r.name,
+					content : [],
+					id : r.id
+				}
+
+				_.each(r.catalogs, (c) => {
+					result.content.push({
+						type : 'folder',
+						id : c.id,
+						name : c.name
+					})
+				})
+
+				_.each(r.portfolios, (p) => {
+					result.content.push({
+						type : 'portfolio',
+						id : p.id,
+						name : p.name
+					})
+				})
+
+				return result
+			})
 		},
 
 		create : {
 			/* {root, name} */
-			folder : function(data){
+			folder : function(data, p){
+				return request(data, 'pctapi', '/Catalog/Add', p)
+			}
+		},
 
+		move : {
+			folder : function({id, to}, p){
+
+				var data = {
+					id,
+					destinationCatalogId : to
+				}
+
+				return request(data, 'pctapi', '/Catalog/MoveCatalog', p)
+			},
+			portfolio : function({id, to}, p){
+
+				var data = {
+					id,
+					destinationCatalogId : to
+				}
+
+				return request(data, 'pctapi', '/Catalog/MovePortfolio', p)
+			}
+		},
+
+		delete : {
+			folder : function({id}, p){
+
+				var data = {
+					id
+				}
+
+				return request(data, 'pctapi', '/Catalog/DeleteCatalog', p)
+			},
+
+			portfolio : function({id}, p){
+				return self.pctapi.portfolios.delete([id], p)
 			}
 		}
 	}

@@ -12,9 +12,27 @@ export default {
 
 		return {
 			loading : false,
-			contents : [],
+			current : {},
 			currentroot : undefined,
-			history : []
+			history : [],
+
+			selected : null,
+			moving : null,
+
+			menu : [
+				{
+					text : 'labels.moveitems',
+					icon : 'fas fa-arrows-alt',
+					action : 'moveItemsMode'
+				},
+	
+				{
+					text : 'labels.deleteitems',
+					icon : 'fas fa-trash',
+					action : 'deleteitems'
+				}
+
+			]
 		}
 
 	},
@@ -32,23 +50,43 @@ export default {
 		auth : state => state.auth,
 		root : function(){
 
-			if(typeof currentroot != 'undefined') return currentroot
+			if(typeof this.currentroot != 'undefined') return this.currentroot
 
-			return this.initialroot || 0
+			return this.initialroot || '0'
 
+		},
+
+		contents : function(){
+			return this.current.content
 		},
 
 		showback : function(){
 
 			if (this.history.length > 1) return true
 
-			return this.root ? true : false
+			return this.root != '0' ? true : false
+		},
+
+		filtered : function(){
+			return _.filter(this.contents, (c) => {
+
+				var e = true
+
+				if(this.moving){
+					e = e && !_.find(this.moving, function(m){
+						return m.id == c.id
+					})
+				}
+
+				return e
+			})
+			
 		},
 
 		sorted : function(){
-			return _.sortBy(this.contents, function(c){
+			return _.sortBy(this.filtered, function(c){
 
-				if(c.type == 'directory') return 0
+				if(c.type == 'folder') return 0
 				if(c.type == 'portfolio') return 1
 
 			})
@@ -58,12 +96,15 @@ export default {
 	methods : {
 		load : function(){
 			this.loading = true
+			this.selected = null
 
 			return this.core.api.filesystem.get(this.root).then(r => {
 
-				this.contents = r
+				this.current = r
 
 				return Promise.resolve(r)
+			}).catch(e => {
+				console.error(e)
 			}).finally(() => {
 				this.loading = false
 			})
@@ -90,25 +131,155 @@ export default {
 			this.load().then(r => {
 				this.movescroll()
 			})
-
 			
 		},
 
-		movescroll : function(){
+		movescroll : function(itemid){
 			setTimeout(() => {
-				this.$refs['items'].scrollLeft = 0
+				if (itemid){
+					if (this.refs[itemid]){
+						this.$refs['items'].scrollLeft = this.refs[itemid].offsetLeft()
+					}	
+				}
+				else{
+					this.$refs['items'].scrollLeft = 0
+				}
+				
 			}, 50)
 
 		},
 
 		open : function(c){
-			if (c.type == 'directory'){
+			if (c.type == 'folder'){
 				this.down(c.id)
 			}
 
 			if(c.type == 'portfolio'){
+
+				if(this.moving) return
 				if(this.select) this.$emit('selectFile', c)
+
 			}
+		},
+
+		create : function(){
+			this.$store.commit('OPEN_MODAL', {
+				id : 'modal_filesystem_edit',
+				module : "filesystem_edit",
+				caption : "Create Folder",
+
+				data : {
+					type : 'folder',
+					rootid : this.current.id
+				},
+
+				events : {
+					success : (data) => {
+						this.load().then(r => {
+							this.movescroll(r.id)
+						})
+					}
+				}
+			})
+		},
+
+		selectionSuccess : function(items){
+			if (this.select){
+				this.$emit('selected', items)
+			}
+			else{
+				this.selected = items
+			}
+			
+		},
+		closeselected : function(){
+			this.selected = null
+		},
+
+		menuaction : function(action){
+			if (this[action]){
+				this[action]()
+			}   
+		},
+
+		deleteitems : function(){
+
+			this.$store.commit('globalpreloader', true)
+
+			return Promise.all(_.map(this.selected, (item) => {
+
+				return this.core.api.filesystem.delete[item.type]({
+					id : item.id
+				})
+
+			})).then(r => {
+
+				this.moving = null
+
+				this.$store.commit('icon', {
+					icon: 'success'
+				})
+				
+				return this.load()
+
+			}).catch(e => {
+
+				this.$store.commit('icon', {
+					icon: 'error',
+					message: e.error
+				})
+
+			}).finally(() => {
+				this.$store.commit('globalpreloader', false)
+			})
+
+		},
+
+		moveItemsMode : function(){
+			this.moving = this.selected
+			this.movescroll()
+		},
+
+		cancelmoving : function(){
+			this.moving = null
+			this.movescroll()
+		},
+
+		placehere : function(){
+
+			this.$store.commit('globalpreloader', true)
+
+			return Promise.all(_.map(this.moving, (item) => {
+
+				return this.core.api.filesystem.move[item.type]({
+					id : item.id,
+					to : this.root
+				})
+
+			})).then(r => {
+
+				this.moving = null
+
+				this.$store.commit('icon', {
+					icon: 'success'
+				})
+				
+				return this.load()
+
+			}).catch(e => {
+
+				this.$store.commit('icon', {
+					icon: 'error',
+					message: e.error
+				})
+
+			}).finally(() => {
+				this.$store.commit('globalpreloader', false)
+			})
+
+			//this.moving
+
+			
 		}
 	},
 }

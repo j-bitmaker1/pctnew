@@ -22,8 +22,9 @@
 		"deleted" : "Deleted",
 		"newlead" : "New lead",
 		"client" : "Client",
-		"generalInfo" : "General Information",
-		"additionalInfo" : "Additional Information"
+		"generalInfo" : "General information",
+		"additionalInfo" : "Additional information",
+		"foldername" : "Folder name"
 	},
 
 	"labels" : {
@@ -58,7 +59,10 @@
 		"setportfoliostoclient" : "Set portfolios to client",
 		"info" : "Information",
 		"setportfoliotoclient" : "Set portfolio to client",
-		"changeClient" : "Change client"
+		"changeClient" : "Change client",
+		"deleteitems" : "Delete items",
+		"moveitems" : "Move items",
+		"recoverportfolio" : "Recover portfolio"
 	},
 
 	"caption" : {

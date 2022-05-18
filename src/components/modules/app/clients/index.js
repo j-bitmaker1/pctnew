@@ -103,8 +103,6 @@ export default {
 			this.sort = v
 		},
 
-	   
-
 		selectionSuccess : function(clients){
 			if (this.select){
 				this.$emit('selected', clients)

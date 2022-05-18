@@ -1,5 +1,5 @@
 <template>
-<div class="portfolios_portfolio">
+<div class="portfolios_portfolio" :class="{deleted : portfolio.status == 'DELETED'}">
 
 	<div class="namerow">
 		<div class="namewrapper" @click="click">

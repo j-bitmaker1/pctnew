@@ -10,7 +10,7 @@
 
 	<listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="selectMultiple" api="pctapi.portfolios.list" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
 		<template v-slot:default="slotProps">
-			<div class="cardWrapper mobp" >
+			<div class="cardWrapper mobp">
 				<portfolio :hasmenu="select ? false : true" :portfolio="slotProps.item" @click="open" @editportfolio="editportfolio" @deleteportfolio="deleteportfolio"/>
 			</div>
 		</template>

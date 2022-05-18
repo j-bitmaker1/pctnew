@@ -149,11 +149,11 @@ export default {
 		},
 
 		deleteportfolios : function(portfolios){
-			_.each(portfolios, (portfolio) => {
+			/*_.each(portfolios, (portfolio) => {
 
 				if(this.$refs['list']) this.$refs['list'].datadeleted(portfolio, "id")
 
-			})
+			})*/
 
 			this.closeselected()
 		},
