@@ -7,14 +7,21 @@
 
             <input v-if="!field.input || field.input == 'input'" :placeholder="field.placeholder || ''" :disabled="field.disabled" :ref="i" :type="field.type" v-model="form[field.id]" v-on:keyup.enter="onEnter(i)"/>
 
-
             <select v-if="field.input == 'select'" :disabled="field.disabled" :ref="i" class="custom" v-model="form[field.id]">
                 <option :value="v.value" v-for="(v, i) in field.values" :key="i">{{$t(v.text)}}</option>
             </select>
 
-            <span class="error" v-if="form.errors().has(field.id)">
+            <div class="radio" v-if="field.input == 'radio'" :ref="i">
+                <div class="radioWrapper" v-for="(v, i) in field.values" :key="i">
+                    <input  :name="field.id + '_' + i" type="radio" :value="v.value || i" v-model="form[field.id]">
+                    <label :for="field.id + '_' + i">{{$t(v.text)}}</label>
+                </div>
+            </div>
+
+            <span class="error" v-if="showerrors && form.errors().has(field.id)">
                 {{ form.errors().get(field.id) }}
             </span>
+            
         </div>
 
 

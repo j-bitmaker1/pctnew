@@ -36,13 +36,15 @@ export default {
 
 			if (this.type == 'folder'){
 				return {
-					fields : [{
-						id : 'name',
-						text : 'fields.foldername',
-						rules : [{
-							rule : 'required'
-						}]
-					}]
+					fields : [
+						{
+							id : 'name',
+							text : 'fields.foldername',
+							rules : [{
+								rule : 'required'
+							}]
+						}
+					]
 				}
 			}
 			

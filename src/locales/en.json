@@ -196,6 +196,70 @@
 		"savechanges" : "Save changes",
 		"buy" : "Buy",
 		"apply" : "Apply"
-	} 
+	},
+	"riscscore" : {
+		"questions" : {
+			"c1" : "Your age",
+			"c2" : "Amount you have saved for retirement goals",
+			"c3" : "At what age would you like to retire?",
+			"c4" : "How much do you expect to save each year to invest towards retirement?",
+			"c5" : "What is the target amount that you would like to have at retirement?",
+			"c5tip" : "Typically target amount should be approx. 10 times your annual income",
+
+			"q1" : "How would you describe your investment knowledge?",
+			"q2" : "In addition to whatever you own, you have been given $1,000. You are now given two options. Which one would you choose?",
+			"q3" : "In addition to whatever you own, you have been given $2,000. You are now given two options. Which one would you choose?",
+			"q4" : "After the stock market declines significantly, what do you typically do?",
+			"q5" : "Suppose you have saved $500,000 for retirement in a diversified stock portfolio. By what percentage could the total value of your retirement assets drop before you would begin to think about selling your investments and going to cash?",
+			"q6" : "What degree of risk have you assumed in your 401(k) assets?"
+
+		},
+
+		"answers" : {
+			"q1" : {
+				"1" : "None",
+				"2" : "Limited",
+				"3" : "Good",
+				"4" : "Excellent"
+			},
+			"q2" : {
+				"1" : "A sure gain of $500",
+				"2" : "A 50% chance to gain $1,000 and a 50% chance to gain nothing"
+			},
+			"q3" : {
+				"1" : "A sure loss of $500",
+				"2" : "A 50% chance to lose $1,000 and a 50% chance to lose nothing"
+			},
+			"q4" : {
+				"1" : "Sell all my shares",
+				"2" : "Sell a portion of my shares",
+				"3" : "Buy more shares",
+				"4" : "Do nothing"
+			},
+			"q5" : {
+				"1" : "A 10% drop (retirement assets drop $50,000 to a value of $450,000)",
+				"2" : "A 20% drop (retirement assets drop $100,000 to a value of $400,000)",
+				"3" : "A 30% drop (retirement assets drop $150,000 to a value of $350,000)",
+				"4" : "A 40% drop (retirement assets drop $200,000 to a value of $300,000)",
+				"5" : "A 50% drop (retirement assets drop $250,000 to a value of $250,000)"
+			},
+			"q6" : {
+				"1" : "I pick only conservative funds",
+				"2" : "I pick moderate risk funds",
+				"3" : "I pick agressive funds for better potential growth",
+				"4" : "I don`t know how to select, so I picked target date funds",
+				"5" : "I divide among all of the above",
+				"6" : "I wish there was someone to help me with the selection of funds"
+			}
+		},
+		"fields" : {
+			"age" : "Age",
+			"enterage" : "Enter Your Age",
+			"savings" : "Savings",
+			"retire" : "Retire",
+			"save" : "Save",
+			"target" : "Target"
+		}
+	}
 
 }

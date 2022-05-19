@@ -177,6 +177,12 @@ const routes = [
 		customRedirect : redirects.authorized
 	},
 
+	{
+		path: '/riscscore',
+		name: 'riscscore',
+		component: () => import('@/views/riscscore'),
+	},
+
 	
 ]
 
@@ -231,8 +237,6 @@ router.beforeEach((to, from, next) => {
 		return f.pretry(() => {
 			return router.app.core
 		}).then(() => {
-
-			console.log("HER")
 
 			return r.customRedirect(router.app.core, to)
 

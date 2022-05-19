@@ -105,6 +105,10 @@ export default {
 			else this.$set(this.selection, i, true)
 
 			if(_.isEmpty(this.selection)) this.selectionCancel()
+		},
+
+		scroll : function(prop, value){
+			if(this.$refs.simplelist) this.$refs.simplelist[prop] = value
 		}
 	}
 }

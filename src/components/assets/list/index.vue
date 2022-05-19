@@ -29,7 +29,7 @@
 
     </transition-group>
 
-	<div class="simplelist" v-else>
+	<div class="simplelist" ref="simplelist" v-else>
 		<div class="item" v-touch:longtap="e => enterSelectionMode(i)" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
 
             <div class="selectionmarker" v-if="selection" @click="select(i)">

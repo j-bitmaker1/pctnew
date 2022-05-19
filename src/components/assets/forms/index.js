@@ -11,14 +11,16 @@ export default {
             default : () => {return {}}
         },
 
-        ignoreerrors : Boolean
+        ignoreerrors : Boolean,
+        
     },
 
     data : function(){
 
         return {
             loading : false,
-            form : null
+            form : null,
+            showerrors : false
         }
 
     },
@@ -56,6 +58,7 @@ export default {
             immediate: false,
             handler: function(now, old) { 
                 this.$emit('change', this.form.all())
+                this.$emit('input', this.getinternal())
             },
         }
         
@@ -67,10 +70,17 @@ export default {
 
     methods : {
 
-        get : function(ignoreerrors){
+        getinternal : function(){
             if (this.form.validate().errors().any() && !this.ignoreerrors) return null;
 
             return this.form.all()
+        },
+
+        get : function(){
+
+            this.showerrors = true
+
+            return this.getinternal()
         },
 
         onEnter : function(i){

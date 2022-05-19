@@ -152,7 +152,7 @@ export default {
 			setTimeout(() => {
 				if (itemid){
 					if (this.$refs[itemid]){
-						this.$refs['items'].scrollLeft = this.$refs[itemid].offsetLeft()
+						this.$refs['items'].scrollLeft = this.$refs[itemid].offsetLeft
 					}	
 				}
 				else{
