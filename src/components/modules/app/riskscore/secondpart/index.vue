@@ -1,21 +1,21 @@
 <template>
 <div id="riskscore_secondpart">
-    <sequence @finish="finish" @back="goback" ref="sequence" :pages="resultPages" direction="vertical">
-        <template v-slot:default="slotProps">
+	<sequence @finish="finish" @back="goback" ref="sequence" :pages="resultPages" direction="vertical">
+		<template v-slot:default="slotProps">
 
-            <component @change="v => {change(v, slotProps.item)}" :questionPoints="65" :values="values" v-if="getmodule(slotProps.item)" :is="getmodule(slotProps.item)" v-bind="slotProps.item.data || {}" />
+			<component @change="v => {change(v, slotProps.item)}" :initial="capacity" :points="points" :values="values"  v-if="getmodule(slotProps.item)" :is="getmodule(slotProps.item)" v-bind="slotProps.item.data || {}" />
 
-            <div class="savePanel">
-                <button class="button black" @click="e => back(slotProps.item)">
-                    Back
-                </button>
-                <button class="button" @click="e => next(slotProps.item)">
-                    Next
-                </button>
-            </div>
+			<div class="savePanel">
+				<button class="button black" @click="e => back(slotProps.item)">
+					Back
+				</button>
+				<button class="button" @click="e => next(slotProps.item)">
+					Next
+				</button>
+			</div>
 
-        </template>
-    </sequence>
+		</template>
+	</sequence>
 </div>
 </template>
 
@@ -26,6 +26,10 @@
 	height: 100%
 
 	::v-deep
+
+		.sequence
+			scroll-snap-type : none
+
 		.stepcaption
 			padding : 2 * $r
 			span
@@ -42,83 +46,118 @@
 
 <script>
 import {
-    mapState
+	mapState
 } from 'vuex';
 import sequence from "@/components/common/sequence/index.vue";
 import capacity from "../capacity/index.vue"
 import risk from "../risk/index.vue"
 
 export default {
-    name: 'riskscore_secondpart',
-    props: {
-        values: {
-            type: Object,
-            default: () => {
-                return {}
-            }
-        },
-        questionPoints: Number
-    },
-    components: {
-        capacity,
-        risk,
-        sequence
-    },
-    computed: mapState({
-        auth: state => state.auth,
+	name: 'riskscore_secondpart',
+	props: {
+		values: {
+			type: Object,
+			default: () => {
+				return {}
+			}
+		},
+		points: Number,
 
-        resultPages: function () {
-            var pages = []
+		capacityValues : {
+			type: Object,
+			default: () => {
+				return {}
+			}
+		}
+	},
+	components: {
+		capacity,
+		risk,
+		sequence
+	},
+	computed: mapState({
+		auth: state => state.auth,
+		capacity : function(){
 
-            pages.push({
-                id: 'risklevel',
-                type: 'risk',
-                data: {
+			var capacityValues = this.capacityValues
 
-                }
-            })
+			return {
+				ages : [capacityValues.age, capacityValues.retire],
+				savings : capacityValues.savings,
+				save : capacityValues.save,
+				salary : capacityValues.salary * 12,
+				savemoreRange : [capacityValues.age, capacityValues.retire],
+				withdrawRange : [0,0],
+				withdraw : 0
+			}
+		},
+		resultPages: function () {
+			var pages = []
 
-            pages.push({
-                id: 'capacity',
-                type: 'capacity',
-                data: {
+			pages.push({
+				id: 'risklevel',
+				type: 'risk',
+				data: {
 
-                }
-            })
+				}
+			})
 
-            return pages
-        }
-    }),
+			pages.push({
+				id: 'capacity',
+				type: 'capacity',
+				data: {
 
-    methods: {
-        finish: function () {
-            this.$emit('finish')
-        },
+				}
+			})
 
-        next : function(page, result){
-            this.$refs['sequence'].next(page.id)
-        },
+			return pages
+		}
+	}),
 
-        goback : function(){
-            this.$emit('back')
-        },
+	methods: {
+		finish: function () {
+			this.$emit('finish')
+		},
 
-        back : function(page){
+		next : function(page, result){
+			this.$refs['sequence'].next(page.id)
+		},
 
-            this.$refs['sequence'].back(page.id)
+		goback : function(){
+			this.$emit('back')
+		},
 
-        },
+		back : function(page){
 
-        change : function(value, page){
-            if(page.type == 'risk') this.$emit('changecr', value)
-        },
+			this.$refs['sequence'].back(page.id)
 
-        getmodule: function (page) {
+		},
 
-            if (page.type == 'capacity') return capacity
-            if (page.type == 'risk') return risk
+		capacityToQr : function(values){
+			if(!values) return null
 
-        }
-    },
+			var converted = {
+				age : values.age[0],
+				retire : values.age[1],
+				save : values.save,
+				saving : values.saving,
+				salary : values.salary / 12
+			}
+
+			return converted
+		},
+
+		change : function(value, page){
+			if(page.type == 'risk') this.$emit('changecr', value)
+			if(page.type == 'capacity') this.$emit('changecapacity', this.capacityToQr(value))
+		},
+
+		getmodule: function (page) {
+
+			if (page.type == 'capacity') return capacity
+			if (page.type == 'risk') return risk
+
+		}
+	},
 }
 </script>

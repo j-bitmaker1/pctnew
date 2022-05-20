@@ -850,12 +850,26 @@ var ApiWrapper = function (core) {
 
 				p.method = "POST"
 
+
 				return request(data, 'pctapi', 'Portfolio/Add', p)
 			},
 			update : function(data, p = {}){
 				p.method = "POST"
 
-				return request(data, 'pctapi', 'Portfolio/Update', p)
+				return request(data, 'pctapi', 'Portfolio/Update', p).then(r => {
+
+					var updated = core.vxstorage.update(data, 'portfolio')
+
+					if (updated){
+						core.vxstorage.invalidateManyQueue(
+							[updated.crmContactId], 
+							['client', 'lead']
+						)
+					}
+					
+
+					return Promise.resolve(r)
+				})
 			},
 
 			get : function(id, p = {}){
@@ -911,10 +925,17 @@ var ApiWrapper = function (core) {
 				return request(data, 'pctapi', 'Portfolio/DeleteByIds', p).then(r => {
 
 					_.each(ids, (id) => {
-						core.vxstorage.update({
+						var updated = core.vxstorage.update({
 							status : "DELETED",
 							id
 						}, 'portfolio')
+
+						if (updated){
+							core.vxstorage.invalidateManyQueue(
+								[updated.crmContactId], 
+								['client', 'lead']
+							)
+						}
 					})
 
 					return Promise.resolve(r)
@@ -934,10 +955,17 @@ var ApiWrapper = function (core) {
 
 				return request(data, 'pctapi', 'Portfolio/RecoverByIds', p).then(r => {
 					_.each(ids, (id) => {
-						core.vxstorage.update({
+						var updated = core.vxstorage.update({
 							status : "ACTIVE",
 							id
 						}, 'portfolio')
+
+						if (updated){
+							core.vxstorage.invalidateManyQueue(
+								[updated.crmContactId], 
+								['client', 'lead']
+							)
+						}
 					})
 
 					return Promise.resolve(r)
@@ -962,6 +990,10 @@ var ApiWrapper = function (core) {
 
 			},
 
+			getbyids : function(ids, p){
+				return self.crm.contacts.gets({Ids : ids}, p)
+			},
+
 			gets : function(data, p = {}){
 				p.method = "POST"
 
@@ -972,7 +1004,6 @@ var ApiWrapper = function (core) {
 				}
 
 				return request(data, 'api', 'crm/Contacts/GetByIds', p).then(r => {
-					console.log("R", r)
 					return f.deep(r, 'records')
 				})
 			},
@@ -980,7 +1011,13 @@ var ApiWrapper = function (core) {
 			update : function(data = {}, p = {}){
 				p.method = "POST"
 
-				return request(data, 'api', 'crm/Contacts/Update', p)
+				return request(data, 'api', 'crm/Contacts/Update', p).then(r => {
+
+					core.vxstorage.update(data, 'client')
+					core.vxstorage.update(data, 'lead')
+
+					return Promise.resolve(r)
+				})
 			},
 
 			get : function(id, p = {}){
@@ -1066,40 +1103,75 @@ var ApiWrapper = function (core) {
 			})
 		},
 
+		gets : function(ids){
+
+			var r = []
+
+			return _.Promise.all(_.map(ids, (id) => {
+				return self.filesystem.get(id).then(c => {
+					r.push(c)
+
+					return Promise.resolve()
+				})
+			})).then(() => {
+				return Promise.resolve(r)
+			})
+		},
+
 		create : {
 			/* {root, name} */
 			folder : function(data, p){
-				return request(data, 'pctapi', '/Catalog/Add', p)
+				return request(data, 'pctapi', '/Catalog/Add', p).then((r) => {
+
+					core.vxstorage.invalidate(data.catalogId, 'filesystem')
+
+					return Promise.resolve(r)
+				})
 			}
 		},
 
 		move : {
-			folder : function({id, to}, p){
+			folder : function({id, to, from}, p){
 
 				var data = {
 					id,
 					destinationCatalogId : to
 				}
+
+				core.vxstorage.invalidateManyQueue(
+					[to, from], 
+					['filesystem']
+				)
 
 				return request(data, 'pctapi', '/Catalog/MoveCatalog', p)
 			},
-			portfolio : function({id, to}, p){
+			portfolio : function({id, to, from}, p){
 
 				var data = {
 					id,
 					destinationCatalogId : to
 				}
+
+				core.vxstorage.invalidateManyQueue(
+					[to, from], 
+					['filesystem']
+				)
 
 				return request(data, 'pctapi', '/Catalog/MovePortfolio', p)
 			}
 		},
 
 		delete : {
-			folder : function({id}, p){
+			folder : function({id, from}, p){
 
 				var data = {
 					id
 				}
+
+				core.vxstorage.invalidateManyQueue(
+					[from], 
+					['filesystem']
+				)
 
 				return request(data, 'pctapi', '/Catalog/DeleteCatalog', p)
 			},

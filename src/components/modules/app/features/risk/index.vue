@@ -1,5 +1,5 @@
 <template>
-<div class="client_risk">
+<div class="features_risk">
 
     <div class="summary mobp">
 		<summarybutton :sclass="item.negative ? 'negative' : 'positive'" v-for="item in summary" :key="item.index" mode="p" :text="item.text" :number="item.value / 100"/>

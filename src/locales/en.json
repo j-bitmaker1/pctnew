@@ -60,6 +60,7 @@
 		"info" : "Information",
 		"setportfoliotoclient" : "Set portfolio to client",
 		"changeClient" : "Change client",
+		"unlinkClient" : "Unlink client",
 		"deleteitems" : "Delete items",
 		"moveitems" : "Move items",
 		"recoverportfolio" : "Recover portfolio"
@@ -199,6 +200,10 @@
 	},
 	"riscscore" : {
 		"questions" : {
+
+			
+			"com0tip" : "If this is not you, please answer No.",
+
 			"com1" : "Risk Tolerance Questionnaire",
 			"com1tip" : "This questionnaire will assess your tolerance for financial risk. Please enter your first and last name and email address.",
 			"c1" : "Your age",

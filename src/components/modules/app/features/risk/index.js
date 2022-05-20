@@ -3,7 +3,7 @@ import { mapState } from 'vuex';
 import VueSlider from 'vue-slider-component'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
 export default {
-    name: 'client_risk',
+    name: 'features_risk',
     props: {
         target : Number
     },
@@ -21,7 +21,7 @@ export default {
     },
 
     created(){
-        console.log(this.portfolio)
+
     },
 
     watch: {

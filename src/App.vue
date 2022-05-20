@@ -197,21 +197,26 @@ const i18n = new VueI18n({
 });
 
 ///
-
+var core = null;
 var vxstorage = new VXStorage([{
     type : "client",
-    index : "ID"
+    index : "ID",
+    reload : 'api.crm.contacts.getbyids'
 }, {
     type : "lead",
-    index : "ID"
+    index : "ID",
+    reload : 'api.crm.contacts.getbyids'
 }, {
     type : "portfolio",
-    index : "id"
+    index : "id",
+    reload : 'api.pctapi.portfolios.gets'
 },{
     type : 'filesystem',
-    index : 'id'
+    index : 'id',
+    reload : 'api.pctapi.portfolios.gets'
 }])
-var core = null;
+
+
 var store = storeFactory(vxstorage)
 
     vxstorage.link(store)
@@ -294,6 +299,8 @@ export default {
 
 		window.removeEventListener('resize', this.dresize)
 		window.removeEventListener('resize', this.tresize)
+
+        vxstorage.destroy()
 	},
 
     created() {
@@ -308,6 +315,8 @@ export default {
             .then((r) => {})
             .catch((g) => {});
 
+        vxstorage.setcore(core)
+        vxstorage.init()
 
 		window.addEventListener('scroll', this.tscroll)
 		window.addEventListener('scroll', this.dscroll)

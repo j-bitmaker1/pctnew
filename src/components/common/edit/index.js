@@ -93,7 +93,7 @@ export default {
 					this.$emit('close')
 	
 				}).catch((e = {}) => {
-					
+					console.error(e)
 				})
 
 			}

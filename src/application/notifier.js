@@ -127,6 +127,22 @@ class Notifier {
 			duration: 5000
 		})
 	}
+
+	simplemessage = function(info){
+		var position = f.mobileview() ? 'top-left' : "bottom-left";
+
+		return this.core.vm.$message({
+			title: info.title,
+			message: info.message,
+			icon: info.icon, 
+			zIndex: 999,
+			supportHTML: true,
+			wrapperClassName: "notificationWrapper",
+			position: position,
+			type: 'info',
+			duration: 5000
+		})
+	}
 }
 
 export default Notifier

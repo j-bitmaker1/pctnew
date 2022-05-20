@@ -112,6 +112,8 @@ export default {
 
 			if(id) this.currentroot = id
 
+			
+
 			return this.core.api.filesystem.get(this.root).then(r => {
 
 				this.current = r
@@ -228,7 +230,8 @@ export default {
 			return Promise.all(_.map(this.selected, (item) => {
 
 				return this.core.api.filesystem.delete[item.type]({
-					id : item.id
+					id : item.id,
+					from : item.catalogId
 				})
 
 			})).then(r => {
@@ -268,20 +271,55 @@ export default {
 
 			this.$store.commit('globalpreloader', true)
 
+			var haserrors = 0
+			var l = this.moving.length
+
 			return Promise.all(_.map(this.moving, (item) => {
+
+				var nameexist = _.find(this.current.content, (c) => {
+					return item.type == c.type && item.name == c.name
+				})
+
+				if (nameexist){
+
+					this.core.notifier.simplemessage({
+						icon : "fas fa-exclamation-triangle",
+						title : "Name exist",
+						message : item.name + " exist in this folder"
+					})
+
+					haserrors++
+					
+					return Promise.resolve()
+				}
 
 				return this.core.api.filesystem.move[item.type]({
 					id : item.id,
-					to : this.root
+					to : this.root,
+					from : item.catalogId
 				})
 
 			})).then(r => {
 
 				this.moving = null
 
-				this.$store.commit('icon', {
-					icon: 'success'
-				})
+				if(haserrors == l){
+					return Promise.reject({
+						error : "Operation failed"
+					})
+				}
+
+				if(!haserrors){
+					this.$store.commit('icon', {
+						icon: 'success'
+					})
+				}
+				else{
+					this.$store.commit('icon', {
+						icon: 'warning',
+						message : 'The operation was partially successful'
+					})
+				}
 				
 				return this.load()
 

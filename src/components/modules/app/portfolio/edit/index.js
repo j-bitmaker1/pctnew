@@ -154,6 +154,8 @@ export default {
 
 			if(this.edit){
 
+				
+
 				action = this.core.api.pctapi.portfolios.update({
 					
 					... data

@@ -22,12 +22,12 @@ import {
     mapState
 } from 'vuex';
 
-import risk from "@/components/modules/app/client/risk/index.vue"
+import risk from "@/components/modules/app/features/risk/index.vue"
 
 export default {
     name: 'riscscore_capacity',
     props: {
-        questionPoints: Number
+        points: Number
     },
     components : {
         risk
@@ -41,7 +41,10 @@ export default {
         auth: state => state.auth,
 
 		target : function(){
-			return this.value || this.questionPoints || 0
+
+            console.log("this.questionPoints", this.points)
+
+			return this.value || this.points || 0
 		},
 
     }),

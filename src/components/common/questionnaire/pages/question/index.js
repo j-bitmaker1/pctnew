@@ -17,6 +17,9 @@ export default {
     },
 
     created () {
+
+        //this.$refs.fields.getinternal()
+        
     },
 
     watch: {
@@ -47,6 +50,10 @@ export default {
 
         next : function(){
             this.$emit('next', this.result)
+        },
+
+        focus : function(){
+            this.$refs['fields'].focusOnIntput()
         }
     },
 }

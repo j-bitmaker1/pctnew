@@ -13,12 +13,12 @@
     </div>
 
     <div class="savePanel">
-		<button class="button black" @click="back">
+		<button class="button black" v-if="typeof question.back == 'undefined' || question.back" @click="back">
             Back
-		</button>
-		<button class="button" v-if="typeof question.next == 'undefined' || question.next" @click="next" :disabled="!cannext">
-			Next
-		</button>
+        </button>
+        <button class="button"  v-if="typeof question.next == 'undefined' || question.next" @click="next" :disabled="!cannext">
+            Next
+        </button>
 	</div>
 
 </div>

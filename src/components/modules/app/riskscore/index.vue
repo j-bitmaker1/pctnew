@@ -1,10 +1,13 @@
 <template>
 <div id="riskscore">
-    <questionnaire v-if="part == 'q'" :initial="values" @intermediate="questionnaireIntermediate" @finish="questionnaireFinished" :questions="allquestions" />
 
-    <secondpart v-if="part == 'r'" @changecr="changecr" @finish="next" @back="back" :points="crvalue" :values="values"/>
+    <questionnaire key="c" v-if="part == 'c'" @back="back" :initial="client" @finish="commonFinished" @intermediate="questionnaireIntermediate" :questions="commonQuestions" />
 
-    <questionnaire v-if="part == 'f'" :initial="values" @intermediate="questionnaireIntermediate" @finish="questionnaireFinished" :questions="finishQuestion" />
+    <questionnaire key="q" v-if="part == 'q'" @back="back" :initial="values" @intermediate="questionnaireIntermediate" @finish="questionnaireFinished" :questions="allquestions" />
+
+    <secondpart key="r" v-if="part == 'r'" @changecr="changecr" @changecapacity="changecapacity" @finish="next" @back="back" :values="values" :points="crvalue" :capacityValues="capacityValues"/>
+
+    <questionnaire key="f" v-if="part == 'f'" @back="back" :initial="values" @intermediate="lastIntermediate" @finish="questionnaireFinished" :questions="finishQuestions" />
 
 </div>
 </template>

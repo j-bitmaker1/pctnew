@@ -88,6 +88,9 @@ export default {
 
 				if(this.edit){
 
+					this.core.vxstorage.invalidate(this.edit.ID, 'client')
+					this.core.vxstorage.invalidate(this.edit.ID, 'lead')
+
 					action = this.core.api.crm.contacts.update({
 						ID : this.edit.ID,
 						... data

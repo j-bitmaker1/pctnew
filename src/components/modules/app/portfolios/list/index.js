@@ -185,6 +185,10 @@ export default {
 
 		},
 
+		changeClient : function(client){
+			this.$emit('changeClient', client)
+		},
+
 		setportfoliostoclient : function(){
 
 			this.$store.commit('OPEN_MODAL', {
@@ -208,7 +212,7 @@ export default {
 						}).then(r => {
 							this.selected = null
 
-
+							this.changeClient()
 							///// clientChanged
 						})
 

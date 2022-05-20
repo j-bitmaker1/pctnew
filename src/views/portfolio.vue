@@ -20,7 +20,7 @@
 			
 		</template>
 		<template v-slot:right>
-			<portfoliomenu v-if="!loading && portfolio" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
+			<portfoliomenu v-if="!loading && portfolio" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" @changeClient="changeClient"/>
 		</template>
 	</topheader>
 
@@ -149,6 +149,10 @@ export default {
 
 		editportfolio : function(portfolio){
 			this.portfolio = portfolio
+		},
+
+		changeClient : function(profile){
+			this.profile = profile
 		}
 	},
 

@@ -65,6 +65,13 @@ export default {
 					icon : 'fas fa-user-edit',
 					action : 'changeClient'
 				})
+
+				menu.unshift({
+					text : 'labels.unlinkClient',
+					icon : 'fas fa-user-edit',
+					action : 'unlinkClient'
+				})
+				
 			} 
 
 			if(this.portfolio.status == 'DELETED'){
@@ -123,6 +130,7 @@ export default {
 				preloader : true,
 				showStatus : true
 			}).then(r => {
+				
 				this.$emit('delete', this.portfolio)
 			})
 		},
@@ -168,8 +176,19 @@ export default {
 			//this.$emit('linkedToClient', this.portfolio)
 		},
 
-		changeClient : function(){
+		unlinkClient : function(){
 
+			this.core.pct.setPortfoliosToClient(0, [this.portfolio], {
+				preloader : true,
+				showStatus : true
+			}).then(r => {
+				this.$emit('changeClient', null)
+			})
+			
+		},
+
+		changeClient : function(){
+			this.linkToClient()
 		}
 
 		

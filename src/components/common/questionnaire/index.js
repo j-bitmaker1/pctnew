@@ -32,11 +32,59 @@ export default {
     },
 
     created() {
-        this.init()
+
     },
 
+  
+
     watch: {
-        //$route: 'getdata'
+        questions : {
+            immediate : true,
+            handler : function(){
+
+                this.values = {}
+
+                console.log('this.initial', this.initial)
+
+                _.each(this.questions, (f) => {
+    
+                    if (f.form){
+    
+                        this.$set(this.values, f.id, {})
+    
+                        _.each(f.form.schema, (field) => {
+    
+                            var def = field.default || (this.initial[f.id] ? this.initial[f.id][field.id] || undefined : undefined)
+    
+                            if(!def) {
+    
+                                if(!field.input){
+                                    if(field.type == 'number'){
+                                        def = 0
+                                    }
+        
+                                    if(!field.type || field.type == 'string') def = ''
+                                }
+                                else{
+                                    def = undefined
+                                }
+    
+                               
+                            }
+    
+                            this.$set(this.values[f.id], field.id, def)
+                        })
+
+                        console.log('this.valuesAll', this.values)
+    
+                        return
+                    }
+    
+                    
+                })
+    
+            }
+        }
     },
     computed: mapState({
         auth : state => state.auth,
@@ -54,8 +102,6 @@ export default {
                 }
 
                 p.data[p.type] = question
-
-                console.log(p, question)
 
                 pages.push(p)
             })
@@ -83,6 +129,15 @@ export default {
 
             this.$refs['sequence'].next(page.id)
 
+            var cur = this.$refs['sequence'].current()
+
+            if (cur){
+                setTimeout(() => {
+                    this.$refs[cur].focus()
+                }, 50)
+            }
+                
+
             this.$emit('intermediate', this.values)
 
         },
@@ -98,44 +153,6 @@ export default {
             
         },
 
-        init : function(){
-
-			_.each(this.questions, (f) => {
-
-                if (f.form){
-
-                    this.$set(this.values, f.id, {})
-
-                    _.each(f.form.schema, (field) => {
-
-                        var def = field.default || (this.initial[f.id] ? this.initial[f.id][field.id] || undefined : undefined)
-
-                        if(!def) {
-
-                            if(!field.input){
-                                if(field.type == 'number'){
-                                    def = 0
-                                }
-    
-                                if(!field.type || field.type == 'string') def = ''
-                            }
-                            else{
-                                def = undefined
-                            }
-
-                           
-                        }
-
-                        this.$set(this.values[f.id], field.id, def)
-                    })
-
-                    return
-                }
-
-				
-			})
-
-		},
 
         finish : function(){
             this.$emit('finish', this.values)

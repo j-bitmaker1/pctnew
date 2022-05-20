@@ -9,7 +9,7 @@
         <span> We used this past market history (Monte Carlo Simulation) to predict the probability of your retirement goal success</span>
     </div>
 
-	<capacity :initial="values"/>
+	<capacity @change="change" :initial="initial"/>
 </div>
 </template>
 
@@ -22,12 +22,12 @@ import {
 	mapState
 } from 'vuex';
 
-import capacity from "@/components/modules/app/client/capacity/index.vue"
+import capacity from "@/components/modules/app/features/capacity/index.vue"
 
 export default {
 	name: 'riscscore_capacity',
 	props: {
-		values: {
+		initial: {
 			type : Object,
 			default : () => {
 				return {}
@@ -42,7 +42,9 @@ export default {
 	}),
 
 	methods: {
-
+		change : function(values){
+			this.$emit('change', values)
+		}
 	},
 }
 </script>

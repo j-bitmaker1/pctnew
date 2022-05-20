@@ -67,7 +67,6 @@ class CRM {
     }
 
     getbyids = function(ids, p){
-
         return this.api.crm.contacts.gets({Ids : ids}, p)
     }
 

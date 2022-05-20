@@ -1,6 +1,7 @@
 <template>
 <div class="forms">
     <div class="form" v-if="form">
+        <form>
         <div class="field" v-for="(field, i) in fields" :key="field.id">
 
             <label>{{$t(field.text)}}</label>
@@ -13,7 +14,9 @@
 
             <div class="radio" v-if="field.input == 'radio'" :ref="i">
                 <div class="radioWrapper" v-for="(v, i) in field.values" :key="i">
-                    <input  :name="field.id" :id="formid + field.id + '_' + i" type="radio" :value="v.value || i" v-model="form[field.id]">
+                    <input  :name="field.id" :id="formid + field.id + '_' + i" type="radio" 
+                        :value="v.value || i" v-model="form[field.id]" 
+                        >
                     <label :for="formid + field.id + '_' + i">{{$t(v.text)}}</label>
                 </div>
             </div>
@@ -23,7 +26,7 @@
             </span>
             
         </div>
-
+        </form>
 
     </div>
 

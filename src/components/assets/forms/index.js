@@ -63,13 +63,14 @@ export default {
             
         })
 
-
         this.form = new form(f1).rules(r1).messages(m1)
+
+        console.log('this.form', f1)
 
         setTimeout(() => {
             this.created = true
         }, 10)
-        
+
     },
 
     watch: {
@@ -77,7 +78,8 @@ export default {
             deep: true,
             immediate: false,
             handler: function(now, old) { 
-                if (this.created){
+
+                if (this.created || !this.form.validate().errors().any()){
                     this.$emit('change', this.form.all())
                     this.$emit('input', this.getinternal())
                 }
@@ -92,6 +94,10 @@ export default {
     }),
 
     methods : {
+
+        focusOnIntput : function(){
+            if(this.$refs[0] && this.$refs[0][0].focus) this.$refs[0][0].focus()
+        },
 
         getinternal : function(){
    
@@ -109,7 +115,6 @@ export default {
         },
 
         get : function(){
-            
 
             this.showerrors = true
 
@@ -122,6 +127,10 @@ export default {
 
         onInput : function(){
 
+        },
+
+        focus : function(){
+            this.$refs[i][0].focus()
         }
     },
 }

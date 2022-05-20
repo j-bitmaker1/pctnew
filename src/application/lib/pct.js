@@ -27,11 +27,12 @@ class PCT {
         IncludeScenarios : []
     }
 
-    constructor({api, user}){
+    constructor({api, user, vxstorage}){
 
         this.api = api
         this.capacity = Capacity
         this.riskscore = new Riskscore(this)
+        this.vxstorage = vxstorage
         
     }
 
@@ -296,8 +297,15 @@ class PCT {
             id : portfolioid,
             crmContactId : clientid
         }
+        
+        this.vxstorage.invalidateManyQueue(
+            [portfolio.crmContactId], 
+            ['client', 'lead']
+        )
 
-        return this.api.pctapi.portfolios.update(data, p)
+        return this.api.pctapi.portfolios.update(data, p).then(r => {
+            return Promise.resolve()
+        })
     }
 
     setPortfoliosToClient = function(clientid, portfolioids, p){

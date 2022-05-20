@@ -8,10 +8,10 @@
         <span>{{$t(slide.tip)}}</span>
     </div>
     <div class="savePanel">
-        <button class="button black" @click="back">
+        <button class="button black" v-if="typeof slide.back == 'undefined' || slide.back" @click="back">
             Back
         </button>
-        <button class="button" v-if="typeof slide.next == 'undefined' || slide.next" @click="next" :disabled="!cannext">
+        <button class="button"  v-if="typeof slide.next == 'undefined' || slide.next" @click="next" :disabled="!cannext">
             Next
         </button>
     </div>

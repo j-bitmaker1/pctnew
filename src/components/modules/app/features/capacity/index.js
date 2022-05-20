@@ -4,6 +4,7 @@ import {Chart} from 'highcharts-vue'
 import options from '@/application/hc.js'
 
 import VueSlider from 'vue-slider-component'
+import _ from 'underscore';
 
 var plotLines = {
 
@@ -179,7 +180,7 @@ var series = {
 }
 
 export default {
-	name: 'client_capacity',
+	name: 'features_capacity',
 	props: {
 		initial : {
 			type : Object,
@@ -200,11 +201,11 @@ export default {
 			loading : false,
 			simulation : {},
 
-			values : {
+			defaultvalues : {
 				'ages': [20, 40],
 				'savings' : 10000,
 				'save' : 0,
-				'salary' : 20000,
+				'salary' : 200000,
 
 				//// extra
 
@@ -214,22 +215,31 @@ export default {
 				
 			},
 
-			
-
+			values : {}
 		}
 
 	},
 
 	created : function(){
-		this.make()
+		this.init()
 	},
 
 	watch: {
+		values : function(){
+			this.$emit('change')
+		},
 		options : function(){
 			this.make()
 		},
 		extra : function(){
 			this.make()
+		},
+
+		initial : {
+			immediate : true,
+			handler : function(){
+				this.init()
+			}
 		}
 	},
 	computed: mapState({
@@ -257,7 +267,7 @@ export default {
 					mode : 'd',
 
 					options : {
-						min : 1000,
+						min : 0,
 						max : 10000000,
 						interval : 1000,
 						type : Number,
@@ -270,7 +280,7 @@ export default {
 					mode : 'd',
 
 					options : {
-						min : 1000,
+						min : 0,
 						max : 100000,
 						interval : 1000,
 						type : Number,
@@ -281,8 +291,8 @@ export default {
 					text : "Terminal Value",
 					mode : 'd',
 					options : {
-						min : 1000,
-						max : 100000,
+						min : 0,
+						max : 10000000,
 						interval : 1000,
 						type : Number,
 					}
@@ -294,7 +304,7 @@ export default {
 					mode : 'd',
 
 					options : {
-						min : 1000,
+						min : 0,
 						max : 100000,
 						interval : 1000,
 						type : Number,
@@ -322,7 +332,7 @@ export default {
 
 					options : {
 						min : this.values.ages[0],
-						max : this.values.ages[1],
+						max : 99,
 						interval : 1,
 						maxRange : 50,
 						type : [Number, Number],
@@ -332,6 +342,9 @@ export default {
 		},
 
 		options : function(){
+
+			if(_.isEmpty(this.values)) return {}
+
 			return {
 				age : this.values.ages[0],
 				retire : this.values.ages[1],
@@ -343,6 +356,9 @@ export default {
 		},
 
 		extra : function(){
+
+			if(_.isEmpty(this.values)) return {}
+
 			return {
 				savemoreRange1 : this.values.savemoreRange[0],
 				savemoreRange2 : this.values.savemoreRange[1],
@@ -380,11 +396,19 @@ export default {
 
 			return d
 		},
-
 	   
 	}),
 
 	methods : {
+		init : function(){
+			this.values = {
+				... this.defaultvalues,
+				... this.initial
+			}
+
+			this.make()
+
+		},
 		make : function(){
 			this.calculate()
 		},

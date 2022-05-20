@@ -1,5 +1,5 @@
 <template>
-  <div id="_emptySimple">
+  <div id="movingcontainer">
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: '_emptySimple',
+    name: 'movingcontainer',
     props: {
         data : Object
     },

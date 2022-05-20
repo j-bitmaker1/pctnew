@@ -51,7 +51,14 @@ export default {
 			})
 		},
 
+		changeClient : function(){
+			if (this.$refs['list'])
+				this.$refs['list'].reload()
+		},
+
 		select : function(){
+
+			
 
 			this.$store.commit('OPEN_MODAL', {
 				id : 'modal_portfolios_main',
@@ -73,8 +80,9 @@ export default {
 							showStatus : true
 						}).then(r => {
 
-							if (this.$refs['list'])
-								this.$refs['list'].reload()
+							this.changeClient()
+
+							
 
 							///// clientChanged
 						})

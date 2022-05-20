@@ -211,6 +211,19 @@ class Core {
 
     }
 
+    action(path, data){
+        var action = f.deep(this, path)
+
+        if(!action){
+            return Promise.reject({
+                error : 'Action: ' + path
+            })
+        }
+        else{
+            return action(data)
+        }
+    }
+
 }
 
 export default Core

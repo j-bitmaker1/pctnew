@@ -3,9 +3,61 @@ import { mapState } from 'vuex';
 import questionnaire from "@/components/common/questionnaire/index.vue";
 import _ from 'underscore';
 
-
-
 import secondpart from "./secondpart/index.vue"    
+
+var testvalues = {
+    values : {
+        customCr : 0,
+
+        c1 : {
+            age : 20
+        },
+
+        c2 : {
+            savings : 100000
+        },
+       
+        c3 : {
+            retire : 60
+        },
+        c4 : {
+            save : 10000
+        },
+        c5 : {
+            salary : 100000
+        },
+
+        q1 : {
+            answer : 2
+        },
+
+        q2 : {
+            answer : 2
+        },
+
+        q3 : {
+            answer : 2
+        },
+
+        q4 : {
+            answer : 2
+        },
+
+        q5 : {
+            answer : 2
+        },
+
+        q6 : {
+            answer : 2
+        }
+    },
+
+    client : {
+        FName : "M",
+        LName : "G",
+        Email : "maxgrishkov@gmail.com"
+    }
+}
 
 export default {
     name: 'riskscore',
@@ -21,10 +73,17 @@ export default {
 
         return {
             loading : false,
-            part : 'f',
-            parts : ['q','r','f'],
+            part : '',
+            parts : ['c', 'q', 'r', 'f'],
+            //values : testvalues.values,
+            //client : testvalues.client,
+            capacity : null,
             values : {
                 customCr : 0
+            },
+
+            client : {
+
             }
         }
 
@@ -90,6 +149,7 @@ export default {
                                 id : 'retire',
                                 text : 'riscscore.fields.retire',
                                 type : 'number',
+                                default : 50,
                                 rules : [{
                                     rule : 'required'
                                 }]
@@ -339,51 +399,93 @@ export default {
         },
 
         commonQuestions : function(){
-            return [
-                {
-                    id : 'com1',
-                    question : 'riscscore.questions.com1',
-                    tip : 'riscscore.questions.com1tip',
-                    form : {
-                        schema : [
 
-                            {
-                                id : 'FName',
-                                text : 'riscscore.fields.FName',
-                 
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            },
-                            {
-                                id : 'LName',
-                                text : 'riscscore.fields.LName',
-                 
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            },
-                            {
-                                id : 'email',
-                                text : 'riscscore.fields.email',
-                 
-                                rules : [{
-                                    rule : 'required'
-                                },{
-                                    rule : 'email'
-                                },{
-                                    rule : 'min:5'
-                                }]
-                            }
+            var introduce = {
+                id : 'com1',
+                question : 'riscscore.questions.com1',
+                tip : 'riscscore.questions.com1tip',
+                back : false,
+                form : {
+                    schema : [
 
-                        ]
-                    }
-                    
+                        {
+                            id : 'FName',
+                            text : 'riscscore.fields.FName',
+             
+                            rules : [{
+                                rule : 'required'
+                            }]
+                        },
+                        {
+                            id : 'LName',
+                            text : 'riscscore.fields.LName',
+             
+                            rules : [{
+                                rule : 'required'
+                            }]
+                        },
+                        {
+                            id : 'Email',
+                            text : 'riscscore.fields.email',
+             
+                            rules : [{
+                                rule : 'required'
+                            },{
+                                rule : 'email'
+                            },{
+                                rule : 'min:5'
+                            }]
+                        }
+
+                    ]
                 }
-            ]
+                
+            }
+
+            var existlead = {
+                id : 'com0',
+                question : 'Advisor John Foo sent you this questionnaire. Are you Max Grishkov?',
+                tip : 'riscscore.questions.com0tip',
+                back : false,
+                next : false,
+                forceNext : true,
+                form : {
+                    schema : [
+                        {
+                            id : 'answer',
+                            input : 'radio',
+                            style : 'yesno',
+                            values : [
+                                {
+                                    text : "Yes, i'm Max Grishkov"
+                                },
+                                {
+                                    text : 'No'
+                                }
+                            ],
+
+                            rules : [{
+                                rule : 'required'
+                            }]
+                        }
+                    ]
+                }
+                
+            }
+
+            var sequence = []
+
+            if(this.client.ID){
+                sequence = [existlead]
+            }
+            else{
+                sequence = [introduce]
+            }
+
+            return sequence
         },
 
-        finishQuestion : function(){
+        finishQuestions : function(){
             return [
                 {
                     id : 'fin1',
@@ -412,6 +514,7 @@ export default {
                     id : 'fin2',
                     text : 'riscscore.questions.fin2',
                     type : 'slide',
+                    back : false,
                     next : false
                 }
             ]
@@ -419,7 +522,6 @@ export default {
 
         allquestions : function(){
             return [
-                ...this.commonQuestions,
                 ...this.questions,
                 ...this.capacityQuestions
             ]
@@ -427,7 +529,7 @@ export default {
 
         questionPoints : function(){
             var points = [];
-
+            console.log('this.values', this.values)
             if(
 
                 !this.values.q1 || !this.values.q2 || !this.values.q3 || 
@@ -441,25 +543,27 @@ export default {
                 typeof this.values.q6.answer == 'undefined'
             ) return null
 
-            if (this.values.q2.answer == 2 &&  this.values.q3.answer == 1) points[0] = 50
-            if (this.values.q2.result == 1 &&  this.values.q3.answer == 2) points[0] = 50
-            if (this.values.q2.result == 1 &&  this.values.q3.answer == 1) points[0] = 25
-            if (this.values.q2.result == 2 &&  this.values.q3.answer == 2) points[0] = 75
+            if (this.values.q2.answer == 1 &&  this.values.q3.answer == 0) points[0] = 50
+            if (this.values.q2.answer == 0 &&  this.values.q3.answer == 1) points[0] = 50
+            if (this.values.q2.answer == 0 &&  this.values.q3.answer == 0) points[0] = 25
+            if (this.values.q2.answer == 1 &&  this.values.q3.answer == 1) points[0] = 75
 
-            points[1] = Number(this.values.q4.result) * 20
+            points[1] = Number(this.values.q4.answer) * 20
 
-            if (this.values.q5.result == 1) points[2] = 15
-            if (this.values.q5.result == 2) points[2] = 35
-            if (this.values.q5.result == 3) points[2] = 55
-            if (this.values.q5.result == 4) points[2] = 75
-            if (this.values.q5.result == 5) points[2] = 90
+            if (this.values.q5.answer == 0) points[2] = 15
+            if (this.values.q5.answer == 1) points[2] = 35
+            if (this.values.q5.answer == 2) points[2] = 55
+            if (this.values.q5.answer == 3) points[2] = 75
+            if (this.values.q5.answer == 4) points[2] = 90
 
-            if (this.values.q6.result == 1) points[3] = 15
-            if (this.values.q6.result == 2) points[3] = 35
-            if (this.values.q6.result == 3) points[3] = 55
-            if (this.values.q6.result == 4) points[3] = 75
-            if (this.values.q6.result == 5) points[3] = 90
-            if (this.values.q6.result == 6) points[3] = 90
+            if (this.values.q6.answer == 0) points[3] = 15
+            if (this.values.q6.answer == 1) points[3] = 35
+            if (this.values.q6.answer == 2) points[3] = 55
+            if (this.values.q6.answer == 3) points[3] = 75
+            if (this.values.q6.answer == 4) points[3] = 90
+            if (this.values.q6.answer == 5) points[3] = 90
+
+            console.log('points', points)
             
             var total = _.reduce(points, function(m, p){
                 return m + p
@@ -470,20 +574,107 @@ export default {
 
         crvalue : function(){
             return this.values.customCr || this.questionPoints
+        },
+
+        finishValues : function(){
+            
+            var cv = {}
+
+            console.log('this.finishQuestions', this.finishQuestions)
+
+            _.each(this.finishQuestions, (c) => {
+
+                if (c.form)
+                    _.each(c.form.schema, (f) => {
+                        if (this.values[c.id]){
+                            cv[f.id] = this.values[c.id][f.id]
+                        }
+                        else{
+                            cv[f.id] = null
+                        }
+                    })
+            })
+
+            return cv
+        },
+
+        questionnaireValues : function(){
+            var cv = {}
+
+            _.each(this.questions, (c) => {
+                _.each(c.form.schema, (f) => {
+
+                    if (this.values[c.id])
+                        cv[c.id] = this.values[c.id][f.id]
+                })
+            })
+
+            return cv
+        },
+
+        capacityValues : function(){
+            var cv = {}
+
+            if(this.capacity){
+                return this.capacity
+            }
+
+            _.each(this.capacityQuestions, (c) => {
+                _.each(c.form.schema, (f) => {
+                    if (this.values[c.id]){
+                        cv[f.id] = this.values[c.id][f.id]
+                    }
+                    else{
+                        cv[f.id] = null
+                    }
+                })
+            })
+
+            return cv
         }
         
 
     }),
 
     methods : {
-
-     
        
         init : function(){
+            /*this.client = {
+                ID : 414227
+            }*/
+            
+            this.part = 'c'
 
 		},
 
         finish : function(){
+            
+        },
+
+        checkClient : function(){
+            if(this.client.ID) return true
+
+            if(this.client.Email && this.client.FName && this.client.LName) return true
+        },
+
+        commonFinished: function(values){
+
+            if (values.com0 && values.com0.answer == 1){
+                this.client = {}
+
+                return
+            }
+
+            _.each(values.com1, (v, i) => {
+                this.$set(this.client, i, v)
+            })
+
+            if (this.checkClient()) {
+                this.next()
+            }
+        },
+
+        commonFinishedIntermediate : function(values){
 
         },
 
@@ -496,8 +687,19 @@ export default {
             this.next()
         },
 
+        lastIntermediate: function(values){
+
+            console.log("values", values)
+
+            _.each(values, (v, i) => {
+                this.$set(this.values, i, v)
+            })
+
+            this.send()
+        },
+
         questionnaireIntermediate : function(values){
-            console.log('values', values)
+
             _.each(values, (v, i) => {
                 this.$set(this.values, i, v)
             })
@@ -511,6 +713,8 @@ export default {
             var i = _.indexOf(this.parts, this.part)
 
             i++
+            
+            this.send()
 
             this.parts[i] ? this.part = this.parts[i] : this.$emit('finish')
         },
@@ -521,6 +725,22 @@ export default {
             i--
 
             i >= 0 ? this.part = this.parts[i] : this.$emit('back')
+        },
+
+        send : function(){
+
+            var data = {
+                ...this.client,
+                ...this.capacityValues,
+                ...this.questionnaireValues,
+                ...this.finishValues
+            }
+
+            console.log("SEND", data)
+        },
+
+        changecapacity : function(v){
+            this.capacity = v
         }
         
     },

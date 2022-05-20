@@ -11,7 +11,7 @@
 	<listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="selectMultiple" :api="api" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
 		<template v-slot:default="slotProps">
 			<div class="cardWrapper mobp">
-				<portfolio :showClient="showClient" :hasmenu="select ? false : true" :portfolio="slotProps.item" @click="open" @editportfolio="editportfolio" @deleteportfolio="deleteportfolio"/>
+				<portfolio :showClient="showClient" @changeClient="changeClient" :hasmenu="select ? false : true" :portfolio="slotProps.item" @click="open" @editportfolio="editportfolio" @deleteportfolio="deleteportfolio"/>
 			</div>
 		</template>
 	</listpaginated>

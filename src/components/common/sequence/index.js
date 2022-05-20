@@ -14,13 +14,13 @@ export default {
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            cur : null
         }
 
     },
 
     created(){
-        console.log('pages', this.pages)
     },
 
     watch: {
@@ -62,6 +62,9 @@ export default {
             }
         },
         to : function(to){
+
+            this.cur = to
+
             setTimeout(() => {
 
                 var props = []
@@ -78,8 +81,6 @@ export default {
                 if (to){
                     if (this.$refs[to]){
 
-                        console.log('props[1]', props[1])
-
                         value = this.$refs[to][props[1]]
                     }	
                 }
@@ -93,6 +94,10 @@ export default {
 
         scroll : function(prop, value){
             this.$refs.sequence[prop] = value
+        },
+
+        current : function(){
+            return this.cur
         }
     },
 }

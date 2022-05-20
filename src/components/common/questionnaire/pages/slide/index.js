@@ -32,6 +32,8 @@ export default {
 
         next : function(){
             this.$emit('next')
-        }
+        },
+
+        focus : function(){}
     },
 }
