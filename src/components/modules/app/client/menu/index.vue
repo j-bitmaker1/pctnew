@@ -59,7 +59,17 @@ export default {
 			}
 
 			 if(this.profile.Type == "LEAD"){
+
+				 
+
 				return [
+
+					{
+						text : 'labels.sharequestionnaire',
+						icon : 'fas fa-link',
+						action : 'sharequestionnaire'
+					},
+
 					{
 						text : 'labels.leadtocontact',
 						icon : 'fas fa-user-friends',
@@ -130,6 +140,29 @@ export default {
 						this.$emit('edit', profile)
 					}
 				}
+			})
+		},
+
+		sharequestionnaire : function(){
+			this.core.api.crm.questionnaire.getlink(this.profile.ID).then(url => {
+
+				this.$store.commit('OPEN_MODAL', {
+					id: 'modal_share',
+					module: "share",
+					caption: "Share Questionnaire",
+					mclass : 'small',
+					data : {
+						url
+					}
+				})
+
+			}).catch(e => {
+				
+				this.$store.commit('icon', {
+					icon: 'error',
+					message: e.error
+				})
+
 			})
 		},
 

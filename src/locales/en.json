@@ -63,7 +63,8 @@
 		"unlinkClient" : "Unlink client",
 		"deleteitems" : "Delete items",
 		"moveitems" : "Move items",
-		"recoverportfolio" : "Recover portfolio"
+		"recoverportfolio" : "Recover portfolio",
+		"sharequestionnaire" : "Send personal questionnaire link"
 	},
 
 	"caption" : {

@@ -1044,6 +1044,12 @@ var ApiWrapper = function (core) {
 					return r.Contacts
 				})
 			},
+		},
+
+		questionnaire : {
+			getlink : function(clientid){	
+				return Promise.resolve(window.location.origin + '/riskscore')
+			}
 		}
 	}
 
