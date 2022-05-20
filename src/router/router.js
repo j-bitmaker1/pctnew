@@ -178,9 +178,9 @@ const routes = [
 	},
 
 	{
-		path: '/riscscore',
-		name: 'riscscore',
-		component: () => import('@/views/riscscore'),
+		path: '/riskscore',
+		name: 'riskscore',
+		component: () => import('@/views/riskscore'),
 	},
 
 	

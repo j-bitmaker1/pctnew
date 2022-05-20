@@ -3,21 +3,29 @@ import { mapState } from 'vuex';
 import questionnaire from "@/components/common/questionnaire/index.vue";
 import _ from 'underscore';
 
+
+
+import secondpart from "./secondpart/index.vue"    
+
 export default {
-    name: 'riscscore',
+    name: 'riskscore',
     props: {
     },
 
     components : {
-        questionnaire
+        questionnaire,
+        secondpart
     },
 
     data : function(){
 
         return {
             loading : false,
-
-            values : {}
+            part : 'f',
+            parts : ['q','r','f'],
+            values : {
+                customCr : 0
+            }
         }
 
     },
@@ -31,7 +39,6 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
-
 
         capacityQuestions : function(){
             return [
@@ -135,10 +142,11 @@ export default {
                 {
                     id : 'q1',
                     question : 'riscscore.questions.q1',
+                    forceNext : true,
                     form : {
                         schema : [
                             {
-                                id : 'q1_answer',
+                                id : 'answer',
                                 input : 'radio',
 
                                 values : [
@@ -166,11 +174,11 @@ export default {
                 {
                     id : 'q2',
                     question : 'riscscore.questions.q2',
-
+                    forceNext : true,
                     form : {
                         schema : [
                             {
-                                id : 'q2_answer',
+                                id : 'answer',
                                 input : 'radio',
 
                                 values : [
@@ -193,10 +201,11 @@ export default {
                 {
                     id : 'q3',
                     question : 'riscscore.questions.q3',
+                    forceNext : true,
                     form : {
                         schema : [
                             {
-                                id : 'q3_answer',
+                                id : 'answer',
                                 input : 'radio',
 
                                 values : [
@@ -220,11 +229,11 @@ export default {
                 {
                     id : 'q4',
                     question : 'riscscore.questions.q4',
-
+                    forceNext : true,
                     form : {
                         schema : [
                             {
-                                id : 'q4_answer',
+                                id : 'answer',
                                 input : 'radio',
 
                                 values : [
@@ -254,11 +263,11 @@ export default {
                 {
                     id : 'q5',
                     question : 'riscscore.questions.q5',
-
+                    forceNext : true,
                     form : {
                         schema : [
                             {
-                                id : 'q5_answer',
+                                id : 'answer',
                                 input : 'radio',
 
                                 values : [
@@ -291,10 +300,11 @@ export default {
                 {
                     id : 'q6',
                     question : 'riscscore.questions.q6',
+                    forceNext : true,
                     form : {
                         schema : [
                             {
-                                id : 'q6_answer',
+                                id : 'answer',
                                 input : 'radio',
 
                                 values : [
@@ -328,19 +338,190 @@ export default {
             ]
         },
 
+        commonQuestions : function(){
+            return [
+                {
+                    id : 'com1',
+                    question : 'riscscore.questions.com1',
+                    tip : 'riscscore.questions.com1tip',
+                    form : {
+                        schema : [
+
+                            {
+                                id : 'FName',
+                                text : 'riscscore.fields.FName',
+                 
+                                rules : [{
+                                    rule : 'required'
+                                }]
+                            },
+                            {
+                                id : 'LName',
+                                text : 'riscscore.fields.LName',
+                 
+                                rules : [{
+                                    rule : 'required'
+                                }]
+                            },
+                            {
+                                id : 'email',
+                                text : 'riscscore.fields.email',
+                 
+                                rules : [{
+                                    rule : 'required'
+                                },{
+                                    rule : 'email'
+                                },{
+                                    rule : 'min:5'
+                                }]
+                            }
+
+                        ]
+                    }
+                    
+                }
+            ]
+        },
+
+        finishQuestion : function(){
+            return [
+                {
+                    id : 'fin1',
+                    question : 'riscscore.questions.fin1',
+                    tip : 'riscscore.questions.fin1tip',
+                    form : {
+                        schema : [
+
+                            {
+                                id : 'phone',
+                                text : 'riscscore.fields.phone',
+                 
+                                rules : [{
+                                    rule : 'required'
+                                },{
+                                    rule : 'phone'
+                                },{
+                                    rule : 'min:5'
+                                }]
+                            }
+
+                        ]
+                    }
+                }, 
+                {
+                    id : 'fin2',
+                    text : 'riscscore.questions.fin2',
+                    type : 'slide',
+                    next : false
+                }
+            ]
+        },
+
         allquestions : function(){
             return [
+                ...this.commonQuestions,
                 ...this.questions,
                 ...this.capacityQuestions
             ]
+        },
+
+        questionPoints : function(){
+            var points = [];
+
+            if(
+
+                !this.values.q1 || !this.values.q2 || !this.values.q3 || 
+                !this.values.q4 || !this.values.q5 || !this.values.q6 ||
+
+                typeof this.values.q1.answer == 'undefined' ||
+                typeof this.values.q2.answer == 'undefined' ||
+                typeof this.values.q3.answer == 'undefined' ||
+                typeof this.values.q4.answer == 'undefined' ||
+                typeof this.values.q5.answer == 'undefined' ||
+                typeof this.values.q6.answer == 'undefined'
+            ) return null
+
+            if (this.values.q2.answer == 2 &&  this.values.q3.answer == 1) points[0] = 50
+            if (this.values.q2.result == 1 &&  this.values.q3.answer == 2) points[0] = 50
+            if (this.values.q2.result == 1 &&  this.values.q3.answer == 1) points[0] = 25
+            if (this.values.q2.result == 2 &&  this.values.q3.answer == 2) points[0] = 75
+
+            points[1] = Number(this.values.q4.result) * 20
+
+            if (this.values.q5.result == 1) points[2] = 15
+            if (this.values.q5.result == 2) points[2] = 35
+            if (this.values.q5.result == 3) points[2] = 55
+            if (this.values.q5.result == 4) points[2] = 75
+            if (this.values.q5.result == 5) points[2] = 90
+
+            if (this.values.q6.result == 1) points[3] = 15
+            if (this.values.q6.result == 2) points[3] = 35
+            if (this.values.q6.result == 3) points[3] = 55
+            if (this.values.q6.result == 4) points[3] = 75
+            if (this.values.q6.result == 5) points[3] = 90
+            if (this.values.q6.result == 6) points[3] = 90
+            
+            var total = _.reduce(points, function(m, p){
+                return m + p
+            }, 0) / points.length
+
+            return total
+        },
+
+        crvalue : function(){
+            return this.values.customCr || this.questionPoints
         }
+        
+
     }),
 
     methods : {
+
+     
        
         init : function(){
 
+		},
 
-		}
+        finish : function(){
+
+        },
+
+        questionnaireFinished : function(values){
+
+            _.each(values, (v, i) => {
+                this.$set(this.values, i, v)
+            })
+
+            this.next()
+        },
+
+        questionnaireIntermediate : function(values){
+            console.log('values', values)
+            _.each(values, (v, i) => {
+                this.$set(this.values, i, v)
+            })
+        },
+
+        changecr : function(v){
+            this.$set(this.values, 'customCr', v)
+        },
+
+        next : function(){
+            var i = _.indexOf(this.parts, this.part)
+
+            i++
+
+            this.parts[i] ? this.part = this.parts[i] : this.$emit('finish')
+        },
+
+        back : function(){
+            var i = _.indexOf(this.parts, this.part)
+
+            i--
+
+            i >= 0 ? this.part = this.parts[i] : this.$emit('back')
+        }
+        
     },
 }

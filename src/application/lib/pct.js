@@ -2,6 +2,7 @@ import f from '@/application/functions'
 import _ from "underscore"
 
 import Capacity from "./capacity";
+import Riskscore from "./riskscore";
 
 class PCT {
 
@@ -30,12 +31,48 @@ class PCT {
 
         this.api = api
         this.capacity = Capacity
+        this.riskscore = new Riskscore(this)
         
     }
 
     prepare = function(){
 
         return Promise.resolve()
+    }
+
+    parseDefaultCt = function(df){
+        var d = {}
+
+        _.each(df, (v, i) => {
+
+            var scmap = {}
+
+            _.each(v.scmap, (s, i) => {
+
+                var scenario = {}
+
+                scenario.corr = f.numberParse(s.Corr)
+                scenario.loss = f.numberParse(s.Loss)
+
+                scenario.pl = f.numberParse(s.Pl)
+                scenario.pr = f.numberParse(s.Pr)
+                scenario.ovrl = f.numberParse(s.Ovrl)
+
+                scenario.id = s.ID
+                scenario.key = s.key
+                scenario.shock = s.Sh
+
+                scenario.shortDescription = s.Description
+                scenario.description = s.Description2
+                scenario.name = s.Name
+
+                scmap[i] = scenario
+            })
+
+            d[i] = {scmap, loss : f.numberParse(v.loss), ocr : f.numberParse(v.loss)}
+        })
+
+        return d
     }
 
     parseCt = function(ct){

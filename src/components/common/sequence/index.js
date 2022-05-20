@@ -41,18 +41,24 @@ export default {
                 
                 this.to(id)
             }
+
+            else{
+                this.$emit('back')
+            }
         },
         next : function(from){
             var i = _.findIndex(this.pages, {
                 id : from
             })
 
-            console.log("I", i, this.pages.length, from)
-
             if (i < this.pages.length - 1){
                 var id = this.pages[i + 1].id
                 
                 this.to(id)
+            }
+
+            else{
+                this.$emit('finish')
             }
         },
         to : function(to){
@@ -86,7 +92,7 @@ export default {
         },
 
         scroll : function(prop, value){
-            this.$refs['list'].scroll(prop, value)
+            this.$refs.sequence[prop] = value
         }
     },
 }

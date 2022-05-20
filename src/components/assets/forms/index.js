@@ -1,14 +1,23 @@
 import { mapState } from 'vuex';
 import form from 'vuejs-form'
 import _ from 'underscore';
+import f from '@/application/functions.js'
 
 export default {
     name: 'forms',
     props: {
         fields : Array,
+
         value : {
             type : Object,
             default : () => {return {}}
+        },
+
+        formid : {
+            type : String,
+            default : () => {
+                return f.makeid()
+            }
         },
 
         ignoreerrors : Boolean,
@@ -20,7 +29,8 @@ export default {
         return {
             loading : false,
             form : null,
-            showerrors : false
+            showerrors : false,
+            created : false
         }
 
     },
@@ -35,7 +45,13 @@ export default {
 
             f1[f.id] = this.value[f.id] || ''
 
-            r1[f.id] = _.map(f.rules || [], (r) => {
+            var addedRules = []
+
+            if(f.type == 'number') addedRules.push({
+                rule : 'numeric'
+            })
+
+            r1[f.id] = _.map((f.rules || []).concat(addedRules), (r) => {
                 return r.rule
             }).join('|')
             
@@ -50,6 +66,10 @@ export default {
 
         this.form = new form(f1).rules(r1).messages(m1)
 
+        setTimeout(() => {
+            this.created = true
+        }, 10)
+        
     },
 
     watch: {
@@ -57,8 +77,11 @@ export default {
             deep: true,
             immediate: false,
             handler: function(now, old) { 
-                this.$emit('change', this.form.all())
-                this.$emit('input', this.getinternal())
+                if (this.created){
+                    this.$emit('change', this.form.all())
+                    this.$emit('input', this.getinternal())
+                }
+               
             },
         }
         
@@ -71,12 +94,22 @@ export default {
     methods : {
 
         getinternal : function(){
+   
             if (this.form.validate().errors().any() && !this.ignoreerrors) return null;
 
-            return this.form.all()
+            var result = this.form.all()
+
+            _.each(this.fields, (f) => {
+                if(f.type == 'number' && typeof result[f.id] != 'undefined'){
+                    result[f.id] = Number(result[f.id])
+                } 
+            })
+
+            return result
         },
 
         get : function(){
+            
 
             this.showerrors = true
 

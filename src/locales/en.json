@@ -199,6 +199,8 @@
 	},
 	"riscscore" : {
 		"questions" : {
+			"com1" : "Risk Tolerance Questionnaire",
+			"com1tip" : "This questionnaire will assess your tolerance for financial risk. Please enter your first and last name and email address.",
 			"c1" : "Your age",
 			"c2" : "Amount you have saved for retirement goals",
 			"c3" : "At what age would you like to retire?",
@@ -211,8 +213,11 @@
 			"q3" : "In addition to whatever you own, you have been given $2,000. You are now given two options. Which one would you choose?",
 			"q4" : "After the stock market declines significantly, what do you typically do?",
 			"q5" : "Suppose you have saved $500,000 for retirement in a diversified stock portfolio. By what percentage could the total value of your retirement assets drop before you would begin to think about selling your investments and going to cash?",
-			"q6" : "What degree of risk have you assumed in your 401(k) assets?"
+			"q6" : "What degree of risk have you assumed in your 401(k) assets?",
 
+			"fin1" : "If You Are Satisfied With The Perfomance of Your 401(k) and Your Retirement Goal, Congratulations!",
+			"fin1tip" : "If You Would Like a Free, 15-minute Consultation With An Advisor, Fill In the Following Information.",
+			"fin2" : "Thank you for completing your risk assessment. Your advisor will contact you soon. You can close this tab now."
 		},
 
 		"answers" : {
@@ -258,7 +263,11 @@
 			"savings" : "Savings",
 			"retire" : "Retire",
 			"save" : "Save",
-			"target" : "Target"
+			"target" : "Target",
+			"FName" : "First name",
+			"LName" : "Last name",
+			"email" : "Email",
+			"phone" : "Your Phone number"
 		}
 	}
 

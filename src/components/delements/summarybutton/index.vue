@@ -1,5 +1,5 @@
 <template>
-<div class="summarybutton">
+<div class="summarybutton" :class="sclass">
 	<div class="label">
 		<span>{{$t(text)}}</span>
 	</div>
@@ -37,6 +37,12 @@
 	.value
 		span
 			font-size: 2em
+	&.positive
+		.value
+			color : srgb(--color-good)
+	&.negative
+		.value
+			color : srgb(--color-bad)
 </style>
 
 <script>
@@ -51,7 +57,8 @@ export default {
 		number : Number,
 		tip : String,
 		mode : String,
-		colored : Boolean
+		colored : Boolean,
+		sclass : String
 	},
 	computed: mapState({
 		auth: state => state.auth,

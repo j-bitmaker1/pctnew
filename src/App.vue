@@ -156,6 +156,10 @@ Vue.directive("click-outside", {
 
 /////////////////////////
 
+
+import 'vue-slider-component/theme/antd.css'
+
+
 function loadMessages() {
     const context = require.context("./locales", true, /[a-z0-9-_]+\.json$/i);
 

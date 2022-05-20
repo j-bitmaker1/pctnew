@@ -34,7 +34,7 @@
 	</div>
 
 	<div class="options">
-		<div class="slider mobp" :key="i" v-for="(slider, i) in sliders">
+		<div class="slider mobp customslider" :key="i" v-for="(slider, i) in sliders">
 
 			<div class="sheader">
 

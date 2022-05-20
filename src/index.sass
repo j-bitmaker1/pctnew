@@ -510,6 +510,7 @@ button.button
 	align-items: center
 	flex-wrap: nowrap
 	justify-content: flex-end
+	z-index: 10
 
 	.button
 		min-width: 100px
@@ -522,6 +523,31 @@ button.button
 	height: 100%
 	align-items: center
 	justify-content: space-between
+
+.customslider
+	padding : $r
+	border-bottom: 1px solid srgb(--neutral-grad-0)
+
+	.inputwrapper
+		padding-left: $r
+		padding-right: $r
+		margin-top : $r
+		
+	.minmax,
+	.sheader
+		display: flex
+		padding : $r 0.5 * $r
+		justify-content: space-between
+		align-items: center
+
+		.name
+			span
+				font-size: 0.9em
+				font-weight: 700
+
+	.minmax
+		span
+			font-size: 0.8em
 
 @media only screen and (max-width: 768px)
 	.bgpage

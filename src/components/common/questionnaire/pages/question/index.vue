@@ -16,7 +16,7 @@
 		<button class="button black" @click="back">
             Back
 		</button>
-		<button class="button" @click="next" :disabled="!cannext">
+		<button class="button" v-if="typeof question.next == 'undefined' || question.next" @click="next" :disabled="!cannext">
 			Next
 		</button>
 	</div>

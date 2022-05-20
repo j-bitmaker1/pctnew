@@ -4,7 +4,6 @@ import {Chart} from 'highcharts-vue'
 import options from '@/application/hc.js'
 
 import VueSlider from 'vue-slider-component'
-import 'vue-slider-component/theme/antd.css'
 
 var plotLines = {
 
@@ -182,6 +181,12 @@ var series = {
 export default {
 	name: 'client_capacity',
 	props: {
+		initial : {
+			type : Object,
+			default : () => {
+				return {}
+			}
+		}
 	},
 
 	components : {

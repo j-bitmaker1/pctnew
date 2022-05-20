@@ -35,6 +35,10 @@ export default {
     methods : {
         input : function(result){
             this.result = result
+
+            if (this.result && this.question.forceNext){
+                this.next()
+            }
         },
 
         back : function(){
