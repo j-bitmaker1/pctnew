@@ -51,8 +51,6 @@ export default {
 
 			var request = f.deep(this.core.api, this.create)
 
-			console.log('this.create', this.create, this.core, f.deep(this.core, this.create))
-
 			if(!request){
 				console.error('request')
 				return

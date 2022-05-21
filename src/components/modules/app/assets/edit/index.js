@@ -46,8 +46,8 @@ export default {
 
             if(!this.namestring) return
 
-            this.core.api.pct.tickers.search({
-                value : this.namestring
+            this.core.api.pctapi.assets.search({
+                searchStr : this.namestring
             }).then(r => {
 
                 this.searchresult = _.first(r || [], 5)
@@ -76,8 +76,8 @@ export default {
             this.namestring = ''
 
             this.changed({
-                ticker : item.ID,
-                name : item.n
+                ticker : item.ticker,
+                name : item.name
             })
             
         },

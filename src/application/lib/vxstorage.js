@@ -109,8 +109,6 @@ class VXStorage {
 
                 if(!has){
 
-                    console.log(index, type)
-
                     this.queue.push({
                         index,
                         type

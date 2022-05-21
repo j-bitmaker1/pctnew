@@ -529,7 +529,6 @@ export default {
 
         questionPoints : function(){
             var points = [];
-            console.log('this.values', this.values)
             if(
 
                 !this.values.q1 || !this.values.q2 || !this.values.q3 || 
@@ -563,8 +562,6 @@ export default {
             if (this.values.q6.answer == 4) points[3] = 90
             if (this.values.q6.answer == 5) points[3] = 90
 
-            console.log('points', points)
-            
             var total = _.reduce(points, function(m, p){
                 return m + p
             }, 0) / points.length
@@ -579,8 +576,6 @@ export default {
         finishValues : function(){
             
             var cv = {}
-
-            console.log('this.finishQuestions', this.finishQuestions)
 
             _.each(this.finishQuestions, (c) => {
 
@@ -689,7 +684,6 @@ export default {
 
         lastIntermediate: function(values){
 
-            console.log("values", values)
 
             _.each(values, (v, i) => {
                 this.$set(this.values, i, v)

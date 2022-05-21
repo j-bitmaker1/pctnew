@@ -162,6 +162,8 @@ class PCT {
         return d
     }
 
+    
+
     parseContributors = function(cs){
         var contributors = []
 
@@ -284,7 +286,57 @@ class PCT {
     }
 
 
-    //////////////
+    ////////////// NEW
+
+    parseStandartDeviation = function(r){
+
+        r.sharpeRatio = r.longTermReturn / r.standardDeviation
+
+    
+        return r
+    }
+
+    parseStressTest = function(ct){
+
+        console.log("NCT", ct)
+
+        var d = {
+            scenarios : [],
+            ocr : 0
+        }
+
+        _.each(ct.scenarioResults, (s) => {
+
+            if(!s.id){ ///crash rating
+
+                d.ocr = s.value
+
+                return
+            }
+
+            var scenario = {}
+
+            scenario.loss = s.value // will be loss
+            scenario.name = s.name
+            scenario.id = s.id
+
+            d.scenarios.push(scenario)
+        })
+
+        d.scenarios = _.sortBy(d.scenarios, (s) => {
+            return s.loss
+        })
+
+        d.profit = (_.max(d.scenarios, (scenario) =>{
+            return scenario.loss
+        }) || {}).loss || 0
+
+        d.loss = (_.min(d.scenarios, (scenario) =>{
+            return scenario.loss
+        }) || {}).loss || 0
+
+        return d
+    }
 
 
     setPortfolioToClient = function(clientid, portfolio, p){
@@ -314,6 +366,31 @@ class PCT {
             return this.setPortfolioToClient(clientid, portfolio, p)
         }))
 
+    }
+
+    stresstest = function(id, p = {}){
+
+        var data = {
+            portfolioId : id
+        }
+
+        return this.api.pctapi.stress.test(data, p).then(r => {
+
+            console.log("R", r)
+
+            return Promise.resolve(this.parseStressTest(r))
+        })
+    }
+
+    standartDeviation = function(id){
+
+        var data = {
+            portfolioId : id
+        }
+
+        return this.api.pctapi.stress.deviation(data).then(r => {
+            return Promise.resolve(this.parseStandartDeviation(r))
+        })
     }
 
 }

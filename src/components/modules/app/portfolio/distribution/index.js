@@ -9,6 +9,7 @@ import _ from 'underscore';
 export default {
 	name: 'distribution',
 	props: {
+		portfolio : Object
 	},
 
 	components : {
@@ -222,7 +223,9 @@ export default {
 		load : function(){
 			this.loading = true
 
-			this.core.pct.getStandartDeviation().then(r => {
+			this.core.pct.standartDeviation(this.portfolio.id).then(r => {
+
+			//this.core.pct.getStandartDeviation().then(r => {
 
 				this.deviation = r
 

@@ -77,8 +77,8 @@ export default {
        
         changed : function(){
 
-            if (this.$refs['list'])
-                this.$refs['list'].leaveSelectionMode()
+            /*if (this.$refs['list'])
+                this.$refs['list'].leaveSelectionMode()*/
 
             this.refresh = true
             this.end = false
@@ -119,8 +119,6 @@ export default {
                 controller : this.controller 
 
             }).then(data => {
-
-                console.log("data", data)
 
 
                 this.refresh = false
@@ -184,8 +182,6 @@ export default {
             var i = _.findIndex(this.records, (r) => {
                 return r[key] == obj[key]
             })
-
-            console.log("DEL", i, obj, key, this.records)
 
             if (i > -1){
                 this.$delete(this.records, i)

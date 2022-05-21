@@ -4,7 +4,10 @@ import scenario from '../scenario/index.vue'
 export default {
 	name: 'portfolio_crashtest_details',
 	props: {
-		ct : Object
+		ct : {
+			type : Object,
+			default : () => {return {}}
+		}
 	},
 	components : {
 		scenario

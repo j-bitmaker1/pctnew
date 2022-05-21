@@ -73,7 +73,7 @@ export default {
 
 		grouped : function(){
 			return f.group(this.joined, (a) => {
-				return a[this.activegrouping]
+				return a[this.activegrouping] || 'Other'
 			})
 		},
 

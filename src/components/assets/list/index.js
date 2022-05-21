@@ -82,8 +82,8 @@ export default {
 
 		selectionSuccess : function(){
 
-			var selected = _.filter(this.items, (v, i) => {
-				return this.selection[i]
+			var selected = _.filter(this.items, (item, i) => {
+				return this.selection[item.id || item.ID || (i + 1)]
 			})
 
 			this.$emit('selectionSuccess', selected)

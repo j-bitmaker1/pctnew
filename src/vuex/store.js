@@ -239,7 +239,6 @@ var storeFactory = function(vxstorage){
 				return m.id != id
 			})
 
-			console.log('state.modals.length', state.modals.length)
 
 			if(!state.modals.length){
 				var h = document.getElementById( 'html' );
@@ -304,7 +303,6 @@ var storeFactory = function(vxstorage){
 	
 			mutations['_set_' + storage.type] = function(state, obj){
 	
-				console.log('obj[storage.index]', obj[storage.index], obj)
 	
 				Vue.set(state['_' + storage.type], obj[storage.index], obj)
 			}
@@ -317,7 +315,6 @@ var storeFactory = function(vxstorage){
 
 				Vue.delete(state['_' + storage.type], index)
 
-				console.log('index', index, state['_' + storage.type])
 
 			}
 		})

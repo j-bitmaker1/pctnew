@@ -44,7 +44,6 @@ const redirects = {
 	redirect: function (core, to) {
 		return redirects.authorized(core, to).then(r => {
 
-			console.log("R", r)
 
 			if (store.state.redirect) {
 
@@ -225,11 +224,9 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
 
-	console.log("R", to)
 
 	var r = _.find(routes, (r) => r.name == to.name)
 
-	console.log("R2", r)
 
 	if (r && r.customRedirect) {
 

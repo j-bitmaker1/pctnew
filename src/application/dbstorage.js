@@ -1,3 +1,5 @@
+import f from './functions'
+
 const dbstorage = function(storageName, version, time) {
     /** Set this flag to TRUE if debug logs needed */
     const DebugFlag = false;
@@ -25,7 +27,7 @@ const dbstorage = function(storageName, version, time) {
      * @return {number}
      */
     function getHourUnixtime() {
-        const dateNow = Math.floor(Date.now() / 1000);
+        const dateNow = Math.floor(f._now() / 1000);
         const hourUnix = dateNow - (dateNow % SecondsInHour);
 
         return hourUnix;
@@ -221,7 +223,7 @@ const dbstorage = function(storageName, version, time) {
 
                 return new Promise(executor);
             },
-            set: (itemId, message) => {
+            set: (itemId, message, invalidate) => {
                 debugLog('PCryptoStorage writing', itemId);
 
                 function executor(resolve, reject) {
@@ -234,6 +236,7 @@ const dbstorage = function(storageName, version, time) {
                         id: itemId,
                         message,
                         cachedAt: unixtime,
+                        invalidate : invalidate || null
                     };
 
                     memorystorage[itemId] = message
@@ -385,7 +388,7 @@ const dbstorage = function(storageName, version, time) {
 
                 return new Promise();
             },
-            set: async (itemId, message) => {
+            set: async (itemId, message, invalidate) => {
                 debugLog('PCryptoStorage writing localstorage', itemId);
 
                 const itemName = `${storageName}_${itemId}`;
@@ -394,6 +397,7 @@ const dbstorage = function(storageName, version, time) {
                 const item = {
                     message,
                     cachedAt: unixtime,
+                    invalidate : invalidate || null
                 };
 
                 localStorage[itemName] = JSON.stringify(item);

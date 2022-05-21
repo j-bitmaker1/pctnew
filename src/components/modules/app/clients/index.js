@@ -141,8 +141,6 @@ export default {
 
 		open : function(profile){
 
-			console.log('profile', profile)
-
 			if(this.select){
 				this.$emit('selected', [profile])
 				this.$emit('close')

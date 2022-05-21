@@ -8,6 +8,7 @@ import assets from "../assets/index.vue";
 export default {
 	name: 'portfolios_shares',
 	props: {
+		portfolio : Object
 	},
 
 	components : {
@@ -72,7 +73,9 @@ export default {
 	methods : {
 		get : function(){
 
-			this.loading = true
+			this.assets = this.portfolio.positions /// todo get assets extended request
+
+			/*this.loading = true
 
 			this.core.pct.getassets().then(r => {
 
@@ -81,7 +84,7 @@ export default {
 				return Promise.resolve(r)
 			}).finally(() => {
 				this.loading = false
-			})
+			})*/
 		},
 
 	},

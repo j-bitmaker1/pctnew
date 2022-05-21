@@ -54,7 +54,7 @@ export default {
 		},
 
 		num : function(index){
-			return f.round((index + 1) * (this.maxabs / this.intervals), this.roundbase)
+			return f.round((index + 1) * (this.maxabs / this.intervals), this.roundbase) || 0
 		}
 	},
 }

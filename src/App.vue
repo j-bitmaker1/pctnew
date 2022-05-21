@@ -209,13 +209,14 @@ var vxstorage = new VXStorage([{
 }, {
     type : "portfolio",
     index : "id",
-    reload : 'api.pctapi.portfolios.gets'
+    reload : 'api.pctapi.portfolios.gets',
+    invalidateDb : ['stress']
+
 },{
     type : 'filesystem',
     index : 'id',
     reload : 'api.pctapi.portfolios.gets'
 }])
-
 
 var store = storeFactory(vxstorage)
 

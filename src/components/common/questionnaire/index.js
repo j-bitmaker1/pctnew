@@ -44,8 +44,6 @@ export default {
 
                 this.values = {}
 
-                console.log('this.initial', this.initial)
-
                 _.each(this.questions, (f) => {
     
                     if (f.form){
@@ -75,8 +73,6 @@ export default {
                             this.$set(this.values[f.id], field.id, def)
                         })
 
-                        console.log('this.valuesAll', this.values)
-    
                         return
                     }
     

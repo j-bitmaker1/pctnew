@@ -21,10 +21,10 @@
 
                     <div class="assets_fromsearch">
                         <div class="ticker">
-                            <span>{{slotProps.item.ID}}</span>
+                            <span>{{slotProps.item.ticker}}</span>
                         </div>
                         <div class="name">
-                            <span>{{slotProps.item.n}}</span>
+                            <span>{{slotProps.item.name}}</span>
                         </div>
                     </div>
 

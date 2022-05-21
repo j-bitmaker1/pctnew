@@ -178,7 +178,6 @@ export default {
 		},
 
 		editportfolio : function(data){
-			//console.log('editportfolio', portfolio)
 			this.core.vxstorage.update(data,  'portfolio')
 
 			//if(this.$refs['list']) this.$refs['list'].datachanged(portfolio, "id")

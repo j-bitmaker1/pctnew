@@ -1,4 +1,6 @@
 import f from './functions'
+import {Contact, Portfolio} from './lib/kit.js'
+
 var sha1 = require('sha1');
 var { parseerror } = require('./error')
 
@@ -485,7 +487,7 @@ var ApiWrapper = function (core) {
 				return request(data, system, to, p).then(r => {
 
 					if(_storage){
-						return _storage.set(datahash, r).then(() => {
+						return _storage.set(datahash, r, p.storageparameters.invalidateIndex).then(() => {
 
 							return Promise.resolve(r)
 	
@@ -576,6 +578,34 @@ var ApiWrapper = function (core) {
 			data || (data = {})
 
 			return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
+
+				if (p.kit){
+					var dk = r
+
+					if (p.kit.path){
+						dk = f.deep(dk, p.kit.path) || (p.kit.one ? null : [])
+					}
+
+					console.log("dk", dk, p.kit.class)
+
+					if(p.kit.one){
+						dk = new p.kit.class(dk)
+					}
+					else{
+						dk = _.map(dk, (d) => {return new p.kit.class(d)})
+					}
+
+					if (p.kit.path){
+						f.deepInsert(r, p.kit.path, dk)
+					}	
+					else{
+						r = dk
+					}
+
+					console.log("R2", r)
+				}
+
+				
 
 				if (p.vxstorage){
 
@@ -704,9 +734,7 @@ var ApiWrapper = function (core) {
 		portfolio : {
 			getassets : function(){
 				return request({
-				
 					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
-
 				}, 'pct', '?Action=GETPORTFOLIOASSETS', {
 					method: "GET"
 				}).then(r => {
@@ -806,6 +834,68 @@ var ApiWrapper = function (core) {
 	}
 
 	self.pctapi = {
+		stress : {
+			deviation : function(data, p = {}){
+				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
+
+				/*p.storageparameters = {
+					storage : 'stress',
+					time : 60 * 60 * 48,
+					invalidate : {
+						type : 'portfolio',
+						index data.portfolioId
+					} 
+				}*/
+
+				return request(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
+
+					r = f.deep(r, 'records.0')
+
+					if(!r) return Promise.reject({error : 'empty result'})
+
+					return Promise.resolve(r)
+				})
+			},
+			test : function(data, p = {}){
+
+				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
+
+				/*p.storageparameters = {
+					storage : 'stress',
+					time : 60 * 60 * 48,
+					invalidate : {
+						type : 'portfolio',
+						index data.portfolioId
+					} 
+				}*/
+
+				data.stressTestTypes = ["Losses", "Ltr", "Yield", "CrashRating"]
+				data.onlyKeyScenarios = true
+
+				return request(data, 'pctapi', 'StressTest/GetStressTest', p).then((r) => {
+
+					r = f.deep(r, 'records.0')
+
+					if(!r) return Promise.reject({error : 'empty result'})
+
+					return Promise.resolve(r)
+				})
+
+			}
+		},
+		assets : {
+			search : function(d){
+
+				d.count || (d.count = 7)
+
+				return dbrequest(d, 'pctapi', 'Assets/IncrementalSearch', {
+					method: "POST"
+				}).then(r => {
+
+					return Promise.resolve(r.records)
+				})
+			}
+		},
 		portfolios : {
 			list : function(data = {}, p = {}){
 
@@ -815,6 +905,10 @@ var ApiWrapper = function (core) {
 				p.bypages = true
 				p.includeCount = "includeCount"
 
+				p.kit = {
+					class : Portfolio,
+					path : 'records'
+				}
 
 				p.vxstorage = {
 					type : 'portfolio',
@@ -881,6 +975,11 @@ var ApiWrapper = function (core) {
 					includePositions : true
 				}
 
+				p.kit = {
+					class : Portfolio,
+					one : true
+				}
+
 				p.vxstorage = {
 					type : 'portfolio',
 					index : id
@@ -900,6 +999,12 @@ var ApiWrapper = function (core) {
 				}
 
 				p.method = "POST"
+
+				p.kit = {
+					class : Portfolio,
+					path : 'records',
+				}
+
 				p.vxstorage = {
 					type : 'portfolio',
 					path : 'records',

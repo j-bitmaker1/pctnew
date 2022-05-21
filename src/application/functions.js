@@ -1115,10 +1115,16 @@ f.isios = function () {
 }
 
 f.now = function (date) {
+    var d = f._now(date)
+    d.toString();
+
+    return d
+}
+
+f._now = function (date) {
     var now = date || (new Date);
     var UTCseconds = (now.getTime() + now.getTimezoneOffset() * 60 * 1000);
     var d = new Date(UTCseconds);
-    d.toString();
 
     return d
 }

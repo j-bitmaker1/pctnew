@@ -18,7 +18,8 @@
     </div>
 
     <div class="name">
-        <span>{{asset.name}}</span>
+        <span v-if="asset.name">{{asset.name}}</span>
+        <span v-else>Not covered</span>
     </div>
 
     

@@ -135,7 +135,6 @@ export default {
 		},
 
 		clear : function(){
-			console.log("CLEAR")
 			if (this.needclear){
 
 				//var __el = p.transformel || p.el
@@ -196,8 +195,6 @@ export default {
             }
 
 			if (phase == 'cancel' || phase == 'end'){
-
-				console.log('phase', phase, this.mainDirection)
 
                 if (this.mainDirection){
 

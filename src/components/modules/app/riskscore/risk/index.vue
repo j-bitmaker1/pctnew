@@ -42,8 +42,6 @@ export default {
 
 		target : function(){
 
-            console.log("this.questionPoints", this.points)
-
 			return this.value || this.points || 0
 		},
 

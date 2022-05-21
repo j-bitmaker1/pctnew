@@ -23,11 +23,11 @@
 
 		<div class="subheader mobp">
 			<div class="forvalue">
-				<value :value="ct.total" mode="auto"/>
+				<value :value="portfolio.total()" mode="auto"/>
 			</div>
 			<div class="forvalues">
-			   <div class="positive"><i class="fas fa-arrow-up"></i> <value :value="ct.profit" mode="auto" colored="true"/></div>
-			   <div class="negative"><i class="fas fa-arrow-down"></i> <value :value="ct.loss" mode="auto" colored="true"/></div>
+			   <div class="positive" v-if="ct.profit"><i class="fas fa-arrow-up"></i> <value :value="ct.profit" mode="auto" colored="true"/></div>
+			   <div class="negative" v-if="ct.loss"><i class="fas fa-arrow-down"></i> <value :value="ct.loss" mode="auto" colored="true"/></div>
 			</div>
 		</div>
 

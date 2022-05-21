@@ -1,7 +1,7 @@
 <template>
 <div class="portfolio_crashtest_details">.
 
-	<list :items="ct.scenarios" @click="select">
+	<list :items="ct.scenarios || []" @click="select">
 		<template v-slot:default="slotProps">
 
 			<div class="scenarioWrapper">

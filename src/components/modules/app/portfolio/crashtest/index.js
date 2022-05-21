@@ -8,6 +8,7 @@ import summarybutton from '@/components/delements/summarybutton/index.vue'
 export default {
 	name: 'portfolios_crashtest',
 	props: {
+		portfolio : Object
 	},
 
 	components : {
@@ -68,7 +69,12 @@ export default {
 
 			this.loading = true
 
-			this.core.pct.get().then(r => {
+			this.core.pct.stresstest(this.portfolio.id)
+
+			//this.core.pct.get().then(r => {
+
+			this.core.pct.stresstest(this.portfolio.id).then(r => {
+
 
 				this.ct = r
 
