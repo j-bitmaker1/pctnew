@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import f from './functions'
 
 const dbstorage = function(storageName, version, time) {
@@ -70,7 +71,7 @@ const dbstorage = function(storageName, version, time) {
         /**
          * Function get all items to memory cache
          */
-         function getall() {
+        function getall() {
 
             const transaction = openTransaction('items');
             const items = transaction.objectStore('items');
@@ -84,7 +85,11 @@ const dbstorage = function(storageName, version, time) {
 
                     if (cursor) {
                         _.each(cursor, (item) => {
-                            memorystorage[item.id] = item.message
+                            memorystorage[item.id] = {
+                                cachedAt : item.cachedAt,
+                                data : item.message,
+                                invalidate : item.invalidate
+                            }
                         })
                     }
 
@@ -175,6 +180,23 @@ const dbstorage = function(storageName, version, time) {
 
         const instanceFunctions = {
 
+            invalidate : (updated, {index, type}) => {
+
+                var needToClear = []
+
+                _.each(memorystorage, (item, itemid) => {
+                    if (item.invalidate){
+                        if(item.invalidate.index == index && item.invalidate.type == type){
+                            if(item.invalidate.cachedAt > updated){
+                                needToClear.push(itemid)
+                            }
+                        }
+                    }   
+                })
+
+                return this.clearItems(needToClear)
+            },
+
             clearall : () => { 
                 
                 function executor(resolve, reject) {
@@ -197,6 +219,12 @@ const dbstorage = function(storageName, version, time) {
                 }
 
                 return new Promise(executor);
+            },
+
+            clearItems : (itemIds) => {
+                return Promise.all(_.map(itemIds, (itemId) => {
+                    return this.clear(itemId)
+                }))
             },
 
             clear: (itemId) => {
@@ -223,6 +251,7 @@ const dbstorage = function(storageName, version, time) {
 
                 return new Promise(executor);
             },
+
             set: (itemId, message, invalidate) => {
                 debugLog('PCryptoStorage writing', itemId);
 
@@ -239,7 +268,11 @@ const dbstorage = function(storageName, version, time) {
                         invalidate : invalidate || null
                     };
 
-                    memorystorage[itemId] = message
+                    memorystorage[itemId] = {
+                        invalidate : item.invalidate,
+                        cachedAt: item.cachedAt,
+                        data : message
+                    }
 
                     /**
                      * FIXME: It is not the best practice to use
@@ -270,7 +303,7 @@ const dbstorage = function(storageName, version, time) {
 
                     if (memorystorage[itemId]){
 
-                        return resolve(memorystorage[itemId]);
+                        return resolve(memorystorage[itemId].data);
                     }
 
                     const transaction = openTransaction('items');
@@ -293,7 +326,11 @@ const dbstorage = function(storageName, version, time) {
                             return;
                         }
 
-                        memorystorage[itemId] = req.result.message
+                        memorystorage[itemId] = {
+                            cachedAt: req.result.cachedAt,
+                            data : req.result.message,
+                            invalidate : req.result.invalidate || null
+                        }
 
                         resolve(req.result.message);
                     };
@@ -355,6 +392,22 @@ const dbstorage = function(storageName, version, time) {
         }
 
         const instanceFunctions = {
+            invalidate : (updated, {index, type}) => {
+
+                var needToClear = []
+
+                _.each(memorystorage, (item, itemid) => {
+                    if (item.invalidate){
+                        if(item.invalidate.index == index && item.invalidate.type == type){
+                            if(item.invalidate.cachedAt > updated){
+                                needToClear.push(itemid)
+                            }
+                        }
+                    }   
+                })
+
+                return this.clearItems(needToClear)
+            },
 
             clearall : () => { 
 
@@ -365,6 +418,12 @@ const dbstorage = function(storageName, version, time) {
                 }
                
                 return new Promise();
+            },
+
+            clearItems : (itemIds) => {
+                return Promise.all(_.map(itemIds, (itemId) => {
+                    return this.clear(itemId)
+                }))
             },
 
             clear: async (itemId) => {
@@ -385,6 +444,7 @@ const dbstorage = function(storageName, version, time) {
                 }
 
                 delete localStorage[itemName];
+                delete memorystorage[itemName]
 
                 return new Promise();
             },
@@ -400,6 +460,12 @@ const dbstorage = function(storageName, version, time) {
                     invalidate : invalidate || null
                 };
 
+                memorystorage[itemId] = {
+                    cachedAt: item.cachedAt,
+                    invalidate : item.invalidate,
+                    data : message
+                }
+
                 localStorage[itemName] = JSON.stringify(item);
             },
             get: async (itemId) => {
@@ -413,7 +479,7 @@ const dbstorage = function(storageName, version, time) {
                     throw Error('Data does not exist');
                 }
 
-                return localStorage[itemName];
+                return localStorage[itemName].message;
             },
         };
 

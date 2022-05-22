@@ -41,7 +41,7 @@
 		</div>
 		
 		<!--  -->
-		<list :selectMultiple="selectMultiple" selectMultipleClass="onobject" @selectionSuccess="selectionSuccess" v-if="!loading && sorted.length" :items="sorted">
+		<list :selectOptions="{class : 'onobject', disabled : false}" @selectionChange="selectionChange" @selectionSuccess="selectionSuccess" @selectionCancel="selectionCancel" v-if="!loading && sorted.length" :items="sorted">
 			<template v-slot:default="slotProps">
 
 				<div class="cnt" :ref="slotProps.item.id" @click="e => { open(slotProps.item) }">
@@ -77,9 +77,9 @@
 	</div>
 
 	<transition name="fademodal">
-		<modal v-if="selected" @close="closeselected" mclass="small likemenu">
+		<modal v-if="selected" @close="selectionCancel" mclass="small likemenu">
 			<template v-slot:body>
-				<listmenu :items="menu" @action="menuaction" :close="closeselected" />
+				<listmenu :items="menu" @action="menuaction" :close="selectionCancel" />
 			</template>
 		</modal>
 	</transition>

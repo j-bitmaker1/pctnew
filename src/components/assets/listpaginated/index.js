@@ -8,7 +8,10 @@ export default {
         start: Number,
         from : String,
         to : String,
-        selectMultiple : Boolean,
+
+
+        selectOptions : Object,
+
         payload : {
             type : Object,
             default : () => {return {}}
@@ -42,6 +45,7 @@ export default {
     },
 
     created : function(){
+        console.log("alreadySelected", this.alreadySelected)
         this.changed()
     },
 
@@ -166,6 +170,10 @@ export default {
         
         selectionCancel : function(){
             this.$emit('selectionCancel')
+        },
+
+        selectionChange : function(v){
+            this.$emit('selectionChange', v)
         },
 
         datachanged : function(obj, key){

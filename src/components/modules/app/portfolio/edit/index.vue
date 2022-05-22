@@ -5,7 +5,7 @@
 		<input placeholder="Portfolio name" @keyup="changename" :value="name"/>
 	</div>
 
-	<div class="addwrapper">
+	<div class="addwrapper" v-if="!aggregation">
 
 		<div>
 			<upload :extensions="['csv', 'xls', 'xlsx']" @start="uploadFromFileStart" @uploadedAll="uploadFromFileUploadedAll" @uploaded="uploadFromFileUploaded" @error="uploadFromFileError">
@@ -16,47 +16,68 @@
 				</template>
 			</upload>
 		</div>
-		
 
 		<button class="button" key="pdfparser" @click="pdfparser">
 			<i class="fas fa-file-pdf"></i> Recognize PDF
 		</button>
 
-		
-
-		<button class="button black" key="other" :disabled="assets.length > 0">
-			<i class="fas fa-cloud"></i> Get from other applications
+		<button class="button black" key="aggregate" @click="aggregate">
+			<i class="fas fa-tasks"></i> Create aggregate
 		</button>
 
 		<button class="button black" key="scan" :disabled="assets.length > 0">
 			<i class="fas fa-camera"></i> Scan document
 		</button>
 
+		<button class="button black" key="other" :disabled="assets.length > 0">
+			<i class="fas fa-cloud"></i> Get from other applications
+		</button>
+
+		
+
 	</div>
 
-	<div class="captionRow">
-		<div class="caption">
-			<span>Assets</span>
-		</div>
-		<div class="totalwrapper" v-if="total">
-			<b>Total:</b> <value :value="total" mode="auto"/>
-		</div>
+	<div class="addwrapper" v-else>
+
+		<button class="button" key="aggregate" @click="aggregate">
+			<i class="fas fa-tasks"></i> Select portfolios
+		</button>
+
+		<button class="button black" key="cancelAggregation" @click="cancelAggregation">
+			<i class="fas fa-times"></i> Cancel aggregate
+		</button>
+	
 	</div>
 
-	<div class="assetsList" ref="assetsList">
-		<div class="assetsListWrapper">
-			<list :items="extended">
-				<template v-slot:default="slotProps">
-					<div class="assetWrapper">
-						<div class="remove" @click="remove(slotProps.index)">
-							<i class="fas fa-times-circle"></i> 
+	<div v-if="!aggregation">
+
+		<div class="captionRow">
+			<div class="caption">
+				<span>Assets</span>
+			</div>
+			<div class="totalwrapper" v-if="total">
+				<b>Total:</b> <value :value="total" mode="auto"/>
+			</div>
+		</div>
+
+		<div class="assetsList" ref="assetsList">
+			<div class="assetsListWrapper">
+				<list :items="extended">
+					<template v-slot:default="slotProps">
+						<div class="assetWrapper">
+							<div class="remove" @click="remove(slotProps.index)">
+								<i class="fas fa-times-circle"></i> 
+							</div>
+							<assetsEdit :ref="slotProps.index" :name="slotProps.item.name" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
 						</div>
-						<assetsEdit :ref="slotProps.index" :name="slotProps.item.name" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
-					</div>
-				</template>
-			</list>
-		</div>
+					</template>
+				</list>
+			</div>
 
+		</div>
+	</div>
+
+	<div class="aggregatelist" v-else>
 	</div>
 
 	<div class="savePanel">

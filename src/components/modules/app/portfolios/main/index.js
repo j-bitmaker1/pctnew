@@ -7,7 +7,7 @@ export default {
 	name: 'portfolios_main',
 	props: {
 		additional : Object,
-		select : Object
+		select : Object,
 	},
 
 	components : {
@@ -18,13 +18,13 @@ export default {
 	data : function(){
 
 		return {
-			loading : false
+			loading : false,
+			currentSelection : null
 		}
 
 	},
 
-	created : () => {
-
+	created() {
 	},
 
 	watch: {
@@ -36,6 +36,8 @@ export default {
 
 	methods : {
 		selected : function(portfolios){
+
+			this.currentSelection = null
 			
 			this.$emit('selected', portfolios)
 			this.$emit('close')
@@ -45,6 +47,18 @@ export default {
 		reload : function(data){
 			this.$refs['list'].reload()
 			this.$refs['filesystem'].load(data.catalogId || "0")
+		},
+
+		selectionChange : function(k, v){
+			console.log('selectionChange', k)
+
+			this.currentSelection = k
+		},
+
+		selectionCancel : function(k){
+
+			console.log('selectionCancel', k)
+			this.currentSelection = null
 		}
 	},
 }

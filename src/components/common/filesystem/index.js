@@ -5,7 +5,12 @@ export default {
 	name: 'filesystem',
 	props: {
 		initialroot : Number,
+		
+		alreadySelected : Object,
+
 		select : Object,
+		
+
 		fclass : {
 			type : String,
 			default : 'mini'
@@ -45,6 +50,10 @@ export default {
 		this.history.push(this.root)
 
 		this.load()
+
+		if (this.select && this.select.selected){
+			this.selected = _.clone(this.select.selected)
+		}
 	},
 
 	watch: {
@@ -60,8 +69,13 @@ export default {
 
 		},
 
-		selectMultiple : function(){
-			return !this.select || this.select.multiple
+		selectOptions : function(){
+			return {
+				class : 'onobject',
+				selected : this.selected,
+				disableActions : false,
+				disable : (this.select && !this.select.multiple) ? true : false
+			}
 		},
 
 		contents : function(){
@@ -80,13 +94,13 @@ export default {
 
 				var e = true
 
-				if(this.moving){
+				if (this.moving){
 					e = e && !_.find(this.moving, function(m){
 						return m.id == c.id
 					})
 				}
 
-				if(this.select){
+				if (this.select){
 					if(this.select.type && c.type != this.select.type) e = false
 				}
 
@@ -204,6 +218,11 @@ export default {
 			})
 		},
 
+		selectionChange : function(items){
+			console.log('selectionChange')
+            this.$emit('selectionChange', items)
+        },
+
 		selectionSuccess : function(items){
 			if (this.select){
 				this.$emit('selected', items)
@@ -213,8 +232,13 @@ export default {
 			}
 			
 		},
-		closeselected : function(){
+
+		
+		selectionCancel : function(){
+			console.log('selectionCancel')
 			this.selected = null
+
+			this.$emit('selectionCancel')
 		},
 
 		menuaction : function(action){

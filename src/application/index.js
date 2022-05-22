@@ -224,6 +224,10 @@ class Core {
         }
     }
 
+    invalidateDb(dbIndex, updated, data){
+        return this.api.invalidateDb(dbIndex, updated, data)
+    }
+
 }
 
 export default Core

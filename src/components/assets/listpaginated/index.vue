@@ -6,7 +6,7 @@
     </div>
 
     <div class="listWrapper">
-        <list ref="list" :selectMultiple="selectMultiple" :items="records" :elheight="elheight" @click="click" @selectionSuccess="selectionSuccess" @selectionCancel="selectionCancel">
+        <list ref="list" :selectOptions="selectOptions" :items="records" :elheight="elheight" @click="click" @selectionSuccess="selectionSuccess" @selectionCancel="selectionCancel" @selectionChange="selectionChange">
             <template v-slot:default="slotProps">
                 <slot v-bind:item="slotProps.item">
                 </slot>

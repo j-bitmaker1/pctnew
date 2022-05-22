@@ -13,11 +13,19 @@ export default {
 			default : 0
 		},
 
-		selectMultiple : Boolean,
-		selectMultipleClass : {
-			type : String,
-			default : 'leftselection'
-		}
+		selectOptions : {
+			type : Object,
+			default : () => {
+				return {
+					class : 'leftselection',
+					selected : null,
+					disableActions : false,
+					disable : true
+				}
+			}
+		},
+
+
 	},
 	computed: {
 		readyItems: function () {
@@ -26,7 +34,20 @@ export default {
 
 		selectionLength : function(){
 			return _.toArray(this.selection || {}).length
+		},
+
+		selectedItems : function(){
+			return _.filter(this.items, (item, i) => {
+				return this.selection && this.selection[item.id || item.ID || (i + 1)]
+			})
 		}
+	},
+
+	created : function(){
+		if (this.selectOptions.selected){
+			this.selection = _.clone(this.selectOptions.selected)
+		}
+
 	},
 
 	data : function(){
@@ -69,22 +90,24 @@ export default {
 		},
 
 		enterSelectionMode : function(i){
-			if (this.selectMultiple){
+			if(!this.selectOptions.disable){
 				this.selection = {}
 				this.selection[i] = true
+
+				this.$emit('selectionChange', this.selectedItems)
 			}
 				
 		},
 
 		leaveSelectionMode : function(){
 			this.selection = null
+
+			this.selectionCancel()
 		},
 
 		selectionSuccess : function(){
 
-			var selected = _.filter(this.items, (item, i) => {
-				return this.selection[item.id || item.ID || (i + 1)]
-			})
+			var selected = this.selectedItems
 
 			this.$emit('selectionSuccess', selected)
 
@@ -94,6 +117,8 @@ export default {
 
 		selectionCancel : function(){
 
+			console.log("ASASselectionCancel")
+
 			this.$emit('selectionCancel')
 
 			this.selection = null
@@ -102,7 +127,10 @@ export default {
 		select : function(i){
 
 			if(this.selection[i]) this.$delete(this.selection, i)
+
 			else this.$set(this.selection, i, true)
+
+			this.$emit('selectionChange', this.selectedItems)
 
 			if(_.isEmpty(this.selection)) this.selectionCancel()
 		},

@@ -316,6 +316,8 @@ export default {
             .then((r) => {})
             .catch((g) => {});
 
+        core.api.prepare()
+
         vxstorage.setcore(core)
         vxstorage.init()
 

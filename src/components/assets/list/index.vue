@@ -1,7 +1,7 @@
 <template>
-<div class="list" :class="[selection ? 'selection' : '', selectMultiple ? 'selectMultiple' : '', selectMultipleClass]">
+<div class="list" :class="[selection ? 'selection' : '', !selectOptions.disable ? 'selectMultiple' : '', selectOptions.class]">
 
-    <div class="selectionControls mobp" v-if="selection">
+    <div class="selectionControls mobp" v-if="selection && !this.selectOptions.disableActions">
         <div class="caption">
             <span>Select elements from list</span>
         </div>

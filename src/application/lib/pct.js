@@ -234,7 +234,8 @@ class PCT {
         return assets
     }
 
-    parseStandartDeviation = function(r){
+    parseStandartDeviationOld = function(r){
+        console.log("RRR", r)
         var re = {
             longTermReturn : f.numberParse(r.LongTermReturn),
             standardDeviation : f.numberParse(r.StandardDeviation),
@@ -275,7 +276,7 @@ class PCT {
 
     getStandartDeviation = function(id){
         return this.api.pct.portfolio.standartDeviation(id).then(r => {
-            return Promise.resolve(this.parseStandartDeviation(r))
+            return Promise.resolve(this.parseStandartDeviationOld(r))
         })
     }
 

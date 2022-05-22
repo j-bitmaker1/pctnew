@@ -1129,6 +1129,34 @@ f._now = function (date) {
     return d
 }
 
+f.values = {
+    format : function(locale = 'en-US', mode, value){
+        var locale = 'en-US'
+
+        if(!mode) 
+            return new Intl.NumberFormat(locale).format(value)
+
+        if(mode == 'd') 
+            return new Intl.NumberFormat(locale, { 
+                
+                style: 'currency', 
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2
+
+            }).format(value)
+
+        if(mode == 'p') 
+            return new Intl.NumberFormat(locale, { 
+
+                style: 'percent', 
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+
+            }).format(value)
+    }
+}
+
 f.date = {
     addseconds: function (now, seconds) {
         if (!now) now = new Date

@@ -9,6 +9,7 @@ import {
     mapState
 } from 'vuex';
 
+import f from '@/application/functions.js'
 export default {
     name: 'value',
     props: ['value', 'mode', 'colored'],
@@ -37,7 +38,7 @@ export default {
 
         formatted : function(){
 
-            var locale = 'en-US'
+            return f.values.format(this.core.user.locale, this.valuemode, this.value)
 
             if(!this.valuemode) 
                 return new Intl.NumberFormat(locale).format(this.value)

@@ -8,7 +8,7 @@
 	<slot name="prepend">
 	</slot>
 
-	<listpaginated @selectionSuccess="selectionSuccess" :selectMultiple="selectMultiple" :api="api" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
+	<listpaginated :selectOptions="selectOptions" @selectionSuccess="selectionSuccess" @selectionChange="selectionChange" @selectionCancel="selectionCancel" :api="api" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
 		<template v-slot:default="slotProps">
 			<div class="cardWrapper mobp">
 				<portfolio :showClient="showClient" @changeClient="changeClient" :hasmenu="select ? false : true" :portfolio="slotProps.item" @click="open" @editportfolio="editportfolio" @deleteportfolio="deleteportfolio"/>
@@ -17,10 +17,10 @@
 	</listpaginated>
 
 	<transition name="fademodal">
-		<modal v-if="selected" @close="closeselected" mclass="small likemenu">
+		<modal v-if="selected" @close="selectionCancel" mclass="small likemenu">
 
 			<template v-slot:body>
-				<listmenu :items="menu" @action="menuaction" :close="closeselected" />
+				<listmenu :items="menu" @action="menuaction" :close="selectionCancel" />
 			</template>
 
 		</modal>

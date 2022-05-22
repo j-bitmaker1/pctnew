@@ -55,6 +55,9 @@ export default {
 	},
 
 	created : function() {
+		if (this.select && this.select.selected){
+			this.selected = _.clone(this.select.selected)
+		}
 	},
 
 	watch: {
@@ -77,8 +80,13 @@ export default {
 		auth : state => state.auth,
 		tscrolly : state => state.tscrolly,
 		dheight : state => state.dheight,
-		selectMultiple : function(){
-			return !this.select || this.select.multiple
+		selectOptions : function(){
+			return {
+				class : 'leftselection',
+				selected : this.selected,
+				disableActions : false,
+				disable : (this.select && !this.select.multiple) ? true : false
+			}
 		},
 		payload : function(){
 

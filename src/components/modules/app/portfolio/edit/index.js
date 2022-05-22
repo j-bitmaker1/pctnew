@@ -22,7 +22,8 @@ export default {
 			mincount : 9,
 			assets : [],
 			hash : '',
-			name : ''
+			name : '',
+			aggregation : null
 		}
 
 	},
@@ -327,6 +328,51 @@ export default {
 
 
 						this.save(item.id)
+					}
+				}
+			})
+		},
+
+		cancelAggregation : function(){
+			this.aggregation = null
+		},
+
+		aggregate : function(){
+
+		
+			this.$store.commit('OPEN_MODAL', {
+				id : 'modal_portfolios_main',
+				module : "portfolios_main",
+				caption : "Select Portfolios For Aggregation",
+
+				data : {
+					alreadySelected : this.aggregation,
+					select : {
+						multiple : true,
+						filter : (portfolio) => {
+							return !_.find(this.aggregation, (a) => {
+								return a.id == portfolio.id
+							})
+						}
+					}
+				},
+
+				events : {
+					selected : (portfolios) => {
+
+						if (portfolios.length){
+							var selected = {}
+
+							_.each(portfolios, (p, i) => {
+								selected[p.id] = p
+							})
+
+							this.aggregation = selected
+						}
+						else{
+							this.aggregation = null
+						}
+
 					}
 				}
 			})

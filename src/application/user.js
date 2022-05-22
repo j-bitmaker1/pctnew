@@ -21,6 +21,9 @@ var User = function ({
     const fingerPrintDefault = '111finger111';
 
 
+    self.locale = 'en-US'
+
+
     var fcmNotification = null;
     var device = localStorage['device'] || f.makeid(); localStorage['device'] = device;
     var fingerprint = ''

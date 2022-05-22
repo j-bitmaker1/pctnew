@@ -12,7 +12,7 @@ export default {
 			default : () => {return []}
 		},
 		select : Object,
-
+		alreadySelected : Object,
 		showClient : Boolean,
 
 		path : {
@@ -51,8 +51,10 @@ export default {
 
 	},
 
-	created : () => {
-
+	created() {
+		if (this.select && this.select.selected){
+			this.selected = _.clone(this.select.selected)
+		}
 	},
 
 	watch: {
@@ -80,8 +82,13 @@ export default {
 			}
 		},
 
-		selectMultiple : function(){
-			return !this.select || this.select.multiple
+		selectOptions : function(){
+			return {
+				class : 'leftselection',
+				selected : null,
+				disableActions : false,
+				disable : (this.select && !this.select.multiple) ? true : false
+			}
 		},
 
 		menu : function(){
@@ -153,8 +160,14 @@ export default {
 			
 		},
 
-		closeselected : function(){
+		selectionChange : function(v){
+			this.$emit('selectionChange', v)
+		},
+
+		selectionCancel : function(){
 			this.selected = null
+
+			this.$emit('selectionCancel')
 		},
 
 		menuaction : function(action){
@@ -170,7 +183,7 @@ export default {
 
 			})*/
 
-			this.closeselected()
+			this.selectionCancel()
 		},
 
 		deleteportfolio : function(portfolio){

@@ -5,6 +5,7 @@ import {Chart} from 'highcharts-vue'
 import options from '@/application/hc.js'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
 import _ from 'underscore';
+import f from '@/application/functions.js'
 
 export default {
 	name: 'distribution',
@@ -43,20 +44,40 @@ export default {
 
 			periods : [
 				{
+					value : 0.25,
+					text : 'labels.025year'
+				},
+				{
+					value : 0.5,
+					text : 'labels.05year'
+				},
+				{
 					value : 1,
 					text : 'labels.1year'
+				},
+				{
+					value : 3,
+					text : 'labels.3years'
 				}
 			],
 
 			stds : [
 				{
-					value : 0.95,
+					value : 1,
+					text : 'labels.68std'
+				},
+				{
+					value : 2,
 					text : 'labels.95std'
+				},
+				{
+					value : 3,
+					text : 'labels.997std'
 				}
 			],
 
 			period : 1,
-			current_std : 0.95
+			current_std :2
 		}
 
 	},
@@ -74,6 +95,8 @@ export default {
 		series : function(){
 
 			var series = [];
+			var total = this.portfolio.total() 
+			var locale = this.core.user.locale
 
 			var restr = {
 				min_x: 0,
@@ -140,6 +163,15 @@ export default {
 								dataLabels: {
 									enabled: true,
 									align: 'right',
+
+									formatter : function(){
+
+										console.log('total', total)
+
+										var v = (_ltr - stdm) * total / 100
+
+										return f.values.format(locale, 'd', v)
+									}
 								},
 
 							});
@@ -176,6 +208,13 @@ export default {
 								dataLabels: {
 									enabled: true,
 									align: 'left',
+
+									formatter : function(){
+
+										var v = (_ltr + stdm) * total / 100
+
+										return f.values.format(locale, 'd', v)
+									}
 								},
 							});
 
@@ -224,9 +263,8 @@ export default {
 			this.loading = true
 
 			this.core.pct.standartDeviation(this.portfolio.id).then(r => {
-
 			//this.core.pct.getStandartDeviation().then(r => {
-
+					console.log("R11", r)
 				this.deviation = r
 
 				return Promise.resolve(r)

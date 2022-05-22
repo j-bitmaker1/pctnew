@@ -27,6 +27,28 @@ class VXStorage {
         this.core = core
     }
 
+    invalidateDb(obj, type){
+        if(this.storage[type].invalidateDb && this.core.invalidateDb){
+
+            if (obj[this.index(type)] && obj[this.index(type)].updated){
+                _.each(this.storage[type].invalidateDb, (dbindex) => {
+
+                    this.core.invalidateDb(dbindex, obj[this.index(type)].updated, {
+
+                        type,
+                        index : obj[this.index(type)]
+
+                    }).catch(e => {
+                        console.error(e)
+                    })
+
+                })
+            }
+
+            
+        }
+    }
+
     set(obj, type){
         if(!this.storage[type]) throw new Error('type')
         if(!this.store) throw new Error('notlinked')

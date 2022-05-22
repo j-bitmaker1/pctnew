@@ -177,6 +177,23 @@ var ApiWrapper = function (core) {
 	var cache = {}
 	var loading = {}
 	var storages = {}
+
+	var dbmeta = {
+		stress : function(){
+			return {
+				storage : 'stress',
+				time : 60 * 60 * 48
+			}
+		},
+
+		system : function(){
+			return {
+				storage : 'system',
+				time : 60 * 60 * 48 
+			}
+		}
+	}
+
 	var requests = {
 		pct: new Request(core, "https://rixtrema.net/RixtremaWS/AJAXPCT.aspx", 'pct'),
 		pctapi: new Request(core, "https://rixtrema.net/api/pct", 'pctapi'),
@@ -684,6 +701,13 @@ var ApiWrapper = function (core) {
 
 	}
 	
+	self.invalidateDb = function(dbindex, updated, data){
+		if (storages[dbindex]){
+			var _updated = f.date.fromstring(updated, true) //todo check, utc
+
+			storages[dbindex].invalidate(_updated, data)
+		}
+	}
 
 	self.clearCache = function (key) {
 		var keys = []
@@ -838,14 +862,25 @@ var ApiWrapper = function (core) {
 			deviation : function(data, p = {}){
 				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
 
-				/*p.storageparameters = {
+				/*
+				
+				p.storageparameters = {...dbmeta.stress(), ...{
+					invalidate : {
+						type : 'portfolio',
+						index data.portfolioId
+					} 
+				}}
+				
+				p.storageparameters = {
 					storage : 'stress',
 					time : 60 * 60 * 48,
 					invalidate : {
 						type : 'portfolio',
 						index data.portfolioId
 					} 
-				}*/
+				}
+				
+				*/
 
 				return request(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
 
@@ -860,14 +895,16 @@ var ApiWrapper = function (core) {
 
 				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
 
-				/*p.storageparameters = {
-					storage : 'stress',
-					time : 60 * 60 * 48,
+				/*
+				
+				p.storageparameters = {...dbmeta.stress(), ...{
 					invalidate : {
 						type : 'portfolio',
 						index data.portfolioId
 					} 
-				}*/
+				}}
+				
+				*/
 
 				data.stressTestTypes = ["Losses", "Ltr", "Yield", "CrashRating"]
 				data.onlyKeyScenarios = true
@@ -1140,10 +1177,11 @@ var ApiWrapper = function (core) {
 			scheme : function(p = {}){
 				p.method = "GET"
 
-				p.storageparameters = {
+				p.storageparameters = dbmeta.system()
+				/* {
 					storage : 'system',
 					time : 60 * 60 * 48 
-				}
+				}*/
 
 				return dbrequest({}, 'api', 'crm/Contacts/Scheme', p).then(r => {
 					return r.Contacts
@@ -1309,6 +1347,17 @@ var ApiWrapper = function (core) {
 				method: "POST",
 			})
 		},
+	}
+
+	self.prepare = function(){
+		return Promise.all(_.map(dbmeta, (mf) => {
+			return getstorage(mf())
+		})).catch(e => {
+
+			console.error(e)
+
+			return Promise.resolve()
+		})
 	}
 
 	return self;

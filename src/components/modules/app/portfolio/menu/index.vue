@@ -55,7 +55,7 @@ export default {
 			if(!this.portfolio.crmContactId){
 				menu.unshift({
 					text : 'labels.setportfoliotoclient',
-					icon : 'fas fa-user-check',
+					icon : 'fas fa-user-times', 
 					action : 'linkToClient'
 				})
 			}  
