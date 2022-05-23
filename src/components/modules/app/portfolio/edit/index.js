@@ -3,6 +3,7 @@ import assetsEdit from "@/components/modules/app/assets/edit/index.vue";
 import f from '@/application/functions'
 import _ from 'underscore';
 var sha1 = require('sha1');
+import aggregationsEdit from "@/components/modules/app/aggregations/edit/index.vue";
 
 export default {
 	name: 'portfolios_edit',
@@ -12,7 +13,8 @@ export default {
 	},
 
 	components : {
-		assetsEdit
+		assetsEdit,
+		aggregationsEdit
 	},
 
 	data : function(){
@@ -326,6 +328,7 @@ export default {
 					selected : (items) => {
 						var item = items[0]
 
+						
 
 						this.save(item.id)
 					}
@@ -339,6 +342,7 @@ export default {
 
 		aggregate : function(){
 
+
 		
 			this.$store.commit('OPEN_MODAL', {
 				id : 'modal_portfolios_main',
@@ -346,13 +350,12 @@ export default {
 				caption : "Select Portfolios For Aggregation",
 
 				data : {
-					alreadySelected : this.aggregation,
 					select : {
+						//selected : this.aggregation,
 						multiple : true,
+						type : "portfolio",
 						filter : (portfolio) => {
-							return !_.find(this.aggregation, (a) => {
-								return a.id == portfolio.id
-							})
+							return !this.aggregation || !this.aggregation.items[portfolio.id]
 						}
 					}
 				},
@@ -364,13 +367,23 @@ export default {
 							var selected = {}
 
 							_.each(portfolios, (p, i) => {
-								selected[p.id] = p
+
+								selected[p.id] = {
+									item : p,
+									weight : 0
+								}
+
 							})
 
-							this.aggregation = selected
-						}
-						else{
-							this.aggregation = null
+							this.aggregation || (this.aggregation = {
+								items : {}
+							})
+							this.aggregation.items = {
+								...this.aggregation.items,
+								...selected 
+							}
+
+							console.log('this.aggregation', this.aggregation)
 						}
 
 					}

@@ -68,7 +68,11 @@ export default {
 				data : {
 					
 					select : {
-						multiple : true
+						multiple : true,
+						type : "portfolio",
+						filter : (portfolio) => {
+							return portfolio.crmContactId && portfolio.crmContactId != this.profile.ID
+						}
 					}
 				},
 

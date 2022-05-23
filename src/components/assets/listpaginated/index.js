@@ -45,7 +45,6 @@ export default {
     },
 
     created : function(){
-        console.log("alreadySelected", this.alreadySelected)
         this.changed()
     },
 

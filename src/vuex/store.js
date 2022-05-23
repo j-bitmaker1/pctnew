@@ -41,6 +41,8 @@ var mex = {
 
 			state.currentStyles = rootStyles
 
+			localStorage.setItem('theme', state.theme)
+
 			/*$('meta[name="theme-color"]').attr('content', themes[value].color)
 			$('meta[name="msapplication-navbutton-color"]').attr('content', themes[value].color)
 			$('meta[name="apple-mobile-web-app-status-bar-style"]').attr('content', themes[value].color)*/

@@ -730,7 +730,6 @@ export default {
                 ...this.finishValues
             }
 
-            console.log("SEND", data)
         },
 
         changecapacity : function(v){

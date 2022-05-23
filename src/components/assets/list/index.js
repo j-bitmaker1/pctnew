@@ -20,7 +20,8 @@ export default {
 					class : 'leftselection',
 					selected : null,
 					disableActions : false,
-					disable : true
+					disable : true,
+					filter : (item) => {return true}
 				}
 			}
 		},
@@ -44,6 +45,9 @@ export default {
 	},
 
 	created : function(){
+
+		console.log('this.selectOptions', this.selectOptions)
+
 		if (this.selectOptions.selected){
 			this.selection = _.clone(this.selectOptions.selected)
 		}
@@ -92,7 +96,17 @@ export default {
 		enterSelectionMode : function(i){
 			if(!this.selectOptions.disable){
 				this.selection = {}
-				this.selection[i] = true
+
+				var item = _.find(this.items, (item, index) => {
+					return item.id || item.ID || (index + 1) == i
+				})
+
+				if(!item || !this.selectOptions.filter || this.selectOptions.filter(item)){
+					this.selection[i] = true
+				}
+
+				console.log('item', item, this.selectOptions.filter(item))
+				
 
 				this.$emit('selectionChange', this.selectedItems)
 			}
@@ -117,7 +131,6 @@ export default {
 
 		selectionCancel : function(){
 
-			console.log("ASASselectionCancel")
 
 			this.$emit('selectionCancel')
 

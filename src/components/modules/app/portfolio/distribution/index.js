@@ -166,7 +166,6 @@ export default {
 
 									formatter : function(){
 
-										console.log('total', total)
 
 										var v = (_ltr - stdm) * total / 100
 
@@ -264,7 +263,6 @@ export default {
 
 			this.core.pct.standartDeviation(this.portfolio.id).then(r => {
 			//this.core.pct.getStandartDeviation().then(r => {
-					console.log("R11", r)
 				this.deviation = r
 
 				return Promise.resolve(r)

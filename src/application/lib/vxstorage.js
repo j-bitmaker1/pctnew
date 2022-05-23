@@ -67,12 +67,15 @@ class VXStorage {
 
         var last = this.get(obj[this.index(type)], type)
 
-        if(!last) return
+        if(!last) return {}
 
-        last = _.extend(last, obj)
+        var update = _.extend(last, obj)
 
 
-        return this.set(obj, type)
+        return {
+            updated : this.set(update, type),
+            from : last
+        }
 
     }
 
@@ -100,7 +103,21 @@ class VXStorage {
 
         this.clearFromQueue(this.index(type), type)
 
+        console.log('_invalidate_', type, index)
+
         this.store.commit('_invalidate_' + type, index)
+    }
+
+    invalidateMany(indexes, types){
+
+        if(!_.isArray(indexes)) indexes = [indexes]
+        if(!_.isArray(types)) types = [types]
+
+        _.each(indexes, (i) => {
+            _.each(types, (type) => {
+                this.invalidate(i, type)
+            })
+        })
     }
 
     invalidateManyQueue(indexes, types){

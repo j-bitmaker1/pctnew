@@ -78,6 +78,7 @@
 	</div>
 
 	<div class="aggregatelist" v-else>
+		<aggregationsEdit type="portfolio" :aggregation="aggregation"/>
 	</div>
 
 	<div class="savePanel">

@@ -12,7 +12,6 @@ export default {
 			default : () => {return []}
 		},
 		select : Object,
-		alreadySelected : Object,
 		showClient : Boolean,
 
 		path : {
@@ -52,6 +51,9 @@ export default {
 	},
 
 	created() {
+
+		console.log('this.select', this.select)
+
 		if (this.select && this.select.selected){
 			this.selected = _.clone(this.select.selected)
 		}
@@ -85,9 +87,10 @@ export default {
 		selectOptions : function(){
 			return {
 				class : 'leftselection',
-				selected : null,
+				selected : this.select ? this.select.selected : null,
 				disableActions : false,
-				disable : (this.select && !this.select.multiple) ? true : false
+				disable : (this.select && !this.select.multiple) ? true : false,
+				filter : this.select ? this.select.filter : null,
 			}
 		},
 

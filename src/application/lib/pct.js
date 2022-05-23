@@ -235,7 +235,6 @@ class PCT {
     }
 
     parseStandartDeviationOld = function(r){
-        console.log("RRR", r)
         var re = {
             longTermReturn : f.numberParse(r.LongTermReturn),
             standardDeviation : f.numberParse(r.StandardDeviation),
@@ -299,7 +298,6 @@ class PCT {
 
     parseStressTest = function(ct){
 
-        console.log("NCT", ct)
 
         var d = {
             scenarios : [],
@@ -377,7 +375,17 @@ class PCT {
 
         return this.api.pctapi.stress.test(data, p).then(r => {
 
-            console.log("R", r)
+            return Promise.resolve(this.parseStressTest(r))
+        })
+    }
+
+    stressdetails = function(id, p = {}){
+
+        var data = {
+            portfolioId : id
+        }
+
+        return this.api.pctapi.stress.details(data, p).then(r => {
 
             return Promise.resolve(this.parseStressTest(r))
         })

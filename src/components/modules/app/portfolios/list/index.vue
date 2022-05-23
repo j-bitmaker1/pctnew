@@ -17,7 +17,7 @@
 	</listpaginated>
 
 	<transition name="fademodal">
-		<modal v-if="selected" @close="selectionCancel" mclass="small likemenu">
+		<modal v-if="selected && menu" @close="selectionCancel" mclass="small likemenu">
 
 			<template v-slot:body>
 				<listmenu :items="menu" @action="menuaction" :close="selectionCancel" />

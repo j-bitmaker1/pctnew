@@ -39,9 +39,10 @@
 		<div class="emptyWrapper" v-if="!loading && !sorted.length && root != '0'">
 			<span>Folder is empty</span>
 		</div>
-		
+
+
 		<!--  -->
-		<list :selectOptions="{class : 'onobject', disabled : false}" @selectionChange="selectionChange" @selectionSuccess="selectionSuccess" @selectionCancel="selectionCancel" v-if="!loading && sorted.length" :items="sorted">
+		<list :selectOptions="selectOptions" @selectionChange="selectionChange" @selectionSuccess="selectionSuccess" @selectionCancel="selectionCancel" v-if="!loading && sorted.length" :items="sorted">
 			<template v-slot:default="slotProps">
 
 				<div class="cnt" :ref="slotProps.item.id" @click="e => { open(slotProps.item) }">
@@ -72,8 +73,6 @@
 		<button class="button" @click="selectCurrent">
 			Select
 		</button>
-
-		
 	</div>
 
 	<transition name="fademodal">

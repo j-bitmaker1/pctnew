@@ -69,7 +69,9 @@ export default {
 
 			this.loading = true
 
-			this.core.pct.stresstest(this.portfolio.id)
+			this.core.pct.stressdetails(this.portfolio.id).then(R => {
+				console.log("RR", r)
+			})
 
 			//this.core.pct.get().then(r => {
 

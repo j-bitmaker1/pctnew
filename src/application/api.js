@@ -603,7 +603,6 @@ var ApiWrapper = function (core) {
 						dk = f.deep(dk, p.kit.path) || (p.kit.one ? null : [])
 					}
 
-					console.log("dk", dk, p.kit.class)
 
 					if(p.kit.one){
 						dk = new p.kit.class(dk)
@@ -619,7 +618,6 @@ var ApiWrapper = function (core) {
 						r = dk
 					}
 
-					console.log("R2", r)
 				}
 
 				
@@ -862,26 +860,7 @@ var ApiWrapper = function (core) {
 			deviation : function(data, p = {}){
 				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
 
-				/*
-				
-				p.storageparameters = {...dbmeta.stress(), ...{
-					invalidate : {
-						type : 'portfolio',
-						index data.portfolioId
-					} 
-				}}
-				
-				p.storageparameters = {
-					storage : 'stress',
-					time : 60 * 60 * 48,
-					invalidate : {
-						type : 'portfolio',
-						index data.portfolioId
-					} 
-				}
-				
-				*/
-
+			
 				return request(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
@@ -895,17 +874,6 @@ var ApiWrapper = function (core) {
 
 				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
 
-				/*
-				
-				p.storageparameters = {...dbmeta.stress(), ...{
-					invalidate : {
-						type : 'portfolio',
-						index data.portfolioId
-					} 
-				}}
-				
-				*/
-
 				data.stressTestTypes = ["Losses", "Ltr", "Yield", "CrashRating"]
 				data.onlyKeyScenarios = true
 
@@ -918,7 +886,25 @@ var ApiWrapper = function (core) {
 					return Promise.resolve(r)
 				})
 
-			}
+			},
+
+			details : function(data, p = {}){
+
+				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
+
+				data.stressTestTypes = ["Losses", "Ltr", "Yield"]
+				data.onlyKeyScenarios = true
+
+				return request(data, 'pctapi', 'StressTest/GetStressTestDetailed', p).then((r) => {
+
+					r = f.deep(r, 'records.0')
+
+					if(!r) return Promise.reject({error : 'empty result'})
+
+					return Promise.resolve(r)
+				})
+
+			}, 
 		},
 		assets : {
 			search : function(d){
@@ -981,20 +967,39 @@ var ApiWrapper = function (core) {
 
 				p.method = "POST"
 
+				if (data.catalogId){
+					core.vxstorage.invalidateMany(
+						[data.catalogId], 
+						['filesystem']
+					)
+				}
+
+				if (data.crmContactId){
+					core.vxstorage.invalidateManyQueue(
+						[updated.crmContactId], 
+						['client', 'lead']
+					)
+				}
 
 				return request(data, 'pctapi', 'Portfolio/Add', p)
 			},
 			update : function(data, p = {}){
 				p.method = "POST"
 
+
 				return request(data, 'pctapi', 'Portfolio/Update', p).then(r => {
 
-					var updated = core.vxstorage.update(data, 'portfolio')
+					var {updated, from = {}} = core.vxstorage.update(data, 'portfolio')
 
 					if (updated){
 						core.vxstorage.invalidateManyQueue(
-							[updated.crmContactId], 
+							[updated.crmContactId, from.crmContactId], 
 							['client', 'lead']
+						)
+
+						core.vxstorage.invalidateMany(
+							[updated.catalogId, from.catalogId], 
+							['filesystem']
 						)
 					}
 					
@@ -1067,7 +1072,7 @@ var ApiWrapper = function (core) {
 				return request(data, 'pctapi', 'Portfolio/DeleteByIds', p).then(r => {
 
 					_.each(ids, (id) => {
-						var updated = core.vxstorage.update({
+						var { updated } = core.vxstorage.update({
 							status : "DELETED",
 							id
 						}, 'portfolio')
@@ -1076,6 +1081,11 @@ var ApiWrapper = function (core) {
 							core.vxstorage.invalidateManyQueue(
 								[updated.crmContactId], 
 								['client', 'lead']
+							)
+
+							core.vxstorage.invalidateMany(
+								[updated.catalogId], 
+								['filesystem']
 							)
 						}
 					})
@@ -1097,7 +1107,8 @@ var ApiWrapper = function (core) {
 
 				return request(data, 'pctapi', 'Portfolio/RecoverByIds', p).then(r => {
 					_.each(ids, (id) => {
-						var updated = core.vxstorage.update({
+
+						var { updated } = core.vxstorage.update({
 							status : "ACTIVE",
 							id
 						}, 'portfolio')
@@ -1106,6 +1117,11 @@ var ApiWrapper = function (core) {
 							core.vxstorage.invalidateManyQueue(
 								[updated.crmContactId], 
 								['client', 'lead']
+							)
+
+							core.vxstorage.invalidateMany(
+								[updated.catalogId], 
+								['filesystem']
 							)
 						}
 					})
@@ -1236,7 +1252,7 @@ var ApiWrapper = function (core) {
 					result.content.push({
 						type : 'folder',
 						id : c.id,
-						name : c.name
+						name : c.name,
 					})
 				})
 
@@ -1287,7 +1303,7 @@ var ApiWrapper = function (core) {
 					destinationCatalogId : to
 				}
 
-				core.vxstorage.invalidateManyQueue(
+				core.vxstorage.invalidateMany(
 					[to, from], 
 					['filesystem']
 				)
@@ -1301,7 +1317,7 @@ var ApiWrapper = function (core) {
 					destinationCatalogId : to
 				}
 
-				core.vxstorage.invalidateManyQueue(
+				core.vxstorage.invalidateMany(
 					[to, from], 
 					['filesystem']
 				)
@@ -1317,7 +1333,7 @@ var ApiWrapper = function (core) {
 					id
 				}
 
-				core.vxstorage.invalidateManyQueue(
+				core.vxstorage.invalidateMany(
 					[from], 
 					['filesystem']
 				)
@@ -1325,7 +1341,13 @@ var ApiWrapper = function (core) {
 				return request(data, 'pctapi', '/Catalog/DeleteCatalog', p)
 			},
 
-			portfolio : function({id}, p){
+			portfolio : function({id, from}, p){
+
+				core.vxstorage.invalidateMany(
+					[from], 
+					['filesystem']
+				)
+
 				return self.pctapi.portfolios.delete([id], p)
 			}
 		}

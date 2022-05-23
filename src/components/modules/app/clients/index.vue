@@ -6,7 +6,7 @@
 
 	
 	
-	<listpaginated @selectionSuccess="selectionSuccess" :selectOptions="selectOptions" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount" :elheight="elheight">
+	<listpaginated @selectionSuccess="selectionSuccess" :selectOptions="selectOptions" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
 		<template v-slot:default="slotProps">
 			<div class="cardWrapper mobp">
 				<client :hasmenu="select ? false : true" :profile="slotProps.item" @open="open" @edit="edit" @deleteclient="deleteclient" @portfoliosChanged="p => {portfoliosChanged(slotProps.item, p)}"/>

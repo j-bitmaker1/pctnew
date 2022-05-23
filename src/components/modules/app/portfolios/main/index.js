@@ -8,6 +8,7 @@ export default {
 	props: {
 		additional : Object,
 		select : Object,
+		onlylist : Boolean
 	},
 
 	components : {
@@ -50,14 +51,12 @@ export default {
 		},
 
 		selectionChange : function(k, v){
-			console.log('selectionChange', k)
 
 			this.currentSelection = k
 		},
 
 		selectionCancel : function(k){
 
-			console.log('selectionCancel', k)
 			this.currentSelection = null
 		}
 	},

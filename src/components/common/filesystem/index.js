@@ -6,7 +6,6 @@ export default {
 	props: {
 		initialroot : Number,
 		
-		alreadySelected : Object,
 
 		select : Object,
 		
@@ -51,6 +50,8 @@ export default {
 
 		this.load()
 
+		console.log('this.select', this.select)
+
 		if (this.select && this.select.selected){
 			this.selected = _.clone(this.select.selected)
 		}
@@ -74,7 +75,17 @@ export default {
 				class : 'onobject',
 				selected : this.selected,
 				disableActions : false,
-				disable : (this.select && !this.select.multiple) ? true : false
+				disable : (this.select && !this.select.multiple) ? true : false,
+				filter : (item) => {
+
+					console.log("FILTER SELECT", item)
+
+					if (this.select){
+						if(this.select.type != 'folder' && item.type == 'folder') return false
+					}
+
+					return true
+				}
 			}
 		},
 
@@ -101,8 +112,10 @@ export default {
 				}
 
 				if (this.select){
-					if(this.select.type && c.type != this.select.type) e = false
+					if(this.select.type == 'folder' && c.type != this.select.type) e = false
 				}
+
+				console.log("E", e, c)
 
 				return e
 			})
@@ -110,6 +123,9 @@ export default {
 		},
 
 		sorted : function(){
+
+			console.log('this.filtered', this.filtered)
+
 			return _.sortBy(this.filtered, function(c){
 
 				if(c.type == 'folder') return 0
@@ -219,7 +235,6 @@ export default {
 		},
 
 		selectionChange : function(items){
-			console.log('selectionChange')
             this.$emit('selectionChange', items)
         },
 
@@ -230,12 +245,13 @@ export default {
 			else{
 				this.selected = items
 			}
+
+			console.log('this.selected', this.selected)
 			
 		},
 
 		
 		selectionCancel : function(){
-			console.log('selectionCancel')
 			this.selected = null
 
 			this.$emit('selectionCancel')
@@ -253,9 +269,11 @@ export default {
 
 			return Promise.all(_.map(this.selected, (item) => {
 
+				console.log('item', item)
+
 				return this.core.api.filesystem.delete[item.type]({
 					id : item.id,
-					from : item.catalogId
+					from : this.current.id
 				})
 
 			})).then(r => {
@@ -320,7 +338,7 @@ export default {
 				return this.core.api.filesystem.move[item.type]({
 					id : item.id,
 					to : this.root,
-					from : item.catalogId
+					from : this.current.id
 				})
 
 			})).then(r => {

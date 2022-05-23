@@ -13,9 +13,9 @@
         </div>
     </div>
 
-    <transition-group v-if="elheight" name="staggered-fade" tag="div" :css="false" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
+    <!--<transition-group v-if="elheight" name="staggered-fade" tag="div" :css="false" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
 
-        <div class="item" v-touch:longtap="e => enterSelectionMode(item.id || item.ID || (i + 1))" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
+        <div class="item" v-touch:touchhold="e => enterSelectionMode(item.id || item.ID || (i + 1))" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
             
             <div class="selectionmarker" v-if="selection" @click="select(item.id || item.ID || (i + 1))">
                 <i class="fas fa-circle" v-if="!selection[item.id || item.ID || (i + 1)]"></i>
@@ -27,12 +27,12 @@
             </slot>
         </div>
 
-    </transition-group>
+    </transition-group>-->
 
-	<div class="simplelist" ref="simplelist" v-else>
-		<div class="item" v-touch:longtap="e => enterSelectionMode(item.id || item.ID || (i + 1))" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
+	<div class="simplelist" ref="simplelist">
+		<div class="item" v-touch:touchhold="e => enterSelectionMode(item.id || item.ID || (i + 1))" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
 
-            <div class="selectionmarker" v-if="selection" @click="select(item.id || item.ID || (i + 1))">
+            <div class="selectionmarker" v-if="selection && (!selectOptions.filter || selectOptions.filter(item))" @click="select(item.id || item.ID || (i + 1))">
                 <i class="fas fa-circle" v-if="!selection[item.id || item.ID || (i + 1)]"></i>
                 <i class="fas fa-check-circle" v-else></i>
             </div>
