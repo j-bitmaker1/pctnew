@@ -14,13 +14,13 @@ f.stringComparison = function(s1, s2, p = 0.5){
     var w1 = bw(s1),
         w2 = bw(s2)
 
-    return _.find(w1, function(w){
+    return _.filter(w1, function(w){
 
         return _.find(w2, function(ww) {
 
             return f.wordComparison(w, ww) > p
         })
-    }) ? true : false
+    }) / w1.length  > p ? true : false
 
 }
 
@@ -89,6 +89,31 @@ f.wordComparison = function(s1, s2){
 	return c / m;
 
 
+}
+
+f.clientsearch = function(value, arr, exe){
+    var txt = value
+    var ctxt = txt.toLowerCase().replace(/[^a-z0-9]/g, '')
+
+    return _.filter(arr, function(obj){
+
+        var txtf = obj
+
+        if(_.isObject(txtf)) {
+            
+            if(!exe) return
+
+            txtf = exe(txtf)
+        }
+
+        if(!txtf) return
+
+        var stext = txtf
+        
+        var ctext = stext.toLowerCase().replace(/[^a-z0-9]/g, '')
+
+        if(ctext.indexOf(ctxt) > -1 || f.stringComparison(txt, stext)) return true
+    })
 }
 
 f.sha224 = function(text){

@@ -44,13 +44,9 @@ class Core {
         this.crm = new CRM(this)
         this.pct = new PCT(this)
 
-
         this.user = new user(this)
-
         this.vueapi = new Vueapi(this)
-
         
-
     }
 
     logerror = function(type, data){

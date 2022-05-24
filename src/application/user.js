@@ -4,6 +4,7 @@ var Fingerprint2 = require('fingerprintjs2')
 var { error } = require('./error')
 var moment = require('moment');
 import f from './functions'
+import Activity from './lib/activity'
 
 var User = function ({
     vm,
@@ -31,6 +32,11 @@ var User = function ({
     self.info = {}
 
     self.features = {}
+
+    self.activity = new Activity({
+        api,
+        user : self
+    })
 
     var state = {
 
@@ -520,6 +526,7 @@ var User = function ({
             vm.$store.commit('userinfo', self.info)
 
             self.prepare()
+            
 
             return state.value
 
@@ -540,7 +547,7 @@ var User = function ({
 
     self.prepare = function(){
 
-        return Promise.all([pct.prepare(), crm.prepare()]).catch(e => {
+        return Promise.all([self.activity.load(), pct.prepare(), crm.prepare()]).catch(e => {
             console.error(e)
             return Promise.reject(e)
         })
@@ -589,6 +596,16 @@ var User = function ({
             })
         })
 
+    }
+
+    self.id = function(){
+        return state.is().then(state => {
+            if(self.info) {
+                return Promise.resolve(self.info.ID)
+            }
+
+            return Promise.reject('info')
+        })
     }
 
     return self

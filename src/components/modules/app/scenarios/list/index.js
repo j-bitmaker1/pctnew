@@ -95,6 +95,10 @@ export default {
         filtered : function(){
             if(this.searchvalue){
 
+                return f.clientsearch(this.searchvalue, this.prefiltered, (scenario) => {
+                    return (scenario.name + ' ' + (scenario.region || "") + ' ' + scenario.keywords.join(' '))
+                })
+
                 var txt = this.searchvalue
                 var ctxt = txt.toLowerCase().replace(/[^a-z0-9]/g, '')
 

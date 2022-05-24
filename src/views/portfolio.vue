@@ -132,6 +132,8 @@ export default {
 					return Promise.resolve()
 				}
 
+			
+
 				return this.core.api.crm.contacts.gets({Ids : [r.crmContactId]}).then(c => {
 			
 					this.profile = c[0]
