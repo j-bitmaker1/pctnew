@@ -28,12 +28,24 @@ class VXStorage {
     }
 
     invalidateDb(obj, type){
+
+        console.log('invalidateDb', obj, type)
+
         if(this.storage[type].invalidateDb && this.core.invalidateDb){
 
-            if (obj[this.index(type)] && obj[this.index(type)].updated){
+            console.log('obj[this.index(type)].updated', obj[this.index(type)])
+
+            if (obj[this.index(type)] && obj.updated){
                 _.each(this.storage[type].invalidateDb, (dbindex) => {
 
-                    this.core.invalidateDb(dbindex, obj[this.index(type)].updated, {
+                    console.log(dbindex, obj.updated, {
+
+                        type,
+                        index : obj[this.index(type)]
+
+                    })
+
+                    this.core.invalidateDb(dbindex, obj.updated, {
 
                         type,
                         index : obj[this.index(type)]
@@ -52,6 +64,8 @@ class VXStorage {
     set(obj, type){
         if(!this.storage[type]) throw new Error('type')
         if(!this.store) throw new Error('notlinked')
+
+        this.invalidateDb(obj, type)
 
         this.store.commit('_set_' + type, obj)
 

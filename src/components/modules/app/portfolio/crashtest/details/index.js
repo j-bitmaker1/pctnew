@@ -7,7 +7,8 @@ export default {
 		ct : {
 			type : Object,
 			default : () => {return {}}
-		}
+		},
+		portfolio : Object
 	},
 	components : {
 		scenario
@@ -47,7 +48,8 @@ export default {
 				caption: scenario.name,
 				data : {
 					ct : this.ct,
-					scenario : scenario
+					scenario : scenario,
+					portfolio : this.portfolio
 				}
 			})
 

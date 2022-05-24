@@ -1,7 +1,7 @@
 <template>
 <div class="portfolio_crashtest_scenarioinfo">
         
-    <div class="shocks mobp infopt" v-if="info.shocks">
+    <div class="shocks mobp infopt" v-if="info.id > 0 && info.shocks">
         <div class="caption">
             <span>Description</span>
         </div>
@@ -14,8 +14,9 @@
 
     <div class="shocks mobp infopt" v-if="info.description">
 
-        <div class="caption">
-            <span>Event duration</span>
+        <div class="caption" >
+            <span v-if="info.id > 0">Event duration</span>
+            <span v-else>Description</span>
         </div>
 
         <div class="shortDescription">
@@ -23,7 +24,7 @@
         </div>
     </div>
 
-    <div class="keywords mobp infopt">
+    <div class="keywords mobp infopt" v-if="info.region || info.keywords.length">
 
         <span class="liketicker">{{info.region}}</span> <tags :tags="info.keywords"/>
      

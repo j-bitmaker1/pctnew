@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import { mapState } from 'vuex';
 import contributor from '../contributor/index.vue'
 import scenarioninfo from '../scenarioinfo/index.vue'
@@ -6,6 +7,7 @@ export default {
 	name: 'portfolio_crashtest_scenariodetails',
 
 	props: {
+		portfolio : Object,
 		scenario : Object,
 		ct : Object
 	},
@@ -18,8 +20,8 @@ export default {
 
 		return {
 			loading : false,
-			contributors : [],
-			info : null
+			info : null,
+			dct : null
 		}
 
 	},
@@ -37,7 +39,7 @@ export default {
 		auth : state => state.auth,
 		positives : function(){
 			return _.filter(this.contributors, (c) => {
-				return c.value >= 0
+				return c.value > 0
 			}).length
 		},
 		negatives : function(){
@@ -48,6 +50,24 @@ export default {
 
 		maxabs : function(){
 			return Math.max(Math.abs(this.ct.profit), Math.abs(this.ct.loss))
+		},
+
+		contributors : function(){
+			if(this.dct){
+
+				var cs = _.sortBy(this.dct.contributors[this.scenario.id], (c)=>{return -Math.abs(c.value)})
+				
+				return _.map(cs, (c) => {
+					return {
+						value : c.value,
+						asset : _.find(this.portfolio.positions, (ps) => {
+							return ps.ticker == c.ticker
+						}) || {}
+					}
+				})
+			}
+
+			return []
 		}
 	}),
 
@@ -55,14 +75,23 @@ export default {
 		loadcontributors : function(){
 			this.loading = true
 
-			this.core.pct.getcontributors(this.scenario.id).then(r => {
+			this.core.pct.stressdetails(this.portfolio.id).then(R => {
+				this.dct = R
+				console.log("RR", R)
+
+				return Promise.resolve(R)
+			}).finally(() => {
+				this.loading = false
+			})
+
+			/*this.core.pct.getcontributors(this.scenario.id).then(r => {
 
 				this.contributors = _.sortBy(r, (c)=>{return c.value})
 
 				return Promise.resolve(r)
 			}).finally(() => {
 				this.loading = false
-			})
+			})*/
 
 		},
 

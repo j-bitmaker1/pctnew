@@ -5,7 +5,7 @@
 
 	<div class="header topheader">
 		<div class="ticker">
-			AAAAX US
+			{{contributor.asset.ticker}}
 		</div>
 		<div class="value">
 			<value :value="contributor.value" mode="auto"/>
@@ -14,7 +14,7 @@
 
 	<div class="header">
 		<div class="name">
-			<span>{{contributor.name}}</span>
+			<span>{{contributor.asset.name}}</span>
 		</div>
 		
 	</div>

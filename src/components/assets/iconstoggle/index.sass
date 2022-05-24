@@ -20,7 +20,12 @@
         border-radius: 3 * $r
         text-align: center
         margin : 0
+        +transition(0.3s)
 
         &[active]
             +shadowSmallerss()
             background: srgb(--background-total-theme)
+
+            &.good
+                background: srgb(--color-good)
+                color: srgb(--background-total-theme)

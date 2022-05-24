@@ -90,7 +90,7 @@
 			Save As
 		</button>
 
-		<button class="button" @click="save" :disabled="!haschanges || validate">
+		<button class="button" @click="e => save()" :disabled="!haschanges || validate">
 			Save
 		</button>
 

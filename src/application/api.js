@@ -182,7 +182,9 @@ var ApiWrapper = function (core) {
 		stress : function(){
 			return {
 				storage : 'stress',
-				time : 60 * 60 * 48
+				time : 60 * 60 * 48,
+
+				
 			}
 		},
 
@@ -503,7 +505,7 @@ var ApiWrapper = function (core) {
 				return request(data, system, to, p).then(r => {
 
 					if(_storage){
-						return _storage.set(datahash, r, p.storageparameters.invalidateIndex).then(() => {
+						return _storage.set(datahash, r, p.storageparameters.invalidate).then(() => {
 
 							return Promise.resolve(r)
 	
@@ -703,10 +705,12 @@ var ApiWrapper = function (core) {
 	
 	self.invalidateDb = function(dbindex, updated, data){
 		if (storages[dbindex]){
-			var _updated = f.date.fromstring(updated, true) //todo check, utc
+			var _updated = f.date.fromstring(updated, true) / 1000 //todo check, utc
 
-			storages[dbindex].invalidate(_updated, data)
+			return storages[dbindex].invalidate(_updated, data)
 		}
+
+		return Promise.reject("empty Storage")
 	}
 
 	self.clearCache = function (key) {
@@ -862,8 +866,13 @@ var ApiWrapper = function (core) {
 			deviation : function(data, p = {}){
 				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
 
+				p.storageparameters = dbmeta.stress()
+				p.storageparameters.invalidate = {
+					index : data.portfolioId,
+					type : 'portfolio'
+				}
 			
-				return request(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
+				return dbrequest(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 
@@ -879,7 +888,13 @@ var ApiWrapper = function (core) {
 				data.stressTestTypes = ["Losses", "Ltr", "Yield", "CrashRating"]
 				data.onlyKeyScenarios = true
 
-				return request(data, 'pctapi', 'StressTest/GetStressTest', p).then((r) => {
+				p.storageparameters = dbmeta.stress()
+				p.storageparameters.invalidate = {
+					index : data.portfolioId,
+					type : 'portfolio'
+				}
+
+				return dbrequest(data, 'pctapi', 'StressTest/GetStressTest', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 
@@ -894,10 +909,16 @@ var ApiWrapper = function (core) {
 
 				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
 
-				data.stressTestTypes = ["Losses", "Ltr", "Yield"]
+				data.stressTestTypes = ["Losses"]
 				data.onlyKeyScenarios = true
 
-				return request(data, 'pctapi', 'StressTest/GetStressTestDetailed', p).then((r) => {
+				p.storageparameters = dbmeta.stress()
+				p.storageparameters.invalidate = {
+					index : data.portfolioId,
+					type : 'portfolio'
+				}
+
+				return dbrequest(data, 'pctapi', 'StressTest/GetStressTestDetailed', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 

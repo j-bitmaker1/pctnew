@@ -28,7 +28,7 @@ const dbstorage = function(storageName, version, time) {
      * @return {number}
      */
     function getHourUnixtime() {
-        const dateNow = Math.floor(f._now() / 1000);
+        const dateNow = Math.floor(Date.now() / 1000);
         const hourUnix = dateNow - (dateNow % SecondsInHour);
 
         return hourUnix;
@@ -180,19 +180,24 @@ const dbstorage = function(storageName, version, time) {
 
         const instanceFunctions = {
 
-            invalidate : (updated, {index, type}) => {
+            invalidate : function(updated, {index, type}) {
 
                 var needToClear = []
 
                 _.each(memorystorage, (item, itemid) => {
                     if (item.invalidate){
                         if(item.invalidate.index == index && item.invalidate.type == type){
-                            if(item.invalidate.cachedAt > updated){
+
+                            console.log(item.cachedAt, updated)
+
+                            if(item.cachedAt < updated){
                                 needToClear.push(itemid)
                             }
                         }
                     }   
                 })
+
+                console.log('needToClear', needToClear)
 
                 return this.clearItems(needToClear)
             },
@@ -221,7 +226,7 @@ const dbstorage = function(storageName, version, time) {
                 return new Promise(executor);
             },
 
-            clearItems : (itemIds) => {
+            clearItems : function(itemIds) {
                 return Promise.all(_.map(itemIds, (itemId) => {
                     return this.clear(itemId)
                 }))
@@ -392,7 +397,7 @@ const dbstorage = function(storageName, version, time) {
         }
 
         const instanceFunctions = {
-            invalidate : (updated, {index, type}) => {
+            invalidate : function(updated, {index, type}) {
 
                 var needToClear = []
 
@@ -405,6 +410,8 @@ const dbstorage = function(storageName, version, time) {
                         }
                     }   
                 })
+
+                
 
                 return this.clearItems(needToClear)
             },
@@ -420,7 +427,7 @@ const dbstorage = function(storageName, version, time) {
                 return new Promise();
             },
 
-            clearItems : (itemIds) => {
+            clearItems :  function (itemIds) {
                 return Promise.all(_.map(itemIds, (itemId) => {
                     return this.clear(itemId)
                 }))

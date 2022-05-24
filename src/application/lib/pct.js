@@ -333,6 +333,24 @@ class PCT {
             d.scenarios.push(scenario)
         })
 
+        if(ct.positions){
+
+            d.contributors = {}
+
+            _.each(ct.positions, function(position){
+                _.each(position.scenarioResults, (sr) => {
+                    d.contributors[sr.id] || (d.contributors[sr.id] = [])
+
+
+                    d.contributors[sr.id].push({
+                        value : sr.value,
+                        ticker : position.id /// will be ticker
+                    })
+                })
+            })
+
+        }
+
         d.scenarios = _.sortBy(d.scenarios, (s) => {
             return s.loss
         })

@@ -1,19 +1,39 @@
 <template>
 <div class="scenarios_list">
     <div class="controls mobp">
-		<listcontrols />
+		<listcontrols @search="search" :searchvalue="searchvalue"/>
 	</div>
 
+	<div class="keyscenariosWrapper mobp">
+		<div class="wr2">
+			<iconstoggle :icons="keyscenarios" :value="usekeyscenarios" @change="changeKeyScenariosUse"/>
+			<div class="label">
+				<span>Use key scenarios</span>
+			</div>
+		</div>
+	</div>
 
-	<listselectable :context="select.context" :items="scenarios" ref="list">
+	
+
+	<list :items="filtered" ref="list">
 		<template v-slot:default="slotProps">
-			<div class="cardWrapper mobp">
-				s
+			<div class="scenarioWrapper mobp">
+				<scenario @use="v => useChange(slotProps.item.id, v)" :scenario="slotProps.item" :using="using[slotProps.item.id]"/>
 			</div>
 		</template>
-	</listselectable>
+	</list>
 
-	<selection :context="select.context" :menu="menu"/>
+
+	<div class="savePanel" v-if="showsave">
+		<button class="button black" @click="cancel">
+			Cancel
+		</button>
+
+		<button class="button" @click="apply" :disabled="!canapply">
+			Apply
+		</button>
+		
+	</div>
 </div>
 </template>
 

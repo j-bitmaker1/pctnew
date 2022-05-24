@@ -1,8 +1,95 @@
+import _ from 'underscore'
 
 var createHash = null
 var linkify = null
 
 var f = {}
+
+f.stringComparison = function(s1, s2, p = 0.5){
+
+    var bw = function(s){
+		return s.split(/[ \t\v\r\n\f,.]+/)
+	}
+
+    var w1 = bw(s1),
+        w2 = bw(s2)
+
+    return _.find(w1, function(w){
+
+        return _.find(w2, function(ww) {
+
+            return f.wordComparison(w, ww) > p
+        })
+    }) ? true : false
+
+}
+
+f.wordComparison = function(s1, s2){
+
+	if(!s1) s1 = ''
+	if(!s2) s2 = ''
+
+	var bw = function(s){
+		return s.split(/[ \t\v\r\n\f,.]+/)
+	}
+
+	var hash = function(s){
+
+		var ps = _.sortBy(bw(s), function(w){
+			return w.length
+		}).join(' ')
+
+
+
+		return ps.toLowerCase().replace(/[^a-z0-9&]*/g, '');
+	}
+
+	var makeTr = function(w){
+		var trs = {};
+
+		var takeC = function(index){
+			var c;
+
+			if(index < 0 || index >= w.length) c = "_";
+
+			else c = w[index];
+
+			return c;
+		}
+
+		for(var i = -1; i <= w.length; i++){
+
+			var tr = "";
+
+			for(var j = i - 1; j <= i + 1; j++){
+				tr = tr + takeC(j);
+			}
+
+
+			trs[tr] = 1;
+		}
+
+		return trs;
+	}
+
+
+	var t1 = makeTr(hash(s1)),
+		t2 = makeTr(hash(s2));
+
+
+	var c = 0,
+		m = Math.max(_.toArray(t1).length, _.toArray(t2).length)
+
+	_.each(t1, function(t, index){
+
+		if(t2[index]) c++;
+
+	})
+
+	return c / m;
+
+
+}
 
 f.sha224 = function(text){
 

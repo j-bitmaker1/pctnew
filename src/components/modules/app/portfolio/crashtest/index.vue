@@ -41,7 +41,7 @@
 		</div>
 
 		<div class="detailsWrapper mobp">
-			<ctdetails ref="ctdetails" :ct="ct"/>
+			<ctdetails ref="ctdetails" :ct="ct" :portfolio="portfolio"/>
 		</div>
 
 	</div>
