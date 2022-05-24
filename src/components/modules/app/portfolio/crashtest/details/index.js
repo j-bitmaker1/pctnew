@@ -15,7 +15,8 @@ export default {
 	data : function(){
 
 		return {
-			loading : false
+			loading : false,
+			lighted : null
 		}
 
 	},
@@ -50,6 +51,30 @@ export default {
 				}
 			})
 
+		},
+
+		light : function(scenario){
+			this.lighted = scenario.id
+
+			setTimeout(() => {
+				this.lighted = null
+			}, 1000)
+		},
+
+		toScenario : function(scenario){
+			var r = this.$refs[scenario.id]
+
+			if (r){
+            	setTimeout(() => {
+					r.$el.closest('.customscroll').scrollTop = r.$el.offsetTop - 100
+            	}, 50)
+
+				/*setTimeout(() => {
+					this.select(scenario)
+				}, 1000)*/
+			}
+
+			this.light(scenario)
 		}
 	},
 }

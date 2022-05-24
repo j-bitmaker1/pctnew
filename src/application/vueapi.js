@@ -191,6 +191,39 @@ class Vueapi {
     }
     
 
+    scenarioManager = function(success, p = {}){
+
+
+        if (p.selected){
+            this.$store.commit('select', {
+                context : 'scenario',
+                items : p.selected
+            })
+        }
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_scenarios_list',
+            module : "scenarios_list",
+            caption : "Scenario manager", /// TODO captions
+    
+            data : {
+                
+                select : {
+                    context : "scenario",
+                    filter : p.filter,
+                    disabled : p.one ? true : false
+                }
+
+            },
+    
+            events : {
+                selected : (scenarios) => {
+                    if(success) success(scenarios)
+                }
+            }
+        })
+    }
+
 }
 
 export default Vueapi

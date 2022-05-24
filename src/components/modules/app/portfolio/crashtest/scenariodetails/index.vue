@@ -4,24 +4,12 @@
 		<value :value="scenario.loss" mode="auto" colored="true" />
 	</div>
 
-	<div class="descriptions" v-if="scenario.shock && scenario.shortDescription">
-		<div class="caption">
-			<span>Description</span>
-		</div>
-
-		<div class="shortDescription">
-			{{scenario.shock}}
-		</div>
-
-		<div class="caption">
-			<span>Event duration</span>
-		</div>
-
-		<div class="shortDescription">
-			{{scenario.shortDescription}}
-		</div>
-
+	<linepreloader v-if="!info" />
+	
+	<div class="infoWrapper" v-else>
+		<scenarioninfo  :info="info"/>
 	</div>
+	
 
 	<div class="contributors">
 

@@ -69,7 +69,8 @@
 		"deleteitems" : "Delete items",
 		"moveitems" : "Move items",
 		"recoverportfolio" : "Recover portfolio",
-		"sharequestionnaire" : "Send personal questionnaire link"
+		"sharequestionnaire" : "Send personal questionnaire link",
+		"scenarioManager" : "Scenario Manager"
 	},
 
 	"caption" : {

@@ -1,5 +1,6 @@
 import { mapState } from 'vuex';
 import contributor from '../contributor/index.vue'
+import scenarioninfo from '../scenarioinfo/index.vue'
 
 export default {
 	name: 'portfolio_crashtest_scenariodetails',
@@ -10,20 +11,23 @@ export default {
 	},
 
 	components : {
-		contributor
+		contributor, scenarioninfo
 	},
 
 	data : function(){
 
 		return {
 			loading : false,
-			contributors : []
+			contributors : [],
+			info : null
 		}
 
 	},
 
 	created : function(){
 		this.loadcontributors()
+		this.loadscenatioinfo()
+
 	},
 
 	watch: {
@@ -60,6 +64,12 @@ export default {
 				this.loading = false
 			})
 
+		},
+
+		loadscenatioinfo : function(){
+			this.core.pct.scenarios([this.scenario.id]).then(r => {
+				this.info = r[0]
+			})
 		}
 	},
 }

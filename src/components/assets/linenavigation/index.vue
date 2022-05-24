@@ -1,8 +1,7 @@
 <template>
 <div id="linenavigation" :class="{buttons}">
     
-    <div class="item" :class="{active : active == item.id}" v-for="item in items">
-      
+    <div class="item" :class="{active : active == item.id}" :key="item.id" v-for="item in items">
 
         <div @click="e => {change(item.id)}">
             <i :class="item.icon" v-if="item.icon"></i> <span>{{$t(item.text)}}</span>
@@ -94,8 +93,21 @@ export default {
         change : function(v){
             
             if(this.mode == 'history'){
+
+                console.log({
+                        ... this.$route.query,
+                        ... {
+                                [this.navkey] : v
+                            }
+                    })
+
                 this.$router.push({
-                    path : '?' + this.navkey + '=' + v,
+                    query : {
+                        ... this.$route.query,
+                        ... {
+                                [this.navkey] : v
+                            }
+                    },
                     replace : true
                 })
             }

@@ -117,7 +117,7 @@ export default {
 
 			loading : false,
 
-			navdefault : 'shares'
+			navdefault : 'crashtest'
 		}
 	},
 

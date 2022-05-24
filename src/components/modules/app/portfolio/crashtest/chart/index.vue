@@ -11,7 +11,7 @@
 	</div>
 
 	<div class="scenarios">
-		<div class="scenario" v-for="scenario in ct.scenarios">
+		<div class="scenario" v-for="scenario in ct.scenarios" :key="scenario.id" @click="e => scenarioClick(scenario)">
 			<div class="bar" :style="{height : height(scenario) + '%', background : color(scenario) }"></div>
 		</div>
 	</div>

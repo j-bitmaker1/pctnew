@@ -17,6 +17,9 @@ import clients from "@/components/modules/app/clients/index.vue";
 import filesystem_edit from "@/components/common/filesystem/edit/index.vue";
 import filesystem from "@/components/common/filesystem/index.vue";
 
+
+import scenarios_list from "@/components/modules/app/scenarios/list/index.vue";
+
 export default {
     name: 'modal',
     props: {
@@ -70,7 +73,8 @@ export default {
         home, portfolio_edit, share, client_edit, 
         portfolio_crashtest_scenariodetails, 
         portfolios_main, client_page, lead_page,
-        pdfparser, clients, filesystem_edit, filesystem
+        pdfparser, clients, filesystem_edit, filesystem,
+        scenarios_list
     },
  
     computed: mapState({

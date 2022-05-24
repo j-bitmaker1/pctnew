@@ -15,9 +15,10 @@
 				<iconstoggle :icons="valuemodes" :value="valuemode" @change="changevaluemode"/>
 			</div>
 			<div class="forsettigns">
-				<div class="diconbutton">
+				<ctmenu :ct="ct"/>
+				<!--<div class="diconbutton">
 					<i class="fas fa-cog"></i>
-				</div>
+				</div>-->
 			</div>
 		</div>
 
@@ -32,7 +33,7 @@
 		</div>
 
 		<div class="chartWrapper mobp">
-			<chart :ct="ct"/>
+			<chart :ct="ct" @scenarioClick="toScenario"/>
 		</div>
 
 		<div class="caption mobp">
@@ -40,7 +41,7 @@
 		</div>
 
 		<div class="detailsWrapper mobp">
-			<ctdetails :ct="ct"/>
+			<ctdetails ref="ctdetails" :ct="ct"/>
 		</div>
 
 	</div>

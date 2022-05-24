@@ -87,6 +87,7 @@ import listcontrols from "@/components/assets/listcontrols/index.vue";
 import forms from "@/components/assets/forms/index.vue";
 import iconstoggle from "@/components/assets/iconstoggle/index.vue";
 import value from "@/components/assets/value/index.vue";
+import tags from "@/components/assets/tags/index.vue";
 
 import topheader from "@/components/layouts/topheader/index.vue";
 import maincontent from "@/components/layouts/maincontent/index.vue";
@@ -130,6 +131,7 @@ Vue.component("listgrouped", listgrouped);
 Vue.component("listpaginated", listpaginated);
 Vue.component("listselectable", listselectable);
 Vue.component("selection", selection);
+Vue.component("tags", tags);
 
 Vue.component("listcontrols", listcontrols);
 

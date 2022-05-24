@@ -2,6 +2,7 @@ import { mapState } from 'vuex';
 
 import chart from './chart/index.vue'
 import ctdetails from './details/index.vue'
+import ctmenu from './menu/index.vue'
 
 import summarybutton from '@/components/delements/summarybutton/index.vue'
 
@@ -14,7 +15,8 @@ export default {
 	components : {
 		chart, 
 		ctdetails,
-		summarybutton
+		summarybutton,
+		ctmenu
 	},
 
 	data : function(){
@@ -69,15 +71,13 @@ export default {
 
 			this.loading = true
 
-			this.core.pct.stressdetails(this.portfolio.id).then(R => {
-				console.log("RR", r)
-			})
+			/*this.core.pct.stressdetails(this.portfolio.id).then(R => {
+				console.log("RR", R)
+			})*/
 
-			//this.core.pct.get().then(r => {
 
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
-
-
+			//this.core.pct.stressdetails(this.portfolio.id).then(R => {
 				this.ct = r
 
 				return Promise.resolve(r)
@@ -88,6 +88,10 @@ export default {
 
 		changevaluemode : function(v){
 			this.$store.commit('valuemode', v)
+		},
+
+		toScenario : function(scenario){
+			this.$refs.ctdetails.toScenario(scenario)
 		}
 	},
 }

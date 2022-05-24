@@ -55,6 +55,11 @@ export default {
 
 		num : function(index){
 			return f.round((index + 1) * (this.maxabs / this.intervals), this.roundbase) || 0
+		},
+
+
+		scenarioClick : function(scenario){
+			this.$emit('scenarioClick', scenario)
 		}
 	},
 }

@@ -291,7 +291,6 @@ var ApiWrapper = function (core) {
 
 		if(!liststorage[system][to][datahash].count) data[p.includeCount] = true
 		
-		console.log("data, system, to, p", data, system, to, p)
 
 		return request(data, system, to, p).then(r => {
 
@@ -596,7 +595,6 @@ var ApiWrapper = function (core) {
 
 			data || (data = {})
 
-			console.log("T", to, data, p)
 
 			return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
 
@@ -909,15 +907,25 @@ var ApiWrapper = function (core) {
 				})
 
 			}, 
+
+			scenarios : function(data, p = {}){
+				p.storageparameters = dbmeta.system()
+
+				return dbrequest(data, 'pctapi', 'StressTest/GetScenariosList', p).then(r => {
+
+					return Promise.resolve(r.records)
+				})
+			}
 		},
 		assets : {
-			search : function(d){
+			search : function(d, p = {}){
 
 				d.count || (d.count = 7)
 
-				return dbrequest(d, 'pctapi', 'Assets/IncrementalSearch', {
-					method: "POST"
-				}).then(r => {
+				p.storageparameters = dbmeta.system()
+				p.method = "POST"
+
+				return dbrequest(d, 'pctapi', 'Assets/IncrementalSearch', p).then(r => {
 
 					return Promise.resolve(r.records)
 				})

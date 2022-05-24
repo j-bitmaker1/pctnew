@@ -76,6 +76,32 @@ class PCT {
         return d
     }
 
+    parseScenarioInfo = function(s){
+        var scenario = {} 
+
+        scenario.id = s.ID
+        scenario.key = s.key
+        scenario.shock = s.Sh
+
+        scenario.shortDescription = s.Description
+        scenario.description = s.Description2
+        scenario.name = s.Name
+
+        scenario.shocks = []
+
+        _.each(s.sh, (s) => {
+            var shock = {}
+
+            shock.name = s.Name
+            shock.type = s.Type
+            shock.value = f.numberParse(s.Val)
+
+            scenario.shocks.push(shock)
+        })
+
+        return scenario
+    }
+
     parseCt = function(ct){
         var d = {}
 
@@ -124,25 +150,10 @@ class PCT {
             scenario.pr = f.numberParse(s.Pr)
             scenario.ovrl = f.numberParse(s.Ovrl)
 
-            scenario.id = s.ID
-            scenario.key = s.key
-            scenario.shock = s.Sh
-
-            scenario.shortDescription = s.Description
-            scenario.description = s.Description2
-            scenario.name = s.Name
-
-            scenario.shocks = []
-
-            _.each(s.sh, (s) => {
-                var shock = {}
-
-                shock.name = s.Name
-                shock.type = s.Type
-                shock.value = f.numberParse(s.Val)
-
-                scenario.shocks.push(shock)
-            })
+            scenario = {
+                ...scenario,
+                ...this.parseScenarioInfo(s)
+            }
 
             d.scenarios.push(scenario)
         })
@@ -337,6 +348,32 @@ class PCT {
         return d
     }
 
+    parseScenario = function(s){
+        var scenario = {} 
+
+
+        scenario.id = Number(s.id)
+        scenario.keywords = _.filter((s.keywords || "").split('; '), function(t) { return t })
+
+        scenario.description = s.description
+        scenario.name = s.name
+        scenario.region = s.region
+        scenario.shocks = s.shocks
+
+        scenario.types = _.uniq(_.filter([s.type, s.type2, s.type3], function(t) { return t }))
+
+        /*_.each(s.sh, (s) => {
+            var shock = {}
+
+            shock.name = s.Name
+            shock.type = s.Type
+            shock.value = f.numberParse(s.Val)
+
+            scenario.shocks.push(shock)
+        })*/
+
+        return scenario
+    }
 
     setPortfolioToClient = function(clientid, portfolio, p){
 
@@ -399,6 +436,21 @@ class PCT {
 
         return this.api.pctapi.stress.deviation(data).then(r => {
             return Promise.resolve(this.parseStandartDeviation(r))
+        })
+    }
+
+    scenarios = function(ids){
+        return this.api.pctapi.stress.scenarios({}).then(r => {
+
+
+            var filtered = _.map(_.filter(r, (s) => {
+                return !ids || _.indexOf(ids, Number(s.id)) > -1 
+            }), (s) => {
+                return this.parseScenario(s)
+            })
+
+
+            return Promise.resolve(filtered)
         })
     }
 
