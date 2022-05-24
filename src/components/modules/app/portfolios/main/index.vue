@@ -1,24 +1,17 @@
 <template>
 <div id="portfolios_main">
 
-
 	<div key="filesystem" class="fs mobp partwr" >
 		<div class="filesystemwrapper">
-			<filesystem ref="filesystem" :initialroot="0" :select="select" @selected="selected" @selectionChange="v => selectionChange('filesystem', v)" @selectionCancel="v => selectionCancel('filesystem', v)"/>
-		</div>
-
-		<div class="poi" v-if="currentSelection == 'list'">
+			<filesystem :select="fsselect" ref="filesystem" :initialroot="0" @open="open"/>
 		</div>
 	</div>
 	
 	<div class="portfolioListWrapper partwr">
-		<portfoliolist key="list" :showClient="true" ref="list" @selected="selected" @selectionChange="v => selectionChange('list', v)" @selectionCancel="v => selectionCancel('list', v)" :additional="additional" :select="select"/>
-
-		<div class="poi" v-if="currentSelection == 'filesystem'">
-		</div>
+		<portfoliolist :select="pfselect" key="list" :showClient="true" ref="list" :additional="additional" @open="open"/>
 	</div>
 
-
+	<selection context="portfolio" @success="selected"/>
 
 </div>
 </template>

@@ -102,7 +102,7 @@ class CRM {
                     FName : convert(r.FName),
                     LName : convert(r.LName),
                     Email : convert(r.Email),
-                    Status : convert(r.Status, {
+                    /*Status : convert(r.Status, {
                         values : [
                             {
                                 text : 'fields.active',
@@ -113,7 +113,7 @@ class CRM {
                                 value : 'DELETED',
                             }
                         ]
-                    })
+                    })*/
                 }
             },
             additional : {

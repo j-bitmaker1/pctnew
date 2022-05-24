@@ -6,24 +6,18 @@
 
 	
 	
-	<listpaginated @selectionSuccess="selectionSuccess" :selectOptions="selectOptions" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
+	<listpaginated :select="{...select, ...{context : 'client'}}" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
 		<template v-slot:default="slotProps">
 			<div class="cardWrapper mobp">
-				<client :hasmenu="select ? false : true" :profile="slotProps.item" @open="open" @edit="edit" @deleteclient="deleteclient" @portfoliosChanged="p => {portfoliosChanged(slotProps.item, p)}"/>
+				<client :hasmenu="!select" :profile="slotProps.item" @open="open"  @deleteclient="deleteclient" @portfoliosChanged="p => {portfoliosChanged(slotProps.item, p)}"/>
 			</div>
 		</template>
 	   
 	</listpaginated>
 
-	<transition name="fademodal">
-		<modal v-if="selected" @close="closeselected" mclass="small likemenu">
+	<selection context="client" :menu="menu" @success="selected"/>
 
-			<template v-slot:body>
-				<listmenu :items="menu" @action="menuaction" :close="closeselected" />
-			</template>
 
-		</modal>
-	</transition>
 </div>
 </template>
 

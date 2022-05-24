@@ -43,7 +43,15 @@ export default {
     methods: {
         click : function(item){
 
-            if(item.action) this.$emit('action', item.action)
+            if(item.action) {
+                if (typeof item.action == 'function'){
+                    item.action()
+                }
+                else{
+                    this.$emit('action', item.action)
+                }
+            }
+
             if(this.close) this.close()
 
         }

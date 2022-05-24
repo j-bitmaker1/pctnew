@@ -85,7 +85,8 @@ var storeFactory = function(vxstorage){
 		portfolios : [],
 		valuemode : 'd',
 
-		crmschemas : {}
+		crmschemas : {},
+		selection : null
 
 	}
 
@@ -253,6 +254,53 @@ var storeFactory = function(vxstorage){
 		addportfolio(state, v) {
 			state.portfolios.push(v);
 		},
+
+		select(state, {
+
+			context = 'general',
+			items = {}
+
+		}){
+
+			console.log(context, items)
+
+			if(!state.selection || state.selection.context != context){
+
+				state.selection = {
+					context : context,
+					items : {}
+				}
+
+			}
+
+			_.each(items, (item) => {
+				Vue.set(state.selection.items, item.ID || item.id, item)
+			})
+
+			console.log('state.selection', state.selection, items)
+
+		},
+
+		unselect(state, {
+			context = 'general',
+			items = null
+		}){
+
+			if(!state.selection || state.selection.context != context || !items){
+				state.selection = null
+			}
+
+			if (state.selection && items){
+				_.each(items, (item) => {
+					Vue.delete(state.selection.items, item.ID || item.id)
+				})
+				
+				if(_.isEmpty(state.selection.items)){
+					state.selection = null
+				}
+			}
+
+		}
 
 	}
 

@@ -6,14 +6,26 @@ export default {
 	props: {
 		initialroot : Number,
 		
+		/*context : {
+			type : String,
+			default : "filesystem"
+		},*/
 
-		select : Object,
-		
+		select : {
+			type : Object,
+			default : () => {
+				return {
+					context : 'filesystem'
+				}
+			}
+		},
 
 		fclass : {
 			type : String,
 			default : 'mini'
-		}
+		},
+
+		purpose : String
 	},
 
 	data : function(){
@@ -24,23 +36,7 @@ export default {
 			currentroot : undefined,
 			history : [],
 
-			selected : null,
 			moving : null,
-
-			menu : [
-				{
-					text : 'labels.moveitems',
-					icon : 'fas fa-arrows-alt',
-					action : 'moveItemsMode'
-				},
-	
-				{
-					text : 'labels.deleteitems',
-					icon : 'fas fa-trash',
-					action : 'deleteitems'
-				}
-
-			]
 		}
 
 	},
@@ -48,13 +44,9 @@ export default {
 	created : function() {
 		this.history.push(this.root)
 
+
 		this.load()
 
-		console.log('this.select', this.select)
-
-		if (this.select && this.select.selected){
-			this.selected = _.clone(this.select.selected)
-		}
 	},
 
 	watch: {
@@ -70,23 +62,21 @@ export default {
 
 		},
 
-		selectOptions : function(){
-			return {
-				class : 'onobject',
-				selected : this.selected,
-				disableActions : false,
-				disable : (this.select && !this.select.multiple) ? true : false,
-				filter : (item) => {
-
-					console.log("FILTER SELECT", item)
-
-					if (this.select){
-						if(this.select.type != 'folder' && item.type == 'folder') return false
-					}
-
-					return true
+		menu : function(){
+			return [
+				{
+					text : 'labels.moveitems',
+					icon : 'fas fa-arrows-alt',
+					action : this.moveItemsMode
+				},
+	
+				{
+					text : 'labels.deleteitems',
+					icon : 'fas fa-trash',
+					action : this.deleteitems
 				}
-			}
+
+			]
 		},
 
 		contents : function(){
@@ -111,11 +101,14 @@ export default {
 					})
 				}
 
-				if (this.select){
-					if(this.select.type == 'folder' && c.type != this.select.type) e = false
+				if(this.filter){
+					e = this.filter(c)
 				}
 
-				console.log("E", e, c)
+				/*if (this.select){
+					if(this.select.type == 'folder' && c.type != this.select.type) e = false
+				}*/
+
 
 				return e
 			})
@@ -123,8 +116,6 @@ export default {
 		},
 
 		sorted : function(){
-
-			console.log('this.filtered', this.filtered)
 
 			return _.sortBy(this.filtered, function(c){
 
@@ -142,8 +133,6 @@ export default {
 
 			if(id) this.currentroot = id
 
-			
-
 			return this.core.api.filesystem.get(this.root).then(r => {
 
 				this.current = r
@@ -154,6 +143,7 @@ export default {
 			}).finally(() => {
 				this.loading = false
 			})
+
 		},
 
 		down : function(r){
@@ -200,15 +190,16 @@ export default {
 				this.down(c.id)
 			}
 
+			if(this.purpose == 'selectFolder') return
+
 			if(c.type == 'portfolio'){
 
 				if(this.moving) return
-				if(this.select) {
-					this.$emit('selected', [c])
-					return
-				}
 
-				this.$router.push('portfolio/' + c.id)
+				this.$emit('open', c)
+
+
+				//this.$router.push('portfolio/' + c.id)
 
 			}
 		},
@@ -234,42 +225,12 @@ export default {
 			})
 		},
 
-		selectionChange : function(items){
-            this.$emit('selectionChange', items)
-        },
-
-		selectionSuccess : function(items){
-			if (this.select){
-				this.$emit('selected', items)
-			}
-			else{
-				this.selected = items
-			}
-
-			console.log('this.selected', this.selected)
-			
-		},
-
-		
-		selectionCancel : function(){
-			this.selected = null
-
-			this.$emit('selectionCancel')
-		},
-
-		menuaction : function(action){
-			if (this[action]){
-				this[action]()
-			}   
-		},
-
-		deleteitems : function(){
+		deleteitems : function(items){
 
 			this.$store.commit('globalpreloader', true)
 
-			return Promise.all(_.map(this.selected, (item) => {
+			return Promise.all(_.map(items, (item) => {
 
-				console.log('item', item)
 
 				return this.core.api.filesystem.delete[item.type]({
 					id : item.id,
@@ -299,8 +260,8 @@ export default {
 
 		},
 
-		moveItemsMode : function(){
-			this.moving = this.selected
+		moveItemsMode : function(items){
+			this.moving = items
 			this.movescroll()
 		},
 
@@ -380,7 +341,7 @@ export default {
 
 			
 		},
-
+		//// another
 		selectCurrent : function(){
 			
 			this.$emit('selected', [this.current])

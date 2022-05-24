@@ -6,6 +6,7 @@ import _ from 'underscore';
 export default {
 	name: 'app_clients',
 	props: {
+		actions : Array,
 		select : Object
 	},
 
@@ -31,26 +32,12 @@ export default {
 				}
 			},
 
-			selected : null,
-			menu : [
-				
-			   
-				{
-					text : 'labels.deleteclient',
-					icon : 'fas fa-trash',
-					action : 'clients'
-				},
-
-			]
-
 		}
 
 	},
 
 	created : function() {
-		if (this.select && this.select.selected){
-			this.selected = _.clone(this.select.selected)
-		}
+		
 	},
 
 	watch: {
@@ -70,15 +57,17 @@ export default {
 		auth : state => state.auth,
 		tscrolly : state => state.tscrolly,
 		dheight : state => state.dheight,
-	
 
-		selectOptions : function(){
-			return {
-				class : 'leftselection',
-				selected : this.selected,
-				disableActions : false,
-				disable : (this.select && !this.select.multiple) ? true : false
-			}
+		menu : function(){
+
+			return this.actions ? this.actions : [
+				{
+					text : 'labels.deleteclients',
+					icon : 'fas fa-trash',
+					action : 'deletecontacts'
+				}
+			]
+
 		},
 
 		payload : function(){
@@ -93,10 +82,6 @@ export default {
 			}
 		},
 
-		elheight : function(){
-
-			return f.mobileview() ? 195 : 120
-		}
 	}),
 
 	methods : {
@@ -113,48 +98,21 @@ export default {
 			this.sort = v
 		},
 
-		selectionSuccess : function(clients){
-			if (this.select){
-				this.$emit('selected', clients)
-			}
-			else{
-				this.selected = clients
-			}
-			
+		deletecontacts : function(contacts){
+			///
+
+			this.deleteclients(contacts)
 		},
-		closeselected : function(){
-			this.selected = null
-		},
-
-		menuaction : function(action){
-			if (this[action]){
-				this[action]()
-			}   
-		},
-
-		deleteclients : function(cc){
-			_.each(cc, (profile) => {
-
-				if(this.$refs['list']) this.$refs['list'].datadeleted(profile, "ID")
-
-			})
-
-		},
-
-		deleteclient : function(c){
-			return this.deleteclients([c])
-		},
-
-		edit : function(profile){
-
-			if(this.$refs['list']) this.$refs['list'].datachanged(profile, "ID")
+		
+		selected : function(profiles){
+			this.$emit('selected', profiles)
+			this.$emit('close')
 		},
 
 		open : function(profile){
 
-			if(this.select){
-				this.$emit('selected', [profile])
-				this.$emit('close')
+			if (this.select){
+				this.selected([profile])
 			}
 			else{
 				this.$router.push('client/' + profile.ID)
@@ -164,6 +122,20 @@ export default {
 
 		portfoliosChanged : function(client, p){
 			
+		},
+
+
+		////clbks
+
+		deleteclients : function(cc){
+			_.each(cc, (profile) => {
+				if(this.$refs['list']) this.$refs['list'].datadeleted(profile, "ID")
+			})
+
+		},
+
+		deleteclient : function(c){
+			return this.deleteclients([c])
 		}
 
 	},

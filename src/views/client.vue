@@ -16,7 +16,7 @@
 		</template>
 		<template v-slot:right>
 
-			<profilemenu @delete="deleted" @edit="edit" :profile="profile" v-if="!loading" />
+			<profilemenu @portfoliosChanged="portfoliosChanged" @delete="deleted" @edit="edit" :profile="profile" v-if="!loading" />
 			
 		</template>
 	</topheader>
@@ -28,7 +28,7 @@
 				<div class="linenavigation">
 					<linenavigation @change="changenav" :items="navigation" :navdefault="navdefault" :navkey="navkey" :mode="wnd ? 'emit' : 'history'"/>
 				</div>
-				<component :is="module" :profile="profile"/>
+				<component ref="main" :is="module" :profile="profile"/>
 			</div>
 		</template>
 	</maincontent>
@@ -68,6 +68,7 @@ import capacity from "@/components/modules/app/client/capacity/index.vue";
 import portfolios from "@/components/modules/app/client/portfolios/index.vue";
 import info from "@/components/modules/app/client/info/index.vue";
 import profilemenu from "@/components/modules/app/client/menu/index.vue";
+import func from 'vue-editor-bridge';
 
 export default {
 	name: 'page',
@@ -150,6 +151,10 @@ export default {
 
 		deleted : function(){
 			this.$router.push('/clients')
+		},
+
+		portfoliosChanged : function(){
+			if(this.$refs['main'] && this.$refs['main'].reload) this.$refs['main'].reload()
 		}
 		
 	},

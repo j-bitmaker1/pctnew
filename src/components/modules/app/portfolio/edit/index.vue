@@ -21,7 +21,7 @@
 			<i class="fas fa-file-pdf"></i> Recognize PDF
 		</button>
 
-		<button class="button black" key="aggregate" @click="aggregate">
+		<button class="button black" key="aggregate" @click="aggregate" v-if="!assets.length">
 			<i class="fas fa-tasks"></i> Create aggregate
 		</button>
 

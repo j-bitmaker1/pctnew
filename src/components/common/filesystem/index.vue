@@ -1,5 +1,5 @@
 <template>
-<div class="filesystem" :class="fclass">
+<div class="filesystem" :class="[fclass, purpose || '']">
 	
 
 	<div class="items" ref="items">
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 
-		<div class="cnt createnew" v-if="!select || select.type == 'folder'" @click="create">
+		<div class="cnt createnew" @click="create">
 			<div class="icon">
 				<i class="fas fa-plus small"></i>
 			</div>
@@ -42,7 +42,7 @@
 
 
 		<!--  -->
-		<list :selectOptions="selectOptions" @selectionChange="selectionChange" @selectionSuccess="selectionSuccess" @selectionCancel="selectionCancel" v-if="!loading && sorted.length" :items="sorted">
+		<listselectable :filter="select.filter" :disabled="purpose == 'selectFolder'" view="onobject" :context="select.context" v-if="!loading && sorted.length" :items="sorted">
 			<template v-slot:default="slotProps">
 
 				<div class="cnt" :ref="slotProps.item.id" @click="e => { open(slotProps.item) }">
@@ -56,16 +56,11 @@
 				</div>
 
 			</template>
-		</list>
-
-		
-
+		</listselectable>
 		
 	</div>
 
-	
-
-	<div class="savePanel" v-if="select && select.type == 'folder'">
+	<div class="savePanel" v-if="purpose == 'selectFolder'">
 		<button class="button black" @click="close">
 			Cancel
 		</button>
@@ -76,20 +71,15 @@
 	</div>
 
 	<transition name="fademodal">
-		<modal v-if="selected" @close="selectionCancel" mclass="small likemenu">
-			<template v-slot:body>
-				<listmenu :items="menu" @action="menuaction" :close="selectionCancel" />
-			</template>
-		</modal>
-	</transition>
-
-	<transition name="fademodal">
 		<modal v-if="moving" @close="cancelmoving" mclass="small likelabel">
 			<template v-slot:body>
 				Moving items
 			</template>
 		</modal>
 	</transition>
+
+	<selection :context="select.context" :menu="menu" v-if="select.disableMenu && purpose != 'selectFolder'"/>
+
 </div>
 </template>
 

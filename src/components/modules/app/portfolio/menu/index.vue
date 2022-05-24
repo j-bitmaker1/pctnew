@@ -98,27 +98,9 @@ export default {
 		},
 
 		edit : function(){
-			
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_portfolio_edit',
-				module : "portfolio_edit",
-				caption : "Edit Portfolio",
-				data : {
-					edit : {
-						name : this.portfolio.name,
-						assets : this.portfolio.positions,
-						id : this.portfolio.id
-					}
-				},
 
-				events : {
-					edit : (portfolio) => {
-
-						
-
-						this.$emit('edit', portfolio)
-					}
-				}
+			this.core.vueapi.editPortfolio(this.portfolio, (portfolio) => {
+				this.$emit('edit', portfolio)
 			})
 
 		},
@@ -148,32 +130,10 @@ export default {
 
 		linkToClient : function(){
 
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_clients',
-				module : "clients",
-				caption : "Select Client",
-				data : {
-					select : {
-						multiple : false
-					}
-				},
-
-				events : {
-					selected : (clients) =>{
-
-						var client = clients[0]
-
-						this.core.pct.setPortfoliosToClient(client.ID, [this.portfolio], {
-							preloader : true,
-							showStatus : true
-						}).then(r => {
-							this.$emit('changeClient', client)
-						})
-					}
-				}
+			this.core.vueapi.selectClientToPortfolios([this.portfolio], (client) => {
+				this.$emit('changeClient', client)
 			})
 
-			//this.$emit('linkedToClient', this.portfolio)
 		},
 
 		unlinkClient : function(){

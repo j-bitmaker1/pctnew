@@ -3,6 +3,7 @@ import notification from "@/components/modules/notifications/notification/index.
 export default {
 	name: 'notifications',
 	props: {
+		actions : Array
 	},
 
 	data : function(){
@@ -10,15 +11,7 @@ export default {
 		return {
 			loading : false,
 
-			selected : null,
-			menu : [
-			   
-				{
-					text : 'labels.deletenotifications',
-					icon : 'fas fa-trash',
-					action : 'deletenotifications'
-				}
-			]
+		
 		}
 
 	},
@@ -51,26 +44,25 @@ export default {
 
 		payload : function(){
 			return {}
+		},
+
+		menu : function(){
+			return this.actions ? this.actions : [
+
+				{
+					text : 'labels.deletenotifications',
+					icon : 'fas fa-trash',
+					action : this.deletenotifications
+				}
+
+			]
 		}
 	}),
 
 
 	methods : {
 
-		selectionSuccess : function(notifications){
-			this.selected = notifications
-		},
-
-		closeselected : function(){
-			this.selected = null
-		},
-
-		menuaction : function(action){
-			if (this[action]){
-				this[action]()
-			}   
-		},
-
+	
 		deletenotifications : function(){
 
 		}

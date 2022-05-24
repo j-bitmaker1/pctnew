@@ -14,7 +14,7 @@
 
 	<maincontent>
 		<template v-slot:content>
-			<portfoliosmainlist ref="portfolios" />
+			<portfoliosmainlist ref="portfolios" @open="open"/>
 		</template>
 	</maincontent>
 
@@ -52,6 +52,10 @@ export default {
 					}
 				}
 			})
+		},
+
+		open : function(portfolio){
+			this.$router.push('portfolio/' + portfolio.id)
 		}
 	},
 

@@ -1,53 +1,17 @@
 <template>
-<div class="list" :class="[selection ? 'selection' : '', !selectOptions.disable ? 'selectMultiple' : '', selectOptions.class]">
+<div class="list">
 
-    <div class="selectionControls mobp" v-if="selection && !this.selectOptions.disableActions">
-        <div class="caption">
-            <span>Select elements from list</span>
-        </div>
-        <div class="controls">
-
-            <button class="button" v-if="selectionLength" @click="selectionSuccess">Select ({{selectionLength}})</button>
-            <button class="button black" @click="selectionCancel">Cancel</button>
-            
-        </div>
-    </div>
-
-    <!--<transition-group v-if="elheight" name="staggered-fade" tag="div" :css="false" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
-
-        <div class="item" v-touch:touchhold="e => enterSelectionMode(item.id || item.ID || (i + 1))" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
-            
-            <div class="selectionmarker" v-if="selection" @click="select(item.id || item.ID || (i + 1))">
-                <i class="fas fa-circle" v-if="!selection[item.id || item.ID || (i + 1)]"></i>
-                <i class="fas fa-check-circle" v-else></i>
-            </div>
-            
-            <slot :item="item" :index="i">
-                {{ item.value }}
-            </slot>
-        </div>
-
-    </transition-group>-->
-
-	<div class="simplelist" ref="simplelist">
-		<div class="item" v-touch:touchhold="e => enterSelectionMode(item.id || item.ID || (i + 1))" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
-
-            <div class="selectionmarker" v-if="selection && (!selectOptions.filter || selectOptions.filter(item))" @click="select(item.id || item.ID || (i + 1))">
-                <i class="fas fa-circle" v-if="!selection[item.id || item.ID || (i + 1)]"></i>
-                <i class="fas fa-check-circle" v-else></i>
-            </div>
-
+    <div class="simplelist" ref="simplelist">
+		<div class="item" v-touch:touchhold="e => touchhold(item)" :key="item.id || item.ID || (i + 1)" :data-index="i" v-for="(item, i) in readyItems" @click="e => click(item)">
             <slot :item="item" :index="i">
                 {{ item.value }}
             </slot>
         </div>
 	</div>
+	
 </div>
 </template>
 
 <script src="./index.js"></script>
 
 <style scoped lang="sass" src="./index.sass"></style>
-
-<!-- THEMES BEGIN -->
-<!-- THEMES END -->

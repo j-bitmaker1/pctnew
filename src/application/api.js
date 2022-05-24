@@ -291,7 +291,7 @@ var ApiWrapper = function (core) {
 
 		if(!liststorage[system][to][datahash].count) data[p.includeCount] = true
 		
-		
+		console.log("data, system, to, p", data, system, to, p)
 
 		return request(data, system, to, p).then(r => {
 
@@ -528,9 +528,7 @@ var ApiWrapper = function (core) {
 
 		if (!attempt) attempt = 0
 
-		if (p.preloader){
-			core.store.commit('globalpreloader', true)
-		}
+		
 
 		if (p.vxstorage && p.vxstorage.index){
 			var r = core.vxstorage.get(p.vxstorage.index, p.vxstorage.type)
@@ -590,9 +588,15 @@ var ApiWrapper = function (core) {
 
 		}
 
+		if (p.preloader){
+			core.store.commit('globalpreloader', true)
+		}
+
 		return waitonline().then(() => {
 
 			data || (data = {})
+
+			console.log("T", to, data, p)
 
 			return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
 
@@ -667,7 +671,7 @@ var ApiWrapper = function (core) {
 						attempt++
 
 						setTimeout(function () {
-							request(data, to, p, attempt).then(r => {
+							request(data, system, to, p, attempt).then(r => {
 								return resolve(r)
 							}).catch(e => {
 								return reject(e)
@@ -1178,6 +1182,17 @@ var ApiWrapper = function (core) {
 				})
 			},
 
+			add : function(data = {}, p = {}){
+				p.method = "POST"
+
+				return request(data, 'api', 'crm/Contacts/Insert', p).then(r => {
+
+					data.ID = r.id
+
+					return Promise.resolve(data)
+				})
+			},
+
 			get : function(id, p = {}){
 				p.method = "GET"
 
@@ -1253,6 +1268,8 @@ var ApiWrapper = function (core) {
 						type : 'folder',
 						id : c.id,
 						name : c.name,
+
+						context : 'filesystem'
 					})
 				})
 
@@ -1260,7 +1277,9 @@ var ApiWrapper = function (core) {
 					result.content.push({
 						type : 'portfolio',
 						id : p.id,
-						name : p.name
+						name : p.name,
+
+						context : 'filesystem'
 					})
 				})
 

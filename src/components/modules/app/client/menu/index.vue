@@ -124,23 +124,10 @@ export default {
 
 		editclient : function(){
 
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_client_edit',
-				module : "client_edit",
-				caption : "Edit client",
-
-				data : {
-					edit : this.profile
-				},
-
-				events : {
-					success : (data) => {
-						var profile = _.extend(this.profile, data)
-
-						this.$emit('edit', profile)
-					}
-				}
+			this.core.vueapi.editClient(this.profile, (profile) => {
+				this.$emit('edit', profile)
 			})
+			
 		},
 
 		sharequestionnaire : function(){
@@ -167,37 +154,11 @@ export default {
 		},
 
 		setportfoliostoclient : function(){
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_portfolios_main',
-				module : "portfolios_main",
-				caption : "Select Portfolios For Client", /// TODO name
 
-				data : {
-					
-					select : {
-						multiple : true,
-						type : "portfolio",
-						filter : (portfolio) => {
-							return portfolio.crmContactId && portfolio.crmContactId != this.profile.ID
-						}
-					}
-				},
-
-				events : {
-					selected : (portfolios) => {
-
-						this.core.pct.setPortfoliosToClient(this.profile.ID, portfolios, {
-							preloader : true,
-							showStatus : true
-						}).then(r => {
-
-							this.$emit('portfoliosChanged', portfolios)
-
-						})
-
-					}
-				}
+			this.core.vueapi.selectPortfoliosToClient(this.profile, (portfolios) => {
+				this.$emit('portfoliosChanged', portfolios)
 			})
+
 		}
 	},
 }

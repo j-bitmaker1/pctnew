@@ -112,7 +112,7 @@ export default {
 	
 	
 				action.then(r => {
-	
+
 					this.$emit('success', data)
 	
 					this.$emit('close')

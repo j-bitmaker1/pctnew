@@ -46,55 +46,34 @@ export default {
 				caption : "New Portfolio For Client",
 
 				data : {
-					payload : {}
+					payload : {
+						crmContactId : this.profile.ID
+					}
+				},
+
+				events : {
+					edit : () => {
+						this.reload()
+					}
 				}
 			})
 		},
 
-		changeClient : function(){
+		reload : function(){
 			if (this.$refs['list'])
 				this.$refs['list'].reload()
 		},
 
 		select : function(){
 
-			
-
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_portfolios_main',
-				module : "portfolios_main",
-				caption : "Select Portfolios For Client",
-
-				data : {
-					
-					select : {
-						multiple : true,
-						type : "portfolio",
-						filter : (portfolio) => {
-							return portfolio.crmContactId && portfolio.crmContactId != this.profile.ID
-						}
-					}
-				},
-
-				events : {
-					selected : (portfolios) => {
-
-						this.core.pct.setPortfoliosToClient(this.profile.ID, portfolios, {
-							preloader : true,
-							showStatus : true
-						}).then(r => {
-
-							this.changeClient()
-
-							
-
-							///// clientChanged
-						})
-
-					}
-				}
+			this.core.vueapi.selectPortfoliosToClient(this.profile, () => {
+				this.reload()
 			})
-			
+
+		},
+
+		open : function(portfolio){
+			this.$router.push('/portfolio/' + portfolio.id)
 		}
 	},
 }

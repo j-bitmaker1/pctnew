@@ -80,7 +80,9 @@ import tooltip from "@/components/assets/tooltip/index.vue";
 import listmenu from "@/components/assets/listmenu/index.vue"; 
 import swipable from "@/components/assets/swipable/index.vue"; 
 
+import listselectable from "@/components/assets/listselectable/index.vue";
 import listpaginated from "@/components/assets/listpaginated/index.vue";
+import selection from "@/components/assets/selection/index.vue";
 import listcontrols from "@/components/assets/listcontrols/index.vue";
 import forms from "@/components/assets/forms/index.vue";
 import iconstoggle from "@/components/assets/iconstoggle/index.vue";
@@ -126,6 +128,9 @@ Vue.component("listmenu", listmenu);
 Vue.component("list", list);
 Vue.component("listgrouped", listgrouped);
 Vue.component("listpaginated", listpaginated);
+Vue.component("listselectable", listselectable);
+Vue.component("selection", selection);
+
 Vue.component("listcontrols", listcontrols);
 
 Vue.component("topheader", topheader);

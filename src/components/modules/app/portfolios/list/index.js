@@ -7,16 +7,15 @@ export default {
 	name: 'portfolios_list',
 	props: {
 		additional : Object,
-		actions : {
-			type : Array,
-			default : () => {return []}
-		},
-		select : Object,
+		actions : Array,
 		showClient : Boolean,
-
-		path : {
-			type : String,
-			default : ''
+		select : {
+			type : Object,
+			default : function(){
+				return {
+					context : 'portfolio'
+				}
+			}
 		}
 	},
 
@@ -44,19 +43,13 @@ export default {
 				}
 			},
 
-			selected : null,
-			
 		}
 
 	},
 
 	created() {
 
-		console.log('this.select', this.select)
 
-		if (this.select && this.select.selected){
-			this.selected = _.clone(this.select.selected)
-		}
 	},
 
 	watch: {
@@ -84,33 +77,18 @@ export default {
 			}
 		},
 
-		selectOptions : function(){
-			return {
-				class : 'leftselection',
-				selected : this.select ? this.select.selected : null,
-				disableActions : false,
-				disable : (this.select && !this.select.multiple) ? true : false,
-				filter : this.select ? this.select.filter : null,
-			}
-		},
+		
 
 		menu : function(){
 
-			if (this.select){
-				return this.select.actions
-			}
-
-			return [
-
-				... this.actions,
-
+			return this.actions ? this.actions : [
 				{
 					text : 'labels.deleteportfolios',
 					icon : 'fas fa-trash',
-					action : 'deleteportfolios'
+					action : this.deleteportfolios
 				}
-				
 			]
+
 		},
 
 		api : function(){
@@ -132,13 +110,9 @@ export default {
 
 		open : function(portfolio){
 
-			if (this.select){
-				this.$emit('selected', [portfolio])
-				this.$emit('close')
-			}
-			else{
-				this.$router.push(this.path + 'portfolio/' + portfolio.id)
-			}
+			this.$emit('open', portfolio)
+
+			//
 		},
 
 		search : function(v){
@@ -153,90 +127,32 @@ export default {
 			this.sort = v
 		},
 
-		selectionSuccess : function(portfolios){
-			if (this.select){
-				this.$emit('selected', portfolios)
-			}
-			else{
-				this.selected = portfolios
-			}
-			
+		changeClient : function(client){
+			this.$emit('changeClient', client)
 		},
 
-		selectionChange : function(v){
-			this.$emit('selectionChange', v)
+		selectClientToPortfolios : function(portfolios){
+
+			this.core.vueapi.selectClientToPortfolios(portfolios, (client) => {
+
+				this.changeClient(client)
+			})
+
 		},
 
-		selectionCancel : function(){
-			this.selected = null
-
-			this.$emit('selectionCancel')
-		},
-
-		menuaction : function(action){
-			if (this[action]){
-				this[action]()
-			}   
-		},
+		////clbks
 
 		deleteportfolios : function(portfolios){
-			/*_.each(portfolios, (portfolio) => {
 
+			_.each(cc, (portfolio) => {
 				if(this.$refs['list']) this.$refs['list'].datadeleted(portfolio, "id")
+			})
 
-			})*/
-
-			this.selectionCancel()
 		},
 
 		deleteportfolio : function(portfolio){
 			this.deleteportfolios([portfolio])
 		},
-
-		editportfolio : function(data){
-			this.core.vxstorage.update(data,  'portfolio')
-
-			//if(this.$refs['list']) this.$refs['list'].datachanged(portfolio, "id")
-
-		},
-
-		changeClient : function(client){
-			this.$emit('changeClient', client)
-		},
-
-		setportfoliostoclient : function(){
-
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_clients',
-				module : "clients",
-				caption : "Select Client",
-				data : {
-					select : {
-						multiple : false
-					}
-				},
-
-				events : {
-					selected : (clients) => {
-
-						var client = clients[0]
-
-						this.core.pct.setPortfoliosToClient(client.ID, this.selected, {
-							preloader : true,
-							showStatus : true
-						}).then(r => {
-							this.selected = null
-
-							this.changeClient()
-							///// clientChanged
-						})
-
-						
-					}
-				}
-			})
-
-		}
 
 	},
 }

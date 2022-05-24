@@ -6,6 +6,11 @@
 			<span>Leads</span>
 		</template>
 		<template v-slot:right>
+
+			<div class="buttonpanel" @click="newlead">
+				<i class="fas fa-plus"></i>
+			</div>
+
 			<div class="buttonpanel" @click="sharequestionnaire">
 				<i class="fas fa-link"></i>
 			</div>
@@ -15,7 +20,7 @@
 	<maincontent>
 
 		<template v-slot:content>
-			<leads />
+			<leads ref="list"/>
 		</template>
 
 	</maincontent>
@@ -66,11 +71,29 @@ export default {
 			})
 
 			
+		},
+
+		newlead : function(){
+			this.core.vueapi.createContact({
+				Type : "LEAD"
+			}, (data) => {
+
+				console.log('data', data)
+
+				if(this.$refs['list']) this.$refs['list'].search(data.FName + " " + data.LName)
+
+			}, {
+				caption : "New lead"
+			})
+		},
+
+		reload(){
+			if(this.$refs['list']) this.$refs['list'].reload()
 		}
 	},
 
 	mounted() {
-
+		//if(this.$refs['list']) this.$refs['list'].search("max grishkov")
 	}
 }
 </script>

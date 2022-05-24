@@ -3,23 +3,15 @@
 	<div class="controls mobp">
 		<listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
 	</div>
-	<listpaginated @selectionSuccess="selectionSuccess" :selectOptions="selectOptions" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
+	<listpaginated context="leads" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
 		<template v-slot:default="slotProps">
 			<div class="cardWrapper mobp">
-				<lead :hasmenu="select ? false : true" :profile="slotProps.item"  @open="open" @leadtocontact="leadtocontact" @edit="edit" @deletelead="deletelead"/>
+				<lead :hasmenu="true" :profile="slotProps.item"  @open="open" @leadtocontact="leadtocontactClbk" @deletelead="deletelead"/>
 			</div>
 		</template>
 	</listpaginated>
 
-	<transition name="fademodal">
-		<modal v-if="selected" @close="closeselected" mclass="small likemenu">
-
-			<template v-slot:body>
-				<listmenu :items="menu" @action="menuaction" :close="closeselected" />
-			</template>
-
-		</modal>
-	</transition>
+	<selection context="leads" :menu="menu"/>
 </div>
 </template>
 

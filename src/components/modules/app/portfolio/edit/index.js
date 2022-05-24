@@ -313,27 +313,10 @@ export default {
 				return
 			}
 
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_filesystem',
-				module : "filesystem",
-				caption : "Select folder for saving",
-				data : {
-					fclass : 'expanded',
-					select : {
-						type : 'folder',
-						multiple : false
-					}
-				},
-				events : {
-					selected : (items) => {
-						var item = items[0]
-
-						
-
-						this.save(item.id)
-					}
-				}
+			this.core.vueapi.selectFolder(this.selected, (folder) => {
+				this.save(folder.id)
 			})
+
 		},
 
 		cancelAggregation : function(){
@@ -342,53 +325,37 @@ export default {
 
 		aggregate : function(){
 
+			var selected = null
 
+			if (this.aggregation){
+				selected = {}
+
+				_.each(this.aggregation.items, (item) => {
+					selected[item.item.id] = item.item
+				})
+
+			}
+				
+			this.core.vueapi.selectPortfolios( (portfolios) => {
+				var selected = {}
+
+				_.each(portfolios, (p, i) => {
+
+					selected[p.id] = {
+						item : p,
+						weight : 0
+					}
+
+				})
+
+				this.aggregation || (this.aggregation = {
+					items : {}
+				})
+
+				this.aggregation.items = selected
+
+			}, {selected})
 		
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_portfolios_main',
-				module : "portfolios_main",
-				caption : "Select Portfolios For Aggregation",
-
-				data : {
-					select : {
-						//selected : this.aggregation,
-						multiple : true,
-						type : "portfolio",
-						filter : (portfolio) => {
-							return !this.aggregation || !this.aggregation.items[portfolio.id]
-						}
-					}
-				},
-
-				events : {
-					selected : (portfolios) => {
-
-						if (portfolios.length){
-							var selected = {}
-
-							_.each(portfolios, (p, i) => {
-
-								selected[p.id] = {
-									item : p,
-									weight : 0
-								}
-
-							})
-
-							this.aggregation || (this.aggregation = {
-								items : {}
-							})
-							this.aggregation.items = {
-								...this.aggregation.items,
-								...selected 
-							}
-
-							console.log('this.aggregation', this.aggregation)
-						}
-
-					}
-				}
-			})
 		}
 	},
 }

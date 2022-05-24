@@ -1,0 +1,48 @@
+.listselectable
+    ::v-deep
+        .item
+            +transitionopt(0.3s, transform)
+
+    &.selection.leftselection
+        ::v-deep
+            .item
+                position: relative
+                transform : translateX(44px)
+
+    &.selection.onobject
+        ::v-deep
+            .item
+                position: relative
+
+
+
+.selectionmarker
+    position: absolute
+    display: flex
+    align-items: center
+
+    i
+        width: 44px
+        height: 44px
+        line-height: 44px
+        text-align: center
+
+    .fa-check-circle
+        color : srgb(--color-txt-ac)
+
+    .fa-circle
+        color : srgb(--neutral-grad-1)
+        
+.selection.leftselection
+    .selectionmarker
+        left : -44px
+        top : 0
+        right: 0
+        bottom : 0
+        
+.selection.onobject
+    .selectionmarker
+        left : 0
+        top : 0
+        right: 0
+        bottom : 0

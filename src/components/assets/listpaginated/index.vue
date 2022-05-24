@@ -6,12 +6,12 @@
     </div>
 
     <div class="listWrapper">
-        <list ref="list" :selectOptions="selectOptions" :items="records" @click="click" @selectionSuccess="selectionSuccess" @selectionCancel="selectionCancel" @selectionChange="selectionChange">
+        <listselectable ref="list" :context="select.context" :filter="select.filter" :items="records" @click="click">
             <template v-slot:default="slotProps">
                 <slot v-bind:item="slotProps.item">
                 </slot>
             </template>
-        </list>
+        </listselectable>
     </div>
 
     <div class="loading" v-if="loading">

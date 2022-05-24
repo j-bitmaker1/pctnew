@@ -8,7 +8,9 @@ export default {
     minimize: {
       type: Boolean,
       default: false
-    }
+    },
+
+    value : String
   },
 
   data: function () {
@@ -29,10 +31,14 @@ export default {
     searchTxt : {
       handler : _.debounce(function() {
 
-        var text = this.searchTxt.toLowerCase()
+        var text = this.searchTxt
         this.$emit('search', text)
   
       }, 500)
+    },
+
+    value : function(value){
+      this.searchTxt = value
     }
   },
   computed: mapState({

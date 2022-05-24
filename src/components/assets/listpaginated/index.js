@@ -9,8 +9,15 @@ export default {
         from : String,
         to : String,
 
-
-        selectOptions : Object,
+        select : {
+            type : Object,
+            default : () => {
+                return {
+                    context : 'general'
+                }
+                
+            }
+        },
 
         payload : {
             type : Object,
@@ -24,10 +31,6 @@ export default {
 
         bypages : Boolean,
 
-        elheight : {
-			type : Number,
-			default : 0
-		}
     },
 
     data : function(){
@@ -116,6 +119,8 @@ export default {
 
             this.$emit('loading', this.loading)
 
+            console.log('this.epayload', this.epayload, this.api)
+
             f.deep(this.core.api, this.api)(this.epayload, {
 
                 refresh : this.refresh, 
@@ -163,17 +168,7 @@ export default {
 			this.$emit('click', item)
 		},
 
-        selectionSuccess : function(v){
-            this.$emit('selectionSuccess', v)
-        },
         
-        selectionCancel : function(){
-            this.$emit('selectionCancel')
-        },
-
-        selectionChange : function(v){
-            this.$emit('selectionChange', v)
-        },
 
         datachanged : function(obj, key){
             var i = _.findIndex(this.records, (r) => {

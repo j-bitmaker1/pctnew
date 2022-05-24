@@ -6,6 +6,7 @@ import _ from 'underscore';
 export default {
 	name: 'app_leads',
 	props: {
+		actions : Array,
 		select : Object
 	},
 
@@ -33,31 +34,13 @@ export default {
 			},
 
 
-			selected : null,
-			menu : [
-
-				{
-					text : 'labels.leadstocontacts',
-					icon : 'fas fa-user-friends',
-					action : 'leadstocontacts'
-				},
-			   
-				{
-					text : 'labels.deleteleads',
-					icon : 'fas fa-trash',
-					action : 'deleteleads'
-				},
-
-			]
 
 		}
 
 	},
 
 	created : function() {
-		if (this.select && this.select.selected){
-			this.selected = _.clone(this.select.selected)
-		}
+	
 	},
 
 	watch: {
@@ -72,22 +55,15 @@ export default {
 				}
 				
 			}
-
 			
 		}
 	},
+
 	computed: mapState({
 		auth : state => state.auth,
 		tscrolly : state => state.tscrolly,
 		dheight : state => state.dheight,
-		selectOptions : function(){
-			return {
-				class : 'leftselection',
-				selected : this.selected,
-				disableActions : false,
-				disable : (this.select && !this.select.multiple) ? true : false
-			}
-		},
+		
 		payload : function(){
 
 			var orderBy = {}
@@ -103,12 +79,33 @@ export default {
 		elheight : function(){
 
 			return f.mobileview() ? 195 : 120
+		},
+
+		menu : function(){
+			return this.actions ? this.actions : [
+
+				{
+					text : 'labels.leadstocontacts',
+					icon : 'fas fa-user-friends',
+					action : this.leadstocontacts
+				},
+			   
+				{
+					text : 'labels.deleteleads',
+					icon : 'fas fa-trash',
+					action : this.deletecontacts
+				},
+
+			]
 		}
 	}),
 
 	methods : {
 
 		search : function(v){
+
+			console.log("SEARCH", v)
+
 			this.searchvalue = v
 		},
 
@@ -120,49 +117,12 @@ export default {
 			this.sort = v
 		},
 
-	 
-
-		selectionSuccess : function(leads){
-			if (this.select){
-				this.$emit('selected', leads)
-			}
-			else{
-				this.selected = leads
-			}
-			
-		},
-
-		closeselected : function(){
-			this.selected = null
-		},
-
-		menuaction : function(action){
-			if (this[action]){
-				this[action]()
-			}   
-		},
-
-
-		deleteleads : function(cc){
-
-			_.each(cc, (profile) => {
-
-				if(this.$refs['list']) this.$refs['list'].datadeleted(profile, "ID")
-
-			})
-
-			this.closeselected()
-
-		},
-
-		deletelead : function(c){
-			return this.deleteleads([c])
-		},
-
 		edit : function(profile){
-
 			if(this.$refs['list']) this.$refs['list'].datachanged(profile, "ID")
+		},
 
+		reload : function(){
+			if(this.$refs['list']) this.$refs['list'].reload()
 		},
 
 		open : function(client){
@@ -190,27 +150,19 @@ export default {
 				})
 			}
 
-			
-
 		},
 
-		leadstocontacts : function(){
+		leadstocontacts : function(leads){
 
 			this.$store.commit('globalpreloader', true)
 
-			var leads = this.selected
-
-			this.core.crm.leadtocontacts(_.map(leads, (s) => {return s.ID})).then(r => {
-
+			return this.core.crm.leadtocontacts(_.map(leads, (s) => {return s.ID})).then(r => {
 
 				this.deleteleads(leads)
-
-				this.closeselected()
 
 				//this.$router.push('/clients')
 
 			}).catch(e => {
-
 
 				this.$store.commit('icon', {
 					icon: 'error',
@@ -218,14 +170,30 @@ export default {
 				})
 
 			}).finally(() => {
-
 				this.$store.commit('globalpreloader', false)
-
 			})
 
 		},
 
-		leadtocontact : function(profile){
+		deletecontacts : function(contacts){
+			///
+
+			this.deleteleads(contacts)
+		},	
+		////////////
+
+
+		deleteleads : function(cc){
+			_.each(cc, (profile) => {
+				if(this.$refs['list']) this.$refs['list'].datadeleted(profile, "ID")
+			})
+		},
+
+		deletelead : function(c){
+			return this.deleteleads([c])
+		},
+
+		leadtocontactClbk : function(profile){
 			this.deletelead(profile) /// from list
 		}
 

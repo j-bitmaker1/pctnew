@@ -43,11 +43,17 @@ export default {
 
 	methods: {
 		newclient : function(){
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_client_edit',
-				module : "client_edit",
+
+			this.core.vueapi.createContact({
+				Type : "CLIENT"
+			}, (data) => {
+
+				this.$router.push('client/' + data.ID)
+				
+			}, {
 				caption : "New client"
 			})
+			
 		}
 	},
 

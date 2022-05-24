@@ -8,7 +8,7 @@ import user from './user'
 import wss from './wss'
 import CRM from './lib/crm'
 import PCT from './lib/pct'
-
+import Vueapi from './vueapi'
 
 class Core {
     constructor(vm, p){
@@ -46,6 +46,8 @@ class Core {
 
 
         this.user = new user(this)
+
+        this.vueapi = new Vueapi(this)
 
         
 
