@@ -275,8 +275,8 @@ export default {
 			this.period = e.target.value
 		},
 
-		changestd : function(){
-
+		changestd : function(e){
+			this.current_std = e.target.value
 		}
 	},
 }
