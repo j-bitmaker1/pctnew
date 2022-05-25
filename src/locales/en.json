@@ -71,7 +71,13 @@
 		"recoverportfolio" : "Recover portfolio",
 		"sharequestionnaire" : "Send personal questionnaire link",
 		"scenarioManager" : "Scenario Manager",
-		"clearHistory" : "Clear history"
+		"clearHistory" : "Clear history",
+		"usersettings" : "User settings",
+		"crashtestSettings" : "Stress testing settings",
+		"theme" : "Interface colors. Light theme. Dark theme",
+		"newPortfolio" : "New portfolio",
+		"newClient" : "New Client",
+		"actions" : "Actions"
 	},
 
 	"caption" : {
@@ -287,7 +293,20 @@
 	"activity" : {
 		"portfolio" : "Portfolios",
 		"client" : "Clients",
-		"lead" : "Leads"
+		"lead" : "Leads",
+		"search" : "Recent Searches",
+		"setting" : "Settings",
+		"actions" : "Actions",
+		"searches" : {
+			"client" : "By clients",
+			"portfolio" : "By portfolios",
+			"lead" : "By leads",
+			"everywhere" : "Global search"
+		}
+	},
+	"themes" : {
+		"white" : "Light theme",
+		"black" : "Dark theme"
 	}
 
 }

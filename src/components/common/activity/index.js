@@ -5,6 +5,9 @@ import f from "@/application/functions.js"
 
 import portfolio from "@/components/modules/app/activity/portfolio/index.vue"
 import client from "@/components/modules/app/activity/client/index.vue"
+import search from "@/components/modules/app/activity/search/index.vue"
+import themeToggle from "@/components/assets/themetoggle/index.vue"
+import def from "@/components/modules/app/activity/def/index.vue"
 
 export default {
     name: 'activity',
@@ -14,7 +17,7 @@ export default {
     },
 
     components : {
-        portfolio, client
+        portfolio, client, search, themeToggle, def
     },
 
     data : function(){
@@ -92,14 +95,34 @@ export default {
             if(item.type == 'portfolio') return portfolio
             if(item.type == 'client') return client
             if(item.type == 'lead') return client
+            if(item.type == 'search') return search
+
+            if (item.type == 'setting'){
+                if(item.key == 'settingtheme') return themeToggle
+            }
+
+            return def
             
         },
 
         open : function(item){
+            console.log('item', item)
             if (item.link){
                 this.$router.push(item.link)
 
                 this.$emit('close')
+            }
+
+            if (item.action){
+                if (item.action.search){
+                    this.$emit('search', item.action.search)
+                }
+
+                if (item.action.vueapi){
+                    this.core.vueapi[item.action.vueapi]()
+                }
+
+                
             }
         }
     },

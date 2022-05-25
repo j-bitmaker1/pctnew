@@ -3,6 +3,7 @@ class Vueapi {
 
         this.core = core
         this.store = this.core.store
+        this.router = this.core.vm.$router
 
     }
 
@@ -209,6 +210,39 @@ class Vueapi {
     
             events : {
                
+            }
+        })
+    }
+
+    newPortfolio = function () {
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_edit',
+            module : "portfolio_edit",
+            caption : "New Portfolio",
+            data : {
+            },
+    
+            events : {
+                edit : (portfolio) => {
+                    this.router.push('portfolio/' + portfolio.id)
+                }
+            }
+        })
+    }
+
+    newClient = function () {
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_client_edit',
+            module : "client_edit",
+            caption : "Edit client",
+    
+            data : {
+            },
+    
+            events : {
+                success : (data) => {
+                    this.router.push('portfolio/' + data.ID)
+                }
             }
         })
     }

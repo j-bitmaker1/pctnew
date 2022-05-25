@@ -28,6 +28,8 @@ export default {
     methods : {
         set : function(v){
             this.$store.commit('theme', v)
+
+            this.core.user.activity.template('action', this.core.user.activity.actions.themeToggle())
         }
     },
 }

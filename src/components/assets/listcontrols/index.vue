@@ -1,7 +1,7 @@
 <template>
 <div class="listcontrols">
     <div class="searchWrapper">
-        <search @search="search" :value="searchvalue"/>
+        <search @search="search" :value="searchvalue" :activity="activity"/>
     </div>
 
     <div class="sortWrapper">

@@ -12,8 +12,11 @@ var User = function ({
     wss,
     pct, 
     crm,
-    vxstorage
+    vxstorage,
+    i18n
 }) {
+
+    console.log('i18n', i18n)
 
     var self = this
 
@@ -35,7 +38,8 @@ var User = function ({
 
     self.activity = new Activity({
         api,
-        user : self
+        user : self,
+        i18n
     })
 
     var state = {

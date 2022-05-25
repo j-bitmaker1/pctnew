@@ -15,6 +15,7 @@ class Core {
         if(!p) p = {}
 
         this.vxstorage = p.vxstorage
+        this.i18n = p.i18n
 
         this.apiHandlers = {
             error : function(){},

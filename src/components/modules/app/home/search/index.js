@@ -17,7 +17,7 @@ export default {
         return {
             loading : false,
             searchvalue : '',
-
+            actions : {},
             fromsearch : {}
         }
 
@@ -32,6 +32,15 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+
+        mix : function(){
+
+            return {
+                ...this.fromsearch,
+                ...this.actions
+            }
+
+        }
     }),
 
     methods : {
@@ -40,14 +49,15 @@ export default {
         },
         search : function(v){
             this.searchvalue = v
+            this.actions = {}
 
             if (this.searchvalue){
                 this.loading = true
+
                 this.core.api.common.search(this.searchvalue).then(r => {
 
                     this.fromsearch = {}
                    
-
                     _.each(r, (objects, i) => {
 
                         if(objects.length){
@@ -66,9 +76,22 @@ export default {
                         }
                         
                     })
+
                 }).finally(() => {
                     this.loading = false
                 })
+
+                var actions = this.core.user.activity.getactions(this.searchvalue)
+
+                console.log('actions', actions) 
+
+                if(actions && actions.length){
+                    this.actions = {}
+
+                    _.each(actions, (a) => {
+                        this.actions[a.type || "setting"] = a
+                    })
+                }
 
             }
 

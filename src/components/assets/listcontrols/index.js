@@ -9,7 +9,8 @@ export default {
             type : Object,
             default : () => {}
         },
-        sortvalue : String
+        sortvalue : String,
+        activity : String
     },
 
     data : function(){

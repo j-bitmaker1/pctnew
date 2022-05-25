@@ -1,16 +1,15 @@
 <template>
-  <div class="page">   
+<div class="page">
 
-	<topheader back="back"/>
+    <topheader back="back" />
 
-	<maincontent>
-	  <template v-slot:content>
-		<changepassword />
-	  </template>
-	</maincontent>
+    <maincontent>
+        <template v-slot:content>
+            <changepassword />
+        </template>
+    </maincontent>
 
-	
-  </div>
+</div>
 </template>
 
 <style scoped lang="sass">
@@ -21,21 +20,22 @@
 import changepassword from "@/components/common/changepassword/index.vue";
 
 export default {
-  name: 'changepassword_page',
-  components: {
-	changepassword
-  },
+    name: 'changepassword_page',
+    components: {
+        changepassword
+    },
 
-  computed:{
-   
-  },
+    computed: {
 
-  methods : {
-   
-  },
+    },
 
-  mounted() {
-	
-  }
+    methods: {
+
+    },
+
+    mounted() {
+
+        this.core.user.activity.template('action', this.core.user.activity.actions.changePassword())
+    }
 }
 </script>

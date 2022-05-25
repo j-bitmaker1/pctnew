@@ -61,7 +61,7 @@ class Templates {
     searching({type, value}){
         var a = {}
 
-        a.key = 'search' + type + value
+        a.key = value
         a.type = 'search'
         a.data = {
             search : {type, value}
@@ -99,15 +99,119 @@ class Templates {
         return a
 
     }
+
+    action({type, subtype, component, action, link, data = {}}){
+
+        if(!type) type = 'setting'
+
+        var a = {
+            type, component, action, data,
+            link,
+            key : type + subtype,
+            index :  type + subtype
+        }
+
+        return a
+    }
+
+
+}
+
+class Actions {
+    constructor () {
+        this.keys = ['themeToggle', 'changePassword', 'scenarioManager', 'newPortfolio', 'newClient']
+    }
+
+    themeToggle() {
+        return {
+            component : 'themeToggle',
+            type : 'setting',
+            subtype : 'theme',
+
+            data : {
+                label : "labels.theme",
+                type : "labels.usersettings"
+            }
+        }
+    }
+
+    changePassword() {
+        return {
+            type: 'setting',
+            subtype: 'changepassword',
+            link : "changepassword",
+    
+         
+            data : {
+                label : 'common.2901009',
+                type : 'labels.usersettings'
+            }
+        }
+    }
+
+    scenarioManager () {
+        return {
+            type: 'setting',
+            subtype: 'scenarioManager',
+
+
+            action : {
+                vueapi : 'scenarioManager'
+            },
+
+            data : {
+                label : 'labels.scenarioManager',
+                type : 'labels.crashtestSettings'
+            }
+        }
+    }
+
+    newPortfolio () {
+        return {
+            type: 'action',
+            subtype: 'newPortfolio',
+
+
+            action : {
+                vueapi : 'newPortfolio'
+            },
+
+            data : {
+                label : 'labels.newPortfolio',
+                type : 'labels.actions'
+            }
+        }
+    }
+
+    newClient () {
+        return {
+            type: 'action',
+            subtype: 'newClient',
+
+         
+            action : {
+                vueapi : 'newClient'
+            },
+
+            data : {
+                label : 'labels.newClient',
+                type : 'labels.actions'
+            }
+        }
+    }
+
+    
 }
 
 class Activity {
-    constructor({api, user}){
+    constructor({api, user, i18n}){
         this.api = api
         this.user = user
         this.history = []
+        this.i18n = i18n
 
         this.templates = new Templates()
+        this.actions = new Actions()
 
         this.key = 'activity'
     }
@@ -155,15 +259,17 @@ class Activity {
     }
 
     add({
-        type, link, key, search, data
+        type, link, key, search, data, action, component, index
     }){
-        if(!type || !link || !data || !key) return Promise.reject('parameters {type, link, key, data}')
+        if(!type || !data || !key) return Promise.reject('parameters {type, key, data}')
 
         this.history = _.filter(this.history, (h) => {
-            return h.type != type || h.key != key
+            return !(h.type == type && h.key == key && 
+                (type != 'search' || key.indexOf(h.key) > -1) 
+            )
         })
 
-        this.history.unshift({type, link, key, search, data, date : new Date(), index : type + key})
+        this.history.unshift({type, component, link, key, search, data, date : new Date(), index : index || (type + key), action})
 
         this.history = _.first(this.history, 300)
 
@@ -176,14 +282,34 @@ class Activity {
         })
     }
 
-    search(value){
+    search(value, activity){
 
-        return f.clientsearch(value, this.history, (h) => {
+        return f.clientsearch(value, activity || this.history, (h) => {
             if(h.search){
                 return h.search
             }
+            else{
+                if (h.data && h.data.label && h.data.type){
+                    return this.i18n.t(h.data.label) + " " + this.i18n.t(h.data.type)
+                }
+            }
+        })
+    }
+
+    getactions(value){
+        var actions = _.map(this.actions.keys, (f) => {
+            return this.templates['action'](this.actions[f]()) 
         })
 
+        
+
+        console.log('actions', actions)
+
+        if(!value){
+            return actions
+        }
+
+        return this.search(value, actions)
     }
 }
 

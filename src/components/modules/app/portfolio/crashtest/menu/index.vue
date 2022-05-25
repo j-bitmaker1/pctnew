@@ -49,6 +49,9 @@ export default {
 
     methods: {
         scenarioManager: function () {
+
+            this.core.user.activity.template('action', this.core.user.activity.actions.scenarioManager())
+
 			this.core.vueapi.scenarioManager((scenarios) => {
 				
 			})

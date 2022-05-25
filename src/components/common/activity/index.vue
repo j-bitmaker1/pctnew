@@ -1,7 +1,7 @@
 <template>
 <div id="activity">
 
-    <listgroupedsliced :group="mixgrouped" :count="4">
+    <listgroupedsliced :group="mixgrouped" :count="3">
 
         <template v-slot:group="slotProps">
             <div class="groupCaption mobp">

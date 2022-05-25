@@ -43,6 +43,8 @@ export default {
         this.get()
 
         this.usekeyscenarios = this.usekeyscenariosSetting
+
+        
     },
 
     watch: {

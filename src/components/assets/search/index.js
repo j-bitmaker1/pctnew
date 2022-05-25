@@ -34,6 +34,13 @@ export default {
 
         var text = this.searchTxt
         this.$emit('search', text)
+
+        if(this.activity && text){
+          this.core.user.activity.template('searching', {
+            type : this.activity,
+            value : text
+          })
+        }
   
       }, 500)
     },
@@ -55,12 +62,7 @@ export default {
     change : function(event){
       this.searchTxt = event.target.value
 
-      if(this.activity && this.this.searchTxt){
-        this.core.user.activity.template('searching', {
-          type : this.activity,
-          value : this.searchTxt
-        })
-      }
+      
     },
 
     clear : function(event){

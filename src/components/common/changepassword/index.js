@@ -21,7 +21,7 @@ export default {
 	},
 
 	created : function(){
-	  
+		
 	},
 
 	watch: {

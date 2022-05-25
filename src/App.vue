@@ -317,7 +317,7 @@ export default {
     created() {
         this.$store.commit("clearall");
 
-        core = new Core(this, {vxstorage});
+        core = new Core(this, {vxstorage, i18n});
 
         core.init();
 

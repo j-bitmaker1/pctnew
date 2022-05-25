@@ -1,26 +1,32 @@
 #themeToggle
-    display: block
-    overflow: hidden
-    border-radius: 3 * $r
-    background: srgb(--background-main)
-    width: 11 * $r
-    padding : 0.5 * $r
-    color : srgb(--neutral-grad-3)
-    font-size: 0.8em
-        
-    div
-        overflow: hidden
+    display: flex
+    align-items: center
 
-    i
+    .label
+        margin-left: $r
+    .tgl
         display: block
-        float: left
-        width: 5 * $r
-        height: 4 * $r
-        line-height: 4 * $r
+        overflow: hidden
         border-radius: 3 * $r
-        text-align: center
-        margin : 0
+        background: srgb(--background-main)
+        width: 11 * $r
+        padding : 0.5 * $r
+        color : srgb(--neutral-grad-3)
+        font-size: 0.8em
+            
+        div
+            overflow: hidden
 
-        &.active
-            +shadowSmallerss()
-            background: srgb(--background-total-theme)
+        i
+            display: block
+            float: left
+            width: 5 * $r
+            height: 4 * $r
+            line-height: 4 * $r
+            border-radius: 3 * $r
+            text-align: center
+            margin : 0
+
+            &.active
+                +shadowSmallerss()
+                background: srgb(--background-total-theme)
