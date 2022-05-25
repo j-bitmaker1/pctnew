@@ -1,7 +1,5 @@
 <template>
-<span class="value" :style="{color : color}">
-    {{formatted}}
-</span>
+<span class="value" :style="{color : color}">{{formatted}}</span>
 </template>
 
 <script>

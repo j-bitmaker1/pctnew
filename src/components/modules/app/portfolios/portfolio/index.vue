@@ -22,7 +22,7 @@
 
 		<div class="assetsClList">
 			
-			<div class="ticker" v-if="i < 5" v-for="(asset, i) in portfolio.positions">
+			<div class="ticker" :uncovered="!asset.isCovered" v-if="i < 5" v-for="(asset, i) in portfolio.positions">
 				<span>{{asset.ticker}}</span>
 			</div>
 			<div class="clientrow" v-if="showClient && profile">

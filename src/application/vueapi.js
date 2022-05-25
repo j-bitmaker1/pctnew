@@ -24,7 +24,9 @@ class Vueapi {
                     context : 'client',
                     filter : p.filter,
                     disabled : p.one ? true : false
-                }
+                },
+
+                hasmenu : false
             },
 
             events : {
@@ -74,7 +76,9 @@ class Vueapi {
                     context : "portfolio",
                     filter : p.filter,
                     disabled : p.one ? true : false
-                }
+                },
+
+                hasmenu : false
 
             },
     

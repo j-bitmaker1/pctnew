@@ -25,13 +25,21 @@
 	justify-content: space-between
 	align-items: center
 
+	.uncoveredwrapper,
 	.totalwrapper
 		margin-left: auto
 		padding-right: 2 * $r
 
+	.totalwrapper
 		span
 			font-size: 1.2em
 			font-weight: 100
+
+	.uncoveredwrapper
+		opacity: 0.6
+		span
+			font-size: 0.8em
+			
 
 .assetWrapper
 	margin-bottom: 10px
@@ -51,7 +59,9 @@
 		color : srgb(--neutral-grad-1)
 	
 
+.aggregatelist,
 .assetsList
+	margin-top: 3 * $r
 	margin-bottom: 3 * $r
 	overflow-x: scroll
 	scroll-snap-type: x mandatory
@@ -62,7 +72,7 @@
 		width: 110%
 
 .caption
-	padding : 2 * $r
+	padding : 0 2 * $r
 
 	span
 		font-weight: 700

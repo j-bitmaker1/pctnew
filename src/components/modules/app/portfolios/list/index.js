@@ -16,6 +16,11 @@ export default {
 					context : 'portfolio'
 				}
 			}
+		},
+
+		hasmenu : {
+			type : Boolean,
+			default : true
 		}
 	},
 

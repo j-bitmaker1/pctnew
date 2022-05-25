@@ -4,7 +4,8 @@ import assets from '@/components/modules/app/assets/list/index.vue'
 export default {
 	name: 'portfolio_assets',
 	props: {
-		assets : Array
+		assets : Array,
+		assetsinfo : Object
 	},
 
 	components : {

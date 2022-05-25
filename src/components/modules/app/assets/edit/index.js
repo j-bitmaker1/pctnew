@@ -6,7 +6,8 @@ export default {
     props: {
         ticker : String,
         name : String,
-        value : Number
+        value : Number,
+        isCovered : Boolean
     },
 
     data : function(){
@@ -14,8 +15,8 @@ export default {
         return {
             loading : false,
             namestring : '',
-            searchresult : []
-            
+            searchresult : [],
+            focused : false
         }
 
     },
@@ -25,22 +26,22 @@ export default {
     },
 
     watch: {
-        namestring : function(){
+        namestring : _.debounce(function(){
 
             if (this.namestring.length > 0 && this.namestring.length < 10){
                 this.search()
             }
 
-        }
+        })
     },
     computed: mapState({
         auth : state => state.auth,
     }),
 
     methods : {
-        namechange : _.debounce(function(e) {
+        namechange : function(e) {
             this.namestring = e.target.value
-        }),
+        },
 
         search : function(){
 
@@ -60,12 +61,20 @@ export default {
         },
 
         focus : function(){
+            this.focused = true
             this.search()
         },
 
         blur : function(){
+
+            this.focused = false
+
             setTimeout(e => {
                 this.searchresult = []
+
+                if(this.ticker){
+                    this.namestring = ''
+                }
             }, 200)
             
         },
@@ -73,12 +82,14 @@ export default {
         select : function(item){
 
             this.searchresult = []
-            this.namestring = ''
-
+            
             this.changed({
                 ticker : item.ticker,
-                name : item.name
+                name : item.name,
+                isCovered : true //// from search true
             })
+
+            this.namestring = ''
             
         },
 

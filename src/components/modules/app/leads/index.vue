@@ -6,7 +6,7 @@
 	<listpaginated context="leads" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
 		<template v-slot:default="slotProps">
 			<div class="cardWrapper mobp">
-				<lead :hasmenu="true" :profile="slotProps.item"  @open="open" @leadtocontact="leadtocontactClbk" @deletelead="deletelead"/>
+				<lead :hasmenu="hasmenu" :profile="slotProps.item"  @open="open" @leadtocontact="leadtocontactClbk" @deletelead="deletelead"/>
 			</div>
 		</template>
 	</listpaginated>

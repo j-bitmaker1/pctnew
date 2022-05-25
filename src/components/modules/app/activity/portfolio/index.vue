@@ -20,7 +20,7 @@
 	<div class="assets" >
 
 		<div class="assetsClList" @click="open">
-			<div class="ticker" :key="i" v-for="(asset, i) in portfolio.positions">
+			<div class="ticker" :uncovered="!asset.isCovered" :key="i" v-for="(asset, i) in portfolio.positions">
 				<span>{{asset.ticker}}</span>
 			</div>
 		</div>

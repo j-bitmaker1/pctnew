@@ -12,8 +12,10 @@ import serie from './serie/index.vue'
 export default {
 	name: 'allocation',
 	props: {
-		assets : Array
+		assets : Array,
 	},
+
+	
 
 	components : {
 		highcharts : Chart,
@@ -24,11 +26,11 @@ export default {
 
 		return {
 			loading : false,
-			activegrouping : 'group',
+			activegrouping : 'type',
 			groups : [
 				{
 					text : 'labels.bygroup',
-					id : 'group'
+					id : 'type'
 				},
 
 				{
@@ -39,7 +41,9 @@ export default {
 
 			chartcolors : ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757'],
 
-			drilldown : null
+			drilldown : null,
+
+			assetsinfo : {}
 		}
 
 	},
@@ -51,8 +55,13 @@ export default {
 	},
 
 	watch: {
-		//$route: 'getdata'
-	},
+        assets : {
+            immediate : true,
+            handler : function() {
+                this.get()
+            }
+        }
+    },
 	computed: mapState({
 		auth : state => state.auth,
 
@@ -73,7 +82,14 @@ export default {
 
 		grouped : function(){
 			return f.group(this.joined, (a) => {
-				return a[this.activegrouping] || 'Other'
+
+				var info = this.assetsinfo[a.ticker]
+
+				console.log('this.assetsinfo', this.assetsinfo)
+
+				if(!info) return "Not covered"
+
+				return info[this.activegrouping] || 'Other'
 			})
 		},
 
@@ -196,6 +212,13 @@ export default {
 		drilldownevent : function(e){
 
 			this.drilldown = e.seriesOptions
-		}
+		},
+
+		get : function(){
+			this.core.pct.assets(this.assets).then(r => {
+				this.assetsinfo = r
+				return Promise.resolve(r)
+			})
+		},
 	},
 }

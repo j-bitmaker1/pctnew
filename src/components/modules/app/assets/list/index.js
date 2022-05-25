@@ -15,23 +15,34 @@ export default {
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            assetsinfo : {}
         }
 
     },
 
-    created : () => {
+    created(){
 
     },
 
     watch: {
-        //$route: 'getdata'
+        assets : {
+            immediate : true,
+            handler : function() {
+                this.get()
+            }
+        }
     },
     computed: mapState({
         auth : state => state.auth,
     }),
 
     methods : {
-        
+        get : function(){
+			this.core.pct.assets(this.assets).then(r => {
+				this.assetsinfo = r
+				return Promise.resolve(r)
+			})
+		},
     },
 }

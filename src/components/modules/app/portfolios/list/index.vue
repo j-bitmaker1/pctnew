@@ -11,7 +11,7 @@
 	<listpaginated :select="select" :api="api" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
 		<template v-slot:default="slotProps">
 			<div class="cardWrapper mobp">
-				<portfolio :showClient="showClient" @changeClient="changeClient" :hasmenu="!select" :portfolio="slotProps.item" @click="open" @deleteportfolio="deleteportfolio"/>
+				<portfolio :showClient="showClient" @changeClient="changeClient" :hasmenu="hasmenu" :portfolio="slotProps.item" @click="open" @deleteportfolio="deleteportfolio"/>
 			</div>
 		</template>
 	</listpaginated>

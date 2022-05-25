@@ -25,9 +25,19 @@ class Portfolio {
         if(!this.positions) return 0
 
         return _.reduce(this.positions, (m, p) => {
-            return m + p.value
+
+            return p.isCovered ? m + p.value : m
+
+        }, 0)
+
+    }
+
+    uncovered = function(){
+        return _.reduce(this.positions, (m, p) => {
+            return !p.isCovered ? m + p.value : m
         }, 0)
     }
+    
 }
 
 export {

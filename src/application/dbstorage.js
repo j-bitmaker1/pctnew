@@ -107,10 +107,6 @@ const dbstorage = function(storageName, version, time) {
             })
         }
 
-     
-
-           
-
         /**
          * Function removes items cached
          * in IndexedDB 30 days ago
@@ -188,16 +184,13 @@ const dbstorage = function(storageName, version, time) {
                     if (item.invalidate){
                         if(item.invalidate.index == index && item.invalidate.type == type){
 
-                            console.log(item.cachedAt, updated)
-
                             if(item.cachedAt < updated){
+                                console.log("INVALIDATE", index, type)
                                 needToClear.push(itemid)
                             }
                         }
                     }   
                 })
-
-                console.log('needToClear', needToClear)
 
                 return this.clearItems(needToClear)
             },

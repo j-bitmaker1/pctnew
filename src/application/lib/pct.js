@@ -1,5 +1,5 @@
 import f from '@/application/functions'
-import _ from "underscore"
+import _, { isObject } from "underscore"
 
 import Capacity from "./capacity";
 import Riskscore from "./riskscore";
@@ -469,6 +469,33 @@ class PCT {
 
 
             return Promise.resolve(filtered)
+        })
+    }
+
+    assets = function(tickers){
+
+        if(!_.isArray(tickers) && tickers.positions) tickers = tickers.positions
+
+        var t = _.filter(_.map(tickers, (t) => {
+            if(isObject(t)) {
+
+                //if(!t.isCovered) return null ///TODO
+
+                return t.ticker
+            }
+
+            return t
+        }), (t) => {return t})
+
+        return this.api.pctapi.assets.info(t).then(r => {
+
+            var mapped = {}
+
+            _.each(r, (a) => {
+                mapped[a.ticker] = a
+            })
+
+            return Promise.resolve(mapped)
         })
     }
 

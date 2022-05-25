@@ -29,21 +29,11 @@ class VXStorage {
 
     invalidateDb(obj, type){
 
-        console.log('invalidateDb', obj, type)
 
         if(this.storage[type].invalidateDb && this.core.invalidateDb){
 
-            console.log('obj[this.index(type)].updated', obj[this.index(type)])
-
             if (obj[this.index(type)] && obj.updated){
                 _.each(this.storage[type].invalidateDb, (dbindex) => {
-
-                    console.log(dbindex, obj.updated, {
-
-                        type,
-                        index : obj[this.index(type)]
-
-                    })
 
                     this.core.invalidateDb(dbindex, obj.updated, {
 

@@ -1,14 +1,14 @@
 <template>
 <div class="assets_edit">
 
-    <div class="ticker" v-if="ticker">
+    <div class="ticker" v-if="ticker" :uncovered="!isCovered">
         <span>{{ticker}}</span>
     </div>
 
     <div class="assets_inputs">
 
         <div class="name">
-            <input ref="nameinput" @focus="focus" @blur="blur" :value="namestring || name" @keyup="namechange" @change="namechange" placeholder="Enter asset name or ticker" />
+            <input ref="nameinput" @focus="focus" @blur="blur" :value="focused ? namestring : (namestring || name)" @keyup="namechange" @change="namechange" :placeholder="ticker && !isCovered ? 'Not covered' : 'Enter asset name or ticker'" />
         </div>
 
         <div class="value">
@@ -20,8 +20,10 @@
                 <template v-slot:default="slotProps">
 
                     <div class="assets_fromsearch">
-                        <div class="ticker">
-                            <span>{{slotProps.item.ticker}}</span>
+                        <div class="twrapper">
+                            <div class="ticker">
+                                <span>{{slotProps.item.ticker}}</span>
+                            </div>
                         </div>
                         <div class="name">
                             <span>{{slotProps.item.name}}</span>

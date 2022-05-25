@@ -7,7 +7,7 @@
 
         <slot name="extra"></slot>
 
-        <div class="ticker">
+        <div class="ticker" :uncovered="!asset.isCovered">
             <span>{{asset.ticker}}</span>
         </div>
 
@@ -18,7 +18,7 @@
     </div>
 
     <div class="name">
-        <span v-if="asset.name">{{asset.name}}</span>
+        <span v-if="/*asset.isCovered && */info.name">{{info.name}}</span>
         <span v-else>Not covered</span>
     </div>
 

@@ -7,7 +7,12 @@ export default {
 	name: 'app_leads',
 	props: {
 		actions : Array,
-		select : Object
+		select : Object,
+
+		hasmenu : {
+			type : Boolean,
+			default : true
+		}
 	},
 
 	components : {lead},

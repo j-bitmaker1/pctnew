@@ -51,13 +51,24 @@ export default {
 	},
 
 	watch: {
-		//$route: 'getdata'
-	},
+        assets : {
+            immediate : true,
+            handler : function() {
+                this.getassetsinfo()
+            }
+        }
+    },
 	computed: mapState({
 		auth : state => state.auth,
 		total : function(){
 			return _.reduce(this.assets, (m, asset) => {
 				return m + asset.value
+			}, 0)
+		},
+
+		uncovered : function(){
+			return _.reduce(this.assets, (m, asset) => {
+				return !asset.isCovered ? (m + asset.value) : m
 			}, 0)
 		},
 		extended : function(){
@@ -88,6 +99,13 @@ export default {
 	}),
 
 	methods : {
+		getassetsinfo : function(){
+			/*this.core.pct.assets(this.assets).then(r => {
+				this.assetsinfo = r
+				return Promise.resolve(r)
+			})*/
+		},
+
 		datahash : function(){
 
 			return sha1(this.name + JSON.stringify(_.map(this.assets, (asset) => {
@@ -157,8 +175,6 @@ export default {
 
 			if(this.edit){
 
-				
-
 				action = this.core.api.pctapi.portfolios.update({
 					
 					... data
@@ -206,7 +222,8 @@ export default {
 					this.assets.push({
 						ticker : v.ticker,
 						name : v.name,
-						value : v.value || 0
+						value : v.value || 0,
+						isCovered : v.isCovered
 					})
 			}
 			else{

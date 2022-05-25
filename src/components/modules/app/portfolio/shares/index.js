@@ -48,7 +48,8 @@ export default {
 			navkey : 's',
 			navdefault : 'assets',
 
-			assets : []
+			assets : [],
+			assetsinfo : {}
 		}
 
 	},
@@ -74,17 +75,17 @@ export default {
 		get : function(){
 
 			this.assets = this.portfolio.positions /// todo get assets extended request
+			
+			this.loading = true
 
-			/*this.loading = true
+			this.core.pct.assets(this.portfolio).then(r => {
 
-			this.core.pct.getassets().then(r => {
-
-				this.assets = r
+				this.assetsinfo = r
 
 				return Promise.resolve(r)
 			}).finally(() => {
 				this.loading = false
-			})*/
+			})
 		},
 
 	},

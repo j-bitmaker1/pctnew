@@ -183,17 +183,22 @@ var ApiWrapper = function (core) {
 			return {
 				storage : 'stress',
 				time : 60 * 60 * 48,
-
-				
 			}
 		},
 
 		system : function(){
 			return {
 				storage : 'system',
-				time : 60 * 60 * 48 
+				time : 60 * 60 * 148 
 			}
-		}
+		},
+
+		financial: function(){
+			return {
+				storage : 'financial',
+				time : 60 * 60 * 248 
+			}
+		},
 	}
 
 	var requests = {
@@ -483,6 +488,92 @@ var ApiWrapper = function (core) {
 
 	}
 
+	var dbdividerequest = function(data, system, to, p = {}){
+
+		if(!p.storageparameters) return Promise.reject('p.storageparameters')
+		if(!p.storageparameters.divide) return Promise.reject('p.storageparameters.divide')
+
+		var ids = data[p.storageparameters.divide.requestIndex]
+
+		return getstorage(p.storageparameters).then(storage => {
+
+
+			var loaded = {}
+			var needtoload = []
+
+			return Promise.all(
+
+				_.map(ids, (id) => {
+
+					console.log("id", id)
+
+					return storage.get(id).catch(e => {
+						return Promise.resolve()
+					}).then(r => {
+
+						console.log("res", id, r)
+
+						if(r) {
+							loaded[id] = r
+						}
+						else{
+							needtoload.push(id)
+						}
+
+						return Promise.resolve()
+					})
+				})
+
+			).then(() => {
+
+				console.log('needtoload', needtoload)
+
+				if(!needtoload.length){
+					return f.ep()
+				}
+
+				data[p.storageparameters.divide.requestIndex] = needtoload
+
+				return request(data, system, to, p).then(r => {
+					var data = r
+
+					if(p.storageparameters.divide.path) data = f.deep(r, p.storageparameters.divide.path)
+
+					_.each(data, (obj) => {
+
+						var index = obj[p.storageparameters.divide.getloaded]
+
+						console.log('index', index, obj)
+
+						if (index){
+							loaded[index] = obj
+
+							storage.set(index, obj).catch(e => {
+								console.log('e', e)
+							})
+						}
+
+						
+					})
+
+					return Promise.resolve()
+				})
+			}).then(() => {
+				var result = {}
+
+				if (p.storageparameters.divide.path)
+					f.deepInsert(result, p.storageparameters.divide.path, _.toArray(loaded))
+				else
+					result = loaded
+
+				return Promise.resolve(result)
+			})
+
+		})
+
+		
+	}
+
 	var dbrequest = function(data, system, to, p){
 
 		var _storage = null
@@ -497,6 +588,8 @@ var ApiWrapper = function (core) {
 					return Promise.resolve()
 				})
 			}
+
+			
 			return Promise.resolve()
 
 		}).then(cached => {
@@ -966,10 +1059,31 @@ var ApiWrapper = function (core) {
 
 				d.count || (d.count = 7)
 
-				p.storageparameters = dbmeta.system()
+				p.storageparameters = dbmeta.financial()
 				p.method = "POST"
 
 				return dbrequest(d, 'pctapi', 'Assets/IncrementalSearch', p).then(r => {
+
+					return Promise.resolve(r.records)
+				})
+			},
+
+			info : function(tickers, p = {}){
+				p.storageparameters = dbmeta.financial()
+
+				p.storageparameters.divide = {
+					requestIndex : 'tickers',
+					getloaded : 'ticker',
+					path : 'records'
+				}
+
+				p.method = "POST"
+
+				var d = {
+					tickers
+				}
+
+				return dbdividerequest(d, 'pctapi', 'Assets/GetAssetsInfo', p).then(r => {
 
 					return Promise.resolve(r.records)
 				})

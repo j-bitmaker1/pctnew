@@ -60,6 +60,13 @@
 			</div>
 		</div>
 
+		<div class="captionRow"  v-if="uncovered">
+			
+			<div class="uncoveredwrapper">
+				<span>Not covered:</span> <value :value="uncovered" mode="auto"/>
+			</div>
+		</div>
+
 		<div class="assetsList" ref="assetsList">
 			<div class="assetsListWrapper">
 				<list :items="extended">
@@ -68,7 +75,7 @@
 							<div class="remove" @click="remove(slotProps.index)">
 								<i class="fas fa-times-circle"></i> 
 							</div>
-							<assetsEdit :ref="slotProps.index" :name="slotProps.item.name" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
+							<assetsEdit :ref="slotProps.index" :name="slotProps.item.name" :isCovered="slotProps.item.isCovered" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
 						</div>
 					</template>
 				</list>
