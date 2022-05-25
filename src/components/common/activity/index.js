@@ -47,6 +47,13 @@ export default {
 
         },
 
+        empty : function(){
+            if(_.isEmpty(this.mixgrouped)) return true
+
+            return null
+        },
+
+
         mixgrouped : function(){
 
             var mixed = {}
@@ -106,7 +113,7 @@ export default {
         },
 
         open : function(item){
-            console.log('item', item)
+
             if (item.link){
                 this.$router.push(item.link)
 

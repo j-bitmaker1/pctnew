@@ -297,6 +297,8 @@
 		"search" : "Recent Searches",
 		"setting" : "Settings",
 		"actions" : "Actions",
+		"empty" : "Search result is empty",
+		"totalEmpty" : "Activity history is empty",
 		"searches" : {
 			"client" : "By clients",
 			"portfolio" : "By portfolios",

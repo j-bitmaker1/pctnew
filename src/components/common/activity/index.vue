@@ -1,6 +1,11 @@
 <template>
 <div id="activity">
 
+    <div class="empty" v-if="empty">
+        <span v-if="searchvalue">{{$t('activity.empty')}}</span>
+        <span v-else>{{$t('activity.totalEmpty')}}</span>
+    </div>
+
     <listgroupedsliced :group="mixgrouped" :count="3">
 
         <template v-slot:group="slotProps">
