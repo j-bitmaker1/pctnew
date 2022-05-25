@@ -1067,7 +1067,11 @@ var ApiWrapper = function (core) {
 							[updated.catalogId, from.catalogId], 
 							['filesystem']
 						)
+
+						core.user.activity.template('portfolio', updated)
 					}
+
+					
 					
 
 					return Promise.resolve(r)
@@ -1142,6 +1146,8 @@ var ApiWrapper = function (core) {
 							status : "DELETED",
 							id
 						}, 'portfolio')
+
+						core.user.activity.remove('portfolio', id)
 
 						if (updated){
 							core.vxstorage.invalidateManyQueue(
@@ -1252,6 +1258,9 @@ var ApiWrapper = function (core) {
 
 					core.vxstorage.update(data, 'client')
 					core.vxstorage.update(data, 'lead')
+
+					core.user.activity.remove('client', data.ID)
+					core.user.activity.remove('lead', data.ID)
 
 					return Promise.resolve(r)
 				})
@@ -1441,6 +1450,8 @@ var ApiWrapper = function (core) {
 					[from], 
 					['filesystem']
 				)
+
+				
 
 				return self.pctapi.portfolios.delete([id], p)
 			}

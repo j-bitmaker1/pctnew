@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-	<topheader back="/portfolios" :gray="true">
+	<topheader back="back" :gray="true">
 		<template v-slot:info>
 
 			<div class="captionsl">

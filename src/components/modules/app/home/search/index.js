@@ -42,9 +42,11 @@ export default {
             this.searchvalue = v
 
             if (this.searchvalue){
+                this.loading = true
                 this.core.api.common.search(this.searchvalue).then(r => {
 
                     this.fromsearch = {}
+                   
 
                     _.each(r, (objects, i) => {
 
@@ -53,12 +55,19 @@ export default {
 
                             _.each (objects, (obj) => {
                                 if (this.core.user.activity.templates[i]){
-                                    this.fromsearch[i].push(this.core.user.activity.templates[i](obj))
+
+                                    var t = this.core.user.activity.templates[i](obj)
+
+                                    t.index = i + t.key
+
+                                    this.fromsearch[i].push(t)
                                 }
                             })
                         }
                         
                     })
+                }).finally(() => {
+                    this.loading = false
                 })
 
             }
@@ -67,6 +76,10 @@ export default {
                 this.fromsearch = {}
             }
            
+        },
+
+        reload : function(){
+            this.$refs.activity.reload()
         }
     },
 }

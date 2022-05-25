@@ -5,23 +5,33 @@
 			<div class="name"><span>{{portfolio.name}}</span></div> 
 		</div>
 
-		<div class="actions">
-			<slot name="actions"></slot>
-		</div>
+		
 
-		<div class="assets" @click="open">
-
-			<div class="assetsClList">
-				<div class="ticker" :key="i" v-if="i < 5" v-for="(asset, i) in portfolio.positions">
-					<span>{{asset.ticker}}</span>
-				</div>
-			</div>
-		</div>
+		
 
 		<div class="total" @click="open">
 			<value :value="total" mode="d" />
 		</div>
 
+		
+
+	</div>
+
+	<div class="assets" >
+
+		<div class="assetsClList" @click="open">
+			<div class="ticker" :key="i" v-for="(asset, i) in portfolio.positions">
+				<span>{{asset.ticker}}</span>
+			</div>
+		</div>
+
+		<div class="actions">
+			<div class="action" v-for="action in actions" :key="action.route">
+				<router-link :to="action.route">
+					<i :class="action.icon" />
+				</router-link>
+			</div>
+		</div>
 	</div>
 
 	
@@ -29,13 +39,16 @@
 </template>
 
 <style scoped lang="sass">
+.activity_portfolio
+	border-bottom: 1px solid srgb(--neutral-grad-0)
+	padding : 2 * $r 0
+
 .namerow
 	display: flex
 	align-content: space-between
 	align-items: center
-	padding : 2 * $r 0
-	padding-left: $r
-	border-bottom: 1px solid srgb(--neutral-grad-0)
+	
+	
 
 	.namewrapper
 		flex-grow: 2
@@ -46,8 +59,6 @@
 		margin-left: auto
 
 	.total
-		padding-right: $r
-
 		span
 			font-size: 1.1em
 			font-weight: 700
@@ -56,16 +67,23 @@
 	display: flex
 	flex-wrap: nowrap
 	align-content: space-between
-	align-items: flex-start
+	align-items: center
 	grid-gap: $r
-	margin-right: 2 * $r
+	overflow-x: auto
+	margin-top: 2 * $r
+	&::-webkit-scrollbar
+		display: none
 
 	.assetsClList
 		display: flex
-		flex-wrap: wrap
+		flex-wrap: nowrap
 		align-content: space-between
 		align-items: center
 		grid-gap: $r
+
+		.ticker
+			overflow: hidden
+			text-overflow: ellipsis
 
 </style>
 
@@ -87,6 +105,25 @@ export default {
 				return m + p.value
 			}, 0)
 		},
+
+		actions : function(){
+			return [
+				{
+					icon : 'fas fa-chart-pie',
+					route : 'portfolio/' + this.portfolio.id + '?p=shares&s=allocation'
+				},
+
+				{
+					icon : 'fas fa-chart-area',
+					route : 'portfolio/' + this.portfolio.id + '?p=shares&s=distribution'
+				},
+				{
+					icon : 'fas fa-chart-bar',
+					route : 'portfolio/' + this.portfolio.id + '?p=crashtest'
+				},
+
+			]
+		}
 	}),
 
 	methods: {

@@ -20,13 +20,14 @@ export default {
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            history : []
         }
 
     },
 
-    created : () => {
-
+    created(){
+        this.history = this.core.user.activity.history
     },
 
     watch: {
@@ -34,10 +35,6 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
-
-        history : function(){
-            return this.core.user.activity.history
-        },
 
         grouped : function(){
           
@@ -69,11 +66,13 @@ export default {
                 })
             })
 
+            console.log('mixed', mixed)
+
             return mixed
         },
 
         filtered : function(){
-            var h = this.core.user.activity.history
+            var h = this.history
 
             if (this.searchvalue){
                 h = this.core.user.activity.search(this.searchvalue)
@@ -84,6 +83,10 @@ export default {
     }),
 
     methods : {
+        reload : function(){
+
+            this.history = this.core.user.activity.history
+        },
         getmodule : function(item){
 
             if(item.type == 'portfolio') return portfolio

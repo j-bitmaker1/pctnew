@@ -1,22 +1,33 @@
 <template>
 <div class="page">
 
-	<topheader back="/">
-		<template v-slot:info>
-			<span>Explore</span>
-		</template>
-		<template v-slot:right>
+    <topheader back="/">
+        <template v-slot:info>
+            <span>Explore</span>
+        </template>
+        <template v-slot:right>
+            <tooltip>
+                <template v-slot:item>
+                    <div class="buttonpanel">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </div>
+                </template>
 
-		</template>
-	</topheader>
+                <template v-slot:content="i">
+                    <listmenu :items="menu" :close="i.close" />
+                </template>
 
-	<maincontent>
+            </tooltip>
+        </template>
+    </topheader>
 
-		<template v-slot:content>
-            <homesearch />
-		</template>
+    <maincontent>
 
-	</maincontent>
+        <template v-slot:content>
+            <homesearch ref="homesearch" />
+        </template>
+
+    </maincontent>
 
 </div>
 </template>
@@ -26,25 +37,40 @@
 </style>
 
 <script>
-
 import homesearch from "@/components/modules/app/home/search/index.vue";
 
 export default {
-	name: 'explore_page',
-	components: {
+    name: 'explore_page',
+    components: {
         homesearch
-	},
+    },
 
-	computed: {
+    computed: {
+        menu: function () {
+            return [{
+                text: 'labels.clearHistory',
+                icon: 'fas fa-trash',
+                action: this.clearHistory
+            }]
+        }
+    },
 
-	},
+    methods: {
+        clearHistory: function () {
 
-	methods: {
+            console.log('clearHistory')
 
-	},
+            this.core.user.activity.clear().then(r => {
+                this.$refs.homesearch.reload()
+            }).catch(e => {
+                console.error(e)
+            })
 
-	mounted() {
+        }
+    },
 
-	}
+    mounted() {
+
+    }
 }
 </script>

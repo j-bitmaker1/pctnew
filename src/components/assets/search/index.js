@@ -10,13 +10,14 @@ export default {
       default: false
     },
 
+    loading : Boolean,
+    activity : String,
     value : String
   },
 
   data: function () {
 
     return {
-      loading: false,
       isTyping: false,
       searchTxt: ''
     }
@@ -53,6 +54,13 @@ export default {
   methods: {
     change : function(event){
       this.searchTxt = event.target.value
+
+      if(this.activity && this.this.searchTxt){
+        this.core.user.activity.template('searching', {
+          type : this.activity,
+          value : this.searchTxt
+        })
+      }
     },
 
     clear : function(event){

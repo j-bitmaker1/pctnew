@@ -10,8 +10,12 @@
 			<div class="email"><span>{{profile.Email}}</span></div>
 		</div>
 
-		<div class="actions">
-			<slot name="actions"></slot>
+		<div class="actions" v-if="actions">
+			<div class="action" v-for="action in actions" :key="action.route">
+				<router-link :to="action.route">
+					<i :class="action.icon" />
+				</router-link>
+			</div>
 		</div>
 
 		<!---->
@@ -23,7 +27,6 @@
 .profilerow
 	align-items: center
 	display: flex
-	padding-right: 2 * $r
 
 	.actions
 		margin-left: auto
@@ -58,6 +61,30 @@ export default {
 	},
 	computed: mapState({
 		auth: state => state.auth,
+
+		actions : function(){
+
+			if(this.profile.type == "LEAD") return
+
+			return [
+
+
+				{
+					icon : 'fas fa-info-circle',
+					route : 'client/' + this.profile.ID + '?p=info'
+				},
+
+				{
+					icon : 'fas fa-suitcase',
+					route : 'client/' + this.profile.ID + '?p=portfolios'
+				},
+				/*{
+					icon : 'fas fa-dollar-sign',
+					route : 'client/' + this.profile.ID + '?p=capacity'
+				},*/
+
+			]
+		}
 	}),
 
 	methods: {

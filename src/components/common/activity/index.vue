@@ -13,9 +13,6 @@
             <div class="act mobp">
 
                 <component @open="e => open(slotProps.item)" v-if="getmodule(slotProps.item)" :is="getmodule(slotProps.item)" v-bind="slotProps.item.data || {}">
-                    <template v-slot:actions="">
-                    </template>
-
                 </component>
 
                 <span v-else>{{slotProps.item.search}}</span>

@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-	<topheader :back="wnd ? '' : '/leads'" :gray="true">
+	<topheader :back="wnd ? '' : 'back'" :gray="true">
 		<template v-slot:info>
 			<div id="clientprofile">
 				<div class="userpicWrapper">

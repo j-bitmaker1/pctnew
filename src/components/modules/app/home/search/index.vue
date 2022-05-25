@@ -1,11 +1,11 @@
 <template>
     <div id="home_search">
         <div class="searchWrapper mobp">
-            <search @search="search" :value="searchvalue"/>
+            <search @search="search" :value="searchvalue" :loading="loading"/>
         </div>
 
         <div class="activityWrapper">
-            <activity :mixgroup="fromsearch" :searchvalue="searchvalue" @close="close"/>
+            <activity ref="activity" :mixgroup="fromsearch" :searchvalue="searchvalue" @close="close"/>
         </div>
     </div>  
 </template>

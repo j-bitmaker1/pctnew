@@ -46,12 +46,30 @@ class Templates {
                 LName : client.LName,
                 Email : client.Email,
                 Zip : client.Zip,
-                ID : client.ID
+                ID : client.ID,
+                type : "CLIENT"
             }
         }
 
         a.link = 'client/' + client.ID
         a.search = [client.FName, client.LName, client.Email, client.Zip].join(' ')
+
+        return a
+
+    }
+
+    searching({type, value}){
+        var a = {}
+
+        a.key = 'search' + type + value
+        a.type = 'search'
+        a.data = {
+            search : {type, value}
+        }
+
+        a.action = {
+            search : value
+        }
 
         return a
 
@@ -70,7 +88,8 @@ class Templates {
                 LName : client.LName,
                 Email : client.Email,
                 Zip : client.Zip,
-                ID : client.ID
+                ID : client.ID,
+                type : "LEAD"
             }
         }
 
@@ -91,6 +110,13 @@ class Activity {
         this.templates = new Templates()
 
         this.key = 'activity'
+    }
+
+    clear(){
+        console.log("clear")
+        this.history = []
+
+        return this.save()
     }
 
     save() {
@@ -142,6 +168,12 @@ class Activity {
         this.history = _.first(this.history, 300)
 
         return this.save()
+    }
+
+    remove(type, key){
+        this.history = _.filter(this.history, (h) => {
+            return h.type != type || h.key != key
+        })
     }
 
     search(value){

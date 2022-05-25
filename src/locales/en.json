@@ -70,7 +70,8 @@
 		"moveitems" : "Move items",
 		"recoverportfolio" : "Recover portfolio",
 		"sharequestionnaire" : "Send personal questionnaire link",
-		"scenarioManager" : "Scenario Manager"
+		"scenarioManager" : "Scenario Manager",
+		"clearHistory" : "Clear history"
 	},
 
 	"caption" : {
