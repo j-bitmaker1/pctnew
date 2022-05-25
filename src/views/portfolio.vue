@@ -132,7 +132,7 @@ export default {
 					return Promise.resolve()
 				}
 
-			
+				this.core.user.activity.template('portfolio', this.portfolio)
 
 				return this.core.api.crm.contacts.gets({Ids : [r.crmContactId]}).then(c => {
 			

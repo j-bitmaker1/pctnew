@@ -130,6 +130,8 @@ export default {
 
 				this.profile = r
 
+				this.core.user.activity.template('lead', this.profile)
+
 
 				return Promise.resolve(r)
 			}).finally(() => {

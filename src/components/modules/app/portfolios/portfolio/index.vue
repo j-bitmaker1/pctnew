@@ -1,7 +1,6 @@
 <template>
 <div class="portfolios_portfolio" :class="{deleted : portfolio.status == 'DELETED'}">
 
-	
 
 
 	<div class="namerow">

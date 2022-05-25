@@ -5,7 +5,7 @@
 
 		<modal v-for="modal in modals" :key="modal.id" @close="e => close(modal.id)" :mclass="modal.mclass || ''" :module="modal.module" :data="modal.data || {}" :events="modal.events || {}">
 
-			<template v-slot:header>{{modal.caption}}</template>
+			<template v-slot:header><span>{{modal.caption}}</span></template>
 
 			<template v-slot:footer></template>
 

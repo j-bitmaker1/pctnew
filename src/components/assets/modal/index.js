@@ -17,7 +17,7 @@ import clients from "@/components/modules/app/clients/index.vue";
 import filesystem_edit from "@/components/common/filesystem/edit/index.vue";
 import filesystem from "@/components/common/filesystem/index.vue";
 
-
+import homesearch from "@/components/modules/app/home/search/index.vue";
 import scenarios_list from "@/components/modules/app/scenarios/list/index.vue";
 
 export default {
@@ -74,7 +74,7 @@ export default {
         portfolio_crashtest_scenariodetails, 
         portfolios_main, client_page, lead_page,
         pdfparser, clients, filesystem_edit, filesystem,
-        scenarios_list
+        scenarios_list, homesearch
     },
  
     computed: mapState({

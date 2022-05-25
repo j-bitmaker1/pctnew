@@ -76,6 +76,7 @@ import linepreloader from "@/components/assets/linepreloader/index.vue";
 import coloredNumber from "@/components/assets/coloredNumber/index.vue";
 import list from "@/components/assets/list/index.vue";
 import listgrouped from "@/components/assets/listgrouped/index.vue";
+import listgroupedsliced from "@/components/assets/listgroupedsliced/index.vue";
 import tooltip from "@/components/assets/tooltip/index.vue"; 
 import listmenu from "@/components/assets/listmenu/index.vue"; 
 import swipable from "@/components/assets/swipable/index.vue"; 
@@ -128,6 +129,8 @@ Vue.component("value", value);
 Vue.component("listmenu", listmenu);
 Vue.component("list", list);
 Vue.component("listgrouped", listgrouped);
+Vue.component("listgroupedsliced", listgroupedsliced);
+
 Vue.component("listpaginated", listpaginated);
 Vue.component("listselectable", listselectable);
 Vue.component("selection", selection);

@@ -156,6 +156,13 @@ const routes = [
 	},
 
 	{
+		path: '/explore',
+		name: 'explore',
+		component: () => import('@/views/explore'),
+		customRedirect : redirects.authorized
+	},
+
+	{
 		path: '/lead/:id',
 		name: 'lead',
 		component: () => import('@/views/lead'),

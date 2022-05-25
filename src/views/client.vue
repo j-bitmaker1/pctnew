@@ -135,6 +135,8 @@ export default {
 
 				this.profile = r
 
+				this.core.user.activity.template('client', this.profile)
+
 				return Promise.resolve(r)
 			}).finally(() => {
 				this.loading = false

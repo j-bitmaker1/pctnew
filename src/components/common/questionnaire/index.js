@@ -145,7 +145,6 @@ export default {
 
             if(page.type == 'question') return pages_question
             if(page.type == 'slide') return pages_slide
-
             
         },
 

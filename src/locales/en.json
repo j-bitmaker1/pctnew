@@ -281,6 +281,12 @@
 			"email" : "Email",
 			"phone" : "Your Phone number"
 		}
+	},
+
+	"activity" : {
+		"portfolio" : "Portfolios",
+		"client" : "Clients",
+		"lead" : "Leads"
 	}
 
 }

@@ -861,6 +861,29 @@ var ApiWrapper = function (core) {
 
 	}
 
+	self.common = {
+		search : function(value){
+			var apis = {
+				lead : self.crm.contacts.search(value, {type : "LEAD"}),
+				client : self.crm.contacts.search(value, {type : "CLIENT"}),
+				//portfolio : self.pctapi.portfolios.search(value, {})
+			} 
+
+			var result = {}
+
+
+			return Promise.all( _.map(apis, (action, i) => {
+
+				return action.then(r => {
+					result[i] = r
+				})
+
+			})).then(r => {
+				return Promise.resolve(result)
+			})
+		}
+	}
+
 	self.pctapi = {
 		stress : {
 			deviation : function(data, p = {}){
@@ -953,6 +976,16 @@ var ApiWrapper = function (core) {
 			}
 		},
 		portfolios : {
+
+			search : function(value, data = {}, p = {}){
+				data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
+				p.method = "POST"
+
+				return request(data, 'pctapi', 'Portfolio/List', p).then(r => {
+					return r.records
+				})
+			},
+
 			list : function(data = {}, p = {}){
 
 				p.method = "POST"
@@ -1168,6 +1201,19 @@ var ApiWrapper = function (core) {
 
 	self.crm = {
 		contacts : {
+			search : function(value, data = {}, p = {}){
+				p.method = "POST"
+				data.From = 1
+				data.To = 7
+
+				data.orderBy = {FName: "asc"}
+
+				data.query = core.crm.query('simplesearch', {search : value, type : data.type || "CLIENT"})
+
+				return request(data, 'api', 'crm/Contacts/List', p).then(r => {
+					return r.records
+				})
+			},
 			list : function(data, p = {}){
 
 				p.method = "POST"
