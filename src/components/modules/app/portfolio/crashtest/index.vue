@@ -24,7 +24,7 @@
 
 		<div class="subheader mobp">
 			<div class="forvalue">
-				<value :value="portfolio.total()" mode="auto"/>
+				<value :value="portfolio.total() + portfolio.uncovered()" mode="auto"/>
 			</div>
 			<div class="forvalues">
 			   <div class="positive" v-if="ct.profit"><i class="fas fa-arrow-up"></i> <value :value="ct.profit" mode="auto" colored="true"/></div>

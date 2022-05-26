@@ -963,7 +963,7 @@ var ApiWrapper = function (core) {
 			var apis = {
 				lead : self.crm.contacts.search(value, {type : "LEAD"}),
 				client : self.crm.contacts.search(value, {type : "CLIENT"}),
-				//portfolio : self.pctapi.portfolios.search(value, {})
+				portfolio : self.pctapi.portfolios.search(value, {})
 			} 
 
 			var result = {}
@@ -1097,6 +1097,8 @@ var ApiWrapper = function (core) {
 
 			search : function(value, data = {}, p = {}){
 				data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
+				data.searchStrFilter = value
+				data.includePositions = true
 				p.method = "POST"
 
 				return request(data, 'pctapi', 'Portfolio/List', p).then(r => {

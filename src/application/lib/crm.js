@@ -1,5 +1,6 @@
 import Queries from "./queries";
 
+
 class CRM {
     constructor({api, user, store}){
         this.queries = new Queries()

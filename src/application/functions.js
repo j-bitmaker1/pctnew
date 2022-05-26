@@ -5,14 +5,16 @@ var linkify = null
 
 var f = {}
 
+f.bw = function(s){
+    return s.split(/[ \t\v\r\n\f,.]+/)
+}
+
 f.stringComparison = function(s1, s2, p = 0.5){
 
-    var bw = function(s){
-		return s.split(/[ \t\v\r\n\f,.]+/)
-	}
+   
 
-    var w1 = bw(s1),
-        w2 = bw(s2)
+    var w1 = f.bw(s1),
+        w2 = f.bw(s2)
 
     return _.filter(w1, function(w){
 
@@ -29,13 +31,10 @@ f.wordComparison = function(s1, s2){
 	if(!s1) s1 = ''
 	if(!s2) s2 = ''
 
-	var bw = function(s){
-		return s.split(/[ \t\v\r\n\f,.]+/)
-	}
 
 	var hash = function(s){
 
-		var ps = _.sortBy(bw(s), function(w){
+		var ps = _.sortBy(f.bw(s), function(w){
 			return w.length
 		}).join(' ')
 
