@@ -327,6 +327,7 @@ export default {
             .catch((g) => {});
 
         core.api.prepare()
+        core.cordovakit.prepare()
 
         vxstorage.setcore(core)
         vxstorage.init()

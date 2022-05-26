@@ -1,5 +1,15 @@
 <template>
 <div id="client_info">
+
+	<div class="profileinst">
+		<div class="imageWrapper">
+			<userpic :userinfo="profile" />
+		</div>
+		<div class="label">
+			<span>{{profile.FName}} {{profile.LName}}</span>
+		</div>
+	</div>
+
 	<div class="groups" :key="i" v-for="(group, i) in schema">
 		<div class="caption mobp">
 			<span>{{$t(group.text)}}</span>

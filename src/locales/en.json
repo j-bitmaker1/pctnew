@@ -83,7 +83,8 @@
 		"existlead" : "You have already a lead with this email, do you want to go to lead?",
 		"goexistclient" : "Go to client",
 		"goexistlead" : "Go to lead",
-		"sharequestionnaireCommon" : "Get questionnaire link"
+		"sharequestionnaireCommon" : "Get questionnaire link",
+		"uploadContactImage" : "Upload contact image"
 	},
 
 	"caption" : {

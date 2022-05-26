@@ -3,10 +3,15 @@ var prependcssvars = `
 @import "~@/styles/mixins/common.sass"
 `
 console.log('process.env.publicPath', process.env.publicPath)
+console.log('process.argv', process.argv)
+
+var emptypublicpath = process.argv.find(function(el) { return el == '--emptypublicpath'; })
+
+console.log('emptypublicpath', emptypublicpath)
 
 module.exports = {
 
-	publicPath: process.env.publicPath || '/',
+	publicPath: emptypublicpath ? '' : process.env.publicPath || '/',
 	lintOnSave: false,
 
 	css: {

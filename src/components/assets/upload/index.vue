@@ -67,12 +67,16 @@ export default {
 
         extensions: {
             type: Array,
-            default: () => []
+            default: () => {
+                return []
+            }
         },
 
         images: {
             type: Object,
-            default: () => {}
+            default: () => {
+                return {}
+            }
         }
 
     },
@@ -123,11 +127,15 @@ export default {
 
             var ha = this
 
+            console.log("SR")
+
             each(_.toArray(files), (file, next) => {
 
                 var error = this.check(file)
 
                 if (error) {
+
+                    console.log(error)
 
                     ha.$emit('error', {
                         error: error,
@@ -148,12 +156,16 @@ export default {
 
                 }).then(data => {
 
+                     console.log(data)
+
 					data.extension = this.getExtension(file)
 
                     ha.$emit('uploaded', data)
                     next()
 
                 }).catch(e => {
+
+                    console.log(e)
 
                     ha.$emit('error', {
                         error: e,

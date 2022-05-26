@@ -10,7 +10,7 @@ class Vueapi {
     selectClients = function(success, p = {}){
 
         if (p.selected){
-            this.$store.commit('select', {
+            this.store.commit('select', {
                 context : 'client',
                 items : p.selected
             })
@@ -60,7 +60,7 @@ class Vueapi {
 
 
         if (p.selected){
-            this.$store.commit('select', {
+            this.store.commit('select', {
                 context : 'portfolio',
                 items : p.selected
             })

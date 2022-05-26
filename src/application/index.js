@@ -9,6 +9,7 @@ import wss from './wss'
 import CRM from './lib/crm'
 import PCT from './lib/pct'
 import Vueapi from './vueapi'
+import Cordovakit from './cordovakit'
 
 class Core {
     constructor(vm, p){
@@ -47,6 +48,7 @@ class Core {
 
         this.user = new user(this)
         this.vueapi = new Vueapi(this)
+        this.cordovakit = new Cordovakit(this)
         
     }
 

@@ -140,7 +140,6 @@ f.openexternallink = function(href = ''){
 
 
     return cordova.InAppBrowser.open(href, link.attr('cordovalink') || '_system');
-
     
 }
 

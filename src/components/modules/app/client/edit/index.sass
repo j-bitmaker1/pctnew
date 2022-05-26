@@ -12,3 +12,20 @@
 	span
 		color : srgb(--color-txt-ac)
 		font-weight: 700
+.upload
+	margin-top: 2 * $r
+	margin-bottom: 2 * $r
+	::v-deep
+		.charAvatar,
+		.statusIcon
+			z-index: 0
+	.imageWrapper
+		max-width: 80px
+		margin : 0 auto
+
+	.label
+		text-align: center
+		margin-top: $r
+
+		span
+			font-size: 0.9em

@@ -20,7 +20,8 @@ export default {
 				Email : '',
 				FName : '',
 				LName : '',
-				Status : ''
+				Status : '',
+				image : ''
 			},
 
 			additional : {
@@ -83,34 +84,42 @@ export default {
 				var data = {
 					... a || {},
 					... r || {},
-					... this.payload || {}
+					... this.payload || {},
+
+					... {
+						image : this.general.image
+					}
 				}
 
-				if(this.edit){
+				this.checkImageUpload(data).then(r => {
 
-					this.core.vxstorage.invalidate(this.edit.ID, 'client')
-					this.core.vxstorage.invalidate(this.edit.ID, 'lead')
+					if(this.edit){
 
-					action = this.core.api.crm.contacts.update({
-						ID : this.edit.ID,
-						... data
-					}, {
-						preloader : true,
-						//showStatus : true
-					})
-				}
-				else{
+						this.core.vxstorage.invalidate(this.edit.ID, 'client')
+						this.core.vxstorage.invalidate(this.edit.ID, 'lead')
+
+						action = this.core.api.crm.contacts.update({
+							ID : this.edit.ID,
+							... data
+						}, {
+							preloader : true,
+							//showStatus : true
+						})
+					}
+					else{
+		
+						action = this.core.api.crm.contacts.add({
+							... data
+						}, {
+							preloader : true,
+							//showStatus : true
+						})
+					
+					}
 	
-					action = this.core.api.crm.contacts.add({
-						... data
-					}, {
-						preloader : true,
-						//showStatus : true
-					})
-				   
-				}
-	
-				action.then(r => {
+					return action
+
+				}).then(r => {
 
 					data = {
 						...data,
@@ -164,9 +173,9 @@ export default {
 					}
 
 					this.$store.commit('icon', {
-                        icon: 'error',
-                        message: e.error
-                    })
+						icon: 'error',
+						message: e.error
+					})
 
 					console.error("E", e)
 				})
@@ -196,6 +205,22 @@ export default {
 				})
 			}
 		},
+
+		imageChange : function(i){
+			this.$set(this.general, 'image', i.base64)
+			console.log("I", i)
+		},
+
+		checkImageUpload : function(data){
+			if(data.image && data.image.indexOf('base64,') > -1){
+
+				data.image = '' //// todo upload api
+
+				return Promise.resolve()
+			}
+
+			return Promise.resolve()
+		}
 
 	},
 }

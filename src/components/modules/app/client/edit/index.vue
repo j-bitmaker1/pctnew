@@ -1,5 +1,18 @@
 <template>
 <div id="clientsedit">
+
+	<upload @uploaded="imageChange">
+		<template v-slot:content>
+			<div class="imageWrapper">
+				<userpic :userinfo="general" />
+			</div>
+			<div class="label">
+				<span>{{$t('labels.uploadContactImage')}}</span>
+			</div>
+		</template>
+	</upload>
+
+
 	<div class="fields general">
 		<div class="caption">
 			<span>General Information</span>
