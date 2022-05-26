@@ -21,7 +21,7 @@ export default {
 					route : '/',
 					id : 'home',
 					text : 'menu.home',
-					icon : "fas fa-th"
+					icon : "fas fa-bell"
 				},
 				{
 					route : '/clients',

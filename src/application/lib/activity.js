@@ -121,7 +121,7 @@ class Actions {
     constructor () {
         this.keys = [
             'themeToggle', 'changePassword', 'scenarioManager', 
-            'newPortfolio', 'newClient', 'newLead'
+            'newPortfolio', 'newClient', 'newLead', 'sharequestionnaire'
         ]
     }
 
@@ -213,6 +213,22 @@ class Actions {
 
             data : {
                 label : 'labels.newLead',
+                type : 'labels.actions'
+            }
+        }
+    }
+
+    sharequestionnaire () {
+        return {
+            type: 'action',
+            subtype: 'sharequestionnaire',
+         
+            action : {
+                vueapi : 'sharequestionnaire'
+            },
+
+            data : {
+                label : 'labels.sharequestionnaireCommon',
                 type : 'labels.actions'
             }
         }
