@@ -198,6 +198,11 @@ export default {
 
 			action.then(r => {
 
+				data = {
+					...data,
+					...r
+				}
+
 				this.$emit('edit', data)
 
 				this.$emit('close')

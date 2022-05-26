@@ -83,13 +83,14 @@ export default {
 
                 var actions = this.core.user.activity.getactions(this.searchvalue)
 
-                console.log('actions', actions) 
 
                 if(actions && actions.length){
-                    this.actions = {}
+                    this.actions = { }
 
                     _.each(actions, (a) => {
-                        this.actions[a.type || "setting"] = a
+                        this.actions[a.type || "setting"] || (this.actions[a.type || "setting"] = [])
+
+                        this.actions[a.type || "setting"].push(a)
                     })
                 }
 

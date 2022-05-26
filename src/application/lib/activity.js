@@ -119,7 +119,10 @@ class Templates {
 
 class Actions {
     constructor () {
-        this.keys = ['themeToggle', 'changePassword', 'scenarioManager', 'newPortfolio', 'newClient']
+        this.keys = [
+            'themeToggle', 'changePassword', 'scenarioManager', 
+            'newPortfolio', 'newClient', 'newLead'
+        ]
     }
 
     themeToggle() {
@@ -187,7 +190,6 @@ class Actions {
         return {
             type: 'action',
             subtype: 'newClient',
-
          
             action : {
                 vueapi : 'newClient'
@@ -195,6 +197,22 @@ class Actions {
 
             data : {
                 label : 'labels.newClient',
+                type : 'labels.actions'
+            }
+        }
+    }
+
+    newLead () {
+        return {
+            type: 'action',
+            subtype: 'newLead',
+         
+            action : {
+                vueapi : 'newLead'
+            },
+
+            data : {
+                label : 'labels.newLead',
                 type : 'labels.actions'
             }
         }
@@ -217,7 +235,6 @@ class Activity {
     }
 
     clear(){
-        console.log("clear")
         this.history = []
 
         return this.save()
@@ -300,10 +317,6 @@ class Activity {
         var actions = _.map(this.actions.keys, (f) => {
             return this.templates['action'](this.actions[f]()) 
         })
-
-        
-
-        console.log('actions', actions)
 
         if(!value){
             return actions

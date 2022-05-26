@@ -74,11 +74,10 @@ export default {
 		},
 
 		newlead : function(){
+
 			this.core.vueapi.createContact({
 				Type : "LEAD"
 			}, (data) => {
-
-				console.log('data', data)
 
 				if(this.$refs['list']) this.$refs['list'].search(data.FName + " " + data.LName)
 

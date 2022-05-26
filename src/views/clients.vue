@@ -44,15 +44,7 @@ export default {
 	methods: {
 		newclient : function(){
 
-			this.core.vueapi.createContact({
-				Type : "CLIENT"
-			}, (data) => {
-
-				this.$router.push('client/' + data.ID)
-				
-			}, {
-				caption : "New client"
-			})
+			this.core.vueapi.newClient()
 			
 		}
 	},

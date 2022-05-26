@@ -76,7 +76,6 @@ export default {
 
         showsave : function(){
 
-            console.log('this.usekeyscenarios', this.usekeyscenarios)
 
             return (
                 this.usekeyscenarios != this.usekeyscenariosSetting
@@ -84,7 +83,6 @@ export default {
         },
       
         canapply : function(){
-            console.log('_.toArray(this.using).length', _.toArray(this.using).length)
             return _.toArray(this.using).length > 0
         },
 
@@ -123,7 +121,6 @@ export default {
             this.core.pct.scenarios().then(scenarios => {
 				this.scenarios = scenarios
 
-                console.log('scenarios', scenarios)
 			})
         },
 
@@ -163,7 +160,6 @@ export default {
         },
 
         changeKeyScenariosUse : function(v){
-            console.log("B", v)
             this.usekeyscenarios = v
         }
     },

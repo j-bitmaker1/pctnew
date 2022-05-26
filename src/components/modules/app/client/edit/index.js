@@ -96,7 +96,7 @@ export default {
 						... data
 					}, {
 						preloader : true,
-						showStatus : true
+						//showStatus : true
 					})
 				}
 				else{
@@ -105,20 +105,70 @@ export default {
 						... data
 					}, {
 						preloader : true,
-						showStatus : true
+						//showStatus : true
 					})
 				   
 				}
 	
-	
 				action.then(r => {
+
+					data = {
+						...data,
+						...r
+					}
 
 					this.$emit('success', data)
 	
 					this.$emit('close')
+
+					this.$store.commit('icon', {
+						icon: 'success',
+					})
 	
 				}).catch((e = {}) => {
-					
+
+					console.log("E", e)
+
+					if(e.alreadyExists){
+
+						if(this.edit){
+
+						}
+						else{
+							return this.core.api.crm.contacts.getbyemail(data.Email, {
+								preloader : true,
+							}).then(r => {
+
+								var type = 'client'
+
+								if(r.Type == "LEAD") type = 'lead'
+
+								return this.$dialog.confirm(
+									this.$t('labels.exist' + type), {
+									okText: this.$t('labels.goexist' + type),
+									cancelText : 'No'
+								})
+						
+								.then((dialog) => {
+									this.$emit('close')
+									this.$router.push(type + '/' + r.ID)
+				
+								}).catch( e => {
+									
+								})
+
+							})
+						}
+
+						
+					}
+
+					this.$store.commit('icon', {
+                        icon: 'error',
+                        message: e.error
+                    })
+
+					console.error("E", e)
 				})
 
 			}
@@ -135,6 +185,8 @@ export default {
 
 		init : function(){
 
+			//this.checkEmail('maxgrishkov@gmail.com')
+
 
 			if (this.edit){
 				_.each(this.schema, (g, i) => {
@@ -143,6 +195,7 @@ export default {
 					})
 				})
 			}
-		}
+		},
+
 	},
 }

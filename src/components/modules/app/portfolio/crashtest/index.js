@@ -71,13 +71,7 @@ export default {
 
 			this.loading = true
 
-			/*this.core.pct.stressdetails(this.portfolio.id).then(R => {
-				console.log("RR", R)
-			})*/
-
-
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
-			//this.core.pct.stressdetails(this.portfolio.id).then(R => {
 				this.ct = r
 
 				return Promise.resolve(r)

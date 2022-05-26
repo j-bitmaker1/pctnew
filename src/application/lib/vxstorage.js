@@ -107,8 +107,6 @@ class VXStorage {
 
         this.clearFromQueue(this.index(type), type)
 
-        console.log('_invalidate_', type, index)
-
         this.store.commit('_invalidate_' + type, index)
     }
 

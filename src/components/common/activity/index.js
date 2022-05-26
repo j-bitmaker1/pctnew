@@ -70,13 +70,13 @@ export default {
                 mixed[i] = mixed[i].concat(g)
             })
 
+
             _.each(mixed, (g, i) => {
                 mixed[i] = _.uniq(g, (o) => {
                     return o.index
                 })
             })
 
-            console.log('mixed', mixed)
 
             return mixed
         },

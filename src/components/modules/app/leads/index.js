@@ -109,8 +109,6 @@ export default {
 
 		search : function(v){
 
-			console.log("SEARCH", v)
-
 			this.searchvalue = v
 		},
 

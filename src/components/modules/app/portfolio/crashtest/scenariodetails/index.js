@@ -77,7 +77,6 @@ export default {
 
 			this.core.pct.stressdetails(this.portfolio.id).then(R => {
 				this.dct = R
-				console.log("RR", R)
 
 				return Promise.resolve(R)
 			}).finally(() => {

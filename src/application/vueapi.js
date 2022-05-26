@@ -231,20 +231,25 @@ class Vueapi {
     }
 
     newClient = function () {
-        this.store.commit('OPEN_MODAL', {
-            id : 'modal_client_edit',
-            module : "client_edit",
-            caption : "Edit client",
-    
-            data : {
-            },
-    
-            events : {
-                success : (data) => {
-                    this.router.push('portfolio/' + data.ID)
-                }
-            }
+        this.createContact({type : "CLIENT"}, (data) => {
+            if (data.ID)
+                this.router.push('client/' + data.ID)
+        }, {
+            caption : "New client"
         })
+
+    }
+
+    newLead = function () {
+        this.createContact({type : "LEAD"}, (data) => {
+
+            if (data.ID)
+                this.router.push('lead/' + data.ID)
+
+        }, {
+            caption : "New lead"
+        })
+
     }
 
 }

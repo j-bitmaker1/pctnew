@@ -96,7 +96,6 @@ export default {
 
 		enterSelectionMode : function(i){
 
-			console.log('this.sOptions', this.sOptions)
 
 			if(!this.sOptions.disable){
 				this.selection = {}

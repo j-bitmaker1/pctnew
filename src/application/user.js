@@ -16,7 +16,6 @@ var User = function ({
     i18n
 }) {
 
-    console.log('i18n', i18n)
 
     var self = this
 

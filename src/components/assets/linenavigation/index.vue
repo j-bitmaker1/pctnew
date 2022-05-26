@@ -94,12 +94,7 @@ export default {
             
             if(this.mode == 'history'){
 
-                console.log({
-                        ... this.$route.query,
-                        ... {
-                                [this.navkey] : v
-                            }
-                    })
+             
 
                 this.$router.push({
                     query : {

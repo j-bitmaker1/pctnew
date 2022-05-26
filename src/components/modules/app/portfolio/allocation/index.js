@@ -85,7 +85,6 @@ export default {
 
 				var info = this.assetsinfo[a.ticker]
 
-				console.log('this.assetsinfo', this.assetsinfo)
 
 				if(!info) return "Not covered"
 

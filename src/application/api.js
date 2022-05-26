@@ -129,6 +129,11 @@ var Request = function (core = {}, url, system) {
 
 			result.code = status
 
+			if(result.result == 'failed'){
+				result.code = 500
+				result.Error = result.errors
+				er = true
+			}
 
 			if (result.AuthSession && result.AuthSession.Error){ /// oldpct
 				result.code = 500
@@ -137,8 +142,6 @@ var Request = function (core = {}, url, system) {
 			}
 
 			if (er) {
-
-
 				return Promise.reject(parseerror(result))
 			}
 
@@ -257,6 +260,10 @@ var ApiWrapper = function (core) {
 			}
 		})
 
+		var flength = _.filter(storage.data, function(e, i){
+			return e
+		}).length
+
 		var r = {
 			data : 	loaded,
 			count : storage.count,
@@ -264,7 +271,8 @@ var ApiWrapper = function (core) {
 			first : _.isEmpty(storage.data) ? undefined : _.min(_.map(Object.keys(storage.data), v => Number(v)))
 		}
 
-		if(loaded.length == storage.count) return r
+
+		if(flength == storage.count) return r
 
 		if(_count && _count == loaded.length) return r
 
@@ -505,13 +513,11 @@ var ApiWrapper = function (core) {
 
 				_.map(ids, (id) => {
 
-					console.log("id", id)
 
 					return storage.get(id).catch(e => {
 						return Promise.resolve()
 					}).then(r => {
 
-						console.log("res", id, r)
 
 						if(r) {
 							loaded[id] = r
@@ -526,7 +532,6 @@ var ApiWrapper = function (core) {
 
 			).then(() => {
 
-				console.log('needtoload', needtoload)
 
 				if(!needtoload.length){
 					return f.ep()
@@ -543,7 +548,6 @@ var ApiWrapper = function (core) {
 
 						var index = obj[p.storageparameters.divide.getloaded]
 
-						console.log('index', index, obj)
 
 						if (index){
 							loaded[index] = obj
@@ -717,8 +721,6 @@ var ApiWrapper = function (core) {
 
 				}
 
-				
-
 				if (p.vxstorage){
 
 					var ds = r
@@ -755,6 +757,8 @@ var ApiWrapper = function (core) {
 				return Promise.resolve(r)
 
 			}).catch(e => {
+
+				console.error(e)
 
 
 				if (attempt < 3 && e && e.code == 20) {
@@ -1161,7 +1165,13 @@ var ApiWrapper = function (core) {
 					)
 				}
 
-				return request(data, 'pctapi', 'Portfolio/Add', p)
+				return request(data, 'pctapi', 'Portfolio/Add', p).then(r => {
+
+					return Promise.resolve({
+						id : r.id
+					})
+					
+				})
 			},
 			update : function(data, p = {}){
 				p.method = "POST"
@@ -1385,6 +1395,10 @@ var ApiWrapper = function (core) {
 
 				return request(data, 'api', 'crm/Contacts/Insert', p).then(r => {
 
+					if (r.alreadyExists){
+						return Promise.reject(r)
+					}
+
 					data.ID = r.id
 
 					return Promise.resolve(data)
@@ -1416,6 +1430,22 @@ var ApiWrapper = function (core) {
 					return r.Contacts
 				})
 			},
+
+			getidbyemail : function(email, p = {}){
+				var companyId = f.deep(core, 'user.info.Company.ID')
+
+				if(!companyId) return Promise.reject('user.info.Company.ID')
+
+				p.method = "GET"
+
+				return request({companyId, email}, 'api', 'crm/Contacts/GetContactByEmail', p)
+			},
+
+			getbyemail : function(email, p = {}){
+				return self.crm.contacts.getidbyemail(email, p).then(id => {
+					return self.crm.contacts.get(id)
+				})
+			}
 		},
 
 		questionnaire : {

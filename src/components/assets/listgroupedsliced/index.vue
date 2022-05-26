@@ -69,7 +69,6 @@ export default {
 
 	methods: {
 		opengroup : function(i){
-            console.log("I", i)
             this.$set(this.openedgroups, i, true)
         }
 	},

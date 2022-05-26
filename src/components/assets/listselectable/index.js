@@ -48,7 +48,6 @@ export default {
             if(state.selection){
                 if(state.selection.context == this.context){
 
-                    console.log('state.selection', state.selection.items, this.context)
 
                     return state.selection.items
                 }

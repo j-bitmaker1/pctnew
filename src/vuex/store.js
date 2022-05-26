@@ -262,7 +262,6 @@ var storeFactory = function(vxstorage){
 
 		}){
 
-			console.log(context, items)
 
 			if(!state.selection || state.selection.context != context){
 
@@ -277,7 +276,6 @@ var storeFactory = function(vxstorage){
 				Vue.set(state.selection.items, item.ID || item.id, item)
 			})
 
-			console.log('state.selection', state.selection, items)
 
 		},
 

@@ -77,6 +77,7 @@ export default {
 
 		payload : function(){
 			return {
+				searchStrFilter : this.searchvalue,
 				IncludePositions : true,
 				... this.additional || {}
 			}

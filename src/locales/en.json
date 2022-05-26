@@ -76,8 +76,13 @@
 		"crashtestSettings" : "Stress testing settings",
 		"theme" : "Interface colors. Light theme. Dark theme",
 		"newPortfolio" : "New portfolio",
-		"newClient" : "New Client",
-		"actions" : "Actions"
+		"newClient" : "New client",
+		"newLead" : "New lead",
+		"actions" : "Actions",
+		"existclient" : "You have already created a client with this email, do you want to go to client?",
+		"existlead" : "You have already a lead with this email, do you want to go to lead?",
+		"goexistclient" : "Go to client",
+		"goexistlead" : "Go to lead"
 	},
 
 	"caption" : {
@@ -299,6 +304,7 @@
 		"actions" : "Actions",
 		"empty" : "Search result is empty",
 		"totalEmpty" : "Activity history is empty",
+		"action" : "Actions",
 		"searches" : {
 			"client" : "By clients",
 			"portfolio" : "By portfolios",

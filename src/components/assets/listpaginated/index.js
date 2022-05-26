@@ -119,7 +119,6 @@ export default {
 
             this.$emit('loading', this.loading)
 
-            console.log('this.epayload', this.epayload, this.api)
 
             f.deep(this.core.api, this.api)(this.epayload, {
 
@@ -135,6 +134,7 @@ export default {
 
                 if(!this.count)
                     this.count = data.count
+
 
                 if((this.page + 1) * this.perpage < this.count){
                     this.page++
