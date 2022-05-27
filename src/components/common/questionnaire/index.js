@@ -32,52 +32,16 @@ export default {
     },
 
     created() {
-
+        this.init()
     },
 
   
 
     watch: {
         questions : {
-            immediate : true,
             handler : function(){
 
-                this.values = {}
-
-                _.each(this.questions, (f) => {
-    
-                    if (f.form){
-    
-                        this.$set(this.values, f.id, {})
-    
-                        _.each(f.form.schema, (field) => {
-    
-                            var def = field.default || (this.initial[f.id] ? this.initial[f.id][field.id] || undefined : undefined)
-    
-                            if(!def) {
-    
-                                if(!field.input){
-                                    if(field.type == 'number'){
-                                        def = 0
-                                    }
-        
-                                    if(!field.type || field.type == 'string') def = ''
-                                }
-                                else{
-                                    def = undefined
-                                }
-    
-                               
-                            }
-    
-                            this.$set(this.values[f.id], field.id, def)
-                        })
-
-                        return
-                    }
-    
-                    
-                })
+                this.init()
     
             }
         }
@@ -105,17 +69,71 @@ export default {
             return pages
 
         },
-
        
     }),
 
     methods : {
+
+        init : function(){
+            this.values = {}
+
+
+            _.each(this.questions, (f) => {
+
+                if (f.form){
+
+                    this.$set(this.values, f.id, {})
+
+                    _.each(f.form.schema, (field) => {
+
+                        var v = field.default || undefined
+
+                        if (this.initial[f.id]){
+                            if(this.initial[f.id][field.id] || this.initial[f.id][field.id] === 0){
+                                v = this.initial[f.id][field.id]
+                            }
+                        }
+
+                        var def = v
+
+                        if(!def && def !== 0) {
+
+                            if(!field.input){
+                                if(field.type == 'number'){
+                                    def = 0
+                                }
+    
+                                if(!field.type || field.type == 'string') def = ''
+                            }
+                            else{
+                                def = undefined
+                            }
+
+                            
+                        }
+
+                        this.$set(this.values[f.id], field.id, def)
+                    })
+
+                    return
+                }
+
+                
+            })
+        },
+
+        input : function(page, result){
+
+
+            this.setValues(page.data.question, result)
+        },
 
         setValues : function(question, values){
 
             _.each(question.form.schema, (field) => {
                 this.$set(this.values[question.id], field.id, values[field.id])
             })
+
 
         },
 
@@ -129,10 +147,10 @@ export default {
 
             if (cur){
                 setTimeout(() => {
-                    this.$refs[cur].focus()
+                    if (this.$refs[cur])
+                        this.$refs[cur].focus()
                 }, 50)
             }
-                
 
             this.$emit('intermediate', this.values)
 
@@ -148,8 +166,35 @@ export default {
             
         },
 
+        validate : function(){
+
+            return _.find(this.questions, (question) => {
+
+                if(!question.form) return false
+
+                return _.find(question.form.schema, (field) => {
+                    return !this.values[question.id] || (!this.values[question.id][field.id] && this.values[question.id][field.id] !== 0)
+                })
+            })
+        },
 
         finish : function(){
+
+            var v = this.validate()
+
+            if(v) {
+
+                this.core.notifier.simplemessage({
+                    icon : "fas fa-exclamation-triangle",
+                    title : "You haven't answered all the questions",
+                    message : 'Please answer the question'
+                })
+
+                this.$refs['sequence'].to(v.id)
+
+                return
+            }
+
             this.$emit('finish', this.values)
         },
 

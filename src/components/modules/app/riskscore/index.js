@@ -4,6 +4,7 @@ import questionnaire from "@/components/common/questionnaire/index.vue";
 import _ from 'underscore';
 
 import secondpart from "./secondpart/index.vue"    
+import f from "@/application/functions.js"
 
 var testvalues = {
     values : {
@@ -62,6 +63,13 @@ var testvalues = {
 export default {
     name: 'riskscore',
     props: {
+        info : {
+            type : Object,
+            default : () => {
+                return {}
+            }
+        },
+        token : String
     },
 
     components : {
@@ -84,7 +92,9 @@ export default {
 
             client : {
 
-            }
+            },
+
+            existlead : false
         }
 
     },
@@ -100,302 +110,13 @@ export default {
         auth : state => state.auth,
 
         capacityQuestions : function(){
-            return [
-                {
-                    id : 'c1',
-                    question : 'riscscore.questions.c1',
-                    
-                    form : {
-                        schema : [
-                            {
-                                id : 'age',
-                                text : 'riscscore.fields.age',
-                                type : 'number',
-                                default : 20,
-                                /*placeholder : "riscscore.fields.enterage",*/
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-                    
-                },
-    
-                {
-                    id : 'c2',
-                    question : 'riscscore.questions.c2',
-                    form : {
-                        schema : [
-                            {
-                                id : 'savings',
-                                text : 'riscscore.fields.savings',
-                                type : 'number',
-                                
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-                },
-    
-                {
-                    id : 'c3',
-                    question : 'riscscore.questions.c3',
-                    form : {
-                        schema : [
-                            {
-                                id : 'retire',
-                                text : 'riscscore.fields.retire',
-                                type : 'number',
-                                default : 50,
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-                },
-    
-                {
-                    id : 'c4',
-                    question : 'riscscore.questions.c4',
 
-                    form : {
-                        schema : [
-                            {
-                                id : 'save',
-                                text : 'riscscore.fields.save',
-                                type : 'number',
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-                },
-    
-                {
-                    id : 'c5',
-                    question : 'riscscore.questions.c5',
-                    tip : 'riscscore.questions.c5tip',
-                    form : {
-                        schema : [
-                            {
-                                id : 'salary',
-                                text : 'riscscore.fields.target',
-                                type : 'number',
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-                }
-    
-            ]
+            return this.core.pct.riskscore.capacityQuestions()
+
         },
 
         questions : function(){
-            return [
-                {
-                    id : 'q1',
-                    question : 'riscscore.questions.q1',
-                    forceNext : true,
-                    form : {
-                        schema : [
-                            {
-                                id : 'answer',
-                                input : 'radio',
-
-                                values : [
-                                    {
-                                        text : 'riscscore.answers.q1.1'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q1.2'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q1.3'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q1.4'
-                                    },
-                                ],
-
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-                },
-                {
-                    id : 'q2',
-                    question : 'riscscore.questions.q2',
-                    forceNext : true,
-                    form : {
-                        schema : [
-                            {
-                                id : 'answer',
-                                input : 'radio',
-
-                                values : [
-                                    {
-                                        text : 'riscscore.answers.q2.1'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q2.2'
-                                    },
-                                ],
-
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-                },
-    
-                {
-                    id : 'q3',
-                    question : 'riscscore.questions.q3',
-                    forceNext : true,
-                    form : {
-                        schema : [
-                            {
-                                id : 'answer',
-                                input : 'radio',
-
-                                values : [
-                                    {
-                                        text : 'riscscore.answers.q3.1'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q3.2'
-                                    },
-                                ],
-
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-                   
-                },
-    
-                {
-                    id : 'q4',
-                    question : 'riscscore.questions.q4',
-                    forceNext : true,
-                    form : {
-                        schema : [
-                            {
-                                id : 'answer',
-                                input : 'radio',
-
-                                values : [
-                                    {
-                                        text : 'riscscore.answers.q4.1'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q4.2'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q4.3'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q4.4'
-                                    }
-                                ],
-
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-
-                },
-    
-                {
-                    id : 'q5',
-                    question : 'riscscore.questions.q5',
-                    forceNext : true,
-                    form : {
-                        schema : [
-                            {
-                                id : 'answer',
-                                input : 'radio',
-
-                                values : [
-                                    {
-                                        text : 'riscscore.answers.q5.1'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q5.2'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q5.3'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q5.4'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q5.5'
-                                    }
-                                ],
-
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-
-                },
-    
-                {
-                    id : 'q6',
-                    question : 'riscscore.questions.q6',
-                    forceNext : true,
-                    form : {
-                        schema : [
-                            {
-                                id : 'answer',
-                                input : 'radio',
-
-                                values : [
-                                    {
-                                        text : 'riscscore.answers.q6.1'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q6.2'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q6.3'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q6.4'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q6.5'
-                                    },
-                                    {
-                                        text : 'riscscore.answers.q6.6'
-                                    }
-                                ],
-
-                                rules : [{
-                                    rule : 'required'
-                                }]
-                            }
-                        ]
-                    }
-                }
-            ]
+            return this.core.pct.riskscore.questions()
         },
 
         commonQuestions : function(){
@@ -444,7 +165,7 @@ export default {
 
             var existlead = {
                 id : 'com0',
-                question : 'Advisor John Foo sent you this questionnaire. Are you Max Grishkov?',
+                question : 'Advisor '+f.name(this.info.AdvisorFName, this.info.AdvisorLName)+' sent you this questionnaire. Are you '+f.name(this.info.ContactFName, this.info.ContactLName)+'?',
                 tip : 'riscscore.questions.com0tip',
                 back : false,
                 next : false,
@@ -452,12 +173,12 @@ export default {
                 form : {
                     schema : [
                         {
-                            id : 'answer',
+                            id : 'com0',
                             input : 'radio',
                             style : 'yesno',
                             values : [
                                 {
-                                    text : "Yes, i'm Max Grishkov"
+                                    text : "Yes, i'm " + f.name(this.info.ContactFName, this.info.ContactLName)
                                 },
                                 {
                                     text : 'No'
@@ -475,12 +196,14 @@ export default {
 
             var sequence = []
 
-            if(this.client.ID){
+            if (this.existlead){
                 sequence = [existlead]
             }
             else{
                 sequence = [introduce]
             }
+
+            console.log('sequence', sequence)
 
             return sequence
         },
@@ -495,7 +218,7 @@ export default {
                         schema : [
 
                             {
-                                id : 'phone',
+                                id : 'Phone',
                                 text : 'riscscore.fields.phone',
                  
                                 rules : [{
@@ -534,33 +257,33 @@ export default {
                 !this.values.q1 || !this.values.q2 || !this.values.q3 || 
                 !this.values.q4 || !this.values.q5 || !this.values.q6 ||
 
-                typeof this.values.q1.answer == 'undefined' ||
-                typeof this.values.q2.answer == 'undefined' ||
-                typeof this.values.q3.answer == 'undefined' ||
-                typeof this.values.q4.answer == 'undefined' ||
-                typeof this.values.q5.answer == 'undefined' ||
-                typeof this.values.q6.answer == 'undefined'
+                typeof this.values.q1.q1 == 'undefined' ||
+                typeof this.values.q2.q2 == 'undefined' ||
+                typeof this.values.q3.q4 == 'undefined' ||
+                typeof this.values.q4.q4 == 'undefined' ||
+                typeof this.values.q5.q5 == 'undefined' ||
+                typeof this.values.q6.q6 == 'undefined'
             ) return null
 
-            if (this.values.q2.answer == 1 &&  this.values.q3.answer == 0) points[0] = 50
-            if (this.values.q2.answer == 0 &&  this.values.q3.answer == 1) points[0] = 50
-            if (this.values.q2.answer == 0 &&  this.values.q3.answer == 0) points[0] = 25
-            if (this.values.q2.answer == 1 &&  this.values.q3.answer == 1) points[0] = 75
+            if (this.values.q2.q2 == 1 &&  this.values.q3.q3 == 0) points[0] = 50
+            if (this.values.q2.q2 == 0 &&  this.values.q3.q3 == 1) points[0] = 50
+            if (this.values.q2.q2 == 0 &&  this.values.q3.q3 == 0) points[0] = 25
+            if (this.values.q2.q2 == 1 &&  this.values.q3.q3 == 1) points[0] = 75
 
-            points[1] = Number(this.values.q4.answer) * 20
+            points[1] = Number(this.values.q4.q4) * 20
 
-            if (this.values.q5.answer == 0) points[2] = 15
-            if (this.values.q5.answer == 1) points[2] = 35
-            if (this.values.q5.answer == 2) points[2] = 55
-            if (this.values.q5.answer == 3) points[2] = 75
-            if (this.values.q5.answer == 4) points[2] = 90
+            if (this.values.q5.q5 == 0) points[2] = 15
+            if (this.values.q5.q5 == 1) points[2] = 35
+            if (this.values.q5.q5 == 2) points[2] = 55
+            if (this.values.q5.q5 == 3) points[2] = 75
+            if (this.values.q5.q5 == 4) points[2] = 90
 
-            if (this.values.q6.answer == 0) points[3] = 15
-            if (this.values.q6.answer == 1) points[3] = 35
-            if (this.values.q6.answer == 2) points[3] = 55
-            if (this.values.q6.answer == 3) points[3] = 75
-            if (this.values.q6.answer == 4) points[3] = 90
-            if (this.values.q6.answer == 5) points[3] = 90
+            if (this.values.q6.q6 == 0) points[3] = 15
+            if (this.values.q6.q6 == 1) points[3] = 35
+            if (this.values.q6.q6 == 2) points[3] = 55
+            if (this.values.q6.q6 == 3) points[3] = 75
+            if (this.values.q6.q6 == 4) points[3] = 90
+            if (this.values.q6.q6 == 5) points[3] = 90
 
             var total = _.reduce(points, function(m, p){
                 return m + p
@@ -610,8 +333,8 @@ export default {
         capacityValues : function(){
             var cv = {}
 
-            if(this.capacity){
-                return this.capacity
+            if(this.capacity && this.capacity.values){
+                return this.capacity.values
             }
 
             _.each(this.capacityQuestions, (c) => {
@@ -637,6 +360,10 @@ export default {
             /*this.client = {
                 ID : 414227
             }*/
+
+            if (this.info.isLead){
+                this.existlead = true
+            }
             
             this.part = 'c'
 
@@ -647,16 +374,26 @@ export default {
         },
 
         checkClient : function(){
-            if(this.client.ID) return true
+            if(this.existlead) return Promise.resolve()
 
-            if(this.client.Email && this.client.FName && this.client.LName) return true
+            if(this.client.Email && this.client.FName && this.client.LName) {
+
+                return Promise.resolve()
+            }
+
+            return Promise.reject('empty')
         },
 
         commonFinished: function(values){
 
-            if (values.com0 && values.com0.answer == 1){
-                this.client = {}
+            if (values.com0 && values.com0.com0 == 1){
+                this.existlead = false
 
+                return
+            }
+
+            if (values.com0 && values.com0.com0 == 0){
+                this.next()
                 return
             }
 
@@ -664,14 +401,24 @@ export default {
                 this.$set(this.client, i, v)
             })
 
-            if (this.checkClient()) {
+            this.checkClient().then(() => {
                 this.next()
-            }
+            }).catch(e => {
+
+            })
+           
         },
 
-        commonFinishedIntermediate : function(values){
+        intermediate: function(values){
 
+            _.each(values, (v, i) => {
+                this.$set(this.values, i, v)
+            })
+
+            this.send()
         },
+
+      
 
         questionnaireFinished : function(values){
 
@@ -682,22 +429,6 @@ export default {
             this.next()
         },
 
-        lastIntermediate: function(values){
-
-
-            _.each(values, (v, i) => {
-                this.$set(this.values, i, v)
-            })
-
-            this.send()
-        },
-
-        questionnaireIntermediate : function(values){
-
-            _.each(values, (v, i) => {
-                this.$set(this.values, i, v)
-            })
-        },
 
         changecr : function(v){
             this.$set(this.values, 'customCr', v)
@@ -725,14 +456,32 @@ export default {
 
             var data = {
                 ...this.client,
-                ...this.capacityValues,
-                ...this.questionnaireValues,
                 ...this.finishValues
             }
+
+            data.json = JSON.stringify({
+                capacity : this.capacityValues,
+                questions : this.questionnaireValues
+            })
+
+            data.Tolerance = this.values.customCr || this.questionPoints
+            data.Capacity = this.capacity ? this.capacity.capacity : null
+
+            _.each(data, (v, i) => {
+                if(!v) delete data[i]
+            })
+
+            data.Token = this.token
+
+            //if(!data.Tolerance) delete data.Tolerance
+            //if(!data.Capacity) delete data.Capacity
+
+            console.log("data", data)
 
         },
 
         changecapacity : function(v){
+            console.log("VVV", v)
             this.capacity = v
         }
         

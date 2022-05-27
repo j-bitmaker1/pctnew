@@ -1,33 +1,35 @@
 <template>
-  <div id="root">
+<div id="root">
 
-	<div class="rootapp">
-	  <appmenu v-if="auth == 1"/>
+    <div class="cameramoduleWrapper" v-if="camera">
+        <camera v-bind="camera.data || {}" v-on="camera.events" @close="closeCamera"/>
+    </div>
 
-	  <vue-page-transition name="fade-in-right">
-		<router-view></router-view>
-	  </vue-page-transition>
+    <div class="rootapp" v-show="!camera">
+        <appmenu v-if="auth == 1" />
 
-	  <gallery
-		v-if="gallery"
-		:images="gallery.images"
-		:index="gallery.index"
-		@close="closeGallery"
-	  />
-	</div>
+        <vue-page-transition name="fade-in-right">
+            <router-view></router-view>
+        </vue-page-transition>
 
-	<modals />
+        <gallery v-if="gallery" :images="gallery.images" :index="gallery.index" @close="closeGallery" />
 
-	<transition name="fade" v-if="iconshow">
-	  <fixedmessageicon />
-	</transition>
+		<modals />
+    </div>
 
-	<!-- and other modals -->
+    
 
-	<preloader v-if="globalpreloader" />
-	
-  </div>
+    <transition name="fade" v-if="iconshow">
+        <fixedmessageicon />
+    </transition>
+
+    <!-- and other modals -->
+
+    <preloader v-if="globalpreloader" />
+
+</div>
 </template>
 
 <script src="./index.js"></script>
+
 <style lang="sass" src="./index.sass"></style>

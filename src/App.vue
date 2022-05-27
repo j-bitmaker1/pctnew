@@ -7,7 +7,7 @@
 <style src="./editedplugins/vue-m-message/dist/index.css"></style>
 
 <style lang="sass" src="./index.sass"></style>
-<style lang="css" src="./fontawesome/css/all.css"></style>
+<!--<style lang="css" src="./fontawesome/css/all.css"></style>-->
 
 <script>
 import Vue2TouchEvents from 'vue2-touch-events'

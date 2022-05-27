@@ -1,0 +1,215 @@
+#camera
+    width : 100%
+    height: 100%
+.src
+    height: 100%
+    position: fixed
+    left: 0
+    top : 0
+    right: 0
+    height: 100%
+    z-index: 2
+
+    .currentimage
+        width: 100%
+        height: 100%
+
+.topheader
+    position: fixed
+    top : 2 * $r
+    left : 0
+    right: 0
+    z-index : 130
+    display: flex
+    padding : $r
+    align-items: center
+    justify-content: space-between
+
+    .cancelWrapper
+        margin-left: auto
+        color : srgba(--text-on-bg-shadow-color, 0.8)
+        opacity: 0.9
+        text-shadow: 1px 1px 2px srgba(--color-shadow-base, 0.8)
+
+.sbtn
+    color : srgba(--text-on-bg-shadow-color, 0.8)
+    opacity: 0.9
+    text-shadow: 1px 1px 2px srgba(--color-shadow-base, 0.8)
+
+.mbtn
+    width : 54px
+    height : 54px
+    border-radius: 50%
+    background: srgba(--color-shadow-base, 0.8)
+    border : 1px solid srgb(--color-shadow-base)
+    color : srgba(--text-on-bg-shadow-color, 0.8)
+    backdrop-filter: blur(14px)
+    -webkit-backdrop-filter: blur(14px)
+    text-align: center
+    line-height: 52px
+    font-size: 0.8em
+
+.selectfromstorage
+    position: absolute
+    right: 2 * $r
+    bottom : 2 * $r
+    padding : 2 * $r
+    z-index: 150
+
+.takepicture
+    margin : 0 auto
+    position: absolute
+    left : 50%
+    bottom : 6 * $r
+    margin-left: -27px
+    z-index: 150
+
+.library
+    position: absolute
+    bottom : 100px
+    left : 0
+    right : 0
+    z-index: 3500
+    padding : 2 * $r
+
+    .liblist
+        display: flex
+        flex-direction: row
+        flex-wrap: nowrap
+        overflow-x: auto
+        align-items: center
+        grid-gap: $r
+
+        ::v-deep
+            .simplelist
+                display: flex
+                flex-direction: row
+                flex-wrap: nowrap
+                grid-gap: $r
+
+        &::-webkit-scrollbar
+            display: none
+
+    .access
+        height: 90px
+        width: 90px
+        min-width: 90px
+        position: relative
+       
+
+        >div
+            height: 100%
+            border-radius: 12px
+            background: transparentize(#000, 0.8)
+            display: flex
+            justify-content: center
+            align-items: center
+            text-align: center
+
+            .label
+                span
+                    font-size: 0.7em
+
+    .imageWrapper
+        height: 90px
+        width: 90px
+        min-width: 90px
+        position: relative
+
+        .bgimage
+            border-radius: 12px
+
+        .select
+            position: absolute
+            right : 0
+            top : 0
+            padding : $r
+            color : #fff
+            cursor: pointer
+            
+
+            .fa-check-circle
+                color : $color-text-orange
+                text-shadow: 1px 1px 1px #000
+
+.useselected
+    position: absolute
+    z-index: 3006
+    top : 40%
+    left : 0
+    right : 0
+    color : #fff
+    padding : 2 * $r
+
+    .wcaption
+        margin-bottom: 2 * $r
+
+    &.notfocused
+        opacity: 0.4
+
+.mask
+    position: absolute
+    left : 0
+    top : 0
+    bottom : 0
+    right : 0
+    z-index: 1
+
+    .title
+        position: absolute
+        left : 0
+        right : 0
+        padding : 4 * $r
+        margin-top: 115px
+        text-align: center
+        top : 50%
+        +transition(0.3s)
+
+        
+
+    .area
+        left : $r
+        top : $r
+        bottom : $r
+        right: $r
+        border-radius: 12px
+        border : 1px dashed srgb(--neutral-grad-0)
+        position: absolute
+        box-shadow: 0 0 5000px 3000px srgba(--color-shadow-base, 0.3)
+        +transition(0.3s)
+
+    &.hasselected
+        .area
+            left : 0
+            top : 0
+            bottom : 0
+            right: 0
+            border-radius: 0
+            background: srgba(--color-shadow-base, 0.4)
+            box-shadow: none
+            border : 0
+
+        .title
+            opacity: 0
+.panel
+    margin : 0 auto
+    position: absolute
+    left : $r
+    right : $r
+    bottom : 5 * $r
+    text-align: center
+    z-index: 150
+
+    .buttons
+
+        span
+            padding : $r
+            color : #fff
+            text-shadow: 1px 1px 2px #000
+            margin-right : 20px
+
+            &:nth-last-child(1)
+                margin-right : 0
+            
+
+        

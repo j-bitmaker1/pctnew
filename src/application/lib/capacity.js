@@ -264,7 +264,7 @@ class Capacity {
                 sigma : sigma
             }) * 100;
 
-            if(z.toString() == 'NaN') z = 'null'
+            if(z.toString() == 'NaN') z = null
             
         }
 

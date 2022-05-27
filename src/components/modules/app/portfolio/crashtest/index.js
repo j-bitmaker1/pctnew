@@ -55,11 +55,15 @@ export default {
 	},
 
 	created : function(){
-		this.get()
 	},
 
 	watch: {
-		//$route: 'getdata'
+		portfolio : {
+			immediate : true,
+			handler : function(){
+				this.get()
+			}
+		}
 	},
 	computed: mapState({
 		auth : state => state.auth,

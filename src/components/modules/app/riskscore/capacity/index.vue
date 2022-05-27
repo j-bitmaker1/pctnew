@@ -42,8 +42,9 @@ export default {
 	}),
 
 	methods: {
-		change : function(values){
-			this.$emit('change', values)
+		change : function(capacity){
+			console.log('ch', capacity)
+			this.$emit('change', capacity)
 		}
 	},
 }

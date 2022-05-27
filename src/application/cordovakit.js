@@ -11,6 +11,8 @@ class Cordovakit {
 
     prepare(){
 
+        document.documentElement.style.setProperty('--keyboardheight', `0px`);
+
         if (!window.cordova) return
 
         if (navigator.splashscreen) navigator.splashscreen.hide();
@@ -18,6 +20,10 @@ class Cordovakit {
         window.screen.orientation.lock('portrait')
 
         this.keyboard()
+        //window.StatusBar.hide()
+        window.StatusBar.backgroundColorByHexString('#00000000');
+        window.StatusBar.styleDefault()
+        //self.platform.sdk.theme.current == 'white' ? window.StatusBar.styleDefault() : window.StatusBar.styleLightContent()
     }
 
     keyboard(){

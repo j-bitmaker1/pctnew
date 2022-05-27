@@ -25,8 +25,8 @@
 			<i class="fas fa-tasks"></i> Create aggregate
 		</button>
 
-		<button class="button black" key="scan" :disabled="assets.length > 0">
-			<i class="fas fa-camera"></i> Scan document
+		<button class="button black" key="scan" :disabled="assets.length > 0" @click="scan">
+			<i class="fas fa-camera"></i> Photo document
 		</button>
 
 		<button class="button black" key="other" :disabled="assets.length > 0">
@@ -75,7 +75,7 @@
 							<div class="remove" @click="remove(slotProps.index)">
 								<i class="fas fa-times-circle"></i> 
 							</div>
-							<assetsEdit :ref="slotProps.index" :name="slotProps.item.name" :isCovered="slotProps.item.isCovered" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
+							<assetsEdit @focus="focus" @blur="blur" :ref="slotProps.index" :name="slotProps.item.name" :isCovered="slotProps.item.isCovered" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
 						</div>
 					</template>
 				</list>

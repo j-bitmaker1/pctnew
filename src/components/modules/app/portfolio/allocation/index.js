@@ -198,6 +198,7 @@ export default {
 
 	methods : {
 		grouping : function(e){
+			this.drilldown = null
 			this.activegrouping = e.target.value
 		},
 

@@ -60,9 +60,14 @@ export default {
             
         },
 
-        focus : function(){
+        focus : function(e){
             this.focused = true
             this.search()
+
+            this.$emit('focus')
+
+            this.$el.closest('.customscroll').scrollTop = e.target.offsetTop - 100
+
         },
 
         blur : function(){
@@ -75,7 +80,11 @@ export default {
                 if(this.ticker){
                     this.namestring = ''
                 }
+
+                
             }, 200)
+
+            this.$emit('blur')
             
         },
 

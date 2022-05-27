@@ -35,6 +35,14 @@
 		   
 		</div>
 	</div>
+
+	<div v-if="questionnaire" class="questionnaire">
+		<div class="caption mobp">
+			<span>Questionnaire</span>
+		</div>
+
+		<questionnaire :result="questionnaire"/>
+	</div>
 </div>
 </template>
 

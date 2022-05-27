@@ -19,6 +19,9 @@
     right: 0
     z-index: 2023
 
+    .modal-body
+        padding-bottom: var(--keyboardheight)
+
     .swipable
         position: absolute
         left : 0
@@ -27,11 +30,14 @@
         bottom : 0
 
     &.small
+        .modal-body
+            padding-bottom: 0
         .swipable
             position: static
         .modal-wrapper
             top : auto
             max-height: 90vh
+            
 
             .modal
                 max-height: 90vh
@@ -40,6 +46,13 @@
     &.likelabel
 
         top : auto
+
+        .modal-wrapper
+            padding-bottom: 0
+
+
+        .modal-body
+            padding-bottom: 0
 
         .modal
             background: srgb(--color-bg-ac-bright) 

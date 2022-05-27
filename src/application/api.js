@@ -1183,6 +1183,8 @@ var ApiWrapper = function (core) {
 
 					var {updated, from = {}} = core.vxstorage.update(data, 'portfolio')
 
+					console.log('updated!!!', updated, from)
+
 					if (updated){
 						core.vxstorage.invalidateManyQueue(
 							[updated.crmContactId, from.crmContactId], 
@@ -1196,11 +1198,9 @@ var ApiWrapper = function (core) {
 
 						core.user.activity.template('portfolio', updated)
 					}
-
-					
 					
 
-					return Promise.resolve(r)
+					return Promise.resolve(updated)
 				})
 			},
 
@@ -1451,8 +1451,32 @@ var ApiWrapper = function (core) {
 		},
 
 		questionnaire : {
-			getlink : function(clientid){	
-				return Promise.resolve(window.location.origin + '/riskscore')
+			getlink : function(clientid, p = {}){	
+
+				p.method = "GET"
+
+				var d = {}
+
+				if(clientid) d.leadId = clientid
+
+				return request(d, 'api', 'crm/Surveys/GetKeyForPctQuiz', p).then(r => {
+
+					return Promise.resolve(window.location.origin + '/riskscore/' + r.token)
+	
+				})
+				
+			},
+
+			getdata : function(token, p = {}){
+
+				p.method = "GET"
+
+				return request({token}, 'api', 'crm/Surveys/GetInfoForPctQuiz', p).then(r => {
+
+					return Promise.resolve(r)
+	
+				})
+
 			}
 		}
 	}

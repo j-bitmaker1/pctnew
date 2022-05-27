@@ -131,6 +131,10 @@ f.ep = function(){
     return Promise.resolve()
 }
 
+f.name = function(fname,lname){
+    return _.filter([fname,lname], (n) => {return n}).join(" ") || ""
+}
+
 f.openexternallink = function(href = ''){
 
     if (href.indexOf('tel:') > -1 || href.indexOf('mailto:') > -1 || typeof cordova == 'undefined'){
@@ -1091,9 +1095,12 @@ var Base64 = {
 
 
 
+    },
+
+    fromBlob : function(blob){
+        var urlCreator = window.URL || window.webkitURL;
+        return urlCreator.createObjectURL(blob);
     }
-
-
 
 }
 

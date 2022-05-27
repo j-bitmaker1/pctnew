@@ -479,7 +479,7 @@ class PCT {
         var t = _.filter(_.map(tickers, (t) => {
             if(isObject(t)) {
 
-                //if(!t.isCovered) return null ///TODO
+                if(!t.isCovered) return null 
 
                 return t.ticker
             }

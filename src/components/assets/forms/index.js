@@ -43,7 +43,11 @@ export default {
 
         _.each(this.fields, (f) => {
 
-            f1[f.id] = this.value[f.id] || ''
+            var v = ''
+
+            if(this.value[f.id] || this.value[f.id] === 0) v = this.value[f.id]
+
+            f1[f.id] = v
 
             var addedRules = []
 

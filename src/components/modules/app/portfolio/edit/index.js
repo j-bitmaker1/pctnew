@@ -25,7 +25,8 @@ export default {
 			assets : [],
 			hash : '',
 			name : '',
-			aggregation : null
+			aggregation : null,
+			focused : false
 		}
 
 	},
@@ -99,6 +100,15 @@ export default {
 	}),
 
 	methods : {
+
+		focus : function(){
+			this.focused = true
+		},
+
+		blur : function(){
+			this.focused = false
+		},
+
 		getassetsinfo : function(){
 			/*this.core.pct.assets(this.assets).then(r => {
 				this.assetsinfo = r
@@ -378,6 +388,22 @@ export default {
 
 			}, {selected})
 		
+		},
+
+		scan : function(){
+			this.$store.commit('OPEN_CAMERA', {
+				data : {
+					multiple : true,
+					mask : {
+						title : "Take a photo of a document"
+					}
+				},
+				events : {
+					selected : (images) => {
+						console.log('images', images)
+					}
+				}
+			})
 		}
 	},
 }

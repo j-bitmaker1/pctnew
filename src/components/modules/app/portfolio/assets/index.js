@@ -5,7 +5,8 @@ export default {
 	name: 'portfolio_assets',
 	props: {
 		assets : Array,
-		assetsinfo : Object
+		assetsinfo : Object,
+		portfolio : Object
 	},
 
 	components : {
@@ -39,8 +40,15 @@ export default {
 				caption : "Edit Portfolio",
 				data : {
 					edit : {
-						name : '',
-						assets : this.assets
+						name : this.portfolio.name,
+						assets : this.assets,
+						id : this.portfolio.id
+					}
+				},
+
+				events : {
+					edit : () => {
+						
 					}
 				}
 			})

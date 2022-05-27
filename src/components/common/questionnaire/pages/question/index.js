@@ -41,7 +41,12 @@ export default {
 
             if (this.result && this.question.forceNext){
                 this.next()
+
+                return
             }
+
+            if (this.result)
+                this.$emit('input', this.result)
         },
 
         back : function(){

@@ -86,7 +86,10 @@ var storeFactory = function(vxstorage){
 		valuemode : 'd',
 
 		crmschemas : {},
-		selection : null
+		selection : null,
+
+		camera : null,
+    	photolibraryaccessdecline : false
 
 	}
 
@@ -132,6 +135,10 @@ var storeFactory = function(vxstorage){
 			state.wssready = false
 			//state.modals = []
 			
+		},
+		
+		photolibraryaccessdecline: function(state, value){
+			state.photolibraryaccessdecline = value
 		},
 
 		tscrolly(state, value) {
@@ -225,6 +232,14 @@ var storeFactory = function(vxstorage){
 
 		SET_MENU(state, v) {
 			state.menu = v
+		},
+
+		OPEN_CAMERA(state, v) {
+			state.camera = v
+		},
+
+		CLOSE_CAMERA(state) {
+			state.camera = null
 		},
 
 		OPEN_MODAL(state, modal) {
@@ -351,7 +366,7 @@ var storeFactory = function(vxstorage){
 	
 			mutations['_set_' + storage.type] = function(state, obj){
 	
-	
+				console.log('obj', obj)
 				Vue.set(state['_' + storage.type], obj[storage.index], obj)
 			}
 	

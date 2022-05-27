@@ -83,10 +83,15 @@ export default {
 	},
 
 	created : function(){
-		this.load()
 	},
 
 	watch: {
+		portfolio : {
+			immediate : true,
+			handler : function(){
+				this.load()
+			}
+		}
 		//$route: 'getdata'
 	},
 	computed: mapState({

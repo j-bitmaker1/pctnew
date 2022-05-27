@@ -225,8 +225,18 @@ export default {
 	},
 
 	watch: {
-		values : function(){
-			this.$emit('change')
+		['simulation.capacity'] : {
+			immediate : false,
+			deep : true,
+			handler : function(){
+
+				console.log("values", this.simulation.capacity)
+
+				this.$emit('change', {
+					values : this.values,
+					capacity : this.simulation.capacity
+				})
+			}
 		},
 		options : function(){
 			this.make()
@@ -235,12 +245,12 @@ export default {
 			this.make()
 		},
 
-		initial : {
+		/*initial : {
 			immediate : true,
 			handler : function(){
 				this.init()
 			}
-		}
+		}*/
 	},
 	computed: mapState({
 		auth : state => state.auth,
@@ -420,6 +430,8 @@ export default {
             })
 
             this.simulation = capacity.simulation()
+
+			console.log('this.simulation ', this.simulation )
         }
     },
 }

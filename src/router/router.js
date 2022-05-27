@@ -184,7 +184,7 @@ const routes = [
 	},
 
 	{
-		path: '/riskscore',
+		path: '/riskscore/:token',
 		name: 'riskscore',
 		component: () => import('@/views/riskscore'),
 	},

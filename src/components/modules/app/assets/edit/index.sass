@@ -4,33 +4,43 @@
     align-items: center
     border-bottom: 1px solid srgb(--neutral-grad-1)
     font-size: 0.9em
-    position: relative
+    /*position: relative*/
 
 .assets_fromsearch
     display: flex
     justify-content: space-between
     align-items: center
     font-size: 0.9em
-    position: relative
 
 .searchresult
-    position: absolute
-    left : 0
-    top : 100%
-    right: 0
+    position: fixed
+    left : $r
+    top: $r
+    margin-top: var(--app-margin-top)
+    right: $r
     max-height: 380px
-    margin-top : $r
     border-radius: 6px
     background: srgb(--background-total-theme)
     padding : 2 * $r
     border : 1px solid srgb(--neutral-grad-0)
     +shadowSmaller()
-    z-index: 2
-    
+    z-index: 200
     overflow-x: hidden
 
+    ::v-deep
+        
+        .simplelist
+            display: flex
+            flex-direction: row
+            flex-wrap: nowrap
+            overflow-x: auto
+            &::-webkit-scrollbar
+                display: none
+
+            .item
+                margin-right: 3 * $r
+
     .assets_fromsearch
-        margin-bottom: $r
 
     .twrapper
         min-width: 120px
@@ -38,7 +48,7 @@
     .ticker
         display: block
         margin: 0
-        margin-right: 2 * $r
+        margin-right: $r
 
     .name
         text-overflow: ellipsis

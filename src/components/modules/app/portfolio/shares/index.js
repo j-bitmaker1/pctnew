@@ -55,11 +55,19 @@ export default {
 	},
 
 	created : function(){
-		this.get()
+		//this.get()
 	},
 
 	watch: {
-		//$route: 'getdata'
+
+		['portfolio.positions'] : {
+			deep: true,
+			immediate : true,
+			handler : function(){
+				console.log("as")
+				this.get()
+			}
+		}
 	},
 	computed: mapState({
 		auth : state => state.auth,
@@ -74,8 +82,7 @@ export default {
 	methods : {
 		get : function(){
 
-			this.assets = this.portfolio.positions /// todo get assets extended request
-			
+			this.assets = this.portfolio.positions
 			this.loading = true
 
 			this.core.pct.assets(this.portfolio).then(r => {

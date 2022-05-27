@@ -137,10 +137,10 @@ export default {
 			if(!values) return null
 
 			var converted = {
-				age : values.age[0],
-				retire : values.age[1],
+				age : values.ages[0],
+				retire : values.ages[1],
 				save : values.save,
-				saving : values.saving,
+				savings : values.savings,
 				salary : values.salary / 12
 			}
 
@@ -149,7 +149,15 @@ export default {
 
 		change : function(value, page){
 			if(page.type == 'risk') this.$emit('changecr', value)
-			if(page.type == 'capacity') this.$emit('changecapacity', this.capacityToQr(value))
+			if(page.type == 'capacity') {
+
+				console.log("SA")
+
+				this.$emit('changecapacity', {
+					values : this.capacityToQr(value.values),
+					capacity : value.capacity
+				})
+			}
 		},
 
 		getmodule: function (page) {
