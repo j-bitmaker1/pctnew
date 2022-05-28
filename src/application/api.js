@@ -208,6 +208,7 @@ var ApiWrapper = function (core) {
 		pct: new Request(core, "https://rixtrema.net/RixtremaWS/AJAXPCT.aspx", 'pct'),
 		pctapi: new Request(core, "https://rixtrema.net/api/pct", 'pctapi'),
 		api: new Request(core, "https://rixtrema.net/api", 'api'),
+		'401k' : new Request(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
 		default: new Request(core)
 	}
 
@@ -1644,6 +1645,21 @@ var ApiWrapper = function (core) {
 				method: "POST",
 			})
 		},
+	}
+
+	self.rixtrema = {
+		aws : {
+			get : function(data = {}, p = {}){
+
+				p.method = "GET"
+
+				data.data = 1
+
+				return request(data, '401k', '?action=AWSTEXTRACTOR_GET', p).then(r => {
+					return Promise.resolve(r.FCT.records || [])
+				})
+			}
+		}
 	}
 
 	self.prepare = function(){

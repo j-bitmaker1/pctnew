@@ -10,6 +10,7 @@ import CRM from './lib/crm'
 import PCT from './lib/pct'
 import Vueapi from './vueapi'
 import Cordovakit from './cordovakit'
+import Filemanager from './lib/filemanager'
 
 class Core {
     constructor(vm, p){
@@ -43,8 +44,10 @@ class Core {
         this.external = {}
         this.hiddenInParent = false
 
+        this.filemanager = new Filemanager(this)
         this.crm = new CRM(this)
         this.pct = new PCT(this)
+        
 
         this.user = new user(this)
         this.vueapi = new Vueapi(this)

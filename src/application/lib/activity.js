@@ -121,7 +121,8 @@ class Actions {
     constructor () {
         this.keys = [
             'themeToggle', 'changePassword', 'scenarioManager', 
-            'newPortfolio', 'newClient', 'newLead', 'sharequestionnaire'
+            'newPortfolio', 'newClient', 'newLead', 'sharequestionnaire',
+            'fileManager'
         ]
     }
 
@@ -148,6 +149,23 @@ class Actions {
             data : {
                 label : 'common.2901009',
                 type : 'labels.usersettings'
+            }
+        }
+    }
+
+    fileManager () {
+        return {
+            type: 'action',
+            subtype: 'fileManager',
+
+
+            action : {
+                vueapi : 'fileManager'
+            },
+
+            data : {
+                label : 'labels.fileManager',
+                type : 'labels.actions'
             }
         }
     }

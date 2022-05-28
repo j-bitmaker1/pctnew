@@ -404,6 +404,14 @@ export default {
 					}
 				}
 			})
+		},
+
+		filemanager : function(){
+			this.core.vueapi.fileManager({}, {
+				assets : () => {
+					
+				}
+			})
 		}
 	},
 }

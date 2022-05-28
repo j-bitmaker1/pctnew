@@ -84,7 +84,8 @@
 		"goexistclient" : "Go to client",
 		"goexistlead" : "Go to lead",
 		"sharequestionnaireCommon" : "Get questionnaire link",
-		"uploadContactImage" : "Upload contact image"
+		"uploadContactImage" : "Upload contact image",
+		"fileManager" : "File manager"
 	},
 
 	"caption" : {

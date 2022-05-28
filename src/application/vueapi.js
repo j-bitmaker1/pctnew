@@ -277,6 +277,32 @@ class Vueapi {
 
     }
 
+    fileManager = function(data, events, p = {}){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_filemanager',
+            module : "filemanager",
+            caption : "File manager",
+    
+            data : data || {},
+            events : events
+        })
+    }
+
+    camera = function(success, p = {}){
+        this.store.commit('OPEN_CAMERA', {
+            data : {
+                multiple : true,
+                mask : {
+                    title : p.title || ""
+                }
+            },
+            events : {
+                selected : (images) => {
+                    success(images)
+                }
+            }
+        })
+    }
 }
 
 export default Vueapi

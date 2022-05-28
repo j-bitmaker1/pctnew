@@ -98,17 +98,6 @@ export default {
                 return f.clientsearch(this.searchvalue, this.prefiltered, (scenario) => {
                     return (scenario.name + ' ' + (scenario.region || "") + ' ' + scenario.keywords.join(' '))
                 })
-
-                var txt = this.searchvalue
-                var ctxt = txt.toLowerCase().replace(/[^a-z0-9]/g, '')
-
-                return _.filter(this.prefiltered, function(scenario){
-                    var stext = (scenario.name + ' ' + (scenario.region || "") + ' ' + scenario.keywords.join(' '))
-                    
-                    var ctext = stext.toLowerCase().replace(/[^a-z0-9]/g, '')
-
-                    if(ctext.indexOf(ctxt) > -1 || f.stringComparison(txt, stext)) return true
-                })
             }
             else{
                 return this.prefiltered
