@@ -8,6 +8,10 @@
 
 <style scoped lang="sass">
 .icon
+    width: 30px
+    height: 44px
+    line-height: 44px
+    text-align: center
     color : srgb(--neutral-grad-2)
 </style>
 

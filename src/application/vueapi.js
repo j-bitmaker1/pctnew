@@ -288,6 +288,19 @@ class Vueapi {
         })
     }
 
+    pdfviewer = function(file, events = {}, p = {}){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_pdfviewer',
+            module : "pdfviewer",
+            caption : "Pdf viewer",
+    
+            data : {
+                file
+            },
+            events : events
+        })
+    }
+
     camera = function(success, p = {}){
         this.store.commit('OPEN_CAMERA', {
             data : {

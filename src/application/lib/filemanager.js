@@ -4,6 +4,8 @@ import _ from 'underscore'
 class Filemanager {
     constructor({api, user, store}){
        this.api = api
+
+       this.originals = {}
     }
 
     parseList(records){
@@ -42,6 +44,33 @@ class Filemanager {
             console.log("data", records)
             return Promise.resolve(this.parseList(records))
         })
+    }
+
+    original(id, type){
+
+
+        return this.api.rixtrema.aws.original(id, type, {
+            preloader : true,
+            showStatusFailed : true
+        }).then(file => {
+
+            return Promise.resolve(file)
+        })
+    }
+
+    upload(file){
+
+        var info = {
+            FileName: file.name,
+            ContentType: file.type,
+            Size: file.size
+        }
+
+        return this.api.rixtrema.aws.upload(info, file).then(r => {
+
+            return Promise.resolve(r)
+        })
+
     }
 
 }

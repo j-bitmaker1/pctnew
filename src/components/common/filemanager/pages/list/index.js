@@ -2,6 +2,7 @@ import { mapState } from 'vuex';
 import f from '@/application/functions';
 
 import file from './file/index.vue'
+import _ from 'underscore';
 
 export default {
     name: 'filemanager_pages_list',
@@ -17,7 +18,32 @@ export default {
         return {
             loading : false,
             files : [],
-            searchvalue : ''
+            searchvalue : '',
+
+            sort : 'date_asc',
+			sorting : {
+				name_asc : {
+					text : 'fname_asc',
+					field : 'name',
+					sort : 'asc'
+				},
+				name_desc : {
+					text : 'fname_desc',
+					field : 'name',
+					sort : 'desc'
+				},
+
+                date_asc : {
+					text : 'date_asc',
+					field : 'date',
+					sort : 'asc'
+				},
+				date_desc : {
+					text : 'date_desc',
+					field : 'date',
+					sort : 'desc'
+				}
+			},
         }
 
     },
@@ -31,7 +57,9 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
-
+        count : function(){
+            return this.filtered.length
+        },
         filtered : function(){
             if(this.searchvalue){
 
@@ -53,6 +81,24 @@ export default {
                 return this.files
             }
         },
+
+        sorted : function(){
+
+            var [field, ad] = this.sort.split('_')
+
+            var srt = _.sortBy(this.filtered, (f) => {
+
+                if(field == 'name') return f.info.FileName
+                if(field == 'date') return f.completed || f.created
+
+            })
+
+            if(this.sort == 'date_asc') srt.reverse()
+            if(this.sort == 'name_desc') srt.reverse()
+
+            return srt
+        },
+
         menu : function(){
 			return [
 				
@@ -67,12 +113,16 @@ export default {
     }),
 
     methods : {
+        sortchange : function(v){
+			this.sort = v
+		},
+
         load : function(){
 
+            this.files = []
             this.loading = true
 
             this.core.filemanager.getall().then(files => {
-                console.log('files', files)
                 this.files = files
 
                 return Promise.resolve()
@@ -87,6 +137,10 @@ export default {
 
         deleteitems : function(){
             
+        },
+
+        added : function(r){
+            this.files = _.concat(this.files, r)
         }
     },
 }

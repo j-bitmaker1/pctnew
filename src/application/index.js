@@ -232,6 +232,16 @@ class Core {
         return this.api.invalidateDb(dbIndex, updated, data)
     }
 
+    filehandler(blob, p = {}){
+
+        if (!p.forcedownload){
+            if (blob.type == 'application/pdf') return this.vueapi.pdfviewer({
+                blob
+            })
+        }
+
+    }
+
 }
 
 export default Core

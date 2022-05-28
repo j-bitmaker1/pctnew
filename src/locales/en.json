@@ -85,7 +85,9 @@
 		"goexistlead" : "Go to lead",
 		"sharequestionnaireCommon" : "Get questionnaire link",
 		"uploadContactImage" : "Upload contact image",
-		"fileManager" : "File manager"
+		"fileManager" : "File manager",
+		"deleteFile" : "Delete file",
+		"openOriginal" : "Open original"
 	},
 
 	"caption" : {
@@ -121,7 +123,9 @@
 
 	"sort" : {
 		"fname_asc" : "Name(A-Z)",
-		"fname_desc" : "Name(Z-A)"
+		"fname_desc" : "Name(Z-A)",
+		"date_asc" : "New ones first",
+		"date_desc" : "Old ones first"
 	},
 
 	"button" : {

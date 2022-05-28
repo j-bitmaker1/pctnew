@@ -1,14 +1,69 @@
 .filemanager_list_file
     display: flex
-    align-items: center
+    align-items: flex-start
     padding : $r
     grid-gap: $r
+    justify-content: space-between
 
-    .size,
-    .name
+    .progress
+        width: 100%
+        margin-top: $r
+        .value
+            margin-top: $r
+            span
+                font-size: 0.8em
+                color : srgb(--neutral-grad-2)
+        .row
+            height: 3px
+            border-radius: 2px
+            background: srgb(--neutral-grad-1)
+            overflow: hidden
+
+            .bg
+                height: 100%
+                background: srgb(--color-good)
+
+    .data
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
-        max-width: 250px
+        flex-grow: 2
 
-        
+     
+
+        .failed
+            margin-top: $r
+
+            span
+                font-size: 0.8em
+                color : srgb(--color-txt-ac)
+
+        .contents
+            white-space: nowrap
+            margin-top: $r
+            display: flex
+            grid-gap: $r
+            align-items: center
+            overflow-x: auto
+            &::-webkit-scrollbar
+                display: none
+            .ticker
+                flex-basis: 80px
+                min-width: 80px
+            button
+                flex-basis: 100px
+                min-width: 100px
+
+        .meta
+            span
+                color : srgb(--neutral-grad-2)
+                font-size: 0.8em
+
+
+    .formenu
+        margin-left: auto
+
+::v-deep
+    .buttonpanel
+        i
+            color : srgb(--neutral-grad-2)

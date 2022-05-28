@@ -33,21 +33,50 @@ export default {
     }),
 
     methods : {
-        uploadFromFileStart : function(){
-			//this.$store.commit('globalpreloader', true)
+        uploaded : function(data){
+            
+            this.$store.commit('globalpreloader', true)
+
+            var results = []
+
+            return Promise.all(_.map(data, (d) => {
+
+                return this.core.filemanager.upload(d.file).then(r => {
+                    console.log("R", r)
+                    results.push(r)
+                    return Promise.resolve()
+                })
+
+            })).then(() => {
+
+                console.log("results", results)
+
+                if (this.$refs.page && this.$refs.page.load)
+                    this.$refs.page.load()
+
+                this.$store.commit('icon', {
+                    icon: 'success',
+                })
+
+            }).catch(e => {
+
+                console.error(e)
+
+                this.$store.commit('icon', {
+                    icon: 'error',
+                    message: e.error
+                })
+
+            }).finally(() => {
+
+                this.$store.commit('globalpreloader', false)
+
+            })
+			console.log('files', files)
 		},
 
-		uploadFromFileUploadedAll : function(){
-			//this.$store.commit('globalpreloader', false)
-		},
 
-		uploadFromFileUploaded: function(file){
-
-            console.log("file", file)
-
-        },
-
-        uploadFromFileError : function(e){
+        uploadError : function(e){
             if (e.text){
 				this.$store.commit('icon', {
 					icon: 'error',
@@ -57,6 +86,7 @@ export default {
         },
 
         camera : function(){
+        
 
             this.core.vueapi.camera((images) => {
 

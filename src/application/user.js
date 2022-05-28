@@ -290,7 +290,7 @@ var User = function ({
         }
     }
 
-    function extendA({ headers, data, system }) {
+    function extendA({ headers, data, system, formData }) {
 
         var extendedobj = headers
 
@@ -304,19 +304,29 @@ var User = function ({
         }
 
         if (token.value) {
-            extendedobj.Token = token.value
 
-            //if(system == 'pct')  extendedobj.Login = 'maximgrishkov@yandex.ru' ////TODO
+            if (extendedobj)
+                extendedobj.Token = token.value
+
+            if(formData){
+                formData.append('token', token.value)
+            }
         }
 
         else {
-
-            if (login.value) extendedobj.Login = login.value
-            if (pwdhash.value) extendedobj.password = pwdhash.value
+            if (extendedobj){
+                if (login.value) extendedobj.Login = login.value
+                if (pwdhash.value) extendedobj.password = pwdhash.value
+            }
+            
+        }
+        if (extendedobj){
+            extendedobj.fingerPrint = fingerprint
         }
 
-        extendedobj.fingerPrint = fingerprint
-
+        if(formData){
+            formData.append('fingerPrint', fingerprint)
+        }
 
         return Promise.resolve({ headers, data, system })
     }

@@ -2,6 +2,7 @@ import { mapState } from 'vuex';
 import f from '@/application/functions';
 
 import filepreview from '../../../filepreview/index.vue'
+import filemenu from '../../../filemenu/index.vue'
 
 export default {
     name: 'filemanager_list_file',
@@ -9,7 +10,7 @@ export default {
         file : Object
     },
 
-    components : {filepreview},
+    components : {filepreview, filemenu},
 
     data : function(){
 

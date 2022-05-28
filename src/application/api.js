@@ -1,5 +1,6 @@
 import f from './functions'
 import {Contact, Portfolio} from './lib/kit.js'
+var Axios = require('axios');
 
 var sha1 = require('sha1');
 var { parseerror } = require('./error')
@@ -7,6 +8,29 @@ var { parseerror } = require('./error')
 import dbstorage from "./dbstorage";
 import _ from 'underscore';
 
+var FormDataRequest = function(core = {}, url, system){
+
+	var self = this
+
+	self.fetch = function(to, formData, p){
+		const headers = {'content-type': 'multipart/form-data'}
+
+		return core.user.extendA({ formData, system }).then(r => {
+
+			return Axios({
+				baseURL: url,
+				url: to || '',
+				data: formData,
+				method: 'post',
+				headers,
+			}).then(r => {
+				return Promise.resolve(r.data)
+			})
+		})
+		
+	}
+
+}
 
 var Request = function (core = {}, url, system) {
 	var self = this
@@ -196,6 +220,13 @@ var ApiWrapper = function (core) {
 			}
 		},
 
+		files : function(){
+			return {
+				storage : 'files',
+				time : 60 * 60 * 12 
+			}
+		},
+
 		financial: function(){
 			return {
 				storage : 'financial',
@@ -208,7 +239,12 @@ var ApiWrapper = function (core) {
 		pct: new Request(core, "https://rixtrema.net/RixtremaWS/AJAXPCT.aspx", 'pct'),
 		pctapi: new Request(core, "https://rixtrema.net/api/pct", 'pctapi'),
 		api: new Request(core, "https://rixtrema.net/api", 'api'),
+
+		/* temp */
 		'401k' : new Request(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
+		'401kFD' : new FormDataRequest(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
+		/* ---- */
+
 		default: new Request(core)
 	}
 
@@ -780,7 +816,7 @@ var ApiWrapper = function (core) {
 
 				}
 
-				if (p.showStatus){
+				if (p.showStatus || p.showStatusFailed){
 					core.store.commit('icon', {
                         icon: 'error',
                         message: e.error
@@ -1658,6 +1694,35 @@ var ApiWrapper = function (core) {
 				return request(data, '401k', '?action=AWSTEXTRACTOR_GET', p).then(r => {
 					return Promise.resolve(r.FCT.records || [])
 				})
+			},
+
+			original: function(id, type, p = {}){
+
+				p.storageparameters = dbmeta.files()
+
+				return dbrequest({}, '401k', '?action=AWSTEXTRACTOR_FILE&id=' + id, p).then(r => {
+
+					//console.log('new Blob([r.Message], { type })', new Blob([r.Message], { type }), type)
+					return Promise.resolve(new Blob([r.Message], { type }))
+				})
+				
+			},
+
+			upload: function(info, file, p){
+
+				let formData = new FormData();
+
+					formData.append('action', 'AWSTEXTRACTOR_POST');
+					formData.append('info', JSON.stringify(info));
+					formData.append("data", file);
+
+				console.log('formData', formData.getAll('data'))
+
+				return request(formData, '401kFD', '', p).then(r => {
+					return Promise.resolve(r.FCT)
+				})
+
+
 			}
 		}
 	}

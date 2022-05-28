@@ -1,0 +1,48 @@
+.menu
+    display: flex
+    position: sticky
+    top : 54px
+    left : 0
+    right: 0
+    align-items: center
+    justify-content: space-between
+    z-index: 10
+    background: srgb(--background-total-theme)
+    +shadowSmaller()
+
+    .zoom,
+    .navigator
+        display: flex
+        align-items: center
+        grid-gap: $r
+
+    .navigator
+        margin-left: auto
+
+    .item
+        paffing : $r
+        border-radius: 12px
+
+        &.btn
+            padding : 2 * $r
+
+        i
+            font-size: 0.9em
+            color : srgb(--neutral-grad-3)
+
+.pdfwrapper
+    padding : $r
+    background: srgb(--neutral-grad-0)
+
+    >div>div
+        border-radius: 6px
+        overflow: hidden
+        margin-bottom: $r!important
+
+    .page
+        padding-bottom: 0!important
+
+::v-deep
+    #viewerContainer
+        overflow-y: hidden
+        overflow-x: auto
