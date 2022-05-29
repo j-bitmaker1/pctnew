@@ -2,7 +2,7 @@
 <div id="portfolios_edit">
 
 	<div class="namewrapper" >
-		<input placeholder="Portfolio name" @keyup="changename" :value="name"/>
+		<input placeholder="Portfolio name" ref="inputname" @keyup="changename" :value="name"/>
 	</div>
 
 	<div class="addwrapper" v-if="!aggregation">

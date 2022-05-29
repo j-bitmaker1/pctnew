@@ -8,7 +8,7 @@
             </div>
 
             <div class="searchticker">
-                <i class="fas fa-search"></i>
+                <i class="fas fa-search" @click="searchAssets"></i>
             </div>
         </div>
 

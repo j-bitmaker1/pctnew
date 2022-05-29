@@ -117,6 +117,30 @@
         .modal
             border-radius: 0
 
+    &.topsearching
+        .modal-body
+            padding-bottom: 0
+        .swipable
+            position: static
+
+        .modal-header
+            display: none
+        .modal-wrapper
+            top : 0
+            bottom : auto
+            max-height: 90vh
+
+            .modal
+                padding-top: 8 * $r
+                padding-bottom: 5px
+                max-height: 90vh
+                position: static
+                border-radius: 0
+                border : 0
+                border-bottom-left-radius: 20px
+                border-bottom-right-radius: 20px
+                border-bottom : 1px solid srgba(--neutral-grad-3, 0.2)
+
 .modal-wrapper
     position: absolute
     left : 0

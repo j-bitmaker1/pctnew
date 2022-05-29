@@ -15,25 +15,6 @@
             <input :disabled="!ticker" :value="value ? value : ''" ref="valueinput" placeholder="0" @change="changevalue" />
         </div>
 
-        <div class="searchresult customscroll" v-if="searchresult.length">
-            <list :items="searchresult" @click="select">
-                <template v-slot:default="slotProps">
-
-                    <div class="assets_fromsearch">
-                        <div class="twrapper">
-                            <div class="ticker">
-                                <span>{{slotProps.item.ticker}}</span>
-                            </div>
-                        </div>
-                        <div class="name">
-                            <span>{{slotProps.item.name}}</span>
-                        </div>
-                    </div>
-
-                </template>
-            </list>
-        </div>
-
     </div>
 
 </div>

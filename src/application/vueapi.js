@@ -329,6 +329,24 @@ class Vueapi {
             }
         })
     }
+
+    searchAssets = function(success){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_assets_search',
+            module : "assets_search",
+            mclass : "topsearching",
+            caption : "",
+    
+            data : {
+                
+            },
+            events : {
+                selected : function(a){
+                    if(success) success(a)
+                }
+            }
+        })
+    }
 }
 
 export default Vueapi

@@ -1,28 +1,7 @@
 import { mapState } from 'vuex';
 
 /// TO DO DYNAMIC IMPORT
-import home from "@/components/modules/app/home/index.vue";
-import portfolio_edit from "@/components/modules/app/portfolio/edit/index.vue";
-import client_edit from "@/components/modules/app/client/edit/index.vue";
-import portfolio_crashtest_scenariodetails from "@/components/modules/app/portfolio/crashtest/scenariodetails/index.vue";
 
-import share from "@/components/common/share/index.vue";
-import pdfparser from "@/components/common/pdfparser/index.vue";
-
-import client_page from "@/views/client.vue";
-import lead_page from "@/views/lead.vue";
-import portfolios_main from "@/components/modules/app/portfolios/main/index.vue";
-
-import clients from "@/components/modules/app/clients/index.vue";
-import filesystem_edit from "@/components/common/filesystem/edit/index.vue";
-import filesystem from "@/components/common/filesystem/index.vue";
-
-import homesearch from "@/components/modules/app/home/search/index.vue";
-import scenarios_list from "@/components/modules/app/scenarios/list/index.vue";
-
-import filemanager from "@/components/common/filemanager/index.vue";
-import filemanager_file from "@/components/common/filemanager/pages/file/index.vue";
-import pdfviewer from "@/components/common/pdfviewer/index.vue"
 
 export default {
     name: 'modal',
@@ -74,12 +53,26 @@ export default {
     },
 
     components : {
-        home, portfolio_edit, share, client_edit, 
-        portfolio_crashtest_scenariodetails, 
-        portfolios_main, client_page, lead_page,
-        pdfparser, clients, filesystem_edit, filesystem,
-        scenarios_list, homesearch, filemanager,
-        pdfviewer, filemanager_file
+
+        home : () => import("@/components/modules/app/home/index.vue"),
+        portfolio_edit : () => import("@/components/modules/app/portfolio/edit/index.vue"),
+        client_edit : () => import("@/components/modules/app/client/edit/index.vue"),
+        portfolio_crashtest_scenariodetails : () => import("@/components/modules/app/portfolio/crashtest/scenariodetails/index.vue"),
+        share : () => import("@/components/common/share/index.vue"),
+        pdfparser : () => import("@/components/common/pdfparser/index.vue"),
+        client_page : () => import("@/views/client.vue"),
+        lead_page : () => import("@/views/lead.vue"),
+        portfolios_main : () => import("@/components/modules/app/portfolios/main/index.vue"),
+        clients : () => import("@/components/modules/app/clients/index.vue"),
+        filesystem_edit : () => import("@/components/common/filesystem/edit/index.vue"),
+        filesystem : () => import("@/components/common/filesystem/index.vue"),
+        homesearch : () => import("@/components/modules/app/home/search/index.vue"),
+        scenarios_list : () => import("@/components/modules/app/scenarios/list/index.vue"),
+        filemanager : () => import("@/components/common/filemanager/index.vue"),
+        filemanager_file : () => import("@/components/common/filemanager/pages/file/index.vue"),
+        pdfviewer : () => import("@/components/common/pdfviewer/index.vue"),
+        assets_search : () => import("@/components/modules/app/assets/search/index.vue")
+
     },
  
     computed: mapState({

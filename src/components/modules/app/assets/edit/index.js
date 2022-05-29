@@ -15,7 +15,6 @@ export default {
         return {
             loading : false,
             namestring : '',
-            searchresult : [],
             focused : false
         }
 
@@ -28,9 +27,9 @@ export default {
     watch: {
         namestring : _.debounce(function(){
 
-            if (this.namestring.length > 0 && this.namestring.length < 10){
+            /*if (this.namestring.length > 0 && this.namestring.length < 10){
                 this.search()
-            }
+            }*/
 
         })
     },
@@ -45,23 +44,20 @@ export default {
 
         search : function(){
 
-            if(!this.namestring) return
-
-            this.core.api.pctapi.assets.search({
-                searchStr : this.namestring
-            }).then(r => {
-
-                this.searchresult = _.first(r || [], 5)
-
-
-            }).catch(e => {
-                console.error(e)
+            this.core.vueapi.searchAssets((item) => {
+                this.changed({
+                    ticker : item.ticker,
+                    name : item.name,
+                    isCovered : true //// from search true
+                })
             })
+
             
         },
 
         focus : function(e){
             this.focused = true
+
             this.search()
 
             this.$emit('focus')
@@ -75,9 +71,8 @@ export default {
             this.focused = false
 
             setTimeout(e => {
-                this.searchresult = []
 
-                if(this.ticker){
+                if (this.ticker){
                     this.namestring = ''
                 }
 
@@ -90,8 +85,6 @@ export default {
 
         select : function(item){
 
-            this.searchresult = []
-            
             this.changed({
                 ticker : item.ticker,
                 name : item.name,

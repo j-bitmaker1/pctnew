@@ -11,3 +11,14 @@
         .modal
             -webkit-transform: translateY(100%)
             transform: translateY(100%)
+
+
+
+
+.fade-enter, .fade-leave-to
+    opacity: 0
+    &.topsearching
+        ::v-deep
+            .modal
+                -webkit-transform: translateY(-100%)
+                transform: translateY(-100%)

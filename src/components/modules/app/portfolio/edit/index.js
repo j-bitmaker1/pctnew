@@ -49,6 +49,12 @@ export default {
 
 	mounted : function(){
 		this.$refs.assetsList.scrollLeft = 100
+
+		setTimeout(() => {
+			if(!this.name){
+				this.$refs.inputname.focus()
+			}
+		}, 50)
 	},
 
 	watch: {

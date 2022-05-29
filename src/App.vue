@@ -143,6 +143,7 @@ Vue.component("maincontent", maincontent);
 
 Vue.component("gallery", gallery);
 
+
 Vue.use(VuePageTransition)
 
  
@@ -336,6 +337,7 @@ export default {
 		window.addEventListener('scroll', this.dscroll)
 		window.addEventListener('resize', this.dresize)
 		window.addEventListener('resize', this.tresize)
+
     }
 };
 
