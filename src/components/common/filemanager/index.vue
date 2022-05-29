@@ -1,7 +1,7 @@
 <template>
 <div id="filemanager">
 
-    <div class="topheader mobp">
+    <div class="topheader mobp" v-if="page.key == 'list'">
         <div>
             <upload :extensions="['csv', 'xls', 'xlsx', 'pdf']" @uploadedAll="uploaded" @error="uploadError">
                 <template v-slot:content>
@@ -17,8 +17,15 @@
 		</button>
     </div>
 
+    <div class="topheader mobp" v-if="page.key != 'list'">
+
+        <button class="button black" @click="back">
+			<i class="fas fa-angle-left"></i> Back
+		</button>
+    </div>
+
     <div class="content">
-       <component ref="page" v-if="getmodule()" :is="getmodule()" v-bind="page.data || {}"/>
+       <component ref="page" v-if="getmodule()" :is="getmodule()" v-bind="page.data || {}" @openFile="openFile"/>
     </div>
 
 </div>

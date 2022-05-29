@@ -16,28 +16,29 @@
             <date :date="file.completed || file.created" />
         </div>
 
-        <div class="contents" v-if="file.status == 'SUCCESS' && file.data.length">
-            <button class="button small black">Show result</button>
-            <div class="ticker" :key="i" v-for="(asset, i) in file.data">
-                <span>{{asset.Ticker}}</span>
-            </div>
-        </div>
+        <div class="extended" v-if="!cut">
 
-        <div class="progress" v-if="file.status == 'INWORK'">
-            <div class="row">
-                <div class="bg" :style="{width : (file.progress) + '%'}">
+            <div class="contents" v-if="file.status == 'SUCCESS' && file.data.length">
+                <button class="button small black" @click="open">Show result</button>
+                <div class="ticker" :key="i" v-for="(asset, i) in file.data">
+                    <span>{{asset.Ticker}}</span>
                 </div>
             </div>
-            <div class="value">
-                <value :value="file.progress / 100" mode="p" />
+
+            <div class="progress" v-if="file.status == 'INWORK'">
+                <div class="row">
+                    <div class="bg" :style="{width : (file.progress) + '%'}">
+                    </div>
+                </div>
+                <div class="value">
+                    <value :value="file.progress / 100" mode="p" />
+                </div>
+            </div>
+
+            <div class="failed" v-if="file.status == 'FAULTED' || (!file.data.length && file.status == 'SUCCESS')">
+                <span>Sorry, auto-recognition of this file is not possible.</span>
             </div>
         </div>
-
-        <div class="failed" v-if="file.status == 'FAULTED' || (!file.data.length && file.status == 'SUCCESS')">
-            <span>Sorry, auto-recognition of this file is not possible.</span>
-        </div>
-
-    
 
     </div>
 

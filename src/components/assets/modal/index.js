@@ -21,6 +21,7 @@ import homesearch from "@/components/modules/app/home/search/index.vue";
 import scenarios_list from "@/components/modules/app/scenarios/list/index.vue";
 
 import filemanager from "@/components/common/filemanager/index.vue";
+import filemanager_file from "@/components/common/filemanager/pages/file/index.vue";
 import pdfviewer from "@/components/common/pdfviewer/index.vue"
 
 export default {
@@ -78,7 +79,7 @@ export default {
         portfolios_main, client_page, lead_page,
         pdfparser, clients, filesystem_edit, filesystem,
         scenarios_list, homesearch, filemanager,
-        pdfviewer
+        pdfviewer, filemanager_file
     },
  
     computed: mapState({

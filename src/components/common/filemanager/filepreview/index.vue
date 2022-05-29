@@ -1,18 +1,23 @@
 <template>
 <div id="filemanager_filepreview">
     <div class="icon">
-        <i :class="icon" />
+        <span>{{type}}</span>
     </div>
 </div>
 </template>
 
 <style scoped lang="sass">
 .icon
-    width: 30px
+    width: 44px
     height: 44px
-    line-height: 44px
+    line-height: 42px
     text-align: center
+    border-radius: 12px
+    border : 1px solid srgb(--neutral-grad-1)
     color : srgb(--neutral-grad-2)
+
+    span
+        font-size: 0.9em
 </style>
 
 <script>
@@ -39,7 +44,16 @@ export default {
             }
 
             return "fas fa-file"
+        },
 
+        type: function () {
+            var type = f.deep(this.file, 'info.ContentType')
+
+            if (type) {
+                if (type == 'application/pdf') return "PDF"
+            }
+
+            return ""
         }
     }),
 

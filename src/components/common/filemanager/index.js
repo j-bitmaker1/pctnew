@@ -102,5 +102,18 @@ export default {
             if(this.page.key == 'file') return pages_file
         },
 			
+        openFile : function(file){
+           
+
+            this.core.vueapi.fileManager_File(file, {
+
+            }, {
+                name : file.info.FileName
+            })
+        },
+
+        back : function(){
+           
+        }
     },
 }

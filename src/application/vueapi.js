@@ -288,6 +288,19 @@ class Vueapi {
         })
     }
 
+    fileManager_File = function(file, events, p = {}){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_filemanager_file',
+            module : "filemanager_file",
+            caption : p.name || "File",
+            mclass : 'withoutheader',
+            data : {
+                file
+            },
+            events : events
+        })
+    }
+
     pdfviewer = function(file, events = {}, p = {}){
         this.store.commit('OPEN_MODAL', {
             id : 'modal_pdfviewer',

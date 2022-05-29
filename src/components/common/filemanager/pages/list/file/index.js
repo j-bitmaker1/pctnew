@@ -7,7 +7,8 @@ import filemenu from '../../../filemenu/index.vue'
 export default {
     name: 'filemanager_list_file',
     props: {
-        file : Object
+        file : Object,
+        cut : Boolean
     },
 
     components : {filepreview, filemenu},
@@ -40,6 +41,8 @@ export default {
     }),
 
     methods : {
-        
+        open : function(){
+            this.$emit('open')
+        }
     },
 }

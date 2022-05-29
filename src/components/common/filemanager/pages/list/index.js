@@ -141,6 +141,10 @@ export default {
 
         added : function(r){
             this.files = _.concat(this.files, r)
+        },
+
+        open : function(file){
+            this.$emit('openFile', file)
         }
     },
 }

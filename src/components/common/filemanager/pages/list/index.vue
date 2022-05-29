@@ -10,7 +10,7 @@
 	<listselectable context="filemanager" :items="sorted" ref="list">
 		<template v-slot:default="slotProps">
 			<div class="fileWrapper mobp">
-                <file :file="slotProps.item"/>
+                <file :file="slotProps.item" @open="e => {open(slotProps.item)}"/>
 			</div>
 		</template>
 	</listselectable>
