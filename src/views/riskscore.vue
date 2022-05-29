@@ -10,7 +10,36 @@
 	<maincontent>
 		<template v-slot:content>
 			<linepreloader v-if="loading"/>
-			<riskscore v-if="info" :info="info" :token="token"/>
+			
+			<div class="wrapper" v-if="info && !finished">
+
+				<riskscore v-if="!previous" :info="info" :token="token" @save="savelocal" @finish="finish"/>
+				<div v-if="previous" class="previous mobp">
+					<div class="question">
+						<span>Do you want to proceed previous questionnaire?</span>
+					</div>
+
+					<div class="savePanel">
+						<button class="button black" @click="clearAndStart">
+							No
+						</button>
+
+						<button class="button" @click="proceed">
+							Yes
+						</button>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="finished" v-if="finished">
+				<div class="finished mobp">
+					<div class="question">
+						<span>Thank you for completing the survey! You can close this window.</span>
+					</div>
+
+				</div>
+			</div>
 
 			<div class="empty" v-if="!loading && !info">
 				<span>Questionnaire not found, try reloading the page or ask the adviser for another link</span>
@@ -22,7 +51,22 @@
 </template>
 
 <style scoped lang="sass">
-
+.finished,
+.previous
+	padding: 2 * $r
+	padding-right: 0
+	.question
+		margin-top : 2 * $r
+		margin-bottom: 2 * $r
+		max-width: 80%
+		span
+			font-size: 2em
+#riskscore
+	position: absolute
+	left: 0
+	top: 0
+	bottom: 0
+	right: 0
 .empty
 	padding : 4 * $r
 	text-align: center
@@ -47,7 +91,10 @@ export default {
 	data : function(){
 		return {
 			loading : true,
-			info : null
+			info : null,
+			previous : null,
+			finished : false,
+			key : "questionnaire_v1_"
 		}
 	},
 
@@ -73,11 +120,52 @@ export default {
 
 				this.info = r
 
+				this.getlocal()
+
 				return Promise.resolve(r)
 
 			}).finally(() => {
 				this.loading = false
 			})
+		},
+
+		savelocal : function(questionnaire){
+			console.log('questionnaire', questionnaire)
+			if (questionnaire.id){
+				console.log("this.key + this.token", this.key + this.token)
+				localStorage[this.key + this.token] = JSON.stringify(questionnaire)
+			}
+				
+		},
+
+		getlocal : function(){
+			if(this.token){
+				var d = localStorage[this.key + this.token]
+
+				if(d){
+					try{
+						this.previous = JSON.parse(d)
+					}catch(e){
+
+					}
+				}
+			}
+		},
+
+		clearAndStart : function(){
+			localStorage.removeItem(this.key + this.token);
+			this.previous = null
+		},
+
+		proceed : function(){
+			this.info.previous = this.previous
+			this.previous = null
+		},
+
+		finish : function(){
+			localStorage.removeItem(this.key + this.token);
+			this.previous = null
+			this.finished = true
 		}
 	},
 

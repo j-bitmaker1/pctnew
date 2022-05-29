@@ -51,6 +51,7 @@ export default {
                 id : from
             })
 
+
             if (i < this.pages.length - 1){
                 var id = this.pages[i + 1].id
                 
@@ -84,6 +85,7 @@ export default {
                         value = this.$refs[to][props[1]]
                     }	
                 }
+
 
                 this.scroll(props[0], value)
 

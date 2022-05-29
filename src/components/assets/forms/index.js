@@ -69,8 +69,12 @@ export default {
 
         this.form = new form(f1).rules(r1).messages(m1)
 
+        console.log("HANDLER")
 
         setTimeout(() => {
+
+            console.log("created")
+
             this.created = true
         }, 10)
 
@@ -82,9 +86,14 @@ export default {
             immediate: false,
             handler: function(now, old) { 
 
-                if (this.created || !this.form.validate().errors().any()){
+                if (this.created /*|| !this.form.validate().errors().any()*/){
                     this.$emit('change', this.form.all())
                     this.$emit('input', this.getinternal())
+                }
+
+                else{
+                    if(!this.form.validate().errors().any())
+                        this.$emit('initial', this.getinternal())
                 }
                
             },

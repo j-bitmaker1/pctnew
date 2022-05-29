@@ -1379,6 +1379,11 @@ var ApiWrapper = function (core) {
 
 				data.query = core.crm.query('simplesearch', {search : value, type : data.type || "CLIENT"})
 
+				p.kit = {
+					class : Contact,
+					path : 'records'
+				}
+
 				return request(data, 'api', 'crm/Contacts/List', p).then(r => {
 					return r.records
 				})
@@ -1392,11 +1397,22 @@ var ApiWrapper = function (core) {
 					path : 'records'
 				}
 
+				p.kit = {
+					class : Contact,
+					path : 'records'
+				}
+
 				return paginatedrequest(data, 'api', 'crm/Contacts/List', p)
 
 			},
 
 			getbyids : function(ids, p){
+
+				p.kit = {
+					class : Contact,
+					path : 'records'
+				}
+
 				return self.crm.contacts.gets({Ids : ids}, p)
 			},
 
@@ -1407,6 +1423,11 @@ var ApiWrapper = function (core) {
 					type : 'client',
 					path : 'records',
 					getloaded : 'Ids'
+				}
+
+				p.kit = {
+					class : Contact,
+					path : 'records'
 				}
 
 				return request(data, 'api', 'crm/Contacts/GetByIds', p).then(r => {
@@ -1453,6 +1474,12 @@ var ApiWrapper = function (core) {
 					one : true
 				}
 
+				p.kit = {
+					class : Contact,
+					path : '',
+					one : true
+				}
+
 				return request({}, 'api', 'crm/Contacts/' + id, p)
 			},
 
@@ -1476,12 +1503,15 @@ var ApiWrapper = function (core) {
 				if(!companyId) return Promise.reject('user.info.Company.ID')
 
 				p.method = "GET"
+				
 
 				return request({companyId, email}, 'api', 'crm/Contacts/GetContactByEmail', p)
 			},
 
 			getbyemail : function(email, p = {}){
 				return self.crm.contacts.getidbyemail(email, p).then(id => {
+
+
 					return self.crm.contacts.get(id)
 				})
 			}
@@ -1493,7 +1523,7 @@ var ApiWrapper = function (core) {
 				p.method = "GET"
 
 				var d = {}
-
+				console.log('clientid', clientid)
 				if(clientid) d.leadId = clientid
 
 				return request(d, 'api', 'crm/Surveys/GetKeyForPctQuiz', p).then(r => {
@@ -1514,6 +1544,48 @@ var ApiWrapper = function (core) {
 	
 				})
 
+			},
+			response : {
+				first : function(Token, client = {}, p = {}){
+					p.method = "POST"
+
+					return request({
+						Token,
+						...client
+					}, 'api', 'crm/SurveysAnswers/InsertPctAnswerFirst', p).then(r => {
+	
+						return Promise.resolve(r.id)
+		
+					})
+				},
+
+				second : function(Token, SurveyAnswerId, Json = "", p = {}){
+					p.method = "POST"
+
+					return request({
+						Token,
+						SurveyAnswerId,
+						Json
+					}, 'api', 'crm/SurveysAnswers/InsertPctAnswerSecond', p).then(r => {
+	
+						return Promise.resolve(r.id)
+		
+					})
+				},
+
+				third : function(Token, SurveyAnswerId, data = {}, p = {}){
+					p.method = "POST"
+
+					return request({
+						Token,
+						SurveyAnswerId,
+						...data
+					}, 'api', 'crm/SurveysAnswers/InsertPctAnswerThird', p).then(r => {
+	
+						return Promise.resolve(r.id)
+		
+					})
+				}
 			}
 		}
 	}

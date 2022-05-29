@@ -3,7 +3,10 @@ import f from "@/application/functions.js";
 export default {
 	name: 'share',
 	props: {
-		url : String
+		url : String,
+		message : String,
+		subject : String,
+		images : Array
 	},
 
 	data : function(){
@@ -50,10 +53,10 @@ export default {
 
 			plugin.shareWithOptions({
 
-				message: ed.sharing.text.body || '', 
-				subject: ed.sharing.text.title || '',
-				images : ed.sharing.images || [],
-				url: ed.url
+				message: this.message || '', 
+				subject: this.subject || '',
+				images : this.images || [],
+				url: this.url
 
 			}, () => {
 

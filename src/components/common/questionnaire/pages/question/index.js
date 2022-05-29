@@ -36,6 +36,9 @@ export default {
     }),
 
     methods : {
+        initial : function(result){
+            this.result = result
+        },
         input : function(result){
             this.result = result
 

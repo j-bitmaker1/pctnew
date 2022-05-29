@@ -148,6 +148,8 @@ export default {
 								preloader : true,
 							}).then(r => {
 
+								console.log("R", r)
+
 								var type = 'client'
 
 								if(r.Type == "LEAD") type = 'lead'

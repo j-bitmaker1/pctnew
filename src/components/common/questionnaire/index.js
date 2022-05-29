@@ -134,10 +134,10 @@ export default {
                 this.$set(this.values[question.id], field.id, values[field.id])
             })
 
-
         },
 
         next : function(page, result){
+
 
             this.setValues(page.data.question, result)
 
@@ -151,6 +151,8 @@ export default {
                         this.$refs[cur].focus()
                 }, 50)
             }
+
+            console.log("next")
 
             this.$emit('intermediate', this.values)
 

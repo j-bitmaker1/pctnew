@@ -29,31 +29,28 @@ var testvalues = {
         },
 
         q1 : {
-            answer : 2
+            q1 : 2
         },
 
         q2 : {
-            answer : 2
+            q2 : 2
         },
 
         q3 : {
-            answer : 2
+            q3 : 2
         },
 
         q4 : {
-            answer : 2
+            q4 : 2
         },
 
         q5 : {
-            answer : 2
+            q5 : 2
         },
 
         q6 : {
-            answer : 2
-        }
-    },
-
-    client : {
+            q6 : 2
+        },
         FName : "M",
         LName : "G",
         Email : "maxgrishkov@gmail.com"
@@ -83,24 +80,25 @@ export default {
             loading : false,
             part : '',
             parts : ['c', 'q', 'r', 'f'],
-            //values : testvalues.values,
-            //client : testvalues.client,
             capacity : null,
+            id : null,
             values : {
                 customCr : 0
             },
-
-            client : {
-
-            },
-
-            existlead : false
+            existlead : false,
+            finished : false
         }
 
     },
 
     created() {
         this.init()
+
+        window.addEventListener('beforeunload', this.sendThird)
+    },
+
+    beforeDestroy(){
+        window.removeEventListener('beforeunload', this.sendThird)
     },
 
     watch: {
@@ -110,9 +108,7 @@ export default {
         auth : state => state.auth,
 
         capacityQuestions : function(){
-
             return this.core.pct.riskscore.capacityQuestions()
-
         },
 
         questions : function(){
@@ -203,7 +199,6 @@ export default {
                 sequence = [introduce]
             }
 
-            console.log('sequence', sequence)
 
             return sequence
         },
@@ -252,6 +247,7 @@ export default {
 
         questionPoints : function(){
             var points = [];
+            console.log('this.values122121', this.values)
             if(
 
                 !this.values.q1 || !this.values.q2 || !this.values.q3 || 
@@ -259,7 +255,7 @@ export default {
 
                 typeof this.values.q1.q1 == 'undefined' ||
                 typeof this.values.q2.q2 == 'undefined' ||
-                typeof this.values.q3.q4 == 'undefined' ||
+                typeof this.values.q3.q3 == 'undefined' ||
                 typeof this.values.q4.q4 == 'undefined' ||
                 typeof this.values.q5.q5 == 'undefined' ||
                 typeof this.values.q6.q6 == 'undefined'
@@ -284,6 +280,8 @@ export default {
             if (this.values.q6.q6 == 3) points[3] = 75
             if (this.values.q6.q6 == 4) points[3] = 90
             if (this.values.q6.q6 == 5) points[3] = 90
+
+            console.log("points", points)
 
             var total = _.reduce(points, function(m, p){
                 return m + p
@@ -327,6 +325,7 @@ export default {
                 })
             })
 
+
             return cv
         },
 
@@ -349,6 +348,15 @@ export default {
             })
 
             return cv
+        },
+
+        client : function(){
+            console.log('this.values', this.values)
+            return {
+                FName : this.values.FName,
+                LName : this.values.LName,
+                Email : this.values.Email
+            }
         }
         
 
@@ -357,15 +365,50 @@ export default {
     methods : {
        
         init : function(){
-            /*this.client = {
-                ID : 414227
-            }*/
+          
 
-            if (this.info.isLead){
-                this.existlead = true
+            if (this.info.previous){
+
+                var i = this.info.previous
+
+                var questions = [
+                    ...this.questions,
+                    ...this.capacityQuestions,
+                    ...this.commonQuestions,
+                    ...this.finishQuestions
+                ]
+
+
+                _.each(questions, (c) => {
+                    if(c.form)
+                        _.each(c.form.schema, (f) => {
+        
+                            if (typeof i.data[f.id] != 'undefined'){
+                                this.values[c.id] || (this.values[c.id] = {})
+                                this.values[c.id][f.id] = i.data[f.id]
+                            }
+                        })
+                })
+
+
+
+                this.existlead = i.existlead
+                this.id = i.id
+                this.part = i.part
+                this.finished = i.finished
+                this.capacity = _.clone(i.capacity)
+
             }
+
+            else{
+                if (this.info.IsLead){
+                    this.existlead = true
+                }
+                
+                this.part = 'c'
+            }
+
             
-            this.part = 'c'
 
 		},
 
@@ -374,17 +417,16 @@ export default {
         },
 
         checkClient : function(){
-            if(this.existlead) return Promise.resolve()
+            if(this.existlead || (this.client.Email && this.client.FName && this.client.LName)) {
 
-            if(this.client.Email && this.client.FName && this.client.LName) {
-
-                return Promise.resolve()
+                return this.sendFirst()
             }
 
             return Promise.reject('empty')
         },
 
         commonFinished: function(values){
+
 
             if (values.com0 && values.com0.com0 == 1){
                 this.existlead = false
@@ -393,18 +435,19 @@ export default {
             }
 
             if (values.com0 && values.com0.com0 == 0){
-                this.next()
-                return
+                
             }
 
-            _.each(values.com1, (v, i) => {
-                this.$set(this.client, i, v)
-            })
+            if (values.com1){
+                _.each(values.com1, (v, i) => {
+                    this.$set(this.values, i, v)
+                })
+            }
 
             this.checkClient().then(() => {
                 this.next()
             }).catch(e => {
-
+                console.error(e)
             })
            
         },
@@ -415,10 +458,11 @@ export default {
                 this.$set(this.values, i, v)
             })
 
-            this.send()
-        },
+            console.log('intermediate')
 
-      
+            this.save()
+            this.sendSecond()
+        },
 
         questionnaireFinished : function(values){
 
@@ -429,7 +473,6 @@ export default {
             this.next()
         },
 
-
         changecr : function(v){
             this.$set(this.values, 'customCr', v)
         },
@@ -439,9 +482,9 @@ export default {
 
             i++
             
-            this.send()
+            this.save()
 
-            this.parts[i] ? this.part = this.parts[i] : this.$emit('finish')
+            this.parts[i] ? this.part = this.parts[i] : this.finish()
         },
 
         back : function(){
@@ -452,37 +495,119 @@ export default {
             i >= 0 ? this.part = this.parts[i] : this.$emit('back')
         },
 
-        send : function(){
+        save : function(){
+            var data = this.getalldata()
 
-            var data = {
-                ...this.client,
-                ...this.finishValues
+            console.log("data save", data)
+
+            this.$emit('save', data)
+        },
+
+        getalldata : function(){
+
+
+            var questionnaire = {
+
+                data : {
+                    ...this.finishValues,
+                    ...this.capacityValues,
+                    ...this.questionnaireValues,
+                    ...this.client,
+                    customCr : this.values.customCr
+                },
+
+                capacity : this.capacity
+                
             }
 
-            data.json = JSON.stringify({
-                capacity : this.capacityValues,
-                questions : this.questionnaireValues
+
+            _.each(questionnaire.data, (v, i) => {
+                if(typeof v == 'undefined') delete questionnaire.data[i]
             })
 
-            data.Tolerance = this.values.customCr || this.questionPoints
-            data.Capacity = this.capacity ? this.capacity.capacity : null
+            questionnaire.token = this.token
+            questionnaire.id = this.id
+            questionnaire.finished = this.finished
+            questionnaire.part = this.part
+            questionnaire.existlead = this.existlead
+
+            return questionnaire
+        },
+
+        changecapacity : function(v){
+            this.capacity = v
+        },
+
+        sendFirst : function(){
+
+            if(this.id) return Promise.resolve()
+
+            return this.core.api.crm.questionnaire.response.first(this.token, this.existlead ? {} : this.client, {
+                preloader : true
+            }).then(id => {
+
+				this.id = id
+
+                this.save()
+
+				return Promise.resolve(id)
+
+			})
+        },
+
+        sendSecond : function(){
+
+            if(!this.id) return Promise.reject('id')
+
+            return this.core.api.crm.questionnaire.response.second(this.token, this.id,  JSON.stringify({
+                capacity : this.capacityValues,
+                questions : this.questionnaireValues
+            }), {
+                
+            }).then(() => {
+
+				return Promise.resolve()
+
+			})
+        },
+
+        sendThird : function(){
+
+            if(this.finished) return Promise.resolve()
+
+            if(!this.id) return Promise.reject('id')
+
+            var data = {
+                ...this.finishValues,
+                Tolerance : (this.crvalue).toFixed(),
+                Capacity : this.capacity ? (this.capacity.capacity).toFixed() : null
+            }
 
             _.each(data, (v, i) => {
                 if(!v) delete data[i]
             })
 
-            data.Token = this.token
+            return this.core.api.crm.questionnaire.response.third(this.token, this.id, data, {
+                preloader : true
+            }).then(() => {
 
-            //if(!data.Tolerance) delete data.Tolerance
-            //if(!data.Capacity) delete data.Capacity
+				this.finished = true
 
-            console.log("data", data)
+                this.save()
 
+				return Promise.resolve()
+
+			})
         },
 
-        changecapacity : function(v){
-            console.log("VVV", v)
-            this.capacity = v
+        last : function(values){
+            _.each(values, (v, i) => {
+                this.$set(this.values, i, v)
+            })
+            this.save()
+            this.sendThird().then(r => {
+                
+            })
         }
         
     },

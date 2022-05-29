@@ -51,7 +51,7 @@ export default {
 		this.$refs.assetsList.scrollLeft = 100
 
 		setTimeout(() => {
-			if(!this.name){
+			if(!this.name && !f.isMobile()){
 				this.$refs.inputname.focus()
 			}
 		}, 50)

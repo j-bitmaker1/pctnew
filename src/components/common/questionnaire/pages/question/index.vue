@@ -9,7 +9,7 @@
     </div>
 
     <div class="form mobp" v-if="question.form">
-        <forms @input="input" :value="qvalues" ref="fields" :fields="question.form.schema"/>
+        <forms @input="input" @initial="initial" :value="qvalues" ref="fields" :fields="question.form.schema"/>
     </div>
 
     <div class="savePanel">

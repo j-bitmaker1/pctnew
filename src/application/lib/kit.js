@@ -7,7 +7,15 @@ class Contact {
         _.each(data, (v, i) => {
             this[i] = v
         })
+
+        if(data.__customfields__){
+            this.capacity = Number(data.__customfields__.$$PCT_Capacity)
+            this.tolerance = Number(data.__customfields__.$$PCT_Tolerance)
+
+            this.riskscore = Number(data.__customfields__.$$PCT_Riskscore) || 0
+        }
        
+        console.log('this.capacity', this.capacity, this.tolerance)
     }
 }
 

@@ -19,17 +19,17 @@
 		<div class="statsrow row" @click="open">
 			<div>
 				<span class="label">Crash Rating</span>
-				<coloredNumber :number="15"/>
+				<coloredNumber :number="profile.riskscore"/>
 			</div>
 
 			<div>
 				<span class="label">Capacity</span>
-				<coloredNumber :number="55"/>
+				<coloredNumber :number="profile.capacity"/>
 			</div>
 
 			<div>
 				<span class="label">Tolerance</span>
-				<coloredNumber :number="85"/>
+				<coloredNumber :number="profile.tolerance"/>
 			</div>
 		</div>
 

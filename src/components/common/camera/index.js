@@ -411,8 +411,6 @@ export default {
                 return
             }
 
-           
-
             CameraPreview.getSupportedPictureSizes((dimensions) => {
 
                 dimensions = _.filter(dimensions, function(d){

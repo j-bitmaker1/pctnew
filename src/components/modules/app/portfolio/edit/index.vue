@@ -104,8 +104,6 @@
 		<button class="button" @click="e => save()" :disabled="!haschanges || validate">
 			Save
 		</button>
-
-		
 	</div>
 </div>
 </template>

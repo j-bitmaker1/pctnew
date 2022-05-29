@@ -107,9 +107,6 @@
     --safe-area-inset-left: env(safe-area-inset-left, 0);
   }
 }
-body {
-  padding-top: var(--app-margin-top);
-}
 html {
   font-size: 1em;
   line-height: 1.4;
