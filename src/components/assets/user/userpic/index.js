@@ -22,7 +22,6 @@ export default {
 
   computed : {
     image : function(){
-      console.log("HERE")
       if (this.userinfo.AvatarId && this.userinfo.CompanyID){
           var imageid = this.userinfo.AvatarId.split('.')[1]
 

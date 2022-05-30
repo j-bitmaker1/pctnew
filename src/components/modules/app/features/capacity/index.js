@@ -230,7 +230,6 @@ export default {
 			deep : true,
 			handler : function(){
 
-				console.log("values", this.simulation.capacity)
 
 				this.$emit('change', {
 					values : this.values,
@@ -355,8 +354,6 @@ export default {
 
 			if(_.isEmpty(this.values)) return {}
 
-			console.log('this.values', this.values)
-
 			return {
 				age : this.values.ages[0],
 				retire : this.values.ages[1],
@@ -433,7 +430,6 @@ export default {
 
             this.simulation = capacity.simulation()
 
-			console.log('this.simulation ', this.simulation )
         }
     },
 }

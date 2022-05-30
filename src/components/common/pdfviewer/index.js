@@ -44,7 +44,6 @@ export default {
 
     watch: {
         scale : function(){
-            console.log(this.scale)
         },
         scroll : function(s){
 

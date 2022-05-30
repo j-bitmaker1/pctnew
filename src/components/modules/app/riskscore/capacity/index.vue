@@ -43,7 +43,6 @@ export default {
 
 	methods: {
 		change : function(capacity){
-			console.log('ch', capacity)
 			this.$emit('change', capacity)
 		}
 	},

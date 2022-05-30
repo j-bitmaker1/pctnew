@@ -174,18 +174,6 @@ export default {
 			this.startPoint = {}
 		},
 
-		/*swiped : function(direction){
-			console.log('swiped', direction, this.mainDirection)
-
-			if (this.successSwipe && this.mainDirection && direction == this.mainDirection.direction){
-				
-				this.$emit('end', direction)
-				this.clear()
-			}
-			else{
-				this.clear()
-			}
-		},*/
 		
 		swipeStatus : function(e, phase, direction, distance){
 

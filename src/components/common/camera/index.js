@@ -246,8 +246,6 @@ export default {
 
                             this.photos = result.library
 
-                            console.log('this.photos', this.photos)
-
                             _.each(this.photos, (p) => {
                                 this.getthubnail(p.id)
                             })
@@ -257,7 +255,6 @@ export default {
                             
                             this.initlibrary()
 
-                            console.log('Error occured', err);
                         },
                         { // optional options
                             thumbnailWidth: 128,
@@ -277,7 +274,6 @@ export default {
                 return Promise.resolve(url)
             }, (e) => {
 
-                console.log("ERROR", e)
 
             },{ // optional options
                 thumbnailWidth: 125,
@@ -297,17 +293,10 @@ export default {
                 return new Promise((resolve, reject) => {
 
                     cordova.plugins.photoLibrary.getPhotoURL(id, (url) => {
-
-                        console.log("PHOTO URL", url)
     
                         f.fetchLocal(url).then(({data}) => {
-
-                            console.log('data', data)
     
                             this.images[id] = f.Base64.fromBlob(data)
-    
-                            console.log('this.images', this.images)
-                            debugger
     
                             resolve(this.images[id])
 
@@ -370,7 +359,6 @@ export default {
                         imgs.push(this.images[i])
                 })
 
-                console.log('this.selected', this.selected, this.images)
                 
                 this.$emit('selected', imgs)
                 this.close()

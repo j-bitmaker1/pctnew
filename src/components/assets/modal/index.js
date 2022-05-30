@@ -90,11 +90,6 @@ export default {
             }
         }
 
-        /*moduleInstance () {
-            console.log('./' + this.module)
-            //return (resolve) => {require([this.module], resolve) }
-            return () => import(this.module)
-        }*/
     }),
 
     methods : {

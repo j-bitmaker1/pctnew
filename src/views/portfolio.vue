@@ -126,8 +126,6 @@ export default {
 			this.loading = true
 			this.core.api.pctapi.portfolios.get(this.id).then(r => {
 
-				console.log("R", r)
-
 				this.portfolio = r
 
 				if(!r.crmContactId){

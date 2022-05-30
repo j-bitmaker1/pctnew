@@ -148,7 +148,6 @@ export default {
 		},
 
 		edit : function(profile){
-			console.log('profile', profile)
 			//this.profile = profile
 		},
 

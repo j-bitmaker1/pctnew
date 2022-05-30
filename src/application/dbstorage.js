@@ -185,7 +185,6 @@ const dbstorage = function(storageName, version, time) {
                         if(item.invalidate.index == index && item.invalidate.type == type){
 
                             if(item.cachedAt < updated){
-                                console.log("INVALIDATE", index, type)
                                 needToClear.push(itemid)
                             }
                         }

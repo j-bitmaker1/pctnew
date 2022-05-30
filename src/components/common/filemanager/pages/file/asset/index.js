@@ -28,7 +28,6 @@ export default {
     methods : {
         searchAssets : function(){
             this.core.vueapi.searchAssets((a) => {
-                console.log("AAA", a)
             })
         }
     },

@@ -127,8 +127,6 @@ class Vueapi {
         
                 .then((dialog) => {
 
-                    console.log("YES")
-                   
                     set(portfolios)
 
                 }).catch( e => {

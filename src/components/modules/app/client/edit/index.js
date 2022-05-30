@@ -98,8 +98,6 @@ export default {
 			var a = this.$refs['additional'].get()
 			var action = null
 
-			console.log("R", r, a)
-
 			if (r && a){
 
 				var data = {
@@ -147,8 +145,6 @@ export default {
 						...r
 					}
 
-					console.log("data", data, r)
-
 					if(!data.ID) data.ID = this.edit.ID
 
 					if (this.uploading){
@@ -171,8 +167,6 @@ export default {
 
 				}).catch((e = {}) => {
 
-					console.log("E", e)
-
 					if(e.alreadyExists){
 
 						if(this.edit){
@@ -182,8 +176,6 @@ export default {
 							return this.core.api.crm.contacts.getbyemail(data.Email, {
 								preloader : true,
 							}).then(r => {
-
-								console.log("R", r)
 
 								var type = 'client'
 
@@ -241,7 +233,6 @@ export default {
 					})
 				})
 
-				console.log('this.edit', this.edit)
 
 				this.general.image = this.edit.imageLink
 			}
@@ -249,7 +240,6 @@ export default {
 
 		imageChange : function(i){
 			this.uploading = i
-			console.log("I", i)
 		},
 
 		check : function(){

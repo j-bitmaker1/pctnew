@@ -247,7 +247,7 @@ export default {
 
         questionPoints : function(){
             var points = [];
-            console.log('this.values122121', this.values)
+
             if(
 
                 !this.values.q1 || !this.values.q2 || !this.values.q3 || 
@@ -281,7 +281,6 @@ export default {
             if (this.values.q6.q6 == 4) points[3] = 90
             if (this.values.q6.q6 == 5) points[3] = 90
 
-            console.log("points", points)
 
             var total = _.reduce(points, function(m, p){
                 return m + p
@@ -351,7 +350,6 @@ export default {
         },
 
         client : function(){
-            console.log('this.values', this.values)
             return {
                 FName : this.values.FName,
                 LName : this.values.LName,
@@ -458,7 +456,6 @@ export default {
                 this.$set(this.values, i, v)
             })
 
-            console.log('intermediate')
 
             this.save()
             this.sendSecond()
@@ -502,8 +499,6 @@ export default {
 
         save : function(){
             var data = this.getalldata()
-
-            console.log("data save", data)
 
             this.$emit('save', data)
         },

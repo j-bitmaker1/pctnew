@@ -81,8 +81,6 @@ export default {
 
 			var capacityValues = this.capacityValues
 
-			console.log('capacityValues', capacityValues)
-
 			return {
 				ages : [capacityValues.age, capacityValues.retire],
 				savings : capacityValues.savings,
@@ -152,8 +150,6 @@ export default {
 		change : function(value, page){
 			if(page.type == 'risk') this.$emit('changecr', value)
 			if(page.type == 'capacity') {
-
-				console.log("SA")
 
 				this.$emit('changecapacity', {
 					values : this.capacityToQr(value.values),

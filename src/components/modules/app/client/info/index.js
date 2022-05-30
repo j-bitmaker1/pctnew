@@ -15,12 +15,14 @@ export default {
 
 		return {
 			loading : false,
-			questionnaire : {"capacity":{"age":20,"retire":50,"save":45555,"savings":0,"salary":23444},"questions":{"q1":2,"q2":1,"q3":1,"q4":2,"q5":1,"q6":4}}
+			questionnaire : null
+			//questionnaire : {"capacity":{"age":20,"retire":50,"save":45555,"savings":0,"salary":23444},"questions":{"q1":2,"q2":1,"q3":1,"q4":2,"q5":1,"q6":4}}
 		}
 
 	},
 
 	created (){
+		this.getQuestionnaire()
 	},
 
 	watch: {
@@ -33,6 +35,17 @@ export default {
 	}),
 
 	methods : {
-	   
+		getQuestionnaire : function(){
+
+			console.log("this.profile.questionnaire", this.profile.questionnaire)
+
+			if(this.profile.questionnaire){
+				this.core.api.crm.questionnaire.getresult(this.profile.questionnaire).then(r => {
+					this.questionnaire = r
+				}).catch(e => {
+					console.error("E")
+				})
+			}
+		}
 	},
 }

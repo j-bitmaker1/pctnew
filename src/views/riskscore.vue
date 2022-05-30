@@ -130,9 +130,7 @@ export default {
 		},
 
 		savelocal : function(questionnaire){
-			console.log('questionnaire', questionnaire)
 			if (questionnaire.id){
-				console.log("this.key + this.token", this.key + this.token)
 				localStorage[this.key + this.token] = JSON.stringify(questionnaire)
 			}
 				

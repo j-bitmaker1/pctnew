@@ -52,8 +52,6 @@ export default {
 
 		payload : function(){
 
-			console.log('this.profile', this.profile)
-
 			return {
 				crmContactIdFilter : this.profile.ID
 			}

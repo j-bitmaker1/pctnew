@@ -42,14 +42,12 @@ export default {
             return Promise.all(_.map(data, (d) => {
 
                 return this.core.filemanager.upload(d.file).then(r => {
-                    console.log("R", r)
                     results.push(r)
                     return Promise.resolve()
                 })
 
             })).then(() => {
 
-                console.log("results", results)
 
                 if (this.$refs.page && this.$refs.page.load)
                     this.$refs.page.load()
@@ -72,7 +70,6 @@ export default {
                 this.$store.commit('globalpreloader', false)
 
             })
-			console.log('files', files)
 		},
 
 

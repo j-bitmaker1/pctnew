@@ -406,7 +406,6 @@ export default {
 				},
 				events : {
 					selected : (images) => {
-						console.log('images', images)
 					}
 				}
 			})

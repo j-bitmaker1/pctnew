@@ -152,7 +152,6 @@ export default {
                 }, 50)
             }
 
-            console.log("next")
 
             this.$emit('intermediate', this.values)
 

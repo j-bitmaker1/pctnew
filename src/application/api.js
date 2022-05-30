@@ -32,7 +32,6 @@ var FormDataRequest = function(core = {}, url, system){
 					}))
 				}
 
-				console.log("DT", r)
 
 				return Promise.resolve(r.data)
 			})
@@ -601,7 +600,6 @@ var ApiWrapper = function (core) {
 							loaded[index] = obj
 
 							storage.set(index, obj).catch(e => {
-								console.log('e', e)
 							})
 						}
 
@@ -1231,8 +1229,6 @@ var ApiWrapper = function (core) {
 
 					var {updated, from = {}} = core.vxstorage.update(data, 'portfolio')
 
-					console.log('updated!!!', updated, from)
-
 					if (updated){
 						core.vxstorage.invalidateManyQueue(
 							[updated.crmContactId, from.crmContactId], 
@@ -1571,7 +1567,6 @@ var ApiWrapper = function (core) {
 				p.method = "GET"
 
 				var d = {}
-				console.log('clientid', clientid)
 				if(clientid) d.leadId = clientid
 
 				return request(d, 'api', 'crm/Surveys/GetKeyForPctQuiz', p).then(r => {
@@ -1634,6 +1629,30 @@ var ApiWrapper = function (core) {
 		
 					})
 				}
+			},
+
+			getresult : function(id, p = {}){
+
+				p.method = "GET"
+	
+				return request({}, 'api', 'crm/SurveysAnswers/' + id, p).then(r => {
+					var js = null
+
+					try{
+						js = JSON.parse(r.Json)
+					}catch(e){
+						
+					}
+
+					console.log('js', js)
+
+					if(!js) return Promise.reject('json')
+
+					return Promise.resolve(js)
+	
+				})
+
+				
 			}
 		}
 	}
@@ -1822,7 +1841,6 @@ var ApiWrapper = function (core) {
 
 				return dbrequest({}, '401k', '?action=AWSTEXTRACTOR_FILE&id=' + id, p).then(r => {
 
-					//console.log('new Blob([r.Message], { type })', new Blob([r.Message], { type }), type)
 					return Promise.resolve(new Blob([r.Message], { type }))
 				})
 				
@@ -1836,7 +1854,6 @@ var ApiWrapper = function (core) {
 					formData.append('info', JSON.stringify(info));
 					formData.append("data", file);
 
-				console.log('formData', formData.getAll('data'))
 
 				return request(formData, '401kFD', '', p).then(r => {
 					return Promise.resolve(r.FCT)

@@ -69,11 +69,9 @@ export default {
 
         this.form = new form(f1).rules(r1).messages(m1)
 
-        console.log("HANDLER")
 
         setTimeout(() => {
 
-            console.log("created")
 
             this.created = true
         }, 10)

@@ -41,7 +41,6 @@ class Filemanager {
 
     getall(){
         return this.api.rixtrema.aws.get().then(records => {
-            console.log("data", records)
             return Promise.resolve(this.parseList(records))
         })
     }

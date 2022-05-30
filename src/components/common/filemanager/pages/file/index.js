@@ -24,7 +24,6 @@ export default {
     },
 
     created() {
-        console.log('this.file', this.file)
     },
 
     watch: {

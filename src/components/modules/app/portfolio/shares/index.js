@@ -64,7 +64,6 @@ export default {
 			deep: true,
 			immediate : true,
 			handler : function(){
-				console.log("as")
 				this.get()
 			}
 		}
