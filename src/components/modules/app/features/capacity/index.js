@@ -2,7 +2,7 @@ import { mapState } from 'vuex';
 import {Chart} from 'highcharts-vue'
 
 import options from '@/application/hc.js'
-
+import f from '@/application/functions.js'
 import VueSlider from 'vue-slider-component'
 import _ from 'underscore';
 
@@ -215,6 +215,8 @@ export default {
 				
 			},
 
+			made : false,
+
 			values : {}
 		}
 
@@ -230,18 +232,20 @@ export default {
 			deep : true,
 			handler : function(){
 
-
 				this.$emit('change', {
 					values : this.values,
 					capacity : this.simulation.capacity
 				})
 			}
 		},
-		options : function(){
-			this.make()
-		},
-		extra : function(){
-			this.make()
+		values : {
+			immediate : false,
+			deep : true,
+			handler : function(){
+				console.log("ASA", this.made)
+				if (this.made)
+					this.make()
+			}
 		},
 
 		/*initial : {
@@ -277,7 +281,7 @@ export default {
 
 					options : {
 						min : 0,
-						max : 10000000,
+						max : f.round(this.values.salary ? this.values.salary * 3 : 10000000, 1000),
 						interval : 1000,
 						type : Number,
 					}
@@ -290,7 +294,7 @@ export default {
 
 					options : {
 						min : 0,
-						max : 1000000,
+						max : f.round(this.values.salary ? this.values.salary / 12 : 1000000, 1000),
 						interval : 1000,
 						type : Number,
 					}
@@ -301,7 +305,7 @@ export default {
 					mode : 'd',
 					options : {
 						min : 0,
-						max : 10000000,
+						max : f.round(this.values.salary ? this.values.salary * 2 : 1000000, 1000),
 						interval : 1000,
 						type : Number,
 					}
@@ -314,7 +318,7 @@ export default {
 
 					options : {
 						min : 0,
-						max : 100000,
+						max : f.round(this.values.salary ? this.values.salary / 12 : 100000, 1000),
 						interval : 1000,
 						type : Number,
 					}
@@ -415,11 +419,16 @@ export default {
 				... this.initial
 			}
 
+			console.log("this.values", this.values)
+
 			this.make()
 
 		},
 		make : function(){
+
 			this.calculate()
+
+			this.made = true
 		},
 
 		calculate : function(){

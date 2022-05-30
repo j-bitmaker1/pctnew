@@ -571,5 +571,32 @@ class Riskscore {
 
         ]
     }
+
+    convertQrToCapacity = function(capacityValues){
+
+        return {
+            ages : [capacityValues.age, capacityValues.retire],
+            savings : capacityValues.savings,
+            save : capacityValues.save,
+            salary : capacityValues.salary * 12,
+            savemoreRange : [capacityValues.age, capacityValues.retire],
+            withdrawRange : [0,0],
+            withdraw : 0
+        }
+    }
+
+    convertCapacityToQr = function(values){
+        if(!values) return null
+
+        var converted = {
+            age : values.ages[0],
+            retire : values.ages[1],
+            save : values.save,
+            savings : values.savings,
+            salary : values.salary / 12
+        }
+
+        return converted
+    }
 }
 export default Riskscore

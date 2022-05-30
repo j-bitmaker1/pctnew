@@ -78,18 +78,7 @@ export default {
 	computed: mapState({
 		auth: state => state.auth,
 		capacity : function(){
-
-			var capacityValues = this.capacityValues
-
-			return {
-				ages : [capacityValues.age, capacityValues.retire],
-				savings : capacityValues.savings,
-				save : capacityValues.save,
-				salary : capacityValues.salary * 12,
-				savemoreRange : [capacityValues.age, capacityValues.retire],
-				withdrawRange : [0,0],
-				withdraw : 0
-			}
+			return this.core.pct.riskscore.convertQrToCapacity(this.capacityValues)
 		},
 		resultPages: function () {
 			var pages = []
@@ -133,26 +122,13 @@ export default {
 
 		},
 
-		capacityToQr : function(values){
-			if(!values) return null
-
-			var converted = {
-				age : values.ages[0],
-				retire : values.ages[1],
-				save : values.save,
-				savings : values.savings,
-				salary : values.salary / 12
-			}
-
-			return converted
-		},
 
 		change : function(value, page){
 			if(page.type == 'risk') this.$emit('changecr', value)
 			if(page.type == 'capacity') {
 
 				this.$emit('changecapacity', {
-					values : this.capacityToQr(value.values),
+					values : this.core.pct.riskscore.convertCapacityToQr(value.values),
 					capacity : value.capacity
 				})
 			}
