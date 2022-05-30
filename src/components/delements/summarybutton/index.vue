@@ -5,7 +5,7 @@
 	</div>
 
 	<div class="value">
-		<coloredNumber v-if="colored" :number="number" :mode="mode"/>
+		<coloredNumber v-if="colored" :reversed="reversed" :number="number" :mode="mode"/>
 		<value v-else :value="number" :mode="mode"/>
 	</div>
 
@@ -58,7 +58,8 @@ export default {
 		tip : String,
 		mode : String,
 		colored : Boolean,
-		sclass : String
+		sclass : String,
+		reversed : Boolean
 	},
 	computed: mapState({
 		auth: state => state.auth,

@@ -1,6 +1,7 @@
 import { mapState } from 'vuex';
 
 import portfoliolist from '@/components/modules/app/portfolios/list/index.vue'
+import summarybutton from '@/components/delements/summarybutton/index.vue'
 
 export default {
 	name: 'client_portfolios',
@@ -9,13 +10,31 @@ export default {
 	},
 
 	components : {
-		portfoliolist, 
+		portfoliolist, summarybutton
 	},
 
 	data : function(){
 
 		return {
-			loading : false
+			loading : false,
+			summary : [
+
+				{
+					text : 'labels.crashrating',
+					index : 'riskscore',
+					reversed : true
+				},
+				{
+					text : 'labels.tolerance',
+					index : 'tolerance',
+					reversed : true
+				},
+				{
+					text : 'labels.capacity',
+					index : 'capacity'
+				}
+				
+			]
 		}
 
 	},
@@ -32,10 +51,15 @@ export default {
 		auth : state => state.auth,
 
 		payload : function(){
+
+			console.log('this.profile', this.profile)
+
 			return {
 				crmContactIdFilter : this.profile.ID
 			}
-		}
+		},
+
+		
 	}),
 
 	methods : {

@@ -81,6 +81,8 @@ export default {
 
 			var capacityValues = this.capacityValues
 
+			console.log('capacityValues', capacityValues)
+
 			return {
 				ages : [capacityValues.age, capacityValues.retire],
 				savings : capacityValues.savings,

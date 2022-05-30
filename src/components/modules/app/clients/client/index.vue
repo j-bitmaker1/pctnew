@@ -29,7 +29,7 @@
 
 			<div>
 				<span class="label">Tolerance</span>
-				<coloredNumber :number="profile.tolerance"/>
+				<coloredNumber :reversed="true" :number="profile.tolerance"/>
 			</div>
 		</div>
 

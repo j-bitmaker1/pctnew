@@ -4,6 +4,7 @@ class Vueapi {
         this.core = core
         this.store = this.core.store
         this.router = this.core.vm.$router
+        this.vm = core.vm
 
     }
 
@@ -93,8 +94,7 @@ class Vueapi {
 
     selectPortfoliosToClient = function(profile, success){
 
-        this.selectPortfolios((portfolios) => {
-
+        var set = (portfolios) => {
             this.core.pct.setPortfoliosToClient(profile.ID, portfolios, {
                 preloader : true,
                 showStatus : true
@@ -102,7 +102,41 @@ class Vueapi {
 
                 if(success) success(portfolios)
 
+            }).catch(e => {
+
             })
+        }
+
+        this.selectPortfolios((portfolios) => {
+
+
+            var portfoliosWithContact = _.filter(portfolios, portfolio => {
+                return portfolio.crmContactId && portfolio.crmContactId != profile.ID
+            })
+
+            if(!portfoliosWithContact.length){
+                set(portfolios)
+            }
+            else{
+
+                return this.vm.$dialog.confirm(
+                    this.vm.$t('labels.portfolioswithclientq'), {
+                    okText: this.vm.$t('labels.portfolioswithclientyes'),
+                    cancelText : 'No'
+                })
+        
+                .then((dialog) => {
+
+                    console.log("YES")
+                   
+                    set(portfolios)
+
+                }).catch( e => {
+                    
+                })
+            }
+
+            
 
         }, {
             filter : (portfolio) => {

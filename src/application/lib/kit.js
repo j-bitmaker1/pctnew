@@ -1,6 +1,7 @@
 import f from '@/application/functions'
 import _ from "underscore"
 
+
 class Contact {
     constructor(data = {}){
 
@@ -14,9 +15,23 @@ class Contact {
 
             this.riskscore = Number(data.__customfields__.$$PCT_Riskscore) || 0
         }
-       
+
+
         console.log('this.capacity', this.capacity, this.tolerance)
     }
+
+    get imageLink(){
+        if (this.AvatarId){
+            var imageid = this.AvatarId.split('.')[1]
+
+            return 'https://rixtrema.net/api/crm/attachments/download/'+this.CompanyID+'/' + imageid
+        }
+
+        return ''
+        
+    }
+
+
 }
 
 class Portfolio {

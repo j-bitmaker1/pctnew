@@ -87,7 +87,9 @@
 		"uploadContactImage" : "Upload contact image",
 		"fileManager" : "File manager",
 		"deleteFile" : "Delete file",
-		"openOriginal" : "Open original"
+		"openOriginal" : "Open original",
+		"portfolioswithclientq" : "Some portfolios are already assigned to other clients. Do you want to reassign a client?",
+		"portfolioswithclientyes" : "Reassign a client"
 	},
 
 	"caption" : {

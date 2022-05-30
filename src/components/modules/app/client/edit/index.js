@@ -31,6 +31,15 @@ export default {
 				City : '',
 				Zip : '',
 				Phone : ''
+			},
+
+			uploading : null,
+
+			images : {
+				resize : {
+					width : 640,
+					height : 640
+				}
 			}
 
 		}
@@ -48,6 +57,16 @@ export default {
 		auth : state => state.auth,
 		haschanges : function(){
 			return true
+		},
+
+		imageProfile : function(){
+			if(this.uploading){
+				return {
+					image : this.uploading.base64
+				}
+			}
+
+			return this.general
 		},
 
 		schema : state => state.crmschemas.contact,
@@ -79,6 +98,8 @@ export default {
 			var a = this.$refs['additional'].get()
 			var action = null
 
+			console.log("R", r, a)
+
 			if (r && a){
 
 				var data = {
@@ -86,17 +107,17 @@ export default {
 					... r || {},
 					... this.payload || {},
 
-					... {
+					/*... {
 						image : this.general.image
-					}
+					}*/
 				}
 
-				this.checkImageUpload(data).then(r => {
+				this.check(data).then(r => {
 
 					if(this.edit){
 
-						this.core.vxstorage.invalidate(this.edit.ID, 'client')
-						this.core.vxstorage.invalidate(this.edit.ID, 'lead')
+						/*this.core.vxstorage.invalidate(this.edit.ID, 'client')
+						this.core.vxstorage.invalidate(this.edit.ID, 'lead')*/
 
 						action = this.core.api.crm.contacts.update({
 							ID : this.edit.ID,
@@ -126,6 +147,20 @@ export default {
 						...r
 					}
 
+					console.log("data", data, r)
+
+					if(!data.ID) data.ID = this.edit.ID
+
+					if (this.uploading){
+						return this.core.crm.uploadAvatar(data.ID, this.uploading.file, {
+							preloader : true
+						})
+					}
+
+					return Promise.resolve()
+	
+				}).then(() => {
+
 					this.$emit('success', data)
 	
 					this.$emit('close')
@@ -133,7 +168,7 @@ export default {
 					this.$store.commit('icon', {
 						icon: 'success',
 					})
-	
+
 				}).catch((e = {}) => {
 
 					console.log("E", e)
@@ -205,22 +240,19 @@ export default {
 						this[i][f.id] = this.edit[f.id]
 					})
 				})
+
+				console.log('this.edit', this.edit)
+
+				this.general.image = this.edit.imageLink
 			}
 		},
 
 		imageChange : function(i){
-			this.$set(this.general, 'image', i.base64)
+			this.uploading = i
 			console.log("I", i)
 		},
 
-		checkImageUpload : function(data){
-			if(data.image && data.image.indexOf('base64,') > -1){
-
-				data.image = '' //// todo upload api
-
-				return Promise.resolve()
-			}
-
+		check : function(){
 			return Promise.resolve()
 		}
 

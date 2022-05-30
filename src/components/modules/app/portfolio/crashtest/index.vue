@@ -6,8 +6,7 @@
 	<div class="ct" v-else>
 
 		<div class="summary mobp">
-			<summarybutton :colored="true" v-for="item in summary" :key="item.index" :text="item.text" :number="ct[item.index]"/>
-		
+			<summarybutton :reversed="true" :colored="true" v-for="item in summary" :key="item.index" :text="item.text" :number="item.index ? ct[item.index] : th[item.th]"/>
 		</div>
 
 		<div class="header mobp">

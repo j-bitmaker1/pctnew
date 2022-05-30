@@ -1068,11 +1068,11 @@ var Base64 = {
         reader.onerror = error => reject(error);
     }),
 
-    toFileFetch: function (base64) {
+    toFileFetch: function (base64, type, name) {
         return fetch(base64).then(res => {
             return res.blob()
         }).then(blob => {
-            return new (window.wFile || window.File)([blob], "File name", { type: "image/png" })
+            return new (window.wFile || window.File)([blob], name || "File name", { type: type || "image/png" })
         })
     },
 

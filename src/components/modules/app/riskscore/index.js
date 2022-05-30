@@ -470,12 +470,17 @@ export default {
                 this.$set(this.values, i, v)
             })
 
+            this.capacity = null
+            this.values.customCr = 0
+
             this.next()
         },
 
         changecr : function(v){
             this.$set(this.values, 'customCr', v)
         },
+
+       
 
         next : function(){
             var i = _.indexOf(this.parts, this.part)

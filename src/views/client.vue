@@ -148,7 +148,8 @@ export default {
 		},
 
 		edit : function(profile){
-			this.profile = profile
+			console.log('profile', profile)
+			//this.profile = profile
 		},
 
 		deleted : function(){

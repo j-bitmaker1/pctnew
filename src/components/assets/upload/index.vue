@@ -253,6 +253,14 @@ export default {
                         data.base64 = base64
 
                         return Promise.resolve(data)
+                    }).then(data => {
+
+                        return images.applyToFile(data.file, data.base64).then(file => {
+                            data.file = file
+
+                            return Promise.resolve(data)
+                        })
+
                     }).catch(e => {
                         return Promise.reject(e)
                     })

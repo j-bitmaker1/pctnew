@@ -24,6 +24,16 @@ var FormDataRequest = function(core = {}, url, system){
 				method: 'post',
 				headers,
 			}).then(r => {
+
+				if(f.deep(r, 'data.errors')){
+					return Promise.reject(parseerror({
+						code : 500,
+						errors : r.data.errors
+					}))
+				}
+
+				console.log("DT", r)
+
 				return Promise.resolve(r.data)
 			})
 		})
@@ -240,6 +250,7 @@ var ApiWrapper = function (core) {
 		pctapi: new Request(core, "https://rixtrema.net/api/pct", 'pctapi'),
 		api: new Request(core, "https://rixtrema.net/api", 'api'),
 
+		apiFD: new FormDataRequest(core, "https://rixtrema.net/api", 'api'),
 		/* temp */
 		'401k' : new Request(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
 		'401kFD' : new FormDataRequest(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
@@ -1406,7 +1417,7 @@ var ApiWrapper = function (core) {
 
 			},
 
-			getbyids : function(ids, p){
+			getbyids : function(ids, p = {}){
 
 				p.kit = {
 					class : Contact,
@@ -1440,13 +1451,14 @@ var ApiWrapper = function (core) {
 
 				return request(data, 'api', 'crm/Contacts/Update', p).then(r => {
 
-					core.vxstorage.update(data, 'client')
+
+					var updated = core.vxstorage.update(data, 'client')
 					core.vxstorage.update(data, 'lead')
 
 					core.user.activity.remove('client', data.ID)
 					core.user.activity.remove('lead', data.ID)
 
-					return Promise.resolve(r)
+					return Promise.resolve(data)
 				})
 			},
 
@@ -1515,6 +1527,42 @@ var ApiWrapper = function (core) {
 					return self.crm.contacts.get(id)
 				})
 			}
+		},
+
+		upload : {
+
+			avatarId : function(data, p = {}){
+				p.method = "POST"
+
+				return request(data, 'api', 'crm/Contacts/LoadAvatar', p).then(r => {
+					return Promise.resolve(r.Id)
+				})
+			},
+
+			avatar : function(formData, ContactId, id){
+
+				formData.append('Id', id.split('.')[0]);
+				formData.append('Start', 0);
+
+				return self.crm.upload.attachment(formData).then(r => {
+
+					var ud = {
+						ID : ContactId,
+						AvatarId : id
+					}
+
+					core.vxstorage.update(ud, 'client')
+					core.vxstorage.update(ud, 'lead')
+
+					return Promise.resolve()
+				})
+			},
+
+			attachment : function(formData, p = {}){
+				return request(formData, 'apiFD', 'crm/Attachments/Upload', p)
+			}
+
+			
 		},
 
 		questionnaire : {

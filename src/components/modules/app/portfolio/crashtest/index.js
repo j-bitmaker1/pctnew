@@ -9,7 +9,8 @@ import summarybutton from '@/components/delements/summarybutton/index.vue'
 export default {
 	name: 'portfolios_crashtest',
 	props: {
-		portfolio : Object
+		portfolio : Object,
+		profile : Object
 	},
 
 	components : {
@@ -45,7 +46,7 @@ export default {
 				},
 				{
 					text : 'labels.tolerance',
-					index : 'pcr'
+					th : 'tolerance'
 				}
 				
 			]
@@ -68,6 +69,12 @@ export default {
 	computed: mapState({
 		auth : state => state.auth,
 		valuemode: state => state.valuemode,
+		th : function(){
+			return {
+				tolerance : this.profile ? this.profile.tolerance : null
+			}
+		
+		}
 	}),
 
 	methods : {

@@ -1,19 +1,19 @@
-<template functional>
+<template>
   <div class="userpic">
 
     <div class="userpicSquareWrapper">
 
       <div class="userpicSquareInnerWrapper" >
-        <div class="userpicSquareInnerWrapper" :class="props.status">
+        <div class="userpicSquareInnerWrapper" :class="status">
 
-          <bgimage v-if="props.userinfo.image" :src="props.userinfo.image"/>
+          <bgimage v-if="image" :src="image"/>
 
-          <div v-if="!props.userinfo.image && (props.userinfo.FName || props.userinfo.LName)" class="charAvatar">
-            <span v-if="props.userinfo.FName">{{props.userinfo.FName.charAt(0)}}</span><span v-if="props.userinfo.LName">{{props.userinfo.LName.charAt(0)}}</span>
+          <div v-if="!image && (userinfo.FName || userinfo.LName)" class="charAvatar">
+            <span v-if="userinfo.FName">{{userinfo.FName.charAt(0)}}</span><span v-if="userinfo.LName">{{userinfo.LName.charAt(0)}}</span>
           </div>
 
           <div class="statusIcon">  
-            <i v-if="props.status == 'blocked' || props.status == 'ban'" class="fas fa-ban"></i>
+            <i v-if="status == 'blocked' || status == 'ban'" class="fas fa-ban"></i>
           </div>
         </div>
       </div>

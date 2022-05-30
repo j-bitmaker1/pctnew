@@ -1,10 +1,10 @@
 <template>
 <div id="clientsedit">
 
-	<upload @uploaded="imageChange">
+	<upload :images="images" @uploaded="imageChange">
 		<template v-slot:content>
 			<div class="imageWrapper">
-				<userpic :userinfo="general" />
+				<userpic :userinfo="imageProfile" />
 			</div>
 			<div class="label">
 				<span>{{$t('labels.uploadContactImage')}}</span>

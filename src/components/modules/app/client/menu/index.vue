@@ -51,6 +51,11 @@ export default {
 						action : 'editclient'
 					},
 					{
+						text : 'labels.sharequestionnaire',
+						icon : 'fas fa-link',
+						action : 'sharequestionnaire'
+					},
+					{
 						text : 'labels.deleteclient',
 						icon : 'fas fa-trash',
 						action : 'deleteclient'

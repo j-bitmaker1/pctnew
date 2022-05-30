@@ -143,6 +143,23 @@ class CRM {
             return Promise.resolve()
         })
     }
+
+    uploadAvatar = function(ContactId, file, p = {}){
+
+        var data = {
+            Name: file.name,
+            ContentType: file.type,
+            Size: file.size,
+            ContactId
+        }
+
+        let formData = new FormData();
+            formData.append("Data", file);
+
+        return this.api.crm.upload.avatarId(data, p).then((id) => {
+            return this.api.crm.upload.avatar(formData, ContactId, id, p)
+        })
+    }
 }
 
 export default CRM

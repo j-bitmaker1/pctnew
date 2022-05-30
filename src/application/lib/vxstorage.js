@@ -61,6 +61,7 @@ class VXStorage {
 
         this.clearFromQueue(this.index(type), type)
 
+
         return this.get(obj[this.index(type)], type)
 
     }
@@ -70,6 +71,7 @@ class VXStorage {
         if(!this.store) throw new Error('notlinked')
 
         var last = this.get(obj[this.index(type)], type)
+
 
         if(!last) return {}
 

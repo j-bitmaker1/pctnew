@@ -24,7 +24,7 @@ var Images = function(){
                     height = img.height;
         
                 // set proper canvas dimensions before transform & export
-                if ($.inArray(exif.orientation, [5, 6, 7, 8]) > -1) {
+                if (_.indexOf([5, 6, 7, 8], exif.orientation) > -1) {
                     canvas.width = height;
                     canvas.height = width;
                 } else {
@@ -92,7 +92,7 @@ var Images = function(){
 
                 var url = canvas.toDataURL("image/jpeg", 0.95);
 
-                $(canvas).remove();
+                canvas.remove();
 
                 resolve(url)
 
@@ -196,7 +196,7 @@ var Images = function(){
         
                     var url = canvas.toDataURL(format, quality);
         
-                    $(canvas).remove();
+                    canvas.remove();
         
                     resolve(url);
         
@@ -254,7 +254,7 @@ var Images = function(){
     
                     var url = canvas.toDataURL(format, quality);
     
-                    $(canvas).remove();
+                    canvas.remove();
     
                     resolve(url);
     
@@ -339,6 +339,10 @@ var Images = function(){
 
         })
     
+    }
+
+    self.applyToFile = function(file, base64 /* edited */){
+        return f.Base64.toFileFetch(base64, file.type, file.name)
     }
 
     return self;

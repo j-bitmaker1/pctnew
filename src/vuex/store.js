@@ -366,7 +366,6 @@ var storeFactory = function(vxstorage){
 	
 			mutations['_set_' + storage.type] = function(state, obj){
 	
-				console.log('obj', obj)
 				Vue.set(state['_' + storage.type], obj[storage.index], obj)
 			}
 	

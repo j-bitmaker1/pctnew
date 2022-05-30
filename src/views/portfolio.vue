@@ -31,7 +31,7 @@
 				<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
 			</div>
 
-			<component :is="module" :portfolio="portfolio" v-if="!loading && portfolio"/>
+			<component :is="module" :portfolio="portfolio" :profile="profile" v-if="!loading && portfolio"/>
 			
 		</template>
 	</maincontent>

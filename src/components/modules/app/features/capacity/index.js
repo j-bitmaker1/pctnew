@@ -291,7 +291,7 @@ export default {
 
 					options : {
 						min : 0,
-						max : 100000,
+						max : 1000000,
 						interval : 1000,
 						type : Number,
 					}
@@ -354,6 +354,8 @@ export default {
 		options : function(){
 
 			if(_.isEmpty(this.values)) return {}
+
+			console.log('this.values', this.values)
 
 			return {
 				age : this.values.ages[0],

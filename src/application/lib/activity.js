@@ -47,7 +47,8 @@ class Templates {
                 Email : client.Email,
                 Zip : client.Zip,
                 ID : client.ID,
-                type : "CLIENT"
+                type : "CLIENT",
+                image : client.image
             }
         }
 
