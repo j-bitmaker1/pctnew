@@ -36,6 +36,9 @@ export default {
 
 	methods : {
 		getQuestionnaire : function(){
+
+			console.log('this.profile.questionnaire', this.profile, this.profile.questionnaire)
+
 			if (this.profile.questionnaire){
 				this.core.api.crm.questionnaire.getresult(this.profile.questionnaire).then(r => {
 					this.questionnaire = r

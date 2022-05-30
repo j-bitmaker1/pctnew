@@ -281,6 +281,8 @@ export default {
             if (this.values.q6.q6 == 4) points[3] = 90
             if (this.values.q6.q6 == 5) points[3] = 90
 
+            console.log('points', points)
+
 
             var total = _.reduce(points, function(m, p){
                 return m + p
@@ -290,6 +292,7 @@ export default {
         },
 
         crvalue : function(){
+            console.log('this.values.customCr', this.values.customCr, this.questionPoints)
             return this.values.customCr || this.questionPoints
         },
 
@@ -579,8 +582,8 @@ export default {
 
             var data = {
                 ...this.finishValues,
-                Tolerance : (this.crvalue).toFixed(),
-                Capacity : this.capacity ? (this.capacity.capacity).toFixed() : null
+                Tolerance : Number((this.crvalue || 0).toFixed()),
+                Capacity : this.capacity ? Number((this.capacity.capacity || 0).toFixed()) : null
             }
 
             _.each(data, (v, i) => {

@@ -141,7 +141,6 @@ export default {
 					caption : "",
 					mclass : 'withoutheader',
 					data : {
-						
 						leadid : client.ID
 					},
 	

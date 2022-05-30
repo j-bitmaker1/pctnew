@@ -26,7 +26,8 @@
 				<div class="linenavigation">
 					<linenavigation @change="changenav" :items="navigation" :navdefault="navdefault" :navkey="navkey" :mode="wnd ? 'emit' : 'history'"/>
 				</div>
-				<component :is="module" :profile="profile"/>
+				<component v-if="!loading" :is="module" :profile="profile"/>
+				<linepreloader v-else/>
 			</div>
 		</template>
 	</maincontent>
@@ -127,6 +128,8 @@ export default {
 			this.loading = true
 
 			this.core.api.crm.contacts.get(this.id).then(r => {
+
+				console.log("R", r)
 
 				this.profile = r
 
