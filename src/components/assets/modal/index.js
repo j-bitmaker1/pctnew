@@ -71,7 +71,8 @@ export default {
         filemanager : () => import("@/components/common/filemanager/index.vue"),
         filemanager_file : () => import("@/components/common/filemanager/pages/file/index.vue"),
         pdfviewer : () => import("@/components/common/pdfviewer/index.vue"),
-        assets_search : () => import("@/components/modules/app/assets/search/index.vue")
+        assets_search : () => import("@/components/modules/app/assets/search/index.vue"),
+        pincode : () => import("@/components/assets/pincode/index.vue")
 
     },
  
@@ -94,6 +95,7 @@ export default {
 
     methods : {
         endswipe : function(direction){
+
             this.$emit('close')
         },
         close : function(){

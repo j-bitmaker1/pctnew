@@ -1,0 +1,32 @@
+#pincode
+    text-align: center
+    padding : 6 * $r
+    padding-top: 12 * $r
+
+    &.error
+        .caption
+            color : srgb(--color-bad)
+
+        ::v-deep
+            .vue-pincode-input-wrapper
+                input
+                    color : srgb(--color-bad)
+
+.caption
+    margin-bottom: 4 * $r
+    span
+        font-size: 1.5em
+
+::v-deep
+    .vue-pincode-input-wrapper
+        input
+            border : 0
+            box-shadow: none
+            font-size: 2em
+
+.code
+    margin-top: 4 * $r
+    margin-bottom: 8 * $r
+
+.savePanel
+    justify-content: center

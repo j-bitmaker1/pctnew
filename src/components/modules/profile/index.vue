@@ -11,12 +11,27 @@
 	</div>
 
 	<div class="actions mobp">
+
+		<div class="action thlabel" v-if="faceIdAvailable">
+
+			<iconstoggle :icons="faceId" :value="hasFaceid" @change="changeFaceId"/>
+
+			<div class="label">
+				<span>{{ $t("common.usefaceidcheck_" + faceIdAvailable) }}</span>
+			</div>
+
+		
+		</div>
+
 		<div class="action">
 			<router-link to="/changepassword">
 				<button class="button">Change Password</button>
 			</router-link>
 		</div>
+
+		
 	</div>
+	
 
 	<div class="signout mobp" @click="signout">
 		<span>{{ $t("common.2901049") }}</span>

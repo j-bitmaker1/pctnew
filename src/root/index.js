@@ -17,8 +17,8 @@ export default {
 
 	},
 	components : {appmenu, camera, fx},
-	created : () => {
-
+	created (){
+		
 	},
 
 	watch: {

@@ -419,7 +419,6 @@ export default {
 				... this.initial
 			}
 
-			console.log("this.values", this.values)
 
 			this.make()
 

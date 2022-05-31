@@ -236,12 +236,13 @@ var FX_Emoji = function(p = {}){
     //var color = Color(self.color)
     //self.color = color.lighten( Math.min(Math.random() + 0.5, 1)).hex()
 
+
     self.render = function(ctx, percentOfLife){
 
         var opacity = self.opacity - self.opacity * percentOfLife
 
         ctx.text = p.symbol || '👍'
-        ctx.alpha = opacity
+        //ctx.alpha = opacity
         ctx.x = self.x;
         ctx.y = self.y;
     }
@@ -384,7 +385,7 @@ var FX_Effects = function(el){
 
             if(!parameters) parameters = {}
 
-            parameters.duration || (parameters.duration = 1200)
+            parameters.duration || (parameters.duration = 1500)
             parameters.scatter || (parameters.scatter = 100)
             parameters.from || (parameters.from = {x : 'center', y : 'bottom'})
             parameters.to || (parameters.to = {x : 'right', y : 'top'})
@@ -408,7 +409,7 @@ var FX_Effects = function(el){
                         y : from.y,
         
                         lifetime : f.rand(parameters.duration / 4, 4 * parameters.duration / 4),
-
+                        symbol : parameters.symbol,
                         size : parameters.size,
                         opacity : 1
                     })

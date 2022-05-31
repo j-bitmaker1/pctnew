@@ -10,12 +10,12 @@ class FaceId {
 	}
 
 
-	setfaceid(password){
+	set(password){
 
-        return this.faceidAvailable().then(() => {
+        return this.available().then(() => {
             return new Promise((resolve, reject) => {
 
-                window.plugins.touchid.save(this.key, password, true, function() {
+                window.plugins.touchid.save(this.key, password, function() {
                     resolve()
                 }, () => {
                     reject()
@@ -26,19 +26,24 @@ class FaceId {
         
 	}
     /// unauthorize and delete
-	deletefaceid(){
-
-        return this.hasFaceid().then(() => {
+	remove(){
+		console.log("REMOVE1")
+        return this.has().then(() => {
             return new Promise((resolve, reject) => {
+
+				console.log("REMOVE")
 
                 window.plugins.touchid.delete(this.key, function() {
                     resolve()
-                }, () => {
-                    reject()
+                }, (e) => {
+					console.error(e)
+                    reject(e)
                 });
 
             })
         }).catch(e => {
+
+			console.error(e)
 
             if(e == 'notavailable' || e == 'notset') return Promise.resolve()
 
@@ -49,7 +54,7 @@ class FaceId {
        
 	}
 
-	faceidAvailable(){
+	available(){
 
 		return new Promise((resolve, reject) => {
 			if (window.plugins && window.plugins.touchid) {
@@ -69,8 +74,8 @@ class FaceId {
 		
 	}
 
-	hasFaceid(){
-		return this.faceidAvailable().then(type => {
+	has(){
+		return this.available().then(type => {
 
 			return new Promise((resolve, reject) => {
 
@@ -85,14 +90,20 @@ class FaceId {
 		})
 	}
 
-	faceid(){
+	verify(){
 
-		return this.hasFaceid().then(type => {
-			window.plugins.touchid.verify(this.key, (type === "face") ? "Face ID" : "Touch ID", function(password) {
-				
-			}, function(){
-				
-			});
+		return this.has().then(type => {
+
+			return new Promise((resolve, reject) => {
+				window.plugins.touchid.verify(this.key, (type === "face") ? "Face ID" : "Touch ID", function(password) {
+					console.log('password', password)
+					resolve(password)
+				}, function(){
+					reject('verify')
+				});
+			})
+
+			
 		})
 
 		if (window.plugins && window.plugins.touchid) {

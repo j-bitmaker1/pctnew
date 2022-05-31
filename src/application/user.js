@@ -5,6 +5,7 @@ var { error } = require('./error')
 var moment = require('moment');
 import f from './functions'
 import Activity from './lib/activity'
+import Storage from './utils/cryptoStorage'
 
 var User = function ({
     vm,
@@ -13,11 +14,14 @@ var User = function ({
     pct, 
     crm,
     vxstorage,
-    i18n
+    i18n,
+    cordovakit,
+    vueapi
 }) {
 
 
     var self = this
+    var storage = null
 
     const salt = process.env.VUE_APP_SALT;
     const prefix = process.env.VUE_APP_PREFIX;
@@ -41,6 +45,183 @@ var User = function ({
         i18n
     })
 
+
+
+    var getstorage = function(){
+
+        if(storage) return Promise.resolve(storage)
+
+        return cordovakit.faceid.verify().catch(e => {
+
+            console.error(e)
+
+            if(e == 'verify'){
+                return vueapi.pincode('enter', 3, function(code){
+
+                    var tempstorage = new Storage(code)
+
+                    try{
+                        var v = tempstorage.getItem(prefix + '-token')
+                        return Promise.resolve()
+                    }
+                    catch(e) {
+                        console.error(e)
+                        return Promise.reject()
+                    }
+
+                }).catch(e => {
+
+                    console.error("E", e)
+
+                    self.deletefaceid()
+
+                    return Promise.reject(e)
+                })
+            }
+
+            return Promise.resolve(lskey)
+
+        }).then(password => {
+
+            console.log("password", password)
+
+            storage = new Storage(password)
+
+            return Promise.resolve(storage)
+
+        }).catch(e => {
+            console.error(e)
+
+            return Promise.reject(e)
+        })
+    }
+
+    var changestorage = function(){
+        if (storage) {
+            storage.clear()
+            storage = null
+        }
+
+        return getstorage().then( r => {
+            return state.is()
+        }).then(state => {
+
+            if(state == 1){
+
+                console.log("STORAGE CHANGED")
+
+                login.save()
+                token.save()
+                //// set pwd to new storage
+            }
+
+        })
+    }
+
+    self.setfaceid = function(){
+
+        return self.faceIdAvailable().then(() => {
+            return state.is()
+        }).then(state => {
+
+            if (state != 1) return Promise.reject('unauthorized')
+
+            return vueapi.pincode('create')
+
+        }).then(code => {
+
+            vm.$store.commit('globalpreloader', true)
+
+            return cordovakit.faceid.set(code).then((r) =>{
+
+                vm.$store.commit('globalpreloader', false)
+                return Promise.resolve(r)
+            }).catch(e => {
+
+                vm.$store.commit('globalpreloader', false)
+                return Promise.reject(e)
+            })
+        }).then(r => {
+            return changestorage()
+        })
+    }
+
+    self.deletefaceid = function(){
+
+        return cordovakit.faceid.remove().then(r => {
+
+            localStorage.removeItem('askedfaceid')
+
+            return changestorage()
+        }).catch(e => {
+            console.error(e)
+
+            return Promise.reject(e)
+        })
+
+    }
+
+    self.hasFaceid = function(){
+        return cordovakit.faceid.has()
+    }
+
+    self.faceIdAvailable = function(){
+        return cordovakit.faceid.available()
+    }
+
+    self.askfaseid = function(){
+
+        return cordovakit.faceid.available().catch(e => {return Promise.resolve('face')}).then((type) => {
+
+            return cordovakit.faceid.has().catch(e => {
+                if (localStorage['askedfaceid']){
+                    return Promise.resolve()
+                }
+
+                return vm.$dialog.confirm(
+                    vm.$t('common.usefaceid_' + type), {
+                    okText: vm.$t('yes'),
+                    cancelText : vm.$t('no')
+                })
+        
+                .then((dialog) => {
+
+                    return self.setfaceid().then(r => {
+
+                        vueapi.fx({
+                            name : 'emoji',
+                            
+                            parameters : {
+                                from : {
+                                    y : (500),
+                                    x : window.innerWidth / 2
+                                },
+            
+                                to : {
+                                    y : 'top',
+                                    x : 'right'
+                                }
+                            }
+            
+                        })
+
+                        return Promise.resolve()
+                    }).catch(e => {
+                        console.error('e', e)
+                    })
+
+                }).catch( e => {
+                    console.error("E", e)
+                    localStorage['askedfaceid'] = true
+                })
+
+
+            })
+            
+        })
+    }
+
+
     var state = {
 
         _value: -1,
@@ -61,28 +242,42 @@ var User = function ({
             switch (this._value) {
                 case -1:
 
-                    pwdhash.init()
-                    token.init()
-                    login.init()
-
-                    if ((login.value && pwdhash.value) || token.value) {
-
-                        return signin({
-
-                            pwdhash_value: pwdhash.value,
-                            login_value: login.value,
-                            token_value: token.value
-
-                        }).catch(e => {
-                            return Promise.resolve(state.value)
-                        })
-
+                    if(!token.check()){
+                        this.value = 0;
+                        return Promise.resolve(this.value)
                     }
-                    else {
+                    
+                    return getstorage().then(() => {
+                        pwdhash.init()
+                        token.init()
+                        login.init()
+
+                        if ((login.value && pwdhash.value) || token.value) {
+
+                            return signin({
+
+                                pwdhash_value: pwdhash.value,
+                                login_value: login.value,
+                                token_value: token.value
+
+                            }).catch(e => {
+                                return Promise.resolve(state.value)
+                            })
+
+                        }
+                        else {
+                            this.value = 0;
+
+                            return Promise.resolve(this.value)
+                        }
+
+                        
+                    }).catch(e => {
+                        console.error('e', e)
                         this.value = 0;
 
                         return Promise.resolve(this.value)
-                    }
+                    })
 
                     break;
 
@@ -122,16 +317,14 @@ var User = function ({
             if (v) {
 
                 this._value = v;
-
-                //localStorage.setItem(prefix + '-pwdhash', v);
             }
             else {
-                //localStorage.removeItem(prefix + '-pwdhash');
+
             }
         },
 
         init: function () {
-            //this._value = localStorage[prefix + '-pwdhash'] || "";
+
         }
     };
 
@@ -147,17 +340,22 @@ var User = function ({
 
                 this._value = v;
 
-                localStorage.setItem(prefix + '-login', v);
+                this.save()
 
             }
 
             else {
-                localStorage.removeItem(prefix + '-login');
+                storage.removeItem(prefix + '-login');
             }
         },
 
         init: function () {
-            this._value = localStorage[prefix + '-login'] || "";
+            this._value = storage.getItem(prefix + '-login') || "";
+        },
+
+        save : function(){
+            if (this._value)
+                storage.setItem(prefix + '-login', this._value);
         }
     };
 
@@ -171,26 +369,35 @@ var User = function ({
             if (v) {
 
                 this._value = v;
-                localStorage.setItem(prefix + '-token', v);
+                storage.setItem(prefix + '-token', v);
 
             }
             else {
 
                 this._value = ''
-                localStorage.removeItem(prefix + '-token');
+                storage.removeItem(prefix + '-token');
 
             }
 
         },
+
+        save : function(){
+            if (this._value)
+                storage.setItem(prefix + '-token', this._value);
+        },
+
         init: function () {
-            this._value = localStorage[prefix + '-token'] || "";
+            this._value = storage.getItem(prefix + '-token') || "";
+        },
+
+        check : function(){
+            return localStorage.getItem(prefix + '-token') || "";
         }
     };
 
     function crypt(password) {
         return sha1(password + salt)
     }
-
 
     function startFcm() {
         if (window.cordova) {
@@ -396,6 +603,8 @@ var User = function ({
 
     function signout() {
 
+        self.deletefaceid()
+
         clear()
 
         wss.destroy()
@@ -487,7 +696,9 @@ var User = function ({
 
         var data = {}
 
-        return setFingerPrint().then(fp => {
+        return getstorage().then(() => {
+            return setFingerPrint()
+        }).then(fp => {
 
             fingerprint = fp
 
@@ -539,6 +750,10 @@ var User = function ({
             vm.$store.commit('userinfo', self.info)
 
             self.prepare()
+
+            self.askfaseid().catch(e => {
+
+            })
             
 
             return state.value

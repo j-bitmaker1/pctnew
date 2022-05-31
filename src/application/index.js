@@ -50,9 +50,9 @@ class Core {
         this.fx = new FX(this)
 
         this.cordovakit = new Cordovakit(this)
-
-        this.user = new user(this)
         this.vueapi = new Vueapi(this)
+        this.user = new user(this)
+        
        
         
     }

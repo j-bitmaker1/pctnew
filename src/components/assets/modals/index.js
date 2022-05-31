@@ -27,8 +27,10 @@ export default {
     }),
 
     methods : {
-        close : function(id){
+        close : function(id, cl){
             this.$store.commit('CLOSE_MODAL', id)
+
+            if(cl) cl()
         },
         scroll : function(v){
 

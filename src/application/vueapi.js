@@ -348,6 +348,46 @@ class Vueapi {
         })
     }
 
+    pincode = function(mode = 'create', attemp, check){
+
+        var hascode = false
+
+        return new Promise((resolve, reject) => {
+
+            this.store.commit('OPEN_MODAL', {
+                id : 'modal_pincode',
+                module : "pincode",
+                caption : mode == 'create' ? 'Create pincode' : "Enter pincode",
+                mclass : 'cover withoutheader',
+                data : {
+                    confirm : mode == 'create',
+                    mode,
+                    attemp,
+                    check
+                },
+                events : {
+                    success : function(pin){
+
+                        hascode = true
+
+                        resolve(pin)
+                    },
+                    close : function(){
+
+                        if(!hascode){
+                            hascode = true
+                            reject()
+                        }
+
+                    }
+                }
+            })
+
+        })
+
+        
+    }
+
     camera = function(success, p = {}){
         this.store.commit('OPEN_CAMERA', {
             data : {

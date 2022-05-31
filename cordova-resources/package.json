@@ -138,7 +138,8 @@
         "cordova-plugin-whitelist": {},
         "cordova-plugin-apkupdater": {},
         "cordova-plugin-file-transfer": {},
-        "cordova-plugin-photo-library" : {}
+        "cordova-plugin-photo-library" : {},
+        "cordova-plugin-keychain-touch-id" : {}
       },
       "platforms": [
         "ios",

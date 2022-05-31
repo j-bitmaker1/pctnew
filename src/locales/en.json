@@ -148,10 +148,17 @@
 	},
 
 	"yes" : "Yes",
+	"no" : "No",
 	"cancel" : "Cancel",
 	"details" : "Details",
 
 	"common" : {
+		"usefaceidcheck_face" : "Use Face ID",
+		"usefaceidcheck_YES" : "Use Touch ID",
+		"usefaceid_face" : "Do you want to use Face ID for protect your account?",
+		"usefaceid_YES" : "Do you want to use Touch ID for protect your account?",
+		"removefaceid_face" : "Do you really want to remove Face ID protection?",
+		"removefaceid_YES" : "Do you really want to remove Touch ID protection?",
 		"enteremail" : "Enter Email",
 		"2901001" : "Or create a new account",
 		"2901005" : "Sign in with Apple",
