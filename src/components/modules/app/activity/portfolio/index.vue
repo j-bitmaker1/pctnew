@@ -18,13 +18,6 @@
 	</div>
 
 	<div class="assets" >
-
-		<div class="assetsClList" @click="open">
-			<div class="ticker" :uncovered="!asset.isCovered" :key="i" v-for="(asset, i) in portfolio.positions">
-				<span>{{asset.ticker}}</span>
-			</div>
-		</div>
-
 		<div class="actions">
 			<div class="action" v-for="action in actions" :key="action.route">
 				<router-link :to="action.route">
@@ -32,6 +25,13 @@
 				</router-link>
 			</div>
 		</div>
+		<div class="assetsClList" @click="open">
+			<div class="ticker" :uncovered="!asset.isCovered" :key="i" v-for="(asset, i) in portfolio.positions">
+				<span>{{asset.ticker}}</span>
+			</div>
+		</div>
+
+		
 	</div>
 
 	

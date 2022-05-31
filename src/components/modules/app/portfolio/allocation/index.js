@@ -211,6 +211,8 @@ export default {
 		}, 
 		drilldownevent : function(e){
 
+			console.log("E", e)
+
 			this.drilldown = e.seriesOptions
 		},
 
@@ -220,5 +222,16 @@ export default {
 				return Promise.resolve(r)
 			})
 		},
+
+		clickLegend : function(item){
+			if(!this.drilldown && item.drilldown){
+				this.drilldown = {
+					id : item.drilldown
+				}
+				//console.log("item", item, this.$refs.chart) drilldown chart
+				//this.$refs.chart.chart.drilldown.update(item.drilldown)
+				
+			}
+		}
 	},
 }

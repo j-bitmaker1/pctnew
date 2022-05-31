@@ -1,5 +1,5 @@
 <template>
-  <div :class="'bgimage ' + (this.imageLoaded ? 'loaded' : '')" :style="'background-image:url('+src+'); background-size: cover; background-position: center center; background-repeat: no-repeat'" v-images-loaded:on.loaded="loaded">
+  <div class="bgimage" :class="{loaded}" :style="'background-image:url('+imageSrc+'); background-size: cover; background-position: center center; background-repeat: no-repeat'">
     
   </div>
 </template>
@@ -10,7 +10,7 @@
     .bgimage
         width : 100%
         height: 100%
-        opacity: 1
+        opacity: 0
         +transition(0.3s)
 
         &.loaded
@@ -20,29 +20,45 @@
 
 <script>
 
-    import imagesLoaded from 'vue-images-loaded'
+
 
     export default {
         name: 'bgimage',
         directives: {
-            imagesLoaded
         },
         props: {
             src : String
         },
 
+        watch : {
+            src : {
+                immediate : true,
+                handler : function(){
+                    this.load()
+                }
+            }
+        },
+
         data : function(){
             return {
-                imageLoaded : false
+                loaded : false,
+                imageSrc : ''
             }
         },
 
         methods: {
-            loaded(instance, image){
-                if (image.isLoaded){
-                    this.imageLoaded = true
-                }
+            load : function(){
+                if(this.src){
+                    var image = new Image()
+                    image.src = this.src
+
+                    image.onload = () => {
+                        this.imageSrc = this.src
+                        this.loaded = true
+                    }
+                }   
             }
+          
         }
     }
 

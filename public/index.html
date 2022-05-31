@@ -47,9 +47,14 @@
 
   </div>
 
+  <% if(NODE_ENV == 'production') {%> 
+    <script async src="<%= BASE_URL %>js/pwa-service-worker.js"></script>
+  <% } else { %> 
   
-  <!--<script async src="js/pwa-service-worker.js"></script>-->
-
+  <% } %> 
+    
+  <script async src="<%= BASE_URL %>js/vendor/bezier.js"></script>
+  <script async src="<%= BASE_URL %>js/vendor/color.min.js"></script>
 </body>
 
 

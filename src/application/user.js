@@ -22,7 +22,7 @@ var User = function ({
     const salt = process.env.VUE_APP_SALT;
     const prefix = process.env.VUE_APP_PREFIX;
     const fingerPrintDefault = '111finger111';
-
+    const lskey = 'defaultCryptoKey'
 
     self.locale = 'en-US'
 

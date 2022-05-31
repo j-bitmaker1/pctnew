@@ -229,7 +229,9 @@ class Vueapi {
 
     sharequestionnaire = function(){
 
-        this.core.api.crm.questionnaire.getlink().then(url => {
+        this.core.api.crm.questionnaire.getlink(null, {
+            preloader : true
+        }).then(url => {
 
             this.store.commit('OPEN_MODAL', {
                 id: 'modal_share',
@@ -378,6 +380,27 @@ class Vueapi {
                 }
             }
         })
+    }
+
+    fx = function({place, name, parameters = {}}){
+
+
+        var dp = {}
+
+        if (name == 'stars') 
+            dp = {
+                opacity : 0.8,
+                scatter : 20,
+                duration : 900,
+                color : '#ffa000'
+            }
+
+            
+
+        this.store.commit('FX', {place, name, parameters : {
+            ...dp,
+            ...parameters
+        }})
     }
 }
 

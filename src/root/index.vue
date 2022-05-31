@@ -17,7 +17,7 @@
 		<modals />
     </div>
 
-    
+    <fx v-if="fx"/>
 
     <transition name="fade" v-if="iconshow">
         <fixedmessageicon />

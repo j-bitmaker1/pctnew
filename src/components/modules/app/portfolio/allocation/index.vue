@@ -16,7 +16,7 @@
 	</div>
 
 	<div class="chartWrapper mobp">
-		<highcharts :options="chartOptions"></highcharts>
+		<highcharts ref="chart" :options="chartOptions"></highcharts>
 	</div>
 
 	<div class="legend">
@@ -25,7 +25,7 @@
 			<span>{{drilldown.name}}</span>
 		</div>
 
-		<list :items="currentSerie.data">
+		<list :items="currentSerie.data" @click="clickLegend">
 			<template v-slot:default="slotProps">
 
 				<div class="serie mobp">

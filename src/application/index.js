@@ -11,6 +11,7 @@ import PCT from './lib/pct'
 import Vueapi from './vueapi'
 import Cordovakit from './cordovakit'
 import Filemanager from './lib/filemanager'
+import FX from './utils/fx.js'
 
 class Core {
     constructor(vm, p){
@@ -31,7 +32,6 @@ class Core {
 
         this.notifier = new Notifier(this)
         this.api = new Api(this)
-        
 
         this.onlineListener = new listeners.online(this)
         this.focusListener = new listeners.focus(this)
@@ -47,11 +47,13 @@ class Core {
         this.filemanager = new Filemanager(this)
         this.crm = new CRM(this)
         this.pct = new PCT(this)
-        
+        this.fx = new FX(this)
+
+        this.cordovakit = new Cordovakit(this)
 
         this.user = new user(this)
         this.vueapi = new Vueapi(this)
-        this.cordovakit = new Cordovakit(this)
+       
         
     }
 

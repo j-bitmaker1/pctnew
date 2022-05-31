@@ -89,7 +89,8 @@ var storeFactory = function(vxstorage){
 		selection : null,
 
 		camera : null,
-    	photolibraryaccessdecline : false
+    	photolibraryaccessdecline : false,
+		fx : null
 
 	}
 
@@ -220,6 +221,10 @@ var storeFactory = function(vxstorage){
 
 		GALLERY(state, v) {
 			state.gallery = v || null
+		},
+
+		FX(state, v) {
+			state.fx = v || null
 		},
 
 		SHARE(state, v) {

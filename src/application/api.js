@@ -1567,9 +1567,12 @@ var ApiWrapper = function (core) {
 				p.method = "GET"
 
 				var d = {}
+
 				if(clientid) d.leadId = clientid
 
-				return request(d, 'api', 'crm/Surveys/GetKeyForPctQuiz', p).then(r => {
+					p.storageparameters = dbmeta.system()
+
+				return dbrequest(d, 'api', 'crm/Surveys/GetKeyForPctQuiz', p).then(r => {
 
 					return Promise.resolve(window.location.origin + '/riskscore/' + r.token)
 	
@@ -1644,7 +1647,6 @@ var ApiWrapper = function (core) {
 						
 					}
 
-					console.log('js', js)
 
 					if(!js) return Promise.reject('json')
 

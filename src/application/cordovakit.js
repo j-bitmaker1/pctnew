@@ -1,59 +1,113 @@
 import f from './functions'
-
+import FaceId from './utils/faceid'
 class Cordovakit {
-    constructor(core){
+	constructor(core){
 
-        this.core = core
-        this.store = this.core.store
-        this.vm = this.core.vm
+		this.core = core
+		this.store = this.core.store
+		this.vm = this.core.vm
+		this.faceid = new FaceId(this)
+	}
 
-    }
+	prepare(){
 
-    prepare(){
+		document.documentElement.style.setProperty('--keyboardheight', `0px`);
 
-        document.documentElement.style.setProperty('--keyboardheight', `0px`);
+		if (!window.cordova) return
 
-        if (!window.cordova) return
+		if (navigator.splashscreen) navigator.splashscreen.hide();
 
-        if (navigator.splashscreen) navigator.splashscreen.hide();
+		window.screen.orientation.lock('portrait')
 
-        window.screen.orientation.lock('portrait')
+		this.keyboard()
+		//window.StatusBar.hide()
+		window.StatusBar.backgroundColorByHexString('#00000000');
+		window.StatusBar.styleDefault()
+		//self.platform.sdk.theme.current == 'white' ? window.StatusBar.styleDefault() : window.StatusBar.styleLightContent()
+	}
 
-        this.keyboard()
-        //window.StatusBar.hide()
-        window.StatusBar.backgroundColorByHexString('#00000000');
-        window.StatusBar.styleDefault()
-        //self.platform.sdk.theme.current == 'white' ? window.StatusBar.styleDefault() : window.StatusBar.styleLightContent()
-    }
+	keyboard(){
+		window.addEventListener('keyboardWillShow', (event) => {
+			document.documentElement.style.setProperty('--keyboardheight', `${event.keyboardHeight}px`);
+		});
 
-    keyboard(){
-        window.addEventListener('keyboardWillShow', (event) => {
-            document.documentElement.style.setProperty('--keyboardheight', `${event.keyboardHeight}px`);
-        });
+		window.addEventListener('keyboardWillHide', () => {
+			document.documentElement.style.setProperty('--keyboardheight', `${0}px`);
+		});
+	}
 
-        window.addEventListener('keyboardWillHide', () => {
-            document.documentElement.style.setProperty('--keyboardheight', `${0}px`);
-        });
-    }
+	vibration(total){
 
-    vibration(total){
+		if(f.isios()){
 
-        if(f.isios()){
+			if(typeof TapticEngine != 'undefined')
+				TapticEngine.impact({
+					style: "medium"
+				});
 
-            if(typeof TapticEngine != 'undefined')
-                TapticEngine.impact({
-                    style: "medium"
-                });
+		}
+		else{
+			if (navigator.vibrate && total){
+				navigator.vibrate(50)
+			}
+		}
 
-        }
-        else{
-            if (navigator.vibrate && total){
-                navigator.vibrate(50)
-            }
-        }
+	   
+	}
 
-       
-    }
+
+	_faceid() {
+
+		if(!window.plugins.touchid) return Promise.reject('notavailable')
+
+		return new Promise((resolve, reject) => {
+
+			window.plugins.touchid.isAvailable(
+				function(type) {
+
+					if(localStorage['usefaceid']){
+
+						window.plugins.touchid.didFingerprintDatabaseChange(
+
+							function(changed) {
+								
+								if (changed) {
+									reject('unauthorized')
+								} else {
+
+									window.plugins.touchid.verifyFingerprintWithCustomPasswordFallback(
+										type == 'face' ? "Face ID" : 'Touch ID', // this will be shown in the native scanner popup
+										function(msg) {
+											resolve()
+										}, // success handler: fingerprint accepted
+										function(msg) {
+				
+											reject('unauthorized')
+				
+										} // error handler with errorcode and localised reason
+									);
+
+								}
+							}
+						);
+
+					}
+					else{
+						return reject('usefaceid')
+					}
+
+				}, // type returned to success callback: 'face' on iPhone X, 'touch' on other devices
+				function(msg) {
+
+					return reject('notavailable')
+
+				} 
+			);
+
+		})
+
+		
+	}
 
 }
 

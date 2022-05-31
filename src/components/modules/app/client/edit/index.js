@@ -240,6 +240,23 @@ export default {
 
 		imageChange : function(i){
 			this.uploading = i
+
+			this.core.vueapi.fx({
+				name : 'emoji',
+			
+				parameters : {
+					from : {
+						y : (200),
+						x : window.innerWidth / 2
+					},
+
+					to : {
+						y : 'bottom',
+						x : 'right'
+					}
+				}
+
+			})
 		},
 
 		check : function(){
