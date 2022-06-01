@@ -105,6 +105,11 @@ export default {
         //$route: 'getdata'
     },
     computed: mapState({
+
+        direction : function(state){
+            return state.dwidth <= 768 ? 'vertical' : 'horizontal'
+        },
+
         auth : state => state.auth,
 
         capacityQuestions : function(){

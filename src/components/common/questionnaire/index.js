@@ -12,7 +12,9 @@ export default {
         initial : {
             type : Object,
             default : () => {return {}}
-        }
+        },
+
+        direction : String
     },
 
     components : {
@@ -69,6 +71,8 @@ export default {
             return pages
 
         },
+
+        
        
     }),
 

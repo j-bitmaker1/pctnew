@@ -57,7 +57,13 @@
                 border-color: srgb(--color-bg-ac-bright)
                 border-radius: 12px
                 
-        
+@media (pointer:fine)
+    .item
+        +transition(0.3s)
+        cursor: pointer
+        &:hover
+            opacity: 0.8
+			
 
 </style>
 

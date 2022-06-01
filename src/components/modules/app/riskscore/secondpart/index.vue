@@ -1,17 +1,21 @@
 <template>
 <div id="riskscore_secondpart">
-	<sequence @finish="finish" @back="goback" ref="sequence" :pages="resultPages" direction="vertical">
+	<sequence :direction="direction" @finish="finish" @back="goback" ref="sequence" :pages="resultPages" direction="vertical">
 		<template v-slot:default="slotProps">
 
-			<component @change="v => {change(v, slotProps.item)}" :initial="capacity" :points="points" :values="values"  v-if="getmodule(slotProps.item)" :is="getmodule(slotProps.item)" v-bind="slotProps.item.data || {}" />
+			<div class="cwrapper">
 
-			<div class="savePanel">
-				<button class="button black" @click="e => back(slotProps.item)">
-					Back
-				</button>
-				<button class="button" @click="e => next(slotProps.item)">
-					Next
-				</button>
+				<component @change="v => {change(v, slotProps.item)}" :initial="capacity" :points="points" :values="values"  v-if="getmodule(slotProps.item)" :is="getmodule(slotProps.item)" v-bind="slotProps.item.data || {}" />
+
+				<div class="savePanel">
+					<button class="button black" @click="e => back(slotProps.item)">
+						Back
+					</button>
+					<button class="button" @click="e => next(slotProps.item)">
+						Next
+					</button>
+				</div>
+
 			</div>
 
 		</template>
@@ -24,6 +28,10 @@
 #riskscore_secondpart
 	width: 100%
 	height: 100%
+
+	.cwrapper
+		max-width: 640px
+		margin : 0 auto
 
 	::v-deep
 
@@ -68,7 +76,9 @@ export default {
 			default: () => {
 				return {}
 			}
-		}
+		},
+
+		direction : String
 	},
 	components: {
 		capacity,

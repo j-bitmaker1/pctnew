@@ -3,14 +3,17 @@
 	z-index: 11
 	color : srgb(--text-color)
 
-	.iconbutton
-		cursor: pointer
+	::v-deep
+		.iconbutton
+			cursor: pointer
+			color : srgb(--neutral-grad-3)
 
 	.headerLine
 		display: flex
 		align-items: center
-		padding: 0
-		height: 66px
+		padding: 2 * $r
+		padding-top: 2 * $r
+		height: 84px
 
 		.leftIcon
 			width: 55px
@@ -35,9 +38,19 @@
 	.rightIcons
 		justify-content: space-between
 
+		
+
 	.rightIcons
 		display: flex
 		align-items: center
+
+		::v-deep
+			i
+				color : srgb(--neutral-grad-3)
+
+		.buttonpanel
+			i
+				color : srgb(--color-txt-ac)
 
 	.additionalWrapper
 		::v-deep
@@ -59,6 +72,7 @@
 		padding-top: var(--app-margin-top)
 
 		.headerLine
+			padding : 0
 			height: 84px
 
 			.leftIcon

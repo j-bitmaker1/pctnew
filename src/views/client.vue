@@ -25,8 +25,8 @@
 	<maincontent>
 		<template v-slot:content>
 			<div v-if="!loading">
-				<div class="linenavigation">
-					<linenavigation @change="changenav" :items="navigation" :navdefault="navdefault" :navkey="navkey" :mode="wnd ? 'emit' : 'history'"/>
+				<div class="linenavigation mobp">
+					<linenavigation :buttons="true" @change="changenav" :items="navigation" :navdefault="navdefault" :navkey="navkey" :mode="wnd ? 'emit' : 'history'"/>
 				</div>
 				<component ref="main" :is="module" :profile="profile"/>
 			</div>
@@ -40,6 +40,7 @@
 .linenavigation
 	background: srgb(--background-secondary-theme)
 	margin-bottom: $r
+	padding-bottom: $r
 
 #clientprofile
 	display: flex
@@ -54,12 +55,37 @@
 
 ::v-deep
 	.userpicWrapper
-		max-width: 44px
-		min-width: 44px
-		width: 44px
-		line-height: 44px
+		max-width: 100px
+		min-width: 100px
+		width: 100px
+		line-height: 100px
 		font-size: 0.8em
 		margin-right: 2 * $r
+
+@media only screen and (max-width: 768px)
+	::v-deep
+		#topheader
+			position: relative
+			.headerLine
+				align-items: flex-start
+				height: auto
+				.rightIcons
+					margin-top: 2.5 * $r
+				.leftIcon
+					margin-top: 4 * $r
+		.infoPart
+			margin-left: 2 * $r
+			margin-top: 8 * $r
+			margin-bottom: 4 * $r
+			.data
+				margin-top: 2 * $r
+			.userpicWrapper
+				margin-right: 0
+			#clientprofile
+				flex-direction: column
+				text-align: center
+
+
 </style>
 
 <script>
@@ -68,7 +94,6 @@ import capacity from "@/components/modules/app/client/capacity/index.vue";
 import portfolios from "@/components/modules/app/client/portfolios/index.vue";
 import info from "@/components/modules/app/client/info/index.vue";
 import profilemenu from "@/components/modules/app/client/menu/index.vue";
-import func from 'vue-editor-bridge';
 
 export default {
 	name: 'page',

@@ -24,6 +24,17 @@
 		span
 			font-size: 0.8em
 
+@media (pointer:fine)
+	.cnt
+		cursor: pointer
+
+		i
+			+transition(0.3s)
+
+		&:hover
+			i
+				color : srgb(--neutral-grad-2)
+
 .filesystem
 	padding : $r 0
 

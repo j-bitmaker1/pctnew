@@ -19,10 +19,21 @@
     padding : 2 * $r
     align-items: center
     background: srgb(--neutral-grad-0)
+    color : srgb(--neutral-grad-4)
     margin-bottom: $r
-    border-radius: 12px
+    border-radius: 22px
     i
         width: 33px
+        text-align: center
+        margin-right: $r
+
+@media (pointer:fine)
+    .item
+        cursor: pointer
+        +transition(0.3s)
+
+        &:hover
+            background: srgb(--neutral-grad-1)
 </style>
 
 <script>

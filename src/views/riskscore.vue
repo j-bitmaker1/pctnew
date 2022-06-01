@@ -55,6 +55,8 @@
 .previous
 	padding: 2 * $r
 	padding-right: 0
+	max-width: 640px
+	margin : 0 auto
 	.question
 		margin-top : 2 * $r
 		margin-bottom: 2 * $r

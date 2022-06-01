@@ -30,6 +30,9 @@
         bottom : 0
 
     &.small
+        .modal-backdrop
+            backdrop-filter: blur(7px)
+            -webkit-backdrop-filter: blur(7px)
         .modal-body
             padding-bottom: 0
         .swipable
@@ -72,12 +75,21 @@
             display: none
 
     &.likemenu
+        .modal-backdrop
+            backdrop-filter: blur(14px)
+            -webkit-backdrop-filter: blur(14px)
+
         .modal-header
             display: none
+
+        .modal
+            border-top-left-radius: 22px
+            border-top-right-radius: 22px
 
         .modal-body
             padding : 2 * $r
             padding-bottom: 10 * $r
+            
 
     &.withoutheader
         .modal-header
@@ -143,12 +155,13 @@
 
 .modal-wrapper
     position: absolute
-    left : 0
+    left : 50%
+    margin-left: -25%
     right : 0
     top : 7%
     bottom : 0
     overflow: hidden
-    
+    max-width: 640px
 
 .modal 
     border-top-left-radius: 10px
@@ -156,7 +169,7 @@
     border-top : 1px solid srgba(--neutral-grad-3, 0.2)
     background: srgb(--background-total-theme)  
     overflow-x: hidden
-    max-width: 640px
+    
     margin : 0 auto
     +shadowSmall()
     position: absolute
@@ -183,7 +196,7 @@
 .modal-header,
 .modal-footer 
     display: flex
-    max-width: 640px
+    
     margin : 0 auto
 
 
@@ -237,6 +250,12 @@
 
 
 @media only screen and (max-width: 768px) 
+
+    .modal-wrapper
+        left : 0
+        margin-left: 0
+        max-width: none
+
     .modal 
         min-width: 0
         width: 100%

@@ -1,6 +1,6 @@
 <template>
 <div id="questionnaire">
-    <sequence @finish="finish" @back="exit" ref="sequence" :pages="pages" direction="vertical">
+    <sequence @finish="finish" @back="exit" ref="sequence" :pages="pages" :direction="direction">
         <template v-slot:default="slotProps">
 
             <component @input="result => {input(slotProps.item, result)}" :ref="slotProps.item.id" @next="result => {next(slotProps.item, result)}" @back="e => {back(slotProps.item)}" :values="values" v-if="getmodule(slotProps.item)" :is="getmodule(slotProps.item)" v-bind="slotProps.item.data || {}"/>

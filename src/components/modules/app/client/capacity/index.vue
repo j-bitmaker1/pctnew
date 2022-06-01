@@ -21,7 +21,7 @@
 <style scoped lang="sass">
 ::v-deep
 	.stickedTop
-		top : 104px
+		top : 0px
 </style>
 
 <script>

@@ -53,8 +53,6 @@ var User = function ({
 
         return cordovakit.faceid.verify().catch(e => {
 
-            console.error(e)
-
             if(e == 'verify'){
                 return vueapi.pincode('enter', 3, function(code){
 
@@ -83,21 +81,25 @@ var User = function ({
 
         }).then(password => {
 
-            console.log("password", password)
-
             storage = new Storage(password)
 
             return Promise.resolve(storage)
 
         }).catch(e => {
-            console.error(e)
-
             return Promise.reject(e)
         })
     }
 
     var changestorage = function(){
+
+        var lui = null
         if (storage) {
+
+            try{
+                lui = storage.getItem('ui')
+            }catch(e){}
+            
+
             storage.clear()
             storage = null
         }
@@ -107,6 +109,9 @@ var User = function ({
         }).then(state => {
 
             if(state == 1){
+
+                if (lui)
+                    storage.setItem('ui', lui)
 
                 console.log("STORAGE CHANGED")
 
@@ -619,7 +624,8 @@ var User = function ({
         //vm.$store.commit('userprofile', null)
         vm.$store.commit('clearall')
 
-
+        if (storage)
+            storage.removeItem('ui')
 
         state.value = 0
         pwdhash.value = ''
@@ -721,7 +727,17 @@ var User = function ({
             if (en) {
                 state.value = 2
 
-                return api.user.signin(data)
+                return api.user.signin(data).catch(e => {
+
+                    var altinfo = storage.getItem('ui')
+
+                    if (altinfo){
+                        return Promise.resolve(altinfo)
+                    }
+
+
+                    return Promise.reject(e)
+                })
             }
 
             state.value = 0
@@ -746,6 +762,8 @@ var User = function ({
             login.value = data.login
 
             self.info = result
+
+            storage.setItem('ui', result)
 
             vm.$store.commit('userinfo', self.info)
 

@@ -4,7 +4,7 @@
 	<div class="controls mobp">
 
 		<div class="forcaption">
-			<span>Assets</span>
+			<span>Positions</span>
 		</div>
 
 		<div class="foredit">

@@ -4,34 +4,37 @@
 		<card :userinfo="userinfo" />
 	</div>
 
-	<div class="infoWrapper mobp">Additional Info</div>
+	<!--<div class="infoWrapper mobp">Additional Info</div>-->
 
-	<div class="themeToggleWrapper mobp">
-		<themeToggle />
-	</div>
+	<div class="settings">
 
-	<div class="actions mobp">
+		<div class="themeToggleWrapper mobp">
+			<themeToggle />
+		</div>
 
-		<div class="action thlabel" v-if="faceIdAvailable">
+		<div class="actions mobp">
 
-			<iconstoggle :icons="faceId" :value="hasFaceid" @change="changeFaceId"/>
+			<div class="action thlabel" v-if="faceIdAvailable">
 
-			<div class="label">
-				<span>{{ $t("common.usefaceidcheck_" + faceIdAvailable) }}</span>
+				<iconstoggle :icons="faceId" :value="hasFaceid" @change="changeFaceId"/>
+
+				<div class="label">
+					<span>{{ $t("common.usefaceidcheck_" + faceIdAvailable) }}</span>
+				</div>
+
+			
 			</div>
 
-		
-		</div>
+			<div class="action">
+				<router-link to="/changepassword">
+					<button class="button">Change Password</button>
+				</router-link>
+			</div>
 
-		<div class="action">
-			<router-link to="/changepassword">
-				<button class="button">Change Password</button>
-			</router-link>
+			
 		</div>
-
-		
 	</div>
-	
+		
 
 	<div class="signout mobp" @click="signout">
 		<span>{{ $t("common.2901049") }}</span>

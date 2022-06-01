@@ -195,10 +195,17 @@ html[camera="true"]
 		margin-left: 2 * $r
 		text-align: center
 
+@media (pointer:fine)
+	.buttonpanel
+		+transition(0.3s)
+		cursor: pointer
+		&:hover
+			opacity: 0.8
 //// tootltips
 
 .tooltip
 	&.popover
+		z-index: 1000
 		$color: #f9f9f9
 
 		.popover-inner
@@ -521,6 +528,14 @@ button.button
 		width: 22px
 		text-align: center
 
+@media (pointer:fine)
+	.diconbutton
+		+transition(0.3s)
+		cursor: pointer
+		&:hover
+			color : srgb(--neutral-grad-3)
+			border-color : srgb(--neutral-grad-1)
+
 .savePanel
 	height: 10 * $r
 	padding : $r 2 * $r
@@ -571,6 +586,10 @@ button.button
 	.minmax
 		span
 			font-size: 0.8em
+
+.mobp
+	padding-left: 2 * $r
+	padding-right: 2 * $r
 
 @media only screen and (max-width: 768px)
 	.bgpage
