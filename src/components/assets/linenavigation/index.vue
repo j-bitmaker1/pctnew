@@ -100,16 +100,15 @@ export default {
             
             if(this.mode == 'history'){
 
-             
+                console.log("AS")
 
-                this.$router.push({
+                this.$router.replace({
                     query : {
                         ... this.$route.query,
                         ... {
                                 [this.navkey] : v
                             }
-                    },
-                    replace : true
+                    }
                 })
             }
             else{

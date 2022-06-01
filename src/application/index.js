@@ -52,9 +52,7 @@ class Core {
         this.cordovakit = new Cordovakit(this)
         this.vueapi = new Vueapi(this)
         this.user = new user(this)
-        
        
-        
     }
 
     logerror = function(type, data){

@@ -20,8 +20,6 @@
 
 <script>
 
-
-
     export default {
         name: 'bgimage',
         directives: {
@@ -49,11 +47,13 @@
         methods: {
             load : function(){
                 if(this.src){
-                    var image = new Image()
-                    image.src = this.src
 
+                    this.imageSrc = this.src
+
+                    var image = new Image()
+
+                    image.src = this.src
                     image.onload = () => {
-                        this.imageSrc = this.src
                         this.loaded = true
                     }
                 }   

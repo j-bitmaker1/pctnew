@@ -1,31 +1,34 @@
 <template>
-  <div class="back unselectable" v-on:click="click">
+<div class="back unselectable" v-on:click="click">
     <div class="iconbutton">
-      <i :class="icon || 'fas fa-angle-left'"></i>
+        <i :class="icon || 'fas fa-angle-left'"></i>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
 export default {
-  name: "backButton",
-  props: {
-    icon: String,
-    action: {
-      type: String,
-      default: "/",
+    name: "backButton",
+    props: {
+        icon: String,
+        action: {
+            type: String,
+            default: "/",
+        },
+        caption: {
+            type: String,
+            default: "",
+        },
     },
-    caption: {
-      type: String,
-      default: "",
+    methods: {
+        click: function () {
+            if (this.action == "back") {
+                this.$router.go(-1);
+            } else {
+				this.$router.push(this.action);
+			}
+        },
     },
-  },
-  methods: {
-    click: function () {
-      if (this.action == "back") this.$router.go(-1);
-      else this.$router.push(this.action);
-    },
-  },
 };
 </script>
 

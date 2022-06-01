@@ -51,6 +51,7 @@
 	align-content: space-between
 	align-items: center
 	grid-gap: $r
+	white-space: nowrap
 </style>
 
 <script>
