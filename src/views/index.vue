@@ -6,6 +6,9 @@
 			<span>Home</span>
 		</template>
 		<template v-slot:right>
+
+			<homeAdd />
+
 			<div class="buttonpanel">
 				
 				<!--<i class="fas fa-bars"></i>-->
@@ -23,27 +26,6 @@
 		</template>
 	</maincontent>
 
-	<!--<transition name="fade">
-		<div class="searchWrapper" v-if="searchEnabled">
-			<topheader>
-				<template v-slot:info>
-					<span>Search</span>
-				</template>
-				<template v-slot:right>
-					<div class="buttonpanel">
-						<i class="fas fa-times" @click="closesearch"></i>
-					</div>
-				</template>
-
-			</topheader>
-
-			<maincontent>
-				<template v-slot:content>
-					<homesearch />
-				</template>
-			</maincontent>
-		</div>
-	</transition>-->
 
 </div>
 </template>
@@ -63,12 +45,12 @@
 
 <script>
 import home from "@/components/modules/app/home/index.vue";
-
+import homeAdd from "@/components/modules/app/home/add/index.vue";
 
 export default {
 	name: 'home_page',
 	components: {
-		home
+		home, homeAdd
 	},
 
 	data : function(){

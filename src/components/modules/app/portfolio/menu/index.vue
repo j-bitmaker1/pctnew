@@ -39,7 +39,11 @@ export default {
 		menu : function(){
 
 			var menu = [
-				
+				{
+					text : 'labels.portfoliopdf',
+					icon : 'fas fa-file-pdf',
+					action : 'portfoliopdf'
+				},
 				{
 					text : 'labels.editportfolio',
 					icon : 'fas fa-pen',
@@ -101,6 +105,13 @@ export default {
 
 			this.core.vueapi.editPortfolio(this.portfolio, (portfolio) => {
 				this.$emit('edit', portfolio)
+			})
+
+		},
+
+		portfoliopdf: function(){
+
+			this.core.vueapi.portfoliopdf({id : this.portfolio.id}, (pdf) => {
 			})
 
 		},

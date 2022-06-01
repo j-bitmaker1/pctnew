@@ -129,11 +129,13 @@ export default {
 
 				this.portfolio = r
 
+				this.core.user.activity.template('portfolio', this.portfolio)
+
 				if(!r.crmContactId){
 					return Promise.resolve()
 				}
 
-				this.core.user.activity.template('portfolio', this.portfolio)
+				
 
 				return this.core.api.crm.contacts.gets({Ids : [r.crmContactId]}).then(c => {
 			

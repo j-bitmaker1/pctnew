@@ -422,6 +422,22 @@ class Vueapi {
         })
     }
 
+    portfoliopdf = function(data, success){
+        this.store.commit('OPEN_MODAL', {
+            
+            id : 'modal_portfoliopdf',
+            module : "portfoliopdf",
+            caption : "Create PDF report",
+    
+            data : data,
+            events : {
+                success : function(a){
+                    if(success) success(a)
+                }
+            }
+        })
+    }
+
     fx = function({place, name, parameters = {}}){
 
 

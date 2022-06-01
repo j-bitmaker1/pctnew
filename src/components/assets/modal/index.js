@@ -72,7 +72,8 @@ export default {
         filemanager_file : () => import("@/components/common/filemanager/pages/file/index.vue"),
         pdfviewer : () => import("@/components/common/pdfviewer/index.vue"),
         assets_search : () => import("@/components/modules/app/assets/search/index.vue"),
-        pincode : () => import("@/components/assets/pincode/index.vue")
+        pincode : () => import("@/components/assets/pincode/index.vue"),
+        portfoliopdf :  () => import("@/components/modules/app/portfolio/createpdf/index.vue"),
 
     },
  

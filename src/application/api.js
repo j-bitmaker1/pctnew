@@ -1822,6 +1822,42 @@ var ApiWrapper = function (core) {
 				method: "POST",
 			})
 		},
+
+		settings : {
+			getall : function(){
+				return request({}, 'api', 'userdata/settings/list', {
+					method: "GET",
+				})
+			},
+
+			create : function(key, value){
+
+				var data = {}
+					data.Product = 'PCT_NEW'
+					data.IsPublic = true
+					data.Type = 'PCT_USER_SETTINGS'
+					data.Name = key
+					data.Info = JSON.stringify(value)
+
+				return request(data, 'api', 'userdata/settings/create', {
+					method: "POST",
+				})
+			},
+
+			update : function(id, key, value){
+
+				var data = {}
+					data.Product = 'PCT_NEW'
+					data.IsPublic = true
+					data.Type = 'PCT_USER_SETTINGS'
+					data.Name = key
+					data.Info = JSON.stringify(value)
+
+				return request(data, 'api', 'userdata/settings/update/' + id, {
+					method: "POST",
+				})
+			}
+		}
 	}
 
 	self.rixtrema = {

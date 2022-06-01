@@ -16,7 +16,8 @@ var User = function ({
     vxstorage,
     i18n,
     cordovakit,
-    vueapi
+    vueapi,
+    settings
 }) {
 
 
@@ -45,13 +46,62 @@ var User = function ({
         i18n
     })
 
+    var verify = function(){
 
+        return new Promise((resolve, reject) => {
+
+            self.hasFaceid().then(() => {
+
+                var resolved = false
+
+                cordovakit.faceid.verify().then(code => {
+
+                    if(resolved) return
+
+                    this.store.commit('CLOSE_MODAL', 'modal_pincode')
+
+                    resolved = true
+
+                    resolve(code)
+
+                })
+
+                vueapi.pincode('enter', 3, function(code){
+
+                    var tempstorage = new Storage(code)
+        
+                    try{
+                        tempstorage.getItem(prefix + '-token')
+                        return Promise.resolve()
+                    }
+                    catch(e) {
+                        return Promise.reject()
+                    }
+        
+                }).then((code) => {
+
+                    if(resolved) return
+
+                    resolved = true
+
+                    resolve(code)
+
+                }).catch(e => {
+
+                    reject(e)
+                })
+
+            }).catch(reject)
+
+        })
+        
+    }
 
     var getstorage = function(){
 
         if(storage) return Promise.resolve(storage)
 
-        return cordovakit.faceid.verify().catch(e => {
+        /*return cordovakit.faceid.verify().catch(e => {
 
             if(e == 'verify'){
                 return vueapi.pincode('enter', 3, function(code){
@@ -69,8 +119,6 @@ var User = function ({
 
                 }).catch(e => {
 
-                    console.error("E", e)
-
                     self.deletefaceid()
 
                     return Promise.reject(e)
@@ -79,6 +127,10 @@ var User = function ({
 
             return Promise.resolve(lskey)
 
+        })*/
+
+        return verify().catch(e => {
+            return Promise.resolve(lskey)
         }).then(password => {
 
             storage = new Storage(password)
@@ -772,7 +824,8 @@ var User = function ({
             self.askfaseid().catch(e => {
 
             })
-            
+
+            settings.getall()
 
             return state.value
 

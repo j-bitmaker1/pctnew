@@ -89,7 +89,8 @@
 		"deleteFile" : "Delete file",
 		"openOriginal" : "Open original",
 		"portfolioswithclientq" : "Some portfolios are already assigned to other clients. Do you want to reassign a client?",
-		"portfolioswithclientyes" : "Reassign a client"
+		"portfolioswithclientyes" : "Reassign a client",
+		"portfoliopdf" : "Create PDF report"
 	},
 
 	"caption" : {
@@ -326,7 +327,8 @@
 			"portfolio" : "By portfolios",
 			"lead" : "By leads",
 			"everywhere" : "Global search"
-		}
+		},
+		"portfoliopdf" : "PDF Reports"
 	},
 	"themes" : {
 		"white" : "Light theme",

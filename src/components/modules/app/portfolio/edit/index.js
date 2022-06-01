@@ -50,11 +50,11 @@ export default {
 	mounted : function(){
 		this.$refs.assetsList.scrollLeft = 100
 
-		setTimeout(() => {
-			if(!this.name && !f.isMobile()){
+		/*setTimeout(() => {
+			if(!this.name){
 				this.$refs.inputname.focus()
 			}
-		}, 50)
+		}, 50)*/
 	},
 
 	watch: {

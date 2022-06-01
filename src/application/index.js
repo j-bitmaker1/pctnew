@@ -12,6 +12,7 @@ import Vueapi from './vueapi'
 import Cordovakit from './cordovakit'
 import Filemanager from './lib/filemanager'
 import FX from './utils/fx.js'
+import Settings from "./lib/settings";
 
 class Core {
     constructor(vm, p){
@@ -51,6 +52,7 @@ class Core {
 
         this.cordovakit = new Cordovakit(this)
         this.vueapi = new Vueapi(this)
+        this.settings = new Settings(this)
         this.user = new user(this)
        
     }

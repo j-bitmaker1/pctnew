@@ -4,6 +4,7 @@ import { mapState } from 'vuex';
 import f from "@/application/functions.js"
 
 import portfolio from "@/components/modules/app/activity/portfolio/index.vue"
+import portfoliopdf from "@/components/modules/app/activity/portfoliopdf/index.vue"
 import client from "@/components/modules/app/activity/client/index.vue"
 import search from "@/components/modules/app/activity/search/index.vue"
 import themeToggle from "@/components/assets/themetoggle/index.vue"
@@ -100,10 +101,11 @@ export default {
         getmodule : function(item){
 
             if(item.type == 'portfolio') return portfolio
+            if(item.type == 'portfoliopdf') return portfoliopdf
             if(item.type == 'client') return client
             if(item.type == 'lead') return client
             if(item.type == 'search') return search
-
+            
             if (item.type == 'setting'){
                 if(item.key == 'settingtheme') return themeToggle
             }
@@ -126,7 +128,8 @@ export default {
                 }
 
                 if (item.action.vueapi){
-                    this.core.vueapi[item.action.vueapi]()
+                    console.log('item', item)
+                    this.core.vueapi[item.action.vueapi](item.data)
                 }
 
                 

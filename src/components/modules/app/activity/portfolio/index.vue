@@ -5,15 +5,9 @@
 			<div class="name"><span>{{portfolio.name}}</span></div> 
 		</div>
 
-		
-
-		
-
 		<div class="total" @click="open">
 			<value :value="total" mode="d" />
 		</div>
-
-		
 
 	</div>
 
@@ -30,7 +24,6 @@
 				<span>{{asset.ticker}}</span>
 			</div>
 		</div>
-
 		
 	</div>
 

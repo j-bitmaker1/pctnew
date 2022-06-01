@@ -8,6 +8,32 @@ class Templates {
 
     // type, link, key, search, data
 
+    portfoliopdf(portfolio){
+        
+        var a = {}
+
+        a.key = portfolio.id
+        a.type = 'portfoliopdf'
+        
+        a.data = {
+            
+            id : portfolio.id,
+            name : portfolio.name
+           
+        }
+
+        a.action = {
+            vueapi : 'portfoliopdf'
+        }
+
+        a.search = portfolio.name + ' ' + _.map(portfolio.positions, (p) => {
+            return p.ticker.replace(" US", "")
+        }).join(' ')
+
+        return a
+
+    }
+
     portfolio(portfolio){
         
         var a = {}
