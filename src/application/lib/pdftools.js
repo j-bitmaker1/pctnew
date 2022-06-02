@@ -298,8 +298,6 @@ var Tools = function(p, data){
             return
         }
 
-        console.log("AR", ar)
-
         if (ar.cnt){
             self.compose(ar.cnt)
         }
@@ -1190,8 +1188,6 @@ var PDFTools = function(p = {}, data = {}){
 
             return new Promise((resolve, reject) => {
                 im.onload = function(){
-
-                    console.log('data', data)
 
                     var logoW = (p.w || 180) * (p.applySize ? Number(data.meta.sizeOfLogo) : 1); //157.5;
                     var logoH = (p.h || 30) * (p.applySize ? Number(data.meta.sizeOfLogo) : 1);

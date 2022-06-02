@@ -13,7 +13,9 @@ class SVGCreator {
 
     _maxV = 1500000;
 
-    make = function(size){
+    make = function(size, data){
+
+        console.log("DATA", data)
 
         var ints = [1200000,100000,-300000,1200000,100000,-300000,1200000,100000,-300000];
         var str = ['test1', 'test2', 'test3','test1', 'test2', 'test3','test1', 'test2', 'test3'];
@@ -349,8 +351,6 @@ class SVGCreator {
 				xw.writeAttribute("stroke", "#0A71E8");
 				xw.endElement();
 
-                console.log(v);
-                console.log(f.values.format(null, 'd', v));
 				xw.startElement("text");
 				xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#0A71E8;");
 				xw.writeAttribute("x", "1152");

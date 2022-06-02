@@ -27,27 +27,16 @@ class PDFReports {
         }
     }
 
-    constructor({api, settings}){
+    constructor({api, settings, pct}){
        this.api = api
        this.settings = settings
        this.svgCreator = new SVGCreator()
+       this.pct = pct
     }
 
     scenarioDescription = function(tools){
 
         var {portfolio, profile} = tools.data
-
-        var ct = {
-
-        }
-
-        /*this.core.pct.stresstest(portfolio.id).then(r => {
-            ct.def = r
-
-            return Promise.resolve(r)
-
-
-        })*/
 
         var image = {
             width : 464,
@@ -59,17 +48,23 @@ class PDFReports {
             height : image.height * 6
         }
 
-        var xml = this.svgCreator.make(size)
+        return this.pct.stresstest(portfolio.id).then(ct => {
 
-        return this.svgCreator.topng(xml, size).then(img => {
+            
+    
+            var xml = this.svgCreator.make(size, ct)
+    
+            return this.svgCreator.topng(xml, size)
 
-            console.log("IMG", img)
-
+ 
+        }).then(img => {
             image.image = img
 
             return Promise.resolve([image])
 
         })  
+
+        
 
         
     }
@@ -139,7 +134,6 @@ class PDFReports {
 
     intro = function(tools){
 
-        console.log("intro")
 
         moment.locale(tools.data.locale)
 
@@ -205,10 +199,8 @@ class PDFReports {
     }
 
     report = function(key, tools){
-        console.log('meta', this.meta, key)
         if (this.meta[key] && this[key]){
 
-            console.log("MAKE", key)
 
             return this[key](tools).then(r => {
                 return Promise.resolve(r)
