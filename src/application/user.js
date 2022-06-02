@@ -782,12 +782,15 @@ var User = function ({
 
                 return api.user.signin(data).catch(e => {
 
-                    var altinfo = storage.getItem('ui')
+                    console.log("EEE", e)
 
-                    if (altinfo){
-                        return Promise.resolve(altinfo)
+                    if(!e.code || e.code != 401){
+                        var altinfo = storage.getItem('ui')
+
+                        if (altinfo){
+                            return Promise.resolve(altinfo)
+                        }
                     }
-
 
                     return Promise.reject(e)
                 })
@@ -798,6 +801,7 @@ var User = function ({
             return Promise.reject(error(511))
 
         }).then(result => {
+
 
             api.clearCache()
 
@@ -838,6 +842,7 @@ var User = function ({
 
         }).catch(e => {
 
+            console.log("ERROR", e)
 
             state.value = 0
 
