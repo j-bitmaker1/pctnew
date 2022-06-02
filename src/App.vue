@@ -100,10 +100,11 @@ import root from "@/root/index.vue";
 import Highcharts from 'highcharts'
 import drilldownInit from 'highcharts/modules/drilldown'
 import HighchartsMore from 'highcharts/highcharts-more'
+import Exporting from 'highcharts/modules/exporting'
 
 drilldownInit(Highcharts)
 HighchartsMore(Highcharts)
-
+Exporting(Highcharts)
 /*
 import { Swipeable } from 'vue-swipeable';
 Vue.directive('swipeable', Swipeable);*/

@@ -1678,6 +1678,8 @@ var ApiWrapper = function (core) {
 
 			p.method = "POST"
 
+			//https://rixtrema.net/api/notifier/Pushes/testnotification?userId=59803
+
 			return request({registerId : token, device, appId : 'net.rixtrema.pct'}, 'api', 'notifier/Firebase/Register', p).then(r => {
 				console.log("R", r)
 			})

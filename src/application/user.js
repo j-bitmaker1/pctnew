@@ -58,7 +58,7 @@ var User = function ({
 
                     if(resolved) return
 
-                    this.store.commit('CLOSE_MODAL', 'modal_pincode')
+                    vm.$store.commit('CLOSE_MODAL', 'modal_pincode')
 
                     resolved = true
 
@@ -462,10 +462,10 @@ var User = function ({
             var settoken = function () {
                 FirebasePlugin.getToken(function (fcmToken) {
 
-                    if (!localStorage[prefix + 'fcm'] || localStorage[prefix + 'fcm'] !== fcmToken) {
+                    if (!localStorage[prefix + '-fcm'] || localStorage[prefix + '-fcm'] !== fcmToken) {
 
                         api.notifications.register({ token : fcmToken, device }).then(r => {
-                            localStorage[prefix + 'fcm'] = fcmToken;
+                            localStorage[prefix + '-fcm'] = fcmToken;
                         })
 
                     }
@@ -671,7 +671,7 @@ var User = function ({
     function clear() {
         if (window.cordova)
             api.notifications.revoke({ device }).then(r => {
-                localStorage.removeItem(prefix + 'fcm')
+                localStorage.removeItem(prefix + '-fcm')
             })
 
 
