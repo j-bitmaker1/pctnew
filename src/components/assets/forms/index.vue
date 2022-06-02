@@ -21,6 +21,15 @@
                 </div>
             </div>
 
+            <div class="checkbox" v-if="field.input == 'checkbox'" :ref="i">
+                <div class="checkboxWrapper">
+                    <input :name="field.id" :id="formid + field.id" type="checkbox" 
+                        v-model="form[field.id]" 
+                        >
+                    <label :for="formid + field.id">{{$t(field.text)}}</label>
+                </div>
+            </div>
+
             <span class="error" v-if="showerrors && form.errors().has(field.id)">
                 {{ form.errors().get(field.id) }}
             </span>

@@ -464,7 +464,7 @@ var User = function ({
 
                     if (!localStorage[prefix + 'fcm'] || localStorage[prefix + 'fcm'] !== fcmToken) {
 
-                        api.user.sendFcmInfo({ fcmToken }).then(r => {
+                        api.notifications.register({ token : fcmToken, device }).then(r => {
                             localStorage[prefix + 'fcm'] = fcmToken;
                         })
 
@@ -665,15 +665,16 @@ var User = function ({
         clear()
 
         wss.destroy()
-
+       
     }
 
     function clear() {
-        localStorage.removeItem(prefix + 'fcm');
+        if (window.cordova)
+            api.notifications.revoke({ device }).then(r => {
+                localStorage.removeItem(prefix + 'fcm')
+            })
 
 
-        //vm.$store.commit('userinfo', null)
-        //vm.$store.commit('userprofile', null)
         vm.$store.commit('clearall')
 
         if (storage)

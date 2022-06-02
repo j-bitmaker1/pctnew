@@ -13,6 +13,9 @@ class SVGCreator {
 
     make = function(size){
 
+        var ints = [10,20,30]
+        var str = ['test1', 'test2', 'test3']
+
         var xw = new XMLWriter;
 
         var _name = '12'
@@ -44,13 +47,13 @@ class SVGCreator {
             xw.startElement("text");
 
                 xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-                xw.writeAttribute("x", "1395"); //// convert to percents
+                xw.writeAttribute("x", size.width / 2); //// convert to percents
                 xw.writeAttribute("y", "100");
                 xw.writeAttribute("text-anchor", "middle");
                 xw.text(_name);
+                
 
             xw.endElement();
-
        
         xw.endDocument();
 

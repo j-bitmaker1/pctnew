@@ -1030,7 +1030,7 @@ var PDFTools = function(p = {}, data = {}){
                             },
                             {
                                 text : data.meta.headers.second,
-                                color : '#FF0A26',
+                                color : '#00008b',
                                 bold: false,
                                 fontSize: 8,
                             },

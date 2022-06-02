@@ -312,6 +312,12 @@
 		}
 	},
 
+	"pdfreports" : {
+		"reports" : {
+			
+		}
+	},
+
 	"activity" : {
 		"portfolio" : "Portfolios",
 		"client" : "Clients",

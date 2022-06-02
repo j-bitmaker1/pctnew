@@ -1672,6 +1672,24 @@ var ApiWrapper = function (core) {
 			data.appIdFilter = 'net.rixtrema.pct'
 
 			return paginatedrequest(data, 'api', 'notifier/Event/webSocketsList', p)
+		},
+
+		register : function({token, device}, p = {}){
+
+			p.method = "POST"
+
+			return request({registerId : token, device, appId : 'net.rixtrema.pct'}, 'api', 'notifier/Firebase/Register', p).then(r => {
+				console.log("R", r)
+			})
+
+		},
+
+		revoke : function({device}, p = {}){
+			p.method = "POST"
+
+			return request({device, appId : 'net.rixtrema.pct'}, 'api', 'notifier/Firebase/Revoke', p).then(r => {
+				console.log("R", r)
+			})
 		}
 	}
 

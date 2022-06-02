@@ -12,11 +12,17 @@ class PDFReports {
             required : true
         },
         scenarioDescription : {
-            key : 'scenarioDescription'
+            key : 'scenarioDescription',
+            default : true
         },
 
         positionSummary : {
-            key : 'positionSummary'
+            key : 'positionSummary',
+            default : true
+        },
+
+        glossary : {
+            key : 'glossary'
         }
     }
 
@@ -84,7 +90,7 @@ class PDFReports {
             },
 
             table : function(body, index){
-                return tools.tables.nobp({
+                return tools.tables.standart({
                     margin: [ 0, 10, 0, 0 ],
                     body : body,
                     widths : [100, '*'],
