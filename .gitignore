@@ -5,7 +5,7 @@
 .vscode
 .vs
 .idea
-dist
+./dist
 cordova-built
 src-cordova/*
 cordova-resources/build.json
