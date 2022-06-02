@@ -1660,7 +1660,7 @@ var ApiWrapper = function (core) {
 	}
 
 	self.notifications = {
-		list : function(data, p){
+		list : function(data = {}, p){
 			if(!p) p = {}
 
 			p.method = "POST"
@@ -1668,6 +1668,8 @@ var ApiWrapper = function (core) {
 			p.from = 'pageNumber'
 			p.bypages = true
 			p.includeCount = "includeCount"
+
+			data.appIdFilter = 'net.rixtrema.pct'
 
 			return paginatedrequest(data, 'api', 'notifier/Event/webSocketsList', p)
 		}

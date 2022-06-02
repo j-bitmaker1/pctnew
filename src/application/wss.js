@@ -143,7 +143,8 @@ var WSS = function(core, url, system){
     var registration = function(clbk){
 
         return authsend({
-            action : 'register'
+            action : 'register',
+            appids : 'net.rixtrema.pct'
         }, function(data){
             
             if (data.registered) {

@@ -13,6 +13,8 @@ import Cordovakit from './cordovakit'
 import Filemanager from './lib/filemanager'
 import FX from './utils/fx.js'
 import Settings from "./lib/settings";
+import PDFReports from "./lib/pdfreports";
+
 
 class Core {
     constructor(vm, p){
@@ -54,6 +56,7 @@ class Core {
         this.vueapi = new Vueapi(this)
         this.settings = new Settings(this)
         this.user = new user(this)
+        this.pdfreports = new PDFReports(this)
        
     }
 
