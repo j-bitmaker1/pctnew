@@ -630,7 +630,7 @@ var User = function ({
 
     function setFingerPrint() {
 
-        /*if (typeof window != 'undefined') {
+        if (typeof window != 'undefined') {
 
             if (!fingerprint) {
 
@@ -652,9 +652,9 @@ var User = function ({
 
             }
 
-        }*/
+        }
 
-        return Promise.resolve(fingerPrintDefault)
+        return Promise.resolve(fingerprint || fingerPrintDefault)
 
     }
 
