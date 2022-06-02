@@ -228,7 +228,7 @@ var User = function ({
 
     self.askfaseid = function(){
 
-        return cordovakit.faceid.available().catch(e => {return Promise.resolve('face')}).then((type) => {
+        return cordovakit.faceid.available().then((type) => {
 
             return cordovakit.faceid.has().catch(e => {
                 if (localStorage['askedfaceid']){

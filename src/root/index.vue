@@ -6,11 +6,14 @@
     </div>
 
     <div class="rootapp" v-show="!camera">
-        <appmenu v-if="auth == 1" />
 
-        <vue-page-transition name="fade-in-right">
-            <router-view></router-view>
-        </vue-page-transition>
+        <div class="layouts">
+            <appmenu v-if="auth == 1" />
+
+            <vue-page-transition name="fade-in-right">
+                <router-view></router-view>
+            </vue-page-transition>
+        </div>
 
         <gallery v-if="gallery" :images="gallery.images" :index="gallery.index" @close="closeGallery" />
 
