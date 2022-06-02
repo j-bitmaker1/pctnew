@@ -26,7 +26,7 @@ export default {
 
     computed: {
 
-        pdf() {
+        pdf (){
             if(this.file.blob) return f.Base64.fromBlob(this.file.blob)
             if(this.file.base64) return this.file.base64
         },
@@ -101,6 +101,17 @@ export default {
 
         findPos(obj) {
             return obj.offsetTop;
+        },
+
+        shareFile : function(){
+            
+            this.core.vueapi.share({
+                files : [{
+                    base64 : this.pdf,
+                    name : this.file.name || "Pdf",
+                    type : "application/pdf"
+                }]
+            })
         }
     }
 }

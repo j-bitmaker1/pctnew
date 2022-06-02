@@ -241,9 +241,12 @@ class Core {
 
         if (!p.forcedownload){
             if (blob.type == 'application/pdf') return this.vueapi.pdfviewer({
-                blob
+                blob,
+                name : p.name
             })
         }
+
+        return f.download(blob, p.name)
 
     }
 

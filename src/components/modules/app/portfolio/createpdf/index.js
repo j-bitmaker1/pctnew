@@ -156,6 +156,7 @@ export default {
                     d.getBase64((data) => {
 
                         this.core.vueapi.pdfviewer({
+                            name : nameOfReport,
                             base64 : 'data:application/pdf;base64,' + data
                         })
 

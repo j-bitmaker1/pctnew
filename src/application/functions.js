@@ -1149,83 +1149,115 @@ f.fetchLocal = function (url) {
     })
 };
 
+const download = (path, filename) => {
+    // Create a new link
+    const anchor = document.createElement('a');
+    anchor.href = path;
+    anchor.download = filename;
 
+    // Append to the DOM
+    document.body.appendChild(anchor);
 
-f.saveFileCordova = function (file, name, clbk) {
+    // Trigger `click` event
+    anchor.click();
+
+    // Remove element from DOM
+    document.body.removeChild(anchor);
+}; 
+
+f.download = function(file, name){
+    if(window.cordova){
+        return f.saveFileCordova(file, name, true)
+    }
+
+    const url = URL.createObjectURL(file);
+
+    download(url, name);
+
+    URL.revokeObjectURL(url);
+
+    return Promise.resolve()
+}
+
+f.saveFileCordova = function(file, name, todownloads){
 
     var storageLocation = "";
 
     switch (device.platform) {
         case "Android":
-            storageLocation = 'file:///storage/emulated/0/';
+            storageLocation = 'file:///storage/emulated/0/'; //LocalFileSystem.PERSISTENT
             break;
         case "iOS":
             storageLocation = cordova.file.cacheDirectory;
             break;
     }
 
-    var blob = new Blob([file], { type: file.type })
+    return new Promise((resolve, reject) => {
 
-    window.resolveLocalFileSystemURL(storageLocation, function (fileSystem) {
+    
 
-        fileSystem.getDirectory('Download', {
-            create: true,
-            exclusive: false
-        },
+        var onsuccess = function (fileSystem) {
 
-            function (directory) {
+            fileSystem.getDirectory('Download', { exclusive: false }, function (directory) {
 
                 directory.getFile(name, { create: true, exclusive: false }, function (entry) {
-
                     var myFileUrl = entry.toURL();
-
                     entry.createWriter(function (writer) {
 
                         writer.onwriteend = function (evt) {
+                            if (window.galleryRefresh){
 
-                            cordova.plugins.fileOpener2.open(
-                                myFileUrl,
-                                file.type,
-                                {
-                                    error: function () { },
-                                    success: function () { }
-                                }
-                            );
+                                window.galleryRefresh.refresh(myFileUrl, function (msg) {
 
-                            /*if (window.galleryRefresh){
-                                window.galleryRefresh.refresh(myFileUrl, function (msg) {}, function (err) {})
-                            }*/
+                                }, function (err) {
 
-                            if (clbk)
-                                clbk(myFileUrl)
+
+                                })
+
+                            }
+
+                            resolve(myFileUrl)
 
                         };
 
+                        writer.onerror = function (e) {
+
+                            onerror(e)
+
+                        };
                         writer.seek(0);
-                        writer.write(blob);
+
+                        writer.write(file);
+
                     }, function (error) {
-                        if (clbk) clbk(null, error)
+
+
+                        onerror(error)
 
                     });
                 }, function (error) {
-                    if (clbk) clbk(null, error)
+
+                    onerror(error)
+
                 });
 
-            }, function (error) {
-                if (clbk) clbk(null, error)
-
             })
+        }
 
+        var onerror = function (evt) {
+            reject(evt)
+        }
+        
+        if(todownloads){
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+                onsuccess(fileSystem.root)
+            }, onerror)
+        }
+        else{
+            window.resolveLocalFileSystemURL(storageLocation, onsuccess, onerror)
+        }
 
-
-    }, function (evt) {
-
-        dialog({
-            html: "Error: Could not create file, " + evt.target.error.code,
-            class: "one"
-        })
-
-    });
+    })
 
 }
 

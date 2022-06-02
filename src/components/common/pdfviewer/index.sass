@@ -1,7 +1,7 @@
 .menu
     display: flex
     position: sticky
-    top : 54px
+    top : 0
     left : 0
     right: 0
     align-items: center
@@ -46,3 +46,21 @@
     #viewerContainer
         overflow-y: hidden
         overflow-x: auto
+
+.captionWrapper
+    display: flex
+    align-items: center
+    justify-content: space-between
+
+    .caption
+        span
+            font-weight: 700
+
+    >div
+        padding : 2 * $r
+        padding-right: $r
+
+    .shareMenu
+        margin-left: auto
+        button
+            max-width: none

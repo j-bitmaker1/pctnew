@@ -5,9 +5,14 @@
 		<span>Share</span>
 	</div>
 
-	<div class="sway" @click="copylink">
+	<div class="sway" @click="copylink" v-if="url">
 		<i class="fas fa-link"></i>
 		<span>Copy link</span>
+	</div>
+
+	<div class="sway" @click="download" v-if="files && files.length">
+		<i class="fas fa-file-download"></i>
+		<span>Download</span>
 	</div>
 </div>
 </template>

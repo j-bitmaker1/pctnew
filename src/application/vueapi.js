@@ -233,14 +233,8 @@ class Vueapi {
             preloader : true
         }).then(url => {
 
-            this.store.commit('OPEN_MODAL', {
-                id: 'modal_share',
-                module: "share",
-                caption: "Share Questionnaire",
-                mclass : 'small',
-                data : {
-                    url
-                }
+            this.share({url}, {
+                caption: "Share Questionnaire"
             })
 
         }).catch(e => {
@@ -250,6 +244,18 @@ class Vueapi {
                 message: e.error
             })
 
+        })
+
+    }
+
+    share = function(data, p = {}){
+
+        this.store.commit('OPEN_MODAL', {
+            id: 'modal_share',
+            module: "share",
+            caption: p.caption || "Share",
+            mclass : 'small',
+            data : data
         })
 
     }
@@ -340,7 +346,7 @@ class Vueapi {
             id : 'modal_pdfviewer',
             module : "pdfviewer",
             caption : "Pdf viewer",
-    
+            mclass : 'withoutheader',
             data : {
                 file
             },

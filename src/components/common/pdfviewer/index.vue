@@ -1,6 +1,17 @@
 <template>
 <div id="pdfviewer">
 
+    <div class="captionWrapper">
+        <div class="caption">
+            <span v-if="file.name">{{file.name}}</span>
+        </div>
+
+        <div class="shareMenu" @click="shareFile">
+            <button class="button black">Share <i class="fas fa-link"/></button>
+        </div>
+
+    </div>
+
     <div class="menu">
         <div class="zoom">
             <div class="item btn" @click="scale -= scale > 0.2 ? 0.1 : 0">

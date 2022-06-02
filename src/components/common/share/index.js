@@ -6,7 +6,8 @@ export default {
 		url : String,
 		message : String,
 		subject : String,
-		images : Array
+		images : Array,
+		files : Array
 	},
 
 	data : function(){
@@ -41,8 +42,6 @@ export default {
 
 			if(!plugin){
 
-			 
-
 				this.$store.commit('icon', {
 					icon : 'error',
 					message : "Socialsharing plugin hasn't exist"
@@ -56,6 +55,7 @@ export default {
 				message: this.message || '', 
 				subject: this.subject || '',
 				images : this.images || [],
+				files : _.map(this.files || [], (f) => {return f.base64}),
 				url: this.url
 
 			}, () => {
@@ -76,6 +76,32 @@ export default {
 			})
 
 			this.$emit('close')
+		},
+
+		download : function(){
+			return Promise.all(_.map(this.files, (file) => {
+
+				return f.Base64.toFileFetch(file.base64, file.type, file.name).then(File => {
+					return f.download(File, file.name)
+				}).then(r => {
+
+					this.$store.commit('icon', {
+						icon : 'success',
+						message : "Downloaded successfully"
+					})
+
+				}).catch(e => {
+
+					console.error(e)
+
+					this.$store.commit('icon', {
+						icon : 'error'
+					})
+
+					this.$emit('close')
+				})
+
+			}))
 		}
 	},
 }

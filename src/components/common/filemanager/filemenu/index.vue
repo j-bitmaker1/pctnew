@@ -65,7 +65,9 @@ export default {
 
             this.core.filemanager.original(this.file.id, type).then(file => {
                 
-				this.core.filehandler(file)
+				this.core.filehandler(file, {
+					name : f.deep(this.file, 'info.FileName')
+				})
 
             }).finally(() => {
             })
