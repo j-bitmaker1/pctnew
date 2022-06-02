@@ -11,8 +11,6 @@ f.bw = function(s){
 
 f.stringComparison = function(s1, s2, p = 0.5){
 
-   
-
     var w1 = f.bw(s1),
         w2 = f.bw(s2)
 

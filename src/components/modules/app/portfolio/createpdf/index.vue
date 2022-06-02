@@ -4,6 +4,17 @@
     <linepreloader v-if="loading"/>
 
     <div v-if="!loading">
+
+        <div class="reports">
+            <div class="caption mobp">
+                <span>Select pages</span>
+            </div>
+
+            <div class="form">
+                <forms :fields="reports" :value="values" @change="changeReports"/>
+            </div>
+        </div>
+
         <div class="savePanel">
             <button class="button black" @click="cancel">
                 Cancel

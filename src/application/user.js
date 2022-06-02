@@ -782,8 +782,6 @@ var User = function ({
 
                 return api.user.signin(data).catch(e => {
 
-                    console.log("EEE", e)
-
                     if(!e.code || e.code != 401){
                         var altinfo = storage.getItem('ui')
 

@@ -9,7 +9,7 @@ class PDFReports {
     meta = {
         intro : {
             key : 'intro',
-            required : true
+            require : true
         },
         scenarioDescription : {
             key : 'scenarioDescription',
@@ -22,7 +22,8 @@ class PDFReports {
         },
 
         glossary : {
-            key : 'glossary'
+            key : 'glossary',
+            require : true
         }
     }
 
@@ -36,6 +37,18 @@ class PDFReports {
 
         var {portfolio, profile} = tools.data
 
+        var ct = {
+
+        }
+
+        /*this.core.pct.stresstest(portfolio.id).then(r => {
+            ct.def = r
+
+            return Promise.resolve(r)
+
+
+        })*/
+
         var image = {
             width : 464,
             height : 587
@@ -45,11 +58,6 @@ class PDFReports {
             width : image.width * 6,
             height : image.height * 6
         }
-
-        /*
-            width : 2789,
-            height : 3520
-        */
 
         var xml = this.svgCreator.make(size)
 
@@ -131,6 +139,8 @@ class PDFReports {
 
     intro = function(tools){
 
+        console.log("intro")
+
         moment.locale(tools.data.locale)
 
         return tools.logotype.insert({
@@ -202,6 +212,11 @@ class PDFReports {
 
             return this[key](tools).then(r => {
                 return Promise.resolve(r)
+            }).catch(e => {
+
+                console.error(e)
+
+                return Promise.reject(e)
             })
 
         }
@@ -216,7 +231,7 @@ class PDFReports {
 
         var glossary = tools.glossary || {};
 
-        if(_.isEmpty(glossary)) return content;
+        if(_.isEmpty(glossary)) return Promise.resolve([])
 
         content.push({
             text: 'Glossary of terms:',
@@ -272,14 +287,20 @@ class PDFReports {
 
         content.push(gsTable)
 
-        return content;
+        return Promise.resolve(content)
     }
     
     make = function(keys, tools, p = {}){
         var parts = {}
         var percent = 0
 
-        return Promise.all(_.map(keys, (k) => {
+        var allkeys = []
+
+        _.each(this.meta, function(m){
+            if(m.require || _.indexOf(keys, m.key) > -1) allkeys.push(m.key)
+        })
+
+        return Promise.all(_.map(allkeys, (k) => {
 
             return this.report(k, tools).then(cnt => {
 
@@ -295,7 +316,8 @@ class PDFReports {
 
         })).then(() => {
 
-            _.each(keys, (k) => {
+
+            _.each(allkeys, (k) => {
                 tools.compose(parts[k]) 
             })
 

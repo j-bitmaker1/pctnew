@@ -288,6 +288,8 @@ var Tools = function(p, data){
 
     self.compose = function(ar){
 
+        if(!ar) return
+
         if(_.isArray(ar)){
             _.each(ar, (a) => {
                 self.compose(a)
@@ -295,6 +297,8 @@ var Tools = function(p, data){
 
             return
         }
+
+        console.log("AR", ar)
 
         if (ar.cnt){
             self.compose(ar.cnt)

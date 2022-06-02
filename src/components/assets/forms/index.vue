@@ -4,7 +4,7 @@
         <form>
         <div class="field" v-for="(field, i) in fields" :key="field.id">
 
-            <label>{{$t(field.text)}}</label>
+            <label v-if="field.input != 'checkbox'">{{$t(field.text)}}</label>
 
             <input v-if="!field.input || field.input == 'input'" :placeholder="field.placeholder || ''" :disabled="field.disabled" :ref="i" :type="field.type" v-model="form[field.id]" v-on:keyup.enter="onEnter(i)"/>
 

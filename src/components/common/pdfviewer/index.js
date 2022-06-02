@@ -28,6 +28,7 @@ export default {
 
         pdf() {
             if(this.file.blob) return f.Base64.fromBlob(this.file.blob)
+            if(this.file.base64) return this.file.base64
         },
 
         zoom () {
