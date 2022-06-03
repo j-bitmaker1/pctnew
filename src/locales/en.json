@@ -316,7 +316,9 @@
 		"reports" : {
 			"scenarioDescription" : "Scenario description",
 			"positionSummary" : "Position summary",
-			"capacity" : "Capacity report"
+			"capacity" : "Capacity report",
+			"allocation" : "Allocation report",
+			"distribution" : "Distribution report"
 		}
 	},
 

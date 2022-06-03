@@ -40,39 +40,9 @@ export default {
 				}
 			],
 
-			periods : [
-				{
-					value : 0.25,
-					text : 'labels.025year'
-				},
-				{
-					value : 0.5,
-					text : 'labels.05year'
-				},
-				{
-					value : 1,
-					text : 'labels.1year'
-				},
-				{
-					value : 3,
-					text : 'labels.3years'
-				}
-			],
+			periods : distribution.periods(),
 
-			stds : [
-				{
-					value : 1,
-					text : 'labels.68std'
-				},
-				{
-					value : 2,
-					text : 'labels.95std'
-				},
-				{
-					value : 3,
-					text : 'labels.997std'
-				}
-			],
+			stds : distribution.stds(),
 
 			period : 1,
 			current_std :2

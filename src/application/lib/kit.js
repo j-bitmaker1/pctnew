@@ -60,7 +60,25 @@ class Portfolio {
             return !p.isCovered ? m + p.value : m
         }, 0)
     }
+
+    joined = function(){
+        var jg = {}
+
+        _.each(this.positions, (a) => {
+            if(!jg[a.ticker]){
+                jg[a.ticker] = a 
+            }
+            else{
+                jg[a.ticker].value += a.value
+            }
+        })
+        
+        return _.toArray(jg)
+    }
     
+    
+
+			
 }
 
 export {

@@ -28,17 +28,7 @@ export default {
 		return {
 			loading : false,
 			activegrouping : 'type',
-			groups : [
-				{
-					text : 'labels.bygroup',
-					id : 'type'
-				},
-
-				{
-					text : 'labels.bysector',
-					id : 'sector'
-				}
-			],
+			groups : allocation.groups(),
 
 			drilldown : null,
 

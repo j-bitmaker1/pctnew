@@ -31,6 +31,15 @@ class PDFReports {
             key : 'positionSummary',
             default : true
         },
+        allocation: {
+            key : 'allocation',
+            default : true
+        },
+
+        distribution: {
+            key : 'distribution',
+            default : true
+        },
 
         capacity: {
             key : 'capacity',
@@ -43,11 +52,11 @@ class PDFReports {
         }
     }
 
-    constructor({api, settings, pct}){
-       this.api = api
-       this.settings = settings
-
-       this.pct = pct
+    constructor({api, settings, pct, i18n}){
+        this.api = api
+        this.settings = settings
+        this.i18n = i18n
+        this.pct = pct
     }
 
     stressTest = function(tools){
@@ -87,7 +96,7 @@ class PDFReports {
         var results = []
 
         var caption = tools.helpers.caption({
-            text : "Scenarios description",
+            text : this.i18n.t("pdfreports.reports.scenarioDescription"), 
             style: 'h3',
             pageBreak : 'before'
         })
@@ -116,14 +125,16 @@ class PDFReports {
         var results = []
 
         var caption = tools.helpers.caption({
-            text : "Positions",
+            text : this.i18n.t("pdfreports.reports.positionSummary"),
             style: 'h3',
             pageBreak : 'before'
         })
 
-        results.push(caption)
+        
 
         return this.pct.assets(portfolio).then(assetsInfo => {
+
+            results.push(caption)
 
             console.log('assetsInfo, portfolio.positions', assetsInfo, portfolio.positions)
 
@@ -412,7 +423,7 @@ class PDFReports {
                 })
 
                 var caption = tools.helpers.caption({
-                    text : "Capacity",
+                    text : this.i18n.t("pdfreports.reports.capacity"),
                     style: 'h3',
                     pageBreak : 'before'
                 })
@@ -433,7 +444,179 @@ class PDFReports {
         }
     }
 
+    distribution = function(tools){
+
+        var {portfolio, profile} = tools.data
+
+        var result = []
+
+
+        return this.pct.standartDeviation(portfolio.id).then(deviation => {
+
+            var distribution = new Distribution()
+
+            var periods = distribution.periods()
+            var stds = distribution.stds()
+
+            var pares = []
+
+            _.each(periods, (period) => {
+                _.each(stds, (std) => {
+                    pares.push({
+                        period,
+                        std,
+                        id : period.value + '' + std.value
+                    })
+                })
+            })
+
+            var caption = tools.helpers.caption({
+                text : this.i18n.t("pdfreports.reports.distribution"),
+                style: 'h3',
+                pageBreak : 'before'
+            })
+
+            result.push(caption)
+
+            var groupresults = {}
+
+            return Promise.all(_.map(pares, (pare) => {
+
+                var result = []
+
+                var image = {
+                    width : 464,
+                    height : 287
+                }
+        
+                var size = {
+                    width : image.width * 6,
+                    height : image.height * 6
+                }
+
+                var series = distribution.series({
+                    total : portfolio.total(),
+                    locale : tools.data.locale,
+                    deviation : deviation,
+                    period : pare.period.value,
+                    current_std : pare.std.value
+                })
+
+                var chartOptions = distribution.chartOptions(series, {
+                    print : true,
+                    ...size
+                })
+
+                var subcaption = tools.helpers.caption({
+                    text : "Period: " + this.i18n.t(pare.period.text) + ", deviation: " + this.i18n.t(pare.std.text),
+                    style: 'h4'
+                })
+
+                return tools.chart(chartOptions, size).then(img => {
+                    image.image = img
+
+                    result.push(subcaption)
+                    result.push(image)
+        
+                    groupresults[pare.id] = result
+                })
+
+            })).then(r => {
+                _.each(pares, (pare) => {
+                    result = result.concat(groupresults[pare.id]) 
+                })
+
+                return Promise.resolve(result)
+            })
+            
+
+        }).catch(e => {
+            return Promise.resolve(result)
+        })
+    }
+
+    allocation = function(tools){
+        var {portfolio, profile} = tools.data
+
+        var result = []
+
+        var caption = tools.helpers.caption({
+            text : this.i18n.t("pdfreports.reports.allocation"),
+            style: 'h3',
+            pageBreak : 'before'
+        })
+       
+
+        return this.pct.assets(portfolio).then(assetsinfo => {
+            result.push(caption)
+
+            var allocation = new Allocation()
+
+            var groups = allocation.groups()
+
+            var groupresults = {}
+
+            var positions = portfolio.joined()
+
+            return Promise.all(_.map(groups, (group) => {
+
+                var result = []
+
+                var g = f.group(positions, (a) => {
+
+                    var info = assetsinfo[a.ticker]
     
+                    if(!info) return "Not covered"
+    
+                    return info[group.id] || 'Other'
+                })
+
+                var image = {
+                    width : 464,
+                    height : 287
+                }
+        
+                var size = {
+                    width : image.width * 6,
+                    height : image.height * 6
+                }
+
+                var chartData = allocation.chartData(g)
+
+                var chartOptions = allocation.chartOptions(chartData, {
+                    print : true,
+                    ...size
+                })
+
+                var subcaption = tools.helpers.caption({
+                    text : this.i18n.t(group.text),
+                    style: 'h4'
+                })
+
+                return tools.chart(chartOptions, size).then(img => {
+                    image.image = img
+
+                    result.push(subcaption)
+                    result.push(image)
+        
+                    groupresults[group.id] = result
+                })
+
+            })).then(r => {
+                _.each(groups, (group) => {
+                    result = result.concat(groupresults[group.id]) 
+                })
+
+                return Promise.resolve(result)
+            })
+
+
+        }).catch(e => {
+            return Promise.resolve(result)
+        })
+
+        
+    }
 }
 
 export default PDFReports

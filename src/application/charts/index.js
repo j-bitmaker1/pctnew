@@ -11,6 +11,44 @@ class Distribution {
         'rgba(248,95,29,0.5)'
     ]
 
+    stds = function(){
+        return [
+            {
+                value : 1,
+                text : 'labels.68std'
+            },
+            {
+                value : 2,
+                text : 'labels.95std'
+            },
+            {
+                value : 3,
+                text : 'labels.997std'
+            }
+        ]
+    }
+
+    periods = function(){
+        return [
+            {
+                value : 0.25,
+                text : 'labels.025year'
+            },
+            {
+                value : 0.5,
+                text : 'labels.05year'
+            },
+            {
+                value : 1,
+                text : 'labels.1year'
+            },
+            {
+                value : 3,
+                text : 'labels.3years'
+            }
+        ]
+    }
+
     constructor(){
      
     }
@@ -191,6 +229,20 @@ class Distribution {
 class Allocation {
 
     chartcolors = ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757']
+
+    groups = function(){
+        return [
+            {
+                text : 'labels.bygroup',
+                id : 'type'
+            },
+
+            {
+                text : 'labels.bysector',
+                id : 'sector'
+            }
+        ]
+    }
 
     constructor(){
      
@@ -487,7 +539,7 @@ class MonteCarlo {
         d.chart.height = p.height || 400
 
         if(p.width) d.chart.width = p.width
-        
+
         d.tooltip.enabled = false
         
         d.xAxis.min = dataoptions.age;
