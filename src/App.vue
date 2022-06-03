@@ -101,10 +101,17 @@ import Highcharts from 'highcharts'
 import drilldownInit from 'highcharts/modules/drilldown'
 import HighchartsMore from 'highcharts/highcharts-more'
 import Exporting from 'highcharts/modules/exporting'
+import OfflineExporting from 'highcharts/modules/offline-exporting'
 
 drilldownInit(Highcharts)
 HighchartsMore(Highcharts)
 Exporting(Highcharts)
+OfflineExporting(Highcharts)
+
+import VueCompositionApi from '@vue/composition-api'
+
+Vue.use(VueCompositionApi)
+
 /*
 import { Swipeable } from 'vue-swipeable';
 Vue.directive('swipeable', Swipeable);*/

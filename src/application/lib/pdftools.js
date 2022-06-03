@@ -1,6 +1,8 @@
 import f from '@/application/functions'
 import _ from "underscore"
 import moment from 'moment'
+import SVGCreator from './svgcreator'
+import Highcharts from 'highcharts'
 
 var lazyEach = function(p){
 
@@ -167,6 +169,7 @@ var Tools = function(p, data){
 
     self.glossary = {};
     self.data = data || {};
+    self.svgCreator = new SVGCreator()
 
     self.logotype = p.parent.logotype
 
@@ -957,6 +960,27 @@ var Tools = function(p, data){
 
             return ct;
         }
+    }
+
+    self.chart = function(options, size){
+        var printing = document.getElementById("printing");
+
+        var canvas = document.createElement('div');
+            canvas.classList = ["printingChart"];
+            canvas.width = size.width;
+            canvas.height = size.height;
+
+        printing.appendChild(canvas)
+
+        var chart = new Highcharts.chart(canvas, options)
+
+        console.log('chart', chart)
+
+        var svg = chart.getSVG()
+
+        canvas.remove()
+
+        return self.svgCreator.topng(svg, size)
     }
 
     self.fontCorrection = function(string) {

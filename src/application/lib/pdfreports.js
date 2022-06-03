@@ -2,7 +2,12 @@ import f from '@/application/functions'
 import _ from 'underscore'
 import moment from 'moment'
 
-import SVGCreator from './svgcreator'
+
+import {
+    Allocation,
+    Distribution,
+    MonteCarlo
+} from "../charts/index.js"
 
 class PDFReports {
 
@@ -11,6 +16,12 @@ class PDFReports {
             key : 'intro',
             require : true
         },
+
+        stressTest: {
+            key : 'intro',
+            require : true
+        },
+
         scenarioDescription : {
             key : 'scenarioDescription',
             default : true
@@ -18,6 +29,11 @@ class PDFReports {
 
         positionSummary : {
             key : 'positionSummary',
+            default : true
+        },
+
+        capacity: {
+            key : 'capacity',
             default : true
         },
 
@@ -30,12 +46,11 @@ class PDFReports {
     constructor({api, settings, pct}){
        this.api = api
        this.settings = settings
-       this.svgCreator = new SVGCreator()
+
        this.pct = pct
     }
 
-    scenarioDescription = function(tools){
-
+    stressTest = function(tools){
         var {portfolio, profile} = tools.data
 
         var image = {
@@ -49,23 +64,48 @@ class PDFReports {
         }
 
         return this.pct.stresstest(portfolio.id).then(ct => {
-
-            
     
-            var xml = this.svgCreator.make(size, ct)
+            var xml = tools.svgCreator.make(size, ct)
     
-            return this.svgCreator.topng(xml, size)
-
+            return tools.svgCreator.topng(xml, size)
  
         }).then(img => {
             image.image = img
 
             return Promise.resolve([image])
 
-        })  
+        }) 
+    }
 
-        
+    scenarioDescription = function(tools){
 
+        var {portfolio, profile} = tools.data
+
+        var scenarios = null,
+            ct = null;
+
+        var results = []
+
+        var caption = tools.helpers.caption({
+            text : "Scenarios description",
+            style: 'h3',
+            pageBreak : 'before'
+        })
+
+        results.push(caption)
+
+        return this.pct.scenarios().then(s => {
+            scenarios = s
+
+            return this.pct.stresstest(portfolio.id).then(_ct => {
+                ct = _ct
+            })
+        }).then(r => {
+
+            console.log('all scenarios, crashtest ', scenarios, ct)
+
+            return Promise.resolve(results)
+        })
         
     }
 
@@ -83,42 +123,49 @@ class PDFReports {
 
         results.push(caption)
 
-        return tools.helpers.tables({
-            rowsInTable : 18,
-            pageOffset : 10,
-            array : portfolio.positions,
+        return this.pct.assets(portfolio).then(assetsInfo => {
 
-            body : function(index){
-                return []
-            },
+            console.log('assetsInfo, portfolio.positions', assetsInfo, portfolio.positions)
 
-            table : function(body, index){
-                return tools.tables.standart({
-                    margin: [ 0, 10, 0, 0 ],
-                    body : body,
-                    widths : [100, '*'],
-                    style : 'table'
-                })
-            },
+            return tools.helpers.tables({
+                rowsInTable : 18,
+                pageOffset : 10,
+                array : portfolio.positions,
+    
+                body : function(index){
+                    return []
+                },
+    
+                table : function(body, index){
+                    return tools.tables.standart({
+                        margin: [ 0, 10, 0, 0 ],
+                        body : body,
+                        widths : [100, '*'],
+                        style : 'table'
+                    })
+                },
+    
+                row : function(_p, clbk){
+                    var position = _p.item;
+    
+                    var row = [{
+                        margin: [ 0, 3, 0, 3 ],
+                        text : position.ticker + '\n',
+                        style : 'table'
+                    },{
+                        margin: [ 0, 3, 0, 3 ],
+                        text : position.name,
+                        style : 'table'
+                    }];
+    
+                    clbk(row);
+    
+                }
+    
+            })
+        })
 
-            row : function(_p, clbk){
-                var position = _p.item;
-
-                var row = [{
-                    margin: [ 0, 3, 0, 3 ],
-                    text : position.ticker + '\n',
-                    style : 'table'
-                },{
-                    margin: [ 0, 3, 0, 3 ],
-                    text : position.name,
-                    style : 'table'
-                }];
-
-                clbk(row);
-
-            }
-
-        }).then(r => {
+        .then(r => {
 
     
             _.each(r.tables, function(t){
@@ -134,6 +181,7 @@ class PDFReports {
 
     intro = function(tools){
 
+        var {portfolio, profile} = tools.data
 
         moment.locale(tools.data.locale)
 
@@ -164,24 +212,6 @@ class PDFReports {
                     alignment : 'right',
                 }
             })
-
-            /*result.push({
-                cnt : {
-                    text : flball(plan.PLAN_NAME),
-                    style : 'h3',
-                    margin : [200, 0, paddingRight, 5],
-                    alignment : 'right',
-                }
-            })
-
-            result.push({
-                cnt : {
-                    text : flball(plan.SPONSOR_DFE_NAME),
-                    style : 'h4',
-                    margin : [0, 0, paddingRight, 5],
-                    alignment : 'right',
-                }
-            })*/
 
             result.push({
                 cnt : {
@@ -294,6 +324,8 @@ class PDFReports {
 
         return Promise.all(_.map(allkeys, (k) => {
 
+            console.log("K", k)
+
             return this.report(k, tools).then(cnt => {
 
                 parts[k] = cnt
@@ -317,6 +349,88 @@ class PDFReports {
 
             return Promise.resolve(tools)
         })
+    }
+
+    capacity = function(tools){
+        var {portfolio, profile} = tools.data
+
+        var result = []
+
+        if (profile.questionnaire){
+
+            var monteCarlo = new MonteCarlo()
+
+            return this.api.crm.questionnaire.getresult(profile.questionnaire).then(questionnaire => {
+                var initial = this.pct.riskscore.convertQrToCapacity(questionnaire.capacity)
+
+                var values = {
+                    ... monteCarlo.defaultValues(),
+                    ... initial
+                }
+
+                var options = {
+                    age : values.ages[0],
+                    retire : values.ages[1],
+                    savings : values.savings,
+                    save : values.save,
+                    withdraw : values.withdraw,
+                    salary : values.salary //terminal value
+                }
+        
+                var extra = {
+                    savemoreRange1 : values.savemoreRange[0],
+                    savemoreRange2 : values.savemoreRange[1],
+                    withdrawRange1 : values.withdrawRange[0],
+                    withdrawRange2 : values.withdrawRange[1],
+                    withdraw : values.withdraw
+                }
+
+                var capacity = new this.pct.capacity({
+                    options : options,
+                    extra : extra
+                })
+
+                var image = {
+                    width : 464,
+                    height : 287
+                }
+        
+                var size = {
+                    width : image.width * 6,
+                    height : image.height * 6
+                }
+    
+                var simulation = capacity.simulation()
+
+                var chartOptions = monteCarlo.chartOptions({
+                    simulation : simulation,
+                    dataoptions : options,
+                    locale : tools.data.locale
+                }, {
+                    print : true,
+                    ...size
+                })
+
+                var caption = tools.helpers.caption({
+                    text : "Capacity",
+                    style: 'h3',
+                    pageBreak : 'before'
+                })
+
+                return tools.chart(chartOptions, size).then(img => {
+                    image.image = img
+
+                    result.push(caption)
+                    result.push(image)
+        
+                    return Promise.resolve(result)
+                })
+            
+            })
+        }
+        else{
+            return Promise.resolve(result)
+        }
     }
 
     

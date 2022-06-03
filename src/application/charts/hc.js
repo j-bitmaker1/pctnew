@@ -1,4 +1,4 @@
-import f from './functions'
+import f from '../functions'
 
 var options = function(p){
 

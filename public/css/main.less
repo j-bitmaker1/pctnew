@@ -179,6 +179,15 @@ html {
 			.customscrollclass()
 	}
 
+	
+}
+
+@media only screen and (max-width: 768px){
+	.customscroll{
+		overflow-y: auto;
+		scroll-behavior: smooth;
+	}
+
 	html{
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
@@ -186,13 +195,6 @@ html {
 		-moz-user-select: none;
 		-ms-user-select: none;
 		user-select: none;
-	}
-}
-
-@media only screen and (max-width: 768px){
-	.customscroll{
-		overflow-y: auto;
-		scroll-behavior: smooth;
 	}
 }
 
