@@ -467,6 +467,22 @@ class Vueapi {
             ...parameters
         }})
     }
+
+    editor = function(data, success,  p = {}){
+        this.store.commit('OPEN_MODAL', {
+            
+            id : 'modal_editor',
+            module : "editor",
+            caption : p.caption || "",
+    
+            data : data,
+            events : {
+                success : function(data){
+                    if(success) success(data)
+                }
+            }
+        })
+    } 
 }
 
 export default Vueapi

@@ -870,7 +870,6 @@ var Tools = function(p, data){
 
         var sz = _.clone(SIZES[key])
 
-        console.log('SIZES', SIZES, key, data.meta)
 
         sz[0] = sz[0] - pm[0] - pm[2]
         sz[1] = sz[1] - pm[0] - pm[2]
@@ -1050,8 +1049,6 @@ var Tools = function(p, data){
         printing.appendChild(canvas)
 
         var chart = new Highcharts.chart(canvas, options)
-
-        console.log('chart', chart)
 
         var svg = chart.getSVG()
 

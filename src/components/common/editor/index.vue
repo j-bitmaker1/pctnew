@@ -1,6 +1,6 @@
 <template>
 <div id="editor">
-
+    <editor header list quote :config="config"/>
 </div>
 </template>
 

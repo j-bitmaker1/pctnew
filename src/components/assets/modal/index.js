@@ -74,6 +74,7 @@ export default {
         assets_search : () => import("@/components/modules/app/assets/search/index.vue"),
         pincode : () => import("@/components/assets/pincode/index.vue"),
         portfoliopdf :  () => import("@/components/modules/app/portfolio/createpdf/index.vue"),
+        editor : () => import("@/components/common/editor/index.vue"),
 
     },
  

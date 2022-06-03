@@ -332,8 +332,6 @@ class PDFReports {
 
         return Promise.all(_.map(allkeys, (k) => {
 
-            console.log("K", k)
-
             return this.report(k, tools).then(cnt => {
 
                 parts[k] = cnt

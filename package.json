@@ -30,6 +30,7 @@
 		"epic-spinners": "^1.1.0",
 		"exif-js": "^2.3.0",
 		"fingerprintjs2": "^2.1.4",
+		"highcharts": "^10.1.0",
 		"highcharts-vue": "^1.4.0",
 		"howler": "^2.2.3",
 		"linkifyjs": "^3.0.5",

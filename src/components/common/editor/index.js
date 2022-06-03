@@ -7,7 +7,7 @@ export default {
     },
 
     components: {
-        Editor,
+        editor : Editor,
     },
 
     data : function(){
@@ -27,6 +27,31 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+        config : function(){
+            return {
+
+                header : {
+                    levels: [2, 3, 4],
+                    defaultLevel: 2,
+                    shortcut: 'CMD+SHIFT+H',
+                },
+
+                quote: {
+                    inlineToolbar: true,
+                    shortcut: 'CMD+SHIFT+O',
+
+                    config: {
+                      quotePlaceholder: 'Enter a quote',
+                      captionPlaceholder: 'Quote\'s author',
+                    }
+                },
+                
+                list: {
+                    inlineToolbar: true,
+                },
+                
+            }
+        }
     }),
 
     methods : {
