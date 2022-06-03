@@ -6,8 +6,8 @@
  * Kroc Camen, and the H5BP dev community and team.
  */
 /* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
+	 Base styles: opinionated defaults
+	 ========================================================================== */
 :root {
   --background-hidden-layer: 255, 255, 255;
   --background-total-theme: 255, 255, 255;
@@ -137,6 +137,14 @@ html {
     border: 0 solid rgba(var(--background-main-contrast), 0.05);
     background-image: linear-gradient(180deg, rgba(var(--background-main-contrast), 0.25) 0%, rgba(var(--background-hidden-layer), 0) 90%);
   }
+  html {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 }
 @media only screen and (max-width: 768px) {
   .customscroll {
@@ -244,8 +252,8 @@ textarea {
   resize: vertical;
 }
 /* ==========================================================================
-   Browser Upgrade Prompt
-   ========================================================================== */
+	 Browser Upgrade Prompt
+	 ========================================================================== */
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
@@ -253,11 +261,11 @@ textarea {
   padding: 0.2em 0;
 }
 /* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
+	 Author's custom styles
+	 ========================================================================== */
 /* ==========================================================================
-   Helper classes
-   ========================================================================== */
+	 Helper classes
+	 ========================================================================== */
 /*
  * Hide visually and from screen readers
  */
@@ -327,10 +335,10 @@ textarea {
   clear: both;
 }
 /* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   These examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
+	 EXAMPLE Media Queries for Responsive Design.
+	 These examples override the primary ('mobile first') styles.
+	 Modify as content requires.
+	 ========================================================================== */
 @media only screen and (min-width: 35em) {
   /* Style adjustments for viewports that meet the condition */
 }
@@ -338,10 +346,10 @@ textarea {
   /* Style adjustments for high resolution devices */
 }
 /* ==========================================================================
-   Print styles.
-   Inlined to avoid the additional HTTP request:
-   https://www.phpied.com/delay-loading-your-print-css/
-   ========================================================================== */
+	 Print styles.
+	 Inlined to avoid the additional HTTP request:
+	 https://www.phpied.com/delay-loading-your-print-css/
+	 ========================================================================== */
 @media print {
   *,
   *:before,
@@ -363,9 +371,9 @@ textarea {
     content: " (" attr(title) ")";
   }
   /*
-     * Don't show links that are fragment identifiers,
-     * or use the `javascript:` pseudo protocol
-     */
+		 * Don't show links that are fragment identifiers,
+		 * or use the `javascript:` pseudo protocol
+		 */
   a[href^="#"]:after,
   a[href^="javascript:"]:after {
     content: "";
@@ -379,9 +387,9 @@ textarea {
     page-break-inside: avoid;
   }
   /*
-     * Printing Tables:
-     * https://web.archive.org/web/20180815150934/http://css-discuss.incutio.com/wiki/Printing_Tables
-     */
+		 * Printing Tables:
+		 * https://web.archive.org/web/20180815150934/http://css-discuss.incutio.com/wiki/Printing_Tables
+		 */
   thead {
     display: table-header-group;
   }

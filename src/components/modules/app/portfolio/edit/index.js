@@ -231,6 +231,18 @@ export default {
 
 			
 		},
+		multiple(items){
+			_.each(items, (item) =>{
+				var asset = {
+					ticker : item.ticker,
+					name : item.name,
+					value : item.value,
+					isCovered : true
+				}
+
+				this.assets.push(asset)
+			})
+		},
 		assetchanged : function(index, v){
 			var old = this.assets[index]
 			var af = false

@@ -5,6 +5,16 @@
 
     <div v-if="!loading">
 
+         <div class="settings">
+            <div class="caption mobp">
+                <span>Settings</span>
+            </div>
+
+            <div class="form">
+                <settingsPdf/>
+            </div>
+        </div>
+
         <div class="reports">
             <div class="caption mobp">
                 <span>Select pages</span>
@@ -14,6 +24,8 @@
                 <forms :fields="reports" :value="values" @change="changeReports"/>
             </div>
         </div>
+
+       
 
         <div class="savePanel">
             <button class="button black" @click="cancel">

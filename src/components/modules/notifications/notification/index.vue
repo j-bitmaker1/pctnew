@@ -2,20 +2,20 @@
 <div class="notificaion">
 
 	<div class="notificaionRow">
-		<div class="icon">
+		<div class="iconWrapper">
+			<div class="icon">
 			<i :class="event.icon" />
+			</div>
 		</div>
 		<div class="text">
-			<div class="title" v-if="event.title">
-				<span>{{event.title}}</span>
+			<div class="title" v-if="event.title || event.body">
+				<span class="txt">{{event.title || event.body}}</span> <date :date="event.created" />
 			</div>
-			<div class="body" v-if="event.body">
+			<div class="body" v-if="event.title">
 				<span>{{event.body}}</span>
 			</div>
 
-			<div class="date">
-				<date :date="event.created" />
-			</div>
+		
 
 			<div class="actionsWrapper" v-if="actions.length">
 				<div class="actions">

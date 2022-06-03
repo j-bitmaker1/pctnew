@@ -8,208 +8,217 @@
  */
 
 /* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
+	 Base styles: opinionated defaults
+	 ========================================================================== */
 
 
-   
+	 
 :root{
-  --background-hidden-layer: 255, 255, 255;
-  --background-total-theme: 255, 255, 255;
-  --background-secondary-theme: 250, 250, 250;
-  --background-main: 240, 242, 245;
-  --background-main-contrast: 10, 12, 23; 
-  --color-medium-theme: 199, 200, 217;
-  
-  --neutral-grad-0: 235,235,240;
-  --neutral-grad-1: 227,228,235;
-  --neutral-grad-2: 142,144,166;
-  --neutral-grad-3: 85,87,112;
-  --neutral-grad-4: 64,65,82;
+	--background-hidden-layer: 255, 255, 255;
+	--background-total-theme: 255, 255, 255;
+	--background-secondary-theme: 250, 250, 250;
+	--background-main: 240, 242, 245;
+	--background-main-contrast: 10, 12, 23; 
+	--color-medium-theme: 199, 200, 217;
+	
+	--neutral-grad-0: 235,235,240;
+	--neutral-grad-1: 227,228,235;
+	--neutral-grad-2: 142,144,166;
+	--neutral-grad-3: 85,87,112;
+	--neutral-grad-4: 64,65,82;
 
-  --text-color: 10, 12, 23;
-  --text-on-main-bg-color: 85,87,112;
-  --text-on-bg-ac-color: 255, 255, 255;
-  --color-bg-ac-bright: 47, 128, 237;
-  --color-bg-ac: 47, 128, 237;
-  --color-bg-ac-1: 0,142,191;
-  --color-bg-ac-2: 250,110,132;
-  --color-bg-selection: 179, 212, 252;
-  --color-txt-ac: 47, 128, 237;
-  --color-txt-ac-1: 0,142,191;
-  --color-txt-ac-2: 250,110,132;
-  --color-txt-gray: 70, 71, 98;
-  --color-txt-gray-dark: 53, 53, 63;
+	--text-color: 10, 12, 23;
+	--text-on-main-bg-color: 85,87,112;
+	--text-on-bg-ac-color: 255, 255, 255;
+	--color-bg-ac-bright: 47, 128, 237;
+	--color-bg-ac: 47, 128, 237;
+	--color-bg-ac-1: 0,142,191;
+	--color-bg-ac-2: 250,110,132;
+	--color-bg-selection: 179, 212, 252;
+	--color-txt-ac: 47, 128, 237;
+	--color-txt-ac-1: 0,142,191;
+	--color-txt-ac-2: 250,110,132;
+	--color-txt-gray: 70, 71, 98;
+	--color-txt-gray-dark: 53, 53, 63;
 
-  --color-bg-orange: 255, 59, 0;
-  --color-txt-orange: 255, 72, 0;
+	--color-bg-orange: 255, 59, 0;
+	--color-txt-orange: 255, 72, 0;
 
-  --color-star-yellow: 255,174, 0;
+	--color-star-yellow: 255,174, 0;
 
-  --color-shadow-base: 2, 18, 24;
-  --color-shadow-var: 32, 35, 42;
-  --text-on-bg-shadow-color: 255, 255, 255;
+	--color-shadow-base: 2, 18, 24;
+	--color-shadow-var: 32, 35, 42;
+	--text-on-bg-shadow-color: 255, 255, 255;
 
-  --color-bad : 235, 87, 87;
-  --color-nrml : 0, 0, 0;
-  --color-good : 33, 150, 83;
-  --color-yellow : 242, 201, 76;
+	--color-bad : 235, 87, 87;
+	--color-nrml : 0, 0, 0;
+	--color-good : 33, 150, 83;
+	--color-yellow : 242, 201, 76;
 }
 
 
 :root[theme='black']{
-  --background-hidden-layer:  10, 12, 23;
-  --background-total-theme:  18, 22, 33;
-  --background-secondary-theme: 34, 36, 52;
-  --background-main: 24, 38, 53;   
-  --background-main-contrast: 240, 242, 245;
+	--background-hidden-layer:  10, 12, 23;
+	--background-total-theme:  18, 22, 33;
+	--background-secondary-theme: 34, 36, 52;
+	--background-main: 24, 38, 53;   
+	--background-main-contrast: 240, 242, 245;
 
-  --color-medium-theme: 99, 100, 117;
+	--color-medium-theme: 99, 100, 117;
 
-  --neutral-grad-0: 41,41,55;
-  --neutral-grad-1: 54,54,67;
-  --neutral-grad-2: 73,73,88;
-  --neutral-grad-3: 87,88,102;
-  --neutral-grad-4: 95,97,122;
+	--neutral-grad-0: 41,41,55;
+	--neutral-grad-1: 54,54,67;
+	--neutral-grad-2: 73,73,88;
+	--neutral-grad-3: 87,88,102;
+	--neutral-grad-4: 95,97,122;
 
-  --text-color: 178, 171, 172;
-  --text-on-main-bg-color: 85,87,112;
-  --text-on-bg-ac-color: 255, 255, 255;
+	--text-color: 178, 171, 172;
+	--text-on-main-bg-color: 85,87,112;
+	--text-on-bg-ac-color: 255, 255, 255;
 
-  --color-bg-ac-bright: 0, 90, 200;
-  --color-bg-ac: 0, 80, 190;
-  --color-bg-ac-1: 0, 142, 191;
-  --color-bg-ac-2: 250, 110,132;
-  --color-bg-selection: 179, 212, 252;
+	--color-bg-ac-bright: 0, 90, 200;
+	--color-bg-ac: 0, 80, 190;
+	--color-bg-ac-1: 0, 142, 191;
+	--color-bg-ac-2: 250, 110,132;
+	--color-bg-selection: 179, 212, 252;
 
-  --color-txt-ac: 0, 164, 255;
-  --color-txt-ac-1: 0, 142, 191;
-  --color-txt-ac-2: 250, 110, 132;
-  --color-txt-gray: 103, 105, 128;
-  --color-txt-gray-dark: 113, 113, 134;
+	--color-txt-ac: 0, 164, 255;
+	--color-txt-ac-1: 0, 142, 191;
+	--color-txt-ac-2: 250, 110, 132;
+	--color-txt-gray: 103, 105, 128;
+	--color-txt-gray-dark: 113, 113, 134;
 
-  --color-bg-orange: 255, 72, 0;
-  --text-txt-orange: 255, 72, 0;
+	--color-bg-orange: 255, 72, 0;
+	--text-txt-orange: 255, 72, 0;
 
-  --color-shadow-base: 12, 14, 33;
-  --color-shadow-var: 18, 18, 26;
-  --text-on-bg-shadow-color: 214, 219, 230;
+	--color-shadow-base: 12, 14, 33;
+	--color-shadow-var: 18, 18, 26;
+	--text-on-bg-shadow-color: 214, 219, 230;
 
-  --color-bad : 244, 26, 77;
-  --color-nrml : 0, 0, 0;
-  --color-good : 7, 108, 52;
-  --color-yellow : 255, 238, 0;
+	--color-bad : 244, 26, 77;
+	--color-nrml : 0, 0, 0;
+	--color-good : 7, 108, 52;
+	--color-yellow : 255, 238, 0;
 }
 
 :root {
-  --app-margin-top-default: 20px;
-  --app-margin-top: max(env(safe-area-inset-top), var(--app-margin-top-default));
+	--app-margin-top-default: 20px;
+	--app-margin-top: max(env(safe-area-inset-top), var(--app-margin-top-default));
 }
 
 :root {
-  --safe-area-inset-top:      0px;
-  --safe-area-inset-right:    0px;
-  --safe-area-inset-bottom:   0px;
-  --safe-area-inset-left:     0px;
+	--safe-area-inset-top:      0px;
+	--safe-area-inset-right:    0px;
+	--safe-area-inset-bottom:   0px;
+	--safe-area-inset-left:     0px;
 }
 
 
 
 /* iOS 11.0: supports constant() css function. (Assume all other inset vars are supported.) */
 @supports (padding-top: constant(safe-area-inset-top))  {
-  :root {
-      --safe-area-inset-top:      constant(safe-area-inset-top, 0);
-      --safe-area-inset-right:    constant(safe-area-inset-right, 0);
-      --safe-area-inset-bottom:   constant(safe-area-inset-bottom, 0);
-      --safe-area-inset-left:     constant(safe-area-inset-left, 0);
-  }
+	:root {
+			--safe-area-inset-top:      constant(safe-area-inset-top, 0);
+			--safe-area-inset-right:    constant(safe-area-inset-right, 0);
+			--safe-area-inset-bottom:   constant(safe-area-inset-bottom, 0);
+			--safe-area-inset-left:     constant(safe-area-inset-left, 0);
+	}
 }
 /* iOS 11.2 and latest Chrome webviews support the env() css function. (Assume all other inset vars are supported.) */
 @supports (padding-top: env(safe-area-inset-top))  {
-  :root {
-      --safe-area-inset-top:      env(safe-area-inset-top, 0);
-      --safe-area-inset-right:    env(safe-area-inset-right, 0);
-      --safe-area-inset-bottom:   env(safe-area-inset-bottom, 0);
-      --safe-area-inset-left:     env(safe-area-inset-left, 0);
-  }
+	:root {
+			--safe-area-inset-top:      env(safe-area-inset-top, 0);
+			--safe-area-inset-right:    env(safe-area-inset-right, 0);
+			--safe-area-inset-bottom:   env(safe-area-inset-bottom, 0);
+			--safe-area-inset-left:     env(safe-area-inset-left, 0);
+	}
 }
 
 
 html {
-  font-size: 1em;
-  line-height: 1.4;
-  min-height: 100%;
-  position: relative;
-  overflow-x: hidden;
-  background: rgb(var(--background-total-theme));
-  overscroll-behavior: none;
-  scroll-behavior: smooth;
+	font-size: 1em;
+	line-height: 1.4;
+	min-height: 100%;
+	position: relative;
+	overflow-x: hidden;
+	background: rgb(var(--background-total-theme));
+	overscroll-behavior: none;
+	scroll-behavior: smooth;
 }
 
 .customscrollclass(){
-  overflow-y: overlay;
-  overflow-x: hidden;
-  scrollbar-width: 7px;
-  scrollbar-color: rgba(var(--background-main-contrast), .15) rgba(var(--background-main-contrast), .05);
-  overscroll-behavior: contain;
-  scroll-behavior: smooth;
+	overflow-y: overlay;
+	overflow-x: hidden;
+	scrollbar-width: 7px;
+	scrollbar-color: rgba(var(--background-main-contrast), .15) rgba(var(--background-main-contrast), .05);
+	overscroll-behavior: contain;
+	scroll-behavior: smooth;
 
-  &::-webkit-scrollbar {
-      width: 7px;
-  }
+	&::-webkit-scrollbar {
+			width: 7px;
+	}
 
-  &::-webkit-scrollbar-track {
-      background:rgba(var(--background-main-contrast), .05);
-  }
+	&::-webkit-scrollbar-track {
+			background:rgba(var(--background-main-contrast), .05);
+	}
 
-  &::-webkit-scrollbar-thumb {
-      background-color: rgba(var(--background-main-contrast), .25);
-      border: 0 solid rgba(var(--background-main-contrast), 0.05);
-      background-image: linear-gradient(
-        180deg,
-        rgba(var(--background-main-contrast), .25) 0%,
-        rgba(var(--background-hidden-layer), 0) 90%
-      );
-  }
+	&::-webkit-scrollbar-thumb {
+			background-color: rgba(var(--background-main-contrast), .25);
+			border: 0 solid rgba(var(--background-main-contrast), 0.05);
+			background-image: linear-gradient(
+				180deg,
+				rgba(var(--background-main-contrast), .25) 0%,
+				rgba(var(--background-hidden-layer), 0) 90%
+			);
+	}
 
 }
 
 @media only screen and (min-width: 768px){
-  .customscroll{
-      .customscrollclass()
-  }
+	.customscroll{
+			.customscrollclass()
+	}
+
+	html{
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
 }
 
 @media only screen and (max-width: 768px){
-  .customscroll{
-    overflow-y: auto;
-    scroll-behavior: smooth;
-  }
+	.customscroll{
+		overflow-y: auto;
+		scroll-behavior: smooth;
+	}
 }
 
 body{
-  min-height: 100%;
-  overscroll-behavior: none;
-  scroll-behavior: smooth;
+	min-height: 100%;
+	overscroll-behavior: none;
+	scroll-behavior: smooth;
 }
 
 *{
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 a{
-  color : inherit;
+	color : inherit;
 }
 
 #printing{
-  position: absolute;
-  right : 100%;
-  top : 0;
-  opacity: 0;
+	position: absolute;
+	right : 100%;
+	top : 0;
+	opacity: 0;
 
-  canvas{
-    display: none;
-  }
+	canvas{
+		display: none;
+	}
 }
 
 .unselectable{
@@ -250,13 +259,13 @@ html.mobile .unselectablemobile{
  */
 
 ::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
+	background: #b3d4fc;
+	text-shadow: none;
 }
 
 ::selection {
-  background: #b3d4fc;
-  text-shadow: none;
+	background: #b3d4fc;
+	text-shadow: none;
 }
 
 /*
@@ -264,12 +273,12 @@ html.mobile .unselectablemobile{
  */
 
 hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin: 1em 0;
+	padding: 0;
 }
 
 /*
@@ -284,7 +293,7 @@ iframe,
 img,
 svg,
 video {
-  vertical-align: middle;
+	vertical-align: middle;
 }
 
 /*
@@ -292,9 +301,9 @@ video {
  */
 
 fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
+	border: 0;
+	margin: 0;
+	padding: 0;
 }
 
 /*
@@ -302,34 +311,34 @@ fieldset {
  */
 
 textarea {
-  resize: vertical;
+	resize: vertical;
 }
 
 /* ==========================================================================
-   Browser Upgrade Prompt
-   ========================================================================== */
+	 Browser Upgrade Prompt
+	 ========================================================================== */
 
 .browserupgrade {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
+	margin: 0.2em 0;
+	background: #ccc;
+	color: #000;
+	padding: 0.2em 0;
 }
 
 /* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
+	 Author's custom styles
+	 ========================================================================== */
 
 /* ==========================================================================
-   Helper classes
-   ========================================================================== */
+	 Helper classes
+	 ========================================================================== */
 
 /*
  * Hide visually and from screen readers
  */
 
 .hidden {
-  display: none !important;
+	display: none !important;
 }
 
 /*
@@ -342,16 +351,16 @@ textarea {
 */
 
 .sr-only {
-  border: 0;
-  clip: rect(0, 0, 0, 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-  /* 1 */
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+	/* 1 */
 }
 
 /*
@@ -362,13 +371,13 @@ textarea {
 
 .sr-only.focusable:active,
 .sr-only.focusable:focus {
-  clip: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  position: static;
-  white-space: inherit;
-  width: auto;
+	clip: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	position: static;
+	white-space: inherit;
+	width: auto;
 }
 
 /*
@@ -376,7 +385,7 @@ textarea {
 */
 
 .invisible {
-  visibility: hidden;
+	visibility: hidden;
 }
 
 /*
@@ -393,95 +402,95 @@ textarea {
 
 .clearfix:before,
 .clearfix:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
+	content: " ";
+	/* 1 */
+	display: table;
+	/* 2 */
 }
 
 .clearfix:after {
-  clear: both;
+	clear: both;
 }
 
 /* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   These examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
+	 EXAMPLE Media Queries for Responsive Design.
+	 These examples override the primary ('mobile first') styles.
+	 Modify as content requires.
+	 ========================================================================== */
 
 @media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
+	/* Style adjustments for viewports that meet the condition */
 }
 
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 1.25dppx),
-  (min-resolution: 120dpi) {
-  /* Style adjustments for high resolution devices */
+	(-webkit-min-device-pixel-ratio: 1.25),
+	(min-resolution: 1.25dppx),
+	(min-resolution: 120dpi) {
+	/* Style adjustments for high resolution devices */
 }
 
 /* ==========================================================================
-   Print styles.
-   Inlined to avoid the additional HTTP request:
-   https://www.phpied.com/delay-loading-your-print-css/
-   ========================================================================== */
+	 Print styles.
+	 Inlined to avoid the additional HTTP request:
+	 https://www.phpied.com/delay-loading-your-print-css/
+	 ========================================================================== */
 
 @media print {
-  *,
-  *:before,
-  *:after {
-    background: transparent !important;
-    color: #000 !important;
-    /* Black prints faster */
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-  a,
-  a:visited {
-    text-decoration: underline;
-  }
-  a[href]:after {
-    content: " (" attr(href) ")";
-  }
-  abbr[title]:after {
-    content: " (" attr(title) ")";
-  }
-  /*
-     * Don't show links that are fragment identifiers,
-     * or use the `javascript:` pseudo protocol
-     */
-  a[href^="#"]:after,
-  a[href^="javascript:"]:after {
-    content: "";
-  }
-  pre {
-    white-space: pre-wrap !important;
-  }
-  pre,
-  blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-  /*
-     * Printing Tables:
-     * https://web.archive.org/web/20180815150934/http://css-discuss.incutio.com/wiki/Printing_Tables
-     */
-  thead {
-    display: table-header-group;
-  }
-  tr,
-  img {
-    page-break-inside: avoid;
-  }
-  p,
-  h2,
-  h3 {
-    orphans: 3;
-    widows: 3;
-  }
-  h2,
-  h3 {
-    page-break-after: avoid;
-  }
+	*,
+	*:before,
+	*:after {
+		background: transparent !important;
+		color: #000 !important;
+		/* Black prints faster */
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+	a,
+	a:visited {
+		text-decoration: underline;
+	}
+	a[href]:after {
+		content: " (" attr(href) ")";
+	}
+	abbr[title]:after {
+		content: " (" attr(title) ")";
+	}
+	/*
+		 * Don't show links that are fragment identifiers,
+		 * or use the `javascript:` pseudo protocol
+		 */
+	a[href^="#"]:after,
+	a[href^="javascript:"]:after {
+		content: "";
+	}
+	pre {
+		white-space: pre-wrap !important;
+	}
+	pre,
+	blockquote {
+		border: 1px solid #999;
+		page-break-inside: avoid;
+	}
+	/*
+		 * Printing Tables:
+		 * https://web.archive.org/web/20180815150934/http://css-discuss.incutio.com/wiki/Printing_Tables
+		 */
+	thead {
+		display: table-header-group;
+	}
+	tr,
+	img {
+		page-break-inside: avoid;
+	}
+	p,
+	h2,
+	h3 {
+		orphans: 3;
+		widows: 3;
+	}
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
 }
 

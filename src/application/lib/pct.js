@@ -499,6 +499,29 @@ class PCT {
         })
     }
 
+    parseText = function(txt){
+        var lines = txt.split(/\r\n/g)
+        var assets = []
+
+        console.log('lines', lines)
+
+        _.each(lines, (line) => {
+            var words = f.bw(line)
+
+            console.log('words', words)
+
+            if (words.length == 2){
+                if(words[1].replace(/[^0-9]/g, '').length == words[1].length){
+                    assets.push({search : words[0], value : Number(words[1])})
+                }
+            }
+        })
+
+        console.log('assets', assets)
+
+        return assets
+    }
+
 }
 
 export default PCT

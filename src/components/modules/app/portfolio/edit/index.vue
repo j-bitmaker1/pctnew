@@ -79,7 +79,7 @@
 							<div class="remove" @click="remove(slotProps.index)">
 								<i class="fas fa-times-circle"></i> 
 							</div>
-							<assetsEdit @focus="focus" @blur="blur" :ref="slotProps.index" :name="slotProps.item.name" :isCovered="slotProps.item.isCovered" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
+							<assetsEdit @multiple="multiple" @focus="focus" @blur="blur" :ref="slotProps.index" :name="slotProps.item.name" :isCovered="slotProps.item.isCovered" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
 						</div>
 					</template>
 				</list>

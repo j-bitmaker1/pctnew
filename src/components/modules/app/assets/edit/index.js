@@ -50,6 +50,12 @@ export default {
                     name : item.name,
                     isCovered : true //// from search true
                 })
+            }, (items) => {
+
+                this.$emit('multiple', items)
+
+                this.blur()
+
             })
 
             

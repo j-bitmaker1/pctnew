@@ -37,7 +37,7 @@ export default {
 				var text = this.searchTxt
 				this.$emit('search', text)
 
-				if(this.activity && text){
+				if (this.activity && text){
 					this.core.user.activity.template('searching', {
 						type : this.activity,
 						value : text
@@ -106,5 +106,9 @@ export default {
 				return false
 			}
 		},
+
+		paste : function(evt){
+			this.$emit('paste', evt)
+		}
 	},
 }

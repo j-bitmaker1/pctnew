@@ -1,7 +1,7 @@
 <template>
 <div class="assets_search">
     <div class="searchWrapper mobp">
-        <search ref="search" @controlKey="controlKey" :controlKeys="searchresult.length ? true : false" placeholder="Search by assets" :value="searchvalue" @search="search" :loading="loading"/>
+        <search ref="search" @paste="paste" @controlKey="controlKey" :controlKeys="searchresult.length ? true : false" placeholder="Search by assets" :value="searchvalue" @search="search" :loading="loading"/>
     </div>
 
     <div class="searchresult " v-if="searchresult.length">

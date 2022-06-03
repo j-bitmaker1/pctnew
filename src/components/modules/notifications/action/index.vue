@@ -7,8 +7,8 @@
 <style scoped lang="sass">
 .action
 	white-space: nowrap
-	background: srgb(--neutral-grad-1)
-	border-radius: 12px
+	background: srgb(--neutral-grad-0)
+	border-radius: 24px
 	display: flex
 	flex-wrap: nowrap
 	align-items: center
@@ -16,6 +16,7 @@
 	color : srgb(--neutral-grad-3)
 	padding-left: 0
 	font-size: 0.8em
+	padding-left: $r
 	padding-right: 3 * $r
 	i
 		width: 33px

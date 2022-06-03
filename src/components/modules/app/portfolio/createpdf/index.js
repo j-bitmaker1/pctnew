@@ -7,6 +7,7 @@ var pdfFonts = require('pdfmake/build/vfs_fonts.js');
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+import settingsPdf from '@/components/modules/app/settings/pdf/index.vue'
 
 
 export default {
@@ -14,7 +15,9 @@ export default {
     props: {
         id : Number
     },
-
+    components : {
+        settingsPdf
+    },
     data : function(){
 
         return {
