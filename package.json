@@ -20,6 +20,7 @@
 		"browser-request": "^0.3.3",
 		"color": "^4.2.3",
 		"compute-quantile": "^1.0.1",
+		"core-js": "^3.22.8",
 		"create-hash": "^1.2.0",
 		"crypto-js": "^4.1.1",
 		"distributions-lognormal-cdf": "^0.0.0",

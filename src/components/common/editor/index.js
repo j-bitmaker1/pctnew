@@ -1,5 +1,5 @@
 import { mapState } from 'vuex';
-import { Editor } from 'vue-editor-js'
+import Editor from 'vue-editor-js/src/index'
 
 export default {
     name: 'editor',
