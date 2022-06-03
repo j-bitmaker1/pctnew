@@ -25,8 +25,6 @@
             </div>
         </div>
 
-       
-
         <div class="savePanel">
             <button class="button black" @click="cancel">
                 Cancel
@@ -35,6 +33,19 @@
             <button class="button" @click="make">
                 Create
             </button>
+        </div>
+    </div>
+
+    <div class="making mobp" v-if="making">
+
+        <div class="progressWrapper">
+            <div class="pertcent">
+                <value :value="progress" mode="p" />
+            </div>
+            <div class="progress">
+                <div class="bar" :style="{width : progress * 100 + '%'}">
+                </div>
+            </div>
         </div>
     </div>
 

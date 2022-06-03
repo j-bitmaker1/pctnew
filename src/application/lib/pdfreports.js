@@ -338,7 +338,7 @@ class PDFReports {
 
                 parts[k] = cnt
 
-                percent += 1 / keys.length
+                percent += 1 / allkeys.length
 
                 if(p.progress) p.progress(percent)
 

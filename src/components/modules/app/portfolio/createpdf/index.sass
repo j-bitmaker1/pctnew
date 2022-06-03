@@ -21,3 +21,42 @@
         border : 1px solid srgb(--neutral-grad-0)
         border-radius: 24px
         padding : 2 * $r
+
+.making
+    position: absolute
+    left : 0
+    top : 0
+    bottom : 0
+    right : 0
+    display: flex
+    align-items: center
+    background: srgba(--background-total-theme, 0.98)
+    padding : 2 * $r
+    z-index: 10
+
+    .pertcent
+        border-radius: 50%
+        width: 88px
+        height: 88px
+        line-height: 86px
+        border : 1px solid srgb(--neutral-grad-2)
+        text-align: center
+        margin : 0 auto
+
+        span
+            font-size: 0.8em
+            font-weight: 700
+            color : srgb(--neutral-grad-2)
+
+    .progressWrapper
+        flex-grow: 2
+    .progress
+        margin-top: 4 * $r
+        height: 4px
+        border-radius: 2px
+        background: srgb(--neutral-grad-0)
+        overflow: hidden
+
+        .bar
+            height: 100%
+            background: srgb(--color-good)
