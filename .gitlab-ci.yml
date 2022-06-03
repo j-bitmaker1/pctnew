@@ -9,9 +9,8 @@ variables:
 # ------------------------------------------
 build_main:
     stage: build
-    script: 
-        - node --version
-        - npm i --prefer-offline --no-audit -f
+    script:
+        - npm i
         - npm run build
     artifacts:
         expire_in: 1 week
@@ -41,7 +40,7 @@ deploy_main:
 build_develop:
     stage: build
     script: 
-        - npm i --prefer-offline --no-audit
+        - npm i
         - npm run build
     artifacts:
         expire_in: 1 week
