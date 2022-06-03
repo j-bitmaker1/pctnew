@@ -18,7 +18,7 @@ class PDFReports {
         },
 
         stressTest: {
-            key : 'intro',
+            key : 'stressTest',
             require : true
         },
 
@@ -62,10 +62,7 @@ class PDFReports {
     stressTest = function(tools){
         var {portfolio, profile} = tools.data
 
-        var image = {
-            width : 464,
-            height : 587
-        }
+        var image = tools.size({width : 0.9, height : 0.9})
 
         var size = {
             width : image.width * 6,
@@ -80,7 +77,7 @@ class PDFReports {
  
         }).then(img => {
             image.image = img
-
+            image.alignment = 'center'
             return Promise.resolve([image])
 
         }) 
@@ -206,7 +203,7 @@ class PDFReports {
 
             var paddingRight = 50;
 
-            logo.logo.margin = [tools.helpers.sizeByPage(515, 'w') - logo.logo.width - paddingRight, 170, paddingRight, 20];
+            logo.logo.margin = [200, 170, paddingRight, 20];
 
             var result = []
 
@@ -401,10 +398,7 @@ class PDFReports {
                     extra : extra
                 })
 
-                var image = {
-                    width : 464,
-                    height : 287
-                }
+                var image = tools.size({width : 1, height : 0.4})
         
                 var size = {
                     width : image.width * 6,
@@ -484,10 +478,7 @@ class PDFReports {
 
                 var result = []
 
-                var image = {
-                    width : 464,
-                    height : 287
-                }
+                var image = tools.size({width : 1, height : 0.4})
         
                 var size = {
                     width : image.width * 6,
@@ -571,10 +562,7 @@ class PDFReports {
                     return info[group.id] || 'Other'
                 })
 
-                var image = {
-                    width : 464,
-                    height : 287
-                }
+                var image = tools.size({width : 1, height : 0.4})
         
                 var size = {
                     width : image.width * 6,
