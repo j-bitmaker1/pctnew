@@ -828,7 +828,7 @@ var User = function ({
 
             })
 
-            settings.getall()
+            //settings.getall()
 
             return state.value
 

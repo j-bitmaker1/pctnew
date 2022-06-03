@@ -25,6 +25,14 @@ export default {
     }),
 
     methods : {
-        
+        editDisclosure : function(){
+            this.core.vueapi.editorjs({
+                initial : {}
+            }, (edited) => {
+                console.log("edited", edited)
+            },{
+                caption : "Edit disclosure"
+            })
+        }
     },
 }

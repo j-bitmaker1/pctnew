@@ -1,11 +1,23 @@
 import f from '@/application/functions'
 import _ from 'underscore'
 
-class Settings {
+var meta = {
+    PDF : {
+        logotype : {
+            name : 'logotype',
+            default : function(){
+                return ''
+            },
+        },
 
-    product = 'PCT_NEW'
-
-    meta = {
+        disclosure : {
+            name : 'disclosure',
+            default : function(){
+                return {}
+            },
+        }
+    },
+    STRESS : {
         scenarios : {
             
             name : 'scenarios',
@@ -13,7 +25,6 @@ class Settings {
                 return []
             },
 
-            group : 'stresstest'
         },
 
         useKeyScenarios : {
@@ -22,13 +33,24 @@ class Settings {
                 return true
             },
 
-            group : 'stresstest'
         }
     }
+}
 
-    constructor({api}){
+class Settings {
+
+    product = 'PCT'
+
+    constructor({api, type}){
         this.api = api
         this.data = null
+        this.type = type
+
+        this.meta = {}
+
+        _.each(meta[this.type], (s, k) => {
+            this.meta[k] = _.clone(s)
+        })
     }
 
     set(name, value){
@@ -39,10 +61,10 @@ class Settings {
         s.value = value
 
         if (s.id){
-            return this.api.user.settings.update(id, name, value)
+            return this.api.user.settings.update(id, name, value, this.type)
         }
         else{
-            return this.api.user.settings.create(name, value).then(r => {
+            return this.api.user.settings.create(name, value, this.type).then(r => {
 
                 this.data = {
                     ...this.data,
@@ -69,7 +91,6 @@ class Settings {
                     name : r.Name,
                     value : JSON.stringify(r.Info),
                     default : this.meta[r.Name].default(),
-                    group : this.meta[r.Name].group
                 }
 
                 d[setting.name] = setting
@@ -90,7 +111,6 @@ class Settings {
             name : name,
             value : this.meta[name].default(),
             default : this.meta[name].default(),
-            group : this.meta[name].group,
             id : null
         }
 
@@ -101,7 +121,7 @@ class Settings {
 
         if(this.data) return Promise.resolve(this.data)
 
-        return this.api.user.settings.getall().then(r => {
+        return this.api.user.settings.getall(this.type).then(r => {
             this.data = this.parse(r)
 
             return Promise.resolve(this.data)

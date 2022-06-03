@@ -5,7 +5,7 @@
             <span>Disclosure</span>
         </div>
         <div class="setting">
-            <button class="button small black"><i class="fas fa-edit"></i> Edit</button>
+            <button class="button small black" @click="editDisclosure"><i class="fas fa-edit"></i> Edit</button>
         </div>
     </div>
 </div>

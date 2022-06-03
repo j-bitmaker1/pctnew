@@ -108,9 +108,9 @@ HighchartsMore(Highcharts)
 Exporting(Highcharts)
 OfflineExporting(Highcharts)
 
-import VueCompositionApi from '@vue/composition-api'
+import plugin, {Editor} from 'vue-editor-js/src/index'
+Vue.use(plugin)
 
-Vue.use(VueCompositionApi)
 
 /*
 import { Swipeable } from 'vue-swipeable';

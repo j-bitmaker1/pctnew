@@ -54,7 +54,13 @@ class Core {
 
         this.cordovakit = new Cordovakit(this)
         this.vueapi = new Vueapi(this)
-        this.settings = new Settings(this)
+
+        this.settings = {
+            stress : new Settings(this, "STRESS"), 
+            user : new Settings(this, "USER"),
+            pdf : new Settings(this, "PDF")
+        }
+
         this.user = new user(this)
         this.pdfreports = new PDFReports(this)
        

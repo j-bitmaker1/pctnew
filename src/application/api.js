@@ -1846,18 +1846,18 @@ var ApiWrapper = function (core) {
 		},
 
 		settings : {
-			getall : function(){
-				return request({}, 'api', 'userdata/settings/list', {
+			getall : function(type){
+				return request({type, product : 'PCT'}, 'api', 'userdata/settings/list', {
 					method: "GET",
 				})
 			},
 
-			create : function(key, value){
+			create : function(key, value, type){
 
 				var data = {}
-					data.Product = 'PCT_NEW'
+					data.Product = 'PCT'
 					data.IsPublic = true
-					data.Type = 'PCT_USER_SETTINGS'
+					data.Type = type
 					data.Name = key
 					data.Info = JSON.stringify(value)
 
@@ -1866,12 +1866,12 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			update : function(id, key, value){
+			update : function(id, key, value, type){
 
 				var data = {}
-					data.Product = 'PCT_NEW'
+					data.product = 'PCT'
 					data.IsPublic = true
-					data.Type = 'PCT_USER_SETTINGS'
+					data.Type = type
 					data.Name = key
 					data.Info = JSON.stringify(value)
 
