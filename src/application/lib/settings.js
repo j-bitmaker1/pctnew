@@ -41,7 +41,7 @@ class Settings {
 
     product = 'PCT'
 
-    constructor({api, type}){
+    constructor({api}, type){
         this.api = api
         this.data = null
         this.type = type
@@ -51,6 +51,7 @@ class Settings {
         _.each(meta[this.type], (s, k) => {
             this.meta[k] = _.clone(s)
         })
+        
     }
 
     set(name, value){
@@ -103,6 +104,16 @@ class Settings {
         return d
     }
 
+    getbymeta(){
+        var d = {}
+        
+        _.each(this.meta, (s, name) => {
+            d[name] = this.get(name)
+        })
+
+        return d
+    }
+
     get(name){
 
         if(!this.data || !this.meta[name]) return null
@@ -124,7 +135,7 @@ class Settings {
         return this.api.user.settings.getall(this.type).then(r => {
             this.data = this.parse(r)
 
-            return Promise.resolve(this.data)
+            return Promise.resolve(this.getbymeta())
         })
 
     }

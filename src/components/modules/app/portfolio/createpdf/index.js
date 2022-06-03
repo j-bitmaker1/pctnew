@@ -98,50 +98,56 @@ export default {
 
             moment.locale(this.$i18n.locale)
 
-            var nameOfReport = "New PCT report"
-
-            var pdftools = new PDFTools({
-                logo : this.dlogo
-            }, {
-
-                portfolio : this.portfolio,
-                profile : this.profile,
-                locale : this.$i18n.locale,
-
-                meta : {
-                    pageSize : 'A4',
-                    sizeOfLogo : 1,
-
-                    reportName : nameOfReport,
-                    titleColor : "#333",
-
-                    headers : {
-                        first : nameOfReport,
-                        second : 'Date of creation: ' + moment(new Date()).local().format("LL"),
-                    },
-
-                    pageFooter : 'See Important Disclosure Information section in this report for explanations of methodologies, assumptions and limitations.'
-
-                }
-                
-            })
-
             this.making = true
 
-            var keys = []
+            var nameOfReport = "New PCT report"
 
-            _.each(this.values, (v, i) => {
-                if(v) keys.push(i)
-            })
+            this.core.settings.pdf.getall().then(settings => {
 
-            pdftools.prepare().then(tools => {
-                
+               
 
-                return this.core.pdfreports.make(keys, tools, {
+                var pdftools = new PDFTools({
+                    logo : this.dlogo
+                }, {
 
-                    progress : (percent) => {
-                        this.progress = percent
+                    portfolio : this.portfolio,
+                    profile : this.profile,
+                    locale : this.$i18n.locale,
+
+                    meta : {
+                        pageSize : 'A4',
+                        sizeOfLogo : 1,
+
+                        reportName : nameOfReport,
+                        titleColor : "#333",
+
+                        headers : {
+                            first : nameOfReport,
+                            second : 'Date of creation: ' + moment(new Date()).local().format("LL"),
+                        },
+
+                        pageFooter : 'See Important Disclosure Information section in this report for explanations of methodologies, assumptions and limitations.'
+
                     }
+                    
+                })
+
+                var keys = []
+
+                _.each(this.values, (v, i) => {
+                    if(v) keys.push(i)
+                })
+
+                return pdftools.prepare().then(tools => {
+                    
+
+                    return this.core.pdfreports.make(keys, tools, {
+
+                        progress : (percent) => {
+                            this.progress = percent
+                        }
+
+                    })
 
                 })
 
@@ -167,10 +173,12 @@ export default {
 
                 })  
 
-                //d.download("Default report");
-
             }).catch(e => {
-                console.error(e)
+
+                this.$store.commit('icon', {
+                    icon: 'error'
+                })
+
             }).finally(() => {
                 this.making = false
                 this.progress = 0

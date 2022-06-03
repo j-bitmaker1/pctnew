@@ -13,8 +13,8 @@ export default {
 
     },
 
-    created : () => {
-
+    created (){
+        this.load()
     },
 
     watch: {
@@ -25,6 +25,16 @@ export default {
     }),
 
     methods : {
+        load : function(){
+
+            this.loading = true
+
+            this.core.settings.pdf.getall().then(settings => {
+                console.log("R", settings)
+            }).finally(() => {
+                this.loading = false
+            })
+        },
         editDisclosure : function(){
             this.core.vueapi.editorjs({
                 initial : {}
