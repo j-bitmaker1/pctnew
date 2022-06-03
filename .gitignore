@@ -13,3 +13,4 @@ cordova-resources/google-services.json
 cordova-resources/GoogleService-Info.plist
 
 *.zip
+**/package-lock.json
