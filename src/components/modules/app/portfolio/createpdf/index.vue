@@ -42,6 +42,7 @@
             <div class="pertcent">
                 <value :value="progress" mode="p" />
             </div>
+            <div class="label"><span>Creating PDF report</span></div>
             <div class="progress">
                 <div class="bar" :style="{width : progress * 100 + '%'}">
                 </div>
