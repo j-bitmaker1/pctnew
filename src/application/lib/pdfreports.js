@@ -51,6 +51,11 @@ class PDFReports {
             require : true
         },
 
+        disclosure : {
+            key : 'disclosure',
+            require : true
+        },
+
         userdisclosure : {
             key : 'userdisclosure',
             require : true
@@ -321,14 +326,18 @@ class PDFReports {
         return Promise.resolve(content)
     }
 
+    disclosure = function(tools){
+       var result = []
+
+       return Promise.resolve(result)
+    }
+
     userdisclosure = function(tools){
         var {disclosure} = tools.data
 
         if(!disclosure) return Promise.resolve([])
 
         var d = tools.byEditorjs(disclosure)
-
-        console.log("D", d)
 
         if (d && d.length) d[0].pageBreak = 'before'
 
