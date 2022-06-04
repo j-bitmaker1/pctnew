@@ -1,6 +1,7 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import f from './functions'
 import moment from 'moment'
+import {Contact, Portfolio} from './lib/kit.js'
 
 var WSS = function(core, url, system){
     var self = this
@@ -258,7 +259,19 @@ var WSS = function(core, url, system){
         }
 
         if(message.isSystem){
+            if (message.Type == 'Update'){
 
+                var types = []
+                var data = message.Data
+
+                if(message.x_eventType == 'LEADUPDATE') {types = ['client', 'lead']; data = new Contact(data)}
+                if(message.x_eventType == 'CATALOGUPDATE') types = ['filesystem']
+                if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; data = new Portfolio(data)}
+
+                core.updateByWs(data, types)
+
+                ///LEADUPDATE CATALOGUPDATE PORTFOLIOUPDATE
+            }   
         }
         else{
 

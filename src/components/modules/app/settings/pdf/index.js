@@ -34,11 +34,20 @@ export default {
             }).finally(() => {
                 this.loading = false
             })
+
         },
         editDisclosure : function(){
+
+            console.log("this.core.settings.pdf.get('disclosure')", this.core.settings.pdf.get('disclosure'))
+
             this.core.vueapi.editorjs({
-                initial : {}
+                initial : this.core.settings.pdf.get('disclosure').value
             }, (edited) => {
+
+                this.core.settings.pdf.set('disclosure', edited).catch(e => {
+                    console.error(e)
+                })
+
                 console.log("edited", edited)
             },{
                 caption : "Edit disclosure"

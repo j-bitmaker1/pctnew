@@ -16,9 +16,9 @@
        
     </div>
 
-    <gallery v-if="gallery" :images="gallery.images" :index="gallery.index" @close="closeGallery" />
+    <gallery v-if="gallery && !camera" :images="gallery.images" :index="gallery.index" @close="closeGallery" />
 
-	<modals />
+	<modals v-if="!camera"/>
 
     <fx v-if="fx"/>
 

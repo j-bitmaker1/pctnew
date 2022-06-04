@@ -95,6 +95,8 @@ export default {
 
             this.pdfdata.then(pdf => {
                 this.numPages = pdf.numPages;
+
+                this.$emit('mounted')
             });
 
         },

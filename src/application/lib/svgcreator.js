@@ -15,8 +15,6 @@ class SVGCreator {
 
     make = function(size, data){
 
-        console.log("DATA", data)
-
         var ints = [1200000,100000,-300000,1200000,100000,-300000,1200000,100000,-300000];
         var str = ['test1', 'test2', 'test3','test1', 'test2', 'test3','test1', 'test2', 'test3'];
 
@@ -315,8 +313,6 @@ class SVGCreator {
             xw.endElement();
        
         xw.endDocument();
-
-        console.log('xw.toString()', xw.toString())
 
         return xw.toString()
        

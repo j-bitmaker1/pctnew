@@ -2,37 +2,48 @@ import f from '@/application/functions'
 import _ from 'underscore'
 
 var meta = {
-    PDF : {
-        logotype : {
-            name : 'logotype',
-            default : function(){
+    PDF: {
+        logotype: {
+            name: 'logotype',
+            default: function() {
                 return ''
             },
         },
 
-        disclosure : {
-            name : 'disclosure',
-            default : function(){
+        disclosure: {
+            name: 'disclosure',
+            default: function() {
                 return {}
             },
         }
     },
-    STRESS : {
-        scenarios : {
-            
-            name : 'scenarios',
-            default : function(){
+    STRESS: {
+        scenarios: {
+
+            name: 'scenarios',
+            default: function() {
                 return []
             },
 
         },
 
-        useKeyScenarios : {
-            name : 'useKeyScenarios',
-            default : function(){
+        useKeyScenarios: {
+            name: 'useKeyScenarios',
+            default: function() {
                 return true
             },
 
+        }
+    }
+}
+
+var lsmeta = {
+    PDF: {
+        reports: {
+            name: 'reports',
+            default: function() {
+                return {}
+            },
         }
     }
 }
@@ -41,7 +52,7 @@ class Settings {
 
     product = 'PCT'
 
-    constructor({api}, type){
+    constructor({ api }, type) {
         this.api = api
         this.data = null
         this.type = type
@@ -51,62 +62,61 @@ class Settings {
         _.each(meta[this.type], (s, k) => {
             this.meta[k] = _.clone(s)
         })
-        
+
     }
 
-    set(name, value){
+    set(name, value) {
         var s = this.get(name)
 
-        if(!s) return Promise.reject('none')
+        if (!s) return Promise.reject('none')
 
         s.value = value
 
-        if (s.id){
-            return this.api.user.settings.update(id, name, value, this.type)
-        }
-        else{
+        if (s.id) {
+            return this.api.user.settings.update(s.id, name, value, this.type)
+        } else {
             return this.api.user.settings.create(name, value, this.type).then(r => {
 
                 this.data = {
                     ...this.data,
                     ...this.parse([r])
-                } 
-    
+                }
+
                 return Promise.resolve(this.data)
             })
         }
     }
 
-    parse(r){
+    parse(r) {
         var d = {}
 
         _.each(r, (r) => {
 
-            if(!this.meta[r.Name]) return
-            if(r.Product != this.product) return
+            if (!this.meta[r.Name]) return
+            if (r.Product != this.product) return
 
-            try{
+            try {
 
                 var setting = {
-                    id : r.Id,
-                    name : r.Name,
-                    value : JSON.stringify(r.Info),
-                    default : this.meta[r.Name].default(),
+                    id: r.Id,
+                    name: r.Name,
+                    value: JSON.parse(r.Info),
+                    default: this.meta[r.Name].default(),
                 }
 
                 d[setting.name] = setting
 
-            }catch(e){}
-            
-           
+            } catch (e) {}
+
+
         })
 
         return d
     }
 
-    getbymeta(){
+    getbymeta() {
         var d = {}
-        
+
         _.each(this.meta, (s, name) => {
             d[name] = this.get(name)
         })
@@ -114,23 +124,23 @@ class Settings {
         return d
     }
 
-    get(name){
+    get(name) {
 
-        if(!this.data || !this.meta[name]) return null
+        if (!this.data || !this.meta[name]) return null
 
-        if(!this.data[name]) return {
-            name : name,
-            value : this.meta[name].default(),
-            default : this.meta[name].default(),
-            id : null
+        if (!this.data[name]) return {
+            name: name,
+            value: this.meta[name].default(),
+            default: this.meta[name].default(),
+            id: null
         }
 
         return this.data[name]
     }
 
-    getall(){
+    getall() {
 
-        if(this.data) return Promise.resolve(this.data)
+        if (this.data) return Promise.resolve(this.getbymeta())
 
         return this.api.user.settings.getall(this.type).then(r => {
             this.data = this.parse(r)
@@ -142,4 +152,108 @@ class Settings {
 
 }
 
-export default Settings
+class LSSettings {
+
+    product = 'PCT'
+
+    constructor({ api }, type) {
+        this.data = null
+        this.type = type
+
+        this.meta = {}
+
+        _.each(lsmeta[this.type], (s, k) => {
+            this.meta[k] = _.clone(s)
+        })
+
+    }
+
+    set(name, value) {
+        var s = this.get(name)
+
+        if (!s) return Promise.reject('none')
+
+        s.value = value
+
+        var dt = _.map(this.getbymeta(), (d) => {
+            return {
+                name: d.name,
+                value: d.value
+            }
+        })
+
+        localStorage.setItem('LSSettings_' + this.type, JSON.stringify(dt))
+    }
+
+    parse(r) {
+
+        var d = {}
+
+        try {
+            r = JSON.parse(r)
+        } catch (e) {
+            return d
+        }
+
+        _.each(r, (r) => {
+
+            if (!this.meta[r.name]) return
+            if (r.product != this.product) return
+
+            try {
+
+                var setting = {
+                    name: r.name,
+                    value: r.value,
+                    default: this.meta[r.name].default(),
+                }
+
+                d[setting.name] = setting
+
+            } catch (e) {}
+
+
+        })
+
+        return d
+    }
+
+    getbymeta() {
+        var d = {}
+
+        console.log('this.meta', this.meta)
+
+        _.each(this.meta, (s, name) => {
+            d[name] = this.get(name)
+        })
+
+        return d
+    }
+
+    get(name) {
+
+        if (!this.data || !this.meta[name]) return null
+
+        if (!this.data[name]) return {
+            name: name,
+            value: this.meta[name].default(),
+            default: this.meta[name].default()
+        }
+
+        return this.data[name]
+    }
+
+    getall() {
+
+        if (!this.data)  this.data = this.parse(localStorage.getItem('LSSettings_' + this.type) || "{}")
+       
+        return Promise.resolve(this.getbymeta())
+
+    }
+
+}
+
+export {
+    Settings,
+    LSSettings
+}

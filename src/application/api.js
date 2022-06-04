@@ -1821,8 +1821,6 @@ var ApiWrapper = function (core) {
 					['filesystem']
 				)
 
-				
-
 				return self.pctapi.portfolios.delete([id], p)
 			}
 		}

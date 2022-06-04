@@ -5,148 +5,148 @@ var linkify = null
 
 var f = {}
 
-f.bw = function(s){
+f.bw = function (s) {
     return s.split(/[ \t\v\r\n\f,.]+/)
 }
 
-f.stringComparison = function(s1, s2, p = 0.5){
+f.stringComparison = function (s1, s2, p = 0.5) {
 
     var w1 = f.bw(s1),
         w2 = f.bw(s2)
 
-    return _.filter(w1, function(w){
+    return _.filter(w1, function (w) {
 
-        return _.find(w2, function(ww) {
+        return _.find(w2, function (ww) {
 
             return f.wordComparison(w, ww) > p
         })
-    }) / w1.length  > p ? true : false
+    }) / w1.length > p ? true : false
 
 }
 
-f.wordComparison = function(s1, s2){
+f.wordComparison = function (s1, s2) {
 
-	if(!s1) s1 = ''
-	if(!s2) s2 = ''
-
-
-	var hash = function(s){
-
-		var ps = _.sortBy(f.bw(s), function(w){
-			return w.length
-		}).join(' ')
+    if (!s1) s1 = ''
+    if (!s2) s2 = ''
 
 
+    var hash = function (s) {
 
-		return ps.toLowerCase().replace(/[^a-z0-9&]*/g, '');
-	}
-
-	var makeTr = function(w){
-		var trs = {};
-
-		var takeC = function(index){
-			var c;
-
-			if(index < 0 || index >= w.length) c = "_";
-
-			else c = w[index];
-
-			return c;
-		}
-
-		for(var i = -1; i <= w.length; i++){
-
-			var tr = "";
-
-			for(var j = i - 1; j <= i + 1; j++){
-				tr = tr + takeC(j);
-			}
+        var ps = _.sortBy(f.bw(s), function (w) {
+            return w.length
+        }).join(' ')
 
 
-			trs[tr] = 1;
-		}
 
-		return trs;
-	}
+        return ps.toLowerCase().replace(/[^a-z0-9&]*/g, '');
+    }
+
+    var makeTr = function (w) {
+        var trs = {};
+
+        var takeC = function (index) {
+            var c;
+
+            if (index < 0 || index >= w.length) c = "_";
+
+            else c = w[index];
+
+            return c;
+        }
+
+        for (var i = -1; i <= w.length; i++) {
+
+            var tr = "";
+
+            for (var j = i - 1; j <= i + 1; j++) {
+                tr = tr + takeC(j);
+            }
 
 
-	var t1 = makeTr(hash(s1)),
-		t2 = makeTr(hash(s2));
+            trs[tr] = 1;
+        }
+
+        return trs;
+    }
 
 
-	var c = 0,
-		m = Math.max(_.toArray(t1).length, _.toArray(t2).length)
+    var t1 = makeTr(hash(s1)),
+        t2 = makeTr(hash(s2));
 
-	_.each(t1, function(t, index){
 
-		if(t2[index]) c++;
+    var c = 0,
+        m = Math.max(_.toArray(t1).length, _.toArray(t2).length)
 
-	})
+    _.each(t1, function (t, index) {
 
-	return c / m;
+        if (t2[index]) c++;
+
+    })
+
+    return c / m;
 
 
 }
 
-f.clientsearch = function(value, arr, exe){
+f.clientsearch = function (value, arr, exe) {
     var txt = value
     var ctxt = txt.toLowerCase().replace(/[^a-z0-9]/g, '')
 
-    return _.filter(arr, function(obj){
+    return _.filter(arr, function (obj) {
 
         var txtf = obj
 
-        if(_.isObject(txtf)) {
-            
-            if(!exe) return
+        if (_.isObject(txtf)) {
+
+            if (!exe) return
 
             txtf = exe(txtf)
         }
 
-        if(!txtf) return
+        if (!txtf) return
 
         var stext = txtf
-        
+
         var ctext = stext.toLowerCase().replace(/[^a-z0-9]/g, '')
 
-        if(ctext.indexOf(ctxt) > -1 || f.stringComparison(txt, stext)) return true
+        if (ctext.indexOf(ctxt) > -1 || f.stringComparison(txt, stext)) return true
     })
 }
 
-f.sha224 = function(text){
+f.sha224 = function (text) {
 
-    if(!createHash){
+    if (!createHash) {
         createHash = require('create-hash')
     }
 
     var hash = createHash('sha224')
-        hash.update(text)
+    hash.update(text)
     return hash.digest()
 
 }
 
-f.ep = function(){
+f.ep = function () {
     return Promise.resolve()
 }
 
-f.name = function(fname,lname){
-    return _.filter([fname,lname], (n) => {return n}).join(" ") || ""
+f.name = function (fname, lname) {
+    return _.filter([fname, lname], (n) => { return n }).join(" ") || ""
 }
 
-f.namear = function(ar){
-    return _.filter(ar, (n) => {return n}).join(" ") || ""
+f.namear = function (ar) {
+    return _.filter(ar, (n) => { return n }).join(" ") || ""
 }
 
-f.openexternallink = function(href = ''){
+f.openexternallink = function (href = '') {
 
-    if (href.indexOf('tel:') > -1 || href.indexOf('mailto:') > -1 || typeof cordova == 'undefined'){
+    if (href.indexOf('tel:') > -1 || href.indexOf('mailto:') > -1 || typeof cordova == 'undefined') {
         window.open(href, '_blank')
         return
     }
 
 
     return cordova.InAppBrowser.open(href, link.attr('cordovalink') || '_system');
-    
+
 }
 
 f.language = function () {
@@ -172,31 +172,25 @@ f.deep = function (obj, key) {
 
         if (_key.length === 0) {
             return obj[tkey];
-        }
-        else {
+        } else {
             return f.deep(obj[tkey], _key)
         }
-    }
-    else {
+    } else {
         return undefined;
     }
 }
 
-f.deepInsert = function(obj, key, _insert){
-    if(!key) return;
+f.deepInsert = function (obj, key, _insert) {
+    if (!key) return;
 
-    var  _key = key.split(".");
+    var _key = key.split(".");
 
     var tkey = _key[0];
 
-    if(_key.length == 1)
-    {
+    if (_key.length == 1) {
         obj[tkey] = _insert;
-    }
-    else
-    {
-        if(!obj[tkey])
-        {
+    } else {
+        if (!obj[tkey]) {
             obj[tkey] = {};
         }
 
@@ -248,7 +242,7 @@ var renderFrameEqualizer = function (canvas, ctx, analyser, stop, colornumbers, 
         var g = colornumbers.g * (i / bufferLength);
         var b = colornumbers.b;
 
-        var opacity = - Math.abs(i - bufferLength / 2) / bufferLength + 1 / 2
+        var opacity = -Math.abs(i - bufferLength / 2) / bufferLength + 1 / 2
 
 
         if (i > offset.offset[0] && i < bufferLength - offset.offset[1]) {
@@ -287,6 +281,7 @@ f.permutations = function (array, k) {
     var combinations = [];
     var indices = [];
     var len = array.length;
+
     function run(level) {
         for (var i = 0; i < len; i++) {
             if (!indices[i]) {
@@ -305,7 +300,7 @@ f.permutations = function (array, k) {
     return m;
 }
 
-f.mobileview = function(){
+f.mobileview = function () {
     let mql = window.matchMedia('only screen and (max-width: 768px)');
 
     return mql.matches
@@ -319,11 +314,11 @@ var copytext = function (text) {
     } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
         var textarea = document.createElement("textarea");
         textarea.textContent = text
-        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+        textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in MS Edge.
         document.body.appendChild(textarea);
         textarea.select();
         try {
-            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+            return document.execCommand("copy"); // Security exception may be thrown by some browsers.
         } catch (ex) {
             console.warn("Copy to clipboard failed.", ex);
             return false;
@@ -584,7 +579,7 @@ var pretry = function (_function, time, totaltime) {
 
 var retry = function (_function, clbk, time, totaltime) {
 
-    if (_function()){
+    if (_function()) {
 
         if (clbk) clbk();
 
@@ -611,8 +606,41 @@ var retry = function (_function, clbk, time, totaltime) {
 }
 
 var md5 = function (d) {
-    var result = M(V(Y(X(d), 8 * d.length))); return result.toLowerCase()
-}; function M(d) { for (var _, m = "0123456789ABCDEF", f = "", r = 0; r < d.length; r++)_ = d.charCodeAt(r), f += m.charAt(_ >>> 4 & 15) + m.charAt(15 & _); return f } function X(d) { for (var _ = Array(d.length >> 2), m = 0; m < _.length; m++)_[m] = 0; for (m = 0; m < 8 * d.length; m += 8)_[m >> 5] |= (255 & d.charCodeAt(m / 8)) << m % 32; return _ } function V(d) { for (var _ = "", m = 0; m < 32 * d.length; m += 8)_ += String.fromCharCode(d[m >> 5] >>> m % 32 & 255); return _ } function Y(d, _) { d[_ >> 5] |= 128 << _ % 32, d[14 + (_ + 64 >>> 9 << 4)] = _; for (var m = 1732584193, f = -271733879, r = -1732584194, i = 271733878, n = 0; n < d.length; n += 16) { var h = m, t = f, g = r, e = i; f = md5_ii(f = md5_ii(f = md5_ii(f = md5_ii(f = md5_hh(f = md5_hh(f = md5_hh(f = md5_hh(f = md5_gg(f = md5_gg(f = md5_gg(f = md5_gg(f = md5_ff(f = md5_ff(f = md5_ff(f = md5_ff(f, r = md5_ff(r, i = md5_ff(i, m = md5_ff(m, f, r, i, d[n + 0], 7, -680876936), f, r, d[n + 1], 12, -389564586), m, f, d[n + 2], 17, 606105819), i, m, d[n + 3], 22, -1044525330), r = md5_ff(r, i = md5_ff(i, m = md5_ff(m, f, r, i, d[n + 4], 7, -176418897), f, r, d[n + 5], 12, 1200080426), m, f, d[n + 6], 17, -1473231341), i, m, d[n + 7], 22, -45705983), r = md5_ff(r, i = md5_ff(i, m = md5_ff(m, f, r, i, d[n + 8], 7, 1770035416), f, r, d[n + 9], 12, -1958414417), m, f, d[n + 10], 17, -42063), i, m, d[n + 11], 22, -1990404162), r = md5_ff(r, i = md5_ff(i, m = md5_ff(m, f, r, i, d[n + 12], 7, 1804603682), f, r, d[n + 13], 12, -40341101), m, f, d[n + 14], 17, -1502002290), i, m, d[n + 15], 22, 1236535329), r = md5_gg(r, i = md5_gg(i, m = md5_gg(m, f, r, i, d[n + 1], 5, -165796510), f, r, d[n + 6], 9, -1069501632), m, f, d[n + 11], 14, 643717713), i, m, d[n + 0], 20, -373897302), r = md5_gg(r, i = md5_gg(i, m = md5_gg(m, f, r, i, d[n + 5], 5, -701558691), f, r, d[n + 10], 9, 38016083), m, f, d[n + 15], 14, -660478335), i, m, d[n + 4], 20, -405537848), r = md5_gg(r, i = md5_gg(i, m = md5_gg(m, f, r, i, d[n + 9], 5, 568446438), f, r, d[n + 14], 9, -1019803690), m, f, d[n + 3], 14, -187363961), i, m, d[n + 8], 20, 1163531501), r = md5_gg(r, i = md5_gg(i, m = md5_gg(m, f, r, i, d[n + 13], 5, -1444681467), f, r, d[n + 2], 9, -51403784), m, f, d[n + 7], 14, 1735328473), i, m, d[n + 12], 20, -1926607734), r = md5_hh(r, i = md5_hh(i, m = md5_hh(m, f, r, i, d[n + 5], 4, -378558), f, r, d[n + 8], 11, -2022574463), m, f, d[n + 11], 16, 1839030562), i, m, d[n + 14], 23, -35309556), r = md5_hh(r, i = md5_hh(i, m = md5_hh(m, f, r, i, d[n + 1], 4, -1530992060), f, r, d[n + 4], 11, 1272893353), m, f, d[n + 7], 16, -155497632), i, m, d[n + 10], 23, -1094730640), r = md5_hh(r, i = md5_hh(i, m = md5_hh(m, f, r, i, d[n + 13], 4, 681279174), f, r, d[n + 0], 11, -358537222), m, f, d[n + 3], 16, -722521979), i, m, d[n + 6], 23, 76029189), r = md5_hh(r, i = md5_hh(i, m = md5_hh(m, f, r, i, d[n + 9], 4, -640364487), f, r, d[n + 12], 11, -421815835), m, f, d[n + 15], 16, 530742520), i, m, d[n + 2], 23, -995338651), r = md5_ii(r, i = md5_ii(i, m = md5_ii(m, f, r, i, d[n + 0], 6, -198630844), f, r, d[n + 7], 10, 1126891415), m, f, d[n + 14], 15, -1416354905), i, m, d[n + 5], 21, -57434055), r = md5_ii(r, i = md5_ii(i, m = md5_ii(m, f, r, i, d[n + 12], 6, 1700485571), f, r, d[n + 3], 10, -1894986606), m, f, d[n + 10], 15, -1051523), i, m, d[n + 1], 21, -2054922799), r = md5_ii(r, i = md5_ii(i, m = md5_ii(m, f, r, i, d[n + 8], 6, 1873313359), f, r, d[n + 15], 10, -30611744), m, f, d[n + 6], 15, -1560198380), i, m, d[n + 13], 21, 1309151649), r = md5_ii(r, i = md5_ii(i, m = md5_ii(m, f, r, i, d[n + 4], 6, -145523070), f, r, d[n + 11], 10, -1120210379), m, f, d[n + 2], 15, 718787259), i, m, d[n + 9], 21, -343485551), m = safe_add(m, h), f = safe_add(f, t), r = safe_add(r, g), i = safe_add(i, e) } return Array(m, f, r, i) } function md5_cmn(d, _, m, f, r, i) { return safe_add(bit_rol(safe_add(safe_add(_, d), safe_add(f, i)), r), m) } function md5_ff(d, _, m, f, r, i, n) { return md5_cmn(_ & m | ~_ & f, d, _, r, i, n) } function md5_gg(d, _, m, f, r, i, n) { return md5_cmn(_ & f | m & ~f, d, _, r, i, n) } function md5_hh(d, _, m, f, r, i, n) { return md5_cmn(_ ^ m ^ f, d, _, r, i, n) } function md5_ii(d, _, m, f, r, i, n) { return md5_cmn(m ^ (_ | ~f), d, _, r, i, n) } function safe_add(d, _) { var m = (65535 & d) + (65535 & _); return (d >> 16) + (_ >> 16) + (m >> 16) << 16 | 65535 & m } function bit_rol(d, _) { return d << _ | d >>> 32 - _ }
+    var result = M(V(Y(X(d), 8 * d.length)));
+    return result.toLowerCase()
+};
+
+function M(d) { for (var _, m = "0123456789ABCDEF", f = "", r = 0; r < d.length; r++) _ = d.charCodeAt(r), f += m.charAt(_ >>> 4 & 15) + m.charAt(15 & _); return f }
+
+function X(d) { for (var _ = Array(d.length >> 2), m = 0; m < _.length; m++) _[m] = 0; for (m = 0; m < 8 * d.length; m += 8) _[m >> 5] |= (255 & d.charCodeAt(m / 8)) << m % 32; return _ }
+
+function V(d) { for (var _ = "", m = 0; m < 32 * d.length; m += 8) _ += String.fromCharCode(d[m >> 5] >>> m % 32 & 255); return _ }
+
+function Y(d, _) {
+    d[_ >> 5] |= 128 << _ % 32, d[14 + (_ + 64 >>> 9 << 4)] = _;
+    for (var m = 1732584193, f = -271733879, r = -1732584194, i = 271733878, n = 0; n < d.length; n += 16) {
+        var h = m,
+            t = f,
+            g = r,
+            e = i;
+        f = md5_ii(f = md5_ii(f = md5_ii(f = md5_ii(f = md5_hh(f = md5_hh(f = md5_hh(f = md5_hh(f = md5_gg(f = md5_gg(f = md5_gg(f = md5_gg(f = md5_ff(f = md5_ff(f = md5_ff(f = md5_ff(f, r = md5_ff(r, i = md5_ff(i, m = md5_ff(m, f, r, i, d[n + 0], 7, -680876936), f, r, d[n + 1], 12, -389564586), m, f, d[n + 2], 17, 606105819), i, m, d[n + 3], 22, -1044525330), r = md5_ff(r, i = md5_ff(i, m = md5_ff(m, f, r, i, d[n + 4], 7, -176418897), f, r, d[n + 5], 12, 1200080426), m, f, d[n + 6], 17, -1473231341), i, m, d[n + 7], 22, -45705983), r = md5_ff(r, i = md5_ff(i, m = md5_ff(m, f, r, i, d[n + 8], 7, 1770035416), f, r, d[n + 9], 12, -1958414417), m, f, d[n + 10], 17, -42063), i, m, d[n + 11], 22, -1990404162), r = md5_ff(r, i = md5_ff(i, m = md5_ff(m, f, r, i, d[n + 12], 7, 1804603682), f, r, d[n + 13], 12, -40341101), m, f, d[n + 14], 17, -1502002290), i, m, d[n + 15], 22, 1236535329), r = md5_gg(r, i = md5_gg(i, m = md5_gg(m, f, r, i, d[n + 1], 5, -165796510), f, r, d[n + 6], 9, -1069501632), m, f, d[n + 11], 14, 643717713), i, m, d[n + 0], 20, -373897302), r = md5_gg(r, i = md5_gg(i, m = md5_gg(m, f, r, i, d[n + 5], 5, -701558691), f, r, d[n + 10], 9, 38016083), m, f, d[n + 15], 14, -660478335), i, m, d[n + 4], 20, -405537848), r = md5_gg(r, i = md5_gg(i, m = md5_gg(m, f, r, i, d[n + 9], 5, 568446438), f, r, d[n + 14], 9, -1019803690), m, f, d[n + 3], 14, -187363961), i, m, d[n + 8], 20, 1163531501), r = md5_gg(r, i = md5_gg(i, m = md5_gg(m, f, r, i, d[n + 13], 5, -1444681467), f, r, d[n + 2], 9, -51403784), m, f, d[n + 7], 14, 1735328473), i, m, d[n + 12], 20, -1926607734), r = md5_hh(r, i = md5_hh(i, m = md5_hh(m, f, r, i, d[n + 5], 4, -378558), f, r, d[n + 8], 11, -2022574463), m, f, d[n + 11], 16, 1839030562), i, m, d[n + 14], 23, -35309556), r = md5_hh(r, i = md5_hh(i, m = md5_hh(m, f, r, i, d[n + 1], 4, -1530992060), f, r, d[n + 4], 11, 1272893353), m, f, d[n + 7], 16, -155497632), i, m, d[n + 10], 23, -1094730640), r = md5_hh(r, i = md5_hh(i, m = md5_hh(m, f, r, i, d[n + 13], 4, 681279174), f, r, d[n + 0], 11, -358537222), m, f, d[n + 3], 16, -722521979), i, m, d[n + 6], 23, 76029189), r = md5_hh(r, i = md5_hh(i, m = md5_hh(m, f, r, i, d[n + 9], 4, -640364487), f, r, d[n + 12], 11, -421815835), m, f, d[n + 15], 16, 530742520), i, m, d[n + 2], 23, -995338651), r = md5_ii(r, i = md5_ii(i, m = md5_ii(m, f, r, i, d[n + 0], 6, -198630844), f, r, d[n + 7], 10, 1126891415), m, f, d[n + 14], 15, -1416354905), i, m, d[n + 5], 21, -57434055), r = md5_ii(r, i = md5_ii(i, m = md5_ii(m, f, r, i, d[n + 12], 6, 1700485571), f, r, d[n + 3], 10, -1894986606), m, f, d[n + 10], 15, -1051523), i, m, d[n + 1], 21, -2054922799), r = md5_ii(r, i = md5_ii(i, m = md5_ii(m, f, r, i, d[n + 8], 6, 1873313359), f, r, d[n + 15], 10, -30611744), m, f, d[n + 6], 15, -1560198380), i, m, d[n + 13], 21, 1309151649), r = md5_ii(r, i = md5_ii(i, m = md5_ii(m, f, r, i, d[n + 4], 6, -145523070), f, r, d[n + 11], 10, -1120210379), m, f, d[n + 2], 15, 718787259), i, m, d[n + 9], 21, -343485551), m = safe_add(m, h), f = safe_add(f, t), r = safe_add(r, g), i = safe_add(i, e)
+    }
+    return Array(m, f, r, i)
+}
+
+function md5_cmn(d, _, m, f, r, i) { return safe_add(bit_rol(safe_add(safe_add(_, d), safe_add(f, i)), r), m) }
+
+function md5_ff(d, _, m, f, r, i, n) { return md5_cmn(_ & m | ~_ & f, d, _, r, i, n) }
+
+function md5_gg(d, _, m, f, r, i, n) { return md5_cmn(_ & f | m & ~f, d, _, r, i, n) }
+
+function md5_hh(d, _, m, f, r, i, n) { return md5_cmn(_ ^ m ^ f, d, _, r, i, n) }
+
+function md5_ii(d, _, m, f, r, i, n) { return md5_cmn(m ^ (_ | ~f), d, _, r, i, n) }
+
+function safe_add(d, _) { var m = (65535 & d) + (65535 & _); return (d >> 16) + (_ >> 16) + (m >> 16) << 16 | 65535 & m }
+
+function bit_rol(d, _) { return d << _ | d >>> 32 - _ }
 
 var retryLazy = function (_function, clbk, time) {
     if (!time) time = 200;
@@ -624,9 +652,7 @@ var retryLazy = function (_function, clbk, time) {
 
                 if (clbk) clbk();
 
-            }
-
-            else {
+            } else {
                 setTimeout(f, time)
             }
 
@@ -708,11 +734,11 @@ var hexEncode = function (text) {
     return result;
 }
 
-var stringify = function(e){
+var stringify = function (e) {
 
-    if(!e) return null
+    if (!e) return null
 
-    if(e.toString) {
+    if (e.toString) {
 
         var s = e.toString()
 
@@ -720,7 +746,7 @@ var stringify = function(e){
             return s
     }
 
-    if(_.isObject(e)) return JSON.stringify(e)
+    if (_.isObject(e)) return JSON.stringify(e)
 
     return e
 }
@@ -753,7 +779,7 @@ var imgDimensions = function (data) {
     return data
 }
 
-var knsites = [ 'zoom.us', 'youtube', 'facebook', 'instagram', 'vk.com', 'twitter', 'pinterest', 'vimeo', 'ask.fm', 'change.org', 'wikipedia', 'livejournal', 'linkedin', 'myspace', 'reddit', 'tumblr', 'ok.ru', 'flickr', 'google', 'yandex', 'yahoo', 'bing', 'gmail', 'mail']
+var knsites = ['zoom.us', 'youtube', 'facebook', 'instagram', 'vk.com', 'twitter', 'pinterest', 'vimeo', 'ask.fm', 'change.org', 'wikipedia', 'livejournal', 'linkedin', 'myspace', 'reddit', 'tumblr', 'ok.ru', 'flickr', 'google', 'yandex', 'yahoo', 'bing', 'gmail', 'mail']
 
 var knsite = function (url) {
     return _.find(knsites, function (u) {
@@ -763,7 +789,7 @@ var knsite = function (url) {
 
 var getUrl = function (data) {
 
-    if(!linkify){
+    if (!linkify) {
         linkify = require('linkifyjs');
     }
 
@@ -853,7 +879,7 @@ var dateParser = function (data) {
     return `${months[month]} ${day}, ${year} at ${hour}:${minutes} ${meridian}`
 }
 
-var numberParse = function(str){
+var numberParse = function (str) {
     str || (str = "")
 
     str = str.replace(/[^\-\.0-9]/g, "")
@@ -1012,12 +1038,10 @@ var Base64 = {
 
             if (c < 128) {
                 utftext += String.fromCharCode(c);
-            }
-            else if ((c > 127) && (c < 2048)) {
+            } else if ((c > 127) && (c < 2048)) {
                 utftext += String.fromCharCode((c >> 6) | 192);
                 utftext += String.fromCharCode((c & 63) | 128);
-            }
-            else {
+            } else {
                 utftext += String.fromCharCode((c >> 12) | 224);
                 utftext += String.fromCharCode(((c >> 6) & 63) | 128);
                 utftext += String.fromCharCode((c & 63) | 128);
@@ -1032,7 +1056,9 @@ var Base64 = {
     _utf8_decode: function (utftext) {
         var string = "";
         var i = 0;
-        var c = 0, c1 = 0, c2 = 0;
+        var c = 0,
+            c1 = 0,
+            c2 = 0;
 
         while (i < utftext.length) {
 
@@ -1041,13 +1067,11 @@ var Base64 = {
             if (c < 128) {
                 string += String.fromCharCode(c);
                 i++;
-            }
-            else if ((c > 191) && (c < 224)) {
+            } else if ((c > 191) && (c < 224)) {
                 c2 = utftext.charCodeAt(i + 1);
                 string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
                 i += 2;
-            }
-            else {
+            } else {
                 c2 = utftext.charCodeAt(i + 1);
                 c3 = utftext.charCodeAt(i + 2);
                 string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
@@ -1090,8 +1114,7 @@ var Base64 = {
             var file = new (window.wFile || window.File)([u8arr], "Filename", { type: mime });
 
             return Promise.resolve(file)
-        }
-        catch (e) {
+        } catch (e) {
             return Promise.reject(e)
         }
 
@@ -1099,7 +1122,7 @@ var Base64 = {
 
     },
 
-    fromBlob : function(blob){
+    fromBlob: function (blob) {
         var urlCreator = window.URL || window.webkitURL;
         return urlCreator.createObjectURL(blob);
     }
@@ -1163,10 +1186,10 @@ const download = (path, filename) => {
 
     // Remove element from DOM
     document.body.removeChild(anchor);
-}; 
+};
 
-f.download = function(file, name){
-    if(window.cordova){
+f.download = function (file, name) {
+    if (window.cordova) {
         return f.saveFileCordova(file, name, true)
     }
 
@@ -1179,7 +1202,7 @@ f.download = function(file, name){
     return Promise.resolve()
 }
 
-f.saveFileCordova = function(file, name, todownloads){
+f.saveFileCordova = function (file, name, todownloads) {
 
     var storageLocation = "";
 
@@ -1194,7 +1217,7 @@ f.saveFileCordova = function(file, name, todownloads){
 
     return new Promise((resolve, reject) => {
 
-    
+
 
         var onsuccess = function (fileSystem) {
 
@@ -1205,7 +1228,7 @@ f.saveFileCordova = function(file, name, todownloads){
                     entry.createWriter(function (writer) {
 
                         writer.onwriteend = function (evt) {
-                            if (window.galleryRefresh){
+                            if (window.galleryRefresh) {
 
                                 window.galleryRefresh.refresh(myFileUrl, function (msg) {
 
@@ -1247,13 +1270,12 @@ f.saveFileCordova = function(file, name, todownloads){
         var onerror = function (evt) {
             reject(evt)
         }
-        
-        if(todownloads){
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+
+        if (todownloads) {
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
                 onsuccess(fileSystem.root)
             }, onerror)
-        }
-        else{
+        } else {
             window.resolveLocalFileSystemURL(storageLocation, onsuccess, onerror)
         }
 
@@ -1281,26 +1303,26 @@ f._now = function (date) {
 }
 
 f.values = {
-    format : function(locale = 'en-US', mode, value){
+    format: function (locale = 'en-US', mode, value) {
         var locale = 'en-US'
 
-        if(!mode) 
+        if (!mode)
             return new Intl.NumberFormat(locale).format(value)
 
-        if(mode == 'd') 
-            return new Intl.NumberFormat(locale, { 
-                
-                style: 'currency', 
+        if (mode == 'd')
+            return new Intl.NumberFormat(locale, {
+
+                style: 'currency',
                 currency: 'USD',
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 2
 
             }).format(value)
 
-        if(mode == 'p') 
-            return new Intl.NumberFormat(locale, { 
+        if (mode == 'p')
+            return new Intl.NumberFormat(locale, {
 
-                style: 'percent', 
+                style: 'percent',
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
 
@@ -1317,43 +1339,80 @@ f.date = {
 
         return d
     },
-    fromstring : function (str, utc) {
-		var y = str.substring(0, 4),
-			M = str.substring(4, 6),
-			d = str.substring(6, 8);
+    fromstring: function (str, utc) {
+        var y = str.substring(0, 4),
+            M = str.substring(4, 6),
+            d = str.substring(6, 8);
 
-		var h = str.substring(8, 10),
-			m = str.substring(10, 12),
-			s = str.substring(12, 14) || 0;
+        var h = str.substring(8, 10),
+            m = str.substring(10, 12),
+            s = str.substring(12, 14) || 0;
 
-        if(utc){
+        if (utc) {
             return Date.UTC(y, M - 1, d, h, m, s)
         }
 
-		return new Date(y, M - 1, d, h, m, s);
-	},
-    fromshortstring : function (str) {
-		var y = str.substring(0, 4),
-			M = str.substring(4, 6),
-			d = str.substring(6, 8);
+        return new Date(y, M - 1, d, h, m, s);
+    },
+    fromshortstring: function (str) {
+        var y = str.substring(0, 4),
+            M = str.substring(4, 6),
+            d = str.substring(6, 8);
 
-		return new Date(y, M - 1, d);
-	}
+        return new Date(y, M - 1, d);
+    }
 }
 
-f.getservers = function(arr, mult, address) {
+f.getservers = function (arr, mult, address) {
 
-    if(!arr.length) return []
+    if (!arr.length) return []
 
     mult || (mult = 1)
 
-    if(mult > arr.length) mult = arr.length
+    if (mult > arr.length) mult = arr.length
 
     var mutations = f.permutations(arr, mult);
 
     var index = f.helpers.base58.decode(address) % mutations.length;
 
     return mutations[index]
+}
+
+f.srcToData = function (url) {
+
+    return new Promise((resolve, reject) => {
+        if (url.indexOf('data:') > -1) {
+            resolve(url);
+    
+            return
+        }
+    
+        var xhr = new XMLHttpRequest();
+    
+        xhr.onload = function () {
+
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                resolve(reader.result);
+            }
+
+            reader.readAsDataURL(xhr.response);
+        };
+
+        xhr.onerror = function(e){
+            console.error(e)
+            reject(e)
+        }
+
+        console.log("url", url)
+    
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
+    })
+
+    
 }
 
 f.helpers = {
@@ -1429,9 +1488,9 @@ f.helpers = {
             var bytes, c, carry, j;
             if (string.length === 0) {
                 return new (
-                    typeof Uint8Array !== 'undefined' && Uint8Array !== null
-                        ? Uint8Array
-                        : Buffer
+                    typeof Uint8Array !== 'undefined' && Uint8Array !== null ?
+                        Uint8Array :
+                        Buffer
                 )(0);
             }
             i = void 0;
@@ -1481,7 +1540,7 @@ f.helpers = {
     },
 };
 
-f.getCaretPosition = function(ctrl){
+f.getCaretPosition = function (ctrl) {
     // IE < 9 Support 
     if (document.selection) {
         ctrl.focus();
@@ -1507,7 +1566,7 @@ f.getCaretPosition = function(ctrl){
     }
 }
 
-f.setCaretPosition = function(ctrl, start, end) {
+f.setCaretPosition = function (ctrl, start, end) {
     // IE >= 9 and other browsers
     if (ctrl.setSelectionRange) {
         ctrl.focus();

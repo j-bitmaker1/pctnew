@@ -12,8 +12,9 @@ import Vueapi from './vueapi'
 import Cordovakit from './cordovakit'
 import Filemanager from './lib/filemanager'
 import FX from './utils/fx.js'
-import Settings from "./lib/settings";
+import {Settings, LSSettings} from "./lib/settings";
 import PDFReports from "./lib/pdfreports";
+import { _ } from "core-js";
 
 
 class Core {
@@ -56,9 +57,12 @@ class Core {
         this.vueapi = new Vueapi(this)
 
         this.settings = {
+
             stress : new Settings(this, "STRESS"), 
             user : new Settings(this, "USER"),
-            pdf : new Settings(this, "PDF")
+            pdf : new Settings(this, "PDF"),
+            
+            lspdf : new LSSettings(this, "PDF")
         }
 
         this.user = new user(this)
@@ -241,6 +245,21 @@ class Core {
 
     invalidateDb(dbIndex, updated, data){
         return this.api.invalidateDb(dbIndex, updated, data)
+    }
+
+    updateByWs(data, types){
+
+        console.log('data, types', data, types)
+
+        _.each(types, (type) => {
+            try{
+                this.vxstorage.update(data, type)
+            }catch(e){
+                console.error(e)
+            }
+            
+        })
+        
     }
 
     filehandler(blob, p = {}){

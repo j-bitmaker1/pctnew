@@ -49,7 +49,12 @@ class PDFReports {
         glossary : {
             key : 'glossary',
             require : true
-        }
+        },
+
+        userdisclosure : {
+            key : 'userdisclosure',
+            require : true
+        },
     }
 
     constructor({api, settings, pct, i18n}){
@@ -108,7 +113,6 @@ class PDFReports {
             })
         }).then(r => {
 
-            console.log('all scenarios, crashtest ', scenarios, ct)
 
             return Promise.resolve(results)
         })
@@ -127,13 +131,10 @@ class PDFReports {
             pageBreak : 'before'
         })
 
-        
 
         return this.pct.assets(portfolio).then(assetsInfo => {
 
             results.push(caption)
-
-            console.log('assetsInfo, portfolio.positions', assetsInfo, portfolio.positions)
 
             return tools.helpers.tables({
                 rowsInTable : 18,
@@ -318,6 +319,20 @@ class PDFReports {
         content.push(gsTable)
 
         return Promise.resolve(content)
+    }
+
+    userdisclosure = function(tools){
+        var {disclosure} = tools.data
+
+        if(!disclosure) return Promise.resolve([])
+
+        var d = tools.byEditorjs(disclosure)
+
+        console.log("D", d)
+
+        if (d && d.length) d[0].pageBreak = 'before'
+
+        return Promise.resolve(d)
     }
     
     make = function(keys, tools, p = {}){

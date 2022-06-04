@@ -3,7 +3,7 @@ import _ from "underscore"
 import moment from 'moment'
 import SVGCreator from './svgcreator'
 import Highcharts from 'highcharts'
-
+import {edjsPdfMake} from "./edjs"
 
 
 var SIZES = {
@@ -1030,11 +1030,27 @@ var Tools = function(p, data){
                 }
 
                 ct.layout.hLineColor = function() {
-                    return '#000043';
+                    return '#888888';
                 }
             }
 
             return ct;
+        },
+
+        paragraph : function(obj){
+            return {
+                ...obj,
+                style : 'text',
+                margin : [0, 5, 0, 5]
+            }
+        },
+
+        list : function(obj){
+            return {
+                ...obj,
+                style : 'text',
+                margin : [10, 10, 0, 10]
+            }
         }
     }
 
@@ -1074,6 +1090,13 @@ var Tools = function(p, data){
         });
 
         return changeStr;
+    }
+
+    self.byEditorjs = function(data){
+
+        var edjs = new edjsPdfMake(self)
+
+        return edjs.parse(data)
     }
 
     self.doc = doc
@@ -1192,7 +1215,6 @@ var PDFTools = function(p = {}, data = {}){
                     h2: {
                         fontSize: 14,
                         color: '#2C2C2C',
-                        alignment : "center",
                         margin: [0, 10, 0, 10]
                     },
                     h3: {

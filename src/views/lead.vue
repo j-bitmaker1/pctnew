@@ -147,7 +147,7 @@ export default {
 		},
 
 		edit : function(profile){
-			this.profile = profile
+			
 		},
 
 		deleted : function(){

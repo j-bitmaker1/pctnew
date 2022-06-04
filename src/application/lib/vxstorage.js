@@ -67,15 +67,20 @@ class VXStorage {
     }
 
     update(obj, type){
+
+        console.log("update1", obj, type)
+
         if(!this.storage[type]) throw new Error('type')
         if(!this.store) throw new Error('notlinked')
 
         var last = this.get(obj[this.index(type)], type)
 
-
         if(!last) return {}
 
         var update = _.extend(last, obj)
+
+
+        console.log("update2", update, type)
 
 
         return {
@@ -99,6 +104,8 @@ class VXStorage {
     get(index, type){
         if(!this.storage[type]) throw new Error('type')
         if(!this.store) throw new Error('notlinked')
+
+        console.log("GET", index, type, this.store.state['_' + type])
 
         return this.store.state['_' + type][index] || null
     }

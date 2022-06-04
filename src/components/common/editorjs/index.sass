@@ -2,4 +2,7 @@
     padding : 2 * $r
 
 .savePanel
-    z-index: 0
+
+::v-deep
+    .codex-editor--toolbox-opened
+        z-index: 200
