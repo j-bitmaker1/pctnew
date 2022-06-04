@@ -20,7 +20,7 @@
             <div class="setting">
                 <upload :images="images" @uploaded="imageChanged">
                     <template v-slot:content>
-                        <button class="button small black">Upload logotype</button>
+                        <button class="button small black" :style="logotypestyle">Upload logotype</button>
                     </template>
                 </upload>
                 

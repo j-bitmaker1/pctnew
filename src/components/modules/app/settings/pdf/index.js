@@ -9,6 +9,7 @@ export default {
 
         return {
             loading : false,
+            logotype : null,
             images : {
 				resize : {
 					width : 640,
@@ -28,6 +29,9 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+        logotypestyle : function(){
+            return this.logotype ? "color:#fff;background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url('"+this.logotype+"'); background-size: cover; background-position: center center; background-repeat: no-repeat" : ''
+        }
     }),
 
     methods : {
@@ -36,7 +40,7 @@ export default {
             this.loading = true
 
             this.core.settings.pdf.getall().then(settings => {
-                console.log("R", settings)
+                this.logotype = settings.logotype.value
             }).finally(() => {
                 this.loading = false
             })
@@ -44,7 +48,6 @@ export default {
         },
         editDisclosure : function(){
 
-            console.log("this.core.settings.pdf.get('disclosure')", this.core.settings.pdf.get('disclosure'))
 
             this.core.vueapi.editorjs({
                 initial : this.core.settings.pdf.get('disclosure').value
@@ -60,7 +63,24 @@ export default {
             })
         },
         imageChanged : function(file){
-            
+            console.log('file', file)
+
+            this.logotype = file.base64
+
+            this.$store.commit('globalpreloader', true)
+
+            this.core.settings.pdf.set('logotype', file.base64).then(r => {
+
+            }).catch(e => {
+
+                this.logotype = null
+
+                this.$store.commit('icon', {
+                    icon: 'error'
+                })
+            }).finally(() => {
+                this.$store.commit('globalpreloader', false)
+            })
         }
     },
 }
