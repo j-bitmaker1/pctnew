@@ -8,7 +8,13 @@ export default {
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            images : {
+				resize : {
+					width : 640,
+					height : 640
+				}
+			}
         }
 
     },
@@ -52,6 +58,9 @@ export default {
             },{
                 caption : "Edit disclosure"
             })
+        },
+        imageChanged : function(file){
+            
         }
     },
 }

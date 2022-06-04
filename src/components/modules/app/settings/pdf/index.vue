@@ -12,6 +12,21 @@
                 <button class="button small black" @click="editDisclosure"><i class="fas fa-edit"></i> Edit</button>
             </div>
         </div>
+
+        <div class="row">
+            <div class="label">
+                <span>Logotype</span>
+            </div>
+            <div class="setting">
+                <upload :images="images" @uploaded="imageChanged">
+                    <template v-slot:content>
+                        <button class="button small black">Upload logotype</button>
+                    </template>
+                </upload>
+                
+                
+            </div>
+        </div>
     </template>
 
     
