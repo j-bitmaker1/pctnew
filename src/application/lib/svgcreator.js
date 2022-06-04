@@ -11,7 +11,7 @@ class SVGCreator {
     constructor(){
     }
 
-    _maxV = 1500000;
+    _maxV = 150;
 
     make = function(size, data){
 
@@ -22,6 +22,10 @@ class SVGCreator {
 
         var _name = 'testname'
 
+        var result = _.sortBy(data.scenarios, (scenario) => {return -scenario.loss})
+
+        this._maxV = Math.max(Math.abs(result[0].loss), Math.abs(result[result.length - 1].loss));
+
         xw.startDocument();
         xw.startElement("svg", "http://www.w3.org/2000/svg");
 
@@ -30,9 +34,9 @@ class SVGCreator {
             xw.writeAttribute("style", "font-family:'Segoe UI', SegoeUI, 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:12px;");
             xw.writeAttribute("xmlns", "http://www.w3.org/2000/svg");
             /*xw.writeAttribute("xmlns", "xlink", null, "http://www.w3.org/1999/xlink");*/
-            xw.writeAttribute("width", size.width);
-            xw.writeAttribute("height", size.height);
-            xw.writeAttribute("viewBox", "0 0 "+size.width+" "+size.height+"");
+            xw.writeAttribute("width", "2789");
+            xw.writeAttribute("height", "3520");
+            xw.writeAttribute("viewBox", "0 0 2789 3520");
 
             xw.startElement("rect");
 
@@ -41,15 +45,15 @@ class SVGCreator {
                 xw.writeAttribute("class", "highcharts-background");
                 xw.writeAttribute("x", "0");
                 xw.writeAttribute("y", "0");
-                xw.writeAttribute("width", size.width);
-                xw.writeAttribute("height", size.height);
+                xw.writeAttribute("width", "2789");
+                xw.writeAttribute("height", "3520");
 
             xw.endElement();
 
             xw.startElement("text");
 
                 xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-                xw.writeAttribute("x", size.width / 2); //// convert to percents
+                xw.writeAttribute("x", "1395"); //// convert to percents
                 xw.writeAttribute("y", "100");
                 xw.writeAttribute("text-anchor", "middle");
                 xw.text(_name);
@@ -76,7 +80,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((-this._maxV).toString());
+            xw.text(f.values.format(null, 'd', (-this._maxV)));
             xw.endElement();
             xw.endElement();
 
@@ -97,7 +101,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((-this._maxV * 4 / 5).toString());
+            xw.text(f.values.format(null, 'd', (-this._maxV * 4 / 5)));
             xw.endElement();
             xw.endElement();
 
@@ -118,7 +122,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((-this._maxV * 3 / 5).toString());
+            xw.text(f.values.format(null, 'd', (-this._maxV * 3 / 5)));
             xw.endElement();
             xw.endElement();
 
@@ -139,7 +143,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((-this._maxV * 2 / 5).toString());
+            xw.text(f.values.format(null, 'd', (-this._maxV * 2 / 5)));
             xw.endElement();
             xw.endElement();
 
@@ -160,7 +164,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((-this._maxV / 5).toString());
+            xw.text(f.values.format(null, 'd', (-this._maxV / 5)));
             xw.endElement();
             xw.endElement();
 
@@ -181,7 +185,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text("0");
+            xw.text(f.values.format(null, 'd', 0));
             xw.endElement();
             xw.endElement();
 
@@ -202,7 +206,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((this._maxV / 5).toString());
+            xw.text(f.values.format(null, 'd', (this._maxV / 5)));
             xw.endElement();
             xw.endElement();
 
@@ -223,7 +227,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((this._maxV * 2 / 5).toString());
+            xw.text(f.values.format(null, 'd', (this._maxV * 2 / 5)));
             xw.endElement();
             xw.endElement();
 
@@ -244,7 +248,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((this._maxV * 3 / 5).toString());
+            xw.text(f.values.format(null, 'd', (this._maxV * 3 / 5)));
             xw.endElement();
             xw.endElement();
 
@@ -265,7 +269,7 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((this._maxV * 4 / 5).toString());
+            xw.text(f.values.format(null, 'd', (this._maxV * 4 / 5)));
             xw.endElement();
             xw.endElement();
 
@@ -286,16 +290,21 @@ class SVGCreator {
             xw.writeAttribute("font-family", "Segoe UI");
             xw.writeAttribute("font-size", "40");
             xw.writeAttribute("text-anchor", "middle");
-            xw.text((this._maxV).toString());
+            xw.text(f.values.format(null, 'd', (this._maxV)));
             xw.endElement();
             xw.endElement();
 
 
             xw.endElement();   //<< </g>
 
-            for(var i = 0; i < str.length; i++)
+            
+            //console.log(this.getTextWidth(' ', "italic 50px Segoe UI").toString());
+
+            for(var i = 0; i < result.length; i++)
                     {
-						this._createG(xw, str[i], ints[i], i, str.length);
+                        var str0 = this.getText(result[i].name, 670);
+						this._createG(xw, str0, result[i].loss, i, str.length);
+                        //console.log(this.getTextWidth(result[i].name, "italic 50px Segoe UI").toString());
                     }
 
             xw.startElement("g");
@@ -356,13 +365,32 @@ class SVGCreator {
 				xw.endElement();
 
 
-				xw.startElement("text");
-				xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-				xw.writeAttribute("x", "900");
-				xw.writeAttribute("y", (75 + ((2 * 2800 / ((count * 3))) - 120) / 2 + (400 + 3 * k * 2800 / ((count * 3) - 1))).toString().replace(',', '.'));
-				xw.writeAttribute("text-anchor", "end");
-				xw.text(c);
-				xw.endElement();
+                if(c.length == 1){
+                    xw.startElement("text");
+                    xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
+                    xw.writeAttribute("x", "900");
+                    xw.writeAttribute("y", (75 + ((2 * 2800 / ((count * 3))) - 120) / 2 + (400 + 3 * k * 2800 / ((count * 3) - 1))).toString().replace(',', '.'));
+                    xw.writeAttribute("text-anchor", "end");
+                    xw.text(c[0]);
+                    xw.endElement();
+                }
+                else{
+                    xw.startElement("text");
+                    xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
+                    xw.writeAttribute("x", "900");
+                    xw.writeAttribute("y", (45 + ((2 * 2800 / ((count * 3))) - 120) / 2 + (400 + 3 * k * 2800 / ((count * 3) - 1))).toString().replace(',', '.'));
+                    xw.writeAttribute("text-anchor", "end");
+                    xw.text(c[0]);
+                    xw.endElement();
+
+                    xw.startElement("text");
+                    xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
+                    xw.writeAttribute("x", "900");
+                    xw.writeAttribute("y", (105 + ((2 * 2800 / ((count * 3))) - 120) / 2 + (400 + 3 * k * 2800 / ((count * 3) - 1))).toString().replace(',', '.'));
+                    xw.writeAttribute("text-anchor", "end");
+                    xw.text(c[1]);
+                    xw.endElement();
+                }
 
 				xw.endElement();
 			}
@@ -401,27 +429,75 @@ class SVGCreator {
 				xw.endElement();
 
 
-				xw.startElement("text");
-				xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-				xw.writeAttribute("x", "1890");
-				xw.writeAttribute("y", (75 + ((2 * 2800 / ((count * 3))) - 120) / 2 + (400 + 3 * k * 2800 / ((count * 3) - 1))).toString().replace(',', '.'));
-				xw.writeAttribute("text-anchor", "start");
-				xw.text(c);
-				xw.endElement();
+                if(c.length == 1){
+                    xw.startElement("text");
+                    xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
+                    xw.writeAttribute("x", "1890");
+                    xw.writeAttribute("y", (75 + ((2 * 2800 / ((count * 3))) - 120) / 2 + (400 + 3 * k * 2800 / ((count * 3) - 1))).toString().replace(',', '.'));
+                    xw.writeAttribute("text-anchor", "start");
+                    xw.text(c[0]);
+                    xw.endElement();
+                }
+                else{
+                    xw.startElement("text");
+                    xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
+                    xw.writeAttribute("x", "1890");
+                    xw.writeAttribute("y", (45 + ((2 * 2800 / ((count * 3))) - 120) / 2 + (400 + 3 * k * 2800 / ((count * 3) - 1))).toString().replace(',', '.'));
+                    xw.writeAttribute("text-anchor", "start");
+                    xw.text(c[0]);
+                    xw.endElement();
+
+                    xw.startElement("text");
+                    xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
+                    xw.writeAttribute("x", "1890");
+                    xw.writeAttribute("y", (105 + ((2 * 2800 / ((count * 3))) - 120) / 2 + (400 + 3 * k * 2800 / ((count * 3) - 1))).toString().replace(',', '.'));
+                    xw.writeAttribute("text-anchor", "start");
+                    xw.text(c[1]);
+                    xw.endElement();
+                }
 
 				xw.endElement();
 			}
     }
 
+    getText = function(text, size) {
+        // re-use canvas object for better performance
+        var ss = text.split(' ');
+        var ww = this.getTextWidth(ss[0], "italic 50px Segoe UI");
+        var resultSS = [];
+        var sn = ss[0];
+        for(var i = 1; i < ss.length; i++){
+            var wn = this.getTextWidth(ss[i], "italic 50px Segoe UI");
+            if(wn + ww + 13.7 > size){
+                console.log(ss[i]);
+                ww=wn;
+                resultSS.push(sn);
+                sn = ss[i];
+            }
+            else{
+                sn += ' ' + ss[i];
+                ww += wn + 13.7;
+            }
+        }
+        resultSS.push(sn);
+        return resultSS;
+    }
+
+    getTextWidth = function(text, font) {
+        // re-use canvas object for better performance
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        context.font = font;
+        var metrics = context.measureText(text);
+        return metrics.width;
+    }
+
     topng = function(xml, size){
- 
         return svg2png({ 
             input: xml, 
             encoding: 'dataURL', 
             format: 'jpeg',
-            width: size.width,
-            height: size.height,
-            multiplier: .7,
+            multiplier: size.width / 2789,
             quality: .5
         })
     }
