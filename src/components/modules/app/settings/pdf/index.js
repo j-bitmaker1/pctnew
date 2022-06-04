@@ -57,13 +57,11 @@ export default {
                     console.error(e)
                 })
 
-                console.log("edited", edited)
             },{
                 caption : "Edit disclosure"
             })
         },
         imageChanged : function(file){
-            console.log('file', file)
 
             this.logotype = file.base64
 

@@ -36,8 +36,6 @@ export default {
 		position : function(){
 			if(!this.fx) return {}
 
-			console.log('this.fx.place', this.fx.place)
-
 			return this.fx.place
 		}
 	}),
@@ -56,8 +54,6 @@ export default {
 			
 			this.core.fx.prepare(() => {
 				this.loading = false
-
-				console.log('this.$refs.container', this.$refs.container)
 
 				setTimeout(() => {
 					this.core.fx.effect(this.$refs.container, this.fx.name, this.fx.parameters, () => {

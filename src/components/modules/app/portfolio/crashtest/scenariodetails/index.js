@@ -27,8 +27,17 @@ export default {
 	},
 
 	created : function(){
+
 		this.loadcontributors()
 		this.loadscenatioinfo()
+
+		this.core.on('invalidate', this.name, (d) => {
+
+			if(d.key == 'stress' && d.portfolio == this.portfolio.id){
+				this.loadcontributors()
+				this.loadscenatioinfo()
+			}
+		})
 
 	},
 
@@ -71,6 +80,10 @@ export default {
 		}
 	}),
 
+	beforeDestroy(){
+		this.core.off('invalidate', this.name)
+	},
+
 	methods : {
 		loadcontributors : function(){
 			this.loading = true
@@ -82,15 +95,6 @@ export default {
 			}).finally(() => {
 				this.loading = false
 			})
-
-			/*this.core.pct.getcontributors(this.scenario.id).then(r => {
-
-				this.contributors = _.sortBy(r, (c)=>{return c.value})
-
-				return Promise.resolve(r)
-			}).finally(() => {
-				this.loading = false
-			})*/
 
 		},
 

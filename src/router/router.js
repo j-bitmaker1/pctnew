@@ -19,8 +19,6 @@ const redirects = {
 			return core.user.state.is()
 		}).then(state => {
 
-			console.log("STATE", state)
-
 			if (state == 1) {
 				return Promise.resolve(null)
 			}

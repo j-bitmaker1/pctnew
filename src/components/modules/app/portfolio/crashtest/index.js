@@ -77,10 +77,23 @@ export default {
 		}
 	}),
 
+	beforeDestroy(){
+		this.core.off('invalidate', this.name)
+	},
+
 	methods : {
 		get : function(){
 
 			this.loading = true
+
+			this.core.on('invalidate', this.name, (d) => {
+				console.log("INVEMIT")
+				if(d.key == 'stress' && d.portfolio == this.portfolio.id){
+					console.log("RELOAD")
+					this.get()
+				}
+					
+			})
 
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
 				this.ct = r

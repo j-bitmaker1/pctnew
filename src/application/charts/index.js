@@ -331,7 +331,9 @@ class Allocation {
             d.plotOptions.pie.colorByPoint = true
 
             d.series = [chartdata.serie]
-            d.drilldown = chartdata.drilldown
+
+            if(!p.print)
+                d.drilldown = chartdata.drilldown
 
             /*d.chart.events = {}
             d.chart.events.drilldown = this.drilldownevent

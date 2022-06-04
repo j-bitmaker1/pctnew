@@ -100,8 +100,6 @@ export default {
             
             if(this.mode == 'history'){
 
-                console.log("AS")
-
                 this.$router.replace({
                     query : {
                         ... this.$route.query,

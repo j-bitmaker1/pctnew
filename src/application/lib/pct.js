@@ -503,12 +503,10 @@ class PCT {
         var lines = txt.split(/\r\n/g)
         var assets = []
 
-        console.log('lines', lines)
 
         _.each(lines, (line) => {
             var words = f.bw(line)
 
-            console.log('words', words)
 
             if (words.length == 2){
                 if(words[1].replace(/[^0-9]/g, '').length == words[1].length){
@@ -517,7 +515,6 @@ class PCT {
             }
         })
 
-        console.log('assets', assets)
 
         return assets
     }

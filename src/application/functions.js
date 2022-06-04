@@ -1405,8 +1405,6 @@ f.srcToData = function (url) {
             reject(e)
         }
 
-        console.log("url", url)
-    
         xhr.open('GET', url);
         xhr.responseType = 'blob';
         xhr.send();

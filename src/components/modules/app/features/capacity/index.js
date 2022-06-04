@@ -61,7 +61,6 @@ export default {
 			immediate : false,
 			deep : true,
 			handler : function(){
-				console.log("ASA", this.made)
 				if (this.made)
 					this.make()
 			}

@@ -27,11 +27,8 @@ class FaceId {
 	}
     /// unauthorize and delete
 	remove(){
-		console.log("REMOVE1")
         return this.has().then(() => {
             return new Promise((resolve, reject) => {
-
-				console.log("REMOVE")
 
                 window.plugins.touchid.delete(this.key, function() {
                     resolve()
@@ -96,7 +93,6 @@ class FaceId {
 
 			return new Promise((resolve, reject) => {
 				window.plugins.touchid.verify(this.key, (type === "face") ? "Face ID" : "Touch ID", function(password) {
-					console.log('password', password)
 					resolve(password)
 				}, function(){
 					reject('verify')

@@ -18,6 +18,9 @@ import { _ } from "core-js";
 
 
 class Core {
+
+    clbks = {}
+
     constructor(vm, p){
         if(!p) p = {}
 
@@ -61,13 +64,32 @@ class Core {
             stress : new Settings(this, "STRESS"), 
             user : new Settings(this, "USER"),
             pdf : new Settings(this, "PDF"),
-            
             lspdf : new LSSettings(this, "PDF")
         }
 
         this.user = new user(this)
         this.pdfreports = new PDFReports(this)
        
+    }
+
+    on = function(event, key, f){
+        if(!this.clbks[event]) this.clbks[event] = {}
+
+        this.clbks[event][key] = f
+    }
+
+    off = function(event, key){
+        if(!this.clbks[event]) this.clbks[event] = {}
+
+        delete this.clbks[event][key]
+    }
+
+    emit = function(event, data){
+        if(!this.clbks[event]) this.clbks[event] = {}
+
+        _.each(this.clbks[event], (c) => {
+            c(data)
+        })
     }
 
     logerror = function(type, data){
@@ -244,12 +266,23 @@ class Core {
     }
 
     invalidateDb(dbIndex, updated, data){
-        return this.api.invalidateDb(dbIndex, updated, data)
+        return this.api.invalidateDb(dbIndex, updated, data).then((itemsId) => {
+
+            console.log('itemsId', itemsId) 
+
+            _.each(itemsId, (id) => {
+                this.emit('invalidate', {
+                    [data.type] : id,
+                    key : dbIndex
+                })
+            })
+
+            
+
+        })
     }
 
     updateByWs(data, types){
-
-        console.log('data, types', data, types)
 
         _.each(types, (type) => {
             try{
@@ -257,7 +290,6 @@ class Core {
             }catch(e){
                 console.error(e)
             }
-            
         })
         
     }

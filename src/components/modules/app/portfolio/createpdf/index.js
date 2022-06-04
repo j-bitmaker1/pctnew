@@ -49,6 +49,10 @@ export default {
     methods: {
         changeReports: function (v) {
             this.values = v
+
+            console.log('this.values', this.values)
+
+            this.core.settings.lspdf.set('reports', this.values)
         },
         init: function () {
 
@@ -58,9 +62,13 @@ export default {
                 return !r.require
             })
 
+            this.core.settings.lspdf.getall()
+
+            var sreports = (this.core.settings.lspdf.get('reports') || {}).value || {}
+
             this.reports = _.map(f, (report) => {
 
-                if (typeof report.default != 'undefined') this.values[report.key] = report.default
+                this.values[report.key] = typeof sreports[report.key] != 'undefined' ? sreports[report.key] : report.default
 
                 return {
                     id: report.key,
@@ -76,7 +84,9 @@ export default {
 
         },
         load: function () {
-            this.core.api.pctapi.portfolios.get(this.id).then(r => {
+            this.core.settings.pdf.getall().then(() => {
+                return this.core.api.pctapi.portfolios.get(this.id)
+            }).then(r => {
 
                 this.portfolio = r
 
@@ -105,8 +115,6 @@ export default {
 
             this.core.settings.pdf.getall().then(settings => {
                 
-                console.log('settings', settings)
-
                 var logotype = settings.logotype.value || settings.logotype.default
 
                 if(!logotype){

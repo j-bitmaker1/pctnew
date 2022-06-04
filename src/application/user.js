@@ -165,8 +165,6 @@ var User = function ({
                 if (lui)
                     storage.setItem('ui', lui)
 
-                console.log("STORAGE CHANGED")
-
                 login.save()
                 token.save()
                 //// set pwd to new storage
@@ -839,8 +837,6 @@ var User = function ({
             return state.value
 
         }).catch(e => {
-
-            console.log("ERROR", e)
 
             state.value = 0
 

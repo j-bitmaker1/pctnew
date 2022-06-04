@@ -32,10 +32,10 @@ class VXStorage {
 
         if(this.storage[type] && this.storage[type].invalidateDb && this.core.invalidateDb){
 
-            if (obj[this.index(type)] && obj.updated){
+            if (obj[this.index(type)] && (obj.updated || obj.Modified)){
                 _.each(this.storage[type].invalidateDb, (dbindex) => {
 
-                    this.core.invalidateDb(dbindex, obj.updated, {
+                    this.core.invalidateDb(dbindex, obj.updated || obj.Modified, {
 
                         type,
                         index : obj[this.index(type)]
@@ -68,8 +68,6 @@ class VXStorage {
 
     update(obj, type){
 
-        console.log("update1", obj, type)
-
         if(!this.storage[type]) throw new Error('type')
         if(!this.store) throw new Error('notlinked')
 
@@ -78,10 +76,6 @@ class VXStorage {
         if(!last) return {}
 
         var update = _.extend(last, obj)
-
-
-        console.log("update2", update, type)
-
 
         return {
             updated : this.set(update, type),
@@ -104,8 +98,6 @@ class VXStorage {
     get(index, type){
         if(!this.storage[type]) throw new Error('type')
         if(!this.store) throw new Error('notlinked')
-
-        console.log("GET", index, type, this.store.state['_' + type])
 
         return this.store.state['_' + type][index] || null
     }

@@ -62,8 +62,6 @@ export default {
                     searchStr : a.search
                 }).then(r => {
 
-                    console.log("RE", r, a)
-                    
                     if(r.length){
                         var rs = _.clone(r[0])
 
@@ -78,8 +76,6 @@ export default {
                 })
 
             })).then(() => {
-
-                console.log('result', result)
 
                 this.$emit('multiple', result)
 
@@ -126,8 +122,6 @@ export default {
 
         paste : function(evt){
             var assets = this.core.pct.parseText(evt.clipboardData.getData('text'))
-
-            console.log('assets', assets)
 
 			if(assets.length){
 

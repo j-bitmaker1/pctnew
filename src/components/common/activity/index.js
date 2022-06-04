@@ -128,7 +128,6 @@ export default {
                 }
 
                 if (item.action.vueapi){
-                    console.log('item', item)
                     this.core.vueapi[item.action.vueapi](item.data)
                 }
 

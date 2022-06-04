@@ -169,18 +169,27 @@ class LSSettings {
     }
 
     set(name, value) {
+
         var s = this.get(name)
 
-        if (!s) return Promise.reject('none')
+        
+
+        if (!s) {
+            throw new Error('none')
+        }
+
+        if(!this.data[name]) this.data[name] = s
 
         s.value = value
 
         var dt = _.map(this.getbymeta(), (d) => {
+            console.log("D", d)
             return {
                 name: d.name,
                 value: d.value
             }
         })
+
 
         localStorage.setItem('LSSettings_' + this.type, JSON.stringify(dt))
     }
@@ -192,13 +201,13 @@ class LSSettings {
         try {
             r = JSON.parse(r)
         } catch (e) {
+            console.error(e)
             return d
         }
 
         _.each(r, (r) => {
 
             if (!this.meta[r.name]) return
-            if (r.product != this.product) return
 
             try {
 
@@ -210,7 +219,9 @@ class LSSettings {
 
                 d[setting.name] = setting
 
-            } catch (e) {}
+            } catch (e) {
+                console.error(e)
+            }
 
 
         })
@@ -220,8 +231,6 @@ class LSSettings {
 
     getbymeta() {
         var d = {}
-
-        console.log('this.meta', this.meta)
 
         _.each(this.meta, (s, name) => {
             d[name] = this.get(name)
@@ -245,9 +254,11 @@ class LSSettings {
 
     getall() {
 
-        if (!this.data)  this.data = this.parse(localStorage.getItem('LSSettings_' + this.type) || "{}")
+        if (!this.data) this.data = this.parse(localStorage.getItem('LSSettings_' + this.type) || "{}")
+
+        console.log('this.data', this.data)
        
-        return Promise.resolve(this.getbymeta())
+        return this.getbymeta()
 
     }
 

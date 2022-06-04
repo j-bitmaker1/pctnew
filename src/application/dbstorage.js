@@ -29,7 +29,7 @@ const dbstorage = function(storageName, version, time) {
      */
     function getHourUnixtime() {
         const dateNow = Math.floor(Date.now() / 1000);
-        const hourUnix = dateNow - (dateNow % SecondsInHour);
+        const hourUnix = dateNow;
 
         return hourUnix;
     }
@@ -179,19 +179,25 @@ const dbstorage = function(storageName, version, time) {
             invalidate : function(updated, {index, type}) {
 
                 var needToClear = []
+                var cleared = []
 
                 _.each(memorystorage, (item, itemid) => {
                     if (item.invalidate){
                         if(item.invalidate.index == index && item.invalidate.type == type){
 
+                            console.log('item.cachedAt < updated', item.cachedAt, updated)
+
                             if(item.cachedAt < updated){
                                 needToClear.push(itemid)
+                                cleared.push(item.invalidate.index)
                             }
                         }
                     }   
                 })
 
-                return this.clearItems(needToClear)
+                return this.clearItems(needToClear).then(() => {
+                    return Promise.resolve(cleared)
+                })
             },
 
             clearall : () => { 
@@ -257,6 +263,8 @@ const dbstorage = function(storageName, version, time) {
                     const items = transaction.objectStore('items');
 
                     const unixtime = getHourUnixtime();
+
+                    console.log('unixtime', unixtime, invalidate)
 
                     const item = {
                         id: itemId,

@@ -391,8 +391,6 @@ var FX_Effects = function(el){
             parameters.to || (parameters.to = {x : 'right', y : 'top'})
             parameters.size || (parameters.size = 10)
 
-            console.log('parameters', parameters)
-
             var createH = function(){
 
 

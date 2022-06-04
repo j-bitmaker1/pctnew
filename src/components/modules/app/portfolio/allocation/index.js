@@ -127,8 +127,6 @@ export default {
 		}, 
 		drilldownevent : function(e){
 
-			console.log("E", e)
-
 			this.drilldown = e.seriesOptions
 		},
 

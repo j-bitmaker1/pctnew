@@ -286,9 +286,6 @@ export default {
             if (this.values.q6.q6 == 4) points[3] = 90
             if (this.values.q6.q6 == 5) points[3] = 90
 
-            console.log('points', points)
-
-
             var total = _.reduce(points, function(m, p){
                 return m + p
             }, 0) / points.length
@@ -297,7 +294,6 @@ export default {
         },
 
         crvalue : function(){
-            console.log('this.values.customCr', this.values.customCr, this.questionPoints)
             return this.values.customCr || this.questionPoints
         },
 
