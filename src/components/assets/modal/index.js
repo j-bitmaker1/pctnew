@@ -1,7 +1,7 @@
 import { mapState } from 'vuex';
 
-/// TO DO DYNAMIC IMPORT
 
+import notification from '@/components/modules/notifications/notification/index.vue';
 
 export default {
     name: 'modal',
@@ -12,7 +12,10 @@ export default {
         },
         cantclose : Boolean,
         module : String,
-        data : Object,
+        data : {
+            type : Object,
+            default : () => {return {}}
+        },
         events : {
             type : Object,
             default : () => {return {}}
@@ -53,7 +56,7 @@ export default {
     },
 
     components : {
-
+        notification,
         home : () => import("@/components/modules/app/home/index.vue"),
         portfolio_edit : () => import("@/components/modules/app/portfolio/edit/index.vue"),
         client_edit : () => import("@/components/modules/app/client/edit/index.vue"),

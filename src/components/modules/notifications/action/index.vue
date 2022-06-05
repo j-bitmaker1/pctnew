@@ -33,18 +33,69 @@ import f from '@/application/functions.js'
 export default {
 	name: 'notifications_action',
 	props: {
-		action: Object
+		action: Object,
+		event : Object
+	},
+	data : function(){
+		return {
+			types : {
+				lead : this.openlead,
+				client : this.openclient,
+				portfolio : this.openportfolio
+			}
+		}
 	},
 	computed: mapState({}),
 
 	methods: {
+
+		openlead : function(id){
+
+			console.log("ID", id)
+
+			this.core.vueapi.openlead({
+				leadid : 413838,
+				notification : this.event
+			}, {
+
+			})
+
+		},
+		openclient : function(id){},
+		openportfolio : function(id){},
+
 		click : function(){
 			if (this.action.link){
+
 				if(this.action.link.type == 'externalLink'){
+					console.log("!!!")
 					f.openexternallink(this.action.link.address)
 				}
 
 				if(this.action.link.type == 'internalLink'){
+
+					if (this.action.link.address){
+						var parts = this.action.link.address.split('/')
+
+						if (parts.length > 2){
+
+							var t = parts[1]
+							var id = parts[2]
+
+							if (this.types[t]){
+
+								this.types[t](Number(id))
+
+								this.$emit('close')
+								
+								return
+							}
+						}
+						
+					}
+
+					console.log("???")
+
 					this.$router.push(this.action.link.address)
 				}
 

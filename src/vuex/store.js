@@ -9,17 +9,17 @@ var themes = {
 	white: {
 		name: 'black', ////ch
 		class: "stwhite",
-		color : "#ffffff",
-		media : '(prefers-color-scheme: light)',
-		rootid : ''
+		color: "#ffffff",
+		media: '(prefers-color-scheme: light)',
+		rootid: ''
 	},
 
 	black: {
 		name: 'white',
 		class: "stblack",
-		color : "#1e2235",
-		media : '(prefers-color-scheme: dark)',
-		rootid : 'black'
+		color: "#1e2235",
+		media: '(prefers-color-scheme: dark)',
+		rootid: 'black'
 	}
 }
 
@@ -29,7 +29,7 @@ var mex = {
 		if (themes[value]) {
 			state.theme = value
 
-			if (document.documentElement.hasAttribute('theme')){
+			if (document.documentElement.hasAttribute('theme')) {
 				document.documentElement.removeAttribute('theme');
 			}
 
@@ -50,13 +50,13 @@ var mex = {
 	}
 }
 
-var storeFactory = function(vxstorage){
+var storeFactory = function (vxstorage) {
 
 
 	var state = {
 		icon: null,
 		loading: false,
-		wssready : false,
+		wssready: false,
 		online: true,
 		theme: 'white',
 		themes: themes,
@@ -66,59 +66,60 @@ var storeFactory = function(vxstorage){
 		share: null,
 		menu: null,
 		redirect: '',
-		auth : -1,
-		lastlogin : '',
-		userinfo : {},
+		auth: -1,
+		lastlogin: '',
+		userinfo: {},
 
-		tscrolly : 0,
-		tscrollx : 0,
-		dscrolly : 0,
-		dscrollx : 0,
+		tscrolly: 0,
+		tscrollx: 0,
+		dscrolly: 0,
+		dscrollx: 0,
 
-		theight : 0,
-		twidth : 0,
-		dheight : 0,
-		dwidth : 0,
+		theight: 0,
+		twidth: 0,
+		dheight: 0,
+		dwidth: 0,
 
-		currentStyles : {},
-		modals : [],
-		portfolios : [],
-		valuemode : 'd',
+		currentStyles: {},
+		modals: [],
+		portfolios: [],
+		valuemode: 'd',
 
-		crmschemas : {},
-		selection : null,
+		crmschemas: {},
+		selection: null,
 
-		camera : null,
-    	photolibraryaccessdecline : false,
-		fx : null
+		camera: null,
+		photolibraryaccessdecline: false,
+		fx: null,
 
+		notifications: []
 	}
 
-	
+
 
 	var getters = {
-		currentStyleValue : (state) => (id) => {
+		currentStyleValue: (state) => (id) => {
 			return state.currentStyles.getPropertyValue(id)
 		},
 
-		currentColorValue : (state, store) => (id) => {
+		currentColorValue: (state, store) => (id) => {
 			return (store.currentStyleValue(id) || "").split(', ')
 		},
 
-		colorByValue : (state, store) => (value) => {
+		colorByValue: (state, store) => (value) => {
 
 			var st = '--neutral-grad-0'
 
-			if(value < 0) st = '--color-bad' 
+			if (value < 0) st = '--color-bad'
 
-			if(value > 0) st = '--color-good' 
+			if (value > 0) st = '--color-good'
 
 			return 'rgb(' + store.currentStyleValue(st) + ')'
 		}
 	}
 
 	var mutations = {
-	
+
 		clearall(state) {
 
 			state.icon = null
@@ -135,10 +136,10 @@ var storeFactory = function(vxstorage){
 			state.auth = -1
 			state.wssready = false
 			//state.modals = []
-			
+
 		},
-		
-		photolibraryaccessdecline: function(state, value){
+
+		photolibraryaccessdecline: function (state, value) {
 			state.photolibraryaccessdecline = value
 		},
 
@@ -210,7 +211,7 @@ var storeFactory = function(vxstorage){
 
 			state.theight = state.dheight = window.innerHeight
 			state.twidth = state.dwidth = window.innerWidth
-			
+
 		},
 
 		lastlogin(state, v) {
@@ -250,21 +251,21 @@ var storeFactory = function(vxstorage){
 		OPEN_MODAL(state, modal) {
 			state.modals.push(modal);
 
-			if (state.modals.length){
-				var h = document.getElementById( 'html' );
+			if (state.modals.length) {
+				var h = document.getElementById('html');
 
 				h.style.overflow = 'hidden'
 			}
 		},
 
-		CLOSE_MODAL(state, id){
-			state.modals = _.filter(state.modals, function(m){
+		CLOSE_MODAL(state, id) {
+			state.modals = _.filter(state.modals, function (m) {
 				return m.id != id
 			})
 
 
-			if(!state.modals.length){
-				var h = document.getElementById( 'html' );
+			if (!state.modals.length) {
+				var h = document.getElementById('html');
 
 				h.style.overflow = null
 			}
@@ -280,14 +281,14 @@ var storeFactory = function(vxstorage){
 			context = 'general',
 			items = {}
 
-		}){
+		}) {
 
 
-			if(!state.selection || state.selection.context != context){
+			if (!state.selection || state.selection.context != context) {
 
 				state.selection = {
-					context : context,
-					items : {}
+					context: context,
+					items: {}
 				}
 
 			}
@@ -302,32 +303,46 @@ var storeFactory = function(vxstorage){
 		unselect(state, {
 			context = 'general',
 			items = null
-		}){
+		}) {
 
-			if(!state.selection || state.selection.context != context || !items){
+			if (!state.selection || state.selection.context != context || !items) {
 				state.selection = null
 			}
 
-			if (state.selection && items){
+			if (state.selection && items) {
 				_.each(items, (item) => {
 					Vue.delete(state.selection.items, item.ID || item.id)
 				})
-				
-				if(_.isEmpty(state.selection.items)){
+
+				if (_.isEmpty(state.selection.items)) {
 					state.selection = null
 				}
 			}
 
+		},
+
+		removeNotifications(state){
+			state.notifications = []
+		},
+
+		removeNotification(state, notification){
+			state.notifications = _.filter(state.notifications, (n) => {
+				return (n.id || n.eventid) != (notification.id || notification.eventid)
+			})
+		},
+
+		addNotification(state, notification){
+			state.notifications.unshift(notification)
 		}
 
 	}
 
 	var actions = {
-	
+
 		OPEN_MODAL({ commit }, { modal }) {
 
 
-			
+
 			if (!index) index = 0
 
 			if (!images) images = []
@@ -365,20 +380,20 @@ var storeFactory = function(vxstorage){
 		},
 	}
 
-	if(vxstorage){
-		_.each(vxstorage.storage, function(storage){
+	if (vxstorage) {
+		_.each(vxstorage.storage, function (storage) {
 			state['_' + storage.type] = {}
-	
-			mutations['_set_' + storage.type] = function(state, obj){
+
+			mutations['_set_' + storage.type] = function (state, obj) {
 
 				Vue.set(state['_' + storage.type], obj[storage.index], obj)
 			}
-	
-			mutations['_delete_' + storage.type] = function(){
+
+			mutations['_delete_' + storage.type] = function () {
 				state[storage.type] = {}
 			}
 
-			mutations['_invalidate_' + storage.type] = function(state, index){
+			mutations['_invalidate_' + storage.type] = function (state, index) {
 
 				Vue.delete(state['_' + storage.type], index)
 
@@ -391,7 +406,7 @@ var storeFactory = function(vxstorage){
 		state,
 		getters,
 		mutations,
-		actions 
+		actions
 	})
 }
 

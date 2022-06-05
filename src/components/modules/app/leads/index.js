@@ -135,7 +135,16 @@ export default {
 				this.$emit('close')
 			}
 			else{
-				this.$store.commit('OPEN_MODAL', {
+
+				this.core.vueapi.openlead({
+					leadid : client.ID
+				},{
+					leadtocontact : (lead) => {
+						this.deletelead(lead)
+					}
+				})
+
+				/*this.$store.commit('OPEN_MODAL', {
 					id : 'modal_client_page',
 					module : "lead_page",
 					caption : "",
@@ -149,7 +158,7 @@ export default {
 							this.deletelead(lead)
 						}
 					}
-				})
+				})*/
 			}
 
 		},

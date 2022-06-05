@@ -301,7 +301,7 @@ var WSS = function(core, url, system){
         }
         else{
 
-            core.notifier.message({
+            /*core.notifier.message({
 
                 title : message.title || "New Notification",//core.vm.$e('common.newnotification'),
                 message : message.body,
@@ -311,7 +311,7 @@ var WSS = function(core, url, system){
                 eventId : message.eventid,
 
                 actions : message.Actions
-            })
+            })*/
 
             core.notification(message)
         }

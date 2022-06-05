@@ -1,5 +1,5 @@
 import { mapState } from 'vuex';
-import notification from "@/components/modules/notifications/notification/index.vue";
+import notification from "./notification/index.vue";
 import { _ } from 'core-js';
 export default {
 	name: 'notifications',
@@ -41,7 +41,7 @@ export default {
 			}
 		})
 
-		
+		this.$store.commit('removeNotifications')
 	},
 
 	beforeDestroy() {
@@ -101,8 +101,6 @@ export default {
 			return this.makeAsRead(_.toArray(notification))
 		},
 		makeAsRead: function (notification) {
-
-			console.log('notification', notification)
 
 			if(!_.isArray(notification)) notification = [notification]
 

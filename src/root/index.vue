@@ -20,6 +20,8 @@
 
 	<modals v-if="!camera"/>
 
+    <actual />
+
     <fx v-if="fx"/>
 
     <transition name="fade" v-if="iconshow">

@@ -259,7 +259,6 @@ class Vueapi {
         })
 
     }
-    
 
     scenarioManager = function(success, p = {}){
 
@@ -483,6 +482,23 @@ class Vueapi {
             }
         })
     } 
+
+    ///
+
+
+    openlead = function(data, events){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_client_page',
+            module : "lead_page",
+            caption : "",
+            mclass : 'withoutheader',
+            data : data,
+            events : events
+        })
+
+    }
+
 }
 
 export default Vueapi

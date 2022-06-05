@@ -10,7 +10,8 @@ export default {
 			default : () => {return {
 
 			}}
-		}
+		},
+		withoutInternal : Boolean
 	},
 	components : {action},
 
@@ -33,8 +34,8 @@ export default {
 		auth : state => state.auth,
 
 		actions : function(){
-			return _.filter(this.event.actions, function(a){
-				return !a.link || a.link.type != 'internalLink'
+			return _.filter(this.event.actions, (a) => {
+				return !this.withoutInternal || !a.link || a.link.type != 'internalLink'
 			})
 		},
 
@@ -46,10 +47,15 @@ export default {
 					action : 'default'
 				}
 			})
-		}
+		},
+
+		
 	}),
 
 	methods : {
+		close : function(){
+			this.$emit('close')
+		},
 		menuaction : function(i){
 			
 		}

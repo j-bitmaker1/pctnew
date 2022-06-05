@@ -172,6 +172,8 @@ export default {
 			this.lastDir = null
 			this.mainDirection = null
 			this.startPoint = {}
+
+			this.$emit('clear')
 		},
 
 		
@@ -294,6 +296,8 @@ export default {
 			this.startPoint = calcPoint(e.touches)
 
 			this.swipeStatus(e, phase)
+
+			this.$emit('starttouch')
 		},
 
 		endHandler : function(e){
@@ -305,6 +309,8 @@ export default {
 			if(!this.lastDir) return
 
 			this.swipeStatus(e, phase,  this.lastDir.dir, this.lastDir.distance)
+
+			this.$emit('endtouch')
 		}
 	},
 }

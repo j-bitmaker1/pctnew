@@ -19,6 +19,16 @@
     right: 0
     z-index: 2023
 
+    .notificationWrapper
+        padding : $r
+        position: absolute
+        left : 0
+        right: 0
+        top : 0
+        z-index: 10000
+        .notificaion
+            +shadowSmaller()
+
     .modal-body
         padding-bottom: var(--keyboardheight)
 
@@ -28,6 +38,14 @@
         right : 0
         top : 0
         bottom : 0
+
+    &.hasnotification
+        .modal-wrapper
+            top : 90px
+            left : $r
+            bottom : $r
+            right : $r
+            border-radius: 12px
 
     &.small
         .modal-body

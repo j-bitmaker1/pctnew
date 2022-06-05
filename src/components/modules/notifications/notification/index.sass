@@ -3,10 +3,14 @@
 	background: srgb(--background-secondary-theme)
 	padding : $r
 	padding-left: $r
+	position: relative
 
 .notificaionRow
 	display: flex
 	padding-left: 0
+	width: 100%
+	flex-wrap: nowrap
+	overflow: hidden
 
 	.title
 		.txt
@@ -30,6 +34,8 @@
 
 	.text
 		padding-top: $r
+		flex-grow: 2
+		flex-basis: 70%
 	.date
 		color : srgb(--neutral-grad-2)
 
@@ -37,14 +43,19 @@
 	overflow-x: auto
 	scroll-behavior: smooth
 	margin-top: 2 * $r
+	padding-right: 2 * $r
+	width: 100%
 
 	&::-webkit-scrollbar
 		display: none!important
 
-	.more
-		::v-deep
-			.buttonpanel
-				color : srgb(--neutral-grad-0)
+.more
+	position: absolute
+	top : 0
+	right: $r
+	::v-deep
+		.buttonpanel
+			color : srgb(--neutral-grad-0)
 	
 
 .actions

@@ -300,6 +300,9 @@ class Core {
 
     notification(notification){
 
+        if (this.vm.$route.name != 'index')
+            this.store.commit('addNotification', notification) 
+
         this.emit('notification', notification)
     }
 
