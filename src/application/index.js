@@ -294,6 +294,15 @@ class Core {
         
     }
 
+    readNotification(ids){
+        this.emit('readNotification', ids)
+    }
+
+    notification(notification){
+
+        this.emit('notification', notification)
+    }
+
     filehandler(blob, p = {}){
 
         if (!p.forcedownload){

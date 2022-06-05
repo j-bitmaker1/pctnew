@@ -6,10 +6,21 @@
 .notificationsWrapper
 	margin-top: 2 * $r
 
-.caption
-	margin-bottom: 2 * $r
+.captionWrapper
+	margin-bottom: $r
 	margin-top: 4 * $r
+	padding-left: 2 * $r
+	display: flex
+	justify-content: space-between
 
-	span
-		font-weight: 700
-		font-size: 1.2em
+	.panel
+		margin-left: auto
+		padding-right: $r
+		span
+			font-size: 0.9em
+			color : srgb(--color-txt-ac)
+
+	.caption
+		span
+			font-weight: 700
+			font-size: 1.2em

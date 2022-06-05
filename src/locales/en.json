@@ -90,7 +90,14 @@
 		"openOriginal" : "Open original",
 		"portfolioswithclientq" : "Some portfolios are already assigned to other clients. Do you want to reassign a client?",
 		"portfolioswithclientyes" : "Reassign a client",
-		"portfoliopdf" : "Create PDF report"
+		"portfoliopdf" : "Create PDF report",
+		"makeasreadnotifications" : "Make as read",
+		"notifications" : {
+			"show" : {
+				"onlyunread" : "Show all",
+				"all" : "Show only unread"
+			}
+		}
 	},
 
 	"caption" : {

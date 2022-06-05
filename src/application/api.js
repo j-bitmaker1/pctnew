@@ -214,6 +214,8 @@ var ApiWrapper = function (core) {
 	var loading = {}
 	var storages = {}
 
+	self.appid = 'net.rixtrema.pct'
+
 	var dbmeta = {
 		stress : function(){
 			return {
@@ -1669,7 +1671,7 @@ var ApiWrapper = function (core) {
 			p.bypages = true
 			p.includeCount = "includeCount"
 
-			data.appIdFilter = 'net.rixtrema.pct'
+			data.appIdFilter = self.appid
 
 			return paginatedrequest(data, 'api', 'notifier/Event/webSocketsList', p)
 		},
@@ -1680,7 +1682,7 @@ var ApiWrapper = function (core) {
 
 			//https://rixtrema.net/api/notifier/Pushes/testnotification?userId=59803
 
-			return request({registerId : token, device, appId : 'net.rixtrema.pct'}, 'api', 'notifier/Firebase/Register', p).then(r => {
+			return request({registerId : token, device, appId : self.appid}, 'api', 'notifier/Firebase/Register', p).then(r => {
 				console.log("R", r)
 			})
 
@@ -1689,10 +1691,36 @@ var ApiWrapper = function (core) {
 		revoke : function({device}, p = {}){
 			p.method = "POST"
 
-			return request({device, appId : 'net.rixtrema.pct'}, 'api', 'notifier/Firebase/Revoke', p).then(r => {
+			return request({device, appId : self.appid}, 'api', 'notifier/Firebase/Revoke', p).then(r => {
 				console.log("R", r)
 			})
-		}
+		},
+
+		makeRead : function(ids, p = {}){
+
+			if(!_.isArray(ids)) ids = [ids]
+
+			ids = _.map(ids, (id) => {
+				if(_.isObject(id)) return id.id || id.eventid
+
+				return id
+			})
+
+			p.method = "POST"
+
+			return request({ids}, 'api', 'notifier/Event/markListAsRead', p)
+
+		},
+
+		makeReadAll : function(p = {}){
+
+			p.method = "POST"
+
+			return request({
+				appId : self.appid
+			}, 'api', 'notifier/Event/markListByAppAsRead', p)
+
+		},
 	}
 
 	self.filesystem = {

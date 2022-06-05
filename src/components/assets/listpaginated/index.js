@@ -168,7 +168,12 @@ export default {
 			this.$emit('click', item)
 		},
 
-        
+        dataunshift : function(obj){
+            this.records.unshift(obj)
+            this.count++
+
+            this.$emit('count', this.count)
+        },
 
         datachanged : function(obj, key){
             var i = _.findIndex(this.records, (r) => {

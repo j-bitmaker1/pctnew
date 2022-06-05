@@ -10,8 +10,10 @@
 	</div>
 
 	<div class="notificationsWrapper">
-		<div class="caption mobp">
-			<span>Watch List</span>
+		<div class="captionWrapper mobp">
+			<div class="caption">
+				<span>Notifications</span>
+			</div>
 		</div>
 		<notifications />
 	</div>

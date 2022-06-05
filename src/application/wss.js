@@ -39,6 +39,8 @@ var WSS = function(core, url, system){
         },
     }
 
+    var handled = {}
+
     var clbks = {
 
     }
@@ -243,6 +245,14 @@ var WSS = function(core, url, system){
             try{ message = JSON.parse(_message); }catch(e){}
         }
 
+        if(message.eventid){
+            if (handled[message.eventid]){
+                return
+            }
+
+            handled[message.eventid] = true
+        }
+
 
         if(!message.data){
             message.data = {}
@@ -264,28 +274,46 @@ var WSS = function(core, url, system){
                 var types = []
                 var data = message.Data
 
+                
+
                 if(message.x_eventType == 'LEADUPDATE') {types = ['client', 'lead']; data = new Contact(data)}
                 if(message.x_eventType == 'CATALOGUPDATE') types = ['filesystem']
                 if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; data = new Portfolio(data)}
+
+
+                
 
                 core.updateByWs(data, types)
 
                 ///LEADUPDATE CATALOGUPDATE PORTFOLIOUPDATE
             }   
+
+            if (message.x_eventType == 'READEVENTS'){
+
+                console.log('message', message)
+
+                console.log('readNotification', message.Ids)
+
+                core.readNotification(message.Ids || [])
+
+                return
+            }
         }
         else{
 
             core.notifier.message({
 
-                title : message.Title || "New Notification",//core.vm.$e('common.newnotification'),
-                message : message.Body,
-                image : message.Image,
-                icon : message.Icon,
+                title : message.title || "New Notification",//core.vm.$e('common.newnotification'),
+                message : message.body,
+                image : message.image,
+                icon : message.icon,
 
-                eventId : message.eventId,
+                eventId : message.eventid,
 
                 actions : message.Actions
             })
+
+            core.notification(message)
         }
 
         /*if(!message.action) return
