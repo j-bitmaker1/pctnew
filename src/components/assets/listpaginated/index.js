@@ -30,6 +30,7 @@ export default {
         },
 
         bypages : Boolean,
+        transition : String
 
     },
 

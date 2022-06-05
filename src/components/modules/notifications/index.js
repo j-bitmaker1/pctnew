@@ -12,13 +12,7 @@ export default {
 		return {
 			loading: false,
 			mode : 'onlyunread', // all
-			directions: {
-				left: {
-					distance: 100,
-					direction: 'left'
-				}
-			},
-
+			
 			counts : {}
 
 		}
@@ -87,6 +81,14 @@ export default {
 				}
 
 			]
+		},
+		directions: function () {
+			return this.mode == 'onlyunread' ? {
+				left: {
+					distance: 100,
+					direction: 'left'
+				}
+			} : null
 		}
 	}),
 

@@ -5,6 +5,9 @@
     right: 0
     z-index: 1000
 
+    .listContainer
+        position: relative
+
     .showMore
         max-width: 640px
         margin : 0 auto
@@ -23,9 +26,7 @@
 
     .notificaion
         +shadowSmaller()
-        backdrop-filter: blur(14px)
-        -webkit-backdrop-filter: blur(14px)
-        background: srgba(--background-secondary-theme, 0.5)
+        background: srgb(--background-secondary-theme)
 
     ::v-deep
         .item
@@ -34,3 +35,18 @@
             margin-bottom: $r
             padding: $r
             padding-bottom: 0
+
+    ::v-deep
+        .list-item
+            top : 0
+
+        .list-enter-active, .list-leave-active
+            transition: all 0.1s
+            position: absolute
+            left : 0
+            right: 0
+            top : 0
+
+        .list-enter, .list-leave-to
+            opacity: 0
+            transform: translateY(-3 * $r)

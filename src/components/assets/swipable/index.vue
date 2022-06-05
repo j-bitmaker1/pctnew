@@ -178,6 +178,7 @@ export default {
 
 		
 		swipeStatus : function(e, phase, direction, distance){
+			if(!this.directions) return
 
 			if (this.mainDirection && this.mainDirection.direction != direction && phase == 'move'){
                 phase = 'cancel'

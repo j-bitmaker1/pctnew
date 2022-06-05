@@ -1,6 +1,7 @@
 .cardWrapper
 	margin-bottom: $r
-
+#notifications
+	position: relative
 .panelWrapper
 	display: flex
 	align-content: space-between
@@ -15,4 +16,24 @@
 		padding-right: $r
 	span
 		font-size: 0.9em
-		color : srgb(--color-txt-ac)
+		color: srgb(--color-txt-ac)
+
+::v-deep
+	.list-item
+		top : 0
+
+	.list-enter-active
+		
+	.list-leave-active
+		transition: all 0.05s
+		position: absolute
+		left : 0
+		right: 0
+		top : 0
+
+	.list-enter
+		opacity: 0
+		
+	.list-leave-to
+		opacity: 0
+		transform: translateX(-3 * $r)

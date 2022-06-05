@@ -49,8 +49,24 @@ export default {
 						title : "Invalid Access Details",
 						message : "Wrong Username or Password"
 					})
+
+					return
 				}
+
+				if(e.code == 20){
+					this.$store.commit('icon', {
+						icon: 'error',
+						message: "Something went wrong, maybe a connection problem"
+					})
+
+					return 
+				}
+
 				
+				this.$store.commit('icon', {
+					icon: 'error',
+					message: "Something went wrong."
+				})
 			})
 
 		},

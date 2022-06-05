@@ -13,7 +13,7 @@
 	</div>
 	
 
-	<listpaginated @count="setcount" :select="{context : 'notifications'}" api="notifications.list" :payload="payload" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
+	<listpaginated @count="setcount" :select="{context : 'notifications'}" api="notifications.list" :payload="payload" :start="0" from="pageNumber" to="pageSize" ref="list" transition="list" :bypages="true">
 		<template v-slot:default="slotProps">
 			<div class="cardWrapper mobp">
 				<swipable :directions="directions" @end="e => makeAsRead(slotProps.item)">

@@ -92,7 +92,125 @@ var storeFactory = function (vxstorage) {
 		photolibraryaccessdecline: false,
 		fx: null,
 
-		notifications: []
+		notifications: [{
+			"id": 37448,
+			"userId": 59803,
+			"created": "20220605104135",
+			"hidden": null,
+			"type": "TEST",
+			"appId": "net.rixtrema.pct",
+			"title": null,
+			"body": "Mail opened",
+			"icon": "fas fa-envelope-open",
+			"actions": [
+			  {
+				"text": "Open Lead",
+				"icon": "fas fa-info",
+				"with_text": null,
+				"link": {
+				  "type": "internalLink",
+				  "address": "/lead/0"
+				}
+			  },
+			  {
+				"text": "Send Email",
+				"icon": "fas fa-envelope",
+				"with_text": null,
+				"link": {
+				  "type": "externalLink",
+				  "address": "mailto:test@mail.ru"
+				}
+			  },
+			  {
+				"text": "Call Phone",
+				"icon": "fas fa-phone-volume",
+				"with_text": null,
+				"link": {
+				  "type": "externalLink",
+				  "address": "tel:88005553535"
+				}
+			  }
+			]
+		  },{
+			"id": 3748148,
+			"userId": 59803,
+			"created": "20220605104135",
+			"hidden": null,
+			"type": "TEST",
+			"appId": "net.rixtrema.pct",
+			"title": null,
+			"body": "Mail opened",
+			"icon": "fas fa-envelope-open",
+			"actions": [
+			  {
+				"text": "Open Lead",
+				"icon": "fas fa-info",
+				"with_text": null,
+				"link": {
+				  "type": "internalLink",
+				  "address": "/lead/0"
+				}
+			  },
+			  {
+				"text": "Send Email",
+				"icon": "fas fa-envelope",
+				"with_text": null,
+				"link": {
+				  "type": "externalLink",
+				  "address": "mailto:test@mail.ru"
+				}
+			  },
+			  {
+				"text": "Call Phone",
+				"icon": "fas fa-phone-volume",
+				"with_text": null,
+				"link": {
+				  "type": "externalLink",
+				  "address": "tel:88005553535"
+				}
+			  }
+			]
+		  },
+		  {
+			"id": 3748146,
+			"userId": 59803,
+			"created": "20220605104134",
+			"hidden": null,
+			"type": "TEST",
+			"appId": "net.rixtrema.pct",
+			"title": null,
+			"body": "Mail opened",
+			"icon": "fas fa-envelope-open",
+			"actions": [
+			  {
+				"text": "Open Lead",
+				"icon": "fas fa-info",
+				"with_text": null,
+				"link": {
+				  "type": "internalLink",
+				  "address": "/lead/0"
+				}
+			  },
+			  {
+				"text": "Send Email",
+				"icon": "fas fa-envelope",
+				"with_text": null,
+				"link": {
+				  "type": "externalLink",
+				  "address": "mailto:test@mail.ru"
+				}
+			  },
+			  {
+				"text": "Call Phone",
+				"icon": "fas fa-phone-volume",
+				"with_text": null,
+				"link": {
+				  "type": "externalLink",
+				  "address": "tel:88005553535"
+				}
+			  }
+			]
+		  }]
 	}
 
 
@@ -135,6 +253,7 @@ var storeFactory = function (vxstorage) {
 			state.redirect = ''
 			state.auth = -1
 			state.wssready = false
+			state.notifications = []
 			//state.modals = []
 
 		},

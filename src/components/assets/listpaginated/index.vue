@@ -6,7 +6,7 @@
     </div>
 
     <div class="listWrapper">
-        <listselectable ref="list" :context="select.context" :filter="select.filter" :items="records" @click="click">
+        <listselectable :transition="transition" ref="list" :context="select.context" :filter="select.filter" :items="records" @click="click">
             <template v-slot:default="slotProps">
                 <slot v-bind:item="slotProps.item">
                 </slot>

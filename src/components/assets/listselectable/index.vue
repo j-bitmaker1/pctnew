@@ -1,6 +1,6 @@
 <template>
 <div class="listselectable" :class="[selection ? 'selection' : '', view]">
-    <list ref="list" :items="items" @click="click" @touchhold="touchhold">
+    <list :transition="transition" ref="list" :items="items" @click="click" @touchhold="touchhold">
         <template v-slot:default="slotProps">
 
             <div class="selectionmarker" v-if="selection && (!filter || filter(slotProps.item))" @click="select(slotProps.item || slotProps.item)">

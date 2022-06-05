@@ -192,6 +192,10 @@ var Request = function (core = {}, url, system) {
 
 		}).catch(e => {
 
+			if(e && e.toString() && e.toString().indexOf('Failed to fetch') > -1){
+				e.code = 20
+			}
+
 			return Promise.reject(e)
 		})
 	}
@@ -805,8 +809,6 @@ var ApiWrapper = function (core) {
 				return Promise.resolve(r)
 
 			}).catch(e => {
-
-				console.error(e)
 
 
 				if (attempt < 3 && e && e.code == 20) {

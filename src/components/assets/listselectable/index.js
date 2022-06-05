@@ -20,7 +20,8 @@ export default {
 
         disabled : Boolean,
         
-        filter : Function
+        filter : Function,
+        transition : String
 
     },
 

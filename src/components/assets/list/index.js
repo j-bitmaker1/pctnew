@@ -8,6 +8,8 @@ export default {
 			required: true,
 		},
 
+		transition : String
+
 	},
 	computed: {
 		readyItems: function () {

@@ -251,6 +251,7 @@ var WSS = function(core, url, system){
             }
 
             handled[message.eventid] = true
+            message.id = message.eventid
         }
 
 
