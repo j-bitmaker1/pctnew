@@ -8,7 +8,7 @@
 	<slot name="prepend">
 	</slot>
 
-	<listpaginated activity="portfolio" :select="select" :api="api" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
+	<listpaginated placeholder="No portfolios found" activity="portfolio" :select="select" :api="api" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
 		<template v-slot:default="slotProps">
 			<div class="cardWrapper mobp">
 				<portfolio :showClient="showClient" @changeClient="changeClient" :hasmenu="hasmenu" :portfolio="slotProps.item" @click="open" @deleteportfolio="deleteportfolio"/>

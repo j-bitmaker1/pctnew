@@ -8,7 +8,10 @@ export default {
         start: Number,
         from : String,
         to : String,
-
+        placeholder : {
+            type : String,
+            default : "Nothing found"
+        },
         select : {
             type : Object,
             default : () => {

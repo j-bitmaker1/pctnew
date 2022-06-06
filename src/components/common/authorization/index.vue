@@ -37,7 +37,7 @@
 					<div class="label forgotPassword">
 						<router-link to="forgotpassword">
 							<div class="work">
-								<span>{{ $t("common.2901098") }}</span>
+								<span>{{ $t("common.2901098") }} #</span>
 							</div>
 						</router-link>
 					</div>

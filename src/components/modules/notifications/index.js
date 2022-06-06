@@ -89,6 +89,10 @@ export default {
 					direction: 'left'
 				}
 			}
+		},
+
+		placeholder : function(){
+			return this.mode == 'onlyunread' ? "You don't have new notifications" : "You don't have notifications"
 		}
 	}),
 

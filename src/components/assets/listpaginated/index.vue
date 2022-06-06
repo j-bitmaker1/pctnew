@@ -2,7 +2,7 @@
 <div class="listpaginated">
 
     <div class="nothingfound" v-if="!loading && !count">
-        <span>Nothing found</span>
+        <span>{{placeholder}}</span>
     </div>
 
     <div class="listWrapper">
