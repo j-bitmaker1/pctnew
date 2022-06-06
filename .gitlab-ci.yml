@@ -10,7 +10,7 @@ variables:
 build_main:
     stage: build
     script:
-        - cat .env
+        - node --version
         - npm i
         - npm run build
     artifacts:
