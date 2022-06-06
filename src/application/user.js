@@ -512,7 +512,6 @@ var User = function ({
 
                 fcmNotification = FirebasePlugin.onMessageReceived((payload) => {
 
-                    console.log("payload", payload)
 
                     /*if (_.isEmpty(payload)) return
 
@@ -674,7 +673,7 @@ var User = function ({
         api.clearCache()
 
         vxstorage.clear()
-        
+
         if (window.cordova)
             api.notifications.revoke({ device }).then(r => {
                 localStorage.removeItem(prefix + '-fcm')

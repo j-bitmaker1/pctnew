@@ -124,7 +124,6 @@ export default {
 		},
 
 		scenariosChanged : function(){
-			console.log('scenariosChanged')
 			this.get()
 		}
 	},

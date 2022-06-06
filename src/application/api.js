@@ -887,8 +887,6 @@ var ApiWrapper = function (core) {
 
 		if (cache[key]) delete cache[key]
 
-		console.log('key', key, storages)
-
 		if (storages[key]) {
 			storages[key].clearall().catch(e => {console.error(e)})
 			delete storages[key]
@@ -1671,8 +1669,6 @@ var ApiWrapper = function (core) {
 	
 				return request({}, 'api', 'crm/SurveysAnswers/' + id, p).then(r => {
 					var js = null
-
-					console.log("R", r)
 
 					try{
 						js = JSON.parse(r.Json || "{}")

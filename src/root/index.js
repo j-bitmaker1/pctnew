@@ -82,8 +82,6 @@ export default {
 
 		/*fxtest : function(e){
 
-			console.log("E", e.clientY, e.clientX)
-
 			this.core.vueapi.fx({
 				name : 'emoji',
 			

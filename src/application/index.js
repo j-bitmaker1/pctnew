@@ -274,8 +274,6 @@ class Core {
     invalidateDb(dbIndex, updated, data){
         return this.api.invalidateDb(dbIndex, updated, data).then((itemsId) => {
 
-            console.log('itemsId', itemsId) 
-
             _.each(itemsId, (id) => {
                 this.emit('invalidate', {
                     [data.type] : id,
@@ -310,13 +308,9 @@ class Core {
 
             })
 
-            console.log("Need ignore?", index, type, data)
-
             if (index > -1){
 
                 this.ignoring[type].splice(index, 1)
-
-                console.log("IGNORE", this.ignoring[type])
 
                 return
             }

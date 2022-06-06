@@ -129,8 +129,6 @@ export default {
 
 			this.core.api.crm.contacts.get(this.id).then(r => {
 
-				console.log("R", r)
-
 				this.profile = r
 
 				this.core.user.activity.template('lead', this.profile)

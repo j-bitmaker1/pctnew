@@ -291,10 +291,6 @@ var WSS = function(core, url, system){
 
             if (message.x_eventType == 'READEVENTS'){
 
-                console.log('message', message)
-
-                console.log('readNotification', message.Ids)
-
                 core.readNotification(message.Ids || [])
 
                 return

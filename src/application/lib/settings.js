@@ -185,7 +185,6 @@ class LSSettings {
         s.value = value
 
         var dt = _.map(this.getbymeta(), (d) => {
-            console.log("D", d)
             return {
                 name: d.name,
                 value: d.value
@@ -258,8 +257,6 @@ class LSSettings {
 
         if (!this.data) this.data = this.parse(localStorage.getItem('LSSettings_' + this.type) || "{}")
 
-        console.log('this.data', this.data)
-       
         return this.getbymeta()
 
     }

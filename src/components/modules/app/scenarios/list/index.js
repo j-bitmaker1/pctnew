@@ -115,8 +115,6 @@ export default {
                 this.usekeyscenarios = this.cuse(settings.useKeyScenarios.value)
                 this.usekeyscenariosSetting = this.usekeyscenarios
 
-                console.log('this.usekeyscenarios', this.usekeyscenarios)
-
                 this.initialusing = {}
                 this.changeusing = {}
 

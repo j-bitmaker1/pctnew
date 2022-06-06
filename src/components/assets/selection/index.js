@@ -32,8 +32,6 @@ export default {
         auth : state => state.auth,
         selection : function(state) {
 
-            console.log('state.selection', state.selection)
-
             if(state.selection){
                 if(state.selection.context == this.context){
                     return state.selection

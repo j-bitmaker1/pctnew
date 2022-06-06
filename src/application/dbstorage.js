@@ -44,7 +44,6 @@ const dbstorage = function(storageName, version, time) {
         let openRequest = indexedDB.open(storageName, version);
 
         openRequest.onblocked = function (err) {
-            console.log("BLOCKED")
         };
 
         openRequest.onupgradeneeded = function (e) {

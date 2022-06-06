@@ -50,7 +50,6 @@ export default {
         changeReports: function (v) {
             this.values = v
 
-            console.log('this.values', this.values)
 
             this.core.settings.lspdf.set('reports', this.values)
         },

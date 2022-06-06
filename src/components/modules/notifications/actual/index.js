@@ -157,8 +157,6 @@ export default {
 
                 var s = this.state[id]
 
-                console.log('s.showed', s.showed)
-
                 if (s.showed <= 0) {
                    
                     this.hide(notification)
