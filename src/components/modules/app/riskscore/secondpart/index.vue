@@ -1,6 +1,6 @@
 <template>
 <div id="riskscore_secondpart">
-	<sequence :direction="direction" @finish="finish" @back="goback" ref="sequence" :pages="resultPages" direction="vertical">
+	<sequence  @finish="finish" @back="goback" ref="sequence" :pages="resultPages" :direction="direction">
 		<template v-slot:default="slotProps">
 
 			<div class="cwrapper">

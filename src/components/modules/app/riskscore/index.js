@@ -107,6 +107,7 @@ export default {
     computed: mapState({
 
         direction : function(state){
+            console.log('state.dwidth', state.dwidth)
             return state.dwidth <= 768 ? 'vertical' : 'horizontal'
         },
 

@@ -34,6 +34,7 @@ export default {
     },
 
     created() {
+        console.log('direction', this.direction)
         this.init()
     },
 
