@@ -18,7 +18,8 @@ build_main:
         paths:
             - './dist/'
     tags:
-        - build
+        - deploy
+        - rxnet
         - web
     only:
         - main
