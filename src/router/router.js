@@ -241,19 +241,15 @@ router.beforeEach((to, from, next) => {
 		return f.pretry(() => {
 			return router.app.core
 		}).then(() => {
-
 			return r.customRedirect(router.app.core, to)
-
 		}).catch(obj => {
-
 			return Promise.resolve(obj)
 		}).then(obj => {
+			return obj ? next(obj.to) : next()
+		}).catch(e => {
 
-
-			obj ? next(obj.to) : next()
 		})
 
-		return
 	}
 
 	next()
