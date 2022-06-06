@@ -574,6 +574,10 @@ class Riskscore {
 
     convertQrToCapacity = function(capacityValues){
 
+        if(!capacityValues){
+            return {}
+        }
+
         return {
             ages : [capacityValues.age, capacityValues.retire],
             savings : capacityValues.savings,

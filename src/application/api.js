@@ -1649,8 +1649,10 @@ var ApiWrapper = function (core) {
 				return request({}, 'api', 'crm/SurveysAnswers/' + id, p).then(r => {
 					var js = null
 
+					console.log("R", r)
+
 					try{
-						js = JSON.parse(r.Json)
+						js = JSON.parse(r.Json || "{}")
 					}catch(e){
 						
 					}

@@ -228,11 +228,7 @@ export default {
 
 			var dir = this.directions[direction]
 
-			console.log('dir.constraints(e)', dir.constraints(e))
-
 			if ( (dir.constraints && !dir.constraints(e)) || dir.disabled ) {
-
-				console.log("???")
 
                 if (this.mainDirection){
                     this.mainDirection = null;

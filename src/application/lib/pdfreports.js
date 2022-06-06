@@ -250,7 +250,7 @@ class PDFReports {
                 return Promise.resolve(r)
             }).catch(e => {
 
-                console.error(e)
+                console.error(e, key)
 
                 return Promise.reject(e)
             })
