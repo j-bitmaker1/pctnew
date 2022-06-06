@@ -11,10 +11,11 @@
 
 		<div class="header mobp">
 			<div class="forpanel">
-				<iconstoggle :icons="valuemodes" :value="valuemode" @change="changevaluemode"/>
+				<span>Stress test</span>
+				<!--<iconstoggle :icons="valuemodes" :value="valuemode" @change="changevaluemode"/>-->
 			</div>
 			<div class="forsettigns">
-				<ctmenu :ct="ct"/>
+				<ctmenu :ct="ct" @scenariosChanged="scenariosChanged"/>
 				<!--<div class="diconbutton">
 					<i class="fas fa-cog"></i>
 				</div>-->

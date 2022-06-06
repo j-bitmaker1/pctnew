@@ -121,6 +121,11 @@ export default {
 
 		toScenario : function(scenario){
 			this.$refs.ctdetails.toScenario(scenario)
+		},
+
+		scenariosChanged : function(){
+			console.log('scenariosChanged')
+			this.get()
 		}
 	},
 }

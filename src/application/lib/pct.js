@@ -27,12 +27,13 @@ class PCT {
         IncludeScenarios : []
     }
 
-    constructor({api, user, vxstorage}){
+    constructor({api, user, vxstorage, settings}){
 
         this.api = api
         this.capacity = Capacity
         this.riskscore = new Riskscore(this)
         this.vxstorage = vxstorage
+        this.settings = settings.stress
         
     }
 
@@ -449,7 +450,17 @@ class PCT {
             portfolioId : id
         }
 
-        return this.api.pctapi.stress.test(data, p).then(r => {
+        return this.settings.getall().then(settings => {
+
+            if(settings.useKeyScenarios.value || !settings.scenarios.value.length){
+                data.onlyKeyScenarios = true
+            }
+            else{
+                data.scenarioIds = settings.scenarios.value
+            }
+
+            return this.api.pctapi.stress.test(data, p)
+        }).then(r => {
 
             return Promise.resolve(this.parseStressTest(r))
         })
@@ -461,7 +472,17 @@ class PCT {
             portfolioId : id
         }
 
-        return this.api.pctapi.stress.details(data, p).then(r => {
+        return this.settings.getall().then(settings => {
+
+            if(settings.useKeyScenarios.value || !settings.scenarios.value.length){
+                data.onlyKeyScenarios = true
+            }
+            else{
+                data.scenarioIds = settings.scenarios.value
+            }
+            
+            return this.api.pctapi.stress.details(data, p)
+        }).then(r => {
 
             return Promise.resolve(this.parseStressTest(r))
         })

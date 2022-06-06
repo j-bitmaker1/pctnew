@@ -146,6 +146,8 @@ class Settings {
             this.data = this.parse(r)
 
             return Promise.resolve(this.getbymeta())
+        }).catch(e => {
+            return Promise.resolve(this.getbymeta())
         })
 
     }

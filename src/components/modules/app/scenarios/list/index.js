@@ -20,8 +20,11 @@ export default {
             scenarios : [],
             searchvalue : '',
             changeusing : {},
-            usekeyscenariosSetting : 'use',
+            initialusing : {},
+            //usekeyscenariosSetting : 'use',
             usekeyscenarios : '',
+
+            mincount : 4,
 
             keyscenarios : [
 				{
@@ -42,8 +45,6 @@ export default {
     created () {
         this.get()
 
-        this.usekeyscenarios = this.usekeyscenariosSetting
-
         
     },
 
@@ -57,14 +58,17 @@ export default {
         },
 
         using : function(){
-            var u = {
-                ... this.changeusing
-            }
+            var u = {}
 
             if(this.usekeyscenarios == 'use'){
-                u[1] = true
-                u[2] = true
-                u[3] = true
+                _.each(this.scenarios, (s) => {
+                    if(s.key) u[s.id] = true
+                })
+            }
+            else{
+                u = {
+                    ... this.changeusing
+                }
             }
 
 			return  u
@@ -75,15 +79,13 @@ export default {
         },
 
         showsave : function(){
-
-
             return (
                 this.usekeyscenarios != this.usekeyscenariosSetting
-            ) || (this.canchange && !_.isEmpty(this.changeusing))
+            ) || (this.canchange && JSON.stringify(this.changeusing) != JSON.stringify(this.initialusing))
         },
       
         canapply : function(){
-            return _.toArray(this.using).length > 0
+            return _.toArray(this.using).length >= this.mincount
         },
 
         prefiltered : function(){
@@ -107,10 +109,64 @@ export default {
 
     methods : {
         get : function(){
-            this.core.pct.scenarios().then(scenarios => {
-				this.scenarios = scenarios
 
-			})
+            this.core.settings.stress.getall().then(settings => {
+
+                this.usekeyscenarios = this.cuse(settings.useKeyScenarios.value)
+                this.usekeyscenariosSetting = this.usekeyscenarios
+
+                console.log('this.usekeyscenarios', this.usekeyscenarios)
+
+                this.initialusing = {}
+                this.changeusing = {}
+
+                _.each(settings.scenarios.value, (id) => {
+                    this.initialusing[id] = true
+                    this.changeusing[id] = true
+                })
+
+                return this.core.pct.scenarios()
+            }).then(scenarios => {
+				this.scenarios = scenarios
+			}).finally(() => {
+                this.loading = false
+            })
+
+            
+        },
+
+        cuse : function(v){
+            if(v) return 'use'
+            return 'no'
+        },
+
+        vuse : function(v){
+            if(v == 'use') return true
+
+            return false
+        },
+
+        save : function(){
+
+            var promises = []
+
+            if (this.usekeyscenarios != this.usekeyscenariosSetting){
+                promises.push(this.core.settings.stress.set('useKeyScenarios', this.vuse(this.usekeyscenarios)))
+            }
+
+            if (JSON.stringify(this.changeusing) != JSON.stringify(this.initialusing)){
+                var ids = _.map(this.changeusing, (v, i) => {return i})
+
+                promises.push(this.core.settings.stress.set('scenarios', ids))
+            }
+
+            this.$store.commit('globalpreloader', true)
+
+            return Promise.all(promises).then(r => {
+                return Promise.resolve()
+            }).finally(() => {
+                this.$store.commit('globalpreloader', false)
+            })
         },
 
         search : function(v){
@@ -122,7 +178,10 @@ export default {
         },
 
         apply : function(){
-            this.changeusing = {}
+            this.save().then(r => {
+                this.$emit('changed')
+                this.$emit('close')
+            })
         },
 
         useChange : function(id, v){

@@ -1060,7 +1060,7 @@ var ApiWrapper = function (core) {
 				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
 
 				data.stressTestTypes = ["Losses", "Ltr", "Yield", "CrashRating"]
-				data.onlyKeyScenarios = true
+				//data.onlyKeyScenarios = true
 
 				p.storageparameters = dbmeta.stress()
 				p.storageparameters.invalidate = {
@@ -1084,7 +1084,7 @@ var ApiWrapper = function (core) {
 				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
 
 				data.stressTestTypes = ["Losses"]
-				data.onlyKeyScenarios = true
+				//data.onlyKeyScenarios = true
 
 				p.storageparameters = dbmeta.stress()
 				p.storageparameters.invalidate = {

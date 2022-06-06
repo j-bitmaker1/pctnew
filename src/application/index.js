@@ -51,6 +51,14 @@ class Core {
         this.external = {}
         this.hiddenInParent = false
 
+        this.settings = {
+
+            stress : new Settings(this, "STRESS"), 
+            user : new Settings(this, "USER"),
+            pdf : new Settings(this, "PDF"),
+            lspdf : new LSSettings(this, "PDF")
+        }
+
         this.filemanager = new Filemanager(this)
         this.crm = new CRM(this)
         this.pct = new PCT(this)
@@ -59,13 +67,7 @@ class Core {
         this.cordovakit = new Cordovakit(this)
         this.vueapi = new Vueapi(this)
 
-        this.settings = {
-
-            stress : new Settings(this, "STRESS"), 
-            user : new Settings(this, "USER"),
-            pdf : new Settings(this, "PDF"),
-            lspdf : new LSSettings(this, "PDF")
-        }
+        
 
         this.updates = new Updates(this)
 

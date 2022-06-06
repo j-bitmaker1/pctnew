@@ -273,7 +273,9 @@ class Vueapi {
             },
     
             events : {
-               
+                changed : function(){
+                    success()
+                }
             }
         })
     }
