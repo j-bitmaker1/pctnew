@@ -88,6 +88,7 @@ class PCT {
         scenario.name = s.Name
 
         scenario.shocks = []
+        
 
         _.each(s.sh, (s) => {
             var shock = {}
@@ -98,6 +99,8 @@ class PCT {
 
             scenario.shocks.push(shock)
         })
+
+       
 
         return scenario
     }
@@ -379,6 +382,24 @@ class PCT {
         scenario.shocks = s.shocks
 
         scenario.types = _.uniq(_.filter([s.type, s.type2, s.type3], function(t) { return t }))
+
+        scenario.factors = []
+
+        scenario.key = s.isKeyScenario
+
+        _.each(s.factors, (s) => {
+            var factor = {}
+
+            factor.name = s.name
+            factor.type = s.type
+            factor.value = f.numberParse(s.value)
+
+            scenario.factors.push(factor)
+        })
+
+        scenario.factors = _.sortBy(scenario.factors, (f) => {
+            return -Math.abs(f.value)
+        })
 
         /*_.each(s.sh, (s) => {
             var shock = {}

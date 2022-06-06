@@ -103,10 +103,13 @@ export default {
 					
 			})*/
 
+
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
 				this.ct = r
 
 				return Promise.resolve(r)
+			}).catch(e => {
+				console.error(e)
 			}).finally(() => {
 				this.loading = false
 			})

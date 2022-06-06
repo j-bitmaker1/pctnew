@@ -7,14 +7,12 @@
 	<linepreloader v-if="!info" />
 	
 	<div class="infoWrapper" v-else>
-		<scenarioninfo  :info="info"/>
+		<scenariosinfo :info="info"/>
 	</div>
 	
 
 	<div class="contributors">
-
 		<linepreloader v-if="loading" />
-
 		<div v-else>
 			<div class="header">
 				<div class="headercaption">
@@ -43,6 +41,10 @@
 			</div>
 
 		</div>
+	</div>
+
+	<div class="factors" v-if="!loading">
+		<scenariosfactors :info="info"/>
 	</div>
 </div>
 </template>

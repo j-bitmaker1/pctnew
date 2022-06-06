@@ -1,7 +1,7 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: 'portfolio_crashtest_scenarioinfo',
+    name: 'scenarios_info',
     props: {
         info : {
             type : Object,
@@ -20,6 +20,7 @@ export default {
     },
 
     created(){
+        console.log(this.info)
     },
 
     watch: {

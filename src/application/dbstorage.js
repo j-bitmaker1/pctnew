@@ -43,6 +43,10 @@ const dbstorage = function(storageName, version, time) {
 
         let openRequest = indexedDB.open(storageName, version);
 
+        openRequest.onblocked = function (err) {
+            console.log("BLOCKED")
+        };
+
         openRequest.onupgradeneeded = function (e) {
             let db = openRequest.result;
 
@@ -185,8 +189,6 @@ const dbstorage = function(storageName, version, time) {
                     if (item.invalidate){
                         if(item.invalidate.index == index && item.invalidate.type == type){
 
-                            console.log('item.cachedAt < updated', item.cachedAt, updated)
-
                             if(item.cachedAt < updated){
                                 needToClear.push(itemid)
                                 cleared.push(item.invalidate.index)
@@ -264,7 +266,6 @@ const dbstorage = function(storageName, version, time) {
 
                     const unixtime = getHourUnixtime();
 
-                    console.log('unixtime', unixtime, invalidate)
 
                     const item = {
                         id: itemId,
@@ -307,7 +308,6 @@ const dbstorage = function(storageName, version, time) {
                 function executor(resolve, reject) {
 
                     if (memorystorage[itemId]){
-
                         return resolve(memorystorage[itemId].data);
                     }
 
@@ -315,6 +315,7 @@ const dbstorage = function(storageName, version, time) {
                     const items = transaction.objectStore('items');
 
                     const req = items.get(itemId);
+
 
                     req.onsuccess = (data) => {
                         debugLog('PCryptoStorage GET log', data, req.result);
@@ -350,12 +351,19 @@ const dbstorage = function(storageName, version, time) {
         }
 
         function executor(resolve, reject) {
+
+
+            openRequest.onblocked = function (err) {
+                reject('PCryptoStorage error initiating IndexedDB');
+            };
+
             openRequest.onerror = function (err) {
                 debugLog('PCryptoStorage error occurred:', err);
                 reject('PCryptoStorage error initiating IndexedDB');
             };
 
             openRequest.onsuccess = function () {
+
                 db = openRequest.result;
 
                 clearOldItems().then(r => {
@@ -365,7 +373,10 @@ const dbstorage = function(storageName, version, time) {
                 })
                 
             };
+
+
         }
+
 
         return new Promise(executor);
     }
@@ -503,6 +514,7 @@ const dbstorage = function(storageName, version, time) {
         debugLog('PCryptoStorage LOCALSTORAGE_FALLBACK');
         return initLocalStorage();
     }
+
 
     return initIndexedDb();
 };

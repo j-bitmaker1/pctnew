@@ -1,7 +1,9 @@
 import _ from 'underscore';
 import { mapState } from 'vuex';
 import contributor from '../contributor/index.vue'
-import scenarioninfo from '../scenarioinfo/index.vue'
+import scenariosinfo from '@/components/modules/app/scenarios/info/index.vue'
+import scenariosfactors from '@/components/modules/app/scenarios/factors/index.vue'
+
 
 export default {
 	name: 'portfolio_crashtest_scenariodetails',
@@ -13,7 +15,7 @@ export default {
 	},
 
 	components : {
-		contributor, scenarioninfo
+		contributor, scenariosinfo, scenariosfactors
 	},
 
 	data : function(){

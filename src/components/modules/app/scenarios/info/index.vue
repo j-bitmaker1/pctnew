@@ -1,5 +1,5 @@
 <template>
-<div class="portfolio_crashtest_scenarioinfo">
+<div class="scenarios_info">
         
     <div class="shocks mobp infopt" v-if="info.id > 0 && info.shocks">
         <div class="caption">

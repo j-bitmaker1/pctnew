@@ -29,26 +29,22 @@ class VXStorage {
 
     invalidateDb(obj, type){
 
-
         if(this.storage[type] && this.storage[type].invalidateDb && this.core.invalidateDb){
 
             if (obj[this.index(type)] && (obj.updated || obj.Modified)){
                 _.each(this.storage[type].invalidateDb, (dbindex) => {
 
                     this.core.invalidateDb(dbindex, obj.updated || obj.Modified, {
-
                         type,
                         index : obj[this.index(type)]
-
                     }).catch(e => {
-                        console.error(e)
+                        return Promise.resolve()
                     })
 
                 })
             }
-
-            
         }
+
     }
 
     set(obj, type){
@@ -60,7 +56,6 @@ class VXStorage {
         this.store.commit('_set_' + type, obj)
 
         this.clearFromQueue(this.index(type), type)
-
 
         return this.get(obj[this.index(type)], type)
 

@@ -192,6 +192,7 @@ var Request = function (core = {}, url, system) {
 
 		}).catch(e => {
 
+
 			if(e && e.toString() && e.toString().indexOf('Failed to fetch') > -1){
 				e.code = 20
 			}
@@ -225,13 +226,15 @@ var ApiWrapper = function (core) {
 			return {
 				storage : 'stress',
 				time : 60 * 60 * 48,
+				version : 2
 			}
 		},
 
 		system : function(){
 			return {
 				storage : 'system',
-				time : 60 * 60 * 148 
+				time : 60 * 60 * 148,
+				version : 2
 			}
 		},
 
@@ -391,8 +394,10 @@ var ApiWrapper = function (core) {
 
 	var getstorage = function (p) {
 
+
 		if (!storages[p.storage]) {
 			return dbstorage(p.storage, p.version || 1, p.time).then(storage => {
+
 
 				storages[p.storage] = storage
 
@@ -808,8 +813,7 @@ var ApiWrapper = function (core) {
 
 				return Promise.resolve(r)
 
-			}).catch(e => {
-
+			}).catch(e => {	
 
 				if (attempt < 3 && e && e.code == 20) {
 

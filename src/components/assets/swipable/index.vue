@@ -89,7 +89,16 @@ export default {
 
 	methods: {
 
-		
+		apply : function(direction, value){
+
+			if(!this.directions) return
+
+			var dir = this.directions[direction]
+
+			if (dir && dir.clbk){
+				dir.clbk(value, dir)
+			}
+		},
 
 		set : function(direction, value){
 
@@ -125,6 +134,8 @@ export default {
 				style["-webkit-overflow-scrolling"] = 'touch'
 			}
 
+			this.apply(direction, value)
+
 			_.each(style, (s, i) => {
 				this.$set(this.styles, i, s)
 			})
@@ -148,9 +159,7 @@ export default {
 					"transition": this.transitionstr
 				}
 
-				/*_.each(this.directions, (d) => {
-					this.applyDirection(d, 0)
-				})*/
+				
 
 				setTimeout(() => {
 
@@ -166,6 +175,10 @@ export default {
 				}, 100)
 			}
 
+			_.each(this.directions, (d) => {
+				this.apply(d.direction, 0)
+			})
+
 			this.ms = false
 			this.needclear = false
 			this.successSwipe = false
@@ -178,12 +191,14 @@ export default {
 
 		
 		swipeStatus : function(e, phase, direction, distance){
+
 			if(!this.directions) return
 
 			if (this.mainDirection && this.mainDirection.direction != direction && phase == 'move'){
                 phase = 'cancel'
                 direction = this.mainDirection.direction
             }
+
 
 			if (phase == 'cancel' || phase == 'end'){
 
@@ -213,10 +228,15 @@ export default {
 
 			var dir = this.directions[direction]
 
+			console.log('dir.constraints(e)', dir.constraints(e))
+
 			if ( (dir.constraints && !dir.constraints(e)) || dir.disabled ) {
+
+				console.log("???")
 
                 if (this.mainDirection){
                     this.mainDirection = null;
+					this.clear()
                 }
 
                 if (e.cancelable !== false){

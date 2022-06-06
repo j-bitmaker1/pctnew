@@ -14,7 +14,10 @@ export default {
 	data : function(){
 
 		return {
-			loading : false
+			loading : false,
+			blockTouch : false,
+			isRouterAlive : true,
+			refreshPosition : 0
 		}
 
 	},
@@ -38,13 +41,44 @@ export default {
 
 		camera : state => state.camera,
 		fx : state => state.fx,
-		theight : state => state.theight
+		theight : state => state.theight,
+		tscrolly : state => state.tscrolly,
+
+
+		directions : function(){
+
+			var distance = 100
+
+			return this.auth == 1 ? {
+				bottom: {
+					distance,
+					direction: 'bottom',
+	
+					constraints : (e) => {
+						return this.tscrolly == 0
+					},
+
+					clbk : (v, d) => {
+						
+						var p = v / distance
+
+						this.refreshPosition = p * 100
+					}
+				}
+			} : null
+		} 
+		
 	}),
 
 	methods : {
 		closeCamera : function(){
 			this.$store.commit('CLOSE_CAMERA')
 		},
+
+		refresh : function(){
+			this.isRouterAlive = false
+			this.$nextTick(() => (this.isRouterAlive = true))
+		}
 
 		/*fxtest : function(e){
 
