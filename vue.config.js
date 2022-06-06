@@ -4,6 +4,8 @@ var prependcssvars = `
 `
 var emptypublicpath = process.argv.find(function(el) { return el == '--emptypublicpath'; })
 
+console.log('process.env.publicPath', process.env.publicPath)
+
 module.exports = {
 
 	publicPath: emptypublicpath ? '' : process.env.publicPath || '/',

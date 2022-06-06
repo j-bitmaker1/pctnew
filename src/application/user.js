@@ -718,6 +718,8 @@ var User = function ({
 
         if (en) {
 
+            self.deletefaceid()
+
             return api.user.signup(data).then(sdata => {
 
                 pwdhash.value = data.pwdhash
@@ -830,9 +832,7 @@ var User = function ({
 
             self.prepare()
 
-            self.askfaseid().catch(e => {
-
-            })
+            
 
             updates.synk()
 
@@ -843,6 +843,8 @@ var User = function ({
         }).then(() => {
 
             wss.init()
+
+            self.askfaseid().catch(e => {})
 
             return state.value
 
