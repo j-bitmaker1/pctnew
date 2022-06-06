@@ -17,7 +17,7 @@ class Updates {
 
         home: {
             id: 'home',
-            api: '',
+            api: 'notifications.count',
             count: 0 // notifications count
         },
 
@@ -54,8 +54,21 @@ class Updates {
         this.update(id, this.data[id].count + 1)
     }
 
+    decrease = function (id) {
+        if (!this.data[id]) return
+
+        if(this.data[id].count)
+            this.update(id, this.data[id].count - 1)
+    }
+
     clear = function (id) {
         this.update(id, 0)
+    }
+
+    clearall = function(){
+        _.each(this.data, (d) => {
+            this.clear(d.id)
+        })
     }
 
     total = function () {
@@ -82,6 +95,26 @@ class Updates {
             if (cordovabadge) cordovabadge.set(total())
         }
 
+    }
+
+    synk = function(){
+        return Promise.all(_.map(this.data, (d) => {
+
+            if(!d.api){
+                return Promise.resolve()
+            }
+
+            var request = f.deep(this.api, d.api)
+
+            if(!request){
+                return Promise.resolve()
+            }
+
+            request().then(r => {
+                this.update(d.id, r.count)
+            })
+
+        }))
     }
 }
 

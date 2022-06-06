@@ -15,7 +15,7 @@ import FX from './utils/fx.js'
 import {Settings, LSSettings} from "./lib/settings";
 import PDFReports from "./lib/pdfreports";
 import { _ } from "core-js";
-
+import Updates from "./updates";
 
 class Core {
 
@@ -66,6 +66,8 @@ class Core {
             pdf : new Settings(this, "PDF"),
             lspdf : new LSSettings(this, "PDF")
         }
+
+        this.updates = new Updates(this)
 
         this.user = new user(this)
         this.pdfreports = new PDFReports(this)
@@ -295,10 +297,18 @@ class Core {
     }
 
     readNotification(ids){
+
+        _.each(ids, () => {
+            this.updates.decrease('home')
+        })
+
         this.emit('readNotification', ids)
+
     }
 
     notification(notification){
+
+        this.updates.increase('home')
 
         if (this.vm.$route.name != 'index')
             this.store.commit('addNotification', notification) 

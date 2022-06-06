@@ -34,6 +34,10 @@ export default {
 	}),
 
 	methods : {
-		
+		notifications : function(id){
+			var c = this.$store.state.updates[id] || 0
+
+			return Math.min(c, 99)
+		}
 	},
 }

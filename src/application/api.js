@@ -1704,6 +1704,14 @@ var ApiWrapper = function (core) {
 			})
 		},
 
+		hide : function(id, p = {}){
+
+			p.method = "POST"
+
+			return request({id}, 'api', 'notifier/Event/hide', p)
+
+		},
+
 		makeRead : function(ids, p = {}){
 
 			if(!_.isArray(ids)) ids = [ids]
@@ -1729,6 +1737,24 @@ var ApiWrapper = function (core) {
 			}, 'api', 'notifier/Event/markListByAppAsRead', p)
 
 		},
+
+		count : function(data = {}, p){
+			if(!p) p = {}
+
+			p.method = "POST"
+
+			data.includeCount = true
+			data.pageSize = 0
+			data.appIdFilter = self.appid
+			data.pageNumber = 0
+			data.includeOnlyUnreadFilter = true
+
+			return request(data, 'api', 'notifier/Event/webSocketsList', p).then(r => {
+				return Promise.resolve({
+					count : r.pagination.total || 0
+				})
+			})
+		}
 	}
 
 	self.filesystem = {

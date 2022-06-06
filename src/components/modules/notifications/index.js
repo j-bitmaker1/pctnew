@@ -83,12 +83,12 @@ export default {
 			]
 		},
 		directions: function () {
-			return this.mode == 'onlyunread' ? {
+			return {
 				left: {
 					distance: 100,
 					direction: 'left'
 				}
-			} : null
+			}
 		}
 	}),
 
@@ -102,11 +102,20 @@ export default {
 		makeAsReadSelection : function(notification){
 			return this.makeAsRead(_.toArray(notification))
 		},
+
 		makeAsRead: function (notification) {
 
 			if(!_.isArray(notification)) notification = [notification]
 
-			this.core.api.notifications.makeRead(notification, {showStatusFailed : true})
+			if (this.mode == 'onlyunread'){
+				this.core.api.notifications.makeRead(notification, {showStatusFailed : true})
+			}
+			else{
+				_.each(notification, (n) => {
+					this.core.api.notifications.hide(n.id)
+				})
+			}
+			
 
 			_.each(notification, (notification) => {
 				if (this.$refs['list']) this.$refs['list'].datadeleted(notification, "id")

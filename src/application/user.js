@@ -17,7 +17,8 @@ var User = function ({
     i18n,
     cordovakit,
     vueapi,
-    settings
+    settings,
+    updates
 }) {
 
 
@@ -672,6 +673,7 @@ var User = function ({
                 localStorage.removeItem(prefix + '-fcm')
             })
 
+        updates.clearall()
 
         vm.$store.commit('clearall')
 
@@ -825,6 +827,8 @@ var User = function ({
             self.askfaseid().catch(e => {
 
             })
+
+            updates.synk()
 
             //settings.getall()
 
