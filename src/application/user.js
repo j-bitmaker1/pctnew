@@ -660,12 +660,26 @@ var User = function ({
 
     function signout() {
 
-        self.deletefaceid()
+        var prs = [self.deletefaceid()]
 
-        clear()
+        if (window.cordova)
+            prs.push(api.notifications.revoke({ device }).then(r => {
+                localStorage.removeItem(prefix + '-fcm')
+            }))
 
-        wss.destroy()
-       
+        vm.$store.commit('globalpreloader', true)
+
+        return Promise.all(prs).catch(e => {
+            console.log("E", e)
+
+            return Promise.resolve()
+        }).then(r => {
+            clear()
+            wss.destroy()
+        }).finally(() => {
+            vm.$store.commit('globalpreloader', false)
+        })
+
     }
 
     function clear() {
@@ -673,11 +687,6 @@ var User = function ({
         api.clearCache()
 
         vxstorage.clear()
-
-        if (window.cordova)
-            api.notifications.revoke({ device }).then(r => {
-                localStorage.removeItem(prefix + '-fcm')
-            })
 
         updates.clearall()
 
@@ -832,19 +841,17 @@ var User = function ({
 
             self.prepare()
 
-            
-
             updates.synk()
 
             //settings.getall()
 
-            return state.value
+            return self.askfaseid().catch(e => {
+                return Promise.resolve()
+            })
 
         }).then(() => {
 
             wss.init()
-
-            self.askfaseid().catch(e => {})
 
             return state.value
 

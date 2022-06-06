@@ -19,7 +19,7 @@
 		<div class="statsrow row" @click="open">
 			<div>
 				<span class="label">Crash Rating</span>
-				<coloredNumber :number="profile.riskscore"/>
+				# <!--<coloredNumber :number="profile.riskscore"/>-->
 			</div>
 
 			<div>
