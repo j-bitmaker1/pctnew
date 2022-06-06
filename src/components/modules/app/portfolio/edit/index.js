@@ -279,7 +279,7 @@ export default {
 		},
 
 		autofocus : function(){
-			var assetindex = this.assets.length - 1
+			var assetindex = Math.max(this.assets.length - 1, 0)
 
 			if (this.assets[assetindex] && this.assets[assetindex].value){
 				assetindex++
@@ -429,6 +429,10 @@ export default {
 					
 				}
 			})
+		},
+
+		addasset : function(){
+			this.autofocus()
 		}
 	},
 }

@@ -512,7 +512,9 @@ var User = function ({
 
                 fcmNotification = FirebasePlugin.onMessageReceived((payload) => {
 
-                    if (_.isEmpty(payload)) return
+                    console.log("payload", payload)
+
+                    /*if (_.isEmpty(payload)) return
 
                     try {
 
@@ -522,7 +524,7 @@ var User = function ({
 
                     }
                     catch (e) {
-                    }
+                    }*/
 
                     //// notification self.ws.handleNotifications(payload);
 

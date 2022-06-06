@@ -414,6 +414,7 @@ class Vueapi {
             id : 'modal_assets_search',
             module : "assets_search",
             mclass : "topsearching",
+            fromtop : true,
             caption : "",
     
             data : {

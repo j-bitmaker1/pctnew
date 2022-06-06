@@ -1248,6 +1248,10 @@ var ApiWrapper = function (core) {
 							['filesystem']
 						)
 
+						core.ignore('portfolio', {
+							id : data.id
+						})
+
 						core.user.activity.template('portfolio', updated)
 					}
 					
@@ -1457,10 +1461,19 @@ var ApiWrapper = function (core) {
 
 
 					var updated = core.vxstorage.update(data, 'client')
+
 					core.vxstorage.update(data, 'lead')
 
 					core.user.activity.remove('client', data.ID)
 					core.user.activity.remove('lead', data.ID)
+
+					core.ignore('client', {
+						ID : data.ID
+					})
+
+					core.ignore('lead', {
+						ID : data.ID
+					})
 
 					return Promise.resolve(data)
 				})
@@ -1557,6 +1570,14 @@ var ApiWrapper = function (core) {
 
 					core.vxstorage.update(ud, 'client')
 					core.vxstorage.update(ud, 'lead')
+
+					core.ignore('client', {
+						ID : data.ID
+					})
+
+					core.ignore('lead', {
+						ID : data.ID
+					})
 
 					return Promise.resolve()
 				})

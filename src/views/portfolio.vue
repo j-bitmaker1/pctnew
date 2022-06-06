@@ -153,7 +153,7 @@ export default {
 		},
 
 		editportfolio : function(portfolio){
-			this.portfolio = portfolio
+			//this.portfolio = portfolio
 		},
 
 		changeClient : function(profile){

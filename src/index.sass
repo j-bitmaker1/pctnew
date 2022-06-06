@@ -1,8 +1,8 @@
 body
-	color : $color-text-common
+	color: $color-text-common
 	background: srgb(--background-total-theme)
 	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
-	color : srgb(--text-color)
+	color: srgb(--text-color)
 
 a
 	text-decoration: none
@@ -24,8 +24,8 @@ select.custom
 	max-width: 30ch
 	background-color: srgb(--background-total-theme)
 	border-radius: 12px
-	border : 1px solid srgb(--neutral-grad-0)
-	padding : $r
+	border: 1px solid srgb(--neutral-grad-0)
+	padding: $r
 	padding-right: 4 * $r
 	display: grid
 	outline: none
@@ -39,8 +39,7 @@ select.custom
 	&:-ms-expand
 		display: none
 
-
-	&::after 
+	&::after
 		grid-area: select
 		content: ""
 		width: 0.8em
@@ -55,7 +54,7 @@ select.custom
 	&.likecaption
 		font-size: 1.5em
 		font-weight: 700
-		border : 0
+		border: 0
 
 		option
 			font-size: 0.7em
@@ -66,13 +65,13 @@ select.custom
 
 	select
 		margin-left: $r
-		
+
 input
 	outline: none
 
 	&:focus
 		border: 10px
-		
+
 .rootapp
 	+transitionopt(0.3s, opacity)
 
@@ -89,7 +88,7 @@ html[camera="true"]
 		opacity: 0
 		background-color: transparent !important
 
-.fademodal-enter-active, .fademodal-leave-active 
+.fademodal-enter-active, .fademodal-leave-active
 	+transition(0.3s)
 	.modal
 		+transition(0.3s)
@@ -109,9 +108,8 @@ html[camera="true"]
 	-ms-user-select: none
 	user-select: none
 
-
 .loadinggradient
-	background: linear-gradient(-45deg, srgb(--background-secondary-theme), srgb(--background-total-theme), srgb(--background-main)) 
+	background: linear-gradient(-45deg, srgb(--background-secondary-theme), srgb(--background-total-theme), srgb(--background-main))
 	background-size: 400% 400%
 	animation: gradient 2s ease infinite
 
@@ -144,17 +142,15 @@ html[camera="true"]
 	//width: 200px
 	height: 34px
 
-
 .dg-container
 	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
 
-
 	.dg-main-content
-		padding : 4 * $r
-		border : 0
+		padding: 4 * $r
+		border: 0
 		border-radius: 12px
 		background: srgb(--background-total-theme)
-		color : srgb(--text-color)
+		color: srgb(--text-color)
 		width: 95%
 
 	.dg-content-footer
@@ -167,20 +163,20 @@ html[camera="true"]
 			font-size: 1em
 			font-weight: 400
 			border-radius: 24px
-			color : srgb(--color-bg-ac)
+			color: srgb(--color-bg-ac)
 			line-height: 1em
-			padding : $r 3 * $r
+			padding: $r 3 * $r
 
 			background: transparent
-			border : 1px solid transparent
+			border: 1px solid transparent
 
 			&.dg-pull-right
-				border : 1px solid srgb(--color-bg-ac)
+				border: 1px solid srgb(--color-bg-ac)
 				background: srgb(--color-bg-ac)
-				color : srgb(--text-on-bg-ac-color)
+				color: srgb(--text-on-bg-ac-color)
 
 	.dg-content-body
-		border : 0
+		border: 0
 		padding-bottom: 0
 		margin-bottom: 2 * $r
 
@@ -222,7 +218,6 @@ html[camera="true"]
 		.popover-arrow
 			border-color: $color
 
-
 //// tootltips
 
 @keyframes gradient
@@ -234,14 +229,14 @@ html[camera="true"]
 		background-position: 0% 50%
 
 mark
-	background-color : srgb(--color-bg-selection)!important 
+	background-color: srgb(--color-bg-selection)!important
 
 button.button
 	background: srgb(--color-bg-ac)
-	border : 1px solid srgb(--color-bg-ac)
+	border: 1px solid srgb(--color-bg-ac)
 	outline: none
-	color : srgb(--text-on-bg-ac-color)
-	padding : $r 2 * $r
+	color: srgb(--text-on-bg-ac-color)
+	padding: $r 2 * $r
 	text-align: center
 	+transition(0.3s)
 	min-width: 150px
@@ -256,28 +251,28 @@ button.button
 
 	&.good
 		background: srgb(--color-good)
-		border : 1px solid srgb(--color-good)
+		border: 1px solid srgb(--color-good)
 
 		&:hover
 			background: srgba((--color-good), 0.9)
-			color : srgb(--text-on-bg-ac-color)
+			color: srgb(--text-on-bg-ac-color)
 
 	&.black
 		background: srgb(--neutral-grad-0)
-		border : 1px solid srgb(--neutral-grad-0)
-		color : srgb(--neutral-grad-3)
+		border: 1px solid srgb(--neutral-grad-0)
+		color: srgb(--neutral-grad-3)
 
 		&:hover
 			background: srgba((--neutral-grad-3), 0.9)
-			color : srgb(--text-on-bg-ac-color)
+			color: srgb(--text-on-bg-ac-color)
 
 	&.orange
 		background: srgb(--color-bg-orange)
-		border : 1px solid srgb(--color-bg-orange)
+		border: 1px solid srgb(--color-bg-orange)
 
 		&:hover
-			background : srgba((--color-bg-orange), 0.9)
-			color : srgb(--text-on-bg-ac-color)
+			background: srgba((--color-bg-orange), 0.9)
+			color: srgb(--text-on-bg-ac-color)
 
 	&.round
 		width: 44px
@@ -285,7 +280,7 @@ button.button
 		border-radius: 50%
 		font-size: 0.8em
 		min-width: 0
-		padding : 0
+		padding: 0
 		line-height: 42px
 
 	&.rounded
@@ -293,45 +288,45 @@ button.button
 
 	&.border
 		background: transparent
-		color : srgb(--color-txt-ac)
+		color: srgb(--color-txt-ac)
 		font-size: 0.8em
 
 	&.ghost
 		background: transparent
-		border : 1px solid transparent
-		color : srgb(--color-txt-ac)
+		border: 1px solid transparent
+		color: srgb(--color-txt-ac)
 
 		&:hover
-			color : srgb(--color-txt-gray)
+			color: srgb(--color-txt-gray)
 
 	&:hover
 		background: transparent
-		color : srgb(--color-txt-ac)
+		color: srgb(--color-txt-ac)
 
 	&.underscored
 		text-decoration: underline
 
 	&.badbutton
 		background: transparent
-		border : 1px solid transparent
+		border: 1px solid transparent
 		font-weight: 500
-		color : srgb(--color-bad)
+		color: srgb(--color-bad)
 
 	&[disabled]
 		cursor: default
-		background : srgb(--neutral-grad-2)
-		border-color : srgb(--neutral-grad-2)
-		color : #fff
+		background: srgb(--neutral-grad-2)
+		border-color: srgb(--neutral-grad-2)
+		color: #fff
 
 		&:hover
-			color : #fff
-			background : srgb(--neutral-grad-2)
-			border-color : srgb(--neutral-grad-2)
+			color: #fff
+			background: srgb(--neutral-grad-2)
+			border-color: srgb(--neutral-grad-2)
 .liketicker,
 .ticker
 	display: inline-block
 	background: srgb(--neutral-grad-0)
-	padding : 0 $r
+	padding: 0 $r
 	height: 25px
 	line-height: 25px
 	border-radius: 12px
@@ -345,35 +340,35 @@ button.button
 		font-weight: 700
 
 .iconbuttonRound
-	width : 44px
+	width: 44px
 	height: 44px
 	line-height: 42px
 	text-align: center
 	cursor: pointer
-	color : srgb(--color-txt-ac)
+	color: srgb(--color-txt-ac)
 	font-size: 0.9em
 	border-radius: 50%
 	+transition(0.3s)
 
 	&:hover
-		color : srgb(--neutral-grad-4)
+		color: srgb(--neutral-grad-4)
 
 	&.second
 		background: srgb(--neutral-grad-2)
 
 		&:hover
-			color : srgb(--color-txt-ac)
+			color: srgb(--color-txt-ac)
 
 	&.bright
-		color : srgb(--text-on-bg-ac-color)
+		color: srgb(--text-on-bg-ac-color)
 		background: srgb(--color-txt-ac)
 
 		&:hover
-			color : srgb(--color-txt-ac-1)
+			color: srgb(--color-txt-ac-1)
 
 .iconbuttonsmall
 	cursor: pointer
-	color : srgb(--color-txt-ac)
+	color: srgb(--color-txt-ac)
 	text-align: center
 	+transition(0.3s)
 
@@ -381,19 +376,18 @@ button.button
 		font-size: 0.8em
 
 	&:hover
-		color : srgb(--neutral-grad-3)
+		color: srgb(--neutral-grad-3)
 
 .iconbutton
 	cursor: pointer
 	text-align: center
 	+transition(0.3s)
 
-
 .rootcontent
 	-webkit-font-smoothing: antialiased
 	-moz-osx-font-smoothing: grayscale
 	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
-	color : srgb(--text-color)
+	color: srgb(--text-color)
 	font-size: 1em
 
 	.dmdv
@@ -403,17 +397,17 @@ button.button
 		background: srgb(--background-total-theme)
 
 	.content
-		padding-top : 66px
+		padding-top: 66px
 
 	.work
-		padding : 0 $r
-		margin : 0 auto
+		padding: 0 $r
+		margin: 0 auto
 		max-width: 640px
 
 .table
 	display: table
 	table-layout: fixed
-	width : 100%
+	width: 100%
 	>div
 		display: table-cell
 
@@ -423,11 +417,11 @@ button.button
 	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
 
 	&.m-message-wrapper + .m-message-wrapper
-		margin-top : $r
+		margin-top: $r
 
 	.m-message
-		padding : 2 * $r
-		border : 1px solid srgba((--neutral-grad-0), 0.9)
+		padding: 2 * $r
+		border: 1px solid srgba((--neutral-grad-0), 0.9)
 		border-radius: 5px
 		box-shadow: none
 		background: srgb(--background-total-theme)
@@ -435,13 +429,12 @@ button.button
 
 	.m-message--title
 		font-weight: bold
-		color : srgb(--color-txt-gray-dark)
+		color: srgb(--color-txt-gray-dark)
 		&:first-letter
 			text-transform: capitalize
 
 	.m-message--description
 		margin-top: 0
-
 
 	.m-message-content
 		flex-grow: 1
@@ -464,7 +457,7 @@ button.button
 
 			.txtNew
 				color: srgb(--color-good)
-				
+
 			.linkPreview
 				span
 					&:first-letter
@@ -513,21 +506,21 @@ button.button
 		display: none
 
 .is-top-left
-	padding : 0
+	padding: 0
 
 	.notificationWrapper
 		width: 100%
 		+shadowSmaller()
 
 		.m-message
-			border : 0
-			border-bottom : 1px solid srgba((--neutral-grad-0), 0.9)
+			border: 0
+			border-bottom: 1px solid srgba((--neutral-grad-0), 0.9)
 			border-radius: 0
 .diconbutton
-	padding : $r
+	padding: $r
 	border-radius: 6px
-	border : 1px solid srgb(--neutral-grad-0)
-	color : srgb(--neutral-grad-2)
+	border: 1px solid srgb(--neutral-grad-0)
+	color: srgb(--neutral-grad-2)
 	i
 		width: 22px
 		text-align: center
@@ -537,16 +530,16 @@ button.button
 		+transition(0.3s)
 		cursor: pointer
 		&:hover
-			color : srgb(--neutral-grad-3)
-			border-color : srgb(--neutral-grad-1)
+			color: srgb(--neutral-grad-3)
+			border-color: srgb(--neutral-grad-1)
 
 .savePanel
 	height: 10 * $r
-	padding : $r 2 * $r
+	padding: $r 2 * $r
 	background: srgb(--background-total-theme)
 	position: sticky
-	bottom : 0
-	left : 0
+	bottom: 0
+	left: 0
 	right: 0
 	display: flex
 	align-items: center
@@ -556,9 +549,8 @@ button.button
 
 	.button
 		min-width: 100px
-		margin-left:$r
+		margin-left: $r
 
-		
 .bgpage
 	display: flex
 	width: 100%
@@ -568,18 +560,18 @@ button.button
 	min-height: 100vh
 
 .customslider
-	padding : $r
+	padding: $r
 	border-bottom: 1px solid srgb(--neutral-grad-0)
 
 	.inputwrapper
 		padding-left: $r
 		padding-right: $r
-		margin-top : $r
-		
+		margin-top: $r
+
 	.minmax,
 	.sheader
 		display: flex
-		padding : $r 0.5 * $r
+		padding: $r 0.5 * $r
 		justify-content: space-between
 		align-items: center
 
@@ -596,12 +588,34 @@ button.button
 	padding-left: 2 * $r
 	padding-right: 2 * $r
 
+.closecsscross
+	position: relative
+	width: 64px
+	height: 64px
+	opacity: 0.5
+	margin: 0 auto
+
+	&:before,
+	&:after
+		position: absolute
+		left: 32px
+		content: ' '
+		height: 64px
+		width: 1px
+		background-color: rgb(var(--neutral-grad-1))
+
+	&:before
+		transform: rotate(45deg)
+
+	&:after
+		transform: rotate(-45deg)
+
 @media only screen and (max-width: 768px)
 	.bgpage
 		align-items: flex-start
 		display: flex
 		flex-direction: column
-		justify-content: start
+		justify-content: flex-start
 
 	.mobp
 		padding-left: $r
@@ -620,4 +634,3 @@ button.button
 
 	.medium
 		height: 60px
-

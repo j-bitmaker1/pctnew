@@ -92,7 +92,7 @@ class Updates {
         if (typeof cordova != 'undefined') {
             var cordovabadge = f.deep(cordova, 'plugins.notification.badge')
 
-            if (cordovabadge) cordovabadge.set(total())
+            if (cordovabadge) cordovabadge.set(this.total())
         }
 
     }

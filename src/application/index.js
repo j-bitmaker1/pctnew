@@ -71,6 +71,8 @@ class Core {
 
         this.user = new user(this)
         this.pdfreports = new PDFReports(this)
+
+        this.ignoring = {}
        
     }
 
@@ -284,9 +286,39 @@ class Core {
         })
     }
 
+    ignore(type, key){
+
+        if(!this.ignoring[type]) 
+            this.ignoring[type] = []
+
+        this.ignoring[type].push(key)
+    }
+
     updateByWs(data, types){
 
         _.each(types, (type) => {
+
+            if(!this.ignoring[type]) this.ignoring[type] = []
+
+            var index = _.findIndex(this.ignoring[type], (v) => {
+
+                return _.find(v, (value, key) => {
+                    return data[key] == value
+                })
+
+            })
+
+            console.log("Need ignore?", index, type, data)
+
+            if (index > -1){
+
+                this.ignoring[type].splice(index, 1)
+
+                console.log("IGNORE", this.ignoring[type])
+
+                return
+            }
+
             try{
                 this.vxstorage.update(data, type)
             }catch(e){

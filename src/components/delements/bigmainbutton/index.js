@@ -7,7 +7,7 @@ export default {
 		icon : String,
 		label : String,
 		blabel : String,
-		nlabel : String,
+		nlabel : [String, Number],
 		active: Boolean
 	},
 

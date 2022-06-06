@@ -20,7 +20,8 @@ export default {
             type : Object,
             default : () => {return {}}
         },
-        mclass : String
+        mclass : String,
+        fromtop : Boolean
     },
 
     data : function(){
@@ -31,16 +32,6 @@ export default {
             scroll : 0,
 
             blockTouch : false,
-
-            directions : {
-                bottom : {
-                    distance : 100,
-                    direction : 'bottom',
-                    constraints : (e) => {
-                        return this.scroll == 0 && !this.blockTouch
-                    }   
-                }  
-            }
         }
 
     },
@@ -94,6 +85,18 @@ export default {
                 type : 'vertical',
                 allowedDirection : this.scroll ? '' : 'bottom',
                 debug : true
+            }
+        },
+
+        directions : function(){
+            return {
+                [this.fromtop ? 'top' : 'bottom'] : {
+                    distance : 100,
+                    direction : this.fromtop ? 'top' : 'bottom',
+                    constraints : (e) => {
+                        return this.scroll == 0 && !this.blockTouch
+                    }   
+                }  
             }
         }
 

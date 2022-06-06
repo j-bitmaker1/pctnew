@@ -7,21 +7,11 @@
 
 	<div class="addwrapper" v-if="!aggregation">
 
-		<!--<div>
-			<upload :extensions="['csv', 'xls', 'xlsx']" @start="uploadFromFileStart" @uploadedAll="uploadFromFileUploadedAll" @uploaded="uploadFromFileUploaded" @error="uploadFromFileError">
-				<template v-slot:content>
-					<button class="button" key="file">
-						<i class="fas fa-file"></i> Add from file
-					</button>
-				</template>
-			</upload>
-		</div>
+		<button class="button" key="addasset" @click="addasset">
+			<i class="fas fa-plus"></i> Add asset
+		</button>
 
-		<button class="button" key="pdfparser" @click="pdfparser">
-			<i class="fas fa-file-pdf"></i> Recognize PDF
-		</button>-->
-
-		<button class="button" key="filemanager" @click="filemanager">
+		<button class="button" key="filemanager" @click="filemanager" :disabled="assets.length > 0">
 			<i class="fas fa-file"></i> Add from file
 		</button>
 
@@ -29,15 +19,13 @@
 			<i class="fas fa-camera"></i> Photo document
 		</button>
 
-		<button class="button black" key="aggregate" @click="aggregate" v-if="!assets.length">
+		<button class="button black" key="aggregate" @click="aggregate" :disabled="assets.length > 0">
 			<i class="fas fa-tasks"></i> Create aggregate
 		</button>
 
-		<button class="button black" key="other" :disabled="assets.length > 0">
+		<!--<button class="button black" key="other" :disabled="assets.length > 0">
 			<i class="fas fa-cloud"></i> Get from other applications
-		</button>
-
-		
+		</button>-->
 
 	</div>
 
