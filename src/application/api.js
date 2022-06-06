@@ -1603,7 +1603,16 @@ var ApiWrapper = function (core) {
 
 				return dbrequest(d, 'api', 'crm/Surveys/GetKeyForPctQuiz', p).then(r => {
 
-					return Promise.resolve(window.location.origin + '/riskscore/' + r.token)
+					var prefix = 'https://rixtrema.net/pctnew/'
+					
+					/*window.location.origin
+
+					if(window.cordova) prefix = 'https://rixtrema.net/pctnew/'
+					else prefix = prefix + process.env.publicPath
+
+					console.log('prefix', prefix)*/
+
+					return Promise.resolve(prefix + 'riskscore/' + r.token)
 	
 				})
 				
