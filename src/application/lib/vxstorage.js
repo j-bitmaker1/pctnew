@@ -94,6 +94,8 @@ class VXStorage {
         if(!this.storage[type]) throw new Error('type')
         if(!this.store) throw new Error('notlinked')
 
+        console.log("this.store.state['_' + type]", this.store.state['_' + type], type, index)
+
         return this.store.state['_' + type][index] || null
     }
 
@@ -161,9 +163,14 @@ class VXStorage {
 
     clear(){
         this.queue = []
+
         _.each(this.storage, (storage) => {
+
+            console.log("DELETE", storage.type)
+
             this.store.commit('_delete_' + storage.type)
         })
+
     }
 
     init(){

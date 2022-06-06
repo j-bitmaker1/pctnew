@@ -864,7 +864,7 @@ var ApiWrapper = function (core) {
 		return Promise.reject("empty Storage")
 	}
 
-	self.clearCache = function (key) {
+	self.clearCache = function () {
 		var keys = []
 
 		_.each(cache, function(c,i){
@@ -877,19 +877,21 @@ var ApiWrapper = function (core) {
 
 		keys = _.uniq(keys)
 
-		_.each(self.clearCacheKey, function(k){
+		_.each(keys, function(k){
 			self.clearCacheKey(k)
 		})
 
 	}
 
-	self.clearCacheKey = function(){
+	self.clearCacheKey = function(key){
 
 		if (cache[key]) delete cache[key]
 
+		console.log('key', key, storages)
+
 		if (storages[key]) {
-			storage[key].clearall().catch(e => {console.error(e)})
-			delete storage[key]
+			storages[key].clearall().catch(e => {console.error(e)})
+			delete storages[key]
 		}
 	}
 
@@ -1792,7 +1794,7 @@ var ApiWrapper = function (core) {
 
 			return request({
 				id : rootid || '0'
-			}, 'pctapi', '/Catalog/GetCatalogContent', p).then(r => {
+			}, 'pctapi', 'Catalog/GetCatalogContent', p).then(r => {
 
 				var result = {
 					name : r.name,
@@ -1842,7 +1844,7 @@ var ApiWrapper = function (core) {
 		create : {
 			/* {root, name} */
 			folder : function(data, p){
-				return request(data, 'pctapi', '/Catalog/Add', p).then((r) => {
+				return request(data, 'pctapi', 'Catalog/Add', p).then((r) => {
 
 					core.vxstorage.invalidate(data.catalogId, 'filesystem')
 
@@ -1864,7 +1866,7 @@ var ApiWrapper = function (core) {
 					['filesystem']
 				)
 
-				return request(data, 'pctapi', '/Catalog/MoveCatalog', p)
+				return request(data, 'pctapi', 'Catalog/MoveCatalog', p)
 			},
 			portfolio : function({id, to, from}, p){
 
@@ -1878,7 +1880,7 @@ var ApiWrapper = function (core) {
 					['filesystem']
 				)
 
-				return request(data, 'pctapi', '/Catalog/MovePortfolio', p)
+				return request(data, 'pctapi', 'Catalog/MovePortfolio', p)
 			}
 		},
 
@@ -1894,7 +1896,7 @@ var ApiWrapper = function (core) {
 					['filesystem']
 				)
 
-				return request(data, 'pctapi', '/Catalog/DeleteCatalog', p)
+				return request(data, 'pctapi', 'Catalog/DeleteCatalog', p)
 			},
 
 			portfolio : function({id, from}, p){

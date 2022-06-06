@@ -40,8 +40,6 @@ class FaceId {
             })
         }).catch(e => {
 
-			console.error(e)
-
             if(e == 'notavailable' || e == 'notset') return Promise.resolve()
 
             return Promise.reject()

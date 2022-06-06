@@ -670,6 +670,11 @@ var User = function ({
     }
 
     function clear() {
+
+        api.clearCache()
+
+        vxstorage.clear()
+        
         if (window.cordova)
             api.notifications.revoke({ device }).then(r => {
                 localStorage.removeItem(prefix + '-fcm')
@@ -690,7 +695,7 @@ var User = function ({
         self.info = {}
         self.features = {}
 
-        vxstorage.clear()
+        
     }
 
     function signup({

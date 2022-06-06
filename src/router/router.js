@@ -85,21 +85,21 @@ const routes = [
 		path: '/',
 		name: 'index',
 		component: () => import('@/views/index'),
-		customRedirect : redirects.redirect
+		customRedirect: redirects.redirect
 	},
 
 	{
 		path: '/authorization',
 		name: 'authorization',
 		component: () => import('@/views/authorization'),
-		customRedirect : redirects.notauthorized
+		customRedirect: redirects.notauthorized
 	},
 
 	{
 		path: '/profile',
 		name: 'profile',
 		component: () => import('@/views/profile'),
-		customRedirect : redirects.authorized
+		customRedirect: redirects.authorized
 	},
 
 	{
@@ -114,19 +114,19 @@ const routes = [
 		component: () => import('@/views/support')
 	},
 
-	
+
 	{
 		path: '/portfolios',
 		name: 'portfolios',
 		component: () => import('@/views/portfolios'),
-		customRedirect : redirects.authorized
+		customRedirect: redirects.authorized
 	},
 
 	{
 		path: '/portfolio/:id',
 		name: 'portfolio',
 		component: () => import('@/views/portfolio'),
-		customRedirect : redirects.authorized
+		customRedirect: redirects.authorized
 	},
 
 	{
@@ -147,40 +147,40 @@ const routes = [
 		component: () => import('@/views/changepassword')
 	},
 
-	
+
 	{
 		path: '/leads',
 		name: 'leads',
 		component: () => import('@/views/leads'),
-		customRedirect : redirects.authorized
+		customRedirect: redirects.authorized
 	},
 
 	{
 		path: '/explore',
 		name: 'explore',
 		component: () => import('@/views/explore'),
-		customRedirect : redirects.authorized
+		customRedirect: redirects.authorized
 	},
 
 	{
 		path: '/lead/:id',
 		name: 'lead',
 		component: () => import('@/views/lead'),
-		customRedirect : redirects.authorized
+		customRedirect: redirects.authorized
 	},
 
 	{
 		path: '/clients',
 		name: 'clients',
 		component: () => import('@/views/clients'),
-		customRedirect : redirects.authorized
+		customRedirect: redirects.authorized
 	},
 
 	{
 		path: '/client/:id',
 		name: 'client',
 		component: () => import('@/views/client'),
-		customRedirect : redirects.authorized
+		customRedirect: redirects.authorized
 	},
 
 	{
@@ -189,7 +189,7 @@ const routes = [
 		component: () => import('@/views/riskscore'),
 	},
 
-	
+
 ]
 
 const scrollBehavior = function (to, from, savedPosition) {
@@ -245,8 +245,6 @@ router.beforeEach((to, from, next) => {
 			return r.customRedirect(router.app.core, to)
 
 		}).catch(obj => {
-
-				console.error(obj)
 
 			return Promise.resolve(obj)
 		}).then(obj => {

@@ -397,7 +397,9 @@ var storeFactory = function (vxstorage) {
 			}
 
 			mutations['_delete_' + storage.type] = function () {
-				state[storage.type] = {}
+				state['_' + storage.type] = {}
+
+				console.log('state', state, storage.type)
 			}
 
 			mutations['_invalidate_' + storage.type] = function (state, index) {
