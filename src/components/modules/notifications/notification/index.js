@@ -49,6 +49,16 @@ export default {
 			})
 		},
 
+
+		icon : function(){
+
+			if(this.event.type == 'SURVEYSTART'){
+				return "fas fa-question"
+			}
+
+			return this.event.icon
+		}
+
 		
 	}),
 

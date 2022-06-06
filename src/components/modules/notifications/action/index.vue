@@ -54,21 +54,30 @@ export default {
 			console.log("ID", id)
 
 			this.core.vueapi.openlead({
-				leadid : 413838,
+				leadid : id,
 				notification : this.event
 			}, {
 
 			})
 
 		},
-		openclient : function(id){},
+		openclient : function(id){
+
+			this.core.vueapi.openclient({
+				clientid : id,
+				notification : this.event
+			}, {
+
+			})
+
+
+		},
 		openportfolio : function(id){},
 
 		click : function(){
 			if (this.action.link){
 
 				if(this.action.link.type == 'externalLink'){
-					console.log("!!!")
 					f.openexternallink(this.action.link.address)
 				}
 
@@ -77,12 +86,16 @@ export default {
 					if (this.action.link.address){
 						var parts = this.action.link.address.split('/')
 
+						console.log("parts", parts, this.action.link.address)
+
 						if (parts.length > 2){
 
 							var t = parts[1]
 							var id = parts[2]
 
 							if (this.types[t]){
+
+								console.log(Number(id))
 
 								this.types[t](Number(id))
 

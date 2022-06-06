@@ -152,6 +152,7 @@ export default {
 
 		deleted : function(){
 			this.$router.push('/leads')
+			this.$emit('close')
 		},
 
 		leadtocontact : function(lead){

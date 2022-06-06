@@ -492,8 +492,21 @@ class Vueapi {
     openlead = function(data, events){
 
         this.store.commit('OPEN_MODAL', {
-            id : 'modal_client_page',
+            id : 'modal_lead_page',
             module : "lead_page",
+            caption : "",
+            mclass : 'withoutheader',
+            data : data,
+            events : events
+        })
+
+    }
+
+    openclient = function(data, events){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_client_page',
+            module : "client_page",
             caption : "",
             mclass : 'withoutheader',
             data : data,

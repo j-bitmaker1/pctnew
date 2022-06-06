@@ -5,10 +5,11 @@
         <div class="modal-backdrop" @click="close">
 			<div class="closecsscross"></div>
 		</div>
-
-        <div class="notificationWrapper" v-if="data.notification">
-            <notification :event="data.notification" :withoutInternal="true" />
-        </div>
+        <swipable :directions="directionsNotification" @end="endswipe" v-if="data.notification">
+            <div class="notificationWrapper" >
+                <notification :event="data.notification" :withoutInternal="true" />
+            </div>
+        </swipable>
 
         <div class="modal-wrapper">
             <swipable :directions="directions" @end="endswipe">

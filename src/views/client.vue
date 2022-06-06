@@ -1,5 +1,5 @@
 <template>
-<div class="page">
+<div class="page" :class="{inwnd : wnd, alone : !wnd}">
 
 	<topheader :back="wnd ? '' : 'back'" :gray="true">
 		<template v-slot:info>
@@ -55,35 +55,44 @@
 
 ::v-deep
 	.userpicWrapper
-		max-width: 100px
-		min-width: 100px
-		width: 100px
-		line-height: 100px
+		max-width: 44px
+		min-width: 44px
+		width: 44px
+		line-height: 44px
 		font-size: 0.8em
 		margin-right: 2 * $r
 
-@media only screen and (max-width: 768px)
+.alone
 	::v-deep
-		#topheader
-			position: relative
-			.headerLine
-				align-items: flex-start
-				height: auto
-				.rightIcons
-					margin-top: 2.5 * $r
-				.leftIcon
-					margin-top: 4 * $r
-		.infoPart
-			margin-left: 2 * $r
-			margin-top: 8 * $r
-			margin-bottom: 4 * $r
-			.data
-				margin-top: 2 * $r
-			.userpicWrapper
-				margin-right: 0
-			#clientprofile
-				flex-direction: column
-				text-align: center
+		.userpicWrapper
+			max-width: 100px
+			min-width: 100px
+			width: 100px
+			line-height: 100px
+
+@media only screen and (max-width: 768px)
+	.alone
+		::v-deep
+			#topheader
+				position: relative
+				.headerLine
+					align-items: flex-start
+					height: auto
+					.rightIcons
+						margin-top: 2.5 * $r
+					.leftIcon
+						margin-top: 4 * $r
+			.infoPart
+				margin-left: 2 * $r
+				margin-top: 8 * $r
+				margin-bottom: 4 * $r
+				.data
+					margin-top: 2 * $r
+				.userpicWrapper
+					margin-right: 0
+				#clientprofile
+					flex-direction: column
+					text-align: center
 
 
 </style>
@@ -178,6 +187,7 @@ export default {
 
 		deleted : function(){
 			this.$router.push('/clients')
+			this.$emit('close')
 		},
 
 		portfoliosChanged : function(){

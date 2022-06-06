@@ -88,6 +88,18 @@ export default {
             }
         },
 
+        directionsNotification : function(){
+            return {
+                top : {
+                    distance : 100,
+                    direction : 'top',
+                    constraints : (e) => {
+                        return this.scroll == 0 && !this.blockTouch
+                    }   
+                }  
+            }
+        },
+
         directions : function(){
             return {
                 [this.fromtop ? 'top' : 'bottom'] : {

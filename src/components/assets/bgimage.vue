@@ -1,7 +1,8 @@
 <template>
-  <div class="bgimage" :class="{loaded}" :style="'background-image:url('+imageSrc+'); background-size: cover; background-position: center center; background-repeat: no-repeat'">
-    
-  </div>
+    <div class="bgimage" :class="{loaded, hasimage : src}" :style="'background-image:url('+imageSrc+'); background-size: cover; background-position: center center; background-repeat: no-repeat'">
+        <slot name="cnt"></slot>
+    </div>
+
 </template>
 
 
@@ -57,6 +58,8 @@
                         this.loaded = true
                     }
                 }   
+                else
+                    this.loaded = true
             }
           
         }

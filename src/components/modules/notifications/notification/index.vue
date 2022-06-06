@@ -4,7 +4,11 @@
     <div class="notificaionRow">
         <div class="iconWrapper">
             <div class="icon">
-                <i :class="event.icon" />
+                <bgimage :src="event.image">
+                    <template v-slot:cnt>
+                        <div class="icn"><i :class="icon" /></div>
+                    </template>
+                </bgimage>
             </div>
         </div>
         <div class="text">
