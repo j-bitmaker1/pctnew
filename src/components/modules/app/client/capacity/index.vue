@@ -88,6 +88,7 @@ export default {
 			if (this.profile.questionnaire){
 
 				this.core.api.crm.questionnaire.getresult(this.profile.questionnaire).then(r => {
+		
 					this.questionnaire = r
 				}).finally(() => {
 					this.loading = false

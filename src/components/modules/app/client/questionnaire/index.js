@@ -24,10 +24,10 @@ export default {
     computed: mapState({
         auth : state => state.auth,
         schema : function(){
+
             return {
                 questions : this.core.pct.riskscore.questions(),
                 capacity : this.core.pct.riskscore.capacityQuestions(),
-                
             }
         }
     }),

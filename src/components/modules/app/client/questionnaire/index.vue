@@ -22,7 +22,7 @@
 								<div class="label" v-if="slotProps.item.text"><span>{{$t(slotProps.item.text)}}</span></div>
 
 								<div class="value">
-									<template v-if="result && typeof result[i][slotProps.item.id] != 'undefined'">
+									<template v-if="result && result[i] && typeof result[i][slotProps.item.id] != 'undefined'">
 										<template v-if="slotProps.item.values && slotProps.item.values[result[i][slotProps.item.id]]">
 											<div class="qwra">
 												<i class="fas fa-check-circle"></i> <span>{{$t(slotProps.item.values[result[i][slotProps.item.id]].text)}}</span>

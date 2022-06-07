@@ -103,8 +103,6 @@ export default {
 
 			this.loading = true
 
-			console.log("LOAD CRASH TEST")
-
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
 				this.ct = r
 
