@@ -185,7 +185,6 @@ const dbstorage = function(storageName, version, time) {
 
                 _.each(memorystorage, (item, itemid) => {
 
-                    console.log('item.cachedAt < updated', item.cachedAt < updated, storageName)
                     if(item.cachedAt < updated){
                         needToClear.push(itemid)
                     }
@@ -202,9 +201,13 @@ const dbstorage = function(storageName, version, time) {
                 var needToClear = []
                 var cleared = []
 
+                console.log('updated, {index, type}', storageName, updated, {index, type})
+
                 _.each(memorystorage, (item, itemid) => {
                     if (item.invalidate){
                         if(item.invalidate.index == index && item.invalidate.type == type){
+
+                            console.log('item.cachedAt < updated', item.cachedAt < updated, item.cachedAt, updated)
 
                             if(item.cachedAt < updated){
                                 needToClear.push(itemid)
@@ -213,6 +216,8 @@ const dbstorage = function(storageName, version, time) {
                         }
                     }   
                 })
+
+                console.log('needToClear', cleared)
 
                 return this.clearItems(needToClear).then(() => {
                     return Promise.resolve(cleared)
@@ -283,6 +288,7 @@ const dbstorage = function(storageName, version, time) {
 
                     const unixtime = getHourUnixtime();
 
+                    console.log("SET", unixtime, storageName)
 
                     const item = {
                         id: itemId,
@@ -321,8 +327,6 @@ const dbstorage = function(storageName, version, time) {
             },
             get: (itemId) => {
                 debugLog('PCryptoStorage reading', itemId);
-
-                console.log('PCryptoStorage', itemId, storageName)
 
                 function executor(resolve, reject) {
 

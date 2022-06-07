@@ -58,6 +58,7 @@ export default {
 	created : function(){
 		this.core.on('invalidate', this.name, (d) => {
 			if(d.key == 'stress' && d.portfolio == this.portfolio.id){
+				console.log("INVALIDATE???")
 				this.get()
 			}
 		})
@@ -67,15 +68,19 @@ export default {
 				this.get()
 			}
 		})
+
+		this.get()
 	},
 
 	watch: {
-		portfolio : {
+		/*portfolio : {
 			immediate : true,
+			deep : true,
 			handler : function(){
+				console.log("CHANGDE")
 				this.get()
 			}
-		}
+		}*/
 	},
 	computed: mapState({
 		auth : state => state.auth,
@@ -97,6 +102,8 @@ export default {
 		get : function(){
 
 			this.loading = true
+
+			console.log("LOAD CRASH TEST")
 
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
 				this.ct = r

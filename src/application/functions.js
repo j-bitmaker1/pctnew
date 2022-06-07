@@ -1345,6 +1345,10 @@ f.date = {
 
         return d
     },
+    toserverFormatDate : function(date = new Date()){
+        return date.getUTCFullYear() + '' + date.getUTCMonth() + '' + date.getUTCDate() + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
+        
+    },
     fromstring: function (str, utc) {
         var y = str.substring(0, 4),
             M = str.substring(4, 6),

@@ -169,8 +169,6 @@ var WSS = function(core, url, system){
 
     self.fromPush = function(payload){
 
-        console.log('payload', payload)
-
         if (payload.event_id){
             core.api.notifications.get(payload.event_id).then(r => {
                 r.eventid = payload.event_id
@@ -183,8 +181,6 @@ var WSS = function(core, url, system){
 
     var handleBroadcast = function(data){
 
-        console.log("data", data)
-
         if (data.event == 'settings'){
 
             data.payload || (data.payload = {})
@@ -193,7 +189,6 @@ var WSS = function(core, url, system){
 
             if (core.settings[type]){
 
-                console.log("update settings")
 
                 core.settings[type].update().catch(e => {
                     console.log("update settings error", e)
@@ -207,7 +202,6 @@ var WSS = function(core, url, system){
 
         self.lastevent = new Date()
 
-        console.log("_message", _message)
 
         if (_message == '1') {
 

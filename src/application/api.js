@@ -925,7 +925,7 @@ var ApiWrapper = function (core) {
 
 				d.count || (d.count = 7)
 
-				return dbrequest({RowsToReturn : d.count, SearchStr : d.value}, 'pct', '?Action=GETINCREMENTALSEARCHONTICKERS', {
+				return request({RowsToReturn : d.count, SearchStr : d.value}, 'pct', '?Action=GETINCREMENTALSEARCHONTICKERS', {
 					method: "POST"
 				}).then(r => {
 
@@ -978,7 +978,7 @@ var ApiWrapper = function (core) {
 
 		settings : {
 			get : function(){
-				return dbrequest({Type : 'UserSettings', ValStr : ''}, 'pct', '?Action=GETUSERDATA', {
+				return request({Type : 'UserSettings', ValStr : ''}, 'pct', '?Action=GETUSERDATA', {
 					method: "GET"
 				}).then(r => {
 
@@ -1070,7 +1070,7 @@ var ApiWrapper = function (core) {
 					type : 'portfolio'
 				}
 			
-				return dbrequest(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
+				return request(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 
@@ -1092,7 +1092,7 @@ var ApiWrapper = function (core) {
 					type : 'portfolio'
 				}
 
-				return dbrequest(data, 'pctapi', 'StressTest/GetStressTest', p).then((r) => {
+				return request(data, 'pctapi', 'StressTest/GetStressTest', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 
@@ -1116,7 +1116,7 @@ var ApiWrapper = function (core) {
 					type : 'portfolio'
 				}
 
-				return dbrequest(data, 'pctapi', 'StressTest/GetStressTestDetailed', p).then((r) => {
+				return request(data, 'pctapi', 'StressTest/GetStressTestDetailed', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 
@@ -1130,7 +1130,7 @@ var ApiWrapper = function (core) {
 			scenarios : function(data, p = {}){
 				p.storageparameters = dbmeta.system()
 
-				return dbrequest(data, 'pctapi', 'StressTest/GetScenariosList', p).then(r => {
+				return request(data, 'pctapi', 'StressTest/GetScenariosList', p).then(r => {
 
 					return Promise.resolve(r.records)
 				})
@@ -1144,7 +1144,7 @@ var ApiWrapper = function (core) {
 				p.storageparameters = dbmeta.financial()
 				p.method = "POST"
 
-				return dbrequest(d, 'pctapi', 'Assets/IncrementalSearch', p).then(r => {
+				return request(d, 'pctapi', 'Assets/IncrementalSearch', p).then(r => {
 
 					return Promise.resolve(r.records)
 				})
@@ -1259,31 +1259,32 @@ var ApiWrapper = function (core) {
 			update : function(data, p = {}){
 				p.method = "POST"
 
+				self.invalidateStorageNow(['portfolios', 'contacts'])
+
+				data.updated = f.date.toserverFormatDate()
+
+				var {updated, from = {}} = core.vxstorage.update(data, 'portfolio')
+
+				if (updated){
+
+					core.vxstorage.invalidateManyQueue(
+						[updated.crmContactId, from.crmContactId], 
+						['client', 'lead']
+					)
+
+					core.vxstorage.invalidateMany(
+						[updated.catalogId, from.catalogId], 
+						['filesystem']
+					)
+
+					core.user.activity.template('portfolio', updated)
+				}
 
 				return request(data, 'pctapi', 'Portfolio/Update', p).then(r => {
 
-					var {updated, from = {}} = core.vxstorage.update(data, 'portfolio')
-
-					if (updated){
-						core.vxstorage.invalidateManyQueue(
-							[updated.crmContactId, from.crmContactId], 
-							['client', 'lead']
-						)
-
-						core.vxstorage.invalidateMany(
-							[updated.catalogId, from.catalogId], 
-							['filesystem']
-						)
-
-						core.ignore('portfolio', {
-							id : data.id
-						})
-
-						core.user.activity.template('portfolio', updated)
-					}
-
-					self.invalidateStorageNow(['portfolios', 'contacts'])
-					
+					core.ignore('portfolio', {
+						id : data.id
+					})
 
 					return Promise.resolve(updated)
 				})
@@ -1307,6 +1308,8 @@ var ApiWrapper = function (core) {
 					type : 'portfolio',
 					index : id
 				}
+
+				p.storageparameters = dbmeta.portfolios()
 
 				return request(data, 'pctapi', 'Portfolio/GetById', p)
 			},
@@ -1333,6 +1336,8 @@ var ApiWrapper = function (core) {
 					path : 'records',
 					getloaded : 'idsFilter'
 				}
+
+				p.storageparameters = dbmeta.portfolios()
 
 				return request(data, 'pctapi', 'Portfolio/List', p).then(r => {
 					return Promise.resolve(r.records)
@@ -1484,6 +1489,8 @@ var ApiWrapper = function (core) {
 					path : 'records'
 				}
 
+				p.storageparameters = dbmeta.contacts()
+
 				return request(data, 'api', 'crm/Contacts/GetByIds', p).then(r => {
 					return f.deep(r, 'records')
 				})
@@ -1492,15 +1499,19 @@ var ApiWrapper = function (core) {
 			update : function(data = {}, p = {}){
 				p.method = "POST"
 
+				data.Modified = f.date.toserverFormatDate()
+
+				var updated = core.vxstorage.update(data, 'client')
+
+				core.vxstorage.update(data, 'lead')
+
+				core.user.activity.remove('client', data.ID)
+				core.user.activity.remove('lead', data.ID)
+
+				self.invalidateStorageNow(['portfolios', 'contacts'])
+
 				return request(data, 'api', 'crm/Contacts/Update', p).then(r => {
 
-
-					var updated = core.vxstorage.update(data, 'client')
-
-					core.vxstorage.update(data, 'lead')
-
-					core.user.activity.remove('client', data.ID)
-					core.user.activity.remove('lead', data.ID)
 
 					core.ignore('client', {
 						ID : data.ID
@@ -1509,8 +1520,6 @@ var ApiWrapper = function (core) {
 					core.ignore('lead', {
 						ID : data.ID
 					})
-
-					self.invalidateStorageNow(['portfolios', 'contacts'])
 
 					return Promise.resolve(data)
 				})
@@ -1556,7 +1565,7 @@ var ApiWrapper = function (core) {
 
 				p.storageparameters = dbmeta.system()
 
-				return dbrequest({}, 'api', 'crm/Contacts/Scheme', p).then(r => {
+				return request({}, 'api', 'crm/Contacts/Scheme', p).then(r => {
 					return r.Contacts
 				})
 			},
@@ -1638,7 +1647,7 @@ var ApiWrapper = function (core) {
 
 					p.storageparameters = dbmeta.system()
 
-				return dbrequest(d, 'api', 'crm/Surveys/GetKeyForPctQuiz', p).then(r => {
+				return request(d, 'api', 'crm/Surveys/GetKeyForPctQuiz', p).then(r => {
 
 					var prefix = 'https://rixtrema.net/pctnew/'
 					
@@ -1762,7 +1771,6 @@ var ApiWrapper = function (core) {
 
 
 			return request({registerId : token, device, appId : self.appid}, 'api', 'notifier/Firebase/Register', p).then(r => {
-				console.log("R", r)
 			})
 
 		},
@@ -1771,7 +1779,6 @@ var ApiWrapper = function (core) {
 			p.method = "POST"
 
 			return request({device, appId : self.appid}, 'api', 'notifier/Firebase/Revoke', p).then(r => {
-				console.log("R", r)
 			})
 		},
 
@@ -2019,8 +2026,6 @@ var ApiWrapper = function (core) {
 
 				var invalidateStorage = []
 
-				console.log('f.data.nowUtc1000()', f.date.nowUtc1000(), f.date.fromstring(r.lastClientUpdate, true) / 1000)
-
 				if(r.lastClientUpdate) 
 					invalidateStorage.push({
 						updated : f.date.fromstring(r.lastClientUpdate, true) / 1000,
@@ -2047,14 +2052,6 @@ var ApiWrapper = function (core) {
 
 				return Promise.resolve(invalidateStorage)
 
-				/*console.log("R", r)
-
-
-				lastClientUpdate: "20220606152117"
-				lastLeadUpdate: "20220604100043"
-				lastPortfolioUpdate: "20220606152116"
-				lastScenariosUpdate: "20220602122405"*/
-
 			})
 		}
 	}
@@ -2062,6 +2059,8 @@ var ApiWrapper = function (core) {
 	self.checkUpdates = function(){
 		return self.user.updated().then(inv => {
 			return invalidateStorage(inv)
+		}).catch(e => {
+			return Promise.resolve()
 		})
 	}
 
@@ -2083,8 +2082,6 @@ var ApiWrapper = function (core) {
 	var invalidateStorage = function(inv){
 		return Promise.all(_.map(inv, (item) => {
 			
-			console.log('item', item)
-
 			return Promise.all(_.map(item.type, (type) => {
 				return invalidateStorageType(type, item.updated)
 			}))
@@ -2109,7 +2106,7 @@ var ApiWrapper = function (core) {
 
 				p.storageparameters = dbmeta.files()
 
-				return dbrequest({}, '401k', '?action=AWSTEXTRACTOR_FILE&id=' + id, p).then(r => {
+				return request({}, '401k', '?action=AWSTEXTRACTOR_FILE&id=' + id, p).then(r => {
 
 					return Promise.resolve(new Blob([r.Message], { type }))
 				})
