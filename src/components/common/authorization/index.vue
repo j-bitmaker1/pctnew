@@ -21,8 +21,7 @@
 						</div>
 					</div>
 					<div class="input">
-
-						<input type="email" @change="changelogin" @keyup="keyuplogin" :value="login" name="email" />
+						<input type="email" autocomplete="on" @change="changelogin" @keyup="keyuplogin" :value="login" name="email" />
 					</div>
 				</div>
 				<div class="item">

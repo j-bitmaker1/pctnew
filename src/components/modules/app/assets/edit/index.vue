@@ -8,11 +8,11 @@
     <div class="assets_inputs">
 
         <div class="name">
-            <input ref="nameinput" @focus="focus" @blur="blur" :value="focused ? namestring : (namestring || name)" @keyup="namechange" :placeholder="ticker && !isCovered ? 'Not covered' : 'Enter asset name or ticker'" />
+            <input ref="nameinput" type="text" @focus="focus" @blur="blur" :value="focused ? namestring : (namestring || name)" @keyup="namechange" :placeholder="ticker && !isCovered ? 'Not covered' : 'Enter asset name or ticker'" />
         </div>
 
         <div class="value">
-            <input :disabled="!ticker" :value="value ? value : ''" ref="valueinput" placeholder="0" @change="changevalue" />
+            <input :disabled="!ticker" :value="value ? value : ''" ref="valueinput" type="number" placeholder="0" @change="changevalue" />
         </div>
 
     </div>
