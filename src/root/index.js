@@ -49,7 +49,7 @@ export default {
 
 			var distance = 100
 
-			return this.auth == 1 ? {
+			return this.auth == 1 && window.cordova ? {
 				bottom: {
 					distance,
 					direction: 'bottom',

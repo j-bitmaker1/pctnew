@@ -276,6 +276,8 @@ export default {
 			var me = false,
 				another = false
 
+				if(!e.path) return true
+
 			_.find(e.path, (el) => {
 				me = this.$el == el
 				another = el.classList.contains('swipable') && this.$el != el
@@ -287,6 +289,8 @@ export default {
 		},
 
 		movingHandler : function(e){
+
+			console.log(e, this.validateDefaultEvent(e))
 
 			if(!this.validateDefaultEvent(e)) return
 			if(!e.touches || !e.touches.length) return
