@@ -40,6 +40,9 @@ export default {
     methods : {
         namechange : function(e) {
             this.namestring = e.target.value
+
+            if (this.namestring)
+                this.search()
         },
 
         search : function(){
@@ -56,7 +59,7 @@ export default {
 
                 this.blur()
 
-            })
+            }, this.namestring)
 
             
         },
@@ -64,7 +67,7 @@ export default {
         focus : function(e){
             this.focused = true
 
-            this.search()
+            //this.search()
 
             this.$emit('focus')
 

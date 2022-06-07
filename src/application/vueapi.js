@@ -411,7 +411,7 @@ class Vueapi {
         })
     }
 
-    searchAssets = function(success, multiple){
+    searchAssets = function(success, multiple, value){
         this.store.commit('OPEN_MODAL', {
             id : 'modal_assets_search',
             module : "assets_search",
@@ -420,7 +420,7 @@ class Vueapi {
             caption : "",
     
             data : {
-                
+                value
             },
             events : {
                 selected : function(a){
