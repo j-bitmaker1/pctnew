@@ -36,7 +36,13 @@ export default {
     created() {
         this.load()
         this.init()
+
+       
     },
+
+    beforeDestroy(){
+        
+	},
 
     watch: {
         //$route: 'getdata'
@@ -83,6 +89,9 @@ export default {
 
         },
         load: function () {
+
+            this.loading = true
+
             this.core.settings.pdf.getall().then(() => {
                 return this.core.api.pctapi.portfolios.get(this.id)
             }).then(r => {

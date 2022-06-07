@@ -11,8 +11,17 @@
 		right: 0
 		text-align: center
 		padding : 2 * $r
-		color : srgb(--neutral-grad-2)
+		color : srgb(--neutral-grad-1)
 		z-index: 2000
+
+		div
+			margin : 0 auto
+			width: 44px
+			height: 44px
+			line-height: 44px
+			border-radius: 50%
+			+shadowSmaller()
+			background: srgb(--background-secondary-theme)
 
 
 	#appmenu
@@ -33,6 +42,7 @@
 		top : 0
 		bottom: 0
 		right: 0
+		
 		
 		#maincontent,
 		#maincontent>div
@@ -68,10 +78,12 @@
 
 		.bgpage
 			padding: 2 * $r
+			padding-bottom: var(--keyboardheight)
 
 		.page
 			min-width: 0
 			padding-bottom: 120px
+			margin-bottom: var(--keyboardheight)
 
 
 		>div

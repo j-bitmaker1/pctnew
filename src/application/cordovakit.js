@@ -29,6 +29,10 @@ class Cordovakit {
 	keyboard(){
 		window.addEventListener('keyboardWillShow', (event) => {
 			document.documentElement.style.setProperty('--keyboardheight', `${event.keyboardHeight}px`);
+
+			if (document.activeElement){
+				document.activeElement.closest('.customscroll').scrollTop = document.activeElement.offsetTop - 100
+			}
 		});
 
 		window.addEventListener('keyboardWillHide', () => {

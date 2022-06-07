@@ -33,7 +33,7 @@ class Core {
         }
 
         this.domain = p.domain
-
+        this.ignoring = {}
         this.vm = vm
         this.wss = new wss(this, 'rixtrema.net:21021')
 
@@ -56,6 +56,7 @@ class Core {
             stress : new Settings(this, "STRESS"), 
             user : new Settings(this, "USER"),
             pdf : new Settings(this, "PDF"),
+            
             lspdf : new LSSettings(this, "PDF")
         }
 
@@ -67,14 +68,13 @@ class Core {
         this.cordovakit = new Cordovakit(this)
         this.vueapi = new Vueapi(this)
 
-        
 
         this.updates = new Updates(this)
 
-        this.user = new user(this)
-        this.pdfreports = new PDFReports(this)
-
-        this.ignoring = {}
+        this.api.prepare().then(() => {
+            this.user = new user(this)
+            this.pdfreports = new PDFReports(this)
+        })
        
     }
 
@@ -294,7 +294,7 @@ class Core {
         this.ignoring[type].push(key)
     }
 
-    updateByWs(data, types){
+    updateByWs(data, types, invalidate = []){
 
         _.each(types, (type) => {
 
@@ -321,6 +321,10 @@ class Core {
                 console.error(e)
             }
         })
+
+        console.log("invalidate", invalidate)
+
+        this.api.invalidateStorageNow(invalidate)
         
     }
 

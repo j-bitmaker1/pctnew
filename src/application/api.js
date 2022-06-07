@@ -245,6 +245,20 @@ var ApiWrapper = function (core) {
 			}
 		},
 
+		portfolios : function(){
+			return {
+				storage : 'portfolios',
+				time : 60 * 60 * 12 
+			}
+		},
+
+		contacts : function(){
+			return {
+				storage : 'contacts',
+				time : 60 * 60 * 12 
+			}
+		},
+
 		financial: function(){
 			return {
 				storage : 'financial',
@@ -365,7 +379,6 @@ var ApiWrapper = function (core) {
 
 		return request(data, system, to, p).then(r => {
 
-
 			if(r.pagination) r.count = r.pagination.total
 
 			prepareliststorage(data, system, to, p) /// async. maybe clear
@@ -397,8 +410,6 @@ var ApiWrapper = function (core) {
 
 		if (!storages[p.storage]) {
 			return dbstorage(p.storage, p.version || 1, p.time).then(storage => {
-
-
 				storages[p.storage] = storage
 
 				return Promise.resolve(storage)
@@ -637,6 +648,7 @@ var ApiWrapper = function (core) {
 
 	var dbrequest = function(data, system, to, p){
 
+
 		var _storage = null
 		var datahash = sha1(system + to + JSON.stringify(data))
 		
@@ -644,7 +656,7 @@ var ApiWrapper = function (core) {
 
 			_storage = storage
 
-			if (storage && !p.refresh) {
+			if (storage && !p.refreshDb) {
 				return storage.get(datahash).catch(e => {
 					return Promise.resolve()
 				})
@@ -656,7 +668,12 @@ var ApiWrapper = function (core) {
 		}).then(cached => {
 
 			if(!cached){
-				return request(data, system, to, p).then(r => {
+
+				/// return request(data, system, to, p).then(r => {
+
+				
+
+				return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
 
 					if(_storage){
 						return _storage.set(datahash, r, p.storageparameters.invalidate).then(() => {
@@ -739,8 +756,6 @@ var ApiWrapper = function (core) {
 				if (r) return Promise.resolve(r)
 			}
 
-			
-
 		}
 
 		if (p.preloader){
@@ -751,8 +766,9 @@ var ApiWrapper = function (core) {
 
 			data || (data = {})
 
+			return dbrequest(data, system, to, p).then(r => {
 
-			return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
+			//return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
 
 				if (p.kit){
 					var dk = r
@@ -816,6 +832,12 @@ var ApiWrapper = function (core) {
 			}).catch(e => {	
 
 				if (attempt < 3 && e && e.code == 20) {
+
+					core.notifier.simplemessage({
+						icon : "fas fa-wifi",
+						title : "Please wait",
+						message : "Loading takes longer than usual"
+					})
 
 					return new Promise((resolve, reject) => {
 
@@ -886,6 +908,8 @@ var ApiWrapper = function (core) {
 	self.clearCacheKey = function(key){
 
 		if (cache[key]) delete cache[key]
+
+		
 
 		if (storages[key]) {
 			storages[key].clearall().catch(e => {console.error(e)})
@@ -1178,8 +1202,9 @@ var ApiWrapper = function (core) {
 					path : 'records'
 				}
 
-				data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
+				p.storageparameters = dbmeta.portfolios()
 
+				data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
 
 				return paginatedrequest(data, 'pctapi', 'Portfolio/List', p)
 
@@ -1221,6 +1246,8 @@ var ApiWrapper = function (core) {
 					)
 				}
 
+				self.invalidateStorageNow(['portfolios', 'contacts'])
+
 				return request(data, 'pctapi', 'Portfolio/Add', p).then(r => {
 
 					return Promise.resolve({
@@ -1254,6 +1281,8 @@ var ApiWrapper = function (core) {
 
 						core.user.activity.template('portfolio', updated)
 					}
+
+					self.invalidateStorageNow(['portfolios', 'contacts'])
 					
 
 					return Promise.resolve(updated)
@@ -1344,6 +1373,8 @@ var ApiWrapper = function (core) {
 						}
 					})
 
+					self.invalidateStorageNow(['portfolios', 'contacts'])
+
 					return Promise.resolve(r)
 					
 				})
@@ -1379,6 +1410,8 @@ var ApiWrapper = function (core) {
 							)
 						}
 					})
+
+					self.invalidateStorageNow(['portfolios', 'contacts'])
 
 					return Promise.resolve(r)
 					
@@ -1420,6 +1453,8 @@ var ApiWrapper = function (core) {
 					class : Contact,
 					path : 'records'
 				}
+
+				p.storageparameters = dbmeta.contacts()
 
 				return paginatedrequest(data, 'api', 'crm/Contacts/List', p)
 
@@ -1475,6 +1510,8 @@ var ApiWrapper = function (core) {
 						ID : data.ID
 					})
 
+					self.invalidateStorageNow(['portfolios', 'contacts'])
+
 					return Promise.resolve(data)
 				})
 			},
@@ -1489,6 +1526,8 @@ var ApiWrapper = function (core) {
 					}
 
 					data.ID = r.id
+
+					self.invalidateStorageNow(['portfolios', 'contacts'])
 
 					return Promise.resolve(data)
 				})
@@ -1516,10 +1555,6 @@ var ApiWrapper = function (core) {
 				p.method = "GET"
 
 				p.storageparameters = dbmeta.system()
-				/* {
-					storage : 'system',
-					time : 60 * 60 * 48 
-				}*/
 
 				return dbrequest({}, 'api', 'crm/Contacts/Scheme', p).then(r => {
 					return r.Contacts
@@ -1571,12 +1606,14 @@ var ApiWrapper = function (core) {
 					core.vxstorage.update(ud, 'client')
 					core.vxstorage.update(ud, 'lead')
 
+					self.invalidateStorageNow(['portfolios', 'contacts'])
+
 					core.ignore('client', {
-						ID : data.ID
+						ID : ContactId
 					})
 
 					core.ignore('lead', {
-						ID : data.ID
+						ID : ContactId
 					})
 
 					return Promise.resolve()
@@ -1712,11 +1749,17 @@ var ApiWrapper = function (core) {
 			return paginatedrequest(data, 'api', 'notifier/Event/webSocketsList', p)
 		},
 
+		get : function(id, p = {}){
+
+			p.method = "POST"
+
+			return request({id}, 'api', 'notifier/Event/webSocketEvent', p)
+		},
+
 		register : function({token, device}, p = {}){
 
 			p.method = "POST"
 
-			//https://rixtrema.net/api/notifier/Pushes/testnotification?userId=59803
 
 			return request({registerId : token, device, appId : self.appid}, 'api', 'notifier/Firebase/Register', p).then(r => {
 				console.log("R", r)
@@ -1967,7 +2010,86 @@ var ApiWrapper = function (core) {
 					method: "POST",
 				})
 			}
+		},
+
+		updated : function(p = {}){
+			return request({}, 'pctapi', 'User/GetLastUpdates', {
+				method: "POST"
+			}).then(r => {
+
+				var invalidateStorage = []
+
+				console.log('f.data.nowUtc1000()', f.date.nowUtc1000(), f.date.fromstring(r.lastClientUpdate, true) / 1000)
+
+				if(r.lastClientUpdate) 
+					invalidateStorage.push({
+						updated : f.date.fromstring(r.lastClientUpdate, true) / 1000,
+						type : ['contacts'] 
+					})
+				
+				if(r.lastLeadUpdate) 
+					invalidateStorage.push({
+						updated : f.date.fromstring(r.lastLeadUpdate, true) / 1000,
+						type : ['contacts'] 
+					})
+
+				if(r.lastPortfolioUpdate) 
+					invalidateStorage.push({
+						updated : f.date.fromstring(r.lastPortfolioUpdate, true) / 1000,
+						type : ['portfolios'] 
+					})
+
+				if(r.lastScenariosUpdate) 
+					invalidateStorage.push({
+						updated : f.date.fromstring(r.lastScenariosUpdate, true) / 1000,
+						type : ['system', 'stress', 'financial'] 
+					})
+
+				return Promise.resolve(invalidateStorage)
+
+				/*console.log("R", r)
+
+
+				lastClientUpdate: "20220606152117"
+				lastLeadUpdate: "20220604100043"
+				lastPortfolioUpdate: "20220606152116"
+				lastScenariosUpdate: "20220602122405"*/
+
+			})
 		}
+	}
+
+	self.checkUpdates = function(){
+		return self.user.updated().then(inv => {
+			return invalidateStorage(inv)
+		})
+	}
+
+	var invalidateStorageType = function(type, updated){
+		if(!storages[type]) return Promise.resolve()
+
+		return storages[type].invalidateMany(updated)
+	}
+
+	self.invalidateStorageNow = function(type){
+		var inv = [{
+			updated : f.date.nowUtc1000(),
+			type
+		}]
+
+		return invalidateStorage(inv)
+	}
+
+	var invalidateStorage = function(inv){
+		return Promise.all(_.map(inv, (item) => {
+			
+			console.log('item', item)
+
+			return Promise.all(_.map(item.type, (type) => {
+				return invalidateStorageType(type, item.updated)
+			}))
+
+		}))
 	}
 
 	self.rixtrema = {

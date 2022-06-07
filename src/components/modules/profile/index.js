@@ -46,8 +46,10 @@ export default {
 
 	methods : {
 		signout : function(){
-			this.core.user.signout()
-			this.$router.push('/')
+			this.core.user.signout().then(() => {
+				this.$router.push('/')
+			})
+			
 		},
 
 		checkFaceId : function(){

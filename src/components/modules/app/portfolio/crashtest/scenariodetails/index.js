@@ -43,6 +43,10 @@ export default {
 
 	},
 
+	beforeDestroy(){
+		this.core.off('invalidate', this.name)
+	},
+
 	watch: {
 		//$route: 'getdata'
 	},
@@ -82,9 +86,7 @@ export default {
 		}
 	}),
 
-	beforeDestroy(){
-		this.core.off('invalidate', this.name)
-	},
+	
 
 	methods : {
 		loadcontributors : function(){

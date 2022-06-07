@@ -104,8 +104,6 @@ export default {
 		},
 
 		deletecontacts : function(contacts){
-			///
-
 			this.deleteclients(contacts)
 		},
 		
@@ -129,14 +127,12 @@ export default {
 			
 		},
 
-
 		////clbks
 
 		deleteclients : function(cc){
 			_.each(cc, (profile) => {
 				if(this.$refs['list']) this.$refs['list'].datadeleted(profile, "ID")
 			})
-
 		},
 
 		deleteclient : function(c){

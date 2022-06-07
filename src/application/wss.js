@@ -159,72 +159,55 @@ var WSS = function(core, url, system){
        
     }
 
-    /*var handleNotifications = function(message){
+    self.broadcast = function(data = {}){
+        data.broadcast = true
+        return send({
+            action: 'broadcast',
+            data
+        })
+    }
 
-        message.payload || (message.payload = {})
-        message.settings || (message.settings = {})
+    self.fromPush = function(payload){
 
-        if (handledNotifications[message.notification]) return
-            handledNotifications[message.notification] = true
+        console.log('payload', payload)
 
-        function clickHandler() {
-            var c = f.deep(actions, message.action + '.click') || f.deep(actions, `notification.${message.type}.click`)
+        if (payload.event_id){
+            core.api.notifications.get(payload.event_id).then(r => {
+                r.eventid = payload.event_id
 
-            
-            if (c) c(message.payload)
-        }
-
-        if(message.tap) {
-            clickHandler();
-        }
-
-        else{
-
-            if(message.payload.nothandle) return
-
-            p.vm.$message({
-
-                title : message.info.title,
-                message : message.info.message,
-                iconImg : message.info.icon || null,
-                onClick : clickHandler,
-                zIndex : 2900,
-                supportHTML : true,
-                wrapperClassName : "notificationWrapper",
-                type : 'info'
-        
+                handleMessages(r)
             })
+        }
+       
+    }
 
-            if (message.settings.sound){
-                /// TODO  insert new sound
-    
-                if (p.platform.voice && !p.platform.voice.playingnow()){
-                    p.platform.voice.signal()
-                }
+    var handleBroadcast = function(data){
+
+        console.log("data", data)
+
+        if (data.event == 'settings'){
+
+            data.payload || (data.payload = {})
+
+            var type = (data.payload.type || "").toLowerCase()
+
+            if (core.settings[type]){
+
+                console.log("update settings")
+
+                core.settings[type].update().catch(e => {
+                    console.log("update settings error", e)
+                })
             }
         }
-
-        
-       
-        if(!message.ignoredb)
-            p.vm.$store.commit('unseenincrease', 'notifications');
-
-        _.each(message.settings.actions || [], function(a){
-
-            handleMessages({
-                action : a,
-                data : message.payload
-            })
-
-        })
-
-    }*/
-
+    }
 
     var handleMessages = function(_message){
         var message = {}
 
         self.lastevent = new Date()
+
+        console.log("_message", _message)
 
         if (_message == '1') {
 
@@ -237,12 +220,19 @@ var WSS = function(core, url, system){
             return
         }
 
+
         if(_.isObject(_message)){
             message = _.clone(_message)
         }
         else{
-
             try{ message = JSON.parse(_message); }catch(e){}
+        }
+
+        if (message.broadcast){
+
+            handleBroadcast(message)
+
+            return
         }
 
         if(message.eventid){
@@ -273,18 +263,14 @@ var WSS = function(core, url, system){
             if (message.Type == 'Update'){
 
                 var types = []
+                var invalidate = []
                 var data = message.Data
 
-                
-
-                if(message.x_eventType == 'LEADUPDATE') {types = ['client', 'lead']; data = new Contact(data)}
+                if(message.x_eventType == 'LEADUPDATE') {types = ['client', 'lead']; invalidate = ['contacts']; data = new Contact(data)}
                 if(message.x_eventType == 'CATALOGUPDATE') types = ['filesystem']
-                if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; data = new Portfolio(data)}
+                if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; invalidate = ['portfolios']; data = new Portfolio(data)}
 
-
-                
-
-                core.updateByWs(data, types)
+                core.updateByWs(data, types, invalidate)
 
                 ///LEADUPDATE CATALOGUPDATE PORTFOLIOUPDATE
             }   
@@ -395,10 +381,11 @@ var WSS = function(core, url, system){
 
             self.state.opened.value = true
 
-
             _.each(self.clbks.open, function(o, i){
                 o()
             })
+
+            
 
         });
 

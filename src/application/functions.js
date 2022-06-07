@@ -1331,6 +1331,12 @@ f.values = {
 }
 
 f.date = {
+    nowUtc1000: function () {
+        var date = new Date();
+        var now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+
+        return now_utc / 1000
+    },
     addseconds: function (now, seconds) {
         if (!now) now = new Date
 
@@ -1383,12 +1389,12 @@ f.srcToData = function (url) {
     return new Promise((resolve, reject) => {
         if (url.indexOf('data:') > -1) {
             resolve(url);
-    
+
             return
         }
-    
+
         var xhr = new XMLHttpRequest();
-    
+
         xhr.onload = function () {
 
             var reader = new FileReader();
@@ -1400,7 +1406,7 @@ f.srcToData = function (url) {
             reader.readAsDataURL(xhr.response);
         };
 
-        xhr.onerror = function(e){
+        xhr.onerror = function (e) {
             console.error(e)
             reject(e)
         }
@@ -1410,7 +1416,7 @@ f.srcToData = function (url) {
         xhr.send();
     })
 
-    
+
 }
 
 f.helpers = {

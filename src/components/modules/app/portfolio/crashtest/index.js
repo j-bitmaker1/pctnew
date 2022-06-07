@@ -57,12 +57,15 @@ export default {
 
 	created : function(){
 		this.core.on('invalidate', this.name, (d) => {
-			
 			if(d.key == 'stress' && d.portfolio == this.portfolio.id){
-		
 				this.get()
 			}
-				
+		})
+
+		this.core.on('settingsUpdated', this.name, (type) => {
+			if(type == 'stress'){
+				this.get()
+			}
 		})
 	},
 
@@ -86,23 +89,14 @@ export default {
 	}),
 
 	beforeDestroy(){
-		//this.core.off('invalidate', this.name)
+		this.core.off('invalidate', this.name)
+		this.core.off('settingsUpdated', this.name)
 	},
 
 	methods : {
 		get : function(){
 
 			this.loading = true
-
-			/*this.core.on('invalidate', this.name, (d) => {
-			
-				if(d.key == 'stress' && d.portfolio == this.portfolio.id){
-			
-					this.get()
-				}
-					
-			})*/
-
 
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
 				this.ct = r

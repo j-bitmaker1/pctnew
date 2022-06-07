@@ -35,11 +35,11 @@
 						<input @keyup.enter="signin" id="ipassword" type="password" :value="password" @input="password = $event.target.value" name="password" autocomplete="on" />
 					</div>
 					<div class="label forgotPassword">
-						<router-link to="forgotpassword">
+						<!--<router-link to="forgotpassword">-->
 							<div class="work">
 								<span>{{ $t("common.2901098") }} #</span>
 							</div>
-						</router-link>
+						<!--</router-link>-->
 					</div>
 				</div>
 

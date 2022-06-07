@@ -8,7 +8,9 @@
     <div class="rootapp" v-show="!camera">
 
         <div class="refresher" :style="{transform : 'translateY('+refreshPosition+'%)'}">
-            <i class="fas fa-spinner" :class="{'fa-spin' : refreshPosition > 0}"></i>
+            <div>
+                <i class="fas fa-spinner" :class="{'fa-spin' : refreshPosition > 0}"></i>
+            </div>
         </div>
 
         <appmenu v-if="auth == 1" />

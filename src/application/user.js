@@ -21,6 +21,8 @@ var User = function ({
     updates
 }) {
 
+    console.log("api", api)
+
 
     var self = this
     var storage = null
@@ -102,33 +104,6 @@ var User = function ({
 
         if(storage) return Promise.resolve(storage)
 
-        /*return cordovakit.faceid.verify().catch(e => {
-
-            if(e == 'verify'){
-                return vueapi.pincode('enter', 3, function(code){
-
-                    var tempstorage = new Storage(code)
-
-                    try{
-                        var v = tempstorage.getItem(prefix + '-token')
-                        return Promise.resolve()
-                    }
-                    catch(e) {
-                        console.error(e)
-                        return Promise.reject()
-                    }
-
-                }).catch(e => {
-
-                    self.deletefaceid()
-
-                    return Promise.reject(e)
-                })
-            }
-
-            return Promise.resolve(lskey)
-
-        })*/
 
         return verify().catch(e => {
             return Promise.resolve(lskey)
@@ -511,45 +486,11 @@ var User = function ({
                 });
 
                 fcmNotification = FirebasePlugin.onMessageReceived((payload) => {
-
-
-                    /*if (_.isEmpty(payload)) return
-
-                    try {
-
-                        if (payload.settings) payload.settings = JSON.parse(payload.settings)
-                        if (payload.payload) payload.payload = JSON.parse(payload.payload)
-                        if (payload.info) payload.info = JSON.parse(payload.info)
-
-                    }
-                    catch (e) {
-                    }*/
-
-                    //// notification self.ws.handleNotifications(payload);
-
+                    wss.fromPush(payload)
                 });
             }
 
         } else {
-
-            /*var firebaseConfig = config.firebaseConfig;
-
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-            }
-
-            const messaging = firebase.messaging();
-
-            messaging.getToken().then(fcmToken => {
-                return api.user.sendFcmInfo({ fcmToken });
-            }).then(r => {
-                messaging.onMessage((payload) => {
-                    Notification.requestPermission()
-                        .then(permission => permission === 'granted' ? new Notification(payload.notification.body) : false);
-                });
-            })*/
-
-
 
         }
     }
@@ -665,17 +606,21 @@ var User = function ({
         if (window.cordova)
             prs.push(api.notifications.revoke({ device }).then(r => {
                 localStorage.removeItem(prefix + '-fcm')
+
+                return Promise.resolve()
             }))
 
         vm.$store.commit('globalpreloader', true)
 
         return Promise.all(prs).catch(e => {
-            console.log("E", e)
-
             return Promise.resolve()
         }).then(r => {
+
+            console.log("CLEAR???")
+
             clear()
             wss.destroy()
+
         }).finally(() => {
             vm.$store.commit('globalpreloader', false)
         })
@@ -683,6 +628,8 @@ var User = function ({
     }
 
     function clear() {
+
+        console.log("CLEAR@")
 
         api.clearCache()
 
@@ -702,8 +649,6 @@ var User = function ({
 
         self.info = {}
         self.features = {}
-
-        
     }
 
     function signup({
@@ -817,8 +762,9 @@ var User = function ({
 
         }).then(result => {
 
+            console.log("HEHRE")
 
-            api.clearCache()
+            
 
             try {
                 startFcm();
@@ -839,11 +785,13 @@ var User = function ({
 
             vm.$store.commit('userinfo', self.info)
 
-            self.prepare()
-
-            updates.synk()
+            
 
             //settings.getall()
+
+            
+
+            return api.checkUpdates()
 
             return self.askfaseid().catch(e => {
                 return Promise.resolve()
@@ -851,11 +799,17 @@ var User = function ({
 
         }).then(() => {
 
+            self.prepare()
+
+            updates.synk()
+
             wss.init()
 
             return state.value
 
         }).catch(e => {
+
+            console.log("E", e)
 
             state.value = 0
 

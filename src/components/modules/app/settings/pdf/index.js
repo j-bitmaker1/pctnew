@@ -22,7 +22,18 @@ export default {
 
     created (){
         this.load()
+
+        this.core.on('settingsUpdated', this.name, (type) => {
+			if (type == 'PDF'){
+                this.load()
+			}
+		})
+		
     },
+
+    beforeDestroy(){
+        this.core.off('settingsUpdated', this.name)
+	},
 
     watch: {
         //$route: 'getdata'

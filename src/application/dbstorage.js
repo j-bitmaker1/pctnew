@@ -116,6 +116,7 @@ const dbstorage = function(storageName, version, time) {
          */
         function clearOldItems() {
             const timeFromCurrent = getHourUnixtime() - cacheTime;
+            
 
             const transaction = db.transaction('items', 'readwrite');
             const items = transaction.objectStore('items');
@@ -128,7 +129,7 @@ const dbstorage = function(storageName, version, time) {
                     const cursor = data.target.result;
     
                     if (cursor) {
-    
+
                         if (timeFromCurrent >= cursor.value.cachedAt) {
                             debugLog('PCryptoStorage CLEAR OUTDATED log', data);
                             cursor.delete();
@@ -179,6 +180,23 @@ const dbstorage = function(storageName, version, time) {
 
         const instanceFunctions = {
 
+            invalidateMany : function(updated){
+                var needToClear = []
+
+                _.each(memorystorage, (item, itemid) => {
+
+                    console.log('item.cachedAt < updated', item.cachedAt < updated, storageName)
+                    if(item.cachedAt < updated){
+                        needToClear.push(itemid)
+                    }
+
+                })
+
+                return this.clearItems(needToClear).then(() => {
+                    return Promise.resolve()
+                })
+            },
+
             invalidate : function(updated, {index, type}) {
 
                 var needToClear = []
@@ -202,7 +220,7 @@ const dbstorage = function(storageName, version, time) {
             },
 
             clearall : () => { 
-                
+
                 function executor(resolve, reject) {
                     const transaction = openTransaction('items');
                     const items = transaction.objectStore('items');
@@ -303,6 +321,8 @@ const dbstorage = function(storageName, version, time) {
             },
             get: (itemId) => {
                 debugLog('PCryptoStorage reading', itemId);
+
+                console.log('PCryptoStorage', itemId, storageName)
 
                 function executor(resolve, reject) {
 
@@ -407,6 +427,20 @@ const dbstorage = function(storageName, version, time) {
         }
 
         const instanceFunctions = {
+            invalidateMany: function(updated) {
+
+                var needToClear = []
+
+                _.each(memorystorage, (item, itemid) => {
+
+
+                    if(item.invalidate.cachedAt > updated){
+                        needToClear.push(itemid)
+                    }
+                })
+
+                return this.clearItems(needToClear)
+            },
             invalidate : function(updated, {index, type}) {
 
                 var needToClear = []

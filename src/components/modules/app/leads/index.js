@@ -143,22 +143,6 @@ export default {
 						this.deletelead(lead)
 					}
 				})
-
-				/*this.$store.commit('OPEN_MODAL', {
-					id : 'modal_client_page',
-					module : "lead_page",
-					caption : "",
-					mclass : 'withoutheader',
-					data : {
-						leadid : client.ID
-					},
-	
-					events : {
-						leadtocontact : (lead) => {
-							this.deletelead(lead)
-						}
-					}
-				})*/
 			}
 
 		},
@@ -168,11 +152,7 @@ export default {
 			this.$store.commit('globalpreloader', true)
 
 			return this.core.crm.leadtocontacts(_.map(leads, (s) => {return s.ID})).then(r => {
-
 				this.deleteleads(leads)
-
-				//this.$router.push('/clients')
-
 			}).catch(e => {
 
 				this.$store.commit('icon', {
@@ -187,12 +167,8 @@ export default {
 		},
 
 		deletecontacts : function(contacts){
-			///
-
 			this.deleteleads(contacts)
 		},	
-		////////////
-
 
 		deleteleads : function(cc){
 			_.each(cc, (profile) => {

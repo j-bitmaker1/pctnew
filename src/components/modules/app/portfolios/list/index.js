@@ -38,12 +38,23 @@ export default {
 			sorting : {
 				FName_asc : {
 					text : 'fname_asc',
-					field : 'FName',
+					field : 'name',
 					sort : 'asc'
 				},
 				FName_desc : {
 					text : 'fname_desc',
-					field : 'FName',
+					field : 'name',
+					sort : 'desc'
+				},
+
+				updated_asc : {
+					text : 'date_asc',
+					field : 'updated',
+					sort : 'asc'
+				},
+				updated_desc : {
+					text : 'date_desc',
+					field : 'updated',
 					sort : 'desc'
 				}
 			},
@@ -76,14 +87,19 @@ export default {
 		auth : state => state.auth,
 
 		payload : function(){
+
+		
 			return {
 				searchStrFilter : this.searchvalue,
 				IncludePositions : true,
-				... this.additional || {}
+				... this.additional || {},
+
+				sortFields : [{
+					field : this.sorting[this.sort].field,
+					order : this.sorting[this.sort].sort
+				}]
 			}
 		},
-
-		
 
 		menu : function(){
 

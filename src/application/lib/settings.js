@@ -52,10 +52,12 @@ class Settings {
 
     product = 'PCT'
 
-    constructor({ api }, type) {
-        this.api = api
+    constructor(core, type) {
+        this.api = core.api
         this.data = null
         this.type = type
+        this.wss = core.wss
+        this.core = core
 
         this.meta = {}
 
@@ -72,10 +74,12 @@ class Settings {
 
         s.value = value
 
+        var promise = null
+
         if (s.id) {
-            return this.api.user.settings.update(s.id, name, value, this.type)
+            promise = this.api.user.settings.update(s.id, name, value, this.type)
         } else {
-            return this.api.user.settings.create(name, value, this.type).then(r => {
+            promise = this.api.user.settings.create(name, value, this.type).then(r => {
 
                 this.data = {
                     ...this.data,
@@ -85,6 +89,17 @@ class Settings {
                 return Promise.resolve(this.data)
             })
         }
+
+        return promise.then(r => {
+            
+            return this.wss.broadcast({
+                event : 'settings',
+                payload : {
+                    type : this.type
+                }
+            })
+
+        })
     }
 
     parse(r) {
@@ -150,6 +165,26 @@ class Settings {
             return Promise.resolve(this.getbymeta())
         })
 
+    }
+
+    clear(){
+        this.data = null
+    }
+
+    update(){
+        if (this.data){
+            
+            this.clear()
+
+            return this.getall().then(() => {
+
+                this.core.emit('settingsUpdated', this.type)
+
+                return Promise.resolve()
+            })
+        }
+
+        return Promise.resolve()
     }
 
 }

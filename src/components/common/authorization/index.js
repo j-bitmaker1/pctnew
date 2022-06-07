@@ -32,6 +32,8 @@ export default {
 
 			this.$store.commit('lastlogin', this.login)
 
+			this.core.api.clearCache()
+
 			this.core.user.signin({
 
 				password_value : this.password,
@@ -42,6 +44,8 @@ export default {
 				this.$router.push('/')
 
 			}).catch(e => {
+
+				console.log("E", e)
 
 				if(e.code == '401'){
 

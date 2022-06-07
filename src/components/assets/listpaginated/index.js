@@ -57,10 +57,16 @@ export default {
 
     watch: {
         api : function(){
+
+            this.refresh = true
             this.changed()
         },
 
         payload : function(){
+
+            console.log("?")
+
+            this.refresh = true
             this.changed()
         },
     },
@@ -90,7 +96,7 @@ export default {
             /*if (this.$refs['list'])
                 this.$refs['list'].leaveSelectionMode()*/
 
-            this.refresh = true
+            
             this.end = false
             this.loading = false
 
@@ -122,6 +128,8 @@ export default {
             if (typeof AbortController != 'undefined') this.controller = new AbortController()
 
             this.$emit('loading', this.loading)
+
+            console.log("LOAD", this.epayload)
 
 
             f.deep(this.core.api, this.api)(this.epayload, {
@@ -173,10 +181,19 @@ export default {
 		},
 
         dataunshift : function(obj){
-            this.records.unshift(obj)
-            this.count++
 
-            this.$emit('count', this.count)
+            var i = _.findIndex(this.records, (r) => {
+                return r[key] == obj[key]
+            })
+
+            if (i == -1){
+
+                this.records.unshift(obj)
+                this.count++
+
+                this.$emit('count', this.count)
+
+            }
         },
 
         datachanged : function(obj, key){
