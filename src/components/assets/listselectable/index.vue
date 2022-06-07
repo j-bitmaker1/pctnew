@@ -1,5 +1,5 @@
 <template>
-<div class="listselectable" :class="[selection ? 'selection' : '', view]">
+<div class="listselectable unselectable" :class="[selection ? 'selection' : '', view]">
     <list :transition="transition" ref="list" :items="items" @click="click" @touchhold="touchhold">
         <template v-slot:default="slotProps">
 

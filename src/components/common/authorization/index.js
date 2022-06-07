@@ -27,6 +27,10 @@ export default {
 	}),
 
 	methods : {
+
+		focusedLogin : function(){
+			console.log('focused')
+		},
 	  
 		signin : function(){
 
@@ -47,7 +51,7 @@ export default {
 
 				console.log("E", e)
 
-				if(e.code == '401'){
+				if(e.code == '401' || e.code == 511){
 
 					this.$message({
 						title : "Invalid Access Details",
@@ -81,6 +85,7 @@ export default {
 
 		changelogin : function(v){
 			this.login = v.target.value
+			console.log("S")
 		},
 
 	   

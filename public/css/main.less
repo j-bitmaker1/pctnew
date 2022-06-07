@@ -151,8 +151,9 @@ html {
 	overflow-x: hidden;
 	scrollbar-width: 7px;
 	scrollbar-color: rgba(var(--background-main-contrast), .15) rgba(var(--background-main-contrast), .05);
-	overscroll-behavior: contain;
+	overscroll-behavior: none;
 	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
 
 	&::-webkit-scrollbar {
 			width: 7px;
@@ -188,23 +189,13 @@ html {
 		scroll-behavior: smooth;
 	}
 
-	html{
-		*{
-			-webkit-touch-callout: none;
-			-webkit-user-select: none;
-			-khtml-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}
-		
-	}
 }
 
 body{
 	min-height: 100%;
 	overscroll-behavior: none;
 	scroll-behavior: smooth;
+	overflow-x: hidden!important;
 }
 
 *{
@@ -234,16 +225,18 @@ a{
 	-ms-user-select: none;
 	user-select: none;
 	-webkit-tap-highlight-color: transparent;
+
+	*{
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		-webkit-tap-highlight-color: transparent;
+	}
 }
 
-html.mobile .unselectablemobile{
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
 
 .cancopy{
 	-webkit-user-select: text!important;

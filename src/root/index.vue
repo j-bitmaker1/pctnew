@@ -5,9 +5,10 @@
         <camera v-bind="camera.data || {}" v-on="camera.events" @close="closeCamera" />
     </div>
 
+
     <div class="rootapp" v-show="!camera">
 
-        <div class="refresher" :style="{transform : 'translateY('+refreshPosition+'%)'}">
+        <div class="refresher" :style="{opacity : refreshPosition > 0 ? 1 : 0, transform : 'translateY('+refreshPosition+'%)'}">
             <div>
                 <i class="fas fa-spinner" :class="{'fa-spin' : refreshPosition > 0}"></i>
             </div>

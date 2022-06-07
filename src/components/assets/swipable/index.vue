@@ -192,6 +192,8 @@ export default {
 		
 		swipeStatus : function(e, phase, direction, distance){
 
+			console.log('e, phase, direction, distance' , e, phase, direction, distance)
+
 			if(!this.directions) return
 
 			if (this.mainDirection && this.mainDirection.direction != direction && phase == 'move'){
@@ -304,6 +306,7 @@ export default {
 		},
 
 		startHandler : function(e){
+			
 
 			if(!this.validateDefaultEvent(e)) return
 			if(!e.touches || !e.touches.length) return

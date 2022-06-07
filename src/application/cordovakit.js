@@ -28,6 +28,7 @@ class Cordovakit {
 
 	keyboard(){
 		window.addEventListener('keyboardWillShow', (event) => {
+
 			document.documentElement.style.setProperty('--keyboardheight', `${event.keyboardHeight}px`);
 
 			if (document.activeElement){
@@ -38,6 +39,7 @@ class Cordovakit {
 		window.addEventListener('keyboardWillHide', () => {
 			document.documentElement.style.setProperty('--keyboardheight', `${0}px`);
 		});
+		
 	}
 
 	vibration(total){
