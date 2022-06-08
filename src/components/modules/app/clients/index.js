@@ -45,7 +45,19 @@ export default {
 					text : 'date_desc',
 					field : 'Created',
 					sort : 'desc'
-				}
+				},
+
+				$$PCT_PortfoliosTotalSum_asc : {
+					text : 'total_assets_asc',
+					field : '$$PCT_PortfoliosTotalSum',
+					sort : 'asc'
+				},
+				$$PCT_PortfoliosTotalSum_desx : {
+					text : 'total_assets_desc',
+					field : '$$PCT_PortfoliosTotalSum',
+					sort : 'desc'
+				},
+
 			},
 
 		}

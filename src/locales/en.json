@@ -135,7 +135,9 @@
 		"fname_asc" : "Name(A-Z)",
 		"fname_desc" : "Name(Z-A)",
 		"date_asc" : "Old ones first",
-		"date_desc" : "New ones first"
+		"date_desc" : "New ones first",
+		"total_assets_desc" : "Total assets descending",
+		"total_assets_asc" : "Total assets ascending"
 	},
 
 	"button" : {

@@ -276,11 +276,11 @@ export default {
 
 			var path = e.path
 
-			if(!e.path && e.composedPath) path = e.composedPath
+			if(!e.path && e.composedPath) path = e.composedPath()
 
 			if(!path) return true
 
-			_.find(e.path, (el) => {
+			_.find(path, (el) => {
 				me = this.$el == el
 				another = el.classList.contains('swipable') && this.$el != el
 
