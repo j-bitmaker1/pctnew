@@ -9,7 +9,9 @@
 		"cordova": "node cordova.js",
 		"cordova-build-android": "cross-env CORDOVA_PLATFORM=android vue-cli-service cordova-build-android --buildConfig build.json --emptypublicpath --packageType=bundle",
 		"cordova-release-android": "cross-env CORDOVA_PLATFORM=android vue-cli-service cordova-build-android --prod --release --emptypublicpath --buildConfig build.json",
-		"cordova-serve-android": "cross-env CORDOVA_PLATFORM=android vue-cli-service cordova-serve-android --emptypublicpath"
+		"cordova-serve-android": "cross-env CORDOVA_PLATFORM=android vue-cli-service cordova-serve-android --emptypublicpath",
+		"cordova-build-ios": "cross-env CORDOVA_PLATFORM=ios vue-cli-service cordova-build-ios --device  --emptypublicpath --buildConfig build.json",
+		"cordova-release-ios": "cross-env CORDOVA_PLATFORM=ios vue-cli-service cordova-build-ios --device  --emptypublicpath --prod --release --buildConfig build.json"
 	},
 	"dependencies": {
 		"@editorjs/header": "^2.6.2",

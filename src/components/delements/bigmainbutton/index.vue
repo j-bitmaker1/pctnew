@@ -11,7 +11,7 @@
 	</div>
 
 	<div class="labels">
-		<div class="blabel" v-if="blabel">
+		<div class="blabel">
 			<span>{{blabel}}</span>
 		</div>
 		<div class="nlabel" v-if="nlabel">

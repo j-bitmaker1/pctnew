@@ -18,6 +18,21 @@ const MODE_FILE_NAME = MODE_CONTENT_FOLDER;
 
 const MODES_ORDER = [MODES.PCT];
 
+var platform = function(){
+    var opsys = process.platform;
+    if (opsys == "darwin") {
+        opsys = "MacOS";
+    } else if (opsys == "win32" || opsys == "win64") {
+        opsys = "Windows";
+    } else if (opsys == "linux") {
+        opsys = "Linux";
+    }
+
+    return opsys
+}
+
+
+
 start();
 
 async function start() {
@@ -33,6 +48,16 @@ async function start() {
 }
 
 async function doStuff(mode) {
+    if(platform == "MacOS"){
+        doIos(mode)
+    }
+    else{
+        doAndroid(mode)
+    }
+    
+}
+
+async function doAndroid(mode) {
     console.log('CLEANING UP');
     fse.removeSync(`./${SRC_CORDOVA_FOLDER}/platforms/android`);
 
@@ -48,12 +73,32 @@ async function doStuff(mode) {
     console.log('stdout:', outDip);
     console.log('stderr:', errDip);
 
-    renameOutput(MODE_FILE_NAME[mode]);
+    renameOutputAndroid(MODE_FILE_NAME[mode]);
+}
+
+
+async function doIos(mode) {
+    console.log('CLEANING UP');
+    fse.removeSync(`./${SRC_CORDOVA_FOLDER}/platforms/ios`);
+
+    copyFolders(MODE_CONTENT_FOLDER[mode]);
+
+    console.log('ADD PLATFORM');
+    const { stdout: outRes, stderr: errRes } = await exec('cordova platform add ios', {cwd: `./${SRC_CORDOVA_FOLDER}`});
+    console.log('stdout:', outRes);
+    console.log('stderr:', errRes);
+
+    /*console.log('BUILD');
+    const { stdout: outDip, stderr: errDip } = await exec(`npm run cordova-build-ios`);
+    console.log('stdout:', outDip);
+    console.log('stderr:', errDip);
+
+    renameOutput(MODE_FILE_NAME[mode]);*/
 }
 
 const CORDOVA_BUILD_OUTPUT = 'cordova-built'
 
-function renameOutput(newName) {
+function renameOutputAndroid(newName) {
     const oldPath = `${OUTPUT_DIR_PATH}${OUTPUT_FILE_NAME}`;
     const oldPathOutputJson = `${OUTPUT_DIR_PATH}output.json`;
     let newPath = `./${CORDOVA_BUILD_OUTPUT}/${newName}.apk`;

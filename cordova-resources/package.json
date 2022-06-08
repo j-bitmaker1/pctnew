@@ -5,7 +5,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-      "android-add": "cordova platform add android@9.1.0",
+      "android-add": "cordova platform add android",
       "ios-add": "cordova platform add ios",
       "android-build": "cordova build android --prod --release --buildConfig build.json --verbose",
       "android-build-debug": "cordova build android --buildConfig build.json --verbose",
