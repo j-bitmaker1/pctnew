@@ -15,6 +15,28 @@ class Updates {
             count: 0
         },
 
+        totalLeads: {
+            id: 'totalLeads',
+            api: 'crm.contacts.counts',
+
+            prepare : function(data){
+                return data.LeadsCount
+            },
+
+            count: 0
+        },
+
+        totalClients: {
+            id: 'totalClients',
+            api: 'crm.contacts.counts',
+
+            prepare : function(data){
+                return data.ClientsCount
+            },
+
+            count: 0
+        },
+
         clients: {
             id: 'clients',
             count: 0

@@ -133,6 +133,12 @@ export default {
 
                 
             }
+        },
+
+        to : function(path){
+            this.$router.push(path)
+
+            this.$emit('close')
         }
     },
 }

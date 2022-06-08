@@ -44,6 +44,8 @@ var FormDataRequest = function(core = {}, url, system){
 var Request = function (core = {}, url, system) {
 	var self = this
 
+	var loading = {}
+
 	var timeout = function (ms, promise, controller) {
 
 		return new Promise((resolve, reject) => {
@@ -201,11 +203,32 @@ var Request = function (core = {}, url, system) {
 		})
 	}
 
+	var doublePreventRequest = function(path, data, p){
+		var datahash = sha1(path + JSON.stringify(data))
+
+		if (loading[datahash]){
+			return loading[datahash]
+		}
+
+		loading[datahash] = direct(path, data, p).then((r) => {
+			delete loading[datahash]
+			return Promise.resolve(r)
+		}).catch(e => {
+			delete loading[datahash]
+			return Promise.reject(e)
+		})
+
+		return loading[datahash]
+	}
+
 	self.fetch = function (path, data, p) {
 
 		if(!path) path = ''
 
+		return doublePreventRequest(url ? (url + (path.indexOf('?') == 0 ? '' : '/') + path) : path, data, p)
+
 		return direct(url ? (url + (path.indexOf('?') == 0 ? '' : '/') + path) : path, data, p)
+
 	}
 
 	return self
@@ -1533,7 +1556,6 @@ var ApiWrapper = function (core) {
 
 				return request(data, 'api', 'crm/Contacts/Update', p).then(r => {
 
-
 					core.ignore('client', {
 						ID : data.ID
 					})
@@ -1559,13 +1581,21 @@ var ApiWrapper = function (core) {
 
 					data.ID = r.id
 
-					core.ignore('client', {
-						ID : data.ID
-					})
+					if (data.type == 'CLIENT'){
+						core.ignore('client', {
+							ID : data.ID
+						})
 
-					core.ignore('lead', {
-						ID : data.ID
-					})
+						core.updates.increase('totalClients')
+					}
+
+					if(data.type == 'LEAD'){
+						core.ignore('lead', {
+							ID : data.ID
+						})
+
+						core.updates.increase('totalLeads')
+					}
 
 					//// TO DO CHECK DOUBLE
 

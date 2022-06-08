@@ -516,6 +516,19 @@ class Vueapi {
 
     }
 
+    explore = function(data, events){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_explore',
+            module : "explore",
+            caption : "",
+            mclass : 'withoutheader',
+            data : data,
+            events : events
+        })
+
+    }
+
 }
 
 export default Vueapi

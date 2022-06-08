@@ -70,7 +70,7 @@ export default {
         pincode : () => import("@/components/assets/pincode/index.vue"),
         portfoliopdf :  () => import("@/components/modules/app/portfolio/createpdf/index.vue"),
         editorjs : () => import("@/components/common/editorjs/index.vue"),
-
+        explore : () => import("@/views/explore.vue"),
     },
  
     computed: mapState({

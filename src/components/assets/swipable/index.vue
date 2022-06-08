@@ -190,6 +190,14 @@ export default {
 			this.$emit('clear')
 		},
 
+		stopEvent : function(e){
+			if (e.cancelable !== false){
+				e.stopPropagation();
+				e.preventDefault();
+			}
+
+			return false
+		},
 		
 		swipeStatus : function(e, phase, direction, distance){
 
@@ -234,12 +242,8 @@ export default {
 					this.clear()
                 }
 
-                if (e.cancelable !== false){
-                    e.stopPropagation();
-                    e.preventDefault();
-                }
+				return this.stopEvent(e)
 
-                return false
             }
 
 			if (phase == 'start'){
@@ -258,10 +262,7 @@ export default {
 
                 }
 
-                if (e.cancelable !== false){
-                    e.stopPropagation();
-                    e.preventDefault();
-                }
+                this.stopEvent(e)
 
                 return true
             }
@@ -273,7 +274,11 @@ export default {
 			var me = false,
 				another = false
 
-				if(!e.path) return true
+			var path = e.path
+
+			if(!e.path && e.composedPath) path = e.composedPath
+
+			if(!path) return true
 
 			_.find(e.path, (el) => {
 				me = this.$el == el

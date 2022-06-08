@@ -6,7 +6,7 @@ export default {
 	props: {
 		icon : String,
 		label : String,
-		blabel : String,
+		blabel : [String, Number],
 		nlabel : [String, Number],
 		active: Boolean
 	},

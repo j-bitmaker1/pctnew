@@ -14,9 +14,7 @@
 	<div class="assets" >
 		<div class="actions">
 			<div class="action" v-for="action in actions" :key="action.route">
-				<router-link :to="action.route">
-					<i :class="action.icon" />
-				</router-link>
+				<i :class="action.icon" @click="to(action.route)"/>
 			</div>
 		</div>
 		<div class="assetsClList" @click="open">
@@ -122,6 +120,10 @@ export default {
 	methods: {
 		open : function(){
 			this.$emit('open')
+		},
+
+		to : function(to){
+			this.$emit('to', to)
 		}
 	},
 }

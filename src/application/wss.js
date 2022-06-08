@@ -261,6 +261,7 @@ var WSS = function(core, url, system){
                 var data = message.Data
 
                 if(message.x_eventType == 'LEADUPDATE') {types = ['client', 'lead']; invalidate = ['contacts']; data = new Contact(data)}
+                if(message.x_eventType == 'CLIENTUPDATE') {types = ['client', 'lead']; invalidate = ['contacts']; data = new Contact(data)}
                 if(message.x_eventType == 'CATALOGUPDATE') types = ['filesystem']
                 if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; invalidate = ['portfolios']; data = new Portfolio(data)}
 
@@ -277,6 +278,8 @@ var WSS = function(core, url, system){
                 var type = ''
 
                 if(message.x_eventType == 'LEADUPDATE') {type = 'lead'; invalidate = ['contacts']; data = new Contact(data)}
+                if(message.x_eventType == 'CLIENTUPDATE') {type = 'client'; invalidate = ['contacts']; data = new Contact(data)}
+
 
                 core.createByWs(data, types, invalidate)
                 /*var types = []

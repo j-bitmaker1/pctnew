@@ -9,12 +9,12 @@
 
 			<homeAdd />
 
-			<div class="buttonpanel">
+			<div class="buttonpanel" @click="explore">
 				
 				<!--<i class="fas fa-bars"></i>-->
-				<router-link to="explore">
+				<!--<router-link to="explore">-->
 					<i class="fas fa-search"></i>
-				</router-link>
+				<!--</router-link>-->
 			</div>
 		</template>
 
@@ -64,6 +64,9 @@ export default {
 	},
 
 	methods: {
+		explore : function(){
+			this.core.vueapi.explore()
+		}
 		/*showsearch : function(){
 			this.$store.commit('OPEN_MODAL', {
 				id : 'modal_homesearch',

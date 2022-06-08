@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-    <topheader back="/">
+    <topheader :back="wnd ? '' : '/'">
         <template v-slot:info>
             <span>Explore</span>
         </template>
@@ -24,7 +24,7 @@
     <maincontent>
 
         <template v-slot:content>
-            <homesearch ref="homesearch" />
+            <homesearch ref="homesearch" @close="close"/>
         </template>
 
     </maincontent>
@@ -43,6 +43,10 @@ export default {
     name: 'explore_page',
     components: {
         homesearch
+    },
+
+    props : {
+        wnd : Boolean
     },
 
     computed: {
@@ -64,6 +68,9 @@ export default {
                 console.error(e)
             })
 
+        },
+        close : function(){
+            this.$emit('close')
         }
     },
 

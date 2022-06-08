@@ -17,7 +17,7 @@
         <template v-slot:list="slotProps">
             <div class="act mobp">
 
-                <component @open="e => open(slotProps.item)" v-if="getmodule(slotProps.item)" :is="getmodule(slotProps.item)" v-bind="slotProps.item.data || {}">
+                <component @to="to" @open="e => open(slotProps.item)" v-if="getmodule(slotProps.item)" :is="getmodule(slotProps.item)" v-bind="slotProps.item.data || {}">
                 </component>
 
                 <span v-else>{{slotProps.item.search}}</span>

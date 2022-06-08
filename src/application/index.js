@@ -357,6 +357,14 @@ class Core {
         if (type == 'lead' && data.Type == "LEAD_NEW"){
             this.updates.increase('leads')
         }
+
+        if (type == 'lead' && (data.Type == "LEAD_NEW" || data.Type == "LEAD")){
+            this.updates.increase('totalLeads')
+        }
+
+        if (type == 'client' && (data.Type == "CLIENT")){
+            this.updates.increase('totalClients')
+        }
         
     }
 
