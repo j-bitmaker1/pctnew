@@ -85,7 +85,6 @@
         "cordova-plugin-file-opener2": {
           "ANDROID_SUPPORT_V4_VERSION": "27.+"
         },
-        "cordova-plugin-contacts-x": {},
         "cordova-plugin-ionic-keyboard": {},
         "cordova-universal-links-plugin": {},
         "cc.fovea.cordova.openwith": {
