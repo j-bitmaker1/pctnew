@@ -20,6 +20,10 @@ class Templates {
 
     }
 
+    status_product = function(){
+        return this.condition(conditions.like, "products", "pct")
+    } 
+
     status_active = function(){
         return this.condition(conditions.notinlist, "Status", ["DELETED", "INACTIVE"])
     } 
@@ -119,6 +123,7 @@ class Queries {
 
         groups.push(
             this.t.group([
+                this.t.status_product(),
                 this.t.status_active(),
                 this.t.type_eq(type)
             ], join.and)

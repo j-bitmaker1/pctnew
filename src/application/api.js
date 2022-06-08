@@ -1573,6 +1573,8 @@ var ApiWrapper = function (core) {
 
 				self.invalidateStorageNow(['portfolios', 'contacts'])
 
+				data.products = 'pct'
+
 				return request(data, 'api', 'crm/Contacts/Insert', p).then(r => {
 
 					if (r.alreadyExists){
