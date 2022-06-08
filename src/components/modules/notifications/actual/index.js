@@ -17,36 +17,44 @@ export default {
             intervalTime : 200,
             directionsShowMore: {
                 left: {
+                    trueshold : 1,
                     distance: 100,
                     direction: 'left'
                 },
                 top: {
+                    trueshold : 1,
                     distance: 100,
                     direction: 'top'
                 },
                 right: {
+                    trueshold : 1,
                     distance: 100,
                     direction: 'right'
                 },
                 bottom: {
+                    trueshold : 1,
                     distance: 100,
                     direction: 'bottom'
                 }
             },
             directions: {
                 left: {
+                    trueshold : 1,
                     distance: 100,
                     direction: 'left'
                 },
                 top: {
+                    trueshold : 1,
                     distance: 100,
                     direction: 'top'
                 },
                 right: {
+                    trueshold : 1,
                     distance: 100,
                     direction: 'right'
                 },
                 bottom: {
+                    trueshold : 1,
                     distance: 100,
                     direction: 'bottom'
                 }

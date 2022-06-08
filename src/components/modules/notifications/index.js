@@ -85,6 +85,7 @@ export default {
 		directions: function () {
 			return {
 				left: {
+					trueshold : 1,
 					distance: 100,
 					direction: 'left'
 				}

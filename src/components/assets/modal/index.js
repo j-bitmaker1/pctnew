@@ -91,6 +91,7 @@ export default {
         directionsNotification : function(){
             return {
                 top : {
+                    trueshold : 1,
                     distance : 100,
                     direction : 'top',
                     constraints : (e) => {
