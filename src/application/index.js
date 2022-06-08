@@ -357,11 +357,11 @@ class Core {
             type
         })
 
-        if (type == 'lead' && data.Type == "LEAD_NEW"){
+        if (type == 'lead' && data.Status == "LEAD_NEW"){
             this.updates.increase('leads')
         }
 
-        if (type == 'lead' && (data.Type == "LEAD_NEW" || data.Type == "LEAD")){
+        if (type == 'lead' && (data.Status == "LEAD_NEW" || data.Type == "LEAD")){
             this.updates.increase('totalLeads')
         }
 

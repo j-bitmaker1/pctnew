@@ -16,7 +16,7 @@ export default {
 		return {
 			loading : false,
 
-			items : [
+			allitems : [
 				{
 					route : '/',
 					id : 'home',
@@ -30,7 +30,7 @@ export default {
 					icon : "fas fa-users",
 
 					childrens : ['/client']
-			  
+			
 				},
 				{
 					route : '/leads',
@@ -52,7 +52,8 @@ export default {
 					route : '/profile',
 					id : 'profile',
 					text : 'menu.profile',
-					icon : "fas fa-user"
+					icon : "fas fa-user",
+					mobile : false
 				},
 			]
 		}
@@ -86,6 +87,13 @@ export default {
 			if(r) return r.id
 
 			return 'home'
+		},
+
+		items : function(){
+
+			var mobile = f.mobileview()
+
+			return this.allitems
 		}
 	}),
 

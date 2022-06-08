@@ -72,7 +72,7 @@ class CRM {
 
         var update = {}
 
-        if (contact.Type == 'LEAD_NEW') update.Type = "LEAD"
+        if (contact.Status == 'LEAD_NEW') update.Status = "LEAD"
         if ((contact.Products || "").indexOf('PCT') == -1) {
             var products = _.filter((contact.Products || "").split(','), (f) => {return f})
 
