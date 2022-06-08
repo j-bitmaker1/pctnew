@@ -48,7 +48,7 @@ async function start() {
 }
 
 async function doStuff(mode) {
-    if(platform == "MacOS"){
+    if(platform() == "MacOS"){
         doIos(mode)
     }
     else{
