@@ -35,6 +35,16 @@ export default {
 					text : 'fname_desc',
 					field : 'FName',
 					sort : 'desc'
+				},
+				Created_asc : {
+					text : 'date_asc',
+					field : 'Created',
+					sort : 'asc'
+				},
+				Created_desc : {
+					text : 'date_desc',
+					field : 'Created',
+					sort : 'desc'
 				}
 			},
 
@@ -100,6 +110,11 @@ export default {
 	}),
 
 	methods : {
+
+		addedreload : function(){
+			this.sort = 'Created_desc'
+			this.reload()
+		},
 
 		reload : function(){
 			this.added = 0

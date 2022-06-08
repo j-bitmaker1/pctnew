@@ -5,7 +5,7 @@
 	</div>
 
 	<div class="added mobp" v-if="added">
-		<button class="button" @click="reload">You have a new leads ({{added}})</button>
+		<button class="button" @click="addedreload">You have a new leads ({{added}})</button>
 	</div>
 
 	<listpaginated placeholder="No leads found" activity="lead" :select="{context : 'leaads'}" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">

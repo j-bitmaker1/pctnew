@@ -134,8 +134,8 @@
 	"sort" : {
 		"fname_asc" : "Name(A-Z)",
 		"fname_desc" : "Name(Z-A)",
-		"date_asc" : "New ones first",
-		"date_desc" : "Old ones first"
+		"date_asc" : "Old ones first",
+		"date_desc" : "New ones first"
 	},
 
 	"button" : {

@@ -35,6 +35,17 @@ export default {
 					text : 'fname_desc',
 					field : 'FName',
 					sort : 'desc'
+				},
+
+				Created_asc : {
+					text : 'date_asc',
+					field : 'Created',
+					sort : 'asc'
+				},
+				Created_desc : {
+					text : 'date_desc',
+					field : 'Created',
+					sort : 'desc'
 				}
 			},
 
@@ -46,6 +57,7 @@ export default {
 
 	created : function(){
 		this.core.on('created', this.name, (d) => {
+			console.log("CREATED COMP", d)
 			if (d.type == 'lead'){
 
 				this.added ++
@@ -133,8 +145,15 @@ export default {
 			if(this.$refs['list']) this.$refs['list'].datachanged(profile, "ID")
 		},
 
+		addedreload : function(){
+			this.sort = 'Created_desc'
+			this.reload()
+		},
+
 		reload : function(){
+
 			this.added = 0
+
 			if(this.$refs['list']) this.$refs['list'].reload()
 		},
 
