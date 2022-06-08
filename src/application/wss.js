@@ -273,6 +273,8 @@ var WSS = function(core, url, system){
 
             if (message.Type == 'Create'){
 
+                console.log('message', message)
+
                 var invalidate = []
                 var data = message.Data
                 var type = ''
@@ -281,7 +283,10 @@ var WSS = function(core, url, system){
                 if(message.x_eventType == 'CLIENTUPDATE') {type = 'client'; invalidate = ['contacts']; data = new Contact(data)}
 
 
-                core.createByWs(data, types, invalidate)
+                core.createByWs(data, type, invalidate)
+
+
+
                 /*var types = []
                 var invalidate = []
                 var data = message.Data

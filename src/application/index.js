@@ -330,14 +330,15 @@ class Core {
 
     createByWs(data, type, invalidate = []){
 
-        if(!this.ignoring[type]) this.ignoring[type] = []
+        console.log('createByWs', data, type, invalidate)
+
+        if(!this.ignoring[type]) 
+            this.ignoring[type] = []
 
         var index = _.findIndex(this.ignoring[type], (v) => {
-
             return _.find(v, (value, key) => {
                 return data[key] == value
             })
-
         })
 
         if (index > -1){
@@ -346,6 +347,8 @@ class Core {
 
             return
         }
+
+        console.log("FFF")
 
         this.api.invalidateStorageNow(invalidate)
 
