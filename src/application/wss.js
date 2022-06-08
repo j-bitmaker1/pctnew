@@ -266,7 +266,29 @@ var WSS = function(core, url, system){
 
                 core.updateByWs(data, types, invalidate)
 
-                ///LEADUPDATE CATALOGUPDATE PORTFOLIOUPDATE
+                return
+
+            }   
+
+            if (message.Type == 'Create'){
+
+                var invalidate = []
+                var data = message.Data
+                var type = ''
+
+                if(message.x_eventType == 'LEADUPDATE') {type = 'lead'; invalidate = ['contacts']; data = new Contact(data)}
+
+                core.createByWs(data, types, invalidate)
+                /*var types = []
+                var invalidate = []
+                var data = message.Data
+
+                if(message.x_eventType == 'LEADUPDATE') {types = ['client', 'lead']; invalidate = ['contacts']; data = new Contact(data)}
+                if(message.x_eventType == 'CATALOGUPDATE') types = ['filesystem']
+                if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; invalidate = ['portfolios']; data = new Portfolio(data)}
+
+                core.updateByWs(data, types, invalidate)*/
+
             }   
 
             if (message.x_eventType == 'READEVENTS'){

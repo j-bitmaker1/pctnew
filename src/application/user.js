@@ -785,11 +785,7 @@ var User = function ({
 
             vm.$store.commit('userinfo', self.info)
 
-            
-
             //settings.getall()
-
-            
 
             return api.checkUpdates()
 

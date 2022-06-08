@@ -78,6 +78,9 @@ export default {
 		refresh : function(){
 			this.isRouterAlive = false
 			this.$nextTick(() => (this.isRouterAlive = true))
+
+			this.core.api.checkUpdates()
+			this.core.updates.synk()
 		}
 
 		/*fxtest : function(e){

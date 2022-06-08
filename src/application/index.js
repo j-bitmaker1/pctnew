@@ -328,6 +328,38 @@ class Core {
         
     }
 
+    createByWs(data, type, invalidate = []){
+
+        if(!this.ignoring[type]) this.ignoring[type] = []
+
+        var index = _.findIndex(this.ignoring[type], (v) => {
+
+            return _.find(v, (value, key) => {
+                return data[key] == value
+            })
+
+        })
+
+        if (index > -1){
+
+            this.ignoring[type].splice(index, 1)
+
+            return
+        }
+
+        this.api.invalidateStorageNow(invalidate)
+
+        this.emit('created', {
+            data, 
+            type
+        })
+
+        if (type == 'lead' && data.Type == "LEAD_NEW"){
+            this.updates.increase('leads')
+        }
+        
+    }
+
     readNotification(ids){
 
         _.each(ids, () => {

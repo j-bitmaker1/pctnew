@@ -111,7 +111,7 @@ var Request = function (core = {}, url, system) {
 		var token  = ''
 
 
-		return core.user.extendA({ headers, data, system }).then(r => {
+		return (core.user ? core.user.extendA({ headers, data, system }) : Promise.resolve()).then(r => {
 
 			var parameters = {
 
@@ -1250,6 +1250,10 @@ var ApiWrapper = function (core) {
 
 				return request(data, 'pctapi', 'Portfolio/Add', p).then(r => {
 
+					core.ignore('portfolio', {
+						id : r.id
+					})
+
 					return Promise.resolve({
 						id : r.id
 					})
@@ -1424,6 +1428,8 @@ var ApiWrapper = function (core) {
 					
 				})
 			},
+
+			
 		}
 	}
 
@@ -1498,6 +1504,14 @@ var ApiWrapper = function (core) {
 				})
 			},
 
+			counts : function(p = {}){
+				p.storageparameters = dbmeta.contacts()
+
+				return request({
+					Product : 'pct'
+				}, 'api', 'crm/Contacts/GetCountsByType', p)
+			},
+
 			update : function(data = {}, p = {}){
 				p.method = "POST"
 
@@ -1544,6 +1558,16 @@ var ApiWrapper = function (core) {
 					}
 
 					data.ID = r.id
+
+					core.ignore('client', {
+						ID : data.ID
+					})
+
+					core.ignore('lead', {
+						ID : data.ID
+					})
+
+					//// TO DO CHECK DOUBLE
 
 					self.invalidateStorageNow(['portfolios', 'contacts'])
 

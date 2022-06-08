@@ -201,13 +201,11 @@ const dbstorage = function(storageName, version, time) {
                 var needToClear = []
                 var cleared = []
 
-                console.log('updated, {index, type}', storageName, updated, {index, type})
 
                 _.each(memorystorage, (item, itemid) => {
                     if (item.invalidate){
                         if(item.invalidate.index == index && item.invalidate.type == type){
 
-                            console.log('item.cachedAt < updated', item.cachedAt < updated, item.cachedAt, updated)
 
                             if(item.cachedAt < updated){
                                 needToClear.push(itemid)
@@ -217,7 +215,6 @@ const dbstorage = function(storageName, version, time) {
                     }   
                 })
 
-                console.log('needToClear', cleared)
 
                 return this.clearItems(needToClear).then(() => {
                     return Promise.resolve(cleared)
@@ -287,8 +284,6 @@ const dbstorage = function(storageName, version, time) {
                     const items = transaction.objectStore('items');
 
                     const unixtime = getHourUnixtime();
-
-                    console.log("SET", unixtime, storageName)
 
                     const item = {
                         id: itemId,

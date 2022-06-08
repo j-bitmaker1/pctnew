@@ -91,7 +91,6 @@ export default {
 
 	methods : {
 		notifications : function(id){
-			if(id == 'leads') return '#'
 			var c = this.$store.state.updates[id] || 0
 
 			return Math.min(c, 99)

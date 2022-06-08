@@ -52,22 +52,18 @@ export default {
     },
 
     created : function(){
-        this.changed()
+        this.init()
     },
 
     watch: {
         api : function(){
 
-            this.refresh = true
-            this.changed()
+            this.reload()
         },
 
         payload : function(){
 
-            console.log("?")
-
-            this.refresh = true
-            this.changed()
+            this.reload()
         },
     },
     computed: mapState({
@@ -90,13 +86,8 @@ export default {
     }),
 
     methods : {
-       
-        changed : function(){
 
-            /*if (this.$refs['list'])
-                this.$refs['list'].leaveSelectionMode()*/
-
-            
+        init : function(){
             this.end = false
             this.loading = false
 
@@ -107,12 +98,19 @@ export default {
             if(this.controller && !this.controller.signal.dontabortable) this.controller.abort()
 
             this.load()
-
         },
-
+       
         reload : function(){
-            this.changed()
+
+            /*if (this.$refs['list'])
+                this.$refs['list'].leaveSelectionMode()*/
+
+            this.refresh = true
+            this.init()
+            
+
         },
+
 
         height : function(){
             return this.$el.clientHeight

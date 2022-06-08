@@ -23,7 +23,7 @@ export default {
 			loading : false,
 			searchvalue : '',
 			count : 0,
-		   
+			added : 0,
 			sort : 'FName_asc',
 			sorting : {
 				FName_asc : {
@@ -44,13 +44,22 @@ export default {
 
 	},
 
-	created : function() {
-	
+	created : function(){
+		this.core.on('created', this.name, (d) => {
+			if (d.type == 'lead'){
+
+				this.added ++
+
+			}
+		})
+	},
+
+	beforeDestroy(){
+		this.core.off('created', this.name)
 	},
 
 	watch: {
 		tscrolly : function(){
-
 
 			if (this.$refs['list']){
 
@@ -125,6 +134,7 @@ export default {
 		},
 
 		reload : function(){
+			this.added = 0
 			if(this.$refs['list']) this.$refs['list'].reload()
 		},
 

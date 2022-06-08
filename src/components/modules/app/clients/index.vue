@@ -4,7 +4,9 @@
 		<listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
 	</div>
 
-	
+	<div class="added mobp" v-if="added">
+		<button class="button" @click="reload">You have a new clients ({{added}})</button>
+	</div>
 	
 	<listpaginated placeholder="No clients found" activity="client" :select="{...select, ...{context : 'client'}}" api="crm.contacts.list" :payload="payload" :start="1" ref="list" @count="setcount">
 		<template v-slot:default="slotProps">

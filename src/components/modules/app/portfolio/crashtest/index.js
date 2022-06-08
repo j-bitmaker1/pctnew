@@ -58,7 +58,6 @@ export default {
 	created : function(){
 		this.core.on('invalidate', this.name, (d) => {
 			if(d.key == 'stress' && d.portfolio == this.portfolio.id){
-				console.log("INVALIDATE???")
 				this.get()
 			}
 		})
@@ -70,6 +69,11 @@ export default {
 		})
 
 		this.get()
+	},
+
+	beforeDestroy(){
+		this.core.off('invalidate', this.name)
+		this.core.off('settingsUpdated', this.name)
 	},
 
 	watch: {
@@ -93,10 +97,6 @@ export default {
 		}
 	}),
 
-	beforeDestroy(){
-		this.core.off('invalidate', this.name)
-		this.core.off('settingsUpdated', this.name)
-	},
 
 	methods : {
 		get : function(){

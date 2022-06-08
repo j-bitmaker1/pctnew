@@ -6,7 +6,12 @@ class Updates {
     data = {
         leads: {
             id: 'leads',
-            api: '',
+            api: 'crm.contacts.counts',
+
+            prepare : function(data){
+                return data.NewLeadsCount
+            },
+
             count: 0
         },
 
@@ -51,14 +56,14 @@ class Updates {
     increase = function (id) {
         if (!this.data[id]) return
 
-        this.update(id, this.data[id].count + 1)
+        this.update(id, (this.data[id].count || 0) + 1)
     }
 
     decrease = function (id) {
         if (!this.data[id]) return
 
         if(this.data[id].count)
-            this.update(id, this.data[id].count - 1)
+            this.update(id, (this.data[id].count || 0) - 1)
     }
 
     clear = function (id) {
@@ -111,7 +116,18 @@ class Updates {
             }
 
             request().then(r => {
-                this.update(d.id, r.count)
+
+                console.log("UPDATES", r, d.id)
+
+                var result = r.count || 0
+
+                if (d.prepare){
+                    result = d.prepare(r)
+                }
+
+                this.update(d.id, result)
+            }).catch(e => {
+                console.log('e', e)
             })
 
         }))

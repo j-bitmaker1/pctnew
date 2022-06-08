@@ -23,6 +23,7 @@ export default {
 			loading : false,
 			searchvalue : '',
 			count : 0,
+			added : 0,
 			sort : 'FName_asc',
 			sorting : {
 				FName_asc : {
@@ -41,9 +42,18 @@ export default {
 
 	},
 
-	created : function() {
-		
+	created : function(){
+		this.core.on('created', this.name, (d) => {
+			if (d.type == 'client'){
+				this.added ++
+			}
+		})
 	},
+
+	beforeDestroy(){
+		this.core.off('created', this.name)
+	},
+	
 
 	watch: {
 		tscrolly : function(){
@@ -90,6 +100,11 @@ export default {
 	}),
 
 	methods : {
+
+		reload : function(){
+			this.added = 0
+			if(this.$refs['list']) this.$refs['list'].reload()
+		},
 
 		search : function(v){
 			this.searchvalue = v
