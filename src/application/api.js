@@ -1355,30 +1355,32 @@ var ApiWrapper = function (core) {
 					ids 
 				}
 
+				_.each(ids, (id) => {
+					var { updated } = core.vxstorage.update({
+						status : "DELETED",
+						id
+					}, 'portfolio')
+
+					core.user.activity.remove('portfolio', id)
+
+					if (updated){
+						core.vxstorage.invalidateManyQueue(
+							[updated.crmContactId], 
+							['client', 'lead']
+						)
+
+						core.vxstorage.invalidateMany(
+							[updated.catalogId], 
+							['filesystem']
+						)
+					}
+				})
+
+				self.invalidateStorageNow(['portfolios', 'contacts'])
+
 				return request(data, 'pctapi', 'Portfolio/DeleteByIds', p).then(r => {
 
-					_.each(ids, (id) => {
-						var { updated } = core.vxstorage.update({
-							status : "DELETED",
-							id
-						}, 'portfolio')
-
-						core.user.activity.remove('portfolio', id)
-
-						if (updated){
-							core.vxstorage.invalidateManyQueue(
-								[updated.crmContactId], 
-								['client', 'lead']
-							)
-
-							core.vxstorage.invalidateMany(
-								[updated.catalogId], 
-								['filesystem']
-							)
-						}
-					})
-
-					self.invalidateStorageNow(['portfolios', 'contacts'])
+					
 
 					return Promise.resolve(r)
 					
@@ -1501,12 +1503,17 @@ var ApiWrapper = function (core) {
 
 				data.Modified = f.date.toserverFormatDate()
 
-				var updated = core.vxstorage.update(data, 'client')
+				var {updated} = core.vxstorage.update(data, 'client')
 
 				core.vxstorage.update(data, 'lead')
 
 				core.user.activity.remove('client', data.ID)
 				core.user.activity.remove('lead', data.ID)
+
+				if(updated){
+					core.user.activity.template('client', updated)
+					core.user.activity.template('lead', updated)
+				}
 
 				self.invalidateStorageNow(['portfolios', 'contacts'])
 
@@ -1527,6 +1534,8 @@ var ApiWrapper = function (core) {
 
 			add : function(data = {}, p = {}){
 				p.method = "POST"
+
+				self.invalidateStorageNow(['portfolios', 'contacts'])
 
 				return request(data, 'api', 'crm/Contacts/Insert', p).then(r => {
 
@@ -1612,8 +1621,17 @@ var ApiWrapper = function (core) {
 						AvatarId : id
 					}
 
-					core.vxstorage.update(ud, 'client')
-					core.vxstorage.update(ud, 'lead')
+					var {updated} = core.vxstorage.update(ud, 'client')
+
+					if (updated){
+						core.user.activity.template('client', updated)
+					}
+
+					var {updated} = core.vxstorage.update(ud, 'lead')
+
+					if (updated){
+						core.user.activity.template('lead', updated)
+					}
 
 					self.invalidateStorageNow(['portfolios', 'contacts'])
 
@@ -1624,6 +1642,8 @@ var ApiWrapper = function (core) {
 					core.ignore('lead', {
 						ID : ContactId
 					})
+
+					
 
 					return Promise.resolve()
 				})
