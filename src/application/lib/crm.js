@@ -1,3 +1,4 @@
+import { _ } from "core-js";
 import Queries from "./queries";
 
 
@@ -65,6 +66,33 @@ class CRM {
             return this.contacttolead(c, p)
         }))
 
+    }
+
+    contactAutoUpdate = function(contact = {}, p){
+
+        var update = {}
+
+        if (contact.Type == 'LEAD_NEW') update.Type = "LEAD"
+        if ((contact.Products || "").indexOf('PCT') == -1) {
+            var products = _.filter((contact.Products || "").split(','), (f) => {return f})
+
+            console.log("products", products)
+
+            products.push('PCT')
+
+            update.products = products.join(",")
+        }
+
+        console.log("AUTO UPDATE", update)
+
+        if(!_.isEmpty(update)){
+
+            update.ID = contact.ID
+
+            return this.api.crm.contacts.update(update, p)
+        }
+
+        return Promise.resolve()
     }
 
     getbyids = function(ids, p){

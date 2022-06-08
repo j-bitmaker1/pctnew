@@ -1573,7 +1573,7 @@ var ApiWrapper = function (core) {
 
 				self.invalidateStorageNow(['portfolios', 'contacts'])
 
-				data.products = 'pct'
+				data.products = 'PCT'
 
 				return request(data, 'api', 'crm/Contacts/Insert', p).then(r => {
 

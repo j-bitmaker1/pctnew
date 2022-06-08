@@ -171,6 +171,8 @@ export default {
 
 				this.core.user.activity.template('client', this.profile)
 
+				this.core.crm.contactAutoUpdate(this.profile)
+
 				return Promise.resolve(r)
 			}).finally(() => {
 				this.loading = false

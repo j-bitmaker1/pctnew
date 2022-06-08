@@ -133,6 +133,7 @@ export default {
 
 				this.core.user.activity.template('lead', this.profile)
 
+				this.core.crm.contactAutoUpdate(this.profile)
 
 				return Promise.resolve(r)
 			}).finally(() => {

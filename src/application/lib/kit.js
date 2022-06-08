@@ -18,8 +18,11 @@ class Contact {
 
         }
 
-    }
+        //data.Products = (data.Products || "").split(',')
 
+    }
+    
+   
     get imageLink(){
         if (this.AvatarId){
             var imageid = this.AvatarId.split('.')[1]
