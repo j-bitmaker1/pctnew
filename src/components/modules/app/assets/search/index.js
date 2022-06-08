@@ -22,7 +22,7 @@ export default {
         setTimeout(() => {
 
             if (this.value){
-                this.searchvalue = this.value
+                this.search(this.value)
             }
 
             if (this.$refs.search)

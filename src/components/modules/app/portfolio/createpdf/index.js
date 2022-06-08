@@ -188,28 +188,33 @@ export default {
 
                 return new Promise((resolve, reject) => {
 
+                    if(f.isios()){
+                        d.download(nameOfReport);
+                    }
+                    else{
+                        d.getBase64((data) => {
 
-
-                    d.getBase64((data) => {
-
-                        if (!data) {
-                            reject('empty')
-                            return
-                        }
-
-                        this.$store.commit('globalpreloader', true)
-
-                        this.core.vueapi.pdfviewer({
-                            name: nameOfReport,
-                            base64: 'data:application/pdf;base64,' + data
-                        }, {
-                            mounted: () => {
-                                this.$store.commit('globalpreloader', false)
+                            if (!data) {
+                                reject('empty')
+                                return
                             }
-                        })
+    
+                            this.$store.commit('globalpreloader', true)
+    
+                            this.core.vueapi.pdfviewer({
+                                name: nameOfReport,
+                                base64: 'data:application/pdf;base64,' + data
+                            }, {
+                                mounted: () => {
+                                    this.$store.commit('globalpreloader', false)
+                                }
+                            })
+    
+                            resolve()
+                        });
+                    }
 
-                        resolve()
-                    });
+                    
 
                 })
 

@@ -19,6 +19,9 @@ class Cordovakit {
 
 		window.screen.orientation.lock('portrait')
 
+		document.documentElement.style.setProperty('--app-margin-top-default', `20px`);
+		
+
 		this.keyboard()
 		//window.StatusBar.hide()
 		window.StatusBar.backgroundColorByHexString('#00000000');

@@ -18,7 +18,7 @@
 
         <vue-page-transition name="fade-in-right">
 
-            <swipable  :directions="directions" @end="refresh">
+            <swipable :directions="directions" @end="refresh">
                 <router-view v-if="isRouterAlive"></router-view>
             </swipable>
             

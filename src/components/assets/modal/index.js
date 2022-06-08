@@ -94,7 +94,7 @@ export default {
                     distance : 100,
                     direction : 'top',
                     constraints : (e) => {
-                        return this.scroll == 0 && !this.blockTouch
+                        return this.scroll <= 0 && !this.blockTouch
                     }   
                 }  
             }
@@ -106,7 +106,8 @@ export default {
                     distance : 100,
                     direction : this.fromtop ? 'top' : 'bottom',
                     constraints : (e) => {
-                        return this.scroll == 0 && !this.blockTouch
+                        console.log("this.scroll", this.scroll)
+                        return this.scroll <= 0 && !this.blockTouch
                     }   
                 }  
             }
@@ -132,11 +133,15 @@ export default {
 
         scrolling : function(e){
             this.scroll = e.target.scrollTop
-            this.blockTouch = true
 
-            setTimeout(() => {
-                this.blockTouch = false
-            }, 500)
+            if (this.scroll > 0){
+                this.blockTouch = true
+
+                setTimeout(() => {
+                    this.blockTouch = false
+                }, 500)
+            }
+            
         },
 
         moving : function(e, h){

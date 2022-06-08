@@ -102,6 +102,10 @@ export default {
 
 		haschanges : function(){
 			return this.datahash() != this.hash
+		},
+
+		cordova : function(){
+			return window.cordova
 		}
 	}),
 

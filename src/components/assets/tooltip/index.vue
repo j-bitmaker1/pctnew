@@ -64,7 +64,9 @@ export default {
 
         mobileview: (state) => {
             return state.dwidth <= 768
-        }
+        },
+
+        modals : state => state.modals
     }),
 
     methods: {
@@ -78,8 +80,12 @@ export default {
         close : function(){
             this.showed = false
 
-            var h = document.getElementById( 'html' );
-				h.style.overflow = null
+            if(!this.modals.length){
+                var h = document.getElementById( 'html' );
+				    h.style.overflow = null
+            }
+
+            
         }
     },
 }

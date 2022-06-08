@@ -41,8 +41,7 @@ export default {
         namechange : function(e) {
             this.namestring = e.target.value
 
-            if (this.namestring)
-                this.search()
+            if (this.namestring) this.search()
         },
 
         search : function(){
@@ -71,7 +70,8 @@ export default {
 
             this.$emit('focus')
 
-            this.$el.closest('.customscroll').scrollTop = e.target.offsetTop - 100
+            if(!window.cordova)
+                this.$el.closest('.customscroll').scrollTop = e.target.offsetTop - 100
 
         },
 

@@ -5,7 +5,8 @@
 </template>
 
 <style scoped lang="sass">
-
+	.swipable
+		touch-action: manipulation
 </style>
 
 <script>
@@ -192,8 +193,6 @@ export default {
 		
 		swipeStatus : function(e, phase, direction, distance){
 
-			console.log('e, phase, direction, distance' , e, phase, direction, distance)
-
 			if(!this.directions) return
 
 			if (this.mainDirection && this.mainDirection.direction != direction && phase == 'move'){
@@ -201,6 +200,7 @@ export default {
                 direction = this.mainDirection.direction
             }
 
+			console.log("???", phase)
 
 			if (phase == 'cancel' || phase == 'end'){
 
@@ -214,13 +214,14 @@ export default {
 
                     }
                 }
-
+	console.log("???CLEAR")
                 this.clear()
 
                 return
 
             }
 
+			console.log('direction', direction, this.directions[direction])
 
 			if(!direction) return
 
@@ -229,6 +230,8 @@ export default {
             }
 
 			var dir = this.directions[direction]
+
+			console.log(dir.constraints(e))
 
 			if ( (dir.constraints && !dir.constraints(e)) || dir.disabled ) {
 
@@ -252,6 +255,8 @@ export default {
 			if (phase == 'move'){
 
                 if (distance > (dir.trueshold || 30)){
+
+					console.log("????")
 
                     this.mainDirection = dir
 

@@ -12,7 +12,7 @@
             </upload>
         </div>
 
-        <button class="button black" key="scan" @click="camera">
+        <button class="button black" key="scan" @click="camera" v-if="cordova">
 			<i class="fas fa-camera"></i> Camera
 		</button>
     </div>

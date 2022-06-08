@@ -256,6 +256,11 @@ var storeFactory = function (vxstorage) {
 		},
 
 		OPEN_MODAL(state, modal) {
+
+			if(modal.one && _.find(state.modals, (m) => {
+				return m.id == modal.id
+			})) return
+
 			state.modals.push(modal);
 
 			if (state.modals.length) {
