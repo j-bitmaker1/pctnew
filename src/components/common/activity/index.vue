@@ -1,7 +1,7 @@
 <template>
 <div id="activity">
 
-    <div class="empty" v-if="empty">
+    <div class="empty" v-if="empty && !loading">
         <span v-if="searchvalue">{{$t('activity.empty')}}</span>
         <span v-else>{{$t('activity.totalEmpty')}}</span>
     </div>

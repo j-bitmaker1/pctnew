@@ -94,8 +94,6 @@ export default {
 
         touchhold : function(item){
 
-            console.log("??????")
-
             if(this.disabled) return
 
             this.enterSelectionMode(item)

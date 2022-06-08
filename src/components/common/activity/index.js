@@ -14,7 +14,8 @@ export default {
     name: 'activity',
     props: {
         searchvalue : String,
-        mixgroup : Object
+        mixgroup : Object,
+        loading : Boolean
     },
 
     components : {

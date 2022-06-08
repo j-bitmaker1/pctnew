@@ -36,8 +36,9 @@ export default {
 			if(this.$refs.simplelist) this.$refs.simplelist[prop] = value
 		},
 		
-		touchhold : function(item){
+		touchhold : function(item, e){
 			this.$emit('touchhold', item)
+
 		}
 	}
 }

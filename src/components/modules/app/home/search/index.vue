@@ -5,7 +5,7 @@
         </div>
 
         <div class="activityWrapper">
-            <activity ref="activity" @search="search" :mixgroup="mix" :searchvalue="searchvalue" @close="close"/>
+            <activity ref="activity" @search="search" :mixgroup="mix" :loading="loading" :searchvalue="searchvalue" @close="close"/>
         </div>
     </div>  
 </template>

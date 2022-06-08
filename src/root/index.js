@@ -81,7 +81,9 @@ export default {
 
 			this.core.api.checkUpdates()
 			this.core.updates.synk()
-		}
+		},
+
+	
 
 		/*fxtest : function(e){
 
