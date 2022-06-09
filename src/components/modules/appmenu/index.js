@@ -64,7 +64,7 @@ export default {
 					text : 'menu.profile',
 					icon : "fas fa-user",
 					mobile : false
-				},
+				}
 			]
 		}
 
