@@ -137,12 +137,12 @@ function loadProjectFile() {
   var projectFile;
   try {
     // try pre-5.0 cordova structure
-    platform_ios = context.requireCordovaModule('cordova-lib/src/plugman/platforms')['ios'];
+    platform_ios = require('cordova-lib/src/plugman/platforms')['ios'];
     projectFile = platform_ios.parseProjectFile(iosPlatformPath());
   } catch (e) {
     try {
       // let's try cordova 5.0 structure
-      platform_ios = context.requireCordovaModule('cordova-lib/src/plugman/platforms/ios');
+      platform_ios = context.require('cordova-lib/src/plugman/platforms/ios');
       projectFile = platform_ios.parse(iosPlatformPath());
     } catch (e) {
       // try cordova 7.0 structure
