@@ -105,10 +105,7 @@
             <path event="nav-message" url="*" />
         </host>
     </universal-links>
-    <plugin name="cordova-plugin-googleplus" source="npm">
-        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.1075755841648-aqvo4nm7oeecbo2frh8dlti3u6guc4ek" />
-        <variable name="WEB_APPLICATION_CLIENT_ID" value="1075755841648-aqvo4nm7oeecbo2frh8dlti3u6guc4ek.apps.googleusercontent.com" />
-    </plugin>
+  
     <allow-navigation href="*" />
     <allow-navigation href="data:*" />
     <allow-intent href="*" />
