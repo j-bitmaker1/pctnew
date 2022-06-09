@@ -89,9 +89,9 @@
       "cordova-universal-links-plugin": {},
       "cc.fovea.cordova.openwith": {
         "ANDROID_MIME_TYPE": "*",
-        "IOS_URL_SCHEME": "pocketnet",
+        "IOS_URL_SCHEME": "rixtrema",
         "IOS_UNIFORM_TYPE_IDENTIFIER": "public.item",
-        "IOS_GROUP_IDENTIFIER": "group.app.pocketnet",
+        "IOS_GROUP_IDENTIFIER": "group.net.rixtrema",
         "SHAREEXT_DEVELOPMENT_TEAM": "Y5JW9JU787",
         "ANDROID_EXTRA_ACTIONS": " "
       },

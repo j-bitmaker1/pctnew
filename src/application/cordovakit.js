@@ -23,6 +23,8 @@ class Cordovakit {
 		
 
 		this.keyboard()
+		this.links()
+		this.openwith()
 		//window.StatusBar.hide()
 		window.StatusBar.backgroundColorByHexString('#00000000');
 		window.StatusBar.styleDefault()
@@ -57,6 +59,110 @@ class Cordovakit {
 				
             });
         }
+	}
+
+	openwith(){
+
+		if(!cordova.openwith) return
+
+		var mime = {
+
+			'image/jpeg' : 'images',
+			'image/jpg' : 'images',
+			'image/png' : 'images',
+			'image/webp' : 'images',
+			/*'application/pdf' : 'files',
+			'application/msword' : 'files',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'files'*/
+
+		}
+
+		var utitomime = {
+			'public.image' : 'image/jpeg'
+		}
+
+		cordova.openwith.init();
+		cordova.openwith.addHandler(function(intent){
+			var sharing = {}
+
+			if(intent.action == 'VIEW') return
+
+			var promises = _.map(
+				_.filter(intent.items || [], function(i){return i}),
+				(item) => {
+
+
+					/*if (item.type == 'text/plain'){
+						delete item.type
+					}*/
+
+
+				return new Promise((resolve, reject) => {
+
+
+					if(utitomime[item.type]) item.type = utitomime[item.type]
+
+					if(item.base64 && isios()) item.data = 'data:' + item.type + ';base64,' + item.base64
+
+					if(!item.type || item.data){
+						resolve()
+					}
+					else{
+						cordova.openwith.load(item, function(data) {
+
+							item.data = 'data:' + item.type + ';base64,' + data
+
+							resolve()
+
+						});
+					}
+
+
+				}).then(r => {
+
+					if (item.text){
+						if(!sharing.messages) sharing.messages = []
+
+						sharing.messages.push(item.text)
+					}
+
+					if(item.type && item.data){
+
+						var mt = mime[item.type] || 'files'
+
+						if(!sharing[mt]){
+							sharing[mt] = []
+						}
+
+						sharing[mt].push(item.data)
+					}
+
+					return Promise.resolve()
+				})
+			})
+
+
+			Promise.all(promises).then(r => {
+
+				if (intent.exit) { cordova.openwith.exit(); }
+
+				if(_.isEmpty(sharing)){
+					
+				}
+				else{
+
+					if(sharing.images || sharing.files){
+						this.core.vuieapi.fileManager({
+							upload : [].concat(sharing.images, sharing.files)
+						})
+					}
+
+					
+
+				}
+			})
+		});
+
 	}
 
 	vibration(total){

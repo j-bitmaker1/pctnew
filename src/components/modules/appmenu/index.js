@@ -56,7 +56,7 @@ export default {
 					text : 'menu.portfolios',
 					icon : "fas fa-suitcase",
 
-					childrens : ['/portfolio']
+					childrens : ['/portfolio', '/compare']
 				},
 				{
 					route : '/profile',

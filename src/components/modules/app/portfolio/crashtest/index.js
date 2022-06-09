@@ -1,9 +1,7 @@
 import { mapState } from 'vuex';
 
-import chart from './chart/index.vue'
-import ctdetails from './details/index.vue'
 import ctmenu from './menu/index.vue'
-
+import ctmain from './main/index.vue'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
 
 export default {
@@ -14,8 +12,7 @@ export default {
 	},
 
 	components : {
-		chart, 
-		ctdetails,
+		ctmain,
 		summarybutton,
 		ctmenu
 	},
@@ -26,6 +23,7 @@ export default {
 			loading : false,
 
 			ct : {},
+			cts : {},
 
 			valuemodes : [
 				{
@@ -103,10 +101,18 @@ export default {
 
 			this.loading = true
 
+
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
-				this.ct = r
+				this.cts = this.core.pct.composeCTS({[this.portfolio.id] : r}, this.portfolio.total())
+
+				console.log('this.cts', this.cts)
+
+				this.ct = this.cts.cts[this.portfolio.id]
+
+				console.log('this.ct', this.ct)
 
 				return Promise.resolve(r)
+
 			}).catch(e => {
 				console.error(e)
 			}).finally(() => {
@@ -118,9 +124,7 @@ export default {
 			this.$store.commit('valuemode', v)
 		},
 
-		toScenario : function(scenario){
-			this.$refs.ctdetails.toScenario(scenario)
-		},
+		
 
 		scenariosChanged : function(){
 			this.get()

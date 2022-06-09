@@ -7,6 +7,7 @@ import pages_file from './pages/file/index.vue'
 export default {
     name: 'filemanager',
     props: {
+        upload : Array
     },
 
     data : function(){
@@ -23,6 +24,10 @@ export default {
 
     created (){
         this.core.user.activity.template('action', this.core.user.activity.actions.fileManager())
+
+        if(this.upload){
+
+        }
     },
 
     watch: {
@@ -104,7 +109,6 @@ export default {
         },
 			
         openFile : function(file){
-           
 
             this.core.vueapi.fileManager_File(file, {
 

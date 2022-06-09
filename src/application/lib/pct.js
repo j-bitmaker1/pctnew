@@ -444,6 +444,84 @@ class PCT {
 
     }
 
+    ctRelative = function(ct, max){
+        var nct = {
+            ocr : ct.ocr,
+            loss : ct.loss / max,
+            profit : ct.profit / max,
+            scenarios : _.map(ct.scenarios, (s) => {
+                return {
+                    id : s.id,
+                    name : s.name,
+                    loss : s.loss / max
+                }
+            })
+        }
+
+        return nct
+    }
+
+    composeCTS = function(cts, total, mode){
+        var common = {
+            cts : {},
+            scenarios : {}
+        }
+
+        var maxAbs = 0
+
+        _.each(cts, (ct) => {
+            var m = Math.max( Math.abs(ct.loss) , Math.abs(ct.profit))
+
+            if (m > maxAbs){
+                maxAbs = m
+            }
+        })
+
+        if(!total) total = maxAbs
+
+        maxAbs = maxAbs / total
+        
+        _.each(cts, (c, i) => {
+            common.cts[i] = this.ctRelative(c, mode == 'p' ? Math.max( Math.abs(c.loss) , Math.abs(c.profit)) : total)
+
+            _.each(common.cts[i].scenarios, (scenario) => {
+                if(!common.scenarios[scenario.id]) common.scenarios[scenario.id] = {
+                    id : scenario.id,
+                    name : scenario.name,
+                    loss : {}
+                }
+
+                common.scenarios[scenario.id].loss[i] = scenario.loss
+            })
+        })
+
+        common.max = maxAbs
+        common.total = total
+
+        if(mode == 'p'){
+            common.max = 1
+            common.total = 1
+        }
+
+        return common
+    }
+
+    stresstests = function(ids, total, mode, p = {}){
+
+        var cts = {}
+
+        return Promise.all(_.map(ids, (id) => {
+            return this.stresstest(id).then(r => {
+                cts[id] = r
+    
+                return Promise.resolve()
+            })
+        })).then(r => {
+            return Promise.resolve(this.composeCTS(cts, total, mode))
+        })
+      
+    }
+
     stresstest = function(id, p = {}){
 
         var data = {

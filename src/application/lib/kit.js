@@ -23,6 +23,9 @@ class Contact {
             if (data.__customfields__.$$PCT_QuestionnaireId)
                 this.questionnaire = Number(data.__customfields__.$$PCT_QuestionnaireId)
 
+            if (data.__customfields__.$$PCT_PortfoliosTotalSum)
+                this.totalSum = Number(data.__customfields__.$$PCT_PortfoliosTotalSum)
+
         }
 
         //data.Products = (data.Products || "").split(',')

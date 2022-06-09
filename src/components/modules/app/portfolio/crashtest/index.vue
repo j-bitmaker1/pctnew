@@ -12,13 +12,9 @@
 		<div class="header mobp">
 			<div class="forpanel">
 				<span>Stress test</span>
-				<!--<iconstoggle :icons="valuemodes" :value="valuemode" @change="changevaluemode"/>-->
 			</div>
 			<div class="forsettigns">
-				<ctmenu :ct="ct" @scenariosChanged="scenariosChanged"/>
-				<!--<div class="diconbutton">
-					<i class="fas fa-cog"></i>
-				</div>-->
+				<ctmenu  @scenariosChanged="scenariosChanged"/>
 			</div>
 		</div>
 
@@ -27,22 +23,13 @@
 				<value :value="portfolio.total() + portfolio.uncovered()" mode="auto"/>
 			</div>
 			<div class="forvalues">
-			   <div class="positive" v-if="ct.profit"><i class="fas fa-arrow-up"></i> <value :value="ct.profit" mode="auto" colored="true"/></div>
-			   <div class="negative" v-if="ct.loss"><i class="fas fa-arrow-down"></i> <value :value="ct.loss" mode="auto" colored="true"/></div>
+			   <div class="positive" v-if="ct.profit"><i class="fas fa-arrow-up"></i> <value :value="portfolio.total() * ct.profit" mode="auto" colored="true"/></div>
+			   <div class="negative" v-if="ct.loss"><i class="fas fa-arrow-down"></i> <value :value="portfolio.total() * ct.loss" mode="auto" colored="true"/></div>
 			</div>
 		</div>
 
-		<div class="chartWrapper mobp">
-			<chart :ct="ct" @scenarioClick="toScenario"/>
-		</div>
+		<ctmain :cts="cts" :portfolios="{[portfolio.id] : portfolio}"/>
 
-		<div class="caption mobp">
-			<span>Details</span>
-		</div>
-
-		<div class="detailsWrapper mobp">
-			<ctdetails ref="ctdetails" :ct="ct" :portfolio="portfolio"/>
-		</div>
 
 	</div>
 </div>

@@ -1348,7 +1348,8 @@ var ApiWrapper = function (core) {
 
 				var data = {
 					pageSize : ids.length,
-					idsFilter : ids
+					idsFilter : ids, 
+					includePositions : true
 				}
 
 				p.method = "POST"

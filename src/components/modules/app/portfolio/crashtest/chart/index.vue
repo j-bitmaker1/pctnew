@@ -3,13 +3,13 @@
 
 	<div class="scale">
 		<div class="num" v-for="index in intervals" :key="-index">
-			<div><value :value="num(index - 1 - intervals)" mode="auto"/></div>
+			<div><value :value="num(index - 1 - intervals)" :mode="mode"/></div>
 		</div>
 		<div class="num" :key="0">
-			<div><value :value="0" mode="auto"/></div>
+			<div><value :value="0" :mode="mode"/></div>
 		</div>
 		<div class="num" v-for="index in intervals" :key="index">
-			<div><value :value="num(index)" mode="auto"/></div>
+			<div><value :value="num(index)" :mode="mode"/></div>
 		</div>
 	</div>
 
@@ -17,11 +17,16 @@
 	</div>
 
 	<div class="scenarios">
-		<div class="scenario" :class="{positive : scenario.loss > 0, negative : scenario.loss < 0}" v-for="scenario in ct.scenarios" :key="scenario.id" @click="e => scenarioClick(scenario)">
-			<div class="barwrapper">
-				<div class="bar" :style="{height : height(scenario) + '%', background : color(scenario) }"></div>
+
+		<div class="scenario" v-for="scenario in cts.scenarios" :key="scenario.id" @click="e => scenarioClick(scenario)">
+			<div class="barswrapper" :class="{positive : loss > 0, negative : loss < 0}" :key="i" v-for="(loss, i) in scenario.loss">
+				<div class="barwrapper">
+					<div class="bar" :style="{height : height(scenario, loss) + '%', background : color(scenario, loss) }"></div>
+				</div>
 			</div>
 		</div>
+
+		
 	</div>
 
 </div>

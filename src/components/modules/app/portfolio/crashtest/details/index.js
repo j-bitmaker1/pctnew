@@ -4,11 +4,16 @@ import scenario from '../scenario/index.vue'
 export default {
 	name: 'portfolio_crashtest_details',
 	props: {
-		ct : {
+		cts : {
 			type : Object,
 			default : () => {return {}}
 		},
-		portfolio : Object
+		portfolios : Object,
+
+		mode : {
+            type : String,
+            default : 'd'
+        }
 	},
 	components : {
 		scenario
@@ -17,7 +22,7 @@ export default {
 
 		return {
 			loading : false,
-			lighted : null
+			lighted : null,
 		}
 
 	},
@@ -31,25 +36,32 @@ export default {
 	},
 	computed: mapState({
 		auth : state => state.auth,
-		maxabs : function(){
-			return Math.max(Math.abs(this.ct.profit), Math.abs(this.ct.loss))
-		},
-	   
-
 		
 	}),
 
 	methods : {
-		select : function(scenario){
+		select : function(scenario, i){
+
+			var ct = this.cts.cts[i]
+
+			var _scenario = {
+				id : scenario.id,
+				name : scenario.name,
+				loss : scenario.loss[i] * this.cts.total
+			}
+
+			var portfolio = this.portfolios[i]
+
+			console.log("this.portfolios", this.portfolios, i)
 
 			this.$store.commit('OPEN_MODAL', {
 				id: 'modal_portfolio_crashtest_scenariodetails',
 				module: "portfolio_crashtest_scenariodetails",
-				caption: scenario.name,
+				caption: _scenario.name,
 				data : {
-					ct : this.ct,
-					scenario : scenario,
-					portfolio : this.portfolio
+					ct : ct,
+					scenario : _scenario,
+					portfolio : portfolio
 				}
 			})
 
@@ -66,14 +78,12 @@ export default {
 		toScenario : function(scenario){
 			var r = this.$refs[scenario.id]
 
+			console.log("scenario", scenario)
+
 			if (r){
             	setTimeout(() => {
 					r.$el.closest('.customscroll').scrollTop = r.$el.offsetTop - 100
             	}, 50)
-
-				/*setTimeout(() => {
-					this.select(scenario)
-				}, 1000)*/
 			}
 
 			this.light(scenario)

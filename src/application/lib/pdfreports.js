@@ -139,6 +139,8 @@ class PDFReports {
 
         return this.pct.assets(portfolio).then(assetsInfo => {
 
+            console.log("assetsInfo", assetsInfo)
+
             results.push(caption)
 
             return tools.helpers.tables({

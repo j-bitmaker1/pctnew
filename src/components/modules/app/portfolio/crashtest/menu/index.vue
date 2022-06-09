@@ -27,7 +27,6 @@ import {
 export default {
     name: 'portfolio_crashtest_menu',
     props: {
-        ct: Object,
         buttonclass: {
             type: String,
             default: 'diconbutton'

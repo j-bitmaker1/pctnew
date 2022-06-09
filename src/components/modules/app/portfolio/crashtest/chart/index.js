@@ -3,7 +3,11 @@ import f from '@/application/functions.js'
 export default {
 	name: 'portfolio_crashtest_chart',
 	props: {
-		ct : Object
+		cts : Object,
+		mode : {
+            type : String,
+            default : 'd'
+        }
 	},
 
 	data : function(){
@@ -24,37 +28,42 @@ export default {
 	},
 	computed: mapState({
 		auth : state => state.auth,
-		maxabs : function(){
-			return Math.max(Math.abs(this.ct.profit), Math.abs(this.ct.loss))
-		},
+		
 		roundbase : function(){
-			return Math.pow(10, Math.max((this.maxabs.toFixed(0)).length - 3, 1))
+			return Math.pow(10, Math.max((this.cts.total.toFixed(0)).length - 3, 1))
 		},
 
 		currentStyles : state => state.currentStyles
 	}),
 
 	methods : {
-		height : function(scenario){
+		height : function(scenario, loss){
 
-			if(!this.maxabs) return 0
+			if(!this.cts.max) return 0
 
-			return 100 * Math.abs(scenario.loss) / this.maxabs
+			return 100 * Math.abs(loss) / this.cts.max
 
 		},
 
-		color : function(scenario){
+		color : function(scenario, loss){
 
 			if (scenario.id < 0){
 				return 'rgb(' +this.$store.getters.currentStyleValue('--color-yellow') + ')'
 			}
 
-			return this.$store.getters.colorByValue(scenario.loss)
+			return this.$store.getters.colorByValue(loss)
 
 		},
 
 		num : function(index){
-			return f.round((index) * (this.maxabs / this.intervals), this.roundbase) || 0
+			var v = (index) * (this.cts.total * this.cts.max / this.intervals)
+			
+			if(this.mode == 'p'){
+				return v
+			}
+			else{
+				return f.round(v, this.roundbase) || 0
+			}
 		},
 
 

@@ -44,13 +44,19 @@
 			display: flex
 			align-items: center
 
-			&.positive
-				align-items : flex-start
+			.barswrapper
+				width: 100%
+				height: 100%
+				display: flex
+				align-items: center
 
-				.barwrapper
-					align-items: flex-end
-			&.negative
-				align-items : flex-end
+				&.positive
+					align-items : flex-start
+
+					.barwrapper
+						align-items: flex-end
+				&.negative
+					align-items : flex-end
 
 			.barwrapper
 				height: 50%

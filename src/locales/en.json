@@ -8,7 +8,8 @@
 		"explore" : "Explore",
 		"menu" : "Menu",
 		"add" : "Create",
-		"questionnaire" : "Questionnaire"
+		"questionnaire" : "Questionnaire",
+		"compare" : "Compare"
 	},
 
 	"fields" : {

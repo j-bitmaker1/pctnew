@@ -153,6 +153,12 @@ const routes = [
 		component: () => import('@/views/forgotpassword')
 	},
 	
+	{
+		path: '/compare',
+		name: 'compare',
+		component: () => import('@/views/compare'),
+		customRedirect: redirects.authorized
+	},
 
 	{
 		path: '/leads',

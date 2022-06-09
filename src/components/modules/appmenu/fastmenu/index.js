@@ -28,13 +28,22 @@ export default {
 					text : 'menu.profile', 
 					icon : "fas fa-user"
 				},
+
                 {
+                    route : '/compare',
+					id : 'compare',
+					text : 'menu.compare', 
+					icon : "fas fa-list-ul"
+				},
+
+                /*{
 					id : 'questionnaire',
 					text : 'menu.questionnaire',
 					icon : "fas fa-link",
 					action : this.sharequestionnaire
 
-				}
+				}*/
+
             ]
         }
 

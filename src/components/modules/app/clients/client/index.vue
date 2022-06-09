@@ -16,6 +16,8 @@
 			<!---->
 		</div>
 
+		
+
 		<div class="statsrow row" @click="open">
 			<div>
 				<span class="label">Crash Rating</span>
@@ -42,6 +44,7 @@
 
 	<div class="daterow row">
 		<date :date="profile.Modified || profile.Created"/>
+		<value :value="profile.totalSum" mode="d"/>
 	</div>
 
 </div>
