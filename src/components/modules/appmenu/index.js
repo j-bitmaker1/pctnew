@@ -33,6 +33,15 @@ export default {
 					childrens : ['/client']
 			
 				},
+
+				{
+					id : 'menu',
+					text : 'menu.menu',
+					icon : "fas fa-ellipsis-v",
+					mobile : true,
+					action : this.menu
+				},
+
 				{
 					route : '/leads',
 					id : 'leads',
@@ -94,7 +103,10 @@ export default {
 
 			var mobile = f.mobileview()
 
-			return this.allitems
+			return _.filter(this.allitems, (item) => {
+				return typeof item.mobile == 'undefined' || item.mobile == mobile
+			})
+
 		}
 	}),
 
@@ -104,9 +116,21 @@ export default {
 
 			return Math.min(c, 99)
 		},
-		signout : function(){
+		/*signout : function(){
 			this.core.user.signout()
 			this.$router.push('/')
+		},*/
+
+		open : function(item){
+			if(item.route) {
+				this.$router.push(item.route)
+			}
+
+			if(item.action) item.action()
+		},
+
+		menu : function(){
+			this.core.vueapi.fastmenu()
 		}
 	},
 }

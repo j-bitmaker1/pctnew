@@ -86,6 +86,7 @@ export default {
                 caption: "New client"
             })
         },
+        
         lead: function () {
             this.core.vueapi.createContact({
                 Type: "LEAD"

@@ -6,15 +6,9 @@
 			<span>Home</span>
 		</template>
 		<template v-slot:right>
-
 			<homeAdd />
-
 			<div class="buttonpanel" @click="explore">
-				
-				<!--<i class="fas fa-bars"></i>-->
-				<!--<router-link to="explore">-->
-					<i class="fas fa-search"></i>
-				<!--</router-link>-->
+				<i class="fas fa-search"></i>
 			</div>
 		</template>
 

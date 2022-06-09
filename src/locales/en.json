@@ -4,7 +4,11 @@
 		"clients" : "Clients",
 		"leads" : "Leads",
 		"portfolios" : "Portfolios",
-		"profile" : "Profile"
+		"profile" : "Profile",
+		"explore" : "Explore",
+		"menu" : "Menu",
+		"add" : "Create",
+		"questionnaire" : "Questionnaire"
 	},
 
 	"fields" : {

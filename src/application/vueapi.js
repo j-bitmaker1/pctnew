@@ -529,6 +529,92 @@ class Vueapi {
 
     }
 
+    fastmenu = function(){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_fastmenu',
+            module : "fastmenu",
+            caption : "",
+            mclass : 'withoutheader fastmenu absoluteContent',
+        })
+
+    }
+
+    listmenu = function(items){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_listmenu',
+            module : "listmenu",
+            caption : "",
+            mclass : 'small likemenu',
+
+            data :  {
+                items,
+                close : () => {
+                    this.store.commit('CLOSE_MODAL', 'modal_listmenu')
+                }
+            }
+        })
+    }
+
+    addMenu = function(){
+        var actions = {
+            portfolio:  () => {
+                this.store.commit('OPEN_MODAL', {
+                    id: 'modal_portfolios_edit',
+                    module: "portfolio_edit",
+                    caption: "New Portfolio",
+    
+                    events: {
+                        edit: (data) => {
+                            this.router.push('portfolio/' + data.id)
+                        }
+                    }
+                })
+            },
+            client: () => {
+                this.createContact({
+                    Type: "CLIENT"
+                }, (data) => {
+    
+                    this.router.push('client/' + data.ID)
+    
+                }, {
+                    caption: "New client"
+                })
+            },
+            
+            lead: () => {
+                this.createContact({
+                    Type: "LEAD"
+                }, (data) => {
+    
+                    this.router.push('lead/' + data.ID)
+    
+                }, {
+                    caption: "New lead"
+                })
+            }
+        }
+
+        var menu = [{
+            text: 'labels.newPortfolio',
+            icon: 'fas fa-suitcase',
+            action: actions.portfolio
+        },
+        {
+            text: 'labels.newClient',
+            icon: 'fas fa-users',
+            action: actions.client
+        },
+        {
+            text: 'labels.newLead',
+            icon: 'fas fa-user-plus',
+            action: actions.lead
+        }]
+
+        this.listmenu(menu)
+    }
+
 }
 
 export default Vueapi

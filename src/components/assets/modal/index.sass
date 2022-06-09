@@ -128,6 +128,20 @@
             width: 100%
             height: 100%
 
+    &.fastmenu
+        .modal-backdrop
+            background: srgba(--color-shadow-base, 0.95)
+        .modal-wrapper
+            top : 0
+        .closecsscross
+            display: none
+        .modal-body
+            top : 0
+        .modal
+            border-radius: 0
+            background: transparent
+            color : srgba(--text-on-bg-shadow-color, 0.7)
+
     &.cover
         .modal-close
             margin-right: $r

@@ -71,6 +71,7 @@ export default {
         portfoliopdf :  () => import("@/components/modules/app/portfolio/createpdf/index.vue"),
         editorjs : () => import("@/components/common/editorjs/index.vue"),
         explore : () => import("@/views/explore.vue"),
+        fastmenu: () => import("@/components/modules/appmenu/fastmenu/index.vue"),
     },
  
     computed: mapState({
