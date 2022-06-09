@@ -24,7 +24,7 @@ export default {
 			searchvalue : '',
 			count : 0,
 			added : 0,
-			sort : 'FName_asc',
+			sort : 'Created_desc',
 			sorting : {
 				FName_asc : {
 					text : 'fname_asc',

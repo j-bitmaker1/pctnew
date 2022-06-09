@@ -348,8 +348,6 @@ class Core {
             return
         }
 
-        console.log("FFF")
-
         this.api.invalidateStorageNow(invalidate)
 
         this.emit('created', {

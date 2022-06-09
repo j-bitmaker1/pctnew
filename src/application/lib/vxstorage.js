@@ -70,11 +70,13 @@ class VXStorage {
 
         if(!last) return {}
 
+        var from = _.clone(last)
+
         var update = _.extend(last, obj)
 
         return {
             updated : this.set(update, type),
-            from : last
+            from : from
         }
 
     }

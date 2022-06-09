@@ -26,7 +26,7 @@
       "cordova-plugin-network-information": "3.0.0",
       "cordova-plugin-screen-orientation": "^3.0.1",
       "cordova-plugin-vibration": "3.1.1",
-      "cordova-plugin-photo-library": "2.3.1",
+      "cordova-plugin-photo-library": "file:cordova-plugin-photo-library",
       "cordova-support-android-plugin": "1.0.1",
       "cordova-plugin-splashscreen": "^5.0.4",
       "cordova-plugin-taptic-engine": "^2.2.0",

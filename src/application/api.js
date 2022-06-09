@@ -1540,16 +1540,27 @@ var ApiWrapper = function (core) {
 
 				data.Modified = f.date.toserverFormatDate()
 
-				var {updated} = core.vxstorage.update(data, 'client')
+				var {updated, from} = core.vxstorage.update(data, 'client')
 
 				core.vxstorage.update(data, 'lead')
 
 				core.user.activity.remove('client', data.ID)
 				core.user.activity.remove('lead', data.ID)
 
+				console.log("updated", updated, from)
+
 				if(updated){
 					core.user.activity.template('client', updated)
 					core.user.activity.template('lead', updated)
+
+					if(from.Status == 'LEAD_NEW' && updated.Status == "LEAD"){
+						core.updates.decrease('leads')
+					}
+
+					if(from.Type == 'LEAD' && updated.Type == "CLIENT"){
+						core.updates.decrease('totalLeads')
+						core.updates.increase('totalClients')
+					}
 				}
 
 				self.invalidateStorageNow(['portfolios', 'contacts'])

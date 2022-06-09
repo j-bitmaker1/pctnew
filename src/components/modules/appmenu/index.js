@@ -1,6 +1,7 @@
 import { mapState } from 'vuex';
 import themeToggle from "@/components/assets/themetoggle/index.vue";
-import _, { zip } from 'underscore';
+import _ from 'underscore';
+import f from '@/application/functions.js'
 
 export default {
 	name: 'appmenu',
