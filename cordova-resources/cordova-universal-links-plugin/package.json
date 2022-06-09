@@ -1,25 +1,4 @@
 {
-  "_from": "git+https://github.com/cgaeking/cordova-universal-links-plugin-fix.git",
-  "_id": "cordova-universal-links-plugin@1.2.1",
-  "_inBundle": false,
-  "_integrity": "",
-  "_location": "/cordova-universal-links-plugin",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "git",
-    "raw": "git+https://github.com/cgaeking/cordova-universal-links-plugin-fix.git",
-    "rawSpec": "git+https://github.com/cgaeking/cordova-universal-links-plugin-fix.git",
-    "saveSpec": "git+https://github.com/cgaeking/cordova-universal-links-plugin-fix.git",
-    "fetchSpec": "https://github.com/cgaeking/cordova-universal-links-plugin-fix.git",
-    "gitCommittish": null
-  },
-  "_requiredBy": [
-    "#DEV:/",
-    "#USER"
-  ],
-  "_resolved": "git+https://github.com/cgaeking/cordova-universal-links-plugin-fix.git#44cf430c2f795b5149b1a59bb3357f9f64ec6b4b",
-  "_spec": "git+https://github.com/cgaeking/cordova-universal-links-plugin-fix.git",
-  "_where": "/Users/maksimgriskov/pocketnet/pocketnet.gui/cordova",
   "author": {
     "name": "Nikolay Demyankov for Nordnet Bank AB"
   },
