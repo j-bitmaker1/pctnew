@@ -14,7 +14,7 @@ const redirects = {
 		var rs = ''
 
 		return f.pretry(() => {
-			return core.user
+			return core.user && core.user.inited
 		}).then(() => {
 			return core.user.state.is()
 		}).then(state => {
@@ -63,7 +63,7 @@ const redirects = {
 
 	notauthorized: function (core, to) {
 		return f.pretry(() => {
-			return core.user
+			return core.user && core.user.inited
 		}).then(() => {
 			return core.user.state.is()
 		}).then(state => {
@@ -147,6 +147,12 @@ const routes = [
 		component: () => import('@/views/changepassword')
 	},
 
+	{
+		path: '/forgotpassword',
+		name: 'forgotpassword',
+		component: () => import('@/views/forgotpassword')
+	},
+	
 
 	{
 		path: '/leads',

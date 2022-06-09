@@ -12,7 +12,8 @@ export default {
         mode : String,
         attemp : Number,
         check : Function,
-        confirm : Boolean
+        confirm : Boolean,
+        caption : String
     },
 
     components : {
@@ -115,7 +116,7 @@ export default {
                                 icon: 'success'
                             })
 
-                            this.success()
+                            this.success(this.code)
                         }).catch(e => {
                             this.attemps++
 
@@ -142,7 +143,7 @@ export default {
                     }
 
                     else{
-                        this.success()
+                        this.success(this.code)
                     }
                 }
             }

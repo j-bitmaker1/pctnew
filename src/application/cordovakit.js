@@ -45,6 +45,20 @@ class Cordovakit {
 		
 	}
 
+	links() {
+		if (universalLinks != 'undefined'){
+            universalLinks.subscribe('route-message', function (eventData) {
+
+				var route = (eventData.url || '').replace('https://rixtrema.net/pctnew/')
+
+				if (route){
+					this.core.router.push(route)
+				}
+				
+            });
+        }
+	}
+
 	vibration(total){
 
 		if(f.isios()){

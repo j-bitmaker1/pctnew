@@ -71,9 +71,13 @@ class Core {
 
         this.updates = new Updates(this)
 
+        this.user = new user(this)
+        this.pdfreports = new PDFReports(this)
+
         this.api.prepare().then(() => {
-            this.user = new user(this)
-            this.pdfreports = new PDFReports(this)
+            console.log("PREPARED")
+            this.user.init()
+            
         })
        
     }

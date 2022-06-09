@@ -1,127 +1,105 @@
 <template>
-<div id="forgotpassword">
-	<div class="wwork">
-		<div class="wcaption">
-			<span>{{ $t("unsorted29.2901017") }}</span>
-		</div>
-	</div>
+<div id="setnewpassword">
 
-	<div class="resetcont" v-if="!sent">
-		<div class="item">
-			<div class="wscaption">
-				<div class="lwork">
-					<div class="wwork">
-						<label for="iemail">
-							<span>{{ $t("unsorted29.2901018") }}</span>
-						</label>
-					</div>
-				</div>
+	<div v-if="!success">
+		<div class="caption mobp">
+			<span>{{ $t("common.resetpassword") }}</span>
+		</div>
+
+		<div class="item mobp">
+			<div class="label">
+				<label for="cpassword">{{ $t("common.enteremail") }}</label>
 			</div>
 			<div class="input">
-				<input type="email" @change="changelogin" @keyup="keyuplogin" :value="login" name="email" />
+				<input type="email" @input="email = $event.target.value" :value="email" autocomplete="on" name="email" :placeholder="$t('common.2901018')" />
 			</div>
 		</div>
 
-		<div class="item forbutton">
-			<div class="wwork">
-				<button :disabled="!valid" class="button orange small" @click="sendrequest">
-					{{ $t("unsorted29.2901019") }} {{ via }}
-				</button>
-			</div>
+		<div class="savePanel mobp">
+			<button class="button" @click="send" :disabled="!email">
+				Next
+			</button>
 		</div>
 	</div>
 
-	<div class="wempty" v-if="sent">
-		<div class="wwork">
-			<span>{{ $t("unsorted29.2901020") }} {{ check }}</span>
+	<div v-else>
+		<div class="caption mobp">
+			<span>{{ $t("common.resetpasswordsuccess") }}</span>
 		</div>
 	</div>
+
 </div>
 </template>
 
-<style lang="sass" scoped>
-.forbutton padding: 4 * $r 0 .input padding: 2 * $r 0 ::v-deep input padding-left: 3 * $r
+<style scoped lang="sass">
+#setnewpassword
+	padding : 0 $r
+
+.caption
+	max-width: 70%
+	margin-bottom: 4 * $r
+
+	span
+		font-size: 2em
+		font-weight: 100
+.item
+	margin-top : 2 * $r
+	.label
+		color : srgb(--color-bg-ac-bright)
+		margin-bottom: $r
+
+.error
+	span
+		font-size: 2em
+input
+	background: srgb(--background-secondary-theme)
+	padding : 0 3 * $r
+	height: 66px
+	background: srgb(--neutral-grad-0)
+	width : 100%
+	border-radius: 12px
+
+
 </style>
 
 <script>
 import {
 	mapState
 } from "vuex";
-var PhoneValidator = require("rf-phone-validator");
-var EmailValidator = require("email-validator");
 
 export default {
 	name: "forgotpassword",
 	props: {
 		data: Object,
 	},
+	components: {
+	},
 	data: function () {
 		return {
-			login: "",
-			sent: false,
+			email: "",
+			success : false
 		};
 	},
 	computed: mapState({
-		auth: (state) => state.auth,
-		valid: function () {
-			return (
-				EmailValidator.validate(this.login) ||
-				new PhoneValidator(this.login).valid()
-			);
-		},
-
-		via: function () {
-			if (new PhoneValidator(this.login).valid()) {
-				return "via sms";
-			}
-
-			if (EmailValidator.validate(this.login)) return "via email";
-
-			return "";
-		},
-
-		check: function () {
-			if (new PhoneValidator(this.login).valid()) {
-				return this.$i18n.t("unsorted29.2901021");
-			}
-
-			if (EmailValidator.validate(this.login))
-				return this.$i18n.t("unsorted29.2901022");
-
-			return "";
-		},
+		auth: (state) => state.auth
 	}),
 
+	mounted: function () {
+	},
+
 	methods: {
-		keyuplogin: function (v) {
-			this.login = v.target.value;
-		},
-		changelogin: function (v) {
-			this.login = v.target.value;
-		},
-		sendrequest: function () {
-			this.$store.state.globalpreloader = true;
 
-			this.$user
-				.requestRestorePassword(this.login)
-				.then((r) => {
-					this.$store.state.globalpreloader = false;
+		send: function () {
 
-					this.sent = true;
+			this.core.api.user.restorePassword({
+				email : this.email
+			}, {
+				preloader : true,
+				showStatus : true
+			}).then(r => {
+				this.success = true
+			})
 
-					this.$store.commit("icon", {
-						icon: "success",
-						message: this.$i18n.t("unsorted29.2901023"),
-					});
-				})
-				.catch((e) => {
-					this.$store.state.globalpreloader = false;
-
-					this.$store.commit("icon", {
-						icon: "error",
-						message: this.$i18n.t("unsorted29.2901024"),
-					});
-				});
 		},
 	},
 };

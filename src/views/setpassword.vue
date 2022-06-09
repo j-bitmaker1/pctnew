@@ -1,16 +1,15 @@
 <template>
-  <div class="page">   
+<div class="page">
 
-	<topheader/>
+    <topheader back="back"/>
 
-	<maincontent>
-	  <template v-slot:content>
-		<setpassword />
-	  </template>
-	</maincontent>
+    <maincontent>
+        <template v-slot:content>
+            <setpassword />
+        </template>
+    </maincontent>
 
-	
-  </div>
+</div>
 </template>
 
 <style scoped lang="sass">
@@ -21,21 +20,21 @@
 import setpassword from "@/components/common/setpassword/index.vue";
 
 export default {
-  name: 'setpassword_page',
-  components: {
-	setpassword
-  },
+    name: 'setpassword_page',
+    components: {
+        setpassword
+    },
 
-  computed:{
-   
-  },
+    computed: {
 
-  methods : {
-   
-  },
+    },
 
-  mounted() {
-	
-  }
+    methods: {
+
+    },
+
+    mounted() {
+
+    }
 }
 </script>

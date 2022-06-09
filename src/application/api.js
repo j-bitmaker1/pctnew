@@ -2070,6 +2070,38 @@ var ApiWrapper = function (core) {
 			})
 		},
 
+		prechangePassword : function(password, p = {}){
+			return request({
+				OldPassword : password
+			}, 'api', 'userdata/user/PreChangePassword', p)
+		},
+
+		changePassword : function({password, pin}, p = {}){
+
+			return request({
+
+				NewPassword : password,
+				Pin : pin
+
+			}, 'api', 'userdata/user/PreChangePassword', p)
+			
+		},
+
+		restorePassword : function({email}, p = {}){
+			return request({
+				Email : email,
+				Link : 'PCT'
+			}, 'api', 'userdata/user/RestorePassword', p)
+		},
+
+		restorePasswordContinue : function({email, pin, password}, p = {}){
+			return request({
+				Email : email,
+				Code : pin,
+				NewPassword : password
+			}, 'api', 'userdata/user/SetNewPassword', p)
+		},
+
 		settings : {
 			getall : function(type){
 				return request({type, product : 'PCT'}, 'api', 'userdata/settings/list', {

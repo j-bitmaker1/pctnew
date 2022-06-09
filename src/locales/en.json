@@ -101,7 +101,8 @@
 				"onlyunread" : "Show all",
 				"all" : "Show only unread"
 			}
-		}
+		},
+		"confirmyourpassword" : "Confirm your assword"
 	},
 
 	"caption" : {
@@ -223,7 +224,8 @@
 		"2901056" : "Video has not found",
 		"2901097" : "Selected images:",
 		"2901098" : "Forgot password?",
-
+		"resetpassword" : "Enter your email to reset your password",
+		"resetpasswordsuccess" : "A password reset link has been sent to your email",
 		"newnotification" : "New notification"
 	},
 

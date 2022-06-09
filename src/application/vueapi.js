@@ -355,7 +355,7 @@ class Vueapi {
         })
     }
 
-    pincode = function(mode = 'create', attemp, check){
+    pincode = function(mode = 'create', attemp, check, caption){
 
         var hascode = false
 
@@ -370,7 +370,8 @@ class Vueapi {
                     confirm : mode == 'create',
                     mode,
                     attemp,
-                    check
+                    check,
+                    caption
                 },
                 events : {
                     success : function(pin){

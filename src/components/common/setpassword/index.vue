@@ -1,178 +1,187 @@
 <template>
-  <div id="setnewpassword">
-	<div class="wwork">
-	  <div class="wcaption">
-		<span>{{ $t("unsorted29.2901029") }}</span>
-	  </div>
+<div id="setnewpassword">
+	<linepreloader v-if="loading"/>
+	<div v-if="(hash || pin) && !loading">
+		<div class="caption mobp">
+			<span>{{ $t("common.2901029") }}</span>
+		</div>
+
+		<div class="item mobp">
+			<div class="label">
+				<label for="password">{{ $t("common.2901030") }}</label>
+			</div>
+			<div class="input">
+				<cpassword :value="password" @input="changePassword" name="password" autocomplete="off" :placeholder="$t('common.2901031')" :toggle="true" :badge="false" />
+			</div>
+		</div>
+
+		<div class="item mobp">
+			<div class="label">
+				<label for="cpassword">{{ $t("common.2901032") }}</label>
+			</div>
+			<div class="input">
+				<input type="password" @input="confirmpassword = $event.target.value" :value="confirmpassword" autocomplete="off" name="cpassword" :placeholder="$t('labels.confirmyourpassword')" />
+			</div>
+		</div>
+
+		<div class="savePanel mobp">
+			<button v-if="!hash" @click="load" class="button ghost">Enter another PIN code</button>
+			<button class="button" @click="send" :disabled="!valid">
+				Next
+			</button>
+		</div>
 	</div>
 
-	<div class="changecnt" v-if="!loading && hash">
-	  <div class="item">
-		<div class="label">
-		  <div class="wwork">
-			<label for="password">{{ $t("unsorted29.2901030") }}</label>
-		  </div>
+	<div class="mobp error" v-if="(!hash && !pin) && !loading">
+		<div>
+			<span>To change your password, you need to follow the link that was sent to your mail, or by entering the pin code</span>
 		</div>
-		<div class="input">
-		  <cpassword
-			:value="password"
-			@input="changePassword"
-			name="password"
-			autocomplete="off"
-			:placeholder="$t('unsorted29.2901031')"
-			:toggle="true"
-			:badge="false"
-		  />
-		</div>
-	  </div>
 
-	  <div class="item">
-		<div class="label">
-		  <div class="wwork">
-			<label for="cpassword">{{ $t("unsorted29.2901032") }}</label>
-		  </div>
+		<div class="savePanel mobp">
+			<button class="button" @click="load">
+				Enter PIN code
+			</button>
 		</div>
-		<div class="input">
-		  <input
-			type="password"
-			value=""
-			@input="confirmpassword = $event.target.value"
-			:value="confirmpassword"
-			autocomplete="off"
-			name="cpassword"
-			:placeholder="$t('message.confirmyourpassword')"
-		  />
-		</div>
-	  </div>
-
-	  <div class="item forbutton">
-		<div class="wwork">
-		  <button
-			:disabled="!valid"
-			class="button orange small"
-			@click="savepassword"
-		  >
-			{{ $t("unsorted29.2901033") }}
-		  </button>
-		</div>
-	  </div>
 	</div>
 
-	<div class="wempty" v-if="!loading && !hash">
-	  <div class="wwork">
-		<span>{{ $t("unsorted29.2901034") }}</span>
-	  </div>
-	</div>
-  </div>
+</div>
 </template>
 
 <style scoped lang="sass">
+#setnewpassword
+	padding : 0 $r
+
+.caption
+	max-width: 70%
+	margin-bottom: 4 * $r
+
+	span
+		font-size: 2em
+		font-weight: 100
+.item
+	margin-top : 2 * $r
+	.label
+		color : srgb(--color-bg-ac-bright)
+		margin-bottom: $r
+
+.error
+	span
+		font-size: 2em
 input
-	padding: 0 3 * $r
+	background: srgb(--background-secondary-theme)
+	padding : 0 3 * $r
 	height: 66px
-	background: $color-bg-gen
-	width: 100%
-
-.forbutton
-	padding: 4 * $r 0
-
-.input
-	padding: 2 * $r 0
+	background: srgb(--neutral-grad-0)
+	width : 100%
+	border-radius: 12px
 
 ::v-deep
+	.Password__field
+		border-radius: 12px
+		padding : 0 3 * $r
+		height: 66px
+		background: srgb(--neutral-grad-0)
+		width : 100%
+		border : 0
+		
 	.Password__strength-meter
-		border-radius: 0
+		border-radius: 12px
+
 	.Password__badge
 		border-radius: 50px
 		height: 30px
 		line-height: 30px
 		font-size: 0.9em
-	input
-		padding: 0 3 * $r
-		height: 66px
-		background: $color-bg-gen
-		width: 100%
-		border: 0
+
 </style>
 
 <script>
-import { mapState } from "vuex";
+import {
+	mapState
+} from "vuex";
 import cpassword from "vue-password-strength-meter";
 
 export default {
-  name: "setnewpassword",
-  props: {
-	data: Object,
-  },
-  components: {
-	cpassword,
-  },
-  data: function () {
-	return {
-	  password: "",
-	  confirmpassword: "",
-	  hash: "",
-	  loading: false,
-	};
-  },
-  computed: mapState({
-	auth: (state) => state.auth,
-	valid: function () {
-	  return this.password && this.password == this.confirmpassword;
+	name: "setnewpassword",
+	props: {
+		data: Object,
 	},
-  }),
-
-  mounted: function () {
-	this.load();
-  },
-
-  methods: {
-	changePassword: function (v) {
-	  this.password = v;
+	components: {
+		cpassword,
 	},
-	load: function () {
-	  this.hash = this.$route.query.hash;
-	  this.loading = true;
+	data: function () {
+		return {
+			password: "",
+			confirmpassword: "",
+			hash: '',
+			pin : '',
+			loading: false,
+			email : ''
+		};
+	},
+	computed: mapState({
+		auth: (state) => state.auth,
+		valid: function () {
+			return this.password && this.password == this.confirmpassword;
+		},
+	}),
 
-	  this.$store.state.globalpreloader = true;
-
-	  this.$user
-		.requestRestoreCheckHash(this.hash)
-		.then((r) => {
-		  this.loading = false;
-		  this.$store.state.globalpreloader = false;
-		})
-		.catch((e) => {
-		  this.loading = false;
-		  this.$store.state.globalpreloader = false;
-		  this.hash = "";
-		});
+	mounted: function () {
+		this.load();
 	},
 
-	savepassword: function () {
-	  this.$store.state.globalpreloader = true;
+	methods: {
+		changePassword: function (v) {
+			this.password = v;
+		},
+		load: function () {
+			this.hash = this.$route.query.code;
+			this.email = this.$route.query.login;
 
-	  this.$user
-		.setNewPassword(this.hash, this.password)
-		.then((r) => {
-		  this.$store.state.globalpreloader = false;
+			if(!this.hash){
 
-		  this.$store.commit("icon", {
-			icon: "success",
-			message: this.$i18n.t("unsorted29.2901035"),
-		  });
+				this.loading = true
 
-		  this.$router.push("/authorization/");
-		})
-		.catch((e) => {
-		  this.$store.state.globalpreloader = false;
+				this.core.vueapi.pincode('enter', 1, null, "Enter the PIN code to change the password that came to your mail").then(pin => {
+					this.pin = pin
+				}).finally(() => {
+					this.loading = false
+				})
 
-		  this.$store.commit("icon", {
-			icon: "error",
-			message: this.$i18n.t("unsorted29.2901036"),
-		  });
-		});
+			}
+		},
+
+		send: function () {
+
+			if (this.hash && this.email){
+
+				this.core.api.user.restorePasswordContinue({
+					password : this.password,
+					pin : this.pin,
+					email : this.email
+				}, {
+					preloader : true,
+					showStatus : true
+				}).then(r => {
+					this.$router.push('/')
+				})
+
+			}	
+			else{	
+				this.core.api.user.changePassword({
+					password : this.password,
+					pin : this.pin
+				}, {
+					preloader : true,
+					showStatus : true
+				}).then(r => {
+					this.$router.push('/')
+				})
+			}
+
+			
+
+		},
 	},
-  },
 };
 </script>

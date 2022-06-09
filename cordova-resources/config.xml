@@ -101,8 +101,8 @@
     <plugin name="cordova-universal-links-plugin" source="git" spec="https://github.com/cgaeking/cordova-universal-links-plugin-fix.git" />
     <universal-links>
         <ios-team-id value="Y5JW9JU787" />
-        <host name="pocketnet.app" scheme="https">
-            <path event="nav-message" url="*" />
+        <host name="rixtrema.net" scheme="https">
+            <path event="route-message" url="/pctnew/*" />
         </host>
     </universal-links>
   

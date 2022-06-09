@@ -1,12 +1,10 @@
 import { mapState } from 'vuex';
-import cpassword from 'vue-password-strength-meter'
 export default {
 	name: 'changepassword',
 	props: {
 	},
 
 	components : {
-		cpassword
 	},
 
 	data : function(){
@@ -40,7 +38,21 @@ export default {
 
 	methods : {
 		
+		send : function(){
 
+			this.core.api.user.prechangePassword(this.password, {
+				preloader : true,
+			}).then(r => {
+
+			}).catch(e => {
+
+				this.$store.commit('icon', {
+					icon: 'error',
+				})
+				
+			})
+
+		},
 		change : function(){
 			/*this.$root.user.changePassword(this.password).then(d => {
 				if (d.changed){

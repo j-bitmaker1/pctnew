@@ -33,8 +33,7 @@ export default {
 
     },
 
-    mounted() {
-
+    created() {
         this.core.user.activity.template('action', this.core.user.activity.actions.changePassword())
     }
 }

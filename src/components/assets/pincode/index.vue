@@ -3,12 +3,12 @@
 
     <div class="caption" v-if="mode == 'create'">
         <span v-if="validcode && confirm">Confirm pincode</span>
-        <span v-else>Create pincode</span>
+        <span v-else>{{caption || "Create pincode"}}</span>
     </div>
 
     <div class="caption" v-if="mode == 'enter'">
         <span v-if="error">Invalid pincode</span>
-        <span v-else>Enter pincode</span>
+        <span v-else>{{caption || "Enter pincode"}}</span>
     </div>
 
     <div class="code">

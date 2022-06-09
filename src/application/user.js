@@ -816,10 +816,13 @@ var User = function ({
     self.prepare = function(){
 
         return Promise.all([self.activity.load(), pct.prepare(), crm.prepare()]).catch(e => {
-            console.error(e)
             return Promise.reject(e)
         })
 
+    }
+
+    self.init = function(){
+        self.inited = true
     }
 
     self.changePassword = function(pwd){
