@@ -345,7 +345,7 @@
 		"setting" : "Settings",
 		"actions" : "Actions",
 		"empty" : "Search result is empty",
-		"totalEmpty" : "Activity history is empty",
+		"totalEmpty" : "History of activity is empty",
 		"action" : "Actions",
 		"searches" : {
 			"client" : "By clients",

@@ -19,21 +19,36 @@
         align-items: center
         justify-content: center
         flex-direction: column  
-        border : 1px solid srgb(--neutral-grad-3)
+        border : 1px solid srgb(--color-txt-ac)
+        background: srgb(--color-shadow-base)
         border-radius: 24px
-        color : srgb(--neutral-grad-3)
+        color : srgb(--color-txt-ac)
         grid-gap: $r
         +shadowSmaller()
         position: relative
 
+        &:nth-child(1)
+            border-top-left-radius: 0
+
+        &:nth-child(2)
+            border-top-right-radius: 0
+
+        &:nth-child(3)
+            border-bottom-left-radius: 0
+
+        &:nth-child(4)
+            border-bottom-right-radius: 0
+            
+
         i
             margin-top: $r
             font-size: 1.3em
+
         .label
             position: absolute
-            top : $r
-            left : 0
-            right : 0
+            top : 0
+            left : $r
+            right : $r
             text-align: center
         span
             
