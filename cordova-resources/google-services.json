@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "559404897984",
+    "project_id": "portfolio-crash-test",
+    "storage_bucket": "portfolio-crash-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559404897984:android:dff54dfaedd6dfb4bebf25",
+        "android_client_info": {
+          "package_name": "com.rixtrema.pct"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559404897984-9vnnekcg1rkgaou6o86fs4vrefas52r1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rixtrema.pct",
+            "certificate_hash": "dd59a2f1ebe63963218d1385c8a4068f8cfa8de5"
+          }
+        },
+        {
+          "client_id": "559404897984-gh92oc2mejcu9l3v450dl8dl29n34lka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApx2yQfspzuZ-rYXAWxUZWeelOT5d0h4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559404897984-gh92oc2mejcu9l3v450dl8dl29n34lka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

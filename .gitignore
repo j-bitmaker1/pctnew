@@ -9,7 +9,5 @@ dist
 cordova-built
 src-cordova/*
 cordova-resources/build.json
-cordova-resources/google-services.json
-cordova-resources/GoogleService-Info.plist
 package-lock.json
 *.zip
