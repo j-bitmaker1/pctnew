@@ -13,9 +13,7 @@ export default {
 
 		return {
 			loading : false,
-			password : '',
-			confirmpassword : '',
-			oldpassword : ''
+			password : ''
 		}
 
 	},
@@ -38,33 +36,13 @@ export default {
 
 	computed: mapState({
 		auth : state => state.auth,
-		canchange : function(){
-			return this.canenternew && this.password == this.confirmpassword && this.password
-		},
-
-		canenternew : function(){
-			return false
-		}
 	}),
 
 	methods : {
-		showerror : function(e){
-
-			this.$message({
-				title : "Error",
-				message : JSON.stringify(e),
-				zIndex : 2900
-			})
-		},  
-		back : function(){
-			this.$router.go(-1)
-		},
-		changePassword : function(v){
-			this.password = v
-		},
+		
 
 		change : function(){
-			this.$root.user.changePassword(this.password).then(d => {
+			/*this.$root.user.changePassword(this.password).then(d => {
 				if (d.changed){
 
 					this.password = ''
@@ -82,7 +60,7 @@ export default {
 				else{
 					return Promise.reject("Password hasn't been changed")
 				}
-			}).catch(this.showerror)
+			}).catch(this.showerror)*/
 		}
 	},
 }
