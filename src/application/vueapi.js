@@ -657,6 +657,29 @@ class Vueapi {
         this.listmenu(menu)
     }
 
+    questionnaireResult = function(questionnaire){
+        this.core.api.crm.questionnaire.getresult(questionnaire, {preloader : true}).then(r => {
+           
+            this.store.commit('OPEN_MODAL', {
+                id : 'modal_questionnaire_client',
+                module : "questionnaire_client",
+                caption : "Questionnaire",
+                mclass : '',
+    
+                data :  {
+                    result : r
+                }
+            })
+
+            
+        }).catch(e => {
+            this.store.commit('icon', {
+                icon: 'error',
+                message: e.error
+            })
+        })
+    }
+
 }
 
 export default Vueapi

@@ -3,7 +3,8 @@ import { mapState } from 'vuex';
 export default {
     name: 'client_questionnaire',
     props: {
-        result : Object
+        result : Object,
+        wnd : Boolean
     },
 
     data : function(){

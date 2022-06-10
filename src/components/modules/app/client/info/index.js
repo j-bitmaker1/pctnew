@@ -16,7 +16,6 @@ export default {
 		return {
 			loading : false,
 			questionnaire : null
-			//questionnaire : {"capacity":{"age":20,"retire":50,"save":45555,"savings":0,"salary":23444},"questions":{"q1":2,"q2":1,"q3":1,"q4":2,"q5":1,"q6":4}}
 		}
 
 	},

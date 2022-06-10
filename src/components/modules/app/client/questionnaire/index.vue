@@ -1,5 +1,5 @@
 <template>
-<div class="client_questionnaire">
+<div class="client_questionnaire" :class="{inwnd : wnd}">
     <div class="groups" :key="i" v-for="(group, i) in schema">
 		<!--<div class="subcaption mobp">
 			<span>{{i}}</span>

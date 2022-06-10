@@ -33,12 +33,24 @@ export default {
 					reversed : true,
 					c : (v) => {
 						return this.core.pct.ocr(v)
+					},
+
+					click : () => {
+						if (this.profile.questionnaire)
+							this.core.vueapi.questionnaireResult(this.profile.questionnaire)
+						
 					}
 				},
 				{
 					text : 'labels.capacity',
 					index : 'capacity',
-					c : function(v){return v}
+					c : function(v){return v},
+
+					click : () => {
+						if (this.profile.questionnaire)
+							this.core.vueapi.questionnaireResult(this.profile.questionnaire)
+						
+					}
 				}
 				
 			]

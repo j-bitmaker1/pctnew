@@ -1,10 +1,10 @@
 <template>
 <div class="summarybutton" :class="sclass">
-	<div class="label">
+	<div class="label" @click="click">
 		<span>{{$t(text)}}</span>
 	</div>
 
-	<div class="value">
+	<div class="value" @click="click">
 		<coloredNumber v-if="colored" :reversed="reversed" :number="number" :mode="mode"/>
 		<value v-else :value="number" :mode="mode"/>
 	</div>
@@ -66,7 +66,9 @@ export default {
 	}),
 
 	methods: {
-
+		click : function(){
+			this.$emit('click')
+		}
 	},
 }
 </script>

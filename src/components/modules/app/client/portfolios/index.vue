@@ -7,7 +7,7 @@
 	</div>
 
 	<div class="summary mobp">
-		<summarybutton :colored="true" :reversed="item.reversed" v-for="item in summary" :key="item.index" :text="item.text" :number="item.c(profile[item.index])"/>
+		<summarybutton :colored="true" :reversed="item.reversed" v-for="item in summary" :key="item.index" :text="item.text" :number="item.c(profile[item.index])" @click="e => {item.click ? item.click() : null}"/>
 	</div>
 
 	<portfoliolist @changeClient="reload" @open="open" ref="list" :additional="payload"></portfoliolist>

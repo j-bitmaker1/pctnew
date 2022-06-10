@@ -44,7 +44,13 @@ export default {
 				},
 				{
 					text : 'labels.tolerance',
-					th : 'tolerance'
+					th : 'tolerance',
+
+					click : () => {
+						if (this.profile && this.profile.questionnaire)
+							this.core.vueapi.questionnaireResult(this.profile.questionnaire)
+						
+					}
 				}
 				
 			]
