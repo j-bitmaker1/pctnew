@@ -10,8 +10,6 @@
 		<summarybutton :colored="true" :reversed="item.reversed" v-for="item in summary" :key="item.index" :text="item.text" :number="item.c(profile[item.index])"/>
 	</div>
 
-	
-
 	<portfoliolist @changeClient="reload" @open="open" ref="list" :additional="payload"></portfoliolist>
 </div>
 </template>

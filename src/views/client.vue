@@ -28,7 +28,7 @@
 				<div class="linenavigation mobp">
 					<linenavigation :buttons="true" @change="changenav" :items="navigation" :navdefault="navdefault" :navkey="navkey" :mode="wnd ? 'emit' : 'history'"/>
 				</div>
-				<component ref="main" :is="module" :profile="profile"/>
+				<component ref="main" :is="module" :profile="profile" @close="close"/>
 			</div>
 		</template>
 	</maincontent>
@@ -194,6 +194,10 @@ export default {
 
 		portfoliosChanged : function(){
 			if(this.$refs['main'] && this.$refs['main'].reload) this.$refs['main'].reload()
+		},
+
+		close : function(){
+			this.$emit('close')
 		}
 		
 	},

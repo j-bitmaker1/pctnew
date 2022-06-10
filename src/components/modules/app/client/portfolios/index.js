@@ -103,6 +103,8 @@ export default {
 
 		open : function(portfolio){
 			this.$router.push('/portfolio/' + portfolio.id)
+
+			this.$emit('close')
 		}
 	},
 }
