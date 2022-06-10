@@ -1,13 +1,13 @@
 <template>
 <div class="page">
 
-	<topheader>
+	<topheader back="back">
 		<template v-slot:info>
 			<span>Compare</span>
 		</template>
 		<template v-slot:right>
 			<div class="buttonpanel">
-				<i class="fas fa-plus" @click="addportfolio"></i>
+				 <i class="fas fa-plus" @click="addportfolio"></i>
 			</div>
 		</template>
 	</topheader>

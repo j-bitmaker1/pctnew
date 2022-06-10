@@ -717,6 +717,8 @@ var User = function ({
 
         var data = {}
 
+        vm.$store.commit('globalpreloader', true)
+
         return getstorage().then(() => {
             return setFingerPrint()
         }).then(fp => {
@@ -762,10 +764,6 @@ var User = function ({
 
         }).then(result => {
 
-            console.log("HEHRE")
-
-            
-
             try {
                 startFcm();
             } catch (e) { 
@@ -789,9 +787,6 @@ var User = function ({
 
             return api.checkUpdates()
 
-            return self.askfaseid().catch(e => {
-                return Promise.resolve()
-            })
 
         }).then(() => {
 
@@ -801,9 +796,13 @@ var User = function ({
 
             wss.init()
 
+            vm.$store.commit('globalpreloader', false)
+
             return state.value
 
         }).catch(e => {
+
+            vm.$store.commit('globalpreloader', false)
 
             console.log("E", e)
 

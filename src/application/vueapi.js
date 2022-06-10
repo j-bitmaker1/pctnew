@@ -87,6 +87,16 @@ class Vueapi {
             events : {
                 selected : (portfolios) => {
                     if(success) success(portfolios)
+
+                    this.store.commit('unselect', {
+                        context : 'portfolio'
+                    })
+                },
+
+                close : () => {
+                    this.store.commit('unselect', {
+                        context : 'portfolio'
+                    })
                 }
             }
         })

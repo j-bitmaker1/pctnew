@@ -243,16 +243,18 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
 
+	
 
 	var r = _.find(routes, (r) => r.name == to.name)
 
-
 	if (r && r.customRedirect) {
-
 
 		return f.pretry(() => {
 			return router.app.core
 		}).then(() => {
+
+			router.app.core.store.commit('globalpreloader', true)
+
 			return r.customRedirect(router.app.core, to)
 		}).catch(obj => {
 			return Promise.resolve(obj)
@@ -265,6 +267,11 @@ router.beforeEach((to, from, next) => {
 	}
 
 	next()
+})
+
+router.afterEach(() => {
+	router.app.core.store.commit('globalpreloader', false)
+
 })
 
 export default router

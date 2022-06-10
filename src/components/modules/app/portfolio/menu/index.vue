@@ -45,6 +45,11 @@ export default {
 					action : 'portfoliopdf'
 				},
 				{
+					text : 'menu.compare',
+					icon : 'fas fa-list-ul',
+					action : 'compare'
+				},
+				{
 					text : 'labels.editportfolio',
 					icon : 'fas fa-pen',
 					action : 'edit'
@@ -160,6 +165,10 @@ export default {
 
 		changeClient : function(){
 			this.linkToClient()
+		},
+
+		compare : function(){
+			this.$router.push('compare?ids=' + this.portfolio.id)
 		}
 
 		

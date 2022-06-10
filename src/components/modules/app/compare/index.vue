@@ -10,10 +10,17 @@
         <div class="header mobp">
 			<div class="forpanel">
 				<span>Portfolios crash test</span>
-			</div>
+			</div>	
+
 			<div class="forsettigns">
 				<iconstoggle :icons="valuemodes" @change="changevaluemode" :value="valuemode"/>
 			</div>
+
+			<div class="settings">
+				<ctmenu  @scenariosChanged="scenariosChanged"/>
+			</div>
+
+			
 		</div>
 
         <ctmain :cts="cts" :portfolios="portfolios" :mode="valuemode"/>

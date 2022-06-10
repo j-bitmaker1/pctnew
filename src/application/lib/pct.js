@@ -495,6 +495,12 @@ class PCT {
             })
         })
 
+        common.scenarios = _.sortBy(common.scenarios, (sc) => {
+            return _.reduce(sc.loss, (m, l) => {
+                return m + l
+            }, 0)
+        })
+
         common.max = maxAbs
         common.total = total
 
@@ -502,6 +508,8 @@ class PCT {
             common.max = 1
             common.total = 1
         }
+
+        console.log('common', common)
 
         return common
     }

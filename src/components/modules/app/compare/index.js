@@ -2,14 +2,14 @@ import { _ } from 'core-js';
 import { mapState } from 'vuex';
 
 import ctmain from '../portfolio/crashtest/main/index.vue'
-
+import ctmenu from '../portfolio/crashtest/menu/index.vue'
 export default {
     name: 'compare',
     props: {
         ids : Array
     },
 
-    components : {ctmain},
+    components : {ctmain, ctmenu},
 
     data : function(){
 
@@ -51,11 +51,14 @@ export default {
     methods : {
 
         changevaluemode : function(v){
-            console.log('changevaluemode')
 			this.valuemode = v
 
             this.load()
 		},
+
+        scenariosChanged : function(){
+            this.load()
+        },  
 
         load : function(){
 
