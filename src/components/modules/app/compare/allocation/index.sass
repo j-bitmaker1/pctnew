@@ -1,0 +1,61 @@
+.wrapper
+    display: flex
+    flex-wrap: nowrap
+    grid-gap: $r
+    overflow-x: scroll
+
+    &::-webkit-scrollbar
+        display: none
+
+    >div
+        flex-basis: 70%
+        min-width: 300px
+
+.wrapper
+    padding: $r
+    margin-top: 2 * $r
+    .name
+        display: flex
+        align-content: center
+
+    .dwrapper
+        margin-top: $r
+        padding-bottom: $r
+        border-radius: 24px
+        border: 1px solid srgb(--neutral-grad-0)
+
+        ::v-deep
+            .summary
+                margin-top: $r
+                border-bottom: 0
+
+            .mobp
+                padding-left: $r
+                padding-right: 2 * $r
+
+            .chartWrapper
+                padding-right: $r
+
+    .nameB
+        border-radius: 24px
+        background: srgb(--neutral-grad-0)
+        margin: 0 auto
+        padding: $r 2 * $r
+        text-align: center
+
+        span
+            font-size: 0.9em
+
+.controls
+    position: sticky
+    z-index: 1
+    top: 0
+    left: 0
+    right: 0
+    display: flex
+    align-items: center
+    justify-content: space-between
+    background: srgb(--background-total-theme)
+
+    .forlist
+        margin-left: auto

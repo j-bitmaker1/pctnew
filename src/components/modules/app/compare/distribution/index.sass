@@ -1,0 +1,74 @@
+.cnt
+    display: flex
+    flex-wrap: nowrap
+    grid-gap: $r
+    overflow-x: scroll
+
+    &::-webkit-scrollbar
+        display: none
+
+    >div
+        flex-basis: 70%
+        min-width: 300px
+
+            
+.distribution
+    padding : $r
+    .name
+        display: flex
+        align-content: center
+
+    .dwrapper
+        margin-top: $r
+        border-radius: 24px
+        border : 1px solid srgb(--neutral-grad-0)
+
+        ::v-deep
+            .summary
+                font-size: 0.7em
+                margin-top: $r
+                border-bottom: 0
+            .mobp
+                padding-left: 2 * $r
+                padding-right: 2 * $r
+
+    .nameB
+        border-radius: 24px
+        background: srgb(--neutral-grad-0)
+        margin: 0 auto
+        padding : $r 2 * $r
+        text-align: center
+
+        span
+            font-size: 0.9em
+.controls
+    position: sticky
+    z-index: 1
+    bottom: 0
+    left: 0
+    right: 0
+    display: flex
+    align-items: center
+    justify-content: space-between
+    background: srgb(--background-total-theme)
+    grid-gap: $r
+    padding-top: $r
+    padding-bottom: $r
+
+    div
+        flex-basis: 50%
+        text-align: center
+
+        .scaption
+            font-weight: 500
+            color: srgb(--neutral-grad-3)
+            font-size: 0.8em
+            margin-bottom: $r
+
+    select
+        width: 100%
+        max-width: none
+
+@media only screen and (max-width: 768px)
+    .controls
+        bottom: 76px

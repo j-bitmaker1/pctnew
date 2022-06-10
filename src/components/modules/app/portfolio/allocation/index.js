@@ -1,6 +1,5 @@
 import { mapState } from 'vuex';
 
-
 import allocationMain from "./main/index.vue"
 
 import { Allocation } from '@/application/charts/index';

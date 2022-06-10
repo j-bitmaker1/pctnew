@@ -14,11 +14,19 @@
 
 	<maincontent>
 		<template v-slot:content>
-			<compare :ids="ids" v-if="ids.length"/>
 
-			<div class="empty" v-else>
+			<div class="linenavigation">
+				<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
+			</div>
+
+			<div class="componentWrapper" v-if="ids.length">
+				<component :is="module" :ids="ids" />
+			</div>
+
+			<div class="empty" v-if="!ids.length">
 				<span>Please select a portfolios to compare</span>
 			</div>
+			
 		</template>
 	</maincontent>
 
@@ -26,6 +34,8 @@
 </template>
 
 <style scoped lang="sass">
+.componentWrapper
+	margin-top: 4 * $r
 .empty
 	text-align: center
 	padding : 6 * $r 0
@@ -35,25 +45,51 @@
 </style>
 
 <script>
+import linenavigation from "@/components/assets/linenavigation/index.vue";
 
+import stress from '@/components/modules/app/compare/stress/index.vue'
+import allocation from '@/components/modules/app/compare/allocation/index.vue'
+import distribution from '@/components/modules/app/compare/distribution/index.vue'
 
-import compare from '@/components/modules/app/compare/index.vue'
 
 export default {
 	name: 'compare_page',
 	components: {
-		compare
+		stress, linenavigation, distribution, allocation
 	},
 
 	computed: {
 		ids : function(){
 			return _.filter((this.$route.query.ids || "").split(','), (f) => {return f})
+		},
+
+		module : function(){
+			return this.active
+		},
+
+		active : function(){
+			return this.$route.query[this.navkey] || this.navdefault
 		}
 	},
 
 	data : function(){
 		return {
-			
+			navigation : [
+				{
+					text : 'labels.crashtest',
+					id : 'stress'
+				},
+				{
+					text : 'labels.allocation',
+					id : 'allocation'
+				},
+				{
+					text : 'labels.distribution',
+					id : 'distribution'
+				}
+			],
+			navdefault : 'stress',
+			navkey : 'c',
 		}
 	},
 

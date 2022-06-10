@@ -1,8 +1,9 @@
 import { _ } from 'core-js';
 import { mapState } from 'vuex';
 
-import ctmain from '../portfolio/crashtest/main/index.vue'
-import ctmenu from '../portfolio/crashtest/menu/index.vue'
+import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'
+import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
+
 export default {
     name: 'compare',
     props: {
@@ -76,19 +77,13 @@ export default {
 
                 this.portfolios = portfolios
 
-                console.log('this.portfolios', this.portfolios)
-
                 var max = _.max(this.portfolios, (p) => {return p.total()})
-
-                console.log('max', max)
 
                 return this.core.pct.stresstests(_.map(r, (portfolio) => {return portfolio.id}), max.total(), this.valuemode)
                 
             }).then((cts) => {
 
                 this.cts = cts
-
-                console.log('this.cts', this.cts)
 
             }).finally(() => {
                 this.loading = false

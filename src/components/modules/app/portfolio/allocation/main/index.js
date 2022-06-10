@@ -10,7 +10,12 @@ export default {
     name: 'allocation_main',
     props: {
         activegrouping : String,
-        assets : Array
+        assets : Array,
+
+		options : {
+			type : Object,
+			default : () => {return {}}
+		}
     },
 
     components : {
@@ -80,7 +85,9 @@ export default {
 
 		chartOptions: function(){
 
-			var d = allocation.chartOptions(this.chartdata)
+			var d = allocation.chartOptions(this.chartdata, {
+				...this.options
+			})
 
 				d.chart.events = {}
 				d.chart.events.drilldown = this.drilldownevent

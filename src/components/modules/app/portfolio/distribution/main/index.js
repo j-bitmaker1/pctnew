@@ -11,7 +11,12 @@ export default {
     props: {
         portfolio : Object,
         period : Number,
-        current_std : Number
+        current_std : Number,
+
+		options : {
+			type : Object,
+			default : () => {return {}}
+		}
     },
 
     components : {
@@ -70,7 +75,9 @@ export default {
 
 		chartOptions: function(){
 
-			return distribution.chartOptions(this.series)
+			return distribution.chartOptions(this.series, {
+				...this.options
+			})
 
 		}
     }),

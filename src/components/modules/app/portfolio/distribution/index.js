@@ -5,7 +5,6 @@ import _ from 'underscore';
 import distributionMain from './main/index.vue'
 
 import { Distribution } from '@/application/charts/index';
-
 var distribution = new Distribution()
 
 export default {
