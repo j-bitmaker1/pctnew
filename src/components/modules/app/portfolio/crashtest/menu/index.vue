@@ -37,11 +37,20 @@ export default {
 
         menu: function() {
 
-            return [{
-                text: 'labels.scenarioManager',
-                icon: 'fas fa-tasks',
-                action: this.scenarioManager
-            }]
+            return [
+                {
+                    text: 'labels.scenarioManager',
+                    icon: 'fas fa-tasks',
+                    action: this.scenarioManager
+                },
+            
+                {
+                    text: 'labels.scoreConverter',
+                    icon: 'fas fa-star',
+                    action: this.scoreConverter
+                },
+            
+            ]
         }
 
     }),
@@ -53,6 +62,15 @@ export default {
 
 			this.core.vueapi.scenarioManager((scenarios) => {
                 this.$emit('scenariosChanged')
+			})
+        },
+
+        scoreConverter: function () {
+
+            this.core.user.activity.template('action', this.core.user.activity.actions.scoreConverter())
+
+			this.core.vueapi.scoreConverter(() => {
+                this.$emit('scoreConverterChanged')
 			})
         }
     },

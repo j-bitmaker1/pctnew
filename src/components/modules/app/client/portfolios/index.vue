@@ -7,7 +7,7 @@
 	</div>
 
 	<div class="summary mobp">
-		<summarybutton :colored="true" :reversed="item.reversed" v-for="item in summary" :key="item.index" :text="item.text" :number="profile[item.index]"/>
+		<summarybutton :colored="true" :reversed="item.reversed" v-for="item in summary" :key="item.index" :text="item.text" :number="item.c(profile[item.index])"/>
 	</div>
 
 	

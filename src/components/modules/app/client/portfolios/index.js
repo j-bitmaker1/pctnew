@@ -22,16 +22,23 @@ export default {
 				{
 					text : 'labels.crashrating',
 					index : 'riskscore',
-					reversed : true
+					reversed : true,
+					c : (v) => {
+						return this.core.pct.ocr(v)
+					}
 				},
 				{
 					text : 'labels.tolerance',
 					index : 'tolerance',
-					reversed : true
+					reversed : true,
+					c : (v) => {
+						return this.core.pct.ocr(v)
+					}
 				},
 				{
 					text : 'labels.capacity',
-					index : 'capacity'
+					index : 'capacity',
+					c : function(v){return v}
 				}
 				
 			]

@@ -27,6 +27,20 @@ var meta = {
 
         },
 
+        definedRiskScore : {
+
+            name: 'scenarios',
+            default: function() {
+
+                return {
+                    use : 'no',
+                    scores : {}
+                }
+                
+            },
+
+        },
+
         useKeyScenarios: {
             name: 'useKeyScenarios',
             default: function() {

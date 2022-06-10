@@ -128,6 +128,10 @@ export default {
 
 		scenariosChanged : function(){
 			this.get()
+		},
+
+		scoreConverterChanged : function(){
+			this.get()
 		}
 	},
 }

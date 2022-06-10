@@ -56,6 +56,10 @@ export default {
             this.load()
 		},
 
+        scoreConverterChanged : function(){
+			this.load()
+		},
+
         scenariosChanged : function(){
             this.load()
         },  

@@ -29,7 +29,7 @@
 
 			<div>
 				<span class="label">Tolerance</span>
-				<coloredNumber :reversed="true" :number="profile.tolerance"/>
+				<coloredNumber :reversed="true" :number="core.pct.ocr(profile.tolerance)"/>
 			</div>
 		</div>
 

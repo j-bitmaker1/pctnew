@@ -17,7 +17,7 @@
 			</div>
 
 			<div class="settings">
-				<ctmenu  @scenariosChanged="scenariosChanged"/>
+				<ctmenu  @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
 			</div>
 
 			

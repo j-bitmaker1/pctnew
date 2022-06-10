@@ -147,7 +147,7 @@ class Templates {
 class Actions {
     constructor () {
         this.keys = [
-            'themeToggle', 'changePassword', 'scenarioManager', 
+            'themeToggle', 'changePassword', 'scenarioManager', 'scoreConverter',
             'newPortfolio', 'newClient', 'newLead', 'sharequestionnaire',
             'fileManager'
         ]
@@ -213,6 +213,25 @@ class Actions {
             }
         }
     }
+
+    scoreConverter () {
+        return {
+            type: 'setting',
+            subtype: 'scoreConverter',
+
+
+            action : {
+                vueapi : 'scoreConverter'
+            },
+
+            data : {
+                label : 'labels.scoreConverter',
+                type : 'labels.crashtestSettings'
+            }
+        }
+    }
+
+    
 
     newPortfolio () {
         return {

@@ -290,6 +290,21 @@ class Vueapi {
         })
     }
 
+    scoreConverter = function(success, p = {}){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_settings_scoreConverter',
+            module : "settings_scoreConverter",
+            caption : "User Defined Risk Score",
+    
+            events : {
+                changed : function(){
+                    success()
+                }
+            }
+        })
+    }
+
     newPortfolio = function () {
         this.store.commit('OPEN_MODAL', {
             id : 'modal_portfolio_edit',

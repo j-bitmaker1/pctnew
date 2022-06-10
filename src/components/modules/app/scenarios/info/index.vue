@@ -7,7 +7,6 @@
         </div>
 
         <div class="shortDescription">
-            
             <div>{{info.shocks}}</div>
         </div>
     </div>

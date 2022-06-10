@@ -6,7 +6,7 @@
 	<div class="ct" v-else>
 
 		<div class="summary mobp">
-			<summarybutton :reversed="true" :colored="true" v-for="item in summary" :key="item.index" :text="item.text" :number="item.index ? ct[item.index] : th[item.th]"/>
+			<summarybutton :reversed="true" :colored="true" v-for="item in summary" :key="item.index" :text="item.text" :number="core.pct.ocr(item.index ? ct[item.index] : th[item.th])"/>
 		</div>
 
 		<div class="header mobp">
@@ -14,7 +14,7 @@
 				<span>Stress test</span>
 			</div>
 			<div class="forsettigns">
-				<ctmenu  @scenariosChanged="scenariosChanged"/>
+				<ctmenu  @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
 			</div>
 		</div>
 

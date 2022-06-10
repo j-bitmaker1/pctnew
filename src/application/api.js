@@ -978,6 +978,8 @@ var ApiWrapper = function (core) {
 				})
 			},
 
+			
+
 			fromfile : function(data = {}, p = {}){
 
 				/*
@@ -1036,7 +1038,21 @@ var ApiWrapper = function (core) {
 				})
 
 
-			}
+			},
+
+			gets : function(portfolios, p = {}){
+
+				p.method = "GET"
+				p.storageparameters = dbmeta.system()
+
+				return request({
+					Portfolios : JSON.stringify(portfolios)
+				}, 'pct', '?Action=GETOCRFORPORTFOLIOS', p).then(r => {
+					return Promise.resolve(r.PCT.portfolios)
+				})
+
+				
+			},
 		},
 
 		contributors : {

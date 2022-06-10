@@ -785,12 +785,9 @@ var User = function ({
 
             //settings.getall()
 
-            return api.checkUpdates()
-
+            return self.prepare()
 
         }).then(() => {
-
-            self.prepare()
 
             updates.synk()
 
@@ -814,7 +811,7 @@ var User = function ({
 
     self.prepare = function(){
 
-        return Promise.all([self.activity.load(), pct.prepare(), crm.prepare()]).catch(e => {
+        return Promise.all([api.checkUpdates(), self.activity.load(), pct.prepare(), crm.prepare()]).catch(e => {
             return Promise.reject(e)
         })
 

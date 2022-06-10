@@ -67,17 +67,13 @@ class Core {
 
         this.cordovakit = new Cordovakit(this)
         this.vueapi = new Vueapi(this)
-
-
         this.updates = new Updates(this)
 
         this.user = new user(this)
         this.pdfreports = new PDFReports(this)
 
         this.api.prepare().then(() => {
-            console.log("PREPARED")
             this.user.init()
-            
         })
        
     }
@@ -119,6 +115,8 @@ class Core {
         this.store.commit('clearall')
 
         this.user.unlinkwss(this.wss)
+
+        this.pct.destroy()
 
         this.removeEvents()
 

@@ -3,6 +3,7 @@ import _, { isObject } from "underscore"
 
 import Capacity from "./capacity";
 import Riskscore from "./riskscore";
+import ScoreConverter from "./scoreConverter";
 
 class PCT {
 
@@ -34,12 +35,17 @@ class PCT {
         this.riskscore = new Riskscore(this)
         this.vxstorage = vxstorage
         this.settings = settings.stress
+
+        this.scoreConverter = new ScoreConverter(this)
         
     }
 
-    prepare = function(){
+    destroy (){
+        this.scoreConverter.destroy()
+    }
 
-        return Promise.resolve()
+    prepare = function(){
+        return this.scoreConverter.prepare()
     }
 
     parseDefaultCt = function(df){
@@ -176,8 +182,6 @@ class PCT {
 
         return d
     }
-
-    
 
     parseContributors = function(cs){
         var contributors = []
@@ -461,6 +465,11 @@ class PCT {
         return nct
     }
 
+    ocr = function(value){
+        console.log('this', this)
+        return this.scoreConverter.convert(value)
+    }
+
     composeCTS = function(cts, total, mode){
         var common = {
             cts : {},
@@ -536,7 +545,11 @@ class PCT {
             portfolioId : id
         }
 
-        return this.settings.getall().then(settings => {
+        return this.scoreConverter.prepare().then(() => {
+
+            return this.settings.getall()
+
+        }).then(settings => {
 
             if(settings.useKeyScenarios.value || !settings.scenarios.value.length){
                 data.onlyKeyScenarios = true
@@ -547,7 +560,6 @@ class PCT {
 
             return this.api.pctapi.stress.test(data, p)
         }).then(r => {
-
             return Promise.resolve(this.parseStressTest(r))
         })
     }

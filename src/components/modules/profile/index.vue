@@ -27,7 +27,7 @@
 
 			<div class="action">
 				<router-link to="/changepassword">
-					<button class="button">Change Password #</button>
+					<button class="button">Change Password</button>
 				</router-link>
 			</div>
 
