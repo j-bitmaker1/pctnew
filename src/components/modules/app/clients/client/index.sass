@@ -18,6 +18,10 @@
 	
 
 	.statsrow
+		max-width: 240px
+		margin-left: auto
+		margin-right: 4 * $r
+		text-align: right
 		
 		>div
 			
@@ -28,6 +32,7 @@
 			display: block
 
 		.label
+			white-space: nowrap
 			font-size: 0.8em
 			color : srgb(--neutral-grad-2)
 		
@@ -73,7 +78,12 @@
 			margin-right: 2 * $r
 	
 .data
+	>div
+		max-width: 140px
+		overflow: hidden
+		text-overflow: ellipsis
 	.email
+		
 		span
 			font-size: 0.8em
 			color : srgb(--neutral-grad-2)
@@ -86,6 +96,10 @@
 	.clients_client
 		border-radius: 18px
 		background: srgba(--neutral-grad-0, 0.1)
+
+		.data
+			>div
+				max-width: none
 
 		.line
 			flex-wrap: wrap
@@ -102,6 +116,9 @@
 		
 		.statsrow
 			width: 100%
+			max-width: none
+			margin-right: 0
+			text-align: center
 			order : 3
 			flex-grow: 2
 			border-top : 1px solid srgba(--neutral-grad-1, 0.5)

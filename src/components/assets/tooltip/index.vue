@@ -1,6 +1,6 @@
 <template>
 <div class="tooltip">
-    <v-popover v-if="!mobileview">
+    <v-popover :options="options" v-if="!mobileview">
         <slot name="item">
             <div class="diconbutton">
                 <i class="fas fa-ellipsis-v"></i>
@@ -56,7 +56,15 @@ export default {
     },
     data : function(){
         return {
-            showed : false
+            showed : false,
+
+            options : {
+                popover : {
+                    defaultAutoHide : true,
+                    defaultPlacement : 'left'
+                }
+                
+            }
         }
     },
     computed: mapState({

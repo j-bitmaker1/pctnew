@@ -3,7 +3,7 @@
     <list :items="items" @click="click">
         <template v-slot:default="slotProps">
 
-            <div class="item">
+            <div class="menuitem">
                 <i :class="slotProps.item.icon" />
                 <span>{{$t(slotProps.item.text)}}</span>
             </div>
@@ -14,7 +14,7 @@
 </template>
 
 <style scoped lang="sass">
-.item
+.menuitem
     display: flex
     padding : 2 * $r
     align-items: center
@@ -27,8 +27,16 @@
         text-align: center
         margin-right: $r
 
+::v-deep
+    .simplelist
+        .item
+            &:nth-last-child(1)
+                .menuitem
+                    margin-bottom : 0
+                
+
 @media (pointer:fine)
-    .item
+    .menuitem
         cursor: pointer
         +transition(0.3s)
 

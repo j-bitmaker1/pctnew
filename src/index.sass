@@ -207,12 +207,20 @@ html[camera="true"]
 		.popover-inner
 			background: $color
 			color: black
-			padding: 24px
-			border-radius: 5px
-			box-shadow: 0 5px 30px rgba(black, .1)
+			padding: 2 * $r
+			border-radius: 24px
+			+shadowSmaller()
 
 		.popover-arrow
 			border-color: $color
+
+		.content
+			opacity: 0
+			+transition(0.3s)
+
+		&.open
+			.content
+				opacity: 1
 
 //// tootltips
 
