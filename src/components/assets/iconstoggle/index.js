@@ -4,7 +4,9 @@ export default {
     name: 'iconstoggle',
     props: {
         value : String,
-        icons : Array
+        icons : Array,
+        disabled : Boolean
+
     },
 
     data : function(){
@@ -28,7 +30,8 @@ export default {
 
     methods : {
         change : function(v){
-            this.$emit('change', v)
+            if(!this.disabled)
+                this.$emit('change', v)
         }
     },
 }

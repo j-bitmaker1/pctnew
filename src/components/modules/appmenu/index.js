@@ -96,7 +96,7 @@ export default {
 
 			if(r) return r.id
 
-			return 'home'
+			return ''
 		},
 
 		items : function(){

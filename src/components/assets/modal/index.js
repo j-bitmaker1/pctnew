@@ -73,6 +73,7 @@ export default {
         explore : () => import("@/views/explore.vue"),
         fastmenu: () => import("@/components/modules/appmenu/fastmenu/index.vue"),
         settings_scoreConverter: () => import("@/components/modules/app/settings/scoreConverter/index.vue"),
+        pdfSettings: () => import("@/components/modules/app/settings/pdf/wnd.vue"),
     },
  
     computed: mapState({

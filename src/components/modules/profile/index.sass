@@ -10,6 +10,12 @@
 .settings
 	margin-top: 6 * $r
 
+	.subcaption
+		padding : $r 0
+		text-align: center
+		span
+			font-size: 0.8em
+
 .themeToggleWrapper
 	display: none
 	margin-bottom : 2 * $r
@@ -23,13 +29,33 @@
 		margin-left: $r
 
 .signout
-	margin-top : 2 * $r
+	margin-top : 8 * $r
 	padding : 2 * $r
 	cursor: pointer
+	text-align: center
 
 	span
 		text-decoration: underline
 		font-size: 0.8em
+		color : srgb(--color-bad)
+
+.cardWrapper
+	margin-top: 4 * $r
+	::v-deep
+		.userpicWrapper
+			max-width: 100px
+			min-width: 100px
+			width: 100px
+			line-height: 100px
+			margin-right: 0
+
+		.usercard
+			display: flex
+			flex-direction: column
+
+		.data
+			margin-top: 2 * $r
+			text-align: center
 
 @media only screen and (max-width: 768px)
 	.themeToggleWrapper

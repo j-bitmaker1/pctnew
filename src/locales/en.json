@@ -76,6 +76,7 @@
 		"recoverportfolio" : "Recover portfolio",
 		"sharequestionnaire" : "Send personal questionnaire link",
 		"scenarioManager" : "Scenario Manager",
+		"pdfSettings" : "PDF Settings",
 		"scoreConverter" : "User Defined Risk Score",
 		"clearHistory" : "Clear history",
 		"usersettings" : "User settings",
@@ -170,6 +171,7 @@
 	"details" : "Details",
 
 	"common" : {
+		"usefaceidcheck_false" : "Face id not available",
 		"usefaceidcheck_face" : "Use Face ID",
 		"usefaceidcheck_YES" : "Use Touch ID",
 		"usefaceid_face" : "Do you want to use Face ID for protect your account?",
@@ -357,6 +359,12 @@
 		},
 		"portfoliopdf" : "PDF Reports"
 	},
+	"settings" : {
+		"interface" : "Interface",
+		"pdf" : "PDF reports",
+		"stress" : "Crash testing",
+		"account" : "Account"
+	},	
 	"themes" : {
 		"white" : "Light theme",
 		"black" : "Dark theme"

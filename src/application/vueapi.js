@@ -476,6 +476,22 @@ class Vueapi {
         })
     }
 
+    pdfSettings = function( success){
+        this.store.commit('OPEN_MODAL', {
+            
+            id : 'modal_pdfSettings',
+            module : "pdfSettings",
+            caption : "PDF Settings",
+    
+            data : {},
+            events : {
+                success : function(a){
+                    if(success) success(a)
+                }
+            }
+        })
+    }
+
     fx = function({place, name, parameters = {}}){
 
 
