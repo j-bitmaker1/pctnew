@@ -20,10 +20,6 @@ export default {
                 interface : [
                     {
                         component : themeToggle
-                    },
-
-                    {
-                        component : faseIdToggle
                     }
                 ],
 
@@ -57,6 +53,10 @@ export default {
 
                         route : '/changepassword'
                     },
+
+                    {
+                        component : faseIdToggle
+                    }
                 ]
             }
         }
