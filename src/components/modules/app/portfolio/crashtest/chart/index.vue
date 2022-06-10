@@ -24,6 +24,10 @@
 					<div class="bar" :style="{height : height(scenario, loss) + '%', background : color(scenario, loss) }"></div>
 				</div>
 			</div>
+
+			<div class="name">
+				<span>{{scenario.name}}</span>
+			</div>
 		</div>
 
 		

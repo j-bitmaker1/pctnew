@@ -45,7 +45,11 @@ export default {
 				Created_desc : {
 					text : 'date_desc',
 					field : 'Created',
-					sort : 'desc'
+					sort : 'desc',
+
+					prepend : {
+						"IsNewLead": 'desc'
+					}
 				}
 			},
 
@@ -94,6 +98,11 @@ export default {
 
 			var orderBy = {}
 
+			if(this.sorting[this.sort].prepend){
+				orderBy = {
+					... this.sorting[this.sort].prepend
+				}
+			}
 			orderBy[this.sorting[this.sort].field] = this.sorting[this.sort].sort
 
 			return {

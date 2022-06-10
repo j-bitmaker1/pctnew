@@ -41,7 +41,7 @@
 	</div>
 
 	<div class="daterow row">
-		<date :date="profile.Modified || profile.Created"/> <span class="new" v-if="profile.Status == 'LEAD_NEW'">New!</span>
+		<date :date="profile.Created"/> <span class="new" v-if="profile.Status == 'LEAD_NEW'">New!</span>
 	</div>
 
 </div>
