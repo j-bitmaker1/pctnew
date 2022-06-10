@@ -41,8 +41,8 @@ export default {
         auth : state => state.auth,
 
         haschanges : function(){
-            return this.useSchema != this.core.pct.scoreConverter.userDefined.value.use || 
-            JSON.stringify(this.userDefinedValues) != JSON.stringify(this.core.pct.scoreConverter.userDefined.value.scores)
+            return this.useSchema != this.core.pct.scoreConverter.use || 
+            JSON.stringify(this.userDefinedValues) != JSON.stringify(this.core.pct.scoreConverter.userDefined)
         }
     }),
 
@@ -54,8 +54,8 @@ export default {
 
                 this.scores = this.core.pct.scoreConverter.scores
                 this.portfolios = this.core.pct.scoreConverter.portfolios
-                this.useSchema = this.core.pct.scoreConverter.userDefined.value.use
-                this.userDefinedValues = _.clone(this.core.pct.scoreConverter.userDefined.value.scores)
+                this.useSchema = this.core.pct.scoreConverter.use
+                this.userDefinedValues = _.clone(this.core.pct.scoreConverter.userDefined)
 
             }).finally(() => {
                 this.loading = false

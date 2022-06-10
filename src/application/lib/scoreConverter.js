@@ -55,7 +55,8 @@ class ScoreConverter {
 
     getSettings(){
         return this.settings.getall().then(settings => {
-            this.userDefined = settings.definedRiskScore
+            this.userDefined = settings.definedRiskScore.value.scores
+            this.use = settings.definedRiskScore.value.use
 
             return Promise.resolve()
         })
@@ -69,13 +70,14 @@ class ScoreConverter {
 
     convert = function (score, backward) {
 
+        if(this.use != 'use') return score
 
         var deviations = {};
 
-        _.each(this.scores, (score, i) => {
+        _.each(this.scores, (s, i) => {
 
-            var initial = backward ? this.userDefined[i].value : this.scores[i],
-                target = backward ? this.scores[i] : this.userDefined.value
+            var initial = backward ? this.userDefined[i] : this.scores[i],
+                target = backward ? this.scores[i] : this.userDefined[i]
 
             var deviation = Math.abs(score - initial);
 
