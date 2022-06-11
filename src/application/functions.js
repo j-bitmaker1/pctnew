@@ -1551,11 +1551,16 @@ f.helpers = {
 f.getCaretPosition = function (ctrl) {
     // IE < 9 Support 
     if (document.selection) {
-        ctrl.focus();
+        //ctrl.focus();
         var range = document.selection.createRange();
         var rangelen = range.text.length;
-        range.moveStart('character', -ctrl.value.length);
+
+        range.moveStart('character', - (ctrl.value || ctrl.innerText).length);
+
+        console.log('range', range)
+
         var start = range.text.length - rangelen;
+
         return {
             'start': start,
             'end': start + rangelen
@@ -1567,6 +1572,22 @@ f.getCaretPosition = function (ctrl) {
             'end': ctrl.selectionEnd
         };
     } else {
+
+        if (window.getSelection) {
+            var sel = window.getSelection();
+
+            if (sel.getRangeAt && sel.rangeCount) {
+                var range = sel.getRangeAt(0);
+
+                return {
+                    'start': range.startOffset,
+                    'end': range.endOffset
+                }
+            }
+
+            
+        }
+
         return {
             'start': 0,
             'end': 0
@@ -1587,6 +1608,81 @@ f.setCaretPosition = function (ctrl, start, end) {
         range.moveEnd('character', end);
         range.moveStart('character', start);
         range.select();
+    }
+}
+
+f.saveSelection = function() {
+    if (window.getSelection) {
+        var sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            return sel.getRangeAt(0);
+        }
+    } else if (document.selection && document.selection.createRange) {
+        return document.selection.createRange();
+    }
+    return null;
+}
+
+f.restoreSelection = function(range) {
+    if (range) {
+        if (window.getSelection) {
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else if (document.selection && range.select) {
+            range.select();
+        }
+    }
+}
+
+f.insertTextAtCursor = function(el, text, offset) {
+
+
+    offset || (offset = {
+        left : 0,
+        right : 0
+    })
+
+    if (el && typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+        var val = el.value, endIndex;
+
+        endIndex = el.selectionEnd;
+
+        el.value = val.slice(0, endIndex + offset.left) + text + val.slice(endIndex + offset.right);
+
+        el.selectionStart = el.selectionEnd = endIndex + offset.left + text.length;
+
+        return el.selectionStart
+
+    } else {
+
+        if (window.getSelection) {
+
+            var sel = window.getSelection();
+
+            if (sel.getRangeAt && sel.rangeCount) {
+
+                var range = sel.getRangeAt(0);
+
+                var s = Math.max(Number(range.startOffset) + Number(offset.left), 0)
+                var e = Math.min(Number(range.endOffset) + Number(offset.right), range.endContainer.length)
+
+                range.setStart(range.startContainer, s);
+                range.setEnd(range.endContainer, e);
+         
+                range.deleteContents();
+
+                var newel = document.createTextNode(text);
+
+                range.insertNode(newel);
+                range.setStartAfter(newel);
+                range.setEndAfter(newel);
+
+            }
+        } else if (document.selection && document.selection.createRange) {
+            document.selection.createRange().text = text;
+        }
+
     }
 }
 

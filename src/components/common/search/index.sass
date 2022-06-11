@@ -1,0 +1,36 @@
+.searchresult
+    margin-top: 3 * $r
+
+    .item
+        &:nth-last-child(1)
+            .asset
+                border-bottom: none
+
+    .asset
+        display: flex
+        align-items: center
+        padding : $r 2 * $r
+        border-bottom: 1px solid srgb(--neutral-grad-0)
+
+        &.selected
+            color : srgb(--color-txt-ac-1)
+
+        .ticker,
+        .name
+            text-overflow: ellipsis
+            white-space: nowrap
+            overflow: hidden
+            
+
+        .twrapper
+            min-width: 90px
+            flex-basis: 90px
+            display: flex
+            align-items: center
+
+.empty
+    padding : 4 * $r
+    text-align: center
+    span
+        font-size: 0.9em
+        color : srgb(--neutral-grad-2)

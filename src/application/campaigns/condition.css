@@ -1,0 +1,59 @@
+.condition-block__selector > div {
+    vertical-align: middle;
+    display: inline-block;
+    padding: 1% 0 1% 0;
+    outline: none;
+    border: none;
+    width: 90%;
+  }
+  
+  .condition-block__selector br {
+    display: none;
+  }
+  
+  .condition-block__icon > i {
+    font-style: normal;
+  }
+  
+  .condition-block__icon:hover {
+    color: #388ae5;
+    cursor: pointer;
+  }
+  
+  .bi-play-fill {
+    width: 34px;
+    height: 34px;
+  }
+  
+  .condition-block__input {
+    margin-left: 5px;
+  }
+  
+  .condition-block__input:empty:before {
+    content: attr(placeholder);
+    position: absolute;
+    color: gray;
+    background-color: transparent;
+  }
+  
+  .condition-block__content-default {
+    margin-left: 20px;
+  }
+  
+  .condition-block__item {
+    margin-left: 39px;
+  }
+  
+  .condition-block__content-default {
+    color: gray;
+    border-radius: 5px;
+  }
+  
+  .condition-block__content-default:hover {
+    cursor: pointer;
+    background: rgba(55, 53, 47, 0.08);
+  }
+  
+  div.condition-block__hidden {
+    display: none;
+  }

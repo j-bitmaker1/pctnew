@@ -3,85 +3,108 @@ const Header = require('@editorjs/header');
 const Paragraph = require('@editorjs/paragraph');
 import List from '@editorjs/list';
 
+import f from '@/application/functions.js'
+
+import PluginFactory from '@/application/campaigns/editorPlugin'
+import { _ } from 'core-js';
+
+
 export default {
     name: 'editorjs',
     props: {
-        initial : {
-            type : Object,
-            default : function(){
+        initial: {
+            type: Object,
+            default: function () {
                 return {}
             }
-        }
+        },
+
+        tips: Array
     },
 
     components: {
     },
 
-    data : function(){
+    data: function () {
+
+        var pf = PluginFactory(this.core)
+        var plugins = {}
+
+        _.each(pf, (cl, i) => {
+            plugins[i] = {
+                class : cl
+            }
+        })
+
+        console.log('plugins', plugins)
 
         return {
-            loading : false,
-            outputData : this.initial,
-            config : {
+            loading: false,
+            outputData: this.initial,
+            config: {
 
-                data : this.initial,
-                placeholder : this.placeholder || "Write something",
-                tools : {
-                    header : {
-                        class : Header,
+                data: this.initial,
+                placeholder: this.placeholder || "Write something",
+                tools: {
+
+                    //...plugins,
+                    
+                    header: {
+                        class: Header,
                         levels: [2, 3, 4],
                         defaultLevel: 2,
                         shortcut: 'CMD+SHIFT+H',
                     },
-                    
+
                     list: {
-                        class : List,
+                        class: List,
                         inlineToolbar: true,
                     },
 
-                    paragraph : {
-                        class : Paragraph,
+                    paragraph: {
+                        class: Paragraph,
                         inlineToolbar: true,
                     },
                 },
 
-                onChange : (v) => {
+                onChange: (v) => {
 
                     v.saver.save().then(outputData => {
                         this.outputData = outputData
                     })
                 }
-                
+
             }
         }
 
     },
 
-    created (){
+    created() {
     },
+
 
     watch: {
         //$route: 'getdata'
     },
     computed: mapState({
-        auth : state => state.auth,
-        haschanges : function(){
+        auth: state => state.auth,
+        haschanges: function () {
             return JSON.stringify(this.outputData) != JSON.stringify(this.initial)
         }
     }),
 
-    methods : {
-        cancel : function(){
+    methods: {
+        cancel: function () {
             this.$emit('cancel')
             this.close()
         },
-        save : function(){
+        save: function () {
             this.$emit('save', this.outputData)
 
             this.close()
         },
 
-        close : function(){
+        close: function () {
             this.$emit('close')
         }
     },
