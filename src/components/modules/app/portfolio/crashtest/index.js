@@ -85,7 +85,6 @@ export default {
 			immediate : true,
 			deep : true,
 			handler : function(){
-				console.log("CHANGDE")
 				this.get()
 			}
 		}*/
@@ -111,11 +110,7 @@ export default {
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
 				this.cts = this.core.pct.composeCTS({[this.portfolio.id] : r}, this.portfolio.total())
 
-				console.log('this.cts', this.cts)
-
 				this.ct = this.cts.cts[this.portfolio.id]
-
-				console.log('this.ct', this.ct)
 
 				return Promise.resolve(r)
 

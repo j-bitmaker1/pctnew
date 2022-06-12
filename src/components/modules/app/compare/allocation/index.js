@@ -2,6 +2,7 @@ import { mapState } from 'vuex';
 
 import allocationMain from "@/components/modules/app/portfolio/allocation/main/index.vue"
 import { Allocation } from '@/application/charts/index';
+import { _ } from 'core-js';
 
 var allocation = new Allocation()
 
@@ -21,7 +22,8 @@ export default {
             loading : false,
             activegrouping : 'type',
 			groups : allocation.groups(),
-            portfolios : []
+            portfolios : [],
+            agroups : {}
         }
 
     },
@@ -35,6 +37,31 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+
+        colors : function(){
+            var colors = {}
+
+            var allgroups = {}
+
+            _.each(this.agroups, (g) => {
+                allgroups = {
+                    ...allgroups,
+                    ...g
+                }
+            })
+
+            var c = 0
+
+            _.each(allgroups, (g, i) => {
+
+                colors[i] = allocation.colorbyindex(c)
+
+                c++
+            })
+
+
+            return colors
+        }
     }),
 
     methods : {
@@ -53,6 +80,32 @@ export default {
                 
             }).finally(() => {
                 this.loading = false
+            })
+        },
+
+        getgroups : function(portfolio, grouped){
+            this.$set(this.agroups, portfolio.id, grouped)
+        },
+
+        drilldown : function(id, portfolio){
+
+            console.log('was', id, portfolio)
+
+            _.each(this.portfolios, (p) => {
+                if(this.$refs[p.id] && p.id != portfolio.id){
+                    console.log('this.$refs[p.id]', p.id, portfolio.id)
+                    this.$refs[p.id][0].doDrilldown(id, true)
+                }
+            })
+
+            
+        },
+
+        drillup : function(portfolio){
+            _.each(this.portfolios, (p) => {
+                if(this.$refs[p.id] && p.id != portfolio.id){
+                    this.$refs[p.id][0].doDrillup(true)
+                }
             })
         }
     },

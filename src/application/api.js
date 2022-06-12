@@ -296,6 +296,8 @@ var ApiWrapper = function (core) {
 		api: new Request(core, "https://rixtrema.net/api", 'api'),
 
 		apiFD: new FormDataRequest(core, "https://rixtrema.net/api", 'api'),
+
+
 		/* temp */
 		'401k' : new Request(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
 		'401kFD' : new FormDataRequest(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
@@ -2223,6 +2225,60 @@ var ApiWrapper = function (core) {
 			}))
 
 		}))
+	}
+
+	self.tasks = {
+
+		create : function(data = {}, p = {}){
+			 
+			/*data.Type = 'PARSEPORTFOLIO'
+			data.AppId = 'PCT'
+			data.TaskParameters = "{}"*/
+
+			let formData = new FormData();
+
+				formData.append('Type', 'PARSEPORTFOLIO');
+				formData.append('AppId', 'PCT');
+				formData.append("data", data.file);
+
+			return request(formData, 'apiFD', 'AsyncTask/Create', p).then(r => {
+			})
+
+
+		},
+
+		list : function(data = {}, p = {}){
+			p.method = "POST"
+
+			return request(data, 'api', 'AsyncTask/ListTasks', p)
+		},
+
+		get : function(taskId, p = {}){
+			p.method = "POST"
+
+			return request({taskId}, 'api', 'AsyncTask/GetTask', p)
+		},
+		
+		update : function(taskId, data, p = {}){
+			p.method = "POST"
+
+			return request({taskId, dataManual : data}, 'api', 'AsyncTask/UpdateTask', p)
+		},
+
+		delete : function(taskId, p = {}){
+			p.method = "POST"
+
+			return request({taskId}, 'api', 'AsyncTask/DeleteTask', p)
+		},
+
+		getattachment : function(){
+			p.method = "POST"
+
+			return request({taskId}, 'api', 'AsyncTask/GetAttachmentLink', p).then(r => {
+
+				return Promise.resolve(r)
+			})
+		}
 	}
 
 	self.rixtrema = {

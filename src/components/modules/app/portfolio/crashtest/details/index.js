@@ -52,8 +52,6 @@ export default {
 
 			var portfolio = this.portfolios[i]
 
-			console.log("this.portfolios", this.portfolios, i)
-
 			this.$store.commit('OPEN_MODAL', {
 				id: 'modal_portfolio_crashtest_scenariodetails',
 				module: "portfolio_crashtest_scenariodetails",
@@ -77,8 +75,6 @@ export default {
 
 		toScenario : function(scenario){
 			var r = this.$refs[scenario.id]
-
-			console.log("scenario", scenario)
 
 			if (r){
             	setTimeout(() => {

@@ -127,8 +127,6 @@ export default {
 
             this.$emit('loading', this.loading)
 
-            console.log("LOAD", this.epayload)
-
 
             f.deep(this.core.api, this.api)(this.epayload, {
 

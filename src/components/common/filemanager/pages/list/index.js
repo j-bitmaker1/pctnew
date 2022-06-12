@@ -122,6 +122,8 @@ export default {
             this.files = []
             this.loading = true
 
+            //this.core.api.tasks.list().then(files => {
+
             this.core.filemanager.getall().then(files => {
                 this.files = files
 

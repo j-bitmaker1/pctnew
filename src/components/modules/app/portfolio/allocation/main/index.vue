@@ -5,8 +5,8 @@
     </div>
 
     <div class="legend">
-        <div class="caption mobp" v-if="drilldown">
-            <span>{{drilldown.name}}</span>
+        <div class="caption mobp" v-if="drilldownLevel">
+            <span>{{drilldownLevel.name}}</span>
         </div>
         <list :items="currentSerie.data" @click="clickLegend">
             <template v-slot:default="slotProps">

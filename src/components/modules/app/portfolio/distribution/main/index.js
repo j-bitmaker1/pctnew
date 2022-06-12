@@ -89,6 +89,8 @@ export default {
 			this.core.pct.standartDeviation(this.portfolio.id).then(r => {
 				this.deviation = r
 
+				this.$emit('serie', this.series)
+
 				return Promise.resolve(r)
 			}).finally(() => {
 				this.loading = false

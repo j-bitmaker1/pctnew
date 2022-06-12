@@ -36,8 +36,6 @@ export default {
             }
         })
 
-        console.log('plugins', plugins)
-
         return {
             loading: false,
             outputData: this.initial,

@@ -15,7 +15,9 @@ export default {
 		options : {
 			type : Object,
 			default : () => {return {}}
-		}
+		},
+
+		colors : Object
     },
 
     components : {
@@ -27,7 +29,7 @@ export default {
 
         return {
             loading : false,
-            drilldown : null,
+            drilldownLevel : null,
 			assetsinfo : {}
         }
 
@@ -39,7 +41,7 @@ export default {
 
     watch: {
         activegrouping : function(){
-            this.drilldown = null
+            this.drilldownLevel = null
         },
 
         assets : {
@@ -72,7 +74,6 @@ export default {
 
 				var info = this.assetsinfo[a.ticker]
 
-
 				if(!info) return "Not covered"
 
 				return info[this.activegrouping] || 'Other'
@@ -80,7 +81,7 @@ export default {
 		},
 
 		chartdata : function(){
-			return allocation.chartData(this.grouped)
+			return allocation.chartData(this.grouped, this.colors)
 		},
 
 		chartOptions: function(){
@@ -91,7 +92,7 @@ export default {
 
 				d.chart.events = {}
 				d.chart.events.drilldown = this.drilldownevent
-				d.chart.events.drillup = this.drillup
+				d.chart.events.drillup = this.drillupevent
 				
 
 			return d
@@ -99,9 +100,9 @@ export default {
 
 		currentSerie : function(){
 
-			if(this.drilldown){
+			if(this.drilldownLevel){
 				return _.find(this.chartdata.drilldown.series, (s) => {
-					return s.id == this.drilldown.id
+					return s.id == this.drilldownLevel.id
 				})
 			}
 
@@ -110,26 +111,61 @@ export default {
     }),
 
     methods : {
-        drillup : function(e){
-			this.drilldown = null
-		}, 
-		drilldownevent : function(e){
+        drillup : function(){
+			this.drilldownLevel = null
 
-			this.drilldown = e.seriesOptions
+				this.$emit('drillup')
+		}, 
+
+		drilldown : function(obj){
+			this.drilldownLevel = obj
+			console.log("EMIT")
+			this.$emit('drilldown', this.drilldownLevel.id)
+		},
+
+		drillupevent : function(e){
+			this.drillup()
+		},
+
+		drilldownevent : function(e){
+			this.drilldown(e.seriesOptions)
 		},
 
 		get : function(){
 			this.core.pct.assets(this.assets).then(r => {
 				this.assetsinfo = r
+
+				this.$emit('groups', this.grouped)
+
 				return Promise.resolve(r)
 			})
 		},
 
+		doDrillup : function(notemit){
+			if(!f.deep(this.$refs, 'chart.chart')) return
+
+			this.$refs.chart.chart.drillUp()
+		},
+
+		doDrilldown : function(drilldown){
+			console.log("doDrilldown", drilldown)
+			if(!this.drilldownLevel){
+
+				if(!f.deep(this.$refs, 'chart.chart.series.0')) return
+
+				var point = _.find(this.$refs.chart.chart.series[0].points, (p) => {
+					return p.drilldown == drilldown
+				})
+
+				if(!point) return
+
+				point.doDrilldown()
+			}
+		},
+
 		clickLegend : function(item){
-			if(!this.drilldown && item.drilldown){
-				this.drilldown = {
-					id : item.drilldown
-				}
+			if(item.drilldown){
+				this.doDrilldown(item.drilldown)
 			}
 		}
     },

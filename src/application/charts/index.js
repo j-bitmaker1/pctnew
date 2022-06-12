@@ -221,6 +221,12 @@ class Distribution {
             d.yAxis[0].labels.enabled = false
             d.yAxis[0].gridLineWidth = 0
             d.yAxis[0].offset = 0
+
+            if(typeof p.xmax != 'undefined') {d.xAxis.max = p.xmax}
+            if(typeof p.xmin != 'undefined') {d.xAxis.min = p.xmin}
+
+            if(typeof p.ymax != 'undefined') {d.yAxis[0].max = p.ymax}
+            if(typeof p.ymin != 'undefined') {d.yAxis[0].min = p.ymin}
             
         return d
     }
@@ -252,7 +258,7 @@ class Allocation {
         return this.chartcolors[i % this.chartcolors.length]
     }
 
-    chartData(grouped){
+    chartData(grouped, colors){
         var serie = {
             minPointSize: 10,
             innerSize: '80%',
@@ -270,7 +276,7 @@ class Allocation {
 
             point.name = i
             point.drilldown = i
-            point.color = this.colorbyindex(c)
+            point.color = colors ? colors[i] || this.colorbyindex(c) : this.colorbyindex(c)
 
             c++
 

@@ -111,7 +111,6 @@ export default {
                     distance : 100,
                     direction : this.fromtop ? 'top' : 'bottom',
                     constraints : (e) => {
-                        console.log("this.scroll", this.scroll)
                         return this.scroll <= 0 && !this.blockTouch
                     }   
                 }  

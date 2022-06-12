@@ -38,7 +38,6 @@ export default {
 
 			if (this.profile.questionnaire){
 				this.core.api.crm.questionnaire.getresult(this.profile.questionnaire).then(r => {
-					console.log("R", r)
 					this.questionnaire = r
 				}).catch(e => {
 					console.error("E")

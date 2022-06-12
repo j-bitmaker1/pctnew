@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="dwrapper">
-                    <allocationMain :options="{ height : 300 }" :assets="portfolio.positions" :activegrouping="activegrouping"/>
+                    <allocationMain :ref="portfolio.id" @drilldown="id => drilldown(id, portfolio)" @drillup="() => drillup(portfolio)" :colors="colors" @groups="grouped => {getgroups(portfolio, grouped)}" :options="{ height : 300 }" :assets="portfolio.positions" :activegrouping="activegrouping"/>
                 </div>
             </div>
         </div>

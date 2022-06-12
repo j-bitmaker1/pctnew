@@ -61,7 +61,6 @@ export default {
 
 	created : function(){
 		this.core.on('created', this.name, (d) => {
-			console.log("CREATED COMP", d)
 			if (d.type == 'lead'){
 
 				this.added ++

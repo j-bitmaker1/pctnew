@@ -118,8 +118,6 @@ export default {
 
             if (item.link){
 
-                console.log('item.link', item.link)
-
                 this.$router.push(item.link)
 
                 this.$emit('close')

@@ -40,8 +40,6 @@ export default {
         load : function(){
             this.loading = true
 
-            console.log("CTS", this.cts)
-
 			this.core.pct.scenarios().then(scenariosInfo => {
                 var info = {}
                 
@@ -51,7 +49,6 @@ export default {
 
                 this.info = info
 
-                console.log('scenariosInfo', info)
             }).finally(() => {
                 this.loading = false
             })

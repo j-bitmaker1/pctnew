@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="dwrapper">
-                <distributionMain :options="{ height : 300 }" :period="period" :current_std="current_std" :portfolio="portfolio"  />
+                <distributionMain @serie="serie => {getserie(portfolio, serie)}" :options="options" :period="period" :current_std="current_std" :portfolio="portfolio"  />
             </div>
         </div>
     </div>

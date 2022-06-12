@@ -32,7 +32,6 @@ export default {
 		auth : state => state.auth,
 		currentStyles : state => state.currentStyles,
 		showNames : function(){
-			console.log('this.portfolios, this.portfolios', this.portfolios)
 			return _.toArray(this.portfolios || {}).length > 1
 		}
 	}),
