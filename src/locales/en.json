@@ -343,6 +343,7 @@
 
 	"activity" : {
 		"portfolio" : "Portfolios",
+		"compare" : "Compare",
 		"client" : "Clients",
 		"lead" : "Leads",
 		"search" : "Recent Searches",

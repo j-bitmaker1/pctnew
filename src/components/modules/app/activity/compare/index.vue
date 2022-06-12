@@ -1,14 +1,12 @@
 <template>
-<div class="activity_portfolio">
-	<div class="namerow">
+<div class="activity_compare">
+	<div class="namerow" :key="portfolio.id" v-for="portfolio in portfolios">
 		<div class="namewrapper" @click="open">
 			<div class="name"><span>{{portfolio.name}}</span></div> 
 		</div>
-
 		<div class="total" @click="open">
-			<value :value="total" mode="d" />
+			<value :value="portfolio.total" mode="d" />
 		</div>
-
 	</div>
 
 	<div class="assets" >
@@ -17,12 +15,6 @@
 				<i :class="action.icon" @click="to(action.route)"/>
 			</div>
 		</div>
-		<div class="assetsClList" @click="open">
-			<div class="ticker" :uncovered="!asset.isCovered" :key="i" v-for="(asset, i) in portfolio.positions">
-				<span>{{asset.ticker}}</span>
-			</div>
-		</div>
-		
 	</div>
 
 	
@@ -30,7 +22,7 @@
 </template>
 
 <style scoped lang="sass">
-.activity_portfolio
+.activity_compare
 	border-bottom: 1px solid srgb(--neutral-grad-0)
 	padding : 2 * $r 0
 
@@ -38,43 +30,22 @@
 	display: flex
 	align-content: space-between
 	align-items: center
-	
-	
+	padding : $r
+	border-radius: 12px
+	margin-bottom: 0.5 * $r
+	background: srgb(--neutral-grad-0)
+
+	span
+		font-size: 0.9em
 
 	.namewrapper
 		flex-grow: 2
-	.name
-		span
 
-	.assets
-		margin-left: auto
 
 	.total
 		span
 			font-size: 1.1em
 			font-weight: 700
-
-.assets
-	display: flex
-	flex-wrap: nowrap
-	align-content: space-between
-	align-items: center
-	grid-gap: $r
-	overflow-x: auto
-	margin-top: 2 * $r
-	&::-webkit-scrollbar
-		display: none
-
-	.assetsClList
-		display: flex
-		flex-wrap: nowrap
-		align-content: space-between
-		align-items: center
-		grid-gap: $r
-
-		.ticker
-			overflow: hidden
-			text-overflow: ellipsis
 
 </style>
 
@@ -86,7 +57,8 @@ import {
 export default {
 	name: 'activity_portfolio',
 	props: {
-		portfolio: Object
+		portfolios: Array,
+		ids : String
 	},
 	computed: mapState({
 		auth: state => state.auth,
@@ -101,16 +73,16 @@ export default {
 			return [
 				{
 					icon : 'fas fa-chart-pie',
-					route : '/portfolio/' + this.portfolio.id + '?p=shares&s=allocation'
+					route : '/compare?ids=' + this.ids + '&c=allocation'
 				},
 
 				{
 					icon : 'fas fa-chart-area',
-					route : '/portfolio/' + this.portfolio.id + '?p=shares&s=distribution'
+					route : '/compare?ids=' + this.ids + '&c=distribution'
 				},
 				{
 					icon : 'fas fa-chart-bar',
-					route : '/portfolio/' + this.portfolio.id + '?p=crashtest'
+					route : '/compare?ids=' + this.ids + '&c=stress'
 				},
 
 			]

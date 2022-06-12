@@ -34,6 +34,30 @@ class Templates {
 
     }
 
+    compare(portfolios){
+        var a = {}
+
+        a.key = _.map(portfolios, (p) => {return p.id}).join(',')
+        a.type = 'compare'
+
+        a.data = {
+            portfolios : _.map(portfolios, (p) => {
+                return {
+                    name : p.name,
+                    id : p.id,
+                    total : p.total()
+                }
+            }),
+
+            ids : a.key
+        }
+
+        a.link = '/compare?ids=' + a.key
+        a.search = _.map(portfolios, (p) => {return p.name}).join(', ')
+
+        return a
+    }
+
     portfolio(portfolio){
         
         var a = {}
@@ -47,10 +71,9 @@ class Templates {
                 id : portfolio.id,
                 positions : portfolio.positions
             }
-           
         }
 
-        a.link = 'portfolio/' + portfolio.id
+        a.link = '/portfolio/' + portfolio.id
         a.search = portfolio.name + ' ' + _.map(portfolio.positions, (p) => {
             return p.ticker.replace(" US", "")
         }).join(' ')
@@ -78,7 +101,7 @@ class Templates {
             }
         }
 
-        a.link = 'client/' + client.ID
+        a.link = '/client/' + client.ID
         a.search = [client.FName, client.LName, client.Email, client.Zip].join(' ')
 
         return a
@@ -120,7 +143,7 @@ class Templates {
             }
         }
 
-        a.link = 'lead/' + client.ID
+        a.link = '/lead/' + client.ID
         a.search = [client.FName, client.LName, client.Email, client.Zip].join(' ')
 
         return a
@@ -390,6 +413,14 @@ class Activity {
                     return this.i18n.t(h.data.label) + " " + this.i18n.t(h.data.type)
                 }
             }
+        })
+    }
+
+    getlastByType(type){
+
+
+        return _.find(this.history, (h) => {
+            return h.type == type
         })
     }
 

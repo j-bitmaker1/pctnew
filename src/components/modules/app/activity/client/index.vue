@@ -69,12 +69,12 @@ export default {
 
 				{
 					icon : 'fas fa-info-circle',
-					route : 'client/' + this.profile.ID + '?p=info'
+					route : '/client/' + this.profile.ID + '?p=info'
 				},
 
 				{
 					icon : 'fas fa-suitcase',
-					route : 'client/' + this.profile.ID + '?p=portfolios'
+					route : '/client/' + this.profile.ID + '?p=portfolios'
 				},
 				/*{
 					icon : 'fas fa-dollar-sign',

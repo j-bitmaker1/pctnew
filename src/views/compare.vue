@@ -26,6 +26,12 @@
 			<div class="empty" v-if="!ids.length">
 				<span>Please select a portfolios to compare</span>
 			</div>
+
+			<div class="golast" v-if="!ids.length && last">
+				<router-link :to="last.link">
+					<button class="button">Go to last comparison</button>
+				</router-link>
+			</div>
 			
 		</template>
 	</maincontent>
@@ -36,6 +42,10 @@
 <style scoped lang="sass">
 .componentWrapper
 	margin-top: 4 * $r
+
+.golast
+	text-align: center
+	padding : 3 * $r 0
 .empty
 	text-align: center
 	padding : 6 * $r 0
@@ -69,11 +79,29 @@ export default {
 
 		active : function(){
 			return this.$route.query[this.navkey] || this.navdefault
+		},
+
+	},
+
+	watch : {
+		ids : function(){
+
+			if(this.ids.length > 1){
+
+				this.core.api.pctapi.portfolios.gets(this.ids).then(r => {
+					this.core.user.activity.template('compare', r)		
+					this.last = this.core.user.activity.getlastByType('compare')				
+				})
+
+			}
+
+			
 		}
 	},
 
 	data : function(){
 		return {
+			last : null,
 			navigation : [
 				{
 					text : 'labels.crashtest',
@@ -120,7 +148,9 @@ export default {
 	},
 
 	created() {
-		
+		this.last = this.core.user.activity.getlastByType('compare')
+
+		console.log('this.last', this.last)
 	}
 }
 </script>
