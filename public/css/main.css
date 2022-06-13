@@ -150,7 +150,7 @@ body {
   min-height: 100%;
   overscroll-behavior: none;
   scroll-behavior: smooth;
-  overflow-x: hidden!important;
+  /*overflow-x: hidden!important;*/
 }
 * {
   box-sizing: border-box;
