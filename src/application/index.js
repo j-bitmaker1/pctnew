@@ -335,7 +335,6 @@ class Core {
 
     createByWs(data, type, invalidate = []){
 
-        console.log('createByWs', data, type, invalidate)
 
         if(!this.ignoring[type]) 
             this.ignoring[type] = []

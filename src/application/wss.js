@@ -1,7 +1,8 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import f from './functions'
 import moment from 'moment'
-import {Contact, Portfolio} from './lib/kit.js'
+import {Contact, Portfolio, Task} from './lib/kit.js'
+
 
 var WSS = function(core, url, system){
     var self = this
@@ -283,21 +284,33 @@ var WSS = function(core, url, system){
                 if(message.x_eventType == 'CLIENTUPDATE') {type = 'client'; invalidate = ['contacts']; data = new Contact(data)}
 
 
-                core.createByWs(data, type, invalidate)
-
-
-
-                /*var types = []
-                var invalidate = []
-                var data = message.Data
-
-                if(message.x_eventType == 'LEADUPDATE') {types = ['client', 'lead']; invalidate = ['contacts']; data = new Contact(data)}
-                if(message.x_eventType == 'CATALOGUPDATE') types = ['filesystem']
-                if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; invalidate = ['portfolios']; data = new Portfolio(data)}
-
-                core.updateByWs(data, types, invalidate)*/
+                core.updateByWs(data, type, invalidate)
 
             }   
+
+            if (message.type == 'PARSEPORTFOLIO'){
+
+                var invalidate = []
+                var data = message
+                var type = ''
+                var types = []
+
+                if(message.x_eventType == 'ASYNCTASKCOMPLETED') {
+                    type = 'task'; invalidate = ['tasks']; data = new Task(data)
+
+                    core.updateByWs(data, type, invalidate)
+                    return
+                }
+
+                if(message.x_eventType == 'ASYNCTASKCREATED') {
+                    types = ['task']; invalidate = ['tasks']; data = new Task(data)
+
+                    core.createByWs(data, types, invalidate)
+                    return
+                }
+
+            }
+
 
             if (message.x_eventType == 'READEVENTS'){
 
@@ -308,35 +321,8 @@ var WSS = function(core, url, system){
         }
         else{
 
-            /*core.notifier.message({
-
-                title : message.title || "New Notification",//core.vm.$e('common.newnotification'),
-                message : message.body,
-                image : message.image,
-                icon : message.icon,
-
-                eventId : message.eventid,
-
-                actions : message.Actions
-            })*/
-
             core.notification(message)
         }
-
-        /*if(!message.action) return
-
-        if (f.deep(actions, message.action))
-            var promise = f.deep(actions, message.action).a(message, message.error)
-            
-            if (promise)
-                promise.then(r => {
-
-                    if (message.data.notification){
-                        message.data.action = message.action
-                        handleNotifications(message.data, r)
-                    }
-
-                })*/
 
     }
     

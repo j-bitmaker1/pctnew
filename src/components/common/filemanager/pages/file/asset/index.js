@@ -28,7 +28,12 @@ export default {
     methods : {
         searchAssets : function(){
             this.core.vueapi.searchAssets((a) => {
+                this.$emit('changeAsset', a)
             })
+        },
+
+        changeValue : function(v){
+            this.$emit('changeValue', v)
         }
     },
 }

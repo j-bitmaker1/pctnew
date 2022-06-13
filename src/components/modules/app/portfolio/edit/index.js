@@ -9,7 +9,9 @@ export default {
 	name: 'portfolios_edit',
 	props: {
 		edit : Object,
-		payload : Object
+		payload : Object,
+
+		from : Object
 	},
 
 	components : {
@@ -33,14 +35,16 @@ export default {
 
 	created : function() {
 
-		if (this.edit){
+		var donor = this.edit || this.from
+
+		if (donor){
 			this.assets = []
 			
-			_.each(this.edit.assets, (e) => {
+			_.each(donor.assets, (e) => {
 				this.assets.push(_.clone(e))
 			})
 
-			this.name = this.edit.name
+			this.name = donor.name
 		}
 
 		this.hash = this.datahash()
@@ -428,9 +432,13 @@ export default {
 		},
 
 		filemanager : function(){
-			this.core.vueapi.fileManager({}, {
-				assets : () => {
-					
+			this.core.vueapi.fileManager({
+				fromEditor : true
+			}, {
+				createPortfolio : (portfolio) => {
+					if(!this.name) this.name = portfolio.name
+
+					this.multiple(portfolio.assets)
 				}
 			})
 		},

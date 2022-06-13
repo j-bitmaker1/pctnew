@@ -14,7 +14,7 @@
 
 	<maincontent>
 		<template v-slot:content>
-			<portfoliosmainlist ref="portfolios" @open="open"/>
+			<portfoliosmainlist ref="portfolios" :scroll="scroll" @open="open"/>
 		</template>
 	</maincontent>
 
@@ -37,6 +37,10 @@ export default {
 
 	computed: {
 		
+	},
+
+	props : {
+		scroll : Number
 	},
 
 	methods: {

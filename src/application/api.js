@@ -1,5 +1,5 @@
 import f from './functions'
-import {Contact, Portfolio} from './lib/kit.js'
+import {Contact, Portfolio, Task} from './lib/kit.js'
 var Axios = require('axios');
 
 var sha1 = require('sha1');
@@ -16,6 +16,39 @@ var FormDataRequest = function(core = {}, url, system){
 		const headers = {'content-type': 'multipart/form-data'}
 
 		return core.user.extendA({ formData, system }).then(r => {
+
+			return Axios({
+				baseURL: url,
+				url: to || '',
+				data: formData,
+				method: 'post',
+				headers,
+			}).then(r => {
+
+				if(f.deep(r, 'data.errors')){
+					return Promise.reject(parseerror({
+						code : 500,
+						errors : r.data.errors
+					}))
+				}
+
+
+				return Promise.resolve(r.data)
+			})
+		})
+		
+	}
+
+}
+
+var FormDataRequestAu_Headers = function(core = {}, url, system){
+
+	var self = this
+
+	self.fetch = function(to, formData, p){
+		const headers = {'content-type': 'multipart/form-data'}
+
+		return core.user.extendA({ headers, system }).then(r => {
 
 			return Axios({
 				baseURL: url,
@@ -275,6 +308,13 @@ var ApiWrapper = function (core) {
 			}
 		},
 
+		tasks : function(){
+			return {
+				storage : 'tasks',
+				time : 60 * 60 * 12 
+			}
+		},
+
 		contacts : function(){
 			return {
 				storage : 'contacts',
@@ -296,7 +336,7 @@ var ApiWrapper = function (core) {
 		api: new Request(core, "https://rixtrema.net/api", 'api'),
 
 		apiFD: new FormDataRequest(core, "https://rixtrema.net/api", 'api'),
-
+		apiFDH : new FormDataRequestAu_Headers(core, "https://rixtrema.net/api", 'api'),
 
 		/* temp */
 		'401k' : new Request(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
@@ -409,6 +449,8 @@ var ApiWrapper = function (core) {
 			prepareliststorage(data, system, to, p) /// async. maybe clear
 
 			if(!data[p.from]) data[p.from] = 0
+
+			console.log('data', p.from, system, to)
 
 			_.each(r.records || [], (e, i) => {
 				var c = 0
@@ -671,11 +713,9 @@ var ApiWrapper = function (core) {
 		
 	}
 
-	var dbrequest = function(data, system, to, p){
-
+	var dbaction = function(datahash, action, p = {}){
 
 		var _storage = null
-		var datahash = sha1(system + to + JSON.stringify(data))
 		
 		return (p.storageparameters ? getstorage(p.storageparameters) : f.ep()).then(storage => {
 
@@ -696,10 +736,7 @@ var ApiWrapper = function (core) {
 
 				/// return request(data, system, to, p).then(r => {
 
-				
-
-				return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
-
+				return action().then(r => {
 					if(_storage){
 						return _storage.set(datahash, r, p.storageparameters.invalidate).then(() => {
 
@@ -708,14 +745,24 @@ var ApiWrapper = function (core) {
 						})
 					}
 					return Promise.resolve(r)
-					
-
 				})
+
 			}
 
 			return Promise.resolve(cached)
 
 		})
+	}	
+
+	var dbrequest = function(data, system, to, p){
+
+		var datahash = sha1(system + to + JSON.stringify(data))
+
+		return dbaction(datahash, () => {
+
+			return (requests[system] || requests['default']).fetch(to, data, p)
+		}, p)
+		
 	}	
 
 	var request = function (data, system, to, p = {}, attempt) {
@@ -858,11 +905,12 @@ var ApiWrapper = function (core) {
 
 				if (attempt < 3 && e && e.code == 20) {
 
-					core.notifier.simplemessage({
-						icon : "fas fa-wifi",
-						title : "Please wait",
-						message : "Loading takes longer than usual"
-					})
+					if(!attempt)
+						core.notifier.simplemessage({
+							icon : "fas fa-wifi",
+							title : "Please wait",
+							message : "Loading takes longer than usual"
+						})
 
 					return new Promise((resolve, reject) => {
 
@@ -2188,6 +2236,13 @@ var ApiWrapper = function (core) {
 						type : ['system', 'stress', 'financial'] 
 					})
 
+				if(r.lastAsyncTasksUpdate){
+					invalidateStorage.push({
+						updated : f.date.fromstring(r.lastAsyncTasksUpdate, true) / 1000,
+						type : ['tasks'] 
+					})
+				}
+
 				return Promise.resolve(invalidateStorage)
 
 			})
@@ -2231,17 +2286,21 @@ var ApiWrapper = function (core) {
 
 		create : function(data = {}, p = {}){
 			 
-			/*data.Type = 'PARSEPORTFOLIO'
-			data.AppId = 'PCT'
-			data.TaskParameters = "{}"*/
+			self.invalidateStorageNow(['tasks'])
 
 			let formData = new FormData();
 
 				formData.append('Type', 'PARSEPORTFOLIO');
 				formData.append('AppId', 'PCT');
-				formData.append("data", data.file);
+				formData.append("File", data.file);
 
-			return request(formData, 'apiFD', 'AsyncTask/Create', p).then(r => {
+			return request(formData, 'apiFDH', 'async_task_manager/AsyncTask/Create', p).then(r => {
+
+				core.ignore('task', {
+					id : r.id
+				})
+
+				return Promise.resolve(r.id)
 			})
 
 
@@ -2250,34 +2309,100 @@ var ApiWrapper = function (core) {
 		list : function(data = {}, p = {}){
 			p.method = "POST"
 
-			return request(data, 'api', 'AsyncTask/ListTasks', p)
+			p.count = 'pageSize'
+			p.from = 'pageNumber'
+			p.bypages = true
+			p.includeCount = "includeCount"
+
+			p.kit = {
+				class : Task,
+				path : 'records'
+			}
+
+			p.vxstorage = {
+				type : 'task',
+				path : 'records'
+			}
+
+			p.storageparameters = dbmeta.tasks()
+
+			data.appIdsFilter = ["PCT"]
+
+			return paginatedrequest(data, 'api', 'async_task_manager/AsyncTask/ListTasks', p).then(r => {
+				console.log("R, r", r)
+
+				return Promise.resolve(r)
+			})
 		},
 
 		get : function(taskId, p = {}){
 			p.method = "POST"
 
-			return request({taskId}, 'api', 'AsyncTask/GetTask', p)
+			return request({taskId}, 'api', 'async_task_manager/AsyncTask/GetTask', p)
 		},
 		
-		update : function(taskId, data, p = {}){
+		update : function(id, dataManual, p = {}){
 			p.method = "POST"
 
-			return request({taskId, dataManual : data}, 'api', 'AsyncTask/UpdateTask', p)
+			self.invalidateStorageNow(['tasks'])
+
+			core.ignore('task', {
+				id
+			})
+
+			var {updated, from} = core.vxstorage.update({
+				data : dataManual,
+				manual : true,
+				id
+			}, 'task')
+
+			return request({id, dataManual : JSON.stringify({Infos : dataManual})}, 'api', 'async_task_manager/AsyncTask/UpdateTask', p)
 		},
 
 		delete : function(taskId, p = {}){
 			p.method = "POST"
 
-			return request({taskId}, 'api', 'AsyncTask/DeleteTask', p)
+			return request({taskId}, 'api', 'async_task_manager/AsyncTask/DeleteTask', p)
 		},
-
-		getattachment : function(){
+		deleteItems : function(taskIds, p = {}){
 			p.method = "POST"
 
-			return request({taskId}, 'api', 'AsyncTask/GetAttachmentLink', p).then(r => {
+			return request({taskIds}, 'api', 'async_task_manager/AsyncTask/DeleteTasks', p)
+		},
+
+		getattachment : function(key, taskId, p = {}){
+			p.method = "POST"
+
+			var datahash = sha1(key + taskId)
+
+			core.store.commit('globalpreloader', true)
+
+			return dbaction(datahash, () => {
+				
+				return request({taskId, storageKey : key}, 'api', 'async_task_manager/AsyncTask/GetAttachmentLink', p).then(r => {
+					
+					return Axios({
+						url: r.url,
+					})
+
+				}).then(r => {
+
+					var file = new Blob([r.data], {type : r.headers['content-type']})
+					
+					return Promise.resolve(file)
+				})
+			}, {
+				storageparameters : dbmeta.files()
+			}).then(r => {
+				core.store.commit('globalpreloader', false)
 
 				return Promise.resolve(r)
+			}).catch(e => {
+
+				core.store.commit('globalpreloader', false)
+				return Promise.reject(e)
 			})
+			
 		}
 	}
 

@@ -1,7 +1,7 @@
 import { mapState } from 'vuex';
 import f from '@/application/functions';
 
-import filepreview from '../../../filepreview/index.vue'
+import filespreview from '../../../filespreview/index.vue'
 import filemenu from '../../../filemenu/index.vue'
 
 export default {
@@ -11,7 +11,7 @@ export default {
         cut : Boolean
     },
 
-    components : {filepreview, filemenu},
+    components : {filespreview, filemenu},
 
     data : function(){
 
@@ -32,17 +32,32 @@ export default {
         auth : state => state.auth,
         size : function(){
 
-            var size = f.deep(this.file, 'info.Size')
+            if(this.file.info && this.file.info.length){
+                return f.formatBytes(_.reduce(this.file.info, (m, i) => {
+                    return m + i.Size
+                }, 0))
+            }
 
-            if(!size) return 0
+            return 0
 
-            return f.formatBytes(size)
+        },
+
+        name : function(){
+            if(this.file.info && this.file.info.length){
+                return _.map(this.file.info, (i) => {
+                    return i.FileName
+                }).join(', ')
+            }
         }
     }),
 
     methods : {
         open : function(){
             this.$emit('open')
-        }
+        },
+
+        deleted : function(){
+            this.$emit('deleted')
+        },
     },
 }

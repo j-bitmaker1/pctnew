@@ -132,6 +132,8 @@ export default {
 
                 var error = this.check(file)
 
+                console.log("error", error)
+
                 if (error) {
 
 

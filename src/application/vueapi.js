@@ -305,13 +305,12 @@ class Vueapi {
         })
     }
 
-    newPortfolio = function () {
+    newPortfolio = function (data) {
         this.store.commit('OPEN_MODAL', {
             id : 'modal_portfolio_edit',
             module : "portfolio_edit",
             caption : "New Portfolio",
-            data : {
-            },
+            data : data || {},
     
             events : {
                 edit : (portfolio) => {

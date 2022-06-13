@@ -37,23 +37,28 @@ export default {
         auth: state => state.auth,
 
         icon: function () {
-            var type = f.deep(this.file, 'info.ContentType')
+            var type = this.file.ContentType
 
             if (type) {
                 if (type == 'application/pdf') return "fas fa-file-pdf"
+                if (type == 'text/csv') return "fas fa-file-csv"
+
+                if (type.indexOf('xls') > -1 || type.indexOf('xlsx')) return "fas fa-file-excel"
             }
 
             return "fas fa-file"
         },
 
         type: function () {
-            var type = f.deep(this.file, 'info.ContentType')
+            var type = this.file.ContentType
 
             if (type) {
                 if (type == 'application/pdf') return "PDF"
+                if (type == 'text/csv') return "CSV"
+                if (type.indexOf('xls') > -1 || type.indexOf('xlsx')) return "XLS"
             }
 
-            return ""
+            return "File"
         }
     }),
 

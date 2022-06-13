@@ -2,13 +2,13 @@
 <div class="filemanager_list_file">
 
     <div class="filepreviewWrapper">
-        <filepreview :file="file" />
+        <filespreview :info="file.info" />
     </div>
 
     <div class="data">
 
         <div class="name">
-            <span v-if="file.info.FileName">{{file.info.FileName}}</span>
+            <span v-if="name">{{name}}</span>
             <span v-else>&mdash;</span>
         </div>
         <div class="meta">
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="progress" v-if="file.status == 'INWORK'">
+            <div class="progress" v-if="file.status == 'ACTIVE'">
                 <div class="row">
                     <div class="bg" :style="{width : (file.progress) + '%'}">
                     </div>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="formenu">
-        <filemenu :file="file" />
+        <filemenu :file="file" @deleted="deleted"/>
     </div>
 </div>
 </template>

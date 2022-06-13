@@ -1193,6 +1193,8 @@ f.download = function (file, name) {
         return f.saveFileCordova(file, name, true)
     }
 
+    console.log("file", file, name)
+
     const url = URL.createObjectURL(file);
 
     download(url, name);

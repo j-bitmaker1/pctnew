@@ -6,14 +6,15 @@
 
 	<linepreloader v-if="loading"/>
 
+	<listpaginated placeholder="No files found" activity="client" :select="{context : 'filemanager'}" api="tasks.list" :payload="payload" :start="1" ref="list" @count="setcount" from="pageNumber" to="pageSize" :bypages="true">
 
-	<listselectable context="filemanager" :items="sorted" ref="list">
 		<template v-slot:default="slotProps">
 			<div class="fileWrapper mobp">
-                <file :file="slotProps.item" @open="e => {open(slotProps.item)}"/>
+                <file @deleted="() => {deleted(slotProps.item)}" :file="slotProps.item" @open="e => {open(slotProps.item)}"/>
 			</div>
 		</template>
-	</listselectable>
+	   
+	</listpaginated>
 
     <selection context="filemanager" :menu="menu"/>
 </div>

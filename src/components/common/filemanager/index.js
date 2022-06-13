@@ -2,12 +2,15 @@ import { mapState } from 'vuex';
 
 import pages_list from './pages/list/index.vue'
 import pages_file from './pages/file/index.vue'
+import { isEmpty } from 'underscore';
 
 
 export default {
     name: 'filemanager',
     props: {
-        upload : Array
+        upload : Array,
+        scroll : Number,
+        fromEditor : Boolean
     },
 
     data : function(){
@@ -21,6 +24,7 @@ export default {
         }
 
     },
+    
 
     created (){
         this.core.user.activity.template('action', this.core.user.activity.actions.fileManager())
@@ -43,14 +47,22 @@ export default {
 
     methods : {
         uploaded : function(data){
+
+            if(isEmpty(data)) return Promise.resolve()
             
             this.$store.commit('globalpreloader', true)
 
             var results = []
 
+           
+
             return Promise.all(_.map(data, (d) => {
 
-                return this.core.filemanager.upload(d.file).then(r => {
+                return this.core.api.tasks.create({
+                    file : d.file
+                }).then(r => {
+
+                //return this.core.filemanager.upload(d.file).then(r => {
                     results.push(r)
                     return Promise.resolve()
                 })
@@ -83,6 +95,9 @@ export default {
 
 
         uploadError : function(e){
+
+            console.log("E", e)
+
             if (e.text){
 				this.$store.commit('icon', {
 					icon: 'error',
@@ -111,7 +126,7 @@ export default {
         openFile : function(file){
 
             this.core.vueapi.fileManager_File(file, {
-
+                createPortfolio : this.createPortfolio
             }, {
                 name : file.info.FileName
             })
@@ -119,6 +134,23 @@ export default {
 
         back : function(){
            
+        },
+
+        close : function(){
+            this.$emit('close')
+        },
+
+        createPortfolio : function(portfolio){
+
+            console.log('portfolio', portfolio)
+            if (this.fromEditor)
+                this.$emit('createPortfolio', portfolio)
+
+            else{
+                this.core.vueapi.newPortfolio({from : portfolio})
+            }
+
+            this.close()
         }
     },
 }

@@ -56,21 +56,36 @@ export default {
 
 	methods: {
 		deleteFile : function(){
-
+			this.core.api.tasks.delete(this.file.id, {
+				preloader : true
+			}).then(r => {
+				this.$emit('deleted')
+			})
 		},
 
-		openOriginal : function(){
+		open : function(file){
 
-			var type = f.deep(this.file, 'info.ContentType')
+            this.core.api.tasks.getattachment(file.StorageKey, this.file.id/*, file.ContentType*/).then(r => {
 
-            this.core.filemanager.original(this.file.id, type).then(file => {
-                
-				this.core.filehandler(file, {
-					name : f.deep(this.file, 'info.FileName')
+				this.core.filehandler(r, {
+					name : file.FileName
 				})
 
             }).finally(() => {
             })
+		},
+
+		openOriginal : function(){
+
+			if (this.file.info && this.file.info.length){
+				if (this.file.info.length == 1){
+					this.open(this.file.info[0])
+
+					return
+				}
+			}
+
+			
 		}
 	},
 }

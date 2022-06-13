@@ -12,6 +12,10 @@
             </div>
         </div>
 
+        <div class="value">
+            <input type="text" :value="asset.Value" @change="e => changeValue(e.target.value)"/>
+        </div>
+
         <div class="name">
             <span>{{asset.Name}}</span>
         </div>
@@ -19,6 +23,7 @@
         <div class="oldname">
             <span>{{asset.FullTextInOriginalFile}}</span>
         </div>
+        
     </div>
 
     <div class="panel">

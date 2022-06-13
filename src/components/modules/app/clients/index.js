@@ -12,7 +12,9 @@ export default {
 		hasmenu : {
 			type : Boolean,
 			default : true
-		}
+		},
+
+		scroll : Number
 	},
 
 	components : {client},
@@ -92,7 +94,9 @@ export default {
 	},
 	computed: mapState({
 		auth : state => state.auth,
-		tscrolly : state => state.tscrolly,
+		tscrolly : function(state){
+			return this.scroll || state.tscrolly
+		},
 		dheight : state => state.dheight,
 
 		menu : function(){

@@ -7,6 +7,7 @@ import _ from 'underscore';
 export default {
     name: 'filemanager_pages_list',
     props: {
+        scroll : Number
     },
 
     components : {
@@ -17,10 +18,9 @@ export default {
 
         return {
             loading : false,
-            files : [],
             searchvalue : '',
-
-            sort : 'date_asc',
+            count : null,
+            sort : 'date_desc',
 			sorting : {
 				name_asc : {
 					text : 'fname_asc',
@@ -35,12 +35,12 @@ export default {
 
                 date_asc : {
 					text : 'date_asc',
-					field : 'date',
+					field : 'Created',
 					sort : 'asc'
 				},
 				date_desc : {
 					text : 'date_desc',
-					field : 'date',
+					field : 'Created',
 					sort : 'desc'
 				}
 			},
@@ -49,54 +49,37 @@ export default {
     },
 
     created(){
-        this.load()
     },
 
     watch: {
-        //$route: 'getdata'
-    },
+		tscrolly : function(){
+
+			if (this.$refs['list']){
+
+				if (this.$refs['list'].height() - 1000 < this.tscrolly + this.dheight){
+					this.$refs['list'].next()
+				}
+				
+			}
+			
+		}
+	},
     computed: mapState({
         auth : state => state.auth,
-        count : function(){
-            return this.filtered.length
-        },
-        filtered : function(){
-            if(this.searchvalue){
 
-                return f.clientsearch(this.searchvalue, this.files, (file) => {
+        tscrolly : function(state){
+			return this.scroll || state.tscrolly
+		},
 
-                    return f.namear([
-                        file.info.FileName, 
-                        file.status, 
-                        (file.info.ContentType || "").replace('application/'),
+        payload : function(){
+            return {
+				//searchStrFilter : this.searchvalue,
 
-                        f.namear(_.map(file.data, (d) => {
-                            return d.Ticker
-                        }))
-                    ])
-
-                })
-            }
-            else{
-                return this.files
-            }
-        },
-
-        sorted : function(){
-
-            var [field, ad] = this.sort.split('_')
-
-            var srt = _.sortBy(this.filtered, (f) => {
-
-                if(field == 'name') return f.info.FileName
-                if(field == 'date') return f.completed || f.created
-
-            })
-
-            if(this.sort == 'date_asc') srt.reverse()
-            if(this.sort == 'name_desc') srt.reverse()
-
-            return srt
+				sortFields : [{
+					field : this.sorting[this.sort].field,
+					order : this.sorting[this.sort].sort
+				}]
+			}
         },
 
         menu : function(){
@@ -113,36 +96,39 @@ export default {
     }),
 
     methods : {
+
+        setcount : function(v){
+            this.count = v
+        },
+
         sortchange : function(v){
 			this.sort = v
 		},
 
-        load : function(){
-
-            this.files = []
-            this.loading = true
-
-            //this.core.api.tasks.list().then(files => {
-
-            this.core.filemanager.getall().then(files => {
-                this.files = files
-
-                return Promise.resolve()
-            }).finally(() => {
-                this.loading = false
-            })
-        },
 
         search : function(v){
             this.searchvalue = v
         },
 
-        deleteitems : function(){
-            
+        deleteitems : function(items){
+            this.core.api.tasks.deleteItems(_.map(items, (i) => {return i.id}), {
+				preloader : true,
+				showStatus : true
+			}).then(() => {
+
+				_.each(items, (item) => {
+					this.deleted(item)
+				})
+
+			})
         },
 
+		deleted : function(item){
+			if(this.$refs['list']) this.$refs['list'].datadeleted(item, "id")
+		},
+
         added : function(r){
-            this.files = _.concat(this.files, r)
+            
         },
 
         open : function(file){

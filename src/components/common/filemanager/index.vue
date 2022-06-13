@@ -3,7 +3,7 @@
 
     <div class="topheader mobp" v-if="page.key == 'list'">
         <div>
-            <upload :extensions="['csv', 'xls', 'xlsx', 'pdf']" @uploadedAll="uploaded" @error="uploadError">
+            <upload :extensions="['csv', 'xls', 'xlsx'/*, 'pdf'*/]" @uploadedAll="uploaded" @error="uploadError">
                 <template v-slot:content>
                     <button class="button" key="file">
                         <i class="fas fa-plus"></i> Upload File
@@ -25,7 +25,7 @@
     </div>
 
     <div class="content">
-       <component ref="page" v-if="getmodule()" :is="getmodule()" v-bind="page.data || {}" @openFile="openFile"/>
+       <component :scroll="scroll" ref="page" v-if="getmodule()" :is="getmodule()" v-bind="page.data || {}" @openFile="openFile" @createPortfolio="createPortfolio"/>
     </div>
 
 </div>
