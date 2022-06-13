@@ -44,6 +44,8 @@ export default {
 	created : function() {
 		this.history.push(this.root)
 
+		console.log('this.select', this.select)
+
 
 		this.load()
 

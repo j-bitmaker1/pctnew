@@ -1,4 +1,4 @@
-importScripts('/js/vendor/workbox-v6.1.5/workbox-sw.js');
+importScripts('./js/vendor/workbox-v6.1.5/workbox-sw.js');
 
 workbox.setConfig({
 	modulePathPrefix: '/js/vendor/workbox-v6.1.5/',

@@ -78,7 +78,7 @@
 		</modal>
 	</transition>
 
-	<selection :context="select.context" :menu="menu" v-if="select.disableMenu && purpose != 'selectFolder'"/>
+	<selection :context="select.context" :menu="menu" v-if="select.disableMenu || purpose != 'selectFolder'"/>
 
 </div>
 </template>
