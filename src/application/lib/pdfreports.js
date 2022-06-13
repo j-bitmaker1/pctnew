@@ -951,24 +951,12 @@ class PDFReports {
     }
 
     disclosure = function(tools){
-        var result = [];
-        return Promise.resolve(result)
-    }
-
-    userdisclosure = function(tools){
-        var {disclosure} = tools.data
-
-        if(!disclosure) return Promise.resolve([])
-
-        var d = tools.byEditorjs(disclosure)
-
-        if (d && d.length) d[0].pageBreak = 'before'
-
-
+        var d = [];
 
         var tt = {
             text: 'IMPORTANT DISCLOSURE INFORMATION ABOUT YOUR PORTFOLIO CRASH TEST',
-            style: 'disclosure_H'
+            style: 'disclosure_H',
+            pageBreak : 'before'
         };
 
         d.push(tt);
@@ -1102,6 +1090,19 @@ class PDFReports {
 
         d.push(tt);
 
+
+        return Promise.resolve(d)
+
+    }
+
+    userdisclosure = function(tools){
+        var {disclosure} = tools.data
+
+        if(!disclosure) return Promise.resolve([])
+
+        var d = tools.byEditorjs(disclosure)
+
+        if (d && d.length) d[0].pageBreak = 'before'
 
         return Promise.resolve(d)
     }
