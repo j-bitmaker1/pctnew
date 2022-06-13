@@ -58,6 +58,15 @@ export default {
 
 					childrens : ['/portfolio', '/compare']
 				},
+
+				{
+					route : '/compare',
+					id : 'compare',
+					text : 'menu.compare',
+					icon : "fas fa-list-ul",
+					mobile : false
+				},
+
 				{
 					route : '/profile',
 					id : 'profile',
