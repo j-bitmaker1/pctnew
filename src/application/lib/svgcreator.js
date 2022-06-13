@@ -302,8 +302,10 @@ class SVGCreator {
 
             for(var i = 0; i < result.length; i++)
                     {
+                        console.log('id ' + result[i].id);
+                        console.log('ID ' + result[i].ID);
                         var str0 = this.getText(result[i].name, 670);
-						this._createG(xw, str0, result[i].loss, i, str.length);
+						this._createG(xw, str0, result[i].loss, i, str.length, result[i].id);
                         //console.log(this.getTextWidth(result[i].name, "italic 50px Segoe UI").toString());
                     }
 
@@ -327,7 +329,7 @@ class SVGCreator {
        
     }
 
-    _createG = function(xw, c, v, k, count, size){
+    _createG = function(xw, c, v, k, count, id){
  
         if (v >= 0)
 			{
@@ -340,7 +342,12 @@ class SVGCreator {
 				xw.writeAttribute("height", (2 * 2800/((count * 3))).toString().replace(',', '.'));
 				xw.writeAttribute("rx", "20");
 				xw.writeAttribute("ry", "20");
-				xw.writeAttribute("fill", "#04B229");
+				if(id != -1 && id != -2){
+                    xw.writeAttribute("fill", "#04B229");
+                }
+                else{
+                    xw.writeAttribute("fill", "#f2c94c");
+                }
 				xw.writeAttribute("fill-opacity", "0.98");
 				xw.endElement();
 
@@ -469,6 +476,7 @@ class SVGCreator {
         for(var i = 1; i < ss.length; i++){
             var wn = this.getTextWidth(ss[i], "italic 50px Segoe UI");
             if(wn + ww + 13.7 > size){
+                console.log(ss[i]);
                 ww=wn;
                 resultSS.push(sn);
                 sn = ss[i];

@@ -340,6 +340,42 @@ var Tools = function(p, data){
                     body: p.body
                 }
             }
+        },
+
+        scenarioDescription : function (p) {
+            if(!p)
+                p = {};
+
+            return {
+                pageBreak: p.pageBreak || null,
+                layout: p.layout || {
+                    vLineWidth: function (i, node) {
+                        return 1;
+                    },
+                    vLineColor: function (i) {
+                        return "#999";
+                    },
+                    hLineWidth: function (i) {
+                        return 1;
+                    },
+                    hLineColor: function (i) {
+                        return "#999";
+                    },
+                    paddingLeft: function (i) {
+                        return i && 6 || 0;
+                    },
+                    paddingRight: function (i, node) {
+                        return (i < node.table.widths.length - 1) ? 6 : 0;
+                    },
+                },
+                margin: p.margin || [0, 10, 0, 0],
+                table: {
+                    heights : p.heights,
+                    widths: p.widths,
+                    style : "table",
+                    body: p.body
+                }
+            }
         }
     }
 
@@ -1200,10 +1236,54 @@ var PDFTools = function(p = {}, data = {}){
                         fontSize: 8,
                     },
                     table : {
-                        fontSize: 7,
+                        fontSize: 9,
                     },
                     small : {
                         fontSize: 6,
+                    },
+                    hScenarioDescription: {
+                        fontSize: 11,
+                        bold: true,
+                        alignment : "left",
+                        margin: [0, 4, 0, 4],
+                        color : "#004868"
+                    },
+                    scenarioDefinitions: {
+                        fontSize: 8,
+                        bold: true,
+                        alignment : "left",
+                        margin: [0, 4, 0, 4],
+                    },
+                    gVal: {
+                        fontSize: 8,
+                        bold: true,
+                        alignment : "left",
+                        margin: [0, 4, 0, 4],
+                        color : "#0D7714"
+                    },
+                    rVal: {
+                        fontSize: 8,
+                        bold: true,
+                        alignment : "left",
+                        margin: [0, 4, 0, 4],
+                        color : "#FF0000"
+                    },
+                    disclosure_H: {
+                        fontSize: 13,
+                        bold: true,
+                        alignment : "center",
+                        margin: [0, 10, 0, 10]
+                    },
+                    disclosure_H2: {
+                        fontSize: 12,
+                        bold: true,
+                        alignment : "left",
+                        margin: [0, 10, 0, 10]
+                    },
+                    disclosure: {
+                        fontSize: 8,
+                        alignment : "left",
+                        margin: [0, 10, 0, 10]
                     },
                     h1: {
                         fontSize: 18,
