@@ -1,5 +1,5 @@
 import f from '@/application/functions'
-import _ from 'underscore'
+import _, { max } from 'underscore'
 import moment from 'moment'
 
 
@@ -24,6 +24,11 @@ class PDFReports {
 
         scenarioDescription : {
             key : 'scenarioDescription',
+            default : true
+        },
+
+        scenarioDefinitions : {
+            key : 'scenarioDefinitions',
             default : true
         },
 
@@ -62,12 +67,108 @@ class PDFReports {
         },
     }
 
+    footnoteNumber = 1;
+    replFootnotes = {};
+
+    footnotesFind = [
+        {
+            rFind: /Russia('s)?/,
+            footnote: 'Russia: Market weighted index of companies domiciled in Russia.'
+        },
+        {
+            rFind: /China('s)?/,
+            footnote: 'China: Market weighted index of companies domiciled in China.'
+        },
+        {
+            rFind: /S&P 500/,
+            footnote: 'S&P 500: Standard & Poors 500 stock index.'
+        },
+        {
+            rFind: /(P|p)eak-to-trough/,
+            footnote: 'Peak-to-trough: Return is the biggest loss realized during a given stress scenario. There is no set timeframe over which peak-to-trough losses occur.'
+        },
+        {
+            rFind: /Inflationary boom/,
+            footnote: 'test'
+        }
+    ];
+
+    scenarioDefinitionsFootnotes = [
+        {
+            rFind: /10 Years US Government Curve/,
+            footnote: '10 Years US Government Curve: Yield-to-maturity on a zero coupon US Treasury bond that matures in 10 years'
+        },
+        {
+            rFind: /United States/i,
+            footnote: 'United States: Market weighted index of companies domiciled in United States'
+        },
+        {
+            rFind: /DJ US Total Stock Market Index/i,
+            footnote: 'DJ US Total Stock Market Index: Dow Jones index of all US stocks'
+        },
+        {
+            rFind: /Gold/i,
+            footnote: 'Gold: Gold futures price series from Chicago Mercantile Exchange'
+        },
+        {
+            rFind: /HYCCC/i,
+            footnote: 'HYCCC: Is the credit spread (yield difference with a Treasury of comparable maturity) on the Merrill Lynch CCC or lower-rated index. It signifies the willingness of investors to lend to risky companies and their estimation of their default rate. During risky environments these spreads widen immediately.'
+        },
+        {
+            rFind: /Japan/i,
+            footnote: 'Japan: Market weighted index of companies domiciled in Japan'
+        },
+        {
+            rFind: /30 Years US Government Curve/i,
+            footnote: '30 Years US Government Curve: Yield-to-maturity on a zero coupon US Treasury bond that matures in 30 years'
+        },
+        {
+            rFind: /EUR/i,
+            footnote: 'EUR: Euro FX rate against the US Dollar'
+        },
+        {
+            rFind: /Generic 1st Natural Gas/i,
+            footnote: 'Generic 1st Natural Gas: Natural Gas futures price'
+        },
+        {
+            rFind: /Germany/i,
+            footnote: 'Germany: Market weighted index of companies domiciled in Germany'
+        },
+        {
+            rFind: /Oil/i,
+            footnote: 'Oil: Oil Brent Crude Price'
+        },
+        {
+            rFind: /RUB/i,
+            footnote: 'RUB: Russian Ruble FX rate against the US Dollar'
+        },
+        {
+            rFind: /Brazil/i,
+            footnote: 'Brazil: Market weighted index of companies domiciled in Brazil'
+        },
+        {
+            rFind: /India/i,
+            footnote: 'India: Market weighted index of companies domiciled in India'
+        },
+        {
+            rFind: /Home Equity AAA Spread/i,
+            footnote: 'Home Equity AAA Spread: Is the credit spread (yield difference with treasury of comparable maturity) on the bond index that contains securitized mortgages. A widening (increase) in this spread is caused by decreasing housing prices.'
+        },
+        {
+            rFind: /US Generic 10 year BreakEven Spread/i,
+            footnote: 'US Generic 10 year BreakEven Spread: Is the difference between the nominal yield on a fixed-rate investment and the real yield (fixed spread) on an inflation-linked investment of similar maturity and credit quality. It indicates inflation expectations as expressed by the traders who are trading government securities and inflation-linked instruments. In our convention when spreads narrow (decrease) – the inflation expectations are increasing.'
+        }
+    ];
+
+    
+
     constructor({api, settings, pct, i18n}){
         this.api = api
         this.settings = settings
         this.i18n = i18n
         this.pct = pct
     }
+    
 
     stressTest = function(tools){
         var {portfolio, profile} = tools.data
@@ -88,13 +189,14 @@ class PDFReports {
         }).then(img => {
             image.image = img
             image.alignment = 'center'
+            image.width = 500
+            image.height = 631.050555
             return Promise.resolve([image])
 
         }) 
     }
 
     scenarioDescription = function(tools){
-
         var {portfolio, profile} = tools.data
 
         var scenarios = null,
@@ -110,18 +212,458 @@ class PDFReports {
 
         results.push(caption)
 
+        var footnotes = [];
         return this.pct.scenarios().then(s => {
             scenarios = s
 
+
+            console.log(scenarios);
             return this.pct.stresstest(portfolio.id).then(_ct => {
                 ct = _ct
+
+                return tools.helpers.tables({
+                    rowsInTable : 7,   
+                    pageOffset : 0, 
+                    array : ct.scenarios,
+                    
+                    body : function(index){
+                        return [[{
+                            margin: [ 2, 4, 2, 4 ],
+                            style : 'hScenarioDescription',
+                            bold : true,
+                            alignment : 'left',
+                            text : 'Stress Scenarios'
+                        }, {
+                            margin: [ 2, 4, 2, 4 ],
+                            style : 'hScenarioDescription',
+                            bold : true,
+                            alignment : 'left',
+                            text : 'Description'
+                        }, {
+                            margin: [ 2, 4, 2, 4 ],
+                            style : 'hScenarioDescription',
+                            bold : true,
+                            alignment : 'left',
+                            text : 'Event Duration'
+                        }]]
+                    },
+        
+                    table : function(body, index){
+                        return tools.tables.scenarioDescription({
+                            margin: [ 2, 20, 2, 10 ],
+                            body : body,
+                            widths : [100, 200,'*']
+                        })
+                    },
+        
+                    row : (_p, clbk)=>{
+                        var id = _p.item.id;
+                        
+                        var info = scenarios.find(x => x.id == id);
+
+                        // var t = /Infationary boom/;
+                        // //t = new RegExp(t + "('s)", 'i');
+
+                        // var test1 = "Infationary boom S&P 500 test test Russia test";
+
+                        // console.log('testtest ' + test1.search(t));
+                        // console.log(test1.match(t)[0]);
+
+
+
+                        var row = [
+                            {
+                                margin: [ 3, 3, 3, 5 ],
+                                text : info.name,
+                                style : 'table'
+                            },
+                            {
+                                margin: [ 0, 3, 3, 5 ],
+                                text : this.getFootnotes(footnotes, info.shocks, _p.pages, this.footnotesFind),
+                                style : 'table'
+                            },
+                            {
+                                margin: [ 0, 3, 3, 5 ],
+                                text : this.getFootnotes(footnotes, info.description, _p.pages, this.footnotesFind),
+                                style : 'table'
+                            }
+                        ];
+        
+                        console.log(row);
+                        clbk(row);
+        
+                    },
+                })
             })
         }).then(r => {
 
+            _.each(r.tables, function(t, i){   // i - page
+                results.push(t);
+
+                var first = 0;
+                footnotes.forEach((footnote) => {
+                    if(footnote.page == i){
+                        if(first == 0){
+                            first = 1;
+                            var line = {
+                                text: '___________________________',
+                                style: 'note'
+                            };
+                            results.push(line);
+                        }
+                        var ss = {
+                            text: footnote.text,
+                            style: 'header'
+                        }
+                        results.push(ss);
+                    }
+                  })
+            })
 
             return Promise.resolve(results)
         })
         
+    }
+
+    scenarioDefinitions = function(tools){
+        var {portfolio, profile} = tools.data
+
+        var scenarios = null,
+            ct = null;
+
+        var results = []
+
+        var caption = tools.helpers.caption({
+            text : this.i18n.t("Scenario Definitions"), 
+            style: 'h3',
+            pageBreak : 'before'
+        })
+
+        results.push(caption)
+
+        var footnotes = [];
+        return this.pct.scenarios().then(s => {
+            scenarios = s
+
+            var iid = 0;
+            var maxt = 0;
+            scenarios.forEach((tt) => {
+                var k = 0;
+                    tt.factors.forEach((kk) => {
+                        if(kk.value != 0){
+                            k++;
+                        }
+                      });
+                if(k > maxt){
+                    
+                    maxt = k;
+                    iid = tt.id;
+                }
+              });
+            console.log(maxt);
+            console.log(iid);
+            console.log("scenarioDescriptionTable2");
+            return this.pct.stresstest(portfolio.id).then(_ct => {
+                ct = _ct
+
+                var maxL = -1;
+                return tools.helpers.tables({
+                    rowsInTable : 7,   
+                    pageOffset : 0, 
+                    array : ct.scenarios,
+                    
+                    body : function(index){
+                        console.log("scenarioDescriptionTable2 : body");
+                        if( maxL == -1){
+                            ct.scenarios.forEach((xct) => {
+                                var info = scenarios.find(x => x.id == xct.id);
+                                if(maxL < info.factors.length){
+                                    maxL = info.factors.length;
+                                }
+                            });
+                        }
+                        if(maxL>7){
+                            maxL = 7;
+                        }
+                        var result = [[{
+                            margin: [ 2, 4, 2, 4 ],
+                            style : 'hScenarioDescription',
+                            bold : true,
+                            alignment : 'left',
+                            text : 'Stress Scenarios'
+                        }, {
+                            margin: [ 2, 4, 2, 4 ],
+                            style : 'hScenarioDescription',
+                            bold : true,
+                            alignment : 'left',
+                            text : 'Description',
+                            colSpan: maxL
+                        }]];
+                        for(var i = 0; i<maxL-1;i++){
+                            result[0].push({});
+                        }
+
+                        return result;
+                    },
+        
+                    table : function(body, index){
+                        console.log("scenarioDescriptionTable2 : table");
+                        console.log(maxL);
+                        var wid = [];
+                        if( maxL == -1){
+                            ct.scenarios.forEach((xct) => {
+                                var info = scenarios.find(x => x.id == xct.id);
+                                if(maxL < info.factors.length){
+                                    maxL = info.factors.length;
+                                }
+                            });
+                        }
+
+                        if(maxL >= 7){
+                            maxL = 7;
+                            wid = ['*',50,50,50,50,50,50,50];
+                        }
+                        else{
+                            wid.push('*');
+                            for(var i = 0; i < max; i++){
+                                wid.push(50);
+                            }
+                        }
+                        console.log(wid);
+                        return tools.tables.scenarioDescription({
+                            margin: [ 2, 20, 2, 10 ],
+                            body : body,
+                            widths : wid
+                        })
+                    },
+        
+                    row : (_p, clbk)=>{
+                        console.log("scenarioDescriptionTable2 : row");
+                        var id = _p.item.id;
+                        
+                        var info = scenarios.find(x => x.id == id);
+
+                        console.log(info.factors);
+                        // var t = /Infationary boom/;
+                        // //t = new RegExp(t + "('s)", 'i');
+
+                        // var test1 = "Infationary boom S&P 500 test test Russia test";
+
+                        // console.log('testtest ' + test1.search(t));
+                        // console.log(test1.match(t)[0]);
+
+
+
+                        var row = [];
+        
+                        row.push(
+                            {
+                                margin: [ 3, 3, 0, 5 ],
+                                text : info.name,
+                                style : 'table'
+                            }
+                        )
+                        for(var i = 0; i < 6; i++){
+                            console.log(i);
+                            console.log(info.factors[i]);
+                            
+
+                            if(info.factors[i] != null){
+
+                                var val = '';
+                                if (info.factors[i].type == 'country' || 
+                                    info.factors[i].type == 'currency' || 
+                                    info.factors[i].type == 'industry' || 
+                                    info.factors[i].type == 'perm_factor' || 
+                                    info.factors[i].type == 'stress_index'
+                                    ) 
+                                    val += info.factors[i].value + '%';
+                                else val += Math.round(info.factors[i].value * 100) + 'bps';
+
+                                console.log(info.factors[i]);
+                                row.push(
+                                    {
+                                        text:[
+                                            {
+                                                margin: [ 2, 3, 2, 5 ],
+                                                text : this.getFootnotes
+                                                (
+                                                    footnotes, 
+                                                    info.factors[i].name + '\n',
+                                                    _p.pages, 
+                                                    this.scenarioDefinitionsFootnotes
+                                                ),
+                                                style : 'scenarioDefinitions'
+                                            },
+                                            {
+                                                margin: [ 2, 3, 2, 5 ],
+                                                text : val,
+                                                style : info.factors[i].value >= 0 ? 'gVal' : 'rVal'
+                                            },
+                                        ]
+                                });
+                            }
+                            else{
+                                row.push(
+                                    {
+                                        margin: [ 3, 3, 0, 5 ],
+                                        text : '',
+                                        style : 'scenarioDefinitions'
+                                });
+                            }
+                        }
+                        if(info.factors.length > 7){
+                            var text = [];
+                            for(var i = 7; i < info.factors.length; i++){
+
+                                
+                                var val = '';
+                                if (info.factors[i].type == 'country' || 
+                                    info.factors[i].type == 'currency' || 
+                                    info.factors[i].type == 'industry' || 
+                                    info.factors[i].type == 'perm_factor' || 
+                                    info.factors[i].type == 'stress_index'
+                                    ) 
+                                    val += info.factors[i].value + '%';
+                                else val += Math.round(info.factors[i].value * 100) + 'bps';
+                                
+                                text.push(
+                                    {
+                                        margin: [ 2, 3, 2, 5 ],
+                                        text : info.factors[i].name + '\n',
+                                        style : 'scenarioDefinitions'
+                                    },
+                                    {
+                                        margin: [ 2, 3, 2, 5 ],
+                                        text : val + '\n\n',
+                                        style : info.factors[i].value >= 0 ? 'gVal' : 'rVal'
+                                    },
+                                )
+                            }
+                            row.push({
+                                text: text
+                            });
+                        }
+                        else{
+                            if(info.factors[6] != null){
+                                console.log(info.factors[i]);
+
+                                var val = '';
+                                if (info.factors[6].type == 'country' || 
+                                    info.factors[6].type == 'currency' || 
+                                    info.factors[6].type == 'industry' || 
+                                    info.factors[6].type == 'perm_factor' || 
+                                    info.factors[6].type == 'stress_index'
+                                    ) 
+                                    val += info.factors[6].value + '%';
+                                else val += Math.round(info.factors[6].value * 100) + 'bps';
+
+
+                                row.push(
+                                    {
+                                        text:[
+                                            {
+                                                margin: [ 1, 3, 1, 5 ],
+                                                text : info.factors[6].name + '\n',
+                                                style : 'scenarioDefinitions'
+                                            },
+                                            {
+                                                margin: [ 1, 3, 1, 5 ],
+                                                text : val,
+                                                style : info.factors[6].value >= 0 ? 'gVal' : 'rVal'
+                                            },
+                                        ]
+                                });
+                            }
+                            else{
+                                row.push(
+                                    {
+                                        margin: [ 2, 3, 2, 5 ],
+                                        text : '',
+                                        style : 'scenarioDefinitions'
+                                });
+                            }
+                        }
+                        console.log(row);
+                        clbk(row);
+        
+                    },
+                })
+            })
+        }).then(r => {
+
+            _.each(r.tables, function(t, i){   // i - page
+                results.push(t);
+
+                var first = 0;
+                footnotes.forEach((footnote) => {
+                    if(footnote.page == i){
+                        if(first == 0){
+                            first = 1;
+                            var line = {
+                                text: '___________________________',
+                                style: 'note'
+                            };
+                            results.push(line);
+                        }
+                        var ss = {
+                            text: footnote.text,
+                            style: 'header'
+                        }
+                        results.push(ss);
+                    }
+                  })
+            })
+
+            return Promise.resolve(results)
+        })
+        
+    }
+    
+    getFootnotesDuration = function(footnotes, rName, page){
+
+
+        var result = rName;
+        for(var i = 0; i < this.footnotesFind.length; i++){
+            if(!this.replFootnotes[i] && result.search(this.footnotesFind[i].rFind) != -1){
+                var replaceT = result.match(this.footnotesFind[i].rFind)[0];
+                result = result.replace(this.footnotesFind[i].rFind, replaceT + ' (' + this.footnoteNumber + ')');
+
+                footnotes.push({
+                    page: page,
+                    text: '\r\n' + this.footnoteNumber + '. ' + this.footnotesFind[i].footnote
+                });
+
+                
+                this.replFootnotes[i] = this.footnoteNumber;
+
+                this.footnoteNumber += 1;
+            }
+        }
+        return result;
+    }
+
+    getFootnotes = function(footnotes, rName, page, footnotesAll){
+
+
+        var result = rName;
+        for(var i = 0; i < footnotesAll.length; i++){
+            if(!this.replFootnotes[i] && result.search(footnotesAll[i].rFind) != -1){
+                var replaceT = result.match(footnotesAll[i].rFind)[0];
+                result = result.replace(footnotesAll[i].rFind, replaceT + ' (' + this.footnoteNumber + ')');
+
+                footnotes.push({
+                    page: page,
+                    text: '\r\n' + this.footnoteNumber + '. ' + footnotesAll[i].footnote
+                });
+
+                
+                this.replFootnotes[i] = this.footnoteNumber;
+
+                this.footnoteNumber += 1;
+            }
+        }
+        return result;
     }
 
     positionSummary = function(tools){
@@ -139,38 +681,91 @@ class PDFReports {
 
         return this.pct.assets(portfolio).then(assetsInfo => {
 
-            console.log("assetsInfo", assetsInfo)
-
             results.push(caption)
 
             return tools.helpers.tables({
-                rowsInTable : 18,
-                pageOffset : 10,
+                rowsInTable : 18,   //строк в таблице
+                pageOffset : 0, 
                 array : portfolio.positions,
     
                 body : function(index){
-                    return []
+                    console.log("assetsInfo");
+                    console.log(assetsInfo);
+
+                    var result = [[{
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Ticker ID'
+                    }, {
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Ticker Name'
+                    }, {
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Ticker Weight'
+                    }, {
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Security Yield'
+                    }, {
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Expense Ratio'
+                    }]];
+
+                    return result;
                 },
     
                 table : function(body, index){
-                    return tools.tables.standart({
+                    console.log("assetsInfo");
+                    console.log(assetsInfo);
+                    return tools.tables.scenarioDescription({
                         margin: [ 0, 10, 0, 0 ],
                         body : body,
-                        widths : [100, '*'],
+                        widths : [100, 150, 70, 60, 60],
                         style : 'table'
                     })
                 },
     
                 row : function(_p, clbk){
+                    console.log("assetsInfo");
+                    console.log(assetsInfo);
                     var position = _p.item;
     
+                    console.log("position");
+                    console.log(position);
+                    console.log(position.yield);
+                    console.log(position.ticker.yield);
                     var row = [{
-                        margin: [ 0, 3, 0, 3 ],
+                        margin: [ 2, 3, 2, 3 ],
                         text : position.ticker + '\n',
                         style : 'table'
                     },{
-                        margin: [ 0, 3, 0, 3 ],
+                        margin: [ 2, 3, 2, 3 ],
                         text : position.name,
+                        style : 'table'
+                    },{
+                        margin: [ 2, 3, 2, 3 ],
+                        text : position.value,
+                        style : 'table'
+                    },{
+                        margin: [ 2, 3, 2, 3 ],
+                        text : assetsInfo[position.ticker] ? assetsInfo[position.ticker].yield : '-',
+                        style : 'table'
+                    },{
+                        margin: [ 2, 3, 2, 3 ],
+                        text : assetsInfo[position.ticker] ? assetsInfo[position.ticker].expRatio : '-',
                         style : 'table'
                     }];
     
@@ -182,10 +777,21 @@ class PDFReports {
         })
 
         .then(r => {
-
-    
+            
+            
             _.each(r.tables, function(t){
                 results.push(t);
+
+                var tt = {
+                    text: '\n\nSecurity Yield - Dividend Yield for equities and funds. Yield-to-Maturity for individual bonds.',
+                    style: 'note'
+                };
+                results.push(tt);
+                var tt = {
+                    text: 'Expense Ratio - The amount investors pay for expenses incurred in operating a mutual fund (after any waivers).',
+                    style: 'note'
+                };
+                results.push(tt);
             })
     
             return Promise.resolve(results)
@@ -261,6 +867,22 @@ class PDFReports {
         else{
             return Promise.resolve([])
         }
+        // var results = [];
+        
+        // var table= [
+        //         {
+        //             style: 'tableExample',
+        //             table: {
+        //                 body: [
+        //                     ['Column 1', 'Column 2', 'Column 3'],
+        //                     ['One value goes here', 'Another one here', 'OK?']
+        //                 ]
+        //             }
+        //         },
+        // ];
+        // results.push(table);
+
+        // return Promise.resolve(results)
     }
 
     glossary = function(tools){
@@ -329,9 +951,8 @@ class PDFReports {
     }
 
     disclosure = function(tools){
-       var result = []
-
-       return Promise.resolve(result)
+        var result = [];
+        return Promise.resolve(result)
     }
 
     userdisclosure = function(tools){
@@ -342,6 +963,145 @@ class PDFReports {
         var d = tools.byEditorjs(disclosure)
 
         if (d && d.length) d[0].pageBreak = 'before'
+
+
+
+        var tt = {
+            text: 'IMPORTANT DISCLOSURE INFORMATION ABOUT YOUR PORTFOLIO CRASH TEST',
+            style: 'disclosure_H'
+        };
+
+        d.push(tt);
+
+        tt = {
+            text: 'A Portfolio Crash Test is a stress-testing tool developed by RiXtrema, Inc. that uses simulations and statistical analyses to help investors and their financial professionals understand the risk profile of their investment portfolios.  Stress testing does this by measuring how different macroeconomic scenarios could affect portfolio returns.  In order to get the most out of your Portfolio Crash Test (sometimes called "PCT" below), it is important that you understand how the tool is designed and how it should and should not be used.  To that end, we urge you to read the following information carefully.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+
+
+
+        tt = {
+            text: 'Why the Concept of Risk Is Important',
+            style: 'disclosure_H2'
+        };
+
+        d.push(tt);
+
+        tt = {
+            text: 'All investments involve risk.  Investing in equities (i.e., stocks) involves volatility risk, market risk, business risk and industry risk.  Volatility risk is the chance that the value of a stock will fall.  Market risk is the chance that the prices of all stocks will fall due to conditions in the economic environment.  Business risk is the chance that a specific company\'s stock will fall because of issues affecting it.  Industry risk is the chance that a set of factors particular to an industry group will adversely affect stock prices within the industry.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+        
+        tt = {
+            text: 'Investing in fixed-income securities (e.g., bonds) involves interest-rate risk, credit risk and inflation risk. Interest rate risk is the possibility that bond prices will decrease because of an interest rate increase.  When interest rates rise, bond prices and the values of fixed-income securities fall; conversely, when interest rates fall, bond prices and the values of fixed-income securities rise.  Credit risk is the risk that a company will not be able to pay its debts, including the interest on its bonds. Inflation risk is the possibility that the interest paid on an investment in bonds will be lower than the inflation rate, thus decreasing purchasing power.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+        
+        tt = {
+            text: 'Even cash alternatives, such as money-market funds and US Treasury bills entail risk.  In addition to inflation risk, investments in money market securities may involve credit risk and a risk of principal loss.  Because such securities are neither insured nor guaranteed by any government agency, there is no assurance that the value of your investment will be held to $1 per share.  US Treasury bills are subject to market risk if sold prior to maturity.  Market risk is the possibility that the value, when sold, might be less than the purchase price.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+        
+        tt = {
+            text: 'nternational investing involves additional risks including, but not limited to, changes in currency exchange rates, differences in accounting and taxation policies and political or economic instabilities that can increase or decrease returns.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+
+
+
+
+        tt = {
+            text: 'Criteria and Methodology Used in the PCT',
+            style: 'disclosure_H2'
+        };
+
+        d.push(tt);
+
+        tt = {
+            text: 'The PCT tool uses a stress-testing methodology that is widely accepted in the risk-management industry and is based on a factor risk model.  This model describes relevant risk factors, such as liquidity, interest rates, equity, industry and other factors that explain a security\'s behavior.  RiXtrema then calculates how each security in an investor\'s portfolio  is exposed to each identified factor.  Stated another way, we determine the "Beta" (the tendency of a security\'s returns to respond to swings in the market) of each security to each risk factor.  Once this is accomplished, we create a matrix that describes the correlations between each of the factors and each of the securities in the portfolio, to arrive at a risk rating for each security. The aggregate risk of the portfolio is determined by aggregating each security\'s risk rating and weighting that rating by the security\'s position in the portfolio.  The results shown in the PCT reports reflect the changes in a portfolio based on the factors used to model each scenario.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+
+
+
+
+
+        tt = {
+            text: 'Portfolio Crash Test Scenarios',
+            style: 'disclosure_H2'
+        };
+
+        d.push(tt);
+
+        tt = {
+            text: 'The key scenarios displayed in the PCT are created by RiXtrema\'s research department and board of scientific advisors. These scenarios are updated approximately monthly, and reflect RiXtrema\'s deep experience in risk analysis and assessments of relevant risk scenarios given the state of the markets at a particular point in time.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+        tt = {
+            text: 'While RiXtrema selects scenarios it deems to be plausible, Portfolio Crash Tests do not forecast the likelihood that any particular scenario will come to pass.  We do not believe it is possible to predict future market events and we discourage users of our stress-testing tool from trying to do so.  Although each scenario is designed separately, taken as a whole, the scenarios simulated in a PCT report are designed to be comprehensive in the sense that they cover a variety of impacts on key risk factors.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+        tt = {
+            text: 'Scenarios include positive events (events that would make portfolio returns rise) and negative events (events that would make portfolio returns fall).  The positive events tend to occur over multiple years, while the negative events (crashes) are transient.  In order to reflect this fact, the positive scenarios reflected in a PCT use estimates of annualized moves in factors, while the negative scenarios use peak-to-trough numbers.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+        tt = {
+            text: 'RiXtrema\'s research team and scientific advisors determine the magnitude of shocks in each scenario by considering how the relevant factors moved in similar environments historically, and by then determining whether historical environments should be replicated or adjusted based on differences in the current environment.  In the absence of historic events to use as a guide, RiXtrema decides whether to move the factor 1 standard deviation* (mild shock), 2 standard deviations (strong shock) or 3 or more standard deviations (extreme shock).',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+
+
+        
+        tt = {
+            text: 'The Crash Rating',
+            style: 'disclosure_H2'
+        };
+
+        d.push(tt);
+
+        tt = {
+            text: 'Each PCT includes a crash rating, which is a number from 1 to 100 that indicates the relative riskiness of the portfolio in question.  The higher the number, the more vulnerable the portfolio is to losses in downside events.  In order to arrive at this number, we start with the sum of the three largest losses that the portfolio would incur among all stress scenarios.  We then compare that number to a table that maps the sum of the three losses to the crash rating.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
+        tt = {
+            text: 'This mapping process involves computing the sum of the three largest losses for the MSCI Emerging Markets Index (used as a proxy for a risky portfolio) and assuming that number to be a crash rating of 90.  Anything above that number is extremely risky (e.g. individual emerging markets stocks), and ratings below that number signify relatively less risky portfolios.  By way of comparison, the crash rating of the S&P 500 index is typically around 70.',
+            style: 'disclosure'
+        };
+
+        d.push(tt);
+
 
         return Promise.resolve(d)
     }
