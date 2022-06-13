@@ -1,11 +1,15 @@
 .selectionControls
     padding : 2 * $r
     position: fixed
-    left : 0
-    bottom : 0
+    left : 50%
+    width: 550px
+    margin-left: -275px
+    bottom : 2 * $r
+    border-radius: 12px
     right: 0
     z-index: 1000
     background: srgb(--background-total-theme)
+    +shadowSmaller()
     
     .caption
         margin-bottom: $r
@@ -20,4 +24,14 @@
 
     button
         min-width: 120px
+
+@media only screen and (max-width: 768px)
+    .selectionControls
+        left : 0
+        bottom : 0
+        right: 0
+        width: 100%
+        margin-left: 0
+        box-shadow: none
+        border-radius: 0
         
