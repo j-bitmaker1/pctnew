@@ -18,14 +18,14 @@
 
         <div class="extended" v-if="!cut">
 
-            <div class="contents" v-if="file.status == 'SUCCESS' && file.data.length">
+            <div class="contents" v-if="file.status == 'SUCCESS' && file.data && file.data.length">
                 <button class="button small black" @click="open">Show result</button>
                 <div class="ticker" :key="i" v-for="(asset, i) in file.data">
                     <span>{{asset.Ticker}}</span>
                 </div>
             </div>
 
-            <div class="progress" v-if="file.status == 'ACTIVE'">
+            <div class="progress" v-if="file.status == 'ACTIVE' || file.status == 'NEW'">
                 <div class="row">
                     <div class="bg" :style="{width : (file.progress) + '%'}">
                     </div>
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="failed" v-if="file.status == 'FAULTED' || (!file.data.length && file.status == 'SUCCESS')">
+            <div class="failed" v-if="file.status == 'FAULTED' || ((!file.data || !file.data.length) && file.status == 'SUCCESS')">
                 <span>Sorry, auto-recognition of this file is not possible.</span>
             </div>
         </div>

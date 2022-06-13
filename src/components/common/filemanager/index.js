@@ -54,7 +54,6 @@ export default {
 
             var results = []
 
-           
 
             return Promise.all(_.map(data, (d) => {
 
@@ -69,13 +68,35 @@ export default {
 
             })).then(() => {
 
+                if (this.$refs.page && this.$refs.page.reload){
 
-                if (this.$refs.page && this.$refs.page.load)
-                    this.$refs.page.load()
+                    setTimeout(() => {
 
-                this.$store.commit('icon', {
-                    icon: 'success',
-                })
+                        this.$store.commit('globalpreloader', true)
+
+                        setTimeout(() => {
+                            this.$refs.page.reload()
+                            this.$store.commit('globalpreloader', false)
+
+                            this.$store.commit('icon', {
+                                icon: 'success',
+                            })
+                        }, 2000)
+
+                    }, 100)
+                    
+                   
+
+                }
+
+                else{
+                    this.$store.commit('icon', {
+                        icon: 'success',
+                    })
+                }
+                    
+
+               
 
             }).catch(e => {
 

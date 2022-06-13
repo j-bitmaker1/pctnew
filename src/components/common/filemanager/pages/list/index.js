@@ -105,6 +105,9 @@ export default {
 			this.sort = v
 		},
 
+		reload : function(){
+			if(this.$refs['list']) this.$refs['list'].reload()
+		},
 
         search : function(v){
             this.searchvalue = v

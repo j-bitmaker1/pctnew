@@ -296,16 +296,16 @@ var WSS = function(core, url, system){
                 var types = []
 
                 if(message.x_eventType == 'ASYNCTASKCOMPLETED') {
-                    type = 'task'; invalidate = ['tasks']; data = new Task(data)
+                    types = ['task']; invalidate = ['tasks']; data = new Task(data)
 
-                    core.updateByWs(data, type, invalidate)
+                    core.updateByWs(data, types, invalidate)
                     return
                 }
 
                 if(message.x_eventType == 'ASYNCTASKCREATED') {
-                    types = ['task']; invalidate = ['tasks']; data = new Task(data)
+                    type = 'task'; invalidate = ['tasks']; data = new Task(data)
 
-                    core.createByWs(data, types, invalidate)
+                    core.createByWs(data, type, invalidate)
                     return
                 }
 
