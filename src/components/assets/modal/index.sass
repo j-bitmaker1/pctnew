@@ -24,10 +24,12 @@
     .notificationWrapper
         padding : $r
         position: absolute
-        left : 0
+        left : 50%
         right: 0
         top : 0
         z-index: 10000
+        max-width: 640px
+        margin-left: -320px
         .notificaion
             +shadowSmaller()
 
@@ -44,10 +46,7 @@
     &.hasnotification
         .modal-wrapper
             top : 100px
-            left : $r
-            bottom : $r
-            right : $r
-            border-radius: 12px
+          
 
     &.small
         .modal-body
@@ -297,6 +296,18 @@
         bottom : 0
         right : 0
         left : 0
+
+    #modal
+        .notificationWrapper
+            left : 0
+            max-width: none
+            margin-left: 0
+        &.hasnotification
+            .modal-wrapper
+                left : $r
+                bottom : $r
+                right : $r
+                border-radius: 12px
 
 .separator
     width: 5px
