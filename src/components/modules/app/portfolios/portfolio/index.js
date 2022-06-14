@@ -68,6 +68,10 @@ export default {
 
 			this.$emit('deleteportfolio', this.portfolio)
 			
+		},
+
+		gotofolder : function(f){
+			this.$emit('gotofolder', f)
 		}
 	},
 }

@@ -2016,7 +2016,7 @@ var ApiWrapper = function (core) {
 						type : 'folder',
 						id : c.id,
 						name : c.name,
-
+						from : rootid || '0',
 						context : 'filesystem'
 					})
 				})
@@ -2026,7 +2026,7 @@ var ApiWrapper = function (core) {
 						type : 'portfolio',
 						id : p.id,
 						name : p.name,
-
+						from : rootid || '0',
 						context : 'filesystem'
 					})
 				})
@@ -2079,10 +2079,14 @@ var ApiWrapper = function (core) {
 			},
 			portfolio : function({id, to, from}, p){
 
+				console.log('id, to, from', id, to, from)
+
 				var data = {
 					id,
 					destinationCatalogId : to
 				}
+
+				console.log('id, to, from', id, to, from)
 
 				core.vxstorage.invalidateMany(
 					[to, from], 

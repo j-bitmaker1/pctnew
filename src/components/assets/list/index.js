@@ -8,6 +8,12 @@ export default {
 			required: true,
 		},
 
+
+		simplelistClass : {
+			type : String,
+			default : 'simplelist'
+		},
+
 		transition : String
 
 	},

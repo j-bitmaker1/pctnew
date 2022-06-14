@@ -16,7 +16,7 @@ import {Settings, LSSettings} from "./lib/settings";
 import PDFReports from "./lib/pdfreports";
 import { _ } from "core-js";
 import Updates from "./updates";
-
+import Filesystem from "./lib/filesystem"
 class Core {
 
     clbks = {}
@@ -50,6 +50,7 @@ class Core {
 
         this.external = {}
         this.hiddenInParent = false
+        
 
         this.settings = {
 
@@ -64,6 +65,7 @@ class Core {
         this.crm = new CRM(this)
         this.pct = new PCT(this)
         this.fx = new FX(this)
+        this.filesystem = new Filesystem(this)
 
         this.cordovakit = new Cordovakit(this)
         this.vueapi = new Vueapi(this)

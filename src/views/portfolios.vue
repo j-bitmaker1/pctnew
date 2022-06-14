@@ -14,7 +14,7 @@
 
 	<maincontent>
 		<template v-slot:content>
-			<portfoliosmainlist ref="portfolios" :scroll="scroll" @open="open"/>
+			<portfoliosmainlist @directoryChange="directoryChange" ref="portfolios" :scroll="scroll" @open="open"/>
 		</template>
 	</maincontent>
 
@@ -43,12 +43,28 @@ export default {
 		scroll : Number
 	},
 
+	data : function(){
+		return {
+			currentroot : 0
+		}
+		
+	},
+
 	methods: {
+
+		directoryChange : function(v){
+			this.currentroot = v
+		},
 		newportfolio : function(){
+			console.log('this.currentroot', this.currentroot)
 			this.$store.commit('OPEN_MODAL', {
 				id : 'modal_portfolios_edit',
 				module : "portfolio_edit",
 				caption : "New Portfolio",
+
+				data : {
+					currentroot : this.currentroot
+				},
 
 				events : {
 					edit : (data) => {

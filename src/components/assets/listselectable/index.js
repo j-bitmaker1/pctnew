@@ -21,8 +21,8 @@ export default {
         disabled : Boolean,
         
         filter : Function,
-        transition : String
-
+        transition : String,
+        simplelistClass : String
     },
 
     data : function(){

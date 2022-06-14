@@ -64,6 +64,10 @@ export default {
 
 	methods : {
 
+		gotofolder : function(folder){
+			this.$refs['filesystem'].load(folder.id)
+		},
+
 		reload : function(data){
 			this.$refs['list'].reload()
 			this.$refs['filesystem'].load(data.catalogId || "0")
@@ -105,6 +109,11 @@ export default {
 			})
 
 			
+		},
+
+		directoryChange : function(v){
+			console.log('directoryChangedirectoryChange', v)
+			this.$emit('directoryChange', v)
 		}
 
 	},

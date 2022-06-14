@@ -180,5 +180,8 @@ export default {
 			this.deleteportfolios([portfolio])
 		},
 
+		gotofolder : function(f){
+			this.$emit('gotofolder', f)
+		}
 	},
 }

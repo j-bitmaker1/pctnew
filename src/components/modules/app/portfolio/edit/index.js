@@ -10,7 +10,7 @@ export default {
 	props: {
 		edit : Object,
 		payload : Object,
-
+		currentroot : [String, Number],
 		from : Object
 	},
 
@@ -181,69 +181,7 @@ export default {
 			return true
 		},
 
-		save : function(catalogId){
-			if (!this.cansave()){
-				
-				return
-			}
-
-			var action = null
-			var positions = this.joinassets(this.assets)
-
-			var data = {
-				name : this.name,
-				positions,
-				... this.payload || {}
-			}
-
-			if (catalogId){
-				data.catalogId = catalogId
-			}
-
-			if(this.edit) data.id = this.edit.id
-
-			if(this.edit){
-
-				action = this.core.api.pctapi.portfolios.update({
-					
-					... data
-					
-				}, {
-					preloader : true,
-					showStatus : true
-				})
-			}
-			else{
-
-				action = this.core.api.pctapi.portfolios.add({
-					... data
-				}, {
-					preloader : true,
-					showStatus : true
-				})
-			   
-			}
-
-
-			action.then(r => {
-
-				data = {
-					...data,
-					...r
-				}
-
-				this.$emit('edit', data)
-
-				this.$emit('close')
-
-			}).catch((e = {}) => {
-				
-			})
-
-			//this.$emit('save', this.assets)
-
-			
-		},
+		
 		multiple(items){
 			_.each(items, (item) =>{
 				var asset = {
@@ -366,6 +304,78 @@ export default {
 				})
 			}
 
+		},
+
+		savedefault : function(){
+			var r = null
+
+			if(this.currentroot && this.currentroot != '0' && this.currentroot) r = this.currentroot
+
+			this.save(r)
+		},
+
+		save : function(catalogId){
+			if (!this.cansave()){
+				
+				return
+			}
+
+			var action = null
+			var positions = this.joinassets(this.assets)
+
+			var data = {
+				name : this.name,
+				positions,
+				... this.payload || {}
+			}
+
+			if (catalogId){
+				data.catalogId = catalogId
+			}
+
+			if(this.edit) data.id = this.edit.id
+
+			if(this.edit){
+
+				action = this.core.api.pctapi.portfolios.update({
+					
+					... data
+					
+				}, {
+					preloader : true,
+					showStatus : true
+				})
+			}
+			else{
+
+				action = this.core.api.pctapi.portfolios.add({
+					... data
+				}, {
+					preloader : true,
+					showStatus : true
+				})
+			   
+			}
+
+
+			action.then(r => {
+
+				data = {
+					...data,
+					...r
+				}
+
+				this.$emit('edit', data)
+
+				this.$emit('close')
+
+			}).catch((e = {}) => {
+				
+			})
+
+			//this.$emit('save', this.assets)
+
+			
 		},
 
 		saveas : function(){

@@ -55,6 +55,11 @@ export default {
 					action : 'edit'
 				},
 				{
+					text : 'labels.moveportfoliotofolder',
+					icon : 'fas fa-folder',
+					action : 'moveportfoliotofolder'
+				},
+				{
 					text : 'labels.deleteportfolio',
 					icon : 'fas fa-trash',
 					action : 'delete'
@@ -169,6 +174,41 @@ export default {
 
 		compare : function(){
 			this.$router.push('/compare?ids=' + this.portfolio.id)
+		},
+
+		moveportfoliotofolder : function(){
+			this.core.vueapi.selectFolder((folder) => {
+
+				return this.$dialog.confirm(
+					'Do you really want to move '+this.portfolio.name+' to '+folder.name+'?', {
+					okText: 'Yes',
+					cancelText : 'No'
+				})
+		
+				.then((dialog) => {
+
+					this.$store.commit('globalpreloader', true)
+
+					var fsportfolios = [this.core.filesystem.portfolioToFsObject(this.portfolio)]
+					
+					return this.core.filesystem.move(fsportfolios, folder).then(r => {
+						this.$emit('gotofolder', folder)
+					}).catch(e => {
+
+						this.$store.commit('icon', {
+							icon: 'error',
+							message: e.error
+						})
+
+					}).finally(() => {
+						this.$store.commit('globalpreloader', false)
+					})
+
+				}).catch( e => {
+					
+				})
+			})
+			
 		}
 
 		

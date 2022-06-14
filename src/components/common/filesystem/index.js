@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import { mapState } from 'vuex';
-
+import fsmenu from './menu/index.vue'
 export default {
 	name: 'filesystem',
 	props: {
@@ -27,6 +27,8 @@ export default {
 
 		purpose : String
 	},
+
+	components : {fsmenu},
 
 	data : function(){
 
@@ -133,7 +135,9 @@ export default {
 			this.loading = true
 			this.selected = null
 
-			if(id) this.currentroot = id
+			if(id) {
+				this.setcurrentroot(id)
+			}
 
 			return this.core.api.filesystem.get(this.root).then(r => {
 
@@ -148,8 +152,13 @@ export default {
 
 		},
 
-		down : function(r){
+		setcurrentroot : function(r){
 			this.currentroot = r
+			this.$emit('directoryChange', r)
+		},
+
+		down : function(r){
+			this.setcurrentroot(r)
 			this.history.push(r)
 
 			this.load().then(r => {
@@ -159,11 +168,13 @@ export default {
 
 		up : function(){
 			if (this.history.length > 1){
-				this.currentroot = this.history[this.history.length - 2]
+
+				this.setcurrentroot(this.history[this.history.length - 2])
+
 				this.history.pop();
 			}
 			else{
-				this.currentroot = 0
+				this.setcurrentroot(0)
 			}
 
 			this.load().then(r => {
@@ -279,6 +290,20 @@ export default {
 			var haserrors = 0
 			var l = this.moving.length
 
+			return this.core.filesystem.move(this.moving, this.current).then(r => {
+				return this.load()
+			}).catch(e => {
+
+				this.$store.commit('icon', {
+					icon: 'error',
+					message: e.error
+				})
+
+			}).finally(() => {
+				this.$store.commit('globalpreloader', false)
+			})
+
+
 			return Promise.all(_.map(this.moving, (item) => {
 
 				var nameexist = _.find(this.current.content, (c) => {
@@ -351,6 +376,8 @@ export default {
 			this.close()
 			
 		},
+
+		
 
 		close : function(){
 			this.$emit('close')

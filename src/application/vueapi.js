@@ -70,7 +70,7 @@ class Vueapi {
         this.store.commit('OPEN_MODAL', {
             id : 'modal_portfolios_main',
             module : "portfolios_main",
-            caption : "Select Portfolios", /// TODO captions
+            caption : p.caption || "Select Portfolios", /// TODO captions
     
             data : {
                 

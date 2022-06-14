@@ -32,17 +32,28 @@
 			</div>
 		</div>
 
+		
+
+		
+		<div class="cnt" v-if="purpose != 'selectFolder' && !moving && showback && !select.disableMenu">
+			<fsmenu :currentroot="current" @reload="load">
+				<template v-slot:default>
+					<div class="icon">
+						<i class="fas small fa-ellipsis-h"></i>
+					</div>
+					<div class="name">
+						<span>Menu</span>
+					</div>
+				</template>
+			</fsmenu>
+		</div>
+
 		<div class="preloaderWrapper" v-if="loading">
 			<linepreloader  />
 		</div>
 
-		<div class="emptyWrapper" v-if="!loading && !sorted.length && root != '0'">
-			<span>Folder is empty</span>
-		</div>
-
-
 		<!--  -->
-		<listselectable :filter="select.filter" :disabled="purpose == 'selectFolder'" view="onobject" :context="select.context" v-if="!loading && sorted.length" :items="sorted">
+		<listselectable simplelistClass="fslist" :filter="select.filter" :disabled="purpose == 'selectFolder'" view="onobject" :context="select.context" v-if="!loading && sorted.length" :items="sorted">
 			<template v-slot:default="slotProps">
 
 				<div class="cnt" :ref="slotProps.item.id" @click="e => { open(slotProps.item) }">
@@ -57,6 +68,14 @@
 
 			</template>
 		</listselectable>
+
+		
+
+		
+
+		<div class="emptyWrapper" v-if="!loading && !sorted.length && root != '0'">
+			<span>Folder is empty</span>
+		</div>
 		
 	</div>
 

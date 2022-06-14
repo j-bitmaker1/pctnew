@@ -105,7 +105,9 @@
 				"all" : "Show only unread"
 			}
 		},
-		"confirmyourpassword" : "Confirm your assword"
+		"confirmyourpassword" : "Confirm your assword",
+		"moveportfoliostofolder" : "Move portfolios to folder",
+		"moveportfoliotofolder" : "Move portfolio to folder"
 	},
 
 	"caption" : {
