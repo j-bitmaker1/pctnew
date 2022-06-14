@@ -7,7 +7,7 @@
         <listselectable :context="file.id" :items="data" ref="list">
             <template v-slot:default="slotProps">
                 <div class="assetWrapper mobp">
-                    <asset :asset="slotProps.item" @changeValue="v => {changeValue(slotProps.item, v)}" @changeAsset="asset => {changeAsset(slotProps.item, asset)}"/>
+                    <asset :asset="slotProps.item" @changeValue="v => {changeValue(slotProps.item, v)}" @changeAsset="asset => {changeAsset(slotProps.item, asset)}" @remove="asset => {remove(slotProps.item)}"/>
                 </div>
             </template>
         </listselectable>

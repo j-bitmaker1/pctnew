@@ -166,9 +166,14 @@ export default {
 			if (this.validate){
 
 				this.$store.commit('icon', {
-					icon: 'error',
-					message: 'Validation Error'
+					icon: 'warning',
+					message: this.$t('validation.portfolio.' + this.validate)
 				})
+
+				if(this.validate == 'name'){
+					this.$refs['inputname'].focus()
+					this.$refs['inputname'].closest('.customscroll').scrollTop = this.$refs['inputname'].offsetTop - 100
+				}
 
 				return false
 			}
@@ -251,13 +256,17 @@ export default {
 				this.assets.push(asset)
 			})
 		},
+		leaveAsset : function(){
+			console.log("SleaveAsset")
+			setTimeout(() => {
+				this.autofocus()
+			})
+		},
 		assetchanged : function(index, v){
 			var old = this.assets[index]
-			var af = false
 
 			if(!old){
 
-				af = true
 
 				if (v.ticker && v.name)
 					this.assets.push({
@@ -270,14 +279,8 @@ export default {
 			else{
 				old = _.extend(old, v)
 
-				if(index == this.assets.length - 1) af = true
 			}
-
-			if (af)
-				setTimeout(() => {
-					this.autofocus()
-				})
-			
+		
 		},
 
 		remove : function(index){

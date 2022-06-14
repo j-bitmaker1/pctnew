@@ -136,6 +136,10 @@ export default {
 
         open : function(file){
             this.$emit('openFile', file)
-        }
+        },
+
+		createPortfolio : function(portfolio){
+			this.$emit('createPortfolio', portfolio)
+		}
     },
 }

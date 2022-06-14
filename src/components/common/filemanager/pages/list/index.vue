@@ -10,7 +10,7 @@
 
 		<template v-slot:default="slotProps">
 			<div class="fileWrapper mobp">
-                <file @deleted="() => {deleted(slotProps.item)}" :file="slotProps.item" @open="e => {open(slotProps.item)}"/>
+                <file @createPortfolio="createPortfolio" @deleted="() => {deleted(slotProps.item)}" :file="slotProps.item" @open="e => {open(slotProps.item)}"/>
 			</div>
 		</template>
 	   

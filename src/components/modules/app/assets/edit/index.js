@@ -52,6 +52,8 @@ export default {
                     name : item.name,
                     isCovered : true //// from search true
                 })
+
+                this.$emit('leaveAsset')
             }, (items) => {
 
                 this.$emit('multiple', items)
@@ -100,6 +102,8 @@ export default {
                 isCovered : true //// from search true
             })
 
+            this.$emit('leaveAsset')
+
             this.namestring = ''
             
         },
@@ -122,6 +126,10 @@ export default {
             else{
                 this.$refs['nameinput'].focus()
             }
+        },
+
+        enterOnSum : function(){
+            this.$emit('leaveAsset')
         }
     },
 }

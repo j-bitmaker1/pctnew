@@ -48,6 +48,12 @@ export default {
                     return i.FileName
                 }).join(', ')
             }
+        },
+
+        hasassets : function(){
+            return _.filter(this.file.data, (d) => {
+                return d.Name
+            }).length > 0
         }
     }),
 
@@ -59,5 +65,26 @@ export default {
         deleted : function(){
             this.$emit('deleted')
         },
+
+        createPortfolio : function(){
+
+            var portfolio = {
+                name : this.file.info[0].FileName,
+                assets : []
+            }
+
+            portfolio.assets = _.filter(_.map(this.file.data, (d) => {
+                if(d.Name){
+                    return {
+                        isCovered : true,
+                        ticker : d.Ticker,
+                        value : d.Value,
+                        name : d.Name
+                    }
+                }
+            }), (a) => {return a})
+            
+            this.$emit('createPortfolio', portfolio)
+        }
     },
 }

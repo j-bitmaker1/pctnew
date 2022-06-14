@@ -170,6 +170,13 @@
 	"cancel" : "Cancel",
 	"details" : "Details",
 
+	"validation" : {
+		"portfolio" : {
+			"name" : "Please enter portfolio name",
+			"total" : "The sum of assets must be greater than 0"
+		}
+	},
+
 	"common" : {
 		"usefaceidcheck_false" : "Face id not available",
 		"usefaceidcheck_face" : "Use Face ID",

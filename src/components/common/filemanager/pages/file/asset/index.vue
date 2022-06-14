@@ -29,7 +29,7 @@
     <div class="panel">
 
         <div class="buttonpanel">
-            <i class="fas fa-times"></i>
+            <i class="fas fa-times" @click="remove"></i>
         </div>
         
     </div>

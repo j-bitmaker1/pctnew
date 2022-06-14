@@ -67,7 +67,7 @@
 							<div class="remove" @click="remove(slotProps.index)">
 								<i class="fas fa-times-circle"></i> 
 							</div>
-							<assetsEdit @multiple="multiple" @focus="focus" @blur="blur" :ref="slotProps.index" :name="slotProps.item.name" :isCovered="slotProps.item.isCovered" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
+							<assetsEdit @multiple="multiple" @leaveAsset="leaveAsset" @focus="focus" @blur="blur" :ref="slotProps.index" :name="slotProps.item.name" :isCovered="slotProps.item.isCovered" :ticker="slotProps.item.ticker" :value="slotProps.item.value" @changed="(v) => {assetchanged(slotProps.index, v)}" />
 						</div>
 					</template>
 				</list>
@@ -85,11 +85,11 @@
 			Cancel
 		</button>
 
-		<button class="button black" @click="saveas" :disabled="!haschanges || validate">
+		<button class="button black" @click="saveas" :disabled="!haschanges">
 			Save As
 		</button>
 
-		<button class="button" @click="e => save()" :disabled="!haschanges || validate">
+		<button class="button" @click="e => save()" :disabled="!haschanges">
 			Save
 		</button>
 	</div>

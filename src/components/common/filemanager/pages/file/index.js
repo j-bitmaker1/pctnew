@@ -79,7 +79,12 @@ export default {
         changeAsset : function(oldasset, asset){
             this.$set(oldasset, 'Name', asset.name)
             this.$set(oldasset, 'Ticker', asset.ticker)
+        },
 
+        remove : function(oldasset){
+            this.data = _.filter(this.data, (d) => {
+                return d.Ticker != oldasset.Ticker && d.Value != oldasset.Value
+            })
         },
 
         changeValue : function(asset, value){

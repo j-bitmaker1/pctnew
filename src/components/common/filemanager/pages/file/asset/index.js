@@ -34,6 +34,10 @@ export default {
 
         changeValue : function(v){
             this.$emit('changeValue', v)
+        },
+
+        remove : function(){
+            this.$emit('remove')
         }
     },
 }
