@@ -23,11 +23,11 @@
 				<component :is="module" :ids="ids" />
 			</div>
 
-			<div class="empty" v-if="!ids.length">
+			<div class="empty mobp" v-if="!ids.length">
 				<span>Please select a portfolios to compare</span>
 			</div>
 
-			<div class="golast" v-if="!ids.length && last">
+			<div class="golast mobp" v-if="!ids.length && last">
 				<router-link :to="last.link">
 					<button class="button">Go to last comparison</button>
 				</router-link>

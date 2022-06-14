@@ -1,7 +1,7 @@
 <template>
 <div class="listpaginated">
 
-    <div class="nothingfound" v-if="!loading && !count">
+    <div class="nothingfound mobp" v-if="!loading && !count">
         <span>{{placeholder}}</span>
     </div>
 

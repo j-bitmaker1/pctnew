@@ -52,6 +52,10 @@
 	align-items: center
 	grid-gap: $r
 	white-space: nowrap
+
+@media only screen and (min-width: 1024px)
+	.linenavigation
+		background: srgb(--background-total-theme)
 </style>
 
 <script>

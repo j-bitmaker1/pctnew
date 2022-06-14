@@ -4,6 +4,7 @@
 
 .logowrapper
 	margin-bottom: 4 * $r
+	margin-top: 0.5 * $r
 
 .items
 	.item
@@ -43,7 +44,8 @@
 	bottom : 3 * $r
 
 	.help
-		margin-top: 2 * $r
+		margin-bottom: 2 * $r
+		padding-left: $r
 		i,
 		span
 			font-size: 0.7em
@@ -52,6 +54,17 @@
 	margin-top : 2 * $r
 	padding: 2 * $r
 	cursor: pointer
+
+@media only screen and (min-width: 1024px)
+	.logowrapper
+		padding-left: 2 * $r
+
+	.footer
+		left : $r
+		bottom : 2 * $r
+
+	.themeToggleWrapper
+		font-size: 0.8em
 
 @media (pointer:fine)
 	.items

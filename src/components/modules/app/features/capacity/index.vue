@@ -20,7 +20,7 @@
 		<div class="chartWrapper mobp">
 			<highcharts :options="chartOptions"></highcharts>
 
-			<div class="unrealistic" v-if="!simulation.capacity">
+			<div class="unrealistic mobp" v-if="!simulation.capacity">
 				<div>
 					<span>Unrealistic parameters. Increase savings or initial investment.</span>
 				</div>

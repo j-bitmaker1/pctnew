@@ -59,6 +59,10 @@
 		line-height: 44px
 		font-size: 0.8em
 		margin-right: 2 * $r
+
+@media only screen and (min-width: 1024px)
+	.linenavigation
+		background: srgb(--background-total-theme)
 </style>
 
 <script>

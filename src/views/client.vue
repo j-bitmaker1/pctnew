@@ -25,7 +25,7 @@
 	<maincontent>
 		<template v-slot:content>
 			<div v-if="!loading">
-				<div class="linenavigation mobp">
+				<div class="linenavigation ">
 					<linenavigation :buttons="true" @change="changenav" :items="navigation" :navdefault="navdefault" :navkey="navkey" :mode="wnd ? 'emit' : 'history'"/>
 				</div>
 				<component ref="main" :is="module" :profile="profile" @close="close"/>
@@ -62,16 +62,24 @@
 		font-size: 0.8em
 		margin-right: 2 * $r
 
-.alone
-	::v-deep
-		.userpicWrapper
-			max-width: 100px
-			min-width: 100px
-			width: 100px
-			line-height: 100px
+@media only screen and (min-width: 1024px)
+	.linenavigation
+		background: srgb(--background-total-theme)
+
 
 @media only screen and (max-width: 768px)
+
+	
+
 	.alone
+
+		::v-deep
+			.userpicWrapper
+				max-width: 100px
+				min-width: 100px
+				width: 100px
+				line-height: 100px
+				
 		::v-deep
 			#topheader
 				position: relative

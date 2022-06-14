@@ -6,7 +6,7 @@
 
 	<!--<div class="infoWrapper mobp">Additional Info</div>-->
 
-	<div class="settings">
+	<div class="settings mobp">
 
 		<div class="subcaption">
 			<span>Settings</span>

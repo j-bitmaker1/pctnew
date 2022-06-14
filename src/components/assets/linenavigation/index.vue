@@ -1,10 +1,11 @@
 <template>
-<div id="linenavigation" :class="{buttons}">
-    
-    <div class="item" :class="{active : active == item.id}" :key="item.id" v-for="item in items">
+<div id="linenavigation" class="mobp" :class="{buttons}">
+    <div class="wrapper">
+        <div class="item" :class="{active : active == item.id}" :key="item.id" v-for="item in items">
 
-        <div @click="e => {change(item.id)}">
-            <i :class="item.icon" v-if="item.icon"></i> <span>{{$t(item.text)}}</span>
+            <div @click="e => {change(item.id)}">
+                <i :class="item.icon" v-if="item.icon"></i> <span>{{$t(item.text)}}</span>
+            </div>
         </div>
     </div>
     
@@ -14,9 +15,13 @@
 <style scoped lang="sass">
 
 #linenavigation
-    display: flex
-    align-items: center
-    justify-content: space-around
+    padding-bottom: $r
+
+    .wrapper
+        display: flex
+        align-items: center
+        justify-content: space-around
+        grid-gap: 0
 
     .item
         flex-grow: 2
@@ -38,8 +43,11 @@
             border-bottom: 2px solid srgb(--color-bg-ac-bright)
 
     &.buttons
-        border : 1px solid srgb(--neutral-grad-1)
-        border-radius: 12px
+        
+        .wrapper
+            border : 1px solid srgb(--neutral-grad-1)
+            border-radius: 12px
+
         .item
             height: 44px
             line-height: 44px

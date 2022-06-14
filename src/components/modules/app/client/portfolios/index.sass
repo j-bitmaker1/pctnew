@@ -1,5 +1,4 @@
 #client_portfolios
-	margin-top : 4 * $r
 
 .panel
 	margin-top : 2 * $r
@@ -11,8 +10,13 @@
 	display: grid
 	grid-gap: $r
 	grid-template-columns: repeat(3, 1fr)
-	margin-bottom: 2 * $r
-	padding-bottom: 6 * $r
+	margin-bottom: 0
+	padding-bottom: 2 * $r
 	padding-top: $r
 	border-bottom: $r solid srgb(--neutral-grad-0)
-	font-size: 0.8em
+
+.subcaption
+	margin-top: 4 * $r
+	text-align: center
+	span
+		font-size: 0.8em

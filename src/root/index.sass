@@ -1,5 +1,6 @@
 .rootapp
 	display: flex
+	
 	>div
 		min-height: 100vh
 		width: 100%
@@ -27,14 +28,16 @@
 	#appmenu
 		width: 240px
 		background: srgb(--background-secondary-theme)
-		border-right: 1px solid srgb(--neutral-grad-0)
 		padding : 3 * $r
 		
 	.page
 		min-width: 528px
-		max-width: 768px
 		flex-grow: 2
 		padding-bottom: 10 * $r
+		
+	.bgpage
+		background: srgb(--background-total-theme)
+		border-radius: 12px
 
 	.abspage
 		position: absolute
@@ -42,6 +45,7 @@
 		top : 0
 		bottom: 0
 		right: 0
+		background: srgb(--background-total-theme)
 		
 		
 		#maincontent,
@@ -70,6 +74,21 @@
 .fade-enter, .fade-leave-to
 	opacity: 0
 
+	
+@media only screen and (min-width: 1024px)
+	.rootapp
+		padding : 3 * $r
+		max-width: 1180px
+		margin : 0 auto
+
+		#appmenu
+			width : 260px
+
+		.page
+			background: srgb(--background-total-theme)
+			border-radius: 12px
+			overflow: hidden
+			padding-bottom: 0
 
 
 @media only screen and (max-width: 768px)

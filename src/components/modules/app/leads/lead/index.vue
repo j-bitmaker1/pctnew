@@ -17,10 +17,10 @@
 		</div>
 
 		<div class="statsrow row" @click="open">
-			<div>
+			<!--<div>
 				<span class="label">Crash Rating</span>
-				# <!--<coloredNumber :number="profile.riskscore"/>-->
-			</div>
+				<coloredNumber :number="profile.riskscore"/>
+			</div>-->
 
 			<div>
 				<span class="label">Capacity</span>

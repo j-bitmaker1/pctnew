@@ -5,17 +5,20 @@
     
     <template v-else>
 
-        <div class="chartWrapper mobp">
-            <chart :mode="mode" :info="info" :cts="cts" @scenarioClick="toScenario" />
-        </div>
 
-        <div class="caption mobp">
-            <span>Details</span>
-        </div>
+            <div class="chartWrapper mobp">
+                <chart :mode="mode" :info="info" :cts="cts" @scenarioClick="toScenario" />
+            </div>
 
-        <div class="detailsWrapper mobp">
-            <ctdetails :mode="mode" ref="ctdetails" :info="info" :cts="cts" :portfolios="portfolios" />
-        </div>
+
+            <div class="caption mobp ">
+                <span>Details</span>
+            </div>
+
+            <div class="detailsWrapper mobp">
+                <ctdetails :mode="mode" ref="ctdetails" :info="info" :cts="cts" :portfolios="portfolios" />
+            </div>
+
 
     </template>
 

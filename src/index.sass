@@ -3,6 +3,10 @@ body
 	background: srgb(--background-total-theme)
 	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
 	color: srgb(--text-color)
+	
+@media only screen and (min-width: 1024px)
+	body
+		background: srgb(--background-secondary-theme)
 
 a
 	text-decoration: none
@@ -638,3 +642,32 @@ button.button
 
 	.medium
 		height: 60px
+
+@media only screen and (min-width: 1024px)
+	.rootapp
+		.layout
+			display: flex
+			max-width: 90%
+			grid-gap: 2 * $r
+
+			&.centered
+				align-items: center
+
+			.first
+				order : 1
+
+			.second
+				order : 2
+
+			.layouthide
+				display: none
+
+			.fill
+				width: 34%
+				flex-grow: 1
+				flex-basis: 250px
+
+			.maxwidth
+				width: 66%
+				flex-grow: 3
+				max-width: 768px
