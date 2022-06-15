@@ -682,7 +682,13 @@ class PCT {
     scenariosWithCustoms = function(ids){
         return this.scenarios(ids).then(r1 => {
             return this.api.pctapi.customscenarios.list().then(r2 => {
-                return Promise.resolve(r1.concat(r2))
+
+
+                var filtered = _.filter(r2, (s) => {
+                    return !ids || _.indexOf(ids, Number(s.id)) > -1 
+                })
+
+                return Promise.resolve(r1.concat(filtered))
             })
         })
     }

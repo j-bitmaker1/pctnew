@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="keywords mobp infopt" v-if="info.region || info.keywords.length">
+    <div class="keywords mobp infopt" v-if="info.region || (info.keywords && info.keywords.length)">
 
         <span class="liketicker">{{info.region}}</span> <tags :tags="info.keywords"/>
      
