@@ -213,7 +213,7 @@ class PDFReports {
         results.push(caption)
 
         var footnotes = [];
-        return this.pct.scenarios().then(s => {
+        return this.pct.scenariosWithCustoms().then(s => {
             scenarios = s
 
 
@@ -341,7 +341,7 @@ class PDFReports {
         results.push(caption)
 
         var footnotes = [];
-        return this.pct.scenarios().then(s => {
+        return this.pct.scenariosWithCustoms().then(s => {
             scenarios = s
 
             var iid = 0;
@@ -633,8 +633,7 @@ class PDFReports {
         return result;
     }
 
-    getFootnotes = function(footnotes, rName, page, footnotesAll){
-
+    getFootnotes = function(footnotes, rName = '', page, footnotesAll){
 
         var result = rName;
         for(var i = 0; i < footnotesAll.length; i++){
