@@ -558,13 +558,16 @@ class PCT {
             portfolioId : id
         }
 
-        return this.getscenarios(scdata => {
+        console.log("????v")
+
+
+        return this.getscenarios().then(scdata => {
 
             data = {
                 ...data,
                 ...scdata
             }
-
+            console.log("scdata", scdata)
             return this.scoreConverter.prepare()
 
         }).then(() => {
@@ -580,11 +583,13 @@ class PCT {
             portfolioId : id
         }
 
-        return this.getscenarios(scdata => {
+        return this.getscenarios().then(scdata => {
             data = {
                 ...data,
                 ...scdata
             }
+
+            console.log("scdata", scdata)
 
             return this.api.pctapi.stress.details(data, p)
         }).then(r => {
@@ -601,17 +606,17 @@ class PCT {
         var rxscenarios = []
         var customscenarios = []
 
-        return this.core.pct.scenarios().then(scenarios => {
+        return this.scenarios().then(scenarios => {
 
             rxscenarios = scenarios
 
-            return this.core.api.pctapi.customscenarios.list()
+            return this.api.pctapi.customscenarios.list()
 
         }).then(r => {
 
             customscenarios = r
 
-            return this.core.settings.stress.getall()
+            return this.settings.getall()
 
         }).then(settings => {
 
@@ -632,8 +637,14 @@ class PCT {
                     })
                 })
             }
+
+            console.log("data", data)
             
             return Promise.resolve(data)
+        }).catch(e => {
+            console.error(e)
+
+            return Promise.reject(e)
         })
 
     }
