@@ -86,10 +86,6 @@ class PDFReports {
         {
             rFind: /(P|p)eak-to-trough/,
             footnote: 'Peak-to-trough: Return is the biggest loss realized during a given stress scenario. There is no set timeframe over which peak-to-trough losses occur.'
-        },
-        {
-            rFind: /Inflationary boom/,
-            footnote: 'test'
         }
     ];
 
@@ -213,7 +209,7 @@ class PDFReports {
         results.push(caption)
 
         var footnotes = [];
-        return this.pct.scenariosWithCustoms().then(s => {
+        return this.pct.scenarios().then(s => {
             scenarios = s
 
 
@@ -222,7 +218,7 @@ class PDFReports {
                 ct = _ct
 
                 return tools.helpers.tables({
-                    rowsInTable : 14,   
+                    rowsInTable : 9,   
                     pageOffset : 0, 
                     array : ct.scenarios,
                     
@@ -341,7 +337,7 @@ class PDFReports {
         results.push(caption)
 
         var footnotes = [];
-        return this.pct.scenariosWithCustoms().then(s => {
+        return this.pct.scenarios().then(s => {
             scenarios = s
 
             var iid = 0;
@@ -633,7 +629,8 @@ class PDFReports {
         return result;
     }
 
-    getFootnotes = function(footnotes, rName = '', page, footnotesAll){
+    getFootnotes = function(footnotes, rName, page, footnotesAll){
+
 
         var result = rName;
         for(var i = 0; i < footnotesAll.length; i++){
@@ -1070,7 +1067,16 @@ class PDFReports {
                         style: 'disclosure2'}
                 ]
             }
-		]];
+		],
+        {
+            text: '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n_____________________________________________________',
+            style: 'disclosure2'
+        },
+        {
+            text: '* Standard deviation is a measure of the dispersion of a set of data from its mean. The more spread apart the data, the higher the deviation. Standard deviation is calculated as the square root of the sum of squared differences between historical returns and the average return for the stress index.',
+            style: 'disclosure2'
+        }
+        ];
 
         d.push(tt);
 
