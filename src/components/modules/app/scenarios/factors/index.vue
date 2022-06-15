@@ -11,12 +11,16 @@
         <list :items="info.factors">
             <template v-slot:default="slotProps">
 
-                <div class="factor mobp">
+                <div class="factor mobp" :negative="slotProps.item.value < 0">
                     <div class="name">
                         <span>{{slotProps.item.name}}</span>
                     </div>
                     <div class="value">
-                        <value :value="slotProps.item.value / 100" mode="p" />
+                        <div class="valwrapper">
+                            <value v-if="!inbps(slotProps.item)" :value="value(slotProps.item)" mode="p" />
+
+                            <span v-else>{{value(slotProps.item)}}</span>
+                        </div>
                     </div>
                 </div>
 

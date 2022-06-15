@@ -1,6 +1,6 @@
 <template>
 <div class="listgroupedslised">
-	<listgrouped :group="groupedslised">
+	<listgrouped :group="groupedslised" :select="select">
 
         <template v-slot:group="slotProps">
             <slot name="group" :item="slotProps.item" :index="slotProps.index"></slot>
@@ -33,7 +33,8 @@ export default {
 	name: 'listgroupedslised',
 	props: {
 		group: Object,
-		count : Number
+		count : Number,
+        select : null
 	},
 	data : function(){
 

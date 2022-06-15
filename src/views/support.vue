@@ -1,7 +1,7 @@
 <template>
   <div class="page">   
 
-	<topheader back="/">
+	<topheader back="back">
 	  <template v-slot:info>
 		<span>Support</span>
 	  </template>

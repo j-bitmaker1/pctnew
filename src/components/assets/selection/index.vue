@@ -8,7 +8,7 @@
         <div class="controls">
 
             <button class="button" v-if="selectionLength" @click="success">Select ({{selectionLength}})</button>
-            <button class="button black" @click="cancel">Cancel</button>
+            <button class="button black" @click="cancel">Unselect all</button>
             
         </div>
     </div>

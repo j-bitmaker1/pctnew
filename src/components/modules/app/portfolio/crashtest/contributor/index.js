@@ -4,7 +4,6 @@ export default {
 	name: 'portfolio_crashtest_contributor',
 	props: {
 		contributor : Object,
-		ct : Object,
 		maxabs : Number
 	},
 

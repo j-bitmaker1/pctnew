@@ -6,11 +6,11 @@
             <div class="group">
                 <slot name="group" :item="slotProps.item" :index="slotProps.index"></slot>
 
-                <list :items="slotProps.item">
+                <component :is="module" :items="slotProps.item" v-bind="select">
                     <template v-slot:default="slotProps">
                         <slot name="list" :item="slotProps.item" :index="slotProps.index"></slot>
                     </template>
-                </list>
+                </component>
 
                 <slot name="groupafter" :item="slotProps.item" :index="slotProps.index"></slot>
 
@@ -33,14 +33,22 @@ import {
 export default {
     name: 'listgrouped',
     props: {
-        group: Object
+        group: Object,
+        select : null
     },
     computed: mapState({
         auth: state => state.auth,
+        module : function(){
+            if(this.select){
+                return 'listselectable'
+            }
+            else{
+                return 'list'
+            }
+        }
     }),
 
     methods: {
-
     },
 }
 </script>

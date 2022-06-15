@@ -29,7 +29,10 @@
 		"client" : "Client",
 		"generalInfo" : "General information",
 		"additionalInfo" : "Additional information",
-		"foldername" : "Folder name"
+		"foldername" : "Folder name",
+		"customScenarioName" : "Scenario name",
+		"customScenarioDescription" : "Scenario description"
+
 	},
 
 	"labels" : {

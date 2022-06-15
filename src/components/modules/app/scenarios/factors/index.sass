@@ -11,6 +11,7 @@
 .factor
 	display: flex
 	justify-content: space-between
+	align-items: center
 	border-bottom: 1px solid srgb(--neutral-grad-0)
 
 	>div
@@ -18,4 +19,26 @@
  
 	.value
 		margin-left: auto
-		font-weight: 700
+
+		.valwrapper
+			padding : $r
+			border-radius: 24px
+			color : #fff
+			background: srgb(--color-good)
+
+			span
+				font-size: 0.9em
+
+	&[negative="true"]
+		.value
+			.valwrapper
+				background: srgb(--color-bad)
+
+::v-deep
+	.simplelist
+		.item
+			&:nth-last-child(1)
+				.factor
+					border-bottom: 0
+
+				

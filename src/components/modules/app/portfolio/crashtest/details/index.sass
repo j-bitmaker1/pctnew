@@ -1,10 +1,26 @@
 .scenarioWrapper
-	padding : 2 * $r 0
+	padding : 2 * $r $r
 	border-top : 1px solid srgb(--neutral-grad-1)
 	+transition(0.3s)
 
 	&.lighted
 		color : srgb(--color-bg-ac)
+
+
+.header
+	display: flex
+	align-items: center
+	justify-content: space-between
+	margin-bottom: 4 * $r
+
+	.caption
+		
+		span
+			font-size: 1.2em
+			font-weight: 700
+
+	.addcustom
+		margin-left: auto
 
 @media (pointer:fine)
 	.scenarioWrapper

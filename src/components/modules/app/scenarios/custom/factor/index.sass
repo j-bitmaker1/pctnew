@@ -1,0 +1,43 @@
+.info
+
+    .type
+
+        span,
+        i
+            font-size: 0.8em
+
+        span
+            color: srgb(--neutral-grad-2)
+
+        i
+            color: srgb(--color-good)
+
+.tv
+    display: flex
+    justify-content: space-between
+    align-items: center
+    .volatility
+        align-items: center
+        display: flex
+        margin-left: auto
+        grid-gap: $r
+
+        .label
+            color: srgb(--neutral-grad-2)
+
+        .value
+            font-weight: 700
+
+        span
+            font-size: 0.8em
+
+.customslider
+    padding: 0
+    margin-top: 4 * $r
+    border : 0
+
+    ::v-deep
+        .minmax,
+        .inputwrapper,
+        .sheader
+            padding : 0

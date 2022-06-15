@@ -1,6 +1,7 @@
 <template>
 <div id="fastmenu" @click="close">
     <div class="items">
+
         <transition-group name="menu" tag="div">
             <div class="item" v-for="item in items" :key="item.id" @click="e => open(item)">
                 <div><i :class="item.icon" /></div>
@@ -8,6 +9,10 @@
             </div>
         </transition-group>
 
+    </div>
+
+    <div class="help" @click="tohelp">
+        <span>Help & getting started</span>
     </div>
 </div>
 </template>

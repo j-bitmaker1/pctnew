@@ -33,7 +33,7 @@
 					<template v-slot:default="slotProps">
 
 						<div class="contributorWrapper">
-							<contributor :contributor="slotProps.item" :ct="ct" :maxabs="maxabs" />
+							<contributor :contributor="slotProps.item" :maxabs="maxabs" />
 						</div>
 
 					</template>

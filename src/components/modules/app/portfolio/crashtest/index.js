@@ -67,7 +67,8 @@ export default {
 		})
 
 		this.core.on('settingsUpdated', this.name, (type) => {
-			if(type == 'stress'){
+
+			if(type == 'STRESS'){
 				this.get()
 			}
 		})
@@ -125,14 +126,12 @@ export default {
 			this.$store.commit('valuemode', v)
 		},
 
-		
-
 		scenariosChanged : function(){
-			this.get()
+			//this.get()
 		},
 
 		scoreConverterChanged : function(){
-			this.get()
+			//this.get()
 		}
 	},
 }

@@ -10,12 +10,7 @@
                 <chart :mode="mode" :info="info" :cts="cts" @scenarioClick="toScenario" />
             </div>
 
-
-            <div class="caption mobp ">
-                <span>Details</span>
-            </div>
-
-            <div class="detailsWrapper mobp">
+            <div class="detailsWrapper ">
                 <ctdetails :mode="mode" ref="ctdetails" :info="info" :cts="cts" :portfolios="portfolios" />
             </div>
 

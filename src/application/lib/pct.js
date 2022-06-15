@@ -45,7 +45,12 @@ class PCT {
     }
 
     prepare = function(){
-        return this.scoreConverter.prepare()
+
+        var promises = [
+            this.scoreConverter.prepare()
+        ]
+
+        return Promise.all(promises)
     }
 
     parseDefaultCt = function(df){
@@ -539,25 +544,30 @@ class PCT {
       
     }
 
+    customstresstest = function(data, p = {}){
+
+        return this.api.pctapi.stress.customtest(data, p).then(r => {
+            return Promise.resolve(this.parseStressTest(r))
+        })
+
+    }
+
     stresstest = function(id, p = {}){
 
         var data = {
             portfolioId : id
         }
 
-        return this.scoreConverter.prepare().then(() => {
+        return this.getscenarios(scdata => {
 
-            return this.settings.getall()
-
-        }).then(settings => {
-
-            if(settings.useKeyScenarios.value || !settings.scenarios.value.length){
-                data.onlyKeyScenarios = true
-            }
-            else{
-                data.scenarioIds = settings.scenarios.value
+            data = {
+                ...data,
+                ...scdata
             }
 
+            return this.scoreConverter.prepare()
+
+        }).then(() => {
             return this.api.pctapi.stress.test(data, p)
         }).then(r => {
             return Promise.resolve(this.parseStressTest(r))
@@ -570,20 +580,62 @@ class PCT {
             portfolioId : id
         }
 
-        return this.settings.getall().then(settings => {
+        return this.getscenarios(scdata => {
+            data = {
+                ...data,
+                ...scdata
+            }
 
-            if(settings.useKeyScenarios.value || !settings.scenarios.value.length){
-                data.onlyKeyScenarios = true
-            }
-            else{
-                data.scenarioIds = settings.scenarios.value
-            }
-            
             return this.api.pctapi.stress.details(data, p)
         }).then(r => {
 
             return Promise.resolve(this.parseStressTest(r))
         })
+
+    }
+
+    getscenarios = function(){
+
+        var data = {}
+
+        var rxscenarios = []
+        var customscenarios = []
+
+        return this.core.pct.scenarios().then(scenarios => {
+
+            rxscenarios = scenarios
+
+            return this.core.api.pctapi.customscenarios.list()
+
+        }).then(r => {
+
+            customscenarios = r
+
+            return this.core.settings.stress.getall()
+
+        }).then(settings => {
+
+            if(!settings.scenarios.value.length){
+                data.onlyKeyScenarios = true
+            }
+            else{
+
+                data.scenarioIds = _.filter(settings.scenarios.value, (id) => {
+                    return _.find(rxscenarios, (s) => {
+                        return s.id == id
+                    })
+                })
+
+                data.customScenariosIds = _.filter(settings.scenarios.value, (id) => {
+                    return _.find(customscenarios, (s) => {
+                        return s.id == id
+                    })
+                })
+            }
+            
+            return Promise.resolve(data)
+        })
+
     }
 
     standartDeviation = function(id){

@@ -33,8 +33,8 @@ export default {
 
     },
 
-    created : () => {
-
+    created () {
+        console.log('this.context', this.context)
     },
 
     watch: {

@@ -59,7 +59,6 @@ export default {
         },
         editDisclosure : function(){
 
-
             this.core.vueapi.editorjs({
                 initial : this.core.settings.pdf.get('disclosure').value
             }, (edited) => {

@@ -16,28 +16,17 @@ export default {
     data : function(){
 
         return {
-            loading : false,
+            loading : true,
             scenarios : [],
+
             searchvalue : '',
+
             changeusing : {},
             initialusing : {},
-            //usekeyscenariosSetting : 'use',
-            usekeyscenarios : '',
+            initialusingcustom : {},
 
             mincount : 4,
 
-            keyscenarios : [
-				{
-					icon : "fas fa-check",
-					id : 'use',
-                    good : true
-				},
-				{
-					icon : "fas fa-times",
-					id : 'no'
-				}
-			],
-            
         }
 
     },
@@ -60,37 +49,21 @@ export default {
         using : function(){
             var u = {}
 
-            if(this.usekeyscenarios == 'use'){
-                _.each(this.scenarios, (s) => {
-                    if(s.key) u[s.id] = true
-                })
-            }
-            else{
-                u = {
-                    ... this.changeusing
-                }
+            u = {
+                ... this.changeusing
             }
 
 			return  u
 		},
 
-        canchange : function(){
-            return this.usekeyscenarios == 'no'
-        },
 
         showsave : function(){
-            return (
-                this.usekeyscenarios != this.usekeyscenariosSetting
-            ) || (this.canchange && JSON.stringify(this.changeusing) != JSON.stringify(this.initialusing))
-        },
-      
-        canapply : function(){
-            return _.toArray(this.using).length >= this.mincount
+            return (JSON.stringify(this.changeusing) != JSON.stringify(this.initialusing))
         },
 
         prefiltered : function(){
             return _.filter(this.scenarios, function(scenario){
-                return scenario.id > 0
+                return scenario.id > 0 || scenario.custom
             })
         },
 
@@ -98,62 +71,144 @@ export default {
             if(this.searchvalue){
 
                 return f.clientsearch(this.searchvalue, this.prefiltered, (scenario) => {
-                    return (scenario.name + ' ' + (scenario.region || "") + ' ' + scenario.keywords.join(' '))
+                    return (scenario.name + ' ' + (scenario.region || "") + ' ' + (scenario.keywords || []).join(' '))
                 })
             }
             else{
                 return this.prefiltered
             }
+        },
+
+        grouped : function(){
+
+            return f.group(_.sortBy(this.filtered, (scenario) => {
+
+                if(this.initialusingcustom[scenario.id]) return 0
+                if(scenario.custom) return 1
+                if(scenario.key) return 2
+
+                return 3
+
+            }), (scenario) => {
+
+                if(this.initialusingcustom[scenario.id]) {
+                    return "Used scenarios"
+                }
+
+                if(scenario.custom) return "Your custom scenarios"
+                if(scenario.key) return "Key scenarios"
+
+                return scenario.region
+
+            })
         }
+
     }),
 
     methods : {
+
+        createCustomScenario : function(){
+			this.core.vueapi.createCustomScenario({}, () => {
+                this.get()
+            })
+		},
+
         get : function(){
 
-            this.core.settings.stress.getall().then(settings => {
+            this.loading = true
 
-                this.usekeyscenarios = this.cuse(settings.useKeyScenarios.value)
-                this.usekeyscenariosSetting = this.usekeyscenarios
+            return this.core.pct.scenarios().then(scenarios => {
+                return this.core.api.pctapi.customscenarios.list().then(r => {
+
+                    this.scenarios = scenarios.concat(r || [])
+
+                    return this.core.settings.stress.getall()
+                })
+
+			}).then(settings => {
 
                 this.initialusing = {}
                 this.changeusing = {}
 
-                _.each(settings.scenarios.value, (id) => {
-                    this.initialusing[id] = true
-                    this.changeusing[id] = true
-                })
+                if (!settings.scenarios.value.length){
+                    this.initialusing = this.getdefault() 
+                    this.changeusing = this.getdefault()
+                }
+                else{
+                    _.each(settings.scenarios.value, (id) => {
 
-                return this.core.pct.scenarios()
-            }).then(scenarios => {
-				this.scenarios = scenarios
-			}).finally(() => {
+                        if(_.find(this.scenarios, (s) => {
+                            return s.id == id
+                        })){
+                            this.initialusingcustom[id] = this.initialusing[id] = this.changeusing[id] = true
+                        }
+                        
+                    })
+                }
+                
+            }).finally(() => {
                 this.loading = false
             })
 
             
         },
 
-        cuse : function(v){
-            if(v) return 'use'
-            return 'no'
+        useDefault : function(){
+            this.changeusing = this.getdefault()
+            this.initialusingcustom = {}
         },
 
-        vuse : function(v){
-            if(v == 'use') return true
+        isitdefault : function(){
+            var u1 = this.getdefault()
+            var ch = this.changeusing
 
-            return false
+            var dif = false
+
+            _.each(u1, (v, i) => {
+                if(!ch[i]) dif = true
+            })
+
+            _.each(ch, (v, i) => {
+                if(!u1[i]) dif = true
+            })
+
+            return !dif
+        },
+
+        getdefault : function(){
+            var u = {}
+
+            _.each(this.scenarios, (s) => {
+                if(s.key) u[s.id] = true
+            })
+
+            return u
+        },
+
+        unselectAll : function(){
+            this.changeusing = {}
+            this.initialusingcustom = {}
         },
 
         save : function(){
 
             var promises = []
 
-            if (this.usekeyscenarios != this.usekeyscenariosSetting){
-                promises.push(this.core.settings.stress.set('useKeyScenarios', this.vuse(this.usekeyscenarios)))
-            }
-
             if (JSON.stringify(this.changeusing) != JSON.stringify(this.initialusing)){
-                var ids = _.map(this.changeusing, (v, i) => {return i})
+
+                var value = _.map(this.changeusing, (v, i) => {return i})
+
+                var ids = this.isitdefault() ? [] :  value
+
+                if(value.length < this.mincount){
+
+                    this.$store.commit('icon', {
+                        icon: 'error',
+                        message: "Please select at least " + this.mincount + " scenarios"
+                    })
+
+                    return Promise.reject('min')
+                }
 
                 promises.push(this.core.settings.stress.set('scenarios', ids))
             }
@@ -172,41 +227,47 @@ export default {
         },
 
         cancel : function(){
-            this.changeusing = {}
+            this.changeusing = {...this.initialusing || {}}
         },
 
         apply : function(){
             this.save().then(r => {
                 this.$emit('changed')
                 this.$emit('close')
-            })
+            }).catch(e => {})
         },
 
         useChange : function(id, v){
 
-            if(!this.canchange){
+            console.log('useChange', this.changeusing, id, v)
 
-                this.core.notifier.simplemessage({
-                    icon : "fas fa-exclamation-triangle",
-                    title : "Use key scenarios selected",
-                    message : "To be able to select scenarios you need to uncheck Use key scenarios"
-                })
-
-                return
+            if (this.changeusing[id]){
+                this.$delete(this.changeusing, id)
             }
-
-            if(typeof this.changeusing[id] != 'undefined'){
-                if (this.changeusing[id] == v) {
-                    this.$delete(this.changeusing, id)
-                    return
-                }
+            else{
+                this.$set(this.changeusing, id, v)
             }
-
-            this.$set(this.changeusing, id, v)
         },
 
-        changeKeyScenariosUse : function(v){
-            this.usekeyscenarios = v
-        }
+        removed : function(oldscenario){
+
+            if (this.changeusing[oldscenario.id]) this.$delete(this.changeusing, oldscenario.id)
+
+            if (this.initialusing[oldscenario.id]) {
+                this.$delete(this.initialusing, oldscenario.id)
+            }
+
+            this.scenarios = _.filter(this.scenarios, (s) => {
+                return s.id == oldscenario.id
+            })
+
+        },
+
+        changed : function(oldscenario, scenario){
+            /*var i = _.findIndex(this.scenarios, (s) => {
+                return s.id == oldscenario.id
+            })*/
+            
+        },
     },
 }

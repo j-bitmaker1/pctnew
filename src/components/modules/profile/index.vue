@@ -13,9 +13,10 @@
 		</div>
 
 		<settings />
-
 		
 	</div>
+
+	
 		
 
 	<div class="signout mobp" @click="signout">

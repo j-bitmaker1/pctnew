@@ -1,6 +1,5 @@
 import f from '@/application/functions'
-import _ from "underscore"
-
+import _, { indexOf } from "underscore"
 
 class Contact {
     constructor(data = {}) {
@@ -47,7 +46,6 @@ class Contact {
 
     }
 
-
 }
 
 class Portfolio {
@@ -91,10 +89,6 @@ class Portfolio {
 
         return _.toArray(jg)
     }
-
-
-
-
 }
 
 class Task {
@@ -137,32 +131,19 @@ class Task {
 
         
     }
+}
 
-    /*appId: "PCT"
-    completed: "20220613072642"
-    created: "20220613072621"
-    data: "{\"Infos\":[{\"Ticker\":\"MALOX US EQUITY\",\"Name\":\"Blackrock Global Allocation Instl\",\"FullTextInOriginalFile\":\"MALOX US\",\"Value\":100000}]}"
-    id: "29248cb1-aed8-4a56-8f10-e4d9c206612c"
-    info: "[{\"FileName\":\"testcsv.csv\",\"Size\":15,\"ContentType\":\"text/csv\",\"StorageKey\":\"59803/PCT/PARSEPORTFOLIO/29248cb1-aed8-4a56-8f10-e4d9c206612c\",\"StorageType\":0}]"
-    progress: 100
-    status: "SUCCESS"
-    type: "PARSEPORTFOLIO"
-    userId: 59803
+class Scenario {
+    constructor(data = {}){
+        _.each(data, (v, i) => {
+            this[i] = v
+        })
 
 
-    appId: "PCT"
-    completed: "20220613072642"
-    data: "{\"Infos\":[{\"Ticker\":\"MALOX US EQUITY\",\"Name\":\"Blackrock Global Allocation Instl\",\"FullTextInOriginalFile\":\"MALOX US\",\"Value\":100000}]}"
-    error: null
-    eventId: 3791466
-    id: "29248cb1-aed8-4a56-8f10-e4d9c206612c"
-    isSystem: true
-    progress: 100
-    status: 2
-    type: "PARSEPORTFOLIO"
-    x_eventType: "ASYNCTASKCOMPLETED"*/
+        this.custom = true
+    }
 }
 
 export {
-    Contact, Portfolio, Task
+    Contact, Portfolio, Task, Scenario
 }

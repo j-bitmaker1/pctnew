@@ -17,7 +17,9 @@
     <div class="footer">
 
         <div class="help">
+            <router-link to="/faq">
             <i class="far fa-question-circle"></i> <span>{{$t('caption.helpfooter')}}</span>
+            </router-link>
         </div>
 
         <div class="themeToggleWrapper">

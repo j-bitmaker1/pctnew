@@ -41,13 +41,13 @@ var meta = {
 
         },
 
-        useKeyScenarios: {
+        /*useKeyScenarios: {
             name: 'useKeyScenarios',
             default: function() {
                 return true
             },
 
-        }
+        }*/
     }
 }
 
@@ -105,6 +105,8 @@ class Settings {
         }
 
         return promise.then(r => {
+
+            this.core.emit('settingsUpdated', this.type)
             
             return this.wss.broadcast({
                 event : 'settings',
@@ -191,6 +193,8 @@ class Settings {
             this.clear()
 
             return this.getall().then(() => {
+
+                console.log("???????")
 
                 this.core.emit('settingsUpdated', this.type)
 

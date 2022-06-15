@@ -1,11 +1,9 @@
 .scenarioWrapper
-    padding : 2 * $r
+    padding : 2 * $r 0
+    padding-left:  $r
     border-bottom: 1px solid srgb(--neutral-grad-0)
 
 .keyscenariosWrapper
-    padding-bottom : 2 * $r
-    border-bottom: $r solid srgb(--neutral-grad-0)
-
     .wr2
         display: flex
         align-items: center
@@ -15,3 +13,28 @@
 
         span
             font-size: 0.9em
+
+.panel
+    display: flex
+    grid-gap: $r
+    flex-wrap: wrap
+    padding-bottom : 6 * $r
+    margin-top: 3 * $r
+
+::v-deep
+    .showmore
+        padding : 2 *$r
+        span
+            color : srgb(--color-txt-ac)
+            font-weight: 700
+
+.groupCaption
+    background: srgb(--background-total-theme)
+    margin-top: 4 * $r
+    text-align: center
+    position: sticky
+    top : 54px
+    left : 0
+    right : 0
+    span
+        font-size: 0.8em

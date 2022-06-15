@@ -1,0 +1,50 @@
+.factorWrapper
+    padding : 2 * $r
+    border-bottom: 1px solid srgb(--neutral-grad-0)
+
+    .type
+
+        span,
+        i
+            font-size: 0.8em
+
+        span
+            color : srgb(--neutral-grad-2)
+            
+        i
+            color : srgb(--color-good)
+
+.tv
+    display: flex
+    justify-content: space-between
+    align-items: center
+    .volatility
+        align-items: center
+        display: flex
+        margin-left: auto
+        grid-gap: $r
+
+        .label
+            color : srgb(--neutral-grad-2)
+
+        .value
+            font-weight: 700
+
+
+        span
+            font-size: 0.8em
+
+::v-deep
+    .showmore
+        padding : 2 *$r
+        span
+            font-weight: 700
+
+.groupCaption
+    padding-top : 2 * $r
+    padding-bottom: 2 * $r
+    text-align: center
+
+    span
+        color : srgb(--color-txt-ac)
+        font-size: 0.8em

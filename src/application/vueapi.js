@@ -219,6 +219,67 @@ class Vueapi {
         })
     }
 
+    createCustomScenario = function(data, success, p = {}){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_scenario_custom',
+            module : "scenario_custom",
+            caption : p.caption || "New custom scenario",
+    
+            data : data,
+    
+            events : {
+                success : (scenario) => {
+                    success(scenario)
+                }
+            }
+        })
+    }
+
+    customStressTest = function(data, success, p = {}){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_scenario_custom',
+            module : "scenario_custom",
+            caption : p.caption || "Custom stress test",
+    
+            data : {
+                ...data,
+                mode : 'stresstest'
+            }
+        })
+    }
+
+    editCustomScenario = function(data, success){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_scenario_custom',
+            module : "scenario_custom",
+            caption : p.caption || "Edit custom scenario",
+    
+            data : data,
+    
+            events : {
+                success : (scenario) => {
+                    success(scenario)
+                }
+            }
+        })
+    }
+
+    selectfactors = function(data, events){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_scenario_allfactors',
+            module : "scenario_allfactors",
+            caption : "Factors",
+    
+            data : data,
+    
+            events : events
+        })
+    }
+    
+
     createContact = function(payload, success, p = {}){
         this.store.commit('OPEN_MODAL', {
             id : 'modal_client_edit',
@@ -284,7 +345,8 @@ class Vueapi {
     
             events : {
                 changed : function(){
-                    success()
+                    if(success)
+                        success()
                 }
             }
         })

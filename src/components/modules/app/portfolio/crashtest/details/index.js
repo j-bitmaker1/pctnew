@@ -83,6 +83,23 @@ export default {
 			}
 
 			this.light(scenario)
+		},
+
+		customStressTest : function(){
+			this.core.vueapi.customStressTest({
+				initial : _.toArray(this.portfolios)[0]
+			}, {
+				success : function(){
+					this.core.vueapi.scenarioManager((scenarios) => {
+					})
+				}
+			})
+		},
+
+		createCustomScenario : function(){
+			this.core.vueapi.createCustomScenario({
+				initial : _.toArray(this.portfolios)[0]
+			})
 		}
 	},
 }

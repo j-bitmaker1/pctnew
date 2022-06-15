@@ -30,6 +30,26 @@ export default {
     }),
 
     methods : {
-        
+        inbps : function(factor){
+
+
+            if (factor.type == 'country' || 
+                factor.type == 'currency' || 
+                factor.type == 'industry' || 
+                factor.type == 'perm_factor' || 
+                factor.type == 'stress_index'
+                ) return false
+
+            return true
+        },
+
+        value : function(factor){
+            if (this.inbps(factor)){
+                return factor.value * 100 + 'bps'
+            }
+            else{   
+                return factor.value / 100
+            }
+        }
     },
 }

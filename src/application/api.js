@@ -1,5 +1,5 @@
 import f from './functions'
-import {Contact, Portfolio, Task} from './lib/kit.js'
+import { Contact, Portfolio, Task, Scenario } from './lib/kit.js'
 var Axios = require('axios');
 
 var sha1 = require('sha1');
@@ -8,12 +8,12 @@ var { parseerror } = require('./error')
 import dbstorage from "./dbstorage";
 import _ from 'underscore';
 
-var FormDataRequest = function(core = {}, url, system){
+var FormDataRequest = function (core = {}, url, system) {
 
 	var self = this
 
-	self.fetch = function(to, formData, p){
-		const headers = {'content-type': 'multipart/form-data'}
+	self.fetch = function (to, formData, p) {
+		const headers = { 'content-type': 'multipart/form-data' }
 
 		return core.user.extendA({ formData, system }).then(r => {
 
@@ -25,10 +25,10 @@ var FormDataRequest = function(core = {}, url, system){
 				headers,
 			}).then(r => {
 
-				if(f.deep(r, 'data.errors')){
+				if (f.deep(r, 'data.errors')) {
 					return Promise.reject(parseerror({
-						code : 500,
-						errors : r.data.errors
+						code: 500,
+						errors: r.data.errors
 					}))
 				}
 
@@ -36,17 +36,17 @@ var FormDataRequest = function(core = {}, url, system){
 				return Promise.resolve(r.data)
 			})
 		})
-		
+
 	}
 
 }
 
-var FormDataRequestAu_Headers = function(core = {}, url, system){
+var FormDataRequestAu_Headers = function (core = {}, url, system) {
 
 	var self = this
 
-	self.fetch = function(to, formData, p){
-		const headers = {'content-type': 'multipart/form-data'}
+	self.fetch = function (to, formData, p) {
+		const headers = { 'content-type': 'multipart/form-data' }
 
 		return core.user.extendA({ headers, system }).then(r => {
 
@@ -58,10 +58,10 @@ var FormDataRequestAu_Headers = function(core = {}, url, system){
 				headers,
 			}).then(r => {
 
-				if(f.deep(r, 'data.errors')){
+				if (f.deep(r, 'data.errors')) {
 					return Promise.reject(parseerror({
-						code : 500,
-						errors : r.data.errors
+						code: 500,
+						errors: r.data.errors
 					}))
 				}
 
@@ -69,7 +69,7 @@ var FormDataRequestAu_Headers = function(core = {}, url, system){
 				return Promise.resolve(r.data)
 			})
 		})
-		
+
 	}
 
 }
@@ -143,7 +143,7 @@ var Request = function (core = {}, url, system) {
 
 		var er = false
 		var status = 0
-		var token  = ''
+		var token = ''
 
 
 		return (core.user ? core.user.extendA({ headers, data, system }) : Promise.resolve()).then(r => {
@@ -197,13 +197,13 @@ var Request = function (core = {}, url, system) {
 
 			result.code = status
 
-			if(result.result == 'failed'){
+			if (result.result == 'failed') {
 				result.code = 500
 				result.Error = result.errors
 				er = true
 			}
 
-			if (result.AuthSession && result.AuthSession.Error){ /// oldpct
+			if (result.AuthSession && result.AuthSession.Error) { /// oldpct
 				result.code = 500
 				result.Error = result.AuthSession.Error
 				er = true
@@ -215,7 +215,7 @@ var Request = function (core = {}, url, system) {
 
 			else {
 
-				if(!result.token)
+				if (!result.token)
 					result.token = token
 
 				core.user.extendU(result, system)
@@ -228,7 +228,7 @@ var Request = function (core = {}, url, system) {
 		}).catch(e => {
 
 
-			if(e && e.toString() && e.toString().indexOf('Failed to fetch') > -1){
+			if (e && e.toString() && e.toString().indexOf('Failed to fetch') > -1) {
 				e.code = 20
 			}
 
@@ -236,10 +236,10 @@ var Request = function (core = {}, url, system) {
 		})
 	}
 
-	var doublePreventRequest = function(path, data, p){
+	var doublePreventRequest = function (path, data, p) {
 		var datahash = sha1(path + JSON.stringify(data))
 
-		if (loading[datahash]){
+		if (loading[datahash]) {
 			return loading[datahash]
 		}
 
@@ -256,7 +256,7 @@ var Request = function (core = {}, url, system) {
 
 	self.fetch = function (path, data, p) {
 
-		if(!path) path = ''
+		if (!path) path = ''
 
 		return doublePreventRequest(url ? (url + (path.indexOf('?') == 0 ? '' : '/') + path) : path, data, p)
 
@@ -278,54 +278,61 @@ var ApiWrapper = function (core) {
 	self.appid = 'net.rixtrema.pct'
 
 	var dbmeta = {
-		stress : function(){
+		stress: function () {
 			return {
-				storage : 'stress',
-				time : 60 * 60 * 48,
-				version : 2
+				storage: 'stress',
+				time: 60 * 60 * 48,
+				version: 2
 			}
 		},
 
-		system : function(){
+		system: function () {
 			return {
-				storage : 'system',
-				time : 60 * 60 * 148,
-				version : 2
+				storage: 'system',
+				time: 60 * 60 * 148,
+				version: 2
 			}
 		},
 
-		files : function(){
+		files: function () {
 			return {
-				storage : 'files',
-				time : 60 * 60 * 12 
+				storage: 'files',
+				time: 60 * 60 * 12
 			}
 		},
 
-		portfolios : function(){
+		portfolios: function () {
 			return {
-				storage : 'portfolios',
-				time : 60 * 60 * 12 
+				storage: 'portfolios',
+				time: 60 * 60 * 12
 			}
 		},
 
-		tasks : function(){
+		tasks: function () {
 			return {
-				storage : 'tasks',
-				time : 60 * 60 * 12 
+				storage: 'tasks',
+				time: 60 * 60 * 12
 			}
 		},
 
-		contacts : function(){
+		contacts: function () {
 			return {
-				storage : 'contacts',
-				time : 60 * 60 * 12 
+				storage: 'contacts',
+				time: 60 * 60 * 12
 			}
 		},
 
-		financial: function(){
+		financial: function () {
 			return {
-				storage : 'financial',
-				time : 60 * 60 * 248 
+				storage: 'financial',
+				time: 60 * 60 * 248
+			}
+		},
+
+		customscenarios: function () {
+			return {
+				storage: 'customscenarios',
+				time: 60 * 60 * 48
 			}
 		},
 	}
@@ -336,11 +343,11 @@ var ApiWrapper = function (core) {
 		api: new Request(core, "https://rixtrema.net/api", 'api'),
 
 		apiFD: new FormDataRequest(core, "https://rixtrema.net/api", 'api'),
-		apiFDH : new FormDataRequestAu_Headers(core, "https://rixtrema.net/api", 'api'),
+		apiFDH: new FormDataRequestAu_Headers(core, "https://rixtrema.net/api", 'api'),
 
 		/* temp */
-		'401k' : new Request(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
-		'401kFD' : new FormDataRequest(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
+		'401k': new Request(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
+		'401kFD': new FormDataRequest(core, "https://rixtrema.net/RixtremaWS401k/AJAXFCT.aspx", '401k'),
 		/* ---- */
 
 		default: new Request(core)
@@ -358,69 +365,69 @@ var ApiWrapper = function (core) {
 
 	}
 
-	var prepareliststorage = function(data, system, to, p){
+	var prepareliststorage = function (data, system, to, p) {
 
 		liststorage[system] || (liststorage[system] = {})
 		liststorage[system][to] || (liststorage[system][to] = {})
 
 		var datahash = ''
 
-		_.each(data, function(v, k){
-			if(k != p.from && k != p.to && v && k != p.includeCount) datahash += JSON.stringify(v)
+		_.each(data, function (v, k) {
+			if (k != p.from && k != p.to && v && k != p.includeCount) datahash += JSON.stringify(v)
 		})
 
 		datahash = sha1(datahash)
 
 		liststorage[system][to][datahash] || (liststorage[system][to][datahash] = {
-			count : undefined,
-			data : {}
+			count: undefined,
+			data: {}
 		})
 
 
 		return datahash
 	}
 
-	var getloaded = function(datahash, data, system, to, p){
+	var getloaded = function (datahash, data, system, to, p) {
 
 		var _fr = data[p.from] || 0
 		var _count = data[p.count] || 100
 
-		if(p.bypages) _fr = (_fr * _count)
+		if (p.bypages) _fr = (_fr * _count)
 
 		var storage = liststorage[system][to][datahash]
 
-		var loaded = _.filter(storage.data, function(e, i){
-			if(i >= _fr && (i < _count + _fr) ){
+		var loaded = _.filter(storage.data, function (e, i) {
+			if (i >= _fr && (i < _count + _fr)) {
 				return true
 			}
 		})
 
-		var flength = _.filter(storage.data, function(e, i){
+		var flength = _.filter(storage.data, function (e, i) {
 			return e
 		}).length
 
 		var r = {
-			data : 	loaded,
-			count : storage.count,
-			last : 	_.isEmpty(storage.data) ? undefined : _.max(_.map(Object.keys(storage.data), v => Number(v))),
-			first : _.isEmpty(storage.data) ? undefined : _.min(_.map(Object.keys(storage.data), v => Number(v)))
+			data: loaded,
+			count: storage.count,
+			last: _.isEmpty(storage.data) ? undefined : _.max(_.map(Object.keys(storage.data), v => Number(v))),
+			first: _.isEmpty(storage.data) ? undefined : _.min(_.map(Object.keys(storage.data), v => Number(v)))
 		}
 
 
-		if(flength == storage.count) return r
+		if (flength == storage.count) return r
 
-		if(_count && _count == loaded.length) return r
+		if (_count && _count == loaded.length) return r
 
 		return null
 
 	}
 
-	var paginatedrequest = function(data, system, to, p){
+	var paginatedrequest = function (data, system, to, p) {
 
 
 
-		if(!p) p = {}
-		if(!data) data = {}
+		if (!p) p = {}
+		if (!data) data = {}
 
 		p.from || (p.from = "From")
 		p.count || (p.count = "To")
@@ -439,23 +446,23 @@ var ApiWrapper = function (core) {
 
 		if (loaded) return Promise.resolve(loaded)
 
-		if(!liststorage[system][to][datahash].count) data[p.includeCount] = true
-		
+		if (!liststorage[system][to][datahash].count) data[p.includeCount] = true
+
 
 		return request(data, system, to, p).then(r => {
 
-			if(r.pagination) r.count = r.pagination.total
+			if (r.pagination) r.count = r.pagination.total
 
 			prepareliststorage(data, system, to, p) /// async. maybe clear
 
-			if(!data[p.from]) data[p.from] = 0
+			if (!data[p.from]) data[p.from] = 0
 
 			console.log('data', p.from, system, to)
 
 			_.each(r.records || [], (e, i) => {
 				var c = 0
-				
-				if(p.bypages){c = data[p.from] * data[p.count] + i}else{c = data[p.from] + i}
+
+				if (p.bypages) { c = data[p.from] * data[p.count] + i } else { c = data[p.from] + i }
 
 				liststorage[system][to][datahash].data[c] = e
 			})
@@ -465,7 +472,7 @@ var ApiWrapper = function (core) {
 
 			var loaded = getloaded(datahash, data, system, to, p)
 
-			if(!loaded) return Promise.reject('notloaded')
+			if (!loaded) return Promise.reject('notloaded')
 
 			return Promise.resolve(loaded)
 		})
@@ -632,10 +639,10 @@ var ApiWrapper = function (core) {
 
 	}
 
-	var dbdividerequest = function(data, system, to, p = {}){
+	var dbdividerequest = function (data, system, to, p = {}) {
 
-		if(!p.storageparameters) return Promise.reject('p.storageparameters')
-		if(!p.storageparameters.divide) return Promise.reject('p.storageparameters.divide')
+		if (!p.storageparameters) return Promise.reject('p.storageparameters')
+		if (!p.storageparameters.divide) return Promise.reject('p.storageparameters.divide')
 
 		var ids = data[p.storageparameters.divide.requestIndex]
 
@@ -655,10 +662,10 @@ var ApiWrapper = function (core) {
 					}).then(r => {
 
 
-						if(r) {
+						if (r) {
 							loaded[id] = r
 						}
-						else{
+						else {
 							needtoload.push(id)
 						}
 
@@ -669,7 +676,7 @@ var ApiWrapper = function (core) {
 			).then(() => {
 
 
-				if(!needtoload.length){
+				if (!needtoload.length) {
 					return f.ep()
 				}
 
@@ -678,21 +685,21 @@ var ApiWrapper = function (core) {
 				return request(data, system, to, p).then(r => {
 					var data = r
 
-					if(p.storageparameters.divide.path) data = f.deep(r, p.storageparameters.divide.path)
+					if (p.storageparameters.divide.path) data = f.deep(r, p.storageparameters.divide.path)
 
 					_.each(data, (obj) => {
 
 						var index = obj[p.storageparameters.divide.getloaded]
 
 
-						if (index){
+						if (index) {
 							loaded[index] = obj
 
 							storage.set(index, obj).catch(e => {
 							})
 						}
 
-						
+
 					})
 
 					return Promise.resolve()
@@ -710,13 +717,13 @@ var ApiWrapper = function (core) {
 
 		})
 
-		
+
 	}
 
-	var dbaction = function(datahash, action, p = {}){
+	var dbaction = function (datahash, action, p = {}) {
 
 		var _storage = null
-		
+
 		return (p.storageparameters ? getstorage(p.storageparameters) : f.ep()).then(storage => {
 
 			_storage = storage
@@ -727,21 +734,21 @@ var ApiWrapper = function (core) {
 				})
 			}
 
-			
+
 			return Promise.resolve()
 
 		}).then(cached => {
 
-			if(!cached){
+			if (!cached) {
 
 				/// return request(data, system, to, p).then(r => {
 
 				return action().then(r => {
-					if(_storage){
+					if (_storage) {
 						return _storage.set(datahash, r, p.storageparameters.invalidate).then(() => {
 
 							return Promise.resolve(r)
-	
+
 						})
 					}
 					return Promise.resolve(r)
@@ -752,9 +759,9 @@ var ApiWrapper = function (core) {
 			return Promise.resolve(cached)
 
 		})
-	}	
+	}
 
-	var dbrequest = function(data, system, to, p){
+	var dbrequest = function (data, system, to, p) {
 
 		var datahash = sha1(system + to + JSON.stringify(data))
 
@@ -762,8 +769,8 @@ var ApiWrapper = function (core) {
 
 			return (requests[system] || requests['default']).fetch(to, data, p)
 		}, p)
-		
-	}	
+
+	}
 
 	var request = function (data, system, to, p = {}, attempt) {
 
@@ -772,9 +779,9 @@ var ApiWrapper = function (core) {
 
 		if (!attempt) attempt = 0
 
-		
 
-		if (p.vxstorage && p.vxstorage.index){
+
+		if (p.vxstorage && p.vxstorage.index) {
 			var r = core.vxstorage.get(p.vxstorage.index, p.vxstorage.type)
 
 			if (r) return Promise.resolve(r)
@@ -782,46 +789,46 @@ var ApiWrapper = function (core) {
 
 		var breakLoading = false
 
-		if (p.vxstorage && p.vxstorage.getloaded){
+		if (p.vxstorage && p.vxstorage.getloaded) {
 
-			if(!p.vxstorage.one){
+			if (!p.vxstorage.one) {
 
-				alreadyLoaded = _.filter(_.map(data[p.vxstorage.getloaded], function(index){
+				alreadyLoaded = _.filter(_.map(data[p.vxstorage.getloaded], function (index) {
 					return core.vxstorage.get(index, p.vxstorage.type)
 				}), (r) => {
 					return r
 				})
-	
+
 				data[p.vxstorage.getloaded] = _.filter(data[p.vxstorage.getloaded], (index) => {
 					return !_.find(alreadyLoaded, (obj) => {
 						return obj[core.vxstorage.index(p.vxstorage.type)] == index
 					})
 				})
 
-				if(!data[p.vxstorage.getloaded].length){
+				if (!data[p.vxstorage.getloaded].length) {
 
 					breakLoading = true
 
 				}
 			}
 
-			else{
+			else {
 
 				breakLoading = true
 
 				alreadyLoaded = core.vxstorage.get(p.vxstorage.getloaded, p.vxstorage.type)
-				
+
 
 				if (r) return Promise.resolve(r)
 			}
 
-			if(breakLoading){
+			if (breakLoading) {
 				var r = {}
 
-				if (p.vxstorage.path){
+				if (p.vxstorage.path) {
 					f.deepInsert(r, p.vxstorage.path, alreadyLoaded)
-				}	
-				else{
+				}
+				else {
 					r = alreadyLoaded
 				}
 
@@ -830,7 +837,7 @@ var ApiWrapper = function (core) {
 
 		}
 
-		if (p.preloader){
+		if (p.preloader) {
 			core.store.commit('globalpreloader', true)
 		}
 
@@ -840,42 +847,42 @@ var ApiWrapper = function (core) {
 
 			return dbrequest(data, system, to, p).then(r => {
 
-			//return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
+				//return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
 
-				if (p.kit){
+				if (p.kit) {
 					var dk = r
 
-					if (p.kit.path){
+					if (p.kit.path) {
 						dk = f.deep(dk, p.kit.path) || (p.kit.one ? null : [])
 					}
 
 
-					if(p.kit.one){
+					if (p.kit.one) {
 						dk = new p.kit.class(dk)
 					}
-					else{
-						dk = _.map(dk, (d) => {return new p.kit.class(d)})
+					else {
+						dk = _.map(dk, (d) => { return new p.kit.class(d) })
 					}
 
-					if (p.kit.path){
+					if (p.kit.path) {
 						f.deepInsert(r, p.kit.path, dk)
-					}	
-					else{
+					}
+					else {
 						r = dk
 					}
 
 				}
 
-				if (p.vxstorage){
+				if (p.vxstorage) {
 
 					var ds = r
 
-					if(p.vxstorage.path) ds = f.deep(ds, p.vxstorage.path) || (p.vxstorage.one ? null : [])
+					if (p.vxstorage.path) ds = f.deep(ds, p.vxstorage.path) || (p.vxstorage.one ? null : [])
 
-					if(p.vxstorage.one){
+					if (p.vxstorage.one) {
 						var stored = core.vxstorage.set(ds, p.vxstorage.type)
 					}
-					else{
+					else {
 
 						var stored = core.vxstorage.sets(ds, p.vxstorage.type)
 
@@ -884,16 +891,16 @@ var ApiWrapper = function (core) {
 
 					}
 
-					if (p.vxstorage.path){
+					if (p.vxstorage.path) {
 						f.deepInsert(r, p.vxstorage.path, stored)
-					}	
-					else{
+					}
+					else {
 						r = stored
 					}
 
 				}
 
-				if (p.showStatus){
+				if (p.showStatus) {
 					core.store.commit('icon', {
 						icon: 'success',
 					})
@@ -901,15 +908,15 @@ var ApiWrapper = function (core) {
 
 				return Promise.resolve(r)
 
-			}).catch(e => {	
+			}).catch(e => {
 
 				if (attempt < 3 && e && e.code == 20) {
 
-					if(!attempt)
+					if (!attempt)
 						core.notifier.simplemessage({
-							icon : "fas fa-wifi",
-							title : "Please wait",
-							message : "Loading takes longer than usual"
+							icon: "fas fa-wifi",
+							title: "Please wait",
+							message: "Loading takes longer than usual"
 						})
 
 					return new Promise((resolve, reject) => {
@@ -928,17 +935,17 @@ var ApiWrapper = function (core) {
 
 				}
 
-				if (p.showStatus || p.showStatusFailed){
+				if (p.showStatus || p.showStatusFailed) {
 					core.store.commit('icon', {
-                        icon: 'error',
-                        message: e.error
-                    })
+						icon: 'error',
+						message: e.error
+					})
 				}
 
 				return Promise.reject(e)
 
 			}).finally(() => {
-				if (p.preloader){
+				if (p.preloader) {
 					core.store.commit('globalpreloader', false)
 				}
 			})
@@ -948,9 +955,9 @@ var ApiWrapper = function (core) {
 
 
 	}
-	
-	self.invalidateDb = function(dbindex, updated, data){
-		if (storages[dbindex]){
+
+	self.invalidateDb = function (dbindex, updated, data) {
+		if (storages[dbindex]) {
 			var _updated = f.date.fromstring(updated, true) / 1000 //todo check, utc
 
 			return storages[dbindex].invalidate(_updated, data)
@@ -962,43 +969,43 @@ var ApiWrapper = function (core) {
 	self.clearCache = function () {
 		var keys = []
 
-		_.each(cache, function(c,i){
+		_.each(cache, function (c, i) {
 			keys.push(i)
 		})
 
-		_.each(storages, function(c,i){
+		_.each(storages, function (c, i) {
 			keys.push(i)
 		})
 
 		keys = _.uniq(keys)
 
-		_.each(keys, function(k){
+		_.each(keys, function (k) {
 			self.clearCacheKey(k)
 		})
 
 	}
 
-	self.clearCacheKey = function(key){
+	self.clearCacheKey = function (key) {
 
 		if (cache[key]) delete cache[key]
 
-		
+
 
 		if (storages[key]) {
-			storages[key].clearall().catch(e => {console.error(e)})
+			storages[key].clearall().catch(e => { console.error(e) })
 			delete storages[key]
 		}
 	}
 
 	self.pct = {
-		tickers : {
-			search : function(d){
+		tickers: {
+			search: function (d) {
 
-				if(!d.value) return Promise.resolve([])
+				if (!d.value) return Promise.resolve([])
 
 				d.count || (d.count = 7)
 
-				return request({RowsToReturn : d.count, SearchStr : d.value}, 'pct', '?Action=GETINCREMENTALSEARCHONTICKERS', {
+				return request({ RowsToReturn: d.count, SearchStr: d.value }, 'pct', '?Action=GETINCREMENTALSEARCHONTICKERS', {
 					method: "POST"
 				}).then(r => {
 
@@ -1007,8 +1014,8 @@ var ApiWrapper = function (core) {
 			}
 		},
 
-		portfolio : {
-			getassets : function(){
+		portfolio: {
+			getassets: function () {
 				return request({
 					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
 				}, 'pct', '?Action=GETPORTFOLIOASSETS', {
@@ -1018,7 +1025,7 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			standartDeviation : function(){
+			standartDeviation: function () {
 				return request({
 					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
 				}, 'pct', '?Action=GETPORTFOLIOSTANDARDDEVIATION', {
@@ -1028,9 +1035,9 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			
 
-			fromfile : function(data = {}, p = {}){
+
+			fromfile: function (data = {}, p = {}) {
 
 				/*
 
@@ -1051,27 +1058,27 @@ var ApiWrapper = function (core) {
 			}
 		},
 
-		settings : {
-			get : function(){
-				return request({Type : 'UserSettings', ValStr : ''}, 'pct', '?Action=GETUSERDATA', {
+		settings: {
+			get: function () {
+				return request({ Type: 'UserSettings', ValStr: '' }, 'pct', '?Action=GETUSERDATA', {
 					method: "GET"
 				}).then(r => {
 
-					var data = {}	
-					
-					try{
+					var data = {}
+
+					try {
 						data = JSON.parse(f.deep(r, 'GetUserData.ValObj') || "{}")
 					}
-					catch(e){}
-					
+					catch (e) { }
+
 
 					return Promise.resolve(data)
 				})
 			}
 		},
 
-		crashtest : {
-			get : function(){
+		crashtest: {
+			get: function () {
 
 				////temp
 
@@ -1090,23 +1097,23 @@ var ApiWrapper = function (core) {
 
 			},
 
-			gets : function(portfolios, p = {}){
+			gets: function (portfolios, p = {}) {
 
 				p.method = "GET"
 				p.storageparameters = dbmeta.system()
 
 				return request({
-					Portfolios : JSON.stringify(portfolios)
+					Portfolios: JSON.stringify(portfolios)
 				}, 'pct', '?Action=GETOCRFORPORTFOLIOS', p).then(r => {
 					return Promise.resolve(r.PCT.portfolios)
 				})
 
-				
+
 			},
 		},
 
-		contributors : {
-			get : function(id){
+		contributors: {
+			get: function (id) {
 				return request({
 					ScenarioID: id,
 					ContributorsCnt: 10000,
@@ -1126,17 +1133,17 @@ var ApiWrapper = function (core) {
 	}
 
 	self.common = {
-		search : function(value){
+		search: function (value) {
 			var apis = {
-				lead : self.crm.contacts.search(value, {type : "LEAD"}),
-				client : self.crm.contacts.search(value, {type : "CLIENT"}),
-				portfolio : self.pctapi.portfolios.search(value, {})
-			} 
+				lead: self.crm.contacts.search(value, { type: "LEAD" }),
+				client: self.crm.contacts.search(value, { type: "CLIENT" }),
+				portfolio: self.pctapi.portfolios.search(value, {})
+			}
 
 			var result = {}
 
 
-			return Promise.all( _.map(apis, (action, i) => {
+			return Promise.all(_.map(apis, (action, i) => {
 
 				return action.then(r => {
 					result[i] = r
@@ -1149,84 +1156,252 @@ var ApiWrapper = function (core) {
 	}
 
 	self.pctapi = {
-		stress : {
-			deviation : function(data, p = {}){
-				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
+
+		customscenarios : {
+
+			add: function (data, p = {}) {
+
+				p.method = "POST"
+
+				self.invalidateStorageNow(['customscenarios'])
+
+				return request(data, 'pctapi', 'CustomScenario/Add', p).then(r => {
+
+					core.ignore('customscenarios', {
+						id: r.id
+					})
+
+					return Promise.resolve({
+						id: r.id
+					})
+
+				})
+				
+			},
+			update: function (data, p = {}) {
+				p.method = "POST"
+
+				self.invalidateStorageNow(['customscenarios'])
+
+				data.updated = f.date.toserverFormatDate()
+
+				var { updated, from = {} } = core.vxstorage.update(data, 'customscenario')
+
+				return request(data, 'pctapi', 'CustomScenario/Update', p).then(r => {
+
+					core.ignore('customscenario', {
+						id: data.id
+					})
+
+					return Promise.resolve(updated)
+				})
+			},
+
+			delete: function (id, p = {}) {
+
+				p.method = "POST"
+
+				var data = {
+					id
+				}
+
+				var { updated } = core.vxstorage.update({
+					status: "DELETED",
+					id
+				}, 'customscenario')
+
+
+				self.invalidateStorageNow(['customscenarios'])
+
+				return request(data, 'pctapi', 'CustomScenario/Delete', p).then(r => {
+					return Promise.resolve(r)
+				})
+			},
+			
+			list: function (p = {}) {
+
+				p.method = "POST"
+
+				p.kit = {
+					class: Scenario,
+					path: 'records',
+				}
+
+				p.vxstorage = {
+					type: 'customscenario',
+					path: 'records'
+				}
+
+				p.storageparameters = dbmeta.customscenarios()
+
+				return request({
+					includeFactors : true
+				}, 'pctapi', 'CustomScenario/List', p).then(r => {
+					return Promise.resolve(r.records)
+				})
+
+			},
+
+			gets: function (ids = [], p = {}) {
+
+				if (!ids.length) return Promise.resolve([])
+
+				var data = {
+					pageSize: ids.length,
+					idsFilter: ids,
+					includeFactors : true
+				}
+
+				p.method = "POST"
+
+				p.kit = {
+					class: Scenario,
+					path: 'records',
+				}
+
+				p.vxstorage = {
+					type: 'customscenario',
+					path: 'records',
+					getloaded: 'idsFilter'
+				}
+
+				p.storageparameters = dbmeta.customscenarios()
+
+				return request(data, 'pctapi', 'CustomScenario/List', p).then(r => {
+					return Promise.resolve(r.records)
+				})
+
+			},
+		},
+
+		stress: {
+			deviation: function (data, p = {}) {
+				if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
 				p.storageparameters = dbmeta.stress()
 				p.storageparameters.invalidate = {
-					index : data.portfolioId,
-					type : 'portfolio'
+					index: data.portfolioId,
+					type: 'portfolio'
 				}
-			
+
 				return request(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 
-					if(!r) return Promise.reject({error : 'empty result'})
+					if (!r) return Promise.reject({ error: 'empty result' })
 
 					return Promise.resolve(r)
 				})
 			},
-			test : function(data, p = {}){
 
-				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
+			customtest : function({portfolio, factors}, p = {}){
+
+				p.storageparameters = dbmeta.stress()
+				p.storageparameters.invalidate = {
+					index: portfolio.id,
+					type: 'portfolio'
+				}
+
+				return request({
+					portfolioId : portfolio.id,
+					scenarios : [{
+						factors : _.map(factors, (f) => {
+							return {
+								name : f.name,
+								value : (f.value || 0).toString()
+							}
+						})
+					}]
+					
+				}, 'pctapi', 'StressTest/GetCustomStressTestDetailed', p).then((r) => {
+
+					r = f.deep(r, 'records.0')
+
+					if (!r) return Promise.reject({ error: 'empty result' })
+
+					return Promise.resolve(r)
+				})
+			},
+
+			test: function (data, p = {}) {
+
+				if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
 				data.stressTestTypes = ["Losses", "Ltr", "Yield", "CrashRating"]
 				//data.onlyKeyScenarios = true
 
 				p.storageparameters = dbmeta.stress()
 				p.storageparameters.invalidate = {
-					index : data.portfolioId,
-					type : 'portfolio'
+					index: data.portfolioId,
+					type: 'portfolio'
 				}
 
 				return request(data, 'pctapi', 'StressTest/GetStressTest', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 
-					if(!r) return Promise.reject({error : 'empty result'})
+					if (!r) return Promise.reject({ error: 'empty result' })
 
 					return Promise.resolve(r)
 				})
 
 			},
 
-			details : function(data, p = {}){
+			details: function (data, p = {}) {
 
-				if(!data.portfolioId) return Promise.reject({error : 'Portfolio id empty'}) 
+				if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
 				data.stressTestTypes = ["Losses"]
 				//data.onlyKeyScenarios = true
 
 				p.storageparameters = dbmeta.stress()
 				p.storageparameters.invalidate = {
-					index : data.portfolioId,
-					type : 'portfolio'
+					index: data.portfolioId,
+					type: 'portfolio'
 				}
 
 				return request(data, 'pctapi', 'StressTest/GetStressTestDetailed', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 
-					if(!r) return Promise.reject({error : 'empty result'})
+					if (!r) return Promise.reject({ error: 'empty result' })
 
 					return Promise.resolve(r)
 				})
 
-			}, 
+			},
 
-			scenarios : function(data, p = {}){
+			scenarios: function (data, p = {}) {
 				p.storageparameters = dbmeta.system()
 
 				return request(data, 'pctapi', 'StressTest/GetScenariosList', p).then(r => {
 
 					return Promise.resolve(r.records)
 				})
-			}
+			},
+
+			factors: function (data, p = {}) {
+				p.storageparameters = dbmeta.system()
+
+				return request(data, 'pctapi', 'StressTest/GetFactorsList', p).then(r => {
+
+					var factors = _.map(r.records, (f) => {
+
+						return {
+							...f,
+							id: f.name,
+							min: Math.max(Math.min(-1, Number((-3 * f.volatility).toFixed(1))), -60),
+							max: Math.min(Math.max(1, Number((+3 * f.volatility).toFixed(1))), 60)
+						}
+
+					})
+
+					return Promise.resolve(factors)
+				})
+			},
 		},
-		assets : {
-			search : function(d, p = {}){
+		assets: {
+			search: function (d, p = {}) {
 
 				d.count || (d.count = 7)
 
@@ -1239,13 +1414,13 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			info : function(tickers, p = {}){
+			info: function (tickers, p = {}) {
 				p.storageparameters = dbmeta.financial()
 
 				p.storageparameters.divide = {
-					requestIndex : 'tickers',
-					getloaded : 'ticker',
-					path : 'records'
+					requestIndex: 'tickers',
+					getloaded: 'ticker',
+					path: 'records'
 				}
 
 				p.method = "POST"
@@ -1260,9 +1435,9 @@ var ApiWrapper = function (core) {
 				})
 			}
 		},
-		portfolios : {
+		portfolios: {
 
-			search : function(value, data = {}, p = {}){
+			search: function (value, data = {}, p = {}) {
 				data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
 				data.searchStrFilter = value
 				data.includePositions = true
@@ -1273,7 +1448,7 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			list : function(data = {}, p = {}){
+			list: function (data = {}, p = {}) {
 
 				p.method = "POST"
 				p.count = 'pageSize'
@@ -1282,13 +1457,13 @@ var ApiWrapper = function (core) {
 				p.includeCount = "includeCount"
 
 				p.kit = {
-					class : Portfolio,
-					path : 'records'
+					class: Portfolio,
+					path: 'records'
 				}
 
 				p.vxstorage = {
-					type : 'portfolio',
-					path : 'records'
+					type: 'portfolio',
+					path: 'records'
 				}
 
 				p.storageparameters = dbmeta.portfolios()
@@ -1299,38 +1474,38 @@ var ApiWrapper = function (core) {
 
 			},
 
-			listwithClients : function(data, p){
+			listwithClients: function (data, p) {
 
 				return self.pctapi.portfolios.list(data, p).then(r => {
 
-					
+
 					var clientsIds = _.map(r.data, (p) => {
 						return p.crmContactId
 					})
 
-					clientsIds = _.filter(clientsIds, (c) => {return c})
+					clientsIds = _.filter(clientsIds, (c) => { return c })
 
-					return self.crm.contacts.gets({Ids : clientsIds}).then(c => {
+					return self.crm.contacts.gets({ Ids: clientsIds }).then(c => {
 						return Promise.resolve(r)
 					})
 				})
 
 			},
 
-			add : function(data, p = {}){
+			add: function (data, p = {}) {
 
 				p.method = "POST"
 
-				if (data.catalogId){
+				if (data.catalogId) {
 					core.vxstorage.invalidateMany(
-						[data.catalogId], 
+						[data.catalogId],
 						['filesystem']
 					)
 				}
 
-				if (data.crmContactId){
+				if (data.crmContactId) {
 					core.vxstorage.invalidateManyQueue(
-						[updated.crmContactId], 
+						[updated.crmContactId],
 						['client', 'lead']
 					)
 				}
@@ -1340,33 +1515,33 @@ var ApiWrapper = function (core) {
 				return request(data, 'pctapi', 'Portfolio/Add', p).then(r => {
 
 					core.ignore('portfolio', {
-						id : r.id
+						id: r.id
 					})
 
 					return Promise.resolve({
-						id : r.id
+						id: r.id
 					})
-					
+
 				})
 			},
-			update : function(data, p = {}){
+			update: function (data, p = {}) {
 				p.method = "POST"
 
 				self.invalidateStorageNow(['portfolios', 'contacts'])
 
 				data.updated = f.date.toserverFormatDate()
 
-				var {updated, from = {}} = core.vxstorage.update(data, 'portfolio')
+				var { updated, from = {} } = core.vxstorage.update(data, 'portfolio')
 
-				if (updated){
+				if (updated) {
 
 					core.vxstorage.invalidateManyQueue(
-						[updated.crmContactId, from.crmContactId], 
+						[updated.crmContactId, from.crmContactId],
 						['client', 'lead']
 					)
 
 					core.vxstorage.invalidateMany(
-						[updated.catalogId, from.catalogId], 
+						[updated.catalogId, from.catalogId],
 						['filesystem']
 					)
 
@@ -1376,30 +1551,30 @@ var ApiWrapper = function (core) {
 				return request(data, 'pctapi', 'Portfolio/Update', p).then(r => {
 
 					core.ignore('portfolio', {
-						id : data.id
+						id: data.id
 					})
 
 					return Promise.resolve(updated)
 				})
 			},
 
-			get : function(id, p = {}){
+			get: function (id, p = {}) {
 
 				p.method = "POST"
 
 				var data = {
-					id, 
-					includePositions : true
+					id,
+					includePositions: true
 				}
 
 				p.kit = {
-					class : Portfolio,
-					one : true
+					class: Portfolio,
+					one: true
 				}
 
 				p.vxstorage = {
-					type : 'portfolio',
-					index : id
+					type: 'portfolio',
+					index: id
 				}
 
 				p.storageparameters = dbmeta.portfolios()
@@ -1407,28 +1582,28 @@ var ApiWrapper = function (core) {
 				return request(data, 'pctapi', 'Portfolio/GetById', p)
 			},
 
-			gets : function(ids = [], p = {}){
+			gets: function (ids = [], p = {}) {
 
 
-				if(!ids.length) return Promise.resolve([])
+				if (!ids.length) return Promise.resolve([])
 
 				var data = {
-					pageSize : ids.length,
-					idsFilter : ids, 
-					includePositions : true
+					pageSize: ids.length,
+					idsFilter: ids,
+					includePositions: true
 				}
 
 				p.method = "POST"
 
 				p.kit = {
-					class : Portfolio,
-					path : 'records',
+					class: Portfolio,
+					path: 'records',
 				}
 
 				p.vxstorage = {
-					type : 'portfolio',
-					path : 'records',
-					getloaded : 'idsFilter'
+					type: 'portfolio',
+					path: 'records',
+					getloaded: 'idsFilter'
 				}
 
 				p.storageparameters = dbmeta.portfolios()
@@ -1437,34 +1612,34 @@ var ApiWrapper = function (core) {
 					return Promise.resolve(r.records)
 				})
 
-			}, 
+			},
 
-			delete : function(ids, p = {}){
+			delete: function (ids, p = {}) {
 
-				if(!_.isArray(ids)) ids = [ids]
+				if (!_.isArray(ids)) ids = [ids]
 
 				p.method = "POST"
 
 				var data = {
-					ids 
+					ids
 				}
 
 				_.each(ids, (id) => {
 					var { updated } = core.vxstorage.update({
-						status : "DELETED",
+						status: "DELETED",
 						id
 					}, 'portfolio')
 
 					core.user.activity.remove('portfolio', id)
 
-					if (updated){
+					if (updated) {
 						core.vxstorage.invalidateManyQueue(
-							[updated.crmContactId], 
+							[updated.crmContactId],
 							['client', 'lead']
 						)
 
 						core.vxstorage.invalidateMany(
-							[updated.catalogId], 
+							[updated.catalogId],
 							['filesystem']
 						)
 					}
@@ -1474,39 +1649,39 @@ var ApiWrapper = function (core) {
 
 				return request(data, 'pctapi', 'Portfolio/DeleteByIds', p).then(r => {
 
-					
+
 
 					return Promise.resolve(r)
-					
+
 				})
 			},
 
-			recover : function(ids, p = {}){
+			recover: function (ids, p = {}) {
 
-				if(!_.isArray(ids)) ids = [ids]
+				if (!_.isArray(ids)) ids = [ids]
 
 				p.method = "POST"
 
 				var data = {
-					ids 
+					ids
 				}
 
 				return request(data, 'pctapi', 'Portfolio/RecoverByIds', p).then(r => {
 					_.each(ids, (id) => {
 
 						var { updated } = core.vxstorage.update({
-							status : "ACTIVE",
+							status: "ACTIVE",
 							id
 						}, 'portfolio')
 
-						if (updated){
+						if (updated) {
 							core.vxstorage.invalidateManyQueue(
-								[updated.crmContactId], 
+								[updated.crmContactId],
 								['client', 'lead']
 							)
 
 							core.vxstorage.invalidateMany(
-								[updated.catalogId], 
+								[updated.catalogId],
 								['filesystem']
 							)
 						}
@@ -1515,46 +1690,46 @@ var ApiWrapper = function (core) {
 					self.invalidateStorageNow(['portfolios', 'contacts'])
 
 					return Promise.resolve(r)
-					
+
 				})
 			},
 
-			
+
 		}
 	}
 
 	self.crm = {
-		contacts : {
-			search : function(value, data = {}, p = {}){
+		contacts: {
+			search: function (value, data = {}, p = {}) {
 				p.method = "POST"
 				data.From = 1
 				data.To = 7
 
-				data.orderBy = {FName: "asc"}
+				data.orderBy = { FName: "asc" }
 
-				data.query = core.crm.query('simplesearch', {search : value, type : data.type || "CLIENT"})
+				data.query = core.crm.query('simplesearch', { search: value, type: data.type || "CLIENT" })
 
 				p.kit = {
-					class : Contact,
-					path : 'records'
+					class: Contact,
+					path: 'records'
 				}
 
 				return request(data, 'api', 'crm/Contacts/List', p).then(r => {
 					return r.records
 				})
 			},
-			list : function(data, p = {}){
+			list: function (data, p = {}) {
 
 				p.method = "POST"
 
 				p.vxstorage = {
-					type : 'client',
-					path : 'records'
+					type: 'client',
+					path: 'records'
 				}
 
 				p.kit = {
-					class : Contact,
-					path : 'records'
+					class: Contact,
+					path: 'records'
 				}
 
 				p.storageparameters = dbmeta.contacts()
@@ -1563,28 +1738,28 @@ var ApiWrapper = function (core) {
 
 			},
 
-			getbyids : function(ids, p = {}){
+			getbyids: function (ids, p = {}) {
 
 				p.kit = {
-					class : Contact,
-					path : 'records'
+					class: Contact,
+					path: 'records'
 				}
 
-				return self.crm.contacts.gets({Ids : ids}, p)
+				return self.crm.contacts.gets({ Ids: ids }, p)
 			},
 
-			gets : function(data, p = {}){
+			gets: function (data, p = {}) {
 				p.method = "POST"
 
 				p.vxstorage = {
-					type : 'client',
-					path : 'records',
-					getloaded : 'Ids'
+					type: 'client',
+					path: 'records',
+					getloaded: 'Ids'
 				}
 
 				p.kit = {
-					class : Contact,
-					path : 'records'
+					class: Contact,
+					path: 'records'
 				}
 
 				p.storageparameters = dbmeta.contacts()
@@ -1594,20 +1769,20 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			counts : function(p = {}){
+			counts: function (p = {}) {
 				p.storageparameters = dbmeta.contacts()
 
 				return request({
-					Product : 'pct'
+					Product: 'pct'
 				}, 'api', 'crm/Contacts/GetCountsByType', p)
 			},
 
-			update : function(data = {}, p = {}){
+			update: function (data = {}, p = {}) {
 				p.method = "POST"
 
 				data.Modified = f.date.toserverFormatDate()
 
-				var {updated, from} = core.vxstorage.update(data, 'client')
+				var { updated, from } = core.vxstorage.update(data, 'client')
 
 				core.vxstorage.update(data, 'lead')
 
@@ -1616,15 +1791,15 @@ var ApiWrapper = function (core) {
 
 				console.log("updated", updated, from)
 
-				if(updated){
+				if (updated) {
 					core.user.activity.template('client', updated)
 					core.user.activity.template('lead', updated)
 
-					if(from.Status == 'LEAD_NEW' && updated.Status == "LEAD"){
+					if (from.Status == 'LEAD_NEW' && updated.Status == "LEAD") {
 						core.updates.decrease('leads')
 					}
 
-					if(from.Type == 'LEAD' && updated.Type == "CLIENT"){
+					if (from.Type == 'LEAD' && updated.Type == "CLIENT") {
 						core.updates.decrease('totalLeads')
 						core.updates.increase('totalClients')
 					}
@@ -1635,18 +1810,18 @@ var ApiWrapper = function (core) {
 				return request(data, 'api', 'crm/Contacts/Update', p).then(r => {
 
 					core.ignore('client', {
-						ID : data.ID
+						ID: data.ID
 					})
 
 					core.ignore('lead', {
-						ID : data.ID
+						ID: data.ID
 					})
 
 					return Promise.resolve(data)
 				})
 			},
 
-			add : function(data = {}, p = {}){
+			add: function (data = {}, p = {}) {
 				p.method = "POST"
 
 				self.invalidateStorageNow(['portfolios', 'contacts'])
@@ -1655,23 +1830,23 @@ var ApiWrapper = function (core) {
 
 				return request(data, 'api', 'crm/Contacts/Insert', p).then(r => {
 
-					if (r.alreadyExists){
+					if (r.alreadyExists) {
 						return Promise.reject(r)
 					}
 
 					data.ID = r.id
 
-					if (data.type == 'CLIENT'){
+					if (data.type == 'CLIENT') {
 						core.ignore('client', {
-							ID : data.ID
+							ID: data.ID
 						})
 
 						core.updates.increase('totalClients')
 					}
 
-					if(data.type == 'LEAD'){
+					if (data.type == 'LEAD') {
 						core.ignore('lead', {
-							ID : data.ID
+							ID: data.ID
 						})
 
 						core.updates.increase('totalLeads')
@@ -1685,25 +1860,25 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			get : function(id, p = {}){
+			get: function (id, p = {}) {
 				p.method = "GET"
 
 				p.vxstorage = {
-					type : 'client',
-					getloaded : id,
-					one : true
+					type: 'client',
+					getloaded: id,
+					one: true
 				}
 
 				p.kit = {
-					class : Contact,
-					path : '',
-					one : true
+					class: Contact,
+					path: '',
+					one: true
 				}
 
 				return request({}, 'api', 'crm/Contacts/' + id, p)
 			},
 
-			scheme : function(p = {}){
+			scheme: function (p = {}) {
 				p.method = "GET"
 
 				p.storageparameters = dbmeta.system()
@@ -1713,18 +1888,18 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			getidbyemail : function(email, p = {}){
+			getidbyemail: function (email, p = {}) {
 				var companyId = f.deep(core, 'user.info.Company.ID')
 
-				if(!companyId) return Promise.reject('user.info.Company.ID')
+				if (!companyId) return Promise.reject('user.info.Company.ID')
 
 				p.method = "GET"
-				
 
-				return request({companyId, email}, 'api', 'crm/Contacts/GetContactByEmail', p)
+
+				return request({ companyId, email }, 'api', 'crm/Contacts/GetContactByEmail', p)
 			},
 
-			getbyemail : function(email, p = {}){
+			getbyemail: function (email, p = {}) {
 				return self.crm.contacts.getidbyemail(email, p).then(id => {
 
 
@@ -1733,9 +1908,9 @@ var ApiWrapper = function (core) {
 			}
 		},
 
-		upload : {
+		upload: {
 
-			avatarId : function(data, p = {}){
+			avatarId: function (data, p = {}) {
 				p.method = "POST"
 
 				return request(data, 'api', 'crm/Contacts/LoadAvatar', p).then(r => {
@@ -1743,7 +1918,7 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			avatar : function(formData, ContactId, id){
+			avatar: function (formData, ContactId, id) {
 
 				formData.append('Id', id.split('.')[0]);
 				formData.append('Start', 0);
@@ -1751,60 +1926,60 @@ var ApiWrapper = function (core) {
 				return self.crm.upload.attachment(formData).then(r => {
 
 					var ud = {
-						ID : ContactId,
-						AvatarId : id
+						ID: ContactId,
+						AvatarId: id
 					}
 
-					var {updated} = core.vxstorage.update(ud, 'client')
+					var { updated } = core.vxstorage.update(ud, 'client')
 
-					if (updated){
+					if (updated) {
 						core.user.activity.template('client', updated)
 					}
 
-					var {updated} = core.vxstorage.update(ud, 'lead')
+					var { updated } = core.vxstorage.update(ud, 'lead')
 
-					if (updated){
+					if (updated) {
 						core.user.activity.template('lead', updated)
 					}
 
 					self.invalidateStorageNow(['portfolios', 'contacts'])
 
 					core.ignore('client', {
-						ID : ContactId
+						ID: ContactId
 					})
 
 					core.ignore('lead', {
-						ID : ContactId
+						ID: ContactId
 					})
 
-					
+
 
 					return Promise.resolve()
 				})
 			},
 
-			attachment : function(formData, p = {}){
+			attachment: function (formData, p = {}) {
 				return request(formData, 'apiFD', 'crm/Attachments/Upload', p)
 			}
 
-			
+
 		},
 
-		questionnaire : {
-			getlink : function(clientid, p = {}){	
+		questionnaire: {
+			getlink: function (clientid, p = {}) {
 
 				p.method = "GET"
 
 				var d = {}
 
-				if(clientid) d.leadId = clientid
+				if (clientid) d.leadId = clientid
 
-					p.storageparameters = dbmeta.system()
+				p.storageparameters = dbmeta.system()
 
 				return request(d, 'api', 'crm/Surveys/GetKeyForPctQuiz', p).then(r => {
 
 					var prefix = 'https://rixtrema.net/pctnew/'
-					
+
 					/*window.location.origin
 
 					if(window.cordova) prefix = 'https://rixtrema.net/pctnew/'
@@ -1813,37 +1988,37 @@ var ApiWrapper = function (core) {
 					console.log('prefix', prefix)*/
 
 					return Promise.resolve(prefix + 'riskscore/' + r.token)
-	
+
 				})
-				
+
 			},
 
-			getdata : function(token, p = {}){
+			getdata: function (token, p = {}) {
 
 				p.method = "GET"
 
-				return request({token}, 'api', 'crm/Surveys/GetInfoForPctQuiz', p).then(r => {
+				return request({ token }, 'api', 'crm/Surveys/GetInfoForPctQuiz', p).then(r => {
 
 					return Promise.resolve(r)
-	
+
 				})
 
 			},
-			response : {
-				first : function(Token, client = {}, p = {}){
+			response: {
+				first: function (Token, client = {}, p = {}) {
 					p.method = "POST"
 
 					return request({
 						Token,
 						...client
 					}, 'api', 'crm/SurveysAnswers/InsertPctAnswerFirst', p).then(r => {
-	
+
 						return Promise.resolve(r.id)
-		
+
 					})
 				},
 
-				second : function(Token, SurveyAnswerId, Json = "", p = {}){
+				second: function (Token, SurveyAnswerId, Json = "", p = {}) {
 					p.method = "POST"
 
 					return request({
@@ -1851,13 +2026,13 @@ var ApiWrapper = function (core) {
 						SurveyAnswerId,
 						Json
 					}, 'api', 'crm/SurveysAnswers/InsertPctAnswerSecond', p).then(r => {
-	
+
 						return Promise.resolve(r.id)
-		
+
 					})
 				},
 
-				third : function(Token, SurveyAnswerId, data = {}, p = {}){
+				third: function (Token, SurveyAnswerId, data = {}, p = {}) {
 					p.method = "POST"
 
 					return request({
@@ -1865,41 +2040,41 @@ var ApiWrapper = function (core) {
 						SurveyAnswerId,
 						...data
 					}, 'api', 'crm/SurveysAnswers/InsertPctAnswerThird', p).then(r => {
-	
+
 						return Promise.resolve(r.id)
-		
+
 					})
 				}
 			},
 
-			getresult : function(id, p = {}){
+			getresult: function (id, p = {}) {
 
 				p.method = "GET"
-	
+
 				return request({}, 'api', 'crm/SurveysAnswers/' + id, p).then(r => {
 					var js = null
 
-					try{
+					try {
 						js = JSON.parse(r.Json || "{}")
-					}catch(e){
-						
+					} catch (e) {
+
 					}
 
 
-					if(!js) return Promise.reject('json')
+					if (!js) return Promise.reject('json')
 
 					return Promise.resolve(js)
-	
+
 				})
 
-				
+
 			}
 		}
 	}
 
 	self.notifications = {
-		list : function(data = {}, p){
-			if(!p) p = {}
+		list: function (data = {}, p) {
+			if (!p) p = {}
 
 			p.method = "POST"
 			p.count = 'pageSize'
@@ -1912,66 +2087,66 @@ var ApiWrapper = function (core) {
 			return paginatedrequest(data, 'api', 'notifier/Event/webSocketsList', p)
 		},
 
-		get : function(id, p = {}){
+		get: function (id, p = {}) {
 
 			p.method = "POST"
 
-			return request({id}, 'api', 'notifier/Event/webSocketEvent', p)
+			return request({ id }, 'api', 'notifier/Event/webSocketEvent', p)
 		},
 
-		register : function({token, device}, p = {}){
+		register: function ({ token, device }, p = {}) {
 
 			p.method = "POST"
 
 
-			return request({registerId : token, device, appId : self.appid}, 'api', 'notifier/Firebase/Register', p).then(r => {
+			return request({ registerId: token, device, appId: self.appid }, 'api', 'notifier/Firebase/Register', p).then(r => {
 			})
 
 		},
 
-		revoke : function({device}, p = {}){
+		revoke: function ({ device }, p = {}) {
 			p.method = "POST"
 
-			return request({device, appId : self.appid}, 'api', 'notifier/Firebase/Revoke', p).then(r => {
+			return request({ device, appId: self.appid }, 'api', 'notifier/Firebase/Revoke', p).then(r => {
 			})
 		},
 
-		hide : function(id, p = {}){
+		hide: function (id, p = {}) {
 
 			p.method = "POST"
 
-			return request({id}, 'api', 'notifier/Event/hide', p)
+			return request({ id }, 'api', 'notifier/Event/hide', p)
 
 		},
 
-		makeRead : function(ids, p = {}){
+		makeRead: function (ids, p = {}) {
 
-			if(!_.isArray(ids)) ids = [ids]
+			if (!_.isArray(ids)) ids = [ids]
 
 			ids = _.map(ids, (id) => {
-				if(_.isObject(id)) return id.id || id.eventid
+				if (_.isObject(id)) return id.id || id.eventid
 
 				return id
 			})
 
 			p.method = "POST"
 
-			return request({ids}, 'api', 'notifier/Event/markListAsRead', p)
+			return request({ ids }, 'api', 'notifier/Event/markListAsRead', p)
 
 		},
 
-		makeReadAll : function(p = {}){
+		makeReadAll: function (p = {}) {
 
 			p.method = "POST"
 
 			return request({
-				appId : self.appid
+				appId: self.appid
 			}, 'api', 'notifier/Event/markListByAppAsRead', p)
 
 		},
 
-		count : function(data = {}, p){
-			if(!p) p = {}
+		count: function (data = {}, p) {
+			if (!p) p = {}
 
 			p.method = "POST"
 
@@ -1983,7 +2158,7 @@ var ApiWrapper = function (core) {
 
 			return request(data, 'api', 'notifier/Event/webSocketsList', p).then(r => {
 				return Promise.resolve({
-					count : r.pagination.total || 0
+					count: r.pagination.total || 0
 				})
 			})
 		}
@@ -1991,43 +2166,43 @@ var ApiWrapper = function (core) {
 
 	self.filesystem = {
 		/* {root} */
-		get : function(rootid, p = {}){
+		get: function (rootid, p = {}) {
 
 			p.method = "POST"
 
 			p.vxstorage = {
-				type : 'filesystem',
-				getloaded : rootid,
-				one : true
+				type: 'filesystem',
+				getloaded: rootid,
+				one: true
 			}
 
 			return request({
-				id : rootid || '0'
+				id: rootid || '0'
 			}, 'pctapi', 'Catalog/GetCatalogContent', p).then(r => {
 
 				var result = {
-					name : r.name,
-					content : [],
-					id : r.id
+					name: r.name,
+					content: [],
+					id: r.id
 				}
 
 				_.each(r.catalogs, (c) => {
 					result.content.push({
-						type : 'folder',
-						id : c.id,
-						name : c.name,
-						from : rootid || '0',
-						context : 'filesystem'
+						type: 'folder',
+						id: c.id,
+						name: c.name,
+						from: rootid || '0',
+						context: 'filesystem'
 					})
 				})
 
 				_.each(r.portfolios, (p) => {
 					result.content.push({
-						type : 'portfolio',
-						id : p.id,
-						name : p.name,
-						from : rootid || '0',
-						context : 'filesystem'
+						type: 'portfolio',
+						id: p.id,
+						name: p.name,
+						from: rootid || '0',
+						context: 'filesystem'
 					})
 				})
 
@@ -2035,7 +2210,7 @@ var ApiWrapper = function (core) {
 			})
 		},
 
-		gets : function(ids){
+		gets: function (ids) {
 
 			var r = []
 
@@ -2050,9 +2225,9 @@ var ApiWrapper = function (core) {
 			})
 		},
 
-		create : {
+		create: {
 			/* {root, name} */
-			folder : function(data, p){
+			folder: function (data, p) {
 				return request(data, 'pctapi', 'Catalog/Add', p).then((r) => {
 
 					core.vxstorage.invalidate(data.catalogId, 'filesystem')
@@ -2062,34 +2237,34 @@ var ApiWrapper = function (core) {
 			}
 		},
 
-		move : {
-			folder : function({id, to, from}, p){
+		move: {
+			folder: function ({ id, to, from }, p) {
 
 				var data = {
 					id,
-					destinationCatalogId : to
+					destinationCatalogId: to
 				}
 
 				core.vxstorage.invalidateMany(
-					[to, from], 
+					[to, from],
 					['filesystem']
 				)
 
 				return request(data, 'pctapi', 'Catalog/MoveCatalog', p)
 			},
-			portfolio : function({id, to, from}, p){
+			portfolio: function ({ id, to, from }, p) {
 
 				console.log('id, to, from', id, to, from)
 
 				var data = {
 					id,
-					destinationCatalogId : to
+					destinationCatalogId: to
 				}
 
 				console.log('id, to, from', id, to, from)
 
 				core.vxstorage.invalidateMany(
-					[to, from], 
+					[to, from],
 					['filesystem']
 				)
 
@@ -2097,25 +2272,25 @@ var ApiWrapper = function (core) {
 			}
 		},
 
-		delete : {
-			folder : function({id, from}, p){
+		delete: {
+			folder: function ({ id, from }, p) {
 
 				var data = {
 					id
 				}
 
 				core.vxstorage.invalidateMany(
-					[from], 
+					[from],
 					['filesystem']
 				)
 
 				return request(data, 'pctapi', 'Catalog/DeleteCatalog', p)
 			},
 
-			portfolio : function({id, from}, p){
+			portfolio: function ({ id, from }, p) {
 
 				core.vxstorage.invalidateMany(
-					[from], 
+					[from],
 					['filesystem']
 				)
 
@@ -2141,67 +2316,67 @@ var ApiWrapper = function (core) {
 			})
 		},
 
-		prechangePassword : function(password, p = {}){
+		prechangePassword: function (password, p = {}) {
 			return request({
-				OldPassword : password
+				OldPassword: password
 			}, 'api', 'userdata/user/PreChangePassword', p)
 		},
 
-		changePassword : function({password, pin}, p = {}){
+		changePassword: function ({ password, pin }, p = {}) {
 
 			return request({
 
-				NewPassword : password,
-				Pin : pin
+				NewPassword: password,
+				Pin: pin
 
 			}, 'api', 'userdata/user/PreChangePassword', p)
-			
+
 		},
 
-		restorePassword : function({email}, p = {}){
+		restorePassword: function ({ email }, p = {}) {
 			return request({
-				Email : email,
-				Link : 'PCT'
+				Email: email,
+				Link: 'PCT'
 			}, 'api', 'userdata/user/RestorePassword', p)
 		},
 
-		restorePasswordContinue : function({email, pin, password}, p = {}){
+		restorePasswordContinue: function ({ email, pin, password }, p = {}) {
 			return request({
-				Email : email,
-				Code : pin,
-				NewPassword : password
+				Email: email,
+				Code: pin,
+				NewPassword: password
 			}, 'api', 'userdata/user/SetNewPassword', p)
 		},
 
-		settings : {
-			getall : function(type){
-				return request({type, product : 'PCT'}, 'api', 'userdata/settings/list', {
+		settings: {
+			getall: function (type) {
+				return request({ type, product: 'PCT' }, 'api', 'userdata/settings/list', {
 					method: "GET",
 				})
 			},
 
-			create : function(key, value, type){
+			create: function (key, value, type) {
 
 				var data = {}
-					data.Product = 'PCT'
-					data.IsPublic = true
-					data.Type = type
-					data.Name = key
-					data.Info = JSON.stringify(value)
+				data.Product = 'PCT'
+				data.IsPublic = true
+				data.Type = type
+				data.Name = key
+				data.Info = JSON.stringify(value)
 
 				return request(data, 'api', 'userdata/settings/create', {
 					method: "POST",
 				})
 			},
 
-			update : function(id, key, value, type){
+			update: function (id, key, value, type) {
 
 				var data = {}
-					data.product = 'PCT'
-					data.IsPublic = true
-					data.Type = type
-					data.Name = key
-					data.Info = JSON.stringify(value)
+				data.product = 'PCT'
+				data.IsPublic = true
+				data.Type = type
+				data.Name = key
+				data.Info = JSON.stringify(value)
 
 				return request(data, 'api', 'userdata/settings/update/' + id, {
 					method: "POST",
@@ -2209,43 +2384,58 @@ var ApiWrapper = function (core) {
 			}
 		},
 
-		updated : function(p = {}){
+		updated: function (p = {}) {
 			return request({}, 'pctapi', 'User/GetLastUpdates', {
 				method: "POST"
 			}).then(r => {
 
 				var invalidateStorage = []
 
-				if(r.lastClientUpdate) 
+				if (r.lastClientUpdate)
 					invalidateStorage.push({
-						updated : f.date.fromstring(r.lastClientUpdate, true) / 1000,
-						type : ['contacts'] 
-					})
-				
-				if(r.lastLeadUpdate) 
-					invalidateStorage.push({
-						updated : f.date.fromstring(r.lastLeadUpdate, true) / 1000,
-						type : ['contacts'] 
+						updated: f.date.fromstring(r.lastClientUpdate, true) / 1000,
+						type: ['contacts']
 					})
 
-				if(r.lastPortfolioUpdate) 
+				if (r.lastLeadUpdate)
 					invalidateStorage.push({
-						updated : f.date.fromstring(r.lastPortfolioUpdate, true) / 1000,
-						type : ['portfolios'] 
+						updated: f.date.fromstring(r.lastLeadUpdate, true) / 1000,
+						type: ['contacts']
 					})
 
-				if(r.lastScenariosUpdate) 
+				if (r.lastPortfolioUpdate)
 					invalidateStorage.push({
-						updated : f.date.fromstring(r.lastScenariosUpdate, true) / 1000,
-						type : ['system', 'stress', 'financial'] 
+						updated: f.date.fromstring(r.lastPortfolioUpdate, true) / 1000,
+						type: ['portfolios']
 					})
 
-				if(r.lastAsyncTasksUpdate){
+				if (r.LastModelUpdate)
 					invalidateStorage.push({
-						updated : f.date.fromstring(r.lastAsyncTasksUpdate, true) / 1000,
-						type : ['tasks'] 
+						updated: f.date.fromstring(r.LastModelUpdate, true) / 1000,
+						type: ['system', 'stress', 'financial']
+					})
+
+				if (r.lastScenariosUpdate)
+					invalidateStorage.push({
+						updated: f.date.fromstring(r.lastScenariosUpdate, true) / 1000,
+						type: ['system', 'stress', 'financial']
+					})
+
+				if (r.lastAsyncTasksUpdate) {
+					invalidateStorage.push({
+						updated: f.date.fromstring(r.lastAsyncTasksUpdate, true) / 1000,
+						type: ['tasks']
 					})
 				}
+
+				if (r.lastCustomScenarioUpdate) {
+					invalidateStorage.push({
+						updated: f.date.fromstring(r.lastCustomScenarioUpdate, true) / 1000,
+						type: ['customscenarios']
+					})
+				}
+
+				
 
 				return Promise.resolve(invalidateStorage)
 
@@ -2253,7 +2443,7 @@ var ApiWrapper = function (core) {
 		}
 	}
 
-	self.checkUpdates = function(){
+	self.checkUpdates = function () {
 		return self.user.updated().then(inv => {
 			return invalidateStorage(inv)
 		}).catch(e => {
@@ -2261,24 +2451,24 @@ var ApiWrapper = function (core) {
 		})
 	}
 
-	var invalidateStorageType = function(type, updated){
-		if(!storages[type]) return Promise.resolve()
+	var invalidateStorageType = function (type, updated) {
+		if (!storages[type]) return Promise.resolve()
 
 		return storages[type].invalidateMany(updated)
 	}
 
-	self.invalidateStorageNow = function(type){
+	self.invalidateStorageNow = function (type) {
 		var inv = [{
-			updated : f.date.nowUtc1000(),
+			updated: f.date.nowUtc1000(),
 			type
 		}]
 
 		return invalidateStorage(inv)
 	}
 
-	var invalidateStorage = function(inv){
+	var invalidateStorage = function (inv) {
 		return Promise.all(_.map(inv, (item) => {
-			
+
 			return Promise.all(_.map(item.type, (type) => {
 				return invalidateStorageType(type, item.updated)
 			}))
@@ -2288,20 +2478,20 @@ var ApiWrapper = function (core) {
 
 	self.tasks = {
 
-		create : function(data = {}, p = {}){
-			 
+		create: function (data = {}, p = {}) {
+
 			self.invalidateStorageNow(['tasks'])
 
 			let formData = new FormData();
 
-				formData.append('Type', 'PARSEPORTFOLIO');
-				formData.append('AppId', 'PCT');
-				formData.append("File", data.file);
+			formData.append('Type', 'PARSEPORTFOLIO');
+			formData.append('AppId', 'PCT');
+			formData.append("File", data.file);
 
 			return request(formData, 'apiFDH', 'async_task_manager/AsyncTask/Create', p).then(r => {
 
 				core.ignore('task', {
-					id : r.id
+					id: r.id
 				})
 
 				return Promise.resolve(r.id)
@@ -2310,7 +2500,7 @@ var ApiWrapper = function (core) {
 
 		},
 
-		list : function(data = {}, p = {}){
+		list: function (data = {}, p = {}) {
 			p.method = "POST"
 
 			p.count = 'pageSize'
@@ -2319,13 +2509,13 @@ var ApiWrapper = function (core) {
 			p.includeCount = "includeCount"
 
 			p.kit = {
-				class : Task,
-				path : 'records'
+				class: Task,
+				path: 'records'
 			}
 
 			p.vxstorage = {
-				type : 'task',
-				path : 'records'
+				type: 'task',
+				path: 'records'
 			}
 
 			p.storageparameters = dbmeta.tasks()
@@ -2339,13 +2529,13 @@ var ApiWrapper = function (core) {
 			})
 		},
 
-		get : function(taskId, p = {}){
+		get: function (taskId, p = {}) {
 			p.method = "POST"
 
-			return request({taskId}, 'api', 'async_task_manager/AsyncTask/GetTask', p)
+			return request({ taskId }, 'api', 'async_task_manager/AsyncTask/GetTask', p)
 		},
-		
-		update : function(id, dataManual, p = {}){
+
+		update: function (id, dataManual, p = {}) {
 			p.method = "POST"
 
 			self.invalidateStorageNow(['tasks'])
@@ -2354,27 +2544,27 @@ var ApiWrapper = function (core) {
 				id
 			})
 
-			var {updated, from} = core.vxstorage.update({
-				data : dataManual,
-				manual : true,
+			var { updated, from } = core.vxstorage.update({
+				data: dataManual,
+				manual: true,
 				id
 			}, 'task')
 
-			return request({id, dataManual : JSON.stringify({Infos : dataManual})}, 'api', 'async_task_manager/AsyncTask/UpdateTask', p)
+			return request({ id, dataManual: JSON.stringify({ Infos: dataManual }) }, 'api', 'async_task_manager/AsyncTask/UpdateTask', p)
 		},
 
-		delete : function(taskId, p = {}){
+		delete: function (taskId, p = {}) {
 			p.method = "POST"
 
-			return request({taskId}, 'api', 'async_task_manager/AsyncTask/DeleteTask', p)
+			return request({ taskId }, 'api', 'async_task_manager/AsyncTask/DeleteTask', p)
 		},
-		deleteItems : function(taskIds, p = {}){
+		deleteItems: function (taskIds, p = {}) {
 			p.method = "POST"
 
-			return request({taskIds}, 'api', 'async_task_manager/AsyncTask/DeleteTasks', p)
+			return request({ taskIds }, 'api', 'async_task_manager/AsyncTask/DeleteTasks', p)
 		},
 
-		getattachment : function(key, taskId, p = {}){
+		getattachment: function (key, taskId, p = {}) {
 			p.method = "POST"
 
 			var datahash = sha1(key + taskId)
@@ -2382,21 +2572,21 @@ var ApiWrapper = function (core) {
 			core.store.commit('globalpreloader', true)
 
 			return dbaction(datahash, () => {
-				
-				return request({taskId, storageKey : key}, 'api', 'async_task_manager/AsyncTask/GetAttachmentLink', p).then(r => {
-					
+
+				return request({ taskId, storageKey: key }, 'api', 'async_task_manager/AsyncTask/GetAttachmentLink', p).then(r => {
+
 					return Axios({
 						url: r.url,
 					})
 
 				}).then(r => {
 
-					var file = new Blob([r.data], {type : r.headers['content-type']})
-					
+					var file = new Blob([r.data], { type: r.headers['content-type'] })
+
 					return Promise.resolve(file)
 				})
 			}, {
-				storageparameters : dbmeta.files()
+				storageparameters: dbmeta.files()
 			}).then(r => {
 				core.store.commit('globalpreloader', false)
 
@@ -2406,13 +2596,13 @@ var ApiWrapper = function (core) {
 				core.store.commit('globalpreloader', false)
 				return Promise.reject(e)
 			})
-			
+
 		}
 	}
 
 	self.rixtrema = {
-		aws : {
-			get : function(data = {}, p = {}){
+		aws: {
+			get: function (data = {}, p = {}) {
 
 				p.method = "GET"
 
@@ -2423,7 +2613,7 @@ var ApiWrapper = function (core) {
 				})
 			},
 
-			original: function(id, type, p = {}){
+			original: function (id, type, p = {}) {
 
 				p.storageparameters = dbmeta.files()
 
@@ -2431,16 +2621,16 @@ var ApiWrapper = function (core) {
 
 					return Promise.resolve(new Blob([r.Message], { type }))
 				})
-				
+
 			},
 
-			upload: function(info, file, p){
+			upload: function (info, file, p) {
 
 				let formData = new FormData();
 
-					formData.append('action', 'AWSTEXTRACTOR_POST');
-					formData.append('info', JSON.stringify(info));
-					formData.append("data", file);
+				formData.append('action', 'AWSTEXTRACTOR_POST');
+				formData.append('info', JSON.stringify(info));
+				formData.append("data", file);
 
 
 				return request(formData, '401kFD', '', p).then(r => {
@@ -2452,7 +2642,7 @@ var ApiWrapper = function (core) {
 		}
 	}
 
-	self.prepare = function(){
+	self.prepare = function () {
 		return Promise.all(_.map(dbmeta, (mf) => {
 			return getstorage(mf())
 		})).catch(e => {

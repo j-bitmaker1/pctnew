@@ -88,6 +88,10 @@ export default {
 
             this.core.vueapi.addMenu()
 
+        },
+
+        tohelp : function(){
+            this.$router.push("/faq")
         }
     },
 }

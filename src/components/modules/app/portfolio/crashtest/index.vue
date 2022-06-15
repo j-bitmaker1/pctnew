@@ -20,8 +20,6 @@
 				</div>
 			</div>
 
-		
-
 			<div class="subheader mobp">
 				<div class="forvalue">
 					<value :value="portfolio.total() + portfolio.uncovered()" mode="auto"/>
