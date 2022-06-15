@@ -191,10 +191,13 @@ export default {
 		},
 
 		stopEvent : function(e){
-			if (e.cancelable !== false){
+
+			if (e.cancelable !== false && e.changedTouches.length > 1){
 				e.stopPropagation();
 				e.preventDefault();
 			}
+
+			
 
 			return false
 		},

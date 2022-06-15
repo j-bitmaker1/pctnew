@@ -45,10 +45,10 @@ export default {
 
         value : function(factor){
             if (this.inbps(factor)){
-                return factor.value * 100 + 'bps'
+                return (factor.value * 100).toFixed(0) + 'bps'
             }
             else{   
-                return factor.value / 100
+                return (factor.value / 100)
             }
         }
     },

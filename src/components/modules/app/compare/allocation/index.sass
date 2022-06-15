@@ -62,3 +62,15 @@
 
     .forlist
         margin-left: auto
+
+@media only screen and (min-width: 1024px)
+    .wrapper
+        display: flex
+        flex-wrap: wrap
+        overflow-x: hidden
+        grid-gap: $r
+        justify-content: center
+
+        >div
+            flex-basis: 45%
+            min-width: 0

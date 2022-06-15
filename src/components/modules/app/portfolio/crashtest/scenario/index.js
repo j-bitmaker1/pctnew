@@ -40,6 +40,7 @@ export default {
 		width : function(loss){
 			if(!this.cts.max) return 0
 
+
 			return 100 * Math.abs(loss) / this.cts.max
 
 		},

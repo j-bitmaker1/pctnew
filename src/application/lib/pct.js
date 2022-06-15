@@ -259,13 +259,16 @@ class PCT {
     }
 
     parseStandartDeviationOld = function(r){
+
+        
+
         var re = {
             longTermReturn : f.numberParse(r.LongTermReturn),
             standardDeviation : f.numberParse(r.StandardDeviation),
             points : []
         }
 
-        re.sharpeRatio = re.longTermReturn / re.standardDeviation
+        re.sharpeRatio = re.standardDeviation ? re.longTermReturn / re.standardDeviation : 0
 
         _.each(r.points, (p) => {
             var point = {
@@ -314,9 +317,9 @@ class PCT {
 
     parseStandartDeviation = function(r){
 
-        r.sharpeRatio = r.longTermReturn / r.standardDeviation
+        r.sharpeRatio = r.standardDeviation ? r.longTermReturn / r.standardDeviation : 0
 
-    
+        console.log("RT", r)
         return r
     }
 
@@ -342,6 +345,7 @@ class PCT {
             scenario.loss = s.value // will be loss
             scenario.name = s.name
             scenario.id = s.id
+            scenario.custom = s.isCustom ? true : false
 
             d.scenarios.push(scenario)
         })
@@ -456,13 +460,15 @@ class PCT {
     ctRelative = function(ct, max){
         var nct = {
             ocr : ct.ocr,
-            loss : ct.loss / max,
-            profit : ct.profit / max,
+            loss : max ? ct.loss / max : 0,
+            profit : max ? ct.profit / max : 0,
             scenarios : _.map(ct.scenarios, (s) => {
+
                 return {
                     id : s.id,
                     name : s.name,
-                    loss : s.loss / max
+                    loss : max ? s.loss / max : 0,
+                    custom : s.custom ? true : false
                 }
             })
         }
@@ -493,7 +499,8 @@ class PCT {
 
         if(!total) total = maxAbs
 
-        maxAbs = maxAbs / total
+        if(total) maxAbs = maxAbs / total
+        else maxAbs = 0
         
         _.each(cts, (c, i) => {
             common.cts[i] = this.ctRelative(c, mode == 'p' ? Math.max( Math.abs(c.loss) , Math.abs(c.profit)) : total)
@@ -502,7 +509,9 @@ class PCT {
                 if(!common.scenarios[scenario.id]) common.scenarios[scenario.id] = {
                     id : scenario.id,
                     name : scenario.name,
-                    loss : {}
+                    loss : {},
+
+                    custom : scenario.custom ? true : false
                 }
 
                 common.scenarios[scenario.id].loss[i] = scenario.loss
@@ -558,9 +567,6 @@ class PCT {
             portfolioId : id
         }
 
-        console.log("????v")
-
-
         return this.getscenarios().then(scdata => {
 
             data = {
@@ -588,8 +594,6 @@ class PCT {
                 ...data,
                 ...scdata
             }
-
-            console.log("scdata", scdata)
 
             return this.api.pctapi.stress.details(data, p)
         }).then(r => {
@@ -631,7 +635,7 @@ class PCT {
                     })
                 })
 
-                data.customScenariosIds = _.filter(settings.scenarios.value, (id) => {
+                data.customScenarioIds = _.filter(settings.scenarios.value, (id) => {
                     return _.find(customscenarios, (s) => {
                         return s.id == id
                     })
@@ -672,6 +676,14 @@ class PCT {
 
 
             return Promise.resolve(filtered)
+        })
+    }
+
+    scenariosWithCustoms = function(ids){
+        return this.scenarios(ids).then(r1 => {
+            return this.api.pctapi.customscenarios.list().then(r2 => {
+                return Promise.resolve(r1.concat(r2))
+            })
         })
     }
 

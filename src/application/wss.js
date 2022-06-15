@@ -1,7 +1,7 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import f from './functions'
 import moment from 'moment'
-import {Contact, Portfolio, Task} from './lib/kit.js'
+import {Contact, Portfolio, Scenario, Task} from './lib/kit.js'
 
 
 var WSS = function(core, url, system){
@@ -262,9 +262,14 @@ var WSS = function(core, url, system){
                 var data = message.Data
 
                 if(message.x_eventType == 'LEADUPDATE') {types = ['client', 'lead']; invalidate = ['contacts']; data = new Contact(data)}
+
                 if(message.x_eventType == 'CLIENTUPDATE') {types = ['client', 'lead']; invalidate = ['contacts']; data = new Contact(data)}
                 if(message.x_eventType == 'CATALOGUPDATE') types = ['filesystem']
+                
                 if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; invalidate = ['portfolios']; data = new Portfolio(data)}
+
+                if(message.x_eventType == 'CUSTOMSCENARIOUPDATE') {types = ['customscenario']; invalidate = ['customscenarios', 'stress']; data = new Scenario(data)}
+
 
                 core.updateByWs(data, types, invalidate)
 
@@ -274,17 +279,22 @@ var WSS = function(core, url, system){
 
             if (message.Type == 'Create'){
 
-                console.log('message', message)
+            
 
                 var invalidate = []
                 var data = message.Data
                 var type = ''
 
                 if(message.x_eventType == 'LEADUPDATE') {type = 'lead'; invalidate = ['contacts']; data = new Contact(data)}
+
                 if(message.x_eventType == 'CLIENTUPDATE') {type = 'client'; invalidate = ['contacts']; data = new Contact(data)}
 
+                if(message.x_eventType == 'PORTFOLIOUPDATE') {types = 'portfolio'; invalidate = ['portfolios']; data = new Portfolio(data)}
 
-                core.updateByWs(data, type, invalidate)
+                if(message.x_eventType == 'CUSTOMSCENARIOUPDATE') {type = 'customscenario'; invalidate = ['customscenarios']; data = new Scenario(data)}
+
+
+                core.createByWs(data, type, invalidate)
 
             }   
 

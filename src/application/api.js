@@ -1164,6 +1164,7 @@ var ApiWrapper = function (core) {
 				p.method = "POST"
 
 				self.invalidateStorageNow(['customscenarios'])
+				
 
 				return request(data, 'pctapi', 'CustomScenario/Add', p).then(r => {
 
@@ -1181,7 +1182,7 @@ var ApiWrapper = function (core) {
 			update: function (data, p = {}) {
 				p.method = "POST"
 
-				self.invalidateStorageNow(['customscenarios'])
+				self.invalidateStorageNow(['customscenarios', 'stress'])
 
 				data.updated = f.date.toserverFormatDate()
 
@@ -1211,7 +1212,7 @@ var ApiWrapper = function (core) {
 				}, 'customscenario')
 
 
-				self.invalidateStorageNow(['customscenarios'])
+				self.invalidateStorageNow(['customscenarios', 'stress'])
 
 				return request(data, 'pctapi', 'CustomScenario/Delete', p).then(r => {
 					return Promise.resolve(r)
@@ -2431,7 +2432,7 @@ var ApiWrapper = function (core) {
 				if (r.lastCustomScenarioUpdate) {
 					invalidateStorage.push({
 						updated: f.date.fromstring(r.lastCustomScenarioUpdate, true) / 1000,
-						type: ['customscenarios']
+						type: ['customscenarios', 'stress']
 					})
 				}
 

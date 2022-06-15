@@ -129,7 +129,7 @@
         </button>
     </div>
 
-    <div v-if="mode != 'customscenario' && canloadStrong && !tosavemode" class="savePanel">
+    <div v-if="mode != 'customscenario' && canloadStrong && portfolio && !tosavemode" class="savePanel">
         <button class="button" @click="changemodetosave">
             Add to scenario manager
         </button>

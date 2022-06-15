@@ -18,7 +18,7 @@
 
 	<div class="scenarios">
 
-		<div class="scenario" v-for="scenario in cts.scenarios" :key="scenario.id" @click="e => scenarioClick(scenario)">
+		<div class="scenario" :class="{custom : scenario.custom}" v-for="scenario in cts.scenarios" :key="scenario.id" @click="e => scenarioClick(scenario)">
 			<div class="barswrapper" :class="{positive : loss > 0, negative : loss < 0}" :key="i" v-for="(loss, i) in scenario.loss">
 				<div class="barwrapper">
 					<div class="bar" :style="{height : height(scenario, loss) + '%', background : color(scenario, loss) }"></div>

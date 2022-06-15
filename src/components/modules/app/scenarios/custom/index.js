@@ -137,7 +137,7 @@ export default {
 		canloadStrong : function(){
 			return _.filter(this.factors, (f) => {
 				return f.value != 0
-			}).length > 0 && this.portfolio
+			}).length > 0
 		}
 	}),
 
@@ -161,8 +161,9 @@ export default {
 
 					if(donor){
 						return {
-							...donor,
 							...f,
+							...donor,
+							
 						}
 					}
 
@@ -270,6 +271,8 @@ export default {
 		},
 
 		addfactor : function(){
+
+			console.log("this.factors", this.factors)
 
 			if(!_.isEmpty(this.factors))
 				this.$store.commit('select', {

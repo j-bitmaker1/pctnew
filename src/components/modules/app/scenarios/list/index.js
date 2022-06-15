@@ -34,8 +34,16 @@ export default {
     created () {
         this.get()
 
-        
+        this.core.on('invalidate', this.name, (d) => {
+			if(d.key == 'customscenarios'){
+				this.get()
+			}
+		})
     },
+
+	beforeDestroy(){
+		this.core.off('customscenarios', this.name)
+	},
 
     watch: {
         //$route: 'getdata'
@@ -80,10 +88,17 @@ export default {
         },
 
         grouped : function(){
+            
+          
 
             return f.group(_.sortBy(this.filtered, (scenario) => {
 
-                if(this.initialusingcustom[scenario.id]) return 0
+                if(this.initialusingcustom[scenario.id]) {
+
+                    if(scenario.custom) return 0
+
+                    return 0.5
+                }
                 if(scenario.custom) return 1
                 if(scenario.key) return 2
 
@@ -117,13 +132,11 @@ export default {
 
             this.loading = true
 
-            return this.core.pct.scenarios().then(scenarios => {
-                return this.core.api.pctapi.customscenarios.list().then(r => {
+            return this.core.pct.scenariosWithCustoms().then(scenarios => {
+                
+                this.scenarios = scenarios
 
-                    this.scenarios = scenarios.concat(r || [])
-
-                    return this.core.settings.stress.getall()
-                })
+                return this.core.settings.stress.getall()
 
 			}).then(settings => {
 

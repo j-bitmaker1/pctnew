@@ -51,6 +51,10 @@ export default {
 				return 'rgb(' +this.$store.getters.currentStyleValue('--color-yellow') + ')'
 			}
 
+			if (scenario.custom){
+				return 'rgb(' +this.$store.getters.currentStyleValue('--color-txt-ac') + ')'
+			}
+
 			return this.$store.getters.colorByValue(loss)
 
 		},
@@ -62,6 +66,7 @@ export default {
 				return v
 			}
 			else{
+		
 				return f.round(v, this.roundbase) || 0
 			}
 		},
