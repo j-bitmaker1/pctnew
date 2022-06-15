@@ -176,15 +176,15 @@ class PDFReports {
         var image = tools.size({width : 0.9, height : 0.9})
 
         var size = {
-            width : image.width * 6,
-            height : image.height * 6
+            width : 2789,
+            height : 3520
         }
 
         return this.pct.stresstest(portfolio.id).then(ct => {
     
-            var xml = tools.svgCreator.make(size, ct)
+            var xml = tools.svgCreator.createSvgs(ct, "Test Name");
     
-            return tools.svgCreator.topng(xml, size)
+            return tools.svgCreator.topng(xml[0], size)
  
         }).then(img => {
             image.image = img
@@ -217,12 +217,12 @@ class PDFReports {
             scenarios = s
 
 
-            console.log(scenarios);
+            //console.log(scenarios);
             return this.pct.stresstest(portfolio.id).then(_ct => {
                 ct = _ct
 
                 return tools.helpers.tables({
-                    rowsInTable : 7,   
+                    rowsInTable : 14,   
                     pageOffset : 0, 
                     array : ct.scenarios,
                     
@@ -289,7 +289,6 @@ class PDFReports {
                             }
                         ];
         
-                        console.log(row);
                         clbk(row);
         
                     },
@@ -360,31 +359,35 @@ class PDFReports {
                     iid = tt.id;
                 }
               });
-            console.log(maxt);
-            console.log(iid);
-            console.log("scenarioDescriptionTable2");
+            // console.log(maxt);
+            // console.log(iid);
+            // console.log("scenarioDescriptionTable2");
             return this.pct.stresstest(portfolio.id).then(_ct => {
                 ct = _ct
 
                 var maxL = -1;
+                if( maxL == -1){
+                    ct.scenarios.forEach((xct) => {
+                        var info = scenarios.find(x => x.id == xct.id);
+                        if(maxL < info.factors.length){
+                            maxL = info.factors.length;
+                        }
+                    });
+                }
+                if(maxL>7){
+                    maxL = 7;
+                }
+
                 return tools.helpers.tables({
                     rowsInTable : 7,   
                     pageOffset : 0, 
                     array : ct.scenarios,
                     
                     body : function(index){
-                        console.log("scenarioDescriptionTable2 : body");
-                        if( maxL == -1){
-                            ct.scenarios.forEach((xct) => {
-                                var info = scenarios.find(x => x.id == xct.id);
-                                if(maxL < info.factors.length){
-                                    maxL = info.factors.length;
-                                }
-                            });
-                        }
-                        if(maxL>7){
-                            maxL = 7;
-                        }
+                        // console.log("scenarioDescriptionTable2 : body");
+                        // console.log(ct.scenarios);
+                        // console.log(maxL);
+                        
                         var result = [[{
                             margin: [ 2, 4, 2, 4 ],
                             style : 'hScenarioDescription',
@@ -396,40 +399,28 @@ class PDFReports {
                             style : 'hScenarioDescription',
                             bold : true,
                             alignment : 'left',
-                            text : 'Description',
+                            text : 'Shocks',
                             colSpan: maxL
                         }]];
                         for(var i = 0; i<maxL-1;i++){
                             result[0].push({});
                         }
 
+                        //console.log(result);
                         return result;
                     },
         
                     table : function(body, index){
-                        console.log("scenarioDescriptionTable2 : table");
-                        console.log(maxL);
+                        // console.log("scenarioDescriptionTable2 : table");
+                        // console.log(maxL);
                         var wid = [];
-                        if( maxL == -1){
-                            ct.scenarios.forEach((xct) => {
-                                var info = scenarios.find(x => x.id == xct.id);
-                                if(maxL < info.factors.length){
-                                    maxL = info.factors.length;
-                                }
-                            });
+                        
+                        wid.push('*');
+                        for(var i = 0; i < maxL; i++){
+                            wid.push(50);
                         }
 
-                        if(maxL >= 7){
-                            maxL = 7;
-                            wid = ['*',50,50,50,50,50,50,50];
-                        }
-                        else{
-                            wid.push('*');
-                            for(var i = 0; i < max; i++){
-                                wid.push(50);
-                            }
-                        }
-                        console.log(wid);
+                        // console.log(wid);
                         return tools.tables.scenarioDescription({
                             margin: [ 2, 20, 2, 10 ],
                             body : body,
@@ -438,12 +429,13 @@ class PDFReports {
                     },
         
                     row : (_p, clbk)=>{
-                        console.log("scenarioDescriptionTable2 : row");
+                        // console.log("scenarioDescriptionTable2 : row");
+                        // console.log(maxL);
                         var id = _p.item.id;
                         
                         var info = scenarios.find(x => x.id == id);
 
-                        console.log(info.factors);
+                        // console.log(info.factors);
                         // var t = /Infationary boom/;
                         // //t = new RegExp(t + "('s)", 'i');
 
@@ -463,9 +455,8 @@ class PDFReports {
                                 style : 'table'
                             }
                         )
-                        for(var i = 0; i < 6; i++){
-                            console.log(i);
-                            console.log(info.factors[i]);
+                        for(var i = 0; i < maxL - 1; i++){
+                            // console.log(i);
                             
 
                             if(info.factors[i] != null){
@@ -480,7 +471,6 @@ class PDFReports {
                                     val += info.factors[i].value + '%';
                                 else val += Math.round(info.factors[i].value * 100) + 'bps';
 
-                                console.log(info.factors[i]);
                                 row.push(
                                     {
                                         text:[
@@ -512,9 +502,9 @@ class PDFReports {
                                 });
                             }
                         }
-                        if(info.factors.length > 7){
+                        if(info.factors.length > maxL){
                             var text = [];
-                            for(var i = 7; i < info.factors.length; i++){
+                            for(var i = maxL - 1; i < info.factors.length; i++){
 
                                 
                                 var val = '';
@@ -545,18 +535,18 @@ class PDFReports {
                             });
                         }
                         else{
-                            if(info.factors[6] != null){
-                                console.log(info.factors[i]);
+                            if(info.factors[maxL - 1] != null){
+                                //console.log(info.factors[i]);
 
                                 var val = '';
-                                if (info.factors[6].type == 'country' || 
-                                    info.factors[6].type == 'currency' || 
-                                    info.factors[6].type == 'industry' || 
-                                    info.factors[6].type == 'perm_factor' || 
-                                    info.factors[6].type == 'stress_index'
+                                if (info.factors[maxL - 1].type == 'country' || 
+                                    info.factors[maxL - 1].type == 'currency' || 
+                                    info.factors[maxL - 1].type == 'industry' || 
+                                    info.factors[maxL - 1].type == 'perm_factor' || 
+                                    info.factors[maxL - 1].type == 'stress_index'
                                     ) 
-                                    val += info.factors[6].value + '%';
-                                else val += Math.round(info.factors[6].value * 100) + 'bps';
+                                    val += info.factors[maxL - 1].value + '%';
+                                else val += Math.round(info.factors[maxL - 1].value * 100) + 'bps';
 
 
                                 row.push(
@@ -564,13 +554,13 @@ class PDFReports {
                                         text:[
                                             {
                                                 margin: [ 1, 3, 1, 5 ],
-                                                text : info.factors[6].name + '\n',
+                                                text : info.factors[maxL - 1].name + '\n',
                                                 style : 'scenarioDefinitions'
                                             },
                                             {
                                                 margin: [ 1, 3, 1, 5 ],
                                                 text : val,
-                                                style : info.factors[6].value >= 0 ? 'gVal' : 'rVal'
+                                                style : info.factors[maxL - 1].value >= 0 ? 'gVal' : 'rVal'
                                             },
                                         ]
                                 });
@@ -584,7 +574,7 @@ class PDFReports {
                                 });
                             }
                         }
-                        console.log(row);
+                        //console.log(row);
                         clbk(row);
         
                     },
@@ -684,13 +674,11 @@ class PDFReports {
             results.push(caption)
 
             return tools.helpers.tables({
-                rowsInTable : 18,   //строк в таблице
+                rowsInTable : 14,   //строк в таблице
                 pageOffset : 0, 
                 array : portfolio.positions,
     
                 body : function(index){
-                    console.log("assetsInfo");
-                    console.log(assetsInfo);
 
                     var result = [[{
                         margin: [ 2, 4, 2, 4 ],
@@ -728,8 +716,6 @@ class PDFReports {
                 },
     
                 table : function(body, index){
-                    console.log("assetsInfo");
-                    console.log(assetsInfo);
                     return tools.tables.scenarioDescription({
                         margin: [ 0, 10, 0, 0 ],
                         body : body,
@@ -739,14 +725,8 @@ class PDFReports {
                 },
     
                 row : function(_p, clbk){
-                    console.log("assetsInfo");
-                    console.log(assetsInfo);
                     var position = _p.item;
-    
-                    console.log("position");
-                    console.log(position);
-                    console.log(position.yield);
-                    console.log(position.ticker.yield);
+                    
                     var row = [{
                         margin: [ 2, 3, 2, 3 ],
                         text : position.ticker + '\n',
@@ -953,143 +933,147 @@ class PDFReports {
     disclosure = function(tools){
         var d = [];
 
-        var tt = {
+        var tt = [{
             text: 'IMPORTANT DISCLOSURE INFORMATION ABOUT YOUR PORTFOLIO CRASH TEST',
             style: 'disclosure_H',
             pageBreak : 'before'
-        };
-
-        d.push(tt);
-
-        tt = {
-            text: 'A Portfolio Crash Test is a stress-testing tool developed by RiXtrema, Inc. that uses simulations and statistical analyses to help investors and their financial professionals understand the risk profile of their investment portfolios.  Stress testing does this by measuring how different macroeconomic scenarios could affect portfolio returns.  In order to get the most out of your Portfolio Crash Test (sometimes called "PCT" below), it is important that you understand how the tool is designed and how it should and should not be used.  To that end, we urge you to read the following information carefully.',
+        },
+        {
+            text: '\0\tA Portfolio Crash Test is a stress-testing tool developed by RiXtrema, Inc. that uses simulations and statistical analyses to help investors and their financial professionals understand the risk profile of their investment portfolios.  Stress testing does this by measuring how different macroeconomic scenarios could affect portfolio returns.  In order to get the most out of your Portfolio Crash Test (sometimes called "PCT" below), it is important that you understand how the tool is designed and how it should and should not be used.  To that end, we urge you to read the following information carefully.',
             style: 'disclosure'
-        };
-
-        d.push(tt);
-
-
-
-
-        tt = {
-            text: 'Why the Concept of Risk Is Important',
-            style: 'disclosure_H2'
-        };
-
-        d.push(tt);
-
-        tt = {
-            text: 'All investments involve risk.  Investing in equities (i.e., stocks) involves volatility risk, market risk, business risk and industry risk.  Volatility risk is the chance that the value of a stock will fall.  Market risk is the chance that the prices of all stocks will fall due to conditions in the economic environment.  Business risk is the chance that a specific company\'s stock will fall because of issues affecting it.  Industry risk is the chance that a set of factors particular to an industry group will adversely affect stock prices within the industry.',
-            style: 'disclosure'
-        };
-
-        d.push(tt);
-
+        },
         
-        tt = {
-            text: 'Investing in fixed-income securities (e.g., bonds) involves interest-rate risk, credit risk and inflation risk. Interest rate risk is the possibility that bond prices will decrease because of an interest rate increase.  When interest rates rise, bond prices and the values of fixed-income securities fall; conversely, when interest rates fall, bond prices and the values of fixed-income securities rise.  Credit risk is the risk that a company will not be able to pay its debts, including the interest on its bonds. Inflation risk is the possibility that the interest paid on an investment in bonds will be lower than the inflation rate, thus decreasing purchasing power.',
-            style: 'disclosure'
-        };
-
-        d.push(tt);
-
         
-        tt = {
-            text: 'Even cash alternatives, such as money-market funds and US Treasury bills entail risk.  In addition to inflation risk, investments in money market securities may involve credit risk and a risk of principal loss.  Because such securities are neither insured nor guaranteed by any government agency, there is no assurance that the value of your investment will be held to $1 per share.  US Treasury bills are subject to market risk if sold prior to maturity.  Market risk is the possibility that the value, when sold, might be less than the purchase price.',
-            style: 'disclosure'
-        };
-
-        d.push(tt);
-
         
-        tt = {
-            text: 'nternational investing involves additional risks including, but not limited to, changes in currency exchange rates, differences in accounting and taxation policies and political or economic instabilities that can increase or decrease returns.',
-            style: 'disclosure'
-        };
-
-        d.push(tt);
-
-
-
-
-
-        tt = {
-            text: 'Criteria and Methodology Used in the PCT',
-            style: 'disclosure_H2'
-        };
-
-        d.push(tt);
-
-        tt = {
-            text: 'The PCT tool uses a stress-testing methodology that is widely accepted in the risk-management industry and is based on a factor risk model.  This model describes relevant risk factors, such as liquidity, interest rates, equity, industry and other factors that explain a security\'s behavior.  RiXtrema then calculates how each security in an investor\'s portfolio  is exposed to each identified factor.  Stated another way, we determine the "Beta" (the tendency of a security\'s returns to respond to swings in the market) of each security to each risk factor.  Once this is accomplished, we create a matrix that describes the correlations between each of the factors and each of the securities in the portfolio, to arrive at a risk rating for each security. The aggregate risk of the portfolio is determined by aggregating each security\'s risk rating and weighting that rating by the security\'s position in the portfolio.  The results shown in the PCT reports reflect the changes in a portfolio based on the factors used to model each scenario.',
-            style: 'disclosure'
-        };
-
-        d.push(tt);
-
-
-
-
-
-
-        tt = {
-            text: 'Portfolio Crash Test Scenarios',
-            style: 'disclosure_H2'
-        };
-
-        d.push(tt);
-
-        tt = {
-            text: 'The key scenarios displayed in the PCT are created by RiXtrema\'s research department and board of scientific advisors. These scenarios are updated approximately monthly, and reflect RiXtrema\'s deep experience in risk analysis and assessments of relevant risk scenarios given the state of the markets at a particular point in time.',
-            style: 'disclosure'
-        };
-
-        d.push(tt);
-
-        tt = {
-            text: 'While RiXtrema selects scenarios it deems to be plausible, Portfolio Crash Tests do not forecast the likelihood that any particular scenario will come to pass.  We do not believe it is possible to predict future market events and we discourage users of our stress-testing tool from trying to do so.  Although each scenario is designed separately, taken as a whole, the scenarios simulated in a PCT report are designed to be comprehensive in the sense that they cover a variety of impacts on key risk factors.',
-            style: 'disclosure'
-        };
-
-        d.push(tt);
-        tt = {
-            text: 'Scenarios include positive events (events that would make portfolio returns rise) and negative events (events that would make portfolio returns fall).  The positive events tend to occur over multiple years, while the negative events (crashes) are transient.  In order to reflect this fact, the positive scenarios reflected in a PCT use estimates of annualized moves in factors, while the negative scenarios use peak-to-trough numbers.',
-            style: 'disclosure'
-        };
-
-        d.push(tt);
-
-        tt = {
-            text: 'RiXtrema\'s research team and scientific advisors determine the magnitude of shocks in each scenario by considering how the relevant factors moved in similar environments historically, and by then determining whether historical environments should be replicated or adjusted based on differences in the current environment.  In the absence of historic events to use as a guide, RiXtrema decides whether to move the factor 1 standard deviation* (mild shock), 2 standard deviations (strong shock) or 3 or more standard deviations (extreme shock).',
-            style: 'disclosure'
-        };
-
-        d.push(tt);
-
-
-
         
-        tt = {
-            text: 'The Crash Rating',
+        {
+            text: '\0\tWhy the Concept of Risk Is Important',
             style: 'disclosure_H2'
-        };
-
-        d.push(tt);
-
-        tt = {
-            text: 'Each PCT includes a crash rating, which is a number from 1 to 100 that indicates the relative riskiness of the portfolio in question.  The higher the number, the more vulnerable the portfolio is to losses in downside events.  In order to arrive at this number, we start with the sum of the three largest losses that the portfolio would incur among all stress scenarios.  We then compare that number to a table that maps the sum of the three losses to the crash rating.',
+        },
+        {
+            text: '\0\tAll investments involve risk.  Investing in equities (i.e., stocks) involves volatility risk, market risk, business risk and industry risk.  Volatility risk is the chance that the value of a stock will fall.  Market risk is the chance that the prices of all stocks will fall due to conditions in the economic environment.  Business risk is the chance that a specific company\'s stock will fall because of issues affecting it.  Industry risk is the chance that a set of factors particular to an industry group will adversely affect stock prices within the industry.',
             style: 'disclosure'
-        };
-
-        d.push(tt);
-
-        tt = {
-            text: 'This mapping process involves computing the sum of the three largest losses for the MSCI Emerging Markets Index (used as a proxy for a risky portfolio) and assuming that number to be a crash rating of 90.  Anything above that number is extremely risky (e.g. individual emerging markets stocks), and ratings below that number signify relatively less risky portfolios.  By way of comparison, the crash rating of the S&P 500 index is typically around 70.',
+        },
+        {
+            text: '\0\tInvesting in fixed-income securities (e.g., bonds) involves interest-rate risk, credit risk and inflation risk. Interest rate risk is the possibility that bond prices will decrease because of an interest rate increase.  When interest rates rise, bond prices and the values of fixed-income securities fall; conversely, when interest rates fall, bond prices and the values of fixed-income securities rise.  Credit risk is the risk that a company will not be able to pay its debts, including the interest on its bonds. Inflation risk is the possibility that the interest paid on an investment in bonds will be lower than the inflation rate, thus decreasing purchasing power.',
             style: 'disclosure'
-        };
+        },
+        {
+            text: '\0\tEven cash alternatives, such as money-market funds and US Treasury bills entail risk.  In addition to inflation risk, investments in money market securities may involve credit risk and a risk of principal loss.  Because such securities are neither insured nor guaranteed by any government agency, there is no assurance that the value of your investment will be held to $1 per share.  US Treasury bills are subject to market risk if sold prior to maturity.  Market risk is the possibility that the value, when sold, might be less than the purchase price.',
+            style: 'disclosure'
+        },
+        {
+            text: '\0\tInternational investing involves additional risks including, but not limited to, changes in currency exchange rates, differences in accounting and taxation policies and political or economic instabilities that can increase or decrease returns.',
+            style: 'disclosure'
+        },
+        
+        
+        {
+            text: '\0\tCriteria and Methodology Used in the PCT',
+            style: 'disclosure_H2'
+        },
+        {
+            text: '\0\tThe PCT tool uses a stress-testing methodology that is widely accepted in the risk-management industry and is based on a factor risk model.  This model describes relevant risk factors, such as liquidity, interest rates, equity, industry and other factors that explain a security\'s behavior.  RiXtrema then calculates how each security in an investor\'s portfolio  is exposed to each identified factor.  Stated another way, we determine the "Beta" (the tendency of a security\'s returns to respond to swings in the market) of each security to each risk factor.  Once this is accomplished, we create a matrix that describes the correlations between each of the factors and each of the securities in the portfolio, to arrive at a risk rating for each security. The aggregate risk of the portfolio is determined by aggregating each security\'s risk rating and weighting that rating by the security\'s position in the portfolio.  The results shown in the PCT reports reflect the changes in a portfolio based on the factors used to model each scenario.',
+            style: 'disclosure'
+        },
+        
+        
+        
+        
+        
+        {
+            text: '\0\tPortfolio Crash Test Scenarios',
+            style: 'disclosure_H2'
+        },
+        {
+            text: '\0\tThe key scenarios displayed in the PCT are created by RiXtrema\'s research department and board of scientific advisors. These scenarios are updated approximately monthly, and reflect RiXtrema\'s deep experience in risk analysis and assessments of relevant risk scenarios given the state of the markets at a particular point in time.',
+            style: 'disclosure'
+        },
+        {
+            text: '\0\tWhile RiXtrema selects scenarios it deems to be plausible, Portfolio Crash Tests do not forecast the likelihood that any particular scenario will come to pass.  We do not believe it is possible to predict future market events and we discourage users of our stress-testing tool from trying to do so.  Although each scenario is designed separately, taken as a whole, the scenarios simulated in a PCT report are designed to be comprehensive in the sense that they cover a variety of impacts on key risk factors.',
+            style: 'disclosure'
+        },
+        {
+            text: '\0\tScenarios include positive events (events that would make portfolio returns rise) and negative events (events that would make portfolio returns fall).  The positive events tend to occur over multiple years, while the negative events (crashes) are transient.  In order to reflect this fact, the positive scenarios reflected in a PCT use estimates of annualized moves in factors, while the negative scenarios use peak-to-trough numbers.',
+            style: 'disclosure'
+        },
+        {
+            text: '\0\tRiXtrema\'s research team and scientific advisors determine the magnitude of shocks in each scenario by considering how the relevant factors moved in similar environments historically, and by then determining whether historical environments should be replicated or adjusted based on differences in the current environment.  In the absence of historic events to use as a guide, RiXtrema decides whether to move the factor 1 standard deviation* (mild shock), 2 standard deviations (strong shock) or 3 or more standard deviations (extreme shock).',
+            style: 'disclosure'
+        },
+        
+        
+        
+        {
+            text: '\n\n\0\tThe Crash Rating',
+            style: 'disclosure_H2'
+        },
+        {
+            text: '\0\tEach PCT includes a crash rating, which is a number from 1 to 100 that indicates the relative riskiness of the portfolio in question.  The higher the number, the more vulnerable the portfolio is to losses in downside events.  In order to arrive at this number, we start with the sum of the three largest losses that the portfolio would incur among all stress scenarios.  We then compare that number to a table that maps the sum of the three losses to the crash rating.',
+            style: 'disclosure'
+        },
+        {
+            text: '\0\tThis mapping process involves computing the sum of the three largest losses for the MSCI Emerging Markets Index (used as a proxy for a risky portfolio) and assuming that number to be a crash rating of 90.  Anything above that number is extremely risky (e.g. individual emerging markets stocks), and ratings below that number signify relatively less risky portfolios.  By way of comparison, the crash rating of the S&P 500 index is typically around 70.',
+            style: 'disclosure'
+        },
+
+
+
+        {
+            text: '\0\tKey Assumptions and Limitations',
+            style: 'disclosure_H2'
+        },
+        
+        [
+                {text: '\0\tLike all investment analysis tools, the PCT is a simulation based on certain assumptions.  In simulating various macroeconomic environments and the impact those factors have on portfolio performance, the PCT model assumes that: ',
+                style: 'disclosure'},
+                
+                {
+                    ul: [
+                        {text: 'The set of scenarios that occur in real life will resemble the simulated set.  If there is a completely new scenario that contradicts presently modeled financial and economic relationships, the tool will be less useful.',
+                            style: 'disclosure2'},
+                        {text: 'RiXtrema has captured all the key systemic factors. ',
+                            style: 'disclosure2'},
+                        {text: 'Securities betas do not change dramatically in stress events and remain close to what RiXtrema estimates based on their past history. ',
+                            style: 'disclosure2'},
+                        {text: 'The underlying data used in calculating the returns displayed in a PCT report are reliable.',
+                            style: 'disclosure2'}
+                    ]
+                    
+                }
+
+        ],
+        {
+            text: '\0\tFurthermore, while the PCT tool provides an easy-to-understand way to determine the risk profile of a particular portfolio, it is important that investors understand the tool\'s limitations, including the following: ',
+            style: 'disclosure'
+        },
+        [
+			{text: [
+				{text: '\0\tIMPORTANT: ', style: 'disclosure_H3'},
+				{text: 'The projections and other information generated by the Portfolio Crash Test tool regarding the likelihood of various investment outcomes are hypothetical in nature, do not reflect actual investment results and are not guarantees of future results.  ', style: 'disclosure'}
+			]},
+
+            {
+                ul: [
+                    {text: 'Portfolio Crash Tests do not forecast the likelihood that any particular scenario will come to pass. ',
+                        style: 'disclosure2'},
+                    {text: 'Because the tool\'s scenarios are updated from time to time, the results of the Portfolio Crash Test may vary with each use and over time. ',
+                        style: 'disclosure2'},
+                    {text: 'Performance results factored into the tool are calculated over many years; small changes can create large differences in future results. ',
+                        style: 'disclosure2'},
+                    {text: 'The Portfolio Crash Test is designed to be used with portfolios containing at least 5 different investments.  Any risk assessment tool involves imprecision, and this imprecision may grow if the tool is applied to a single security or just a few securities. ',
+                        style: 'disclosure2'},
+                    {text: 'Portfolio Crash Tests do not select investments for you.  You cannot use this tool alone to determine which securities to buy or sell or when to buy or sell them.  Before making an investment decision, consult with your investment professional. ',
+                        style: 'disclosure2'},
+                    {text: 'This Portfolio Crash Test report does not provide legal, tax or accounting advice.  Consult appropriate professionals for advice that meets your specific needs. ',
+                        style: 'disclosure2'},
+                    {text: 'In calculating the returns displayed in a Portfolio Crash Test report, RiXtrema relies on a variety of third-party sources for pricing information, mutual fund and ETF data, economic data and the like.  While RiXtrema believes these sources to be reliable and the data to be accurate, it does not guarantee that this is so.',
+                        style: 'disclosure2'}
+                ]
+            }
+		]];
 
         d.push(tt);
-
 
         return Promise.resolve(d)
 

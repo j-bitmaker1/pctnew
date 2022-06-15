@@ -1250,7 +1250,7 @@ var PDFTools = function(p = {}, data = {}){
                     },
                     scenarioDefinitions: {
                         fontSize: 8,
-                        bold: true,
+                        bold: false,
                         alignment : "left",
                         margin: [0, 4, 0, 4],
                     },
@@ -1275,15 +1275,28 @@ var PDFTools = function(p = {}, data = {}){
                         margin: [0, 10, 0, 10]
                     },
                     disclosure_H2: {
-                        fontSize: 12,
+                        fontSize: 11,
                         bold: true,
                         alignment : "left",
                         margin: [0, 10, 0, 10]
                     },
-                    disclosure: {
-                        fontSize: 8,
+                    disclosure_H3: {
+                        fontSize: 11,
+                        bold: true,
                         alignment : "left",
-                        margin: [0, 10, 0, 10]
+                        margin: [0, 1, 0, 1]
+                    },
+                    disclosure: {
+                        fontSize: 9,
+                        bold: false,
+                        alignment : "left",
+                        margin: [0, 5, 0, 5]
+                    },
+                    disclosure2: {
+                        fontSize: 9,
+                        alignment : "left",
+                        bold: false,
+                        margin: [0, 1, 0, 1]
                     },
                     h1: {
                         fontSize: 18,
