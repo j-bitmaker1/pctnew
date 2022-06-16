@@ -1,4 +1,4 @@
-importScripts('./js/vendor/workbox-v6.1.5/workbox-sw.js');
+importScripts('https://rixtrema.net/pctnew/js/vendor/workbox-v6.1.5/workbox-sw.js');
 
 workbox.setConfig({
 	modulePathPrefix: '/js/vendor/workbox-v6.1.5/',
@@ -12,6 +12,7 @@ core.clientsClaim();
 
 core.setCacheNameDetails({
 	prefix: 'pct',
+	suffix: '0.0.3'
 });
 
 
