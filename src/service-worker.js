@@ -1,9 +1,12 @@
-importScripts('https://rixtrema.net/pctnew/js/vendor/workbox-v6.1.5/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.1.5/workbox-sw.js');
 
+const { version } = require('../package.json');
+
+/*
 workbox.setConfig({
-	modulePathPrefix: '/js/vendor/workbox-v6.1.5/',
+	//modulePathPrefix: '/js/vendor/workbox-v6.1.5/',
 	debug: false
-});
+});*///https://storage.googleapis.com/workbox-cdn/releases/6.1.5/workbox-sw.js
 
 const { strategies, core, routing, cacheableResponse, expiration } = workbox;
 
@@ -12,9 +15,8 @@ core.clientsClaim();
 
 core.setCacheNameDetails({
 	prefix: 'pct',
-	suffix: '0.0.3'
+	suffix: version
 });
-
 
 // Cache CSS, JS, and Web Worker requests with a Network First strategy
 routing.registerRoute(
@@ -66,23 +68,3 @@ self.addEventListener('activate', event => {
 		}));
 	});
 });
-
-
-
-self.addEventListener('notificationclick', function (event) {
-	console.log('Notification clicked: ', event.notification);
-	event.notification.close();
-	// This looks to see if the current is already open and focuses if it is
-	event.waitUntil(clients.matchAll({
-		type: "window"
-	}).then(function (clientList) {
-		// Focus the first client
-		if (clientList && clientList.length > 0 && clientList[0].focus)
-			clientList[0].focus();
-		// Make a redirection
-		// if (clients.openWindow)
-		//   return clients.openWindow('/');
-	}));
-});
-
-
