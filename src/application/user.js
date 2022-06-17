@@ -632,6 +632,17 @@ var User = function ({
 
     }
 
+    function clearSignin(){
+        api.clearCache()
+
+        vxstorage.clear()
+
+        updates.clearall()
+
+        self.info = {}
+        features()
+    }
+
     function clear() {
 
         api.clearCache()
@@ -672,6 +683,8 @@ var User = function ({
 
     function signupRixtrema(data = {}){
         if(!data.Email || !data.Password) return Promise.reject('emptydata')
+
+        clearSignin()
 
         return api.user.register(data)
     }
@@ -751,6 +764,8 @@ var User = function ({
         var en = false
 
         var data = {}
+
+        clearSignin()
 
         vm.$store.commit('globalpreloader', true)
 

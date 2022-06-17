@@ -3,6 +3,11 @@
     <div class="caption mobp">
         <span>Create account and get PCT trial!</span>
     </div>
+
+    <div class="stickerwrapper">
+        <sticker src="brainstorming.png"/>
+    </div>
+
     <div class="formswrapper mobp">
         <forms @input="input" :value="values || {}" ref="fields" :fields="fields"/>
     </div>

@@ -985,6 +985,10 @@ var ApiWrapper = function (core) {
 			keys.push(i)
 		})
 
+		_.each(liststorage, function (c, i) {
+			keys.push(i)
+		})
+
 		keys = _.uniq(keys)
 
 		_.each(keys, function (k) {
@@ -997,7 +1001,7 @@ var ApiWrapper = function (core) {
 
 		if (cache[key]) delete cache[key]
 
-
+		if (liststorage[key]) delete liststorage[key]
 
 		if (storages[key]) {
 			storages[key].clearall().catch(e => { console.error(e) })
