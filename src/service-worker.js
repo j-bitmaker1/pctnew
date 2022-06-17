@@ -15,7 +15,7 @@ core.clientsClaim();
 
 core.setCacheNameDetails({
 	prefix: 'pct',
-	suffix: '0.0.3'
+	suffix: '0.0.4'
 });
 
 // Cache CSS, JS, and Web Worker requests with a Network First strategy
