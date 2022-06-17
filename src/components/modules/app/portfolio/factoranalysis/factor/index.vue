@@ -1,7 +1,7 @@
 <template>
 <div id="factoranalysis_factor" :class="{rotated}">
 	<div class="min val">
-		<input v-if="factor" :placeholder="factor.min" @change="(e) => {change('min', e.target.value)}"/>
+		<input v-if="factor" :value="value.min" :placeholder="factor.min" @change="(e) => {change('min', e.target.value)}"/>
 	</div>
 
 	<div class="name" @click="changeFactor">
@@ -10,7 +10,7 @@
 	</div>
 
 	<div class="max val">
-		<input v-if="factor" :placeholder="factor.max" @change="(e) => {change('max', e.target.value)}"/>
+		<input v-if="factor" :value="value.max" :placeholder="factor.max" @change="(e) => {change('max', e.target.value)}"/>
 	</div>
 </div>
 </template>
@@ -86,6 +86,8 @@ import {
 	mapState
 } from 'vuex';
 
+import f from "@/application/functions.js"
+
 export default {
 	name: 'factoranalysis_factor',
 	props: {
@@ -93,7 +95,12 @@ export default {
 			type : Object,
 			default : () => {return {}}
 		},
-		rotated : Boolean
+		rotated : Boolean,
+
+		value : {
+			type : Object,
+			default : () => {return {}}
+		}
 	},
 	computed: mapState({
 		auth: state => state.auth,
@@ -106,6 +113,15 @@ export default {
 		},
 
 		change : function(i, v){
+
+			v = f.numberParse(v)
+
+			console.log("f.numberParse", v)
+
+			if(v > 50) v = 50
+
+			if(v < 50) v = 50
+
 			this.$emit('change', {
 				index : i,
 				value : v

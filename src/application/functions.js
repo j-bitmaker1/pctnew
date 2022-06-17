@@ -200,72 +200,6 @@ f.deepInsert = function (obj, key, _insert) {
     }
 }
 
-var renderFrameEqualizer = function (canvas, ctx, analyser, stop, colornumbers, offset) {
-
-
-
-    if (!colornumbers) {
-        colornumbers = {
-            r: 25,
-            g: 250,
-            b: 50
-        }
-    }
-
-    if (!offset) {
-        offset = {
-            x: 25,
-            offset: [0, 0]
-        }
-    }
-
-    var WIDTH = canvas.width;
-    var HEIGHT = canvas.height;
-
-    var bufferLength = analyser.frequencyBinCount;
-    var dataArray = new Uint8Array(bufferLength);
-
-    var barWidth = (WIDTH / bufferLength) / 2.5;
-    var barHeight;
-
-    var x = offset.x // offset[0] -15;
-
-    analyser.getByteFrequencyData(dataArray);
-
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-    for (var i = 0; i < bufferLength; i++) {
-
-        barHeight = dataArray[i];
-
-        var r = barHeight + (colornumbers.r * (i / bufferLength));
-        var g = colornumbers.g * (i / bufferLength);
-        var b = colornumbers.b;
-
-        var opacity = -Math.abs(i - bufferLength / 2) / bufferLength + 1 / 2
-
-
-        if (i > offset.offset[0] && i < bufferLength - offset.offset[1]) {
-            ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + opacity * 2 + ")";
-            ctx.fillRect(x, HEIGHT / 2 - (barHeight * opacity), barWidth, barHeight * opacity * 2);
-        }
-
-
-        x += barWidth + 1;
-    }
-
-    requestAnimationFrame(function () {
-        if (stop()) {
-
-            ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-            return
-        }
-
-        renderFrameEqualizer(canvas, ctx, analyser, stop, colornumbers, offset)
-    });
-
-}
 
 var rand = function (min, max) {
     min = parseInt(min);
@@ -1713,7 +1647,6 @@ f.pretry = pretry
 f.retry = retry
 f.retryLazy = retryLazy
 f.slowMade = slowMade
-f.renderFrameEqualizer = renderFrameEqualizer
 f.hexEncode = hexEncode
 f.hexDecode = hexDecode
 f.imgDimensions = imgDimensions
