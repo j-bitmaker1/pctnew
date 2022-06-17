@@ -18,8 +18,6 @@ core.setCacheNameDetails({
 	suffix: '0.0.3'
 });
 
-console.log('--version', version)
-
 // Cache CSS, JS, and Web Worker requests with a Network First strategy
 routing.registerRoute(
 	// Check to see if the request's destination is style for stylesheets, script for JavaScript, or worker for web worker
