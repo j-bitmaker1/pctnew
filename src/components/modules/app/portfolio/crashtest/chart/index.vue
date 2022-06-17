@@ -1,5 +1,5 @@
 <template>
-<div class="portfolio_crashtest_chart" :class="{increased : dwidth < 768 && length > 10}">
+<div class="portfolio_crashtest_chart" :class="{increased : dwidth < 768 && length > 12}">
 
 	
 
