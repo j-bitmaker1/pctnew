@@ -2,14 +2,11 @@
 <div id="factoranalysis_map">
 
     <div class="fmap mobp">
-        <div class="spacer">
-
-        </div>
+        
         <div class="xfactor">
             <factor :factor="xfactor" :value="values[0] || {}" @changeFactor="() => {changeFactor(0)}" @change="(v) => change(0, v)" />
         </div>
-        <div class="yfactor">
-            <factor :value="values[1]  || {}" :factor="yfactor" :rotated="true" @changeFactor="() => {changeFactor(1)}" @change="(v) => change(1, v)" />
+        <div class="spacer">
         </div>
         <div class="map" :style="{'grid-template-columns' : 'repeat('+size+', 1fr)'}">
 
@@ -24,6 +21,10 @@
                 <linepreloader />
             </div>
         </div>
+        <div class="yfactor">
+            <factor :value="values[1]  || {}" :factor="yfactor" :rotated="true" @changeFactor="() => {changeFactor(1)}" @change="(v) => change(1, v)" />
+        </div>
+        
 
     </div>
 
