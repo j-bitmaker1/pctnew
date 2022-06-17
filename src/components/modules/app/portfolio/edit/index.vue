@@ -15,9 +15,9 @@
 			<i class="fas fa-file"></i> Add from file
 		</button>
 
-		<button class="button black" key="aggregate" @click="model">
+		<!--<button class="button black" key="model" @click="model">
 			<i class="fas fa-percent"></i> <template v-if="!isModel">Model portfolio</template> <template v-else>Currency portfolio</template>
-		</button>
+		</button>-->
 
 		<!--<button class="button black" key="scan" v-if="cordova" :disabled="assets.length > 0" @click="scan">
 			<i class="fas fa-camera"></i> Photo document
