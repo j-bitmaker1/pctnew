@@ -169,25 +169,46 @@ class PDFReports {
     stressTest = function(tools){
         var {portfolio, profile} = tools.data
 
-        var image = tools.size({width : 0.9, height : 0.9})
+        
 
         var size = {
             width : 2789,
             height : 3520
         }
 
+        var images = []
+
         return this.pct.stresstest(portfolio.id).then(ct => {
     
             var xml = tools.svgCreator.createSvgs(ct, "Test Name");
+            
+            return Promise.all(_.map(xml, (xml, i) => {
+                return tools.svgCreator.topng(xml, size).then(img => {
+                    images[i] = img
+                })
+            }))
     
             return tools.svgCreator.topng(xml[0], size)
  
-        }).then(img => {
-            image.image = img
-            image.alignment = 'center'
-            image.width = 500
-            image.height = 631.050555
-            return Promise.resolve([image])
+        }).then(() => {
+
+            var result = _.map(images, (img, i) => {
+                var image = tools.size({width : 0.9, height : 0.9})
+
+                    image.image = img
+                    image.alignment = 'center'
+                    image.width = 500
+                    image.height = 631.050555
+
+                if(!i){
+                    image.pageBreak = 'before'
+                }
+
+                return image
+            })
+
+            
+            return Promise.resolve(result)
 
         }) 
     }
@@ -209,7 +230,7 @@ class PDFReports {
         results.push(caption)
 
         var footnotes = [];
-        return this.pct.scenarios().then(s => {
+        return this.pct.scenariosWithCustoms().then(s => {
             scenarios = s
 
 
@@ -337,7 +358,7 @@ class PDFReports {
         results.push(caption)
 
         var footnotes = [];
-        return this.pct.scenarios().then(s => {
+        return this.pct.scenariosWithCustoms().then(s => {
             scenarios = s
 
             var iid = 0;
@@ -365,6 +386,9 @@ class PDFReports {
                 if( maxL == -1){
                     ct.scenarios.forEach((xct) => {
                         var info = scenarios.find(x => x.id == xct.id);
+
+                        console.log('info', info)
+
                         if(maxL < info.factors.length){
                             maxL = info.factors.length;
                         }
@@ -629,7 +653,7 @@ class PDFReports {
         return result;
     }
 
-    getFootnotes = function(footnotes, rName, page, footnotesAll){
+    getFootnotes = function(footnotes, rName = '', page, footnotesAll){
 
 
         var result = rName;

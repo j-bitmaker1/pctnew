@@ -1,3 +1,4 @@
+import { _ } from 'core-js';
 import { mapState } from 'vuex';
 
 export default {
@@ -35,7 +36,9 @@ export default {
 
 		color : function(){
 			return this.$store.getters.colorByValue(this.contributor.value)
-		}
+		},
+
+		
 	}),
 
 	methods : {

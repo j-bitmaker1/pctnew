@@ -363,7 +363,8 @@
 			"positionSummary" : "Position summary",
 			"capacity" : "Capacity report",
 			"allocation" : "Allocation report",
-			"distribution" : "Distribution report"
+			"distribution" : "Distribution report",
+			"scenarioDefinitions" : "Scenario definitions"
 		}
 	},
 

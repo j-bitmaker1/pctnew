@@ -261,26 +261,28 @@ button.button
 		background: srgb(--color-good)
 		border: 1px solid srgb(--color-good)
 
-		&:hover
-			background: srgba((--color-good), 0.9)
-			color: srgb(--text-on-bg-ac-color)
+		@media (pointer:fine)
+
+			&:hover
+				background: srgba((--color-good), 0.9)
+				color: srgb(--text-on-bg-ac-color)
 
 	&.black
 		background: srgb(--neutral-grad-0)
 		border: 1px solid srgb(--neutral-grad-0)
 		color: srgb(--neutral-grad-3)
-
-		&:hover
-			background: srgba((--neutral-grad-3), 0.9)
-			color: srgb(--text-on-bg-ac-color)
+		@media (pointer:fine)
+			&:hover
+				background: srgba((--neutral-grad-3), 0.9)
+				color: srgb(--text-on-bg-ac-color)
 
 	&.orange
 		background: srgb(--color-bg-orange)
 		border: 1px solid srgb(--color-bg-orange)
-
-		&:hover
-			background: srgba((--color-bg-orange), 0.9)
-			color: srgb(--text-on-bg-ac-color)
+		@media (pointer:fine)
+			&:hover
+				background: srgba((--color-bg-orange), 0.9)
+				color: srgb(--text-on-bg-ac-color)
 
 	&.round
 		width: 44px
@@ -303,13 +305,13 @@ button.button
 		background: transparent
 		border: 1px solid transparent
 		color: srgb(--color-txt-ac)
-
+		@media (pointer:fine)
+			&:hover
+				color: srgb(--color-txt-gray)
+	@media (pointer:fine)
 		&:hover
-			color: srgb(--color-txt-gray)
-
-	&:hover
-		background: transparent
-		color: srgb(--color-txt-ac)
+			background: transparent
+			color: srgb(--color-txt-ac)
 
 	&.underscored
 		text-decoration: underline
@@ -325,11 +327,12 @@ button.button
 		background: srgb(--neutral-grad-2)
 		border-color: srgb(--neutral-grad-2)
 		color: #fff
+		@media (pointer:fine)
+			&:hover
+				color: #fff
+				background: srgb(--neutral-grad-2)
+				border-color: srgb(--neutral-grad-2)
 
-		&:hover
-			color: #fff
-			background: srgb(--neutral-grad-2)
-			border-color: srgb(--neutral-grad-2)
 .liketicker,
 .ticker
 	display: inline-block

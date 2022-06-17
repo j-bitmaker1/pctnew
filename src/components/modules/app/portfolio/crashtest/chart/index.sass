@@ -1,14 +1,39 @@
 .portfolio_crashtest_chart
-	height: 450px
+	height: 550px
 	width: 100%
 	position: relative
+
+	&::-webkit-scrollbar
+		display: none
+
+	.wrapper
+		width: 100%
+		height: 100%
+		position: absolute
+		left: 55px
+		right: 0
+		top: 0
+		bottom: 0
+
+		.wrp
+			width: 100%
+			height: 100%
+			position: relative
+
+	&.increased
+
+		.wrapper
+			overflow-x: scroll
+			overflow-y: hidden
+			.wrp
+				min-width: 768px
 
 	.scale
 		position: absolute
 		left: 0
 		width: 55px
-		top : 0
-		bottom : 0
+		top: 0
+		bottom: 100px
 		display: flex
 		flex-direction: column-reverse
 
@@ -18,27 +43,27 @@
 			align-items: center
 
 		div
-			color : srgb(--neutral-grad-2)
+			color: srgb(--neutral-grad-2)
 			font-size: 0.8em
 			transform: translateY(-4px)
 
 	.scenarios,
 	.background
 		position: absolute
-		left: 55px
+		left: 0
 		right: 0
-		top : 0
-		bottom : 0
+		top: 0
+		bottom: 100px
 
 	.background
-		background: repeating-linear-gradient(to top, #ddd, #ddd 1px, #fff 1px, #fff 10%)
+		background: repeating-linear-gradient(to top, srgb(--neutral-grad-2), srgb(--neutral-grad-2) 1px, srgb(--background-total-theme) 1px, srgb(--background-total-theme) 10%)
 
 	.scenarios
 		display: flex
 		align-items: center
 
 		.scenario
-			padding : 0 $r
+			padding: 0 $r
 			flex-grow: 2
 			height: 100%
 			display: flex
@@ -48,17 +73,28 @@
 
 			&.custom
 				.name
-					color : srgb(--color-txt-ac)
+					color: srgb(--color-txt-ac)
 
 			.name
 				position: absolute
-				left : 0
-				top : 100%
-				right : 0
+				left: 0
+				top: 100%
+				right: 0
 				line-height: 0.3em
 				text-align: center
+				+transition(0.3s)
+				transform-origin: center bottom
+				padding : $r 0
+				border-radius: 12px
+
+				&.zoomed
+					z-index: 1
+					background: srgb(--background-total-theme)
+					+shadowSmaller()
+					transform: scale(2.5)
+
 				span
-					
+
 					font-size: 0.3em
 
 			.barswrapper
@@ -68,18 +104,17 @@
 				align-items: center
 
 				&.positive
-					align-items : flex-start
+					align-items: flex-start
 
 					.barwrapper
 						align-items: flex-end
 				&.negative
-					align-items : flex-end
+					align-items: flex-end
 
 			.barwrapper
 				height: 50%
 				width: 100%
 				display: flex
-
 
 			.bar
 				background: srgb(--neutral-grad-1)

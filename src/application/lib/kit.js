@@ -61,6 +61,8 @@ class Portfolio {
 
         if (!this.positions) return 0
 
+        //if (this.isModel) return 100
+
         return _.reduce(this.positions, (m, p) => {
 
             return p.isCovered ? m + p.value : m

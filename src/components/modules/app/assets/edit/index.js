@@ -7,7 +7,8 @@ export default {
         ticker : String,
         name : String,
         value : Number,
-        isCovered : Boolean
+        isCovered : Boolean,
+       
     },
 
     data : function(){
@@ -109,8 +110,11 @@ export default {
         },
 
         changevalue : function(e){
+
+            var value = Number(e.target.value)
+
             this.changed({
-                value : Number(e.target.value)
+                value
             })
         },
 

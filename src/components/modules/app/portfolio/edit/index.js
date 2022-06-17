@@ -28,7 +28,10 @@ export default {
 			hash : '',
 			name : '',
 			aggregation : null,
-			focused : false
+			focused : false,
+			isModel : false,
+
+			lastTotalAssets : 0 /// ismodel convertation
 		}
 
 	},
@@ -45,6 +48,7 @@ export default {
 			})
 
 			this.name = donor.name
+			this.isModel = donor.isModel
 		}
 
 		this.hash = this.datahash()
@@ -71,10 +75,11 @@ export default {
     },
 	computed: mapState({
 		auth : state => state.auth,
+
 		total : function(){
-			return _.reduce(this.assets, (m, asset) => {
+			return Number((_.reduce(this.assets, (m, asset) => {
 				return m + asset.value
-			}, 0)
+			}, 0)).toFixed(2))
 		},
 
 		uncovered : function(){
@@ -181,8 +186,32 @@ export default {
 			return true
 		},
 
+	
 		
 		multiple(items){
+
+			if (this.isModel){
+				var d = (Math.max(100 - this.total, 0) || 100) / 100
+				var multiple = 1
+
+				var totalAssets = _.reduce(items, (m, i) => {
+					return m + i.value
+				}, 0)
+
+				if (totalAssets <= 1.1){
+					multiple = 100
+				}
+
+				if (totalAssets <= 1.1 || totalAssets > 100){
+					items = _.map(items, (i) => {
+						return {
+							...i,
+							value : d * multiple * i.value / totalAssets
+						}
+					})
+				}
+			}
+
 			_.each(items, (item) =>{
 				var asset = {
 					ticker : item.ticker,
@@ -201,7 +230,7 @@ export default {
 			})
 		},
 		assetchanged : function(index, v){
-			var old = this.assets[index]
+			var old = index > -1 ? this.assets[index] : null
 
 			if(!old){
 
@@ -210,7 +239,7 @@ export default {
 					this.assets.push({
 						ticker : v.ticker,
 						name : v.name,
-						value : v.value || 0,
+						value : v.value && this.isModel ? v.value : v.value || 0,
 						isCovered : v.isCovered
 					})
 			}
@@ -266,7 +295,9 @@ export default {
 				data : {},
 				events : {
 					assets : (assets) => {
-						this.assets = this.assets.concat(assets)
+						this.multiple(assets)
+						//this.assets = this.assets.concat(assets)
+
 					}
 				},
 				mclass : 'absoluteContent'
@@ -291,7 +322,7 @@ export default {
 				preloader : true,
 				showStatus : true
 			}).then(assets => {
-				this.assets = this.assets.concat(assets)
+				this.multiple(assets)
 			})
 		},
 
@@ -314,11 +345,55 @@ export default {
 			this.save(r)
 		},
 
+		checkModel : function(){
+			if (this.isModel && this.total != 100){
+
+				return this.$dialog.confirm(
+					'The total amount of the model portfolio must be exactly equal to 100%. Do You want to automatically adjust position weights to a portfolio total of 100%?', {
+					okText: "Yes, correct automatically",
+					cancelText : 'No'
+				})
+		
+				.then((dialog) => {
+
+					this.autoCorrectAssets()
+
+				}).catch( e => {
+					
+				})
+
+			}
+
+			return true
+		},
+
+		autoCorrectAssets : function(){
+			if (this.isModel){
+
+				var items = this.assets
+
+				var d = 100 / this.total
+
+				items = _.map(items, (i) => {
+					return {
+						...i,
+						value : Number((d * i.value).toFixed(2))
+					}
+				})
+
+				this.assets = items
+
+			}
+		},
+
 		save : function(catalogId){
 			if (!this.cansave()){
-				
 				return
 			}
+
+			if (!this.checkModel()) return
+
+			return 
 
 			var action = null
 			var positions = this.joinassets(this.assets)
@@ -458,6 +533,45 @@ export default {
 
 		addasset : function(){
 			this.autofocus()
+		},
+
+		model : function(){
+
+			var assets = this.assets
+
+			var total = this.total
+
+			if(!this.isModel) this.lastTotalAssets = total
+			else this.lastModelTotalAssets = total
+
+			this.isModel = !this.isModel
+
+			if(this.isModel){
+				assets = _.map(assets, (a) => {
+					return {
+						...a,
+						value : Number(((this.lastModelTotalAssets || 100) * (this.total ? a.value / this.total : 0)).toFixed(2))
+					}
+				}) 
+			}
+
+			else{
+				if (this.lastTotalAssets){
+
+					assets = _.map(assets, (a) => {
+
+						console.log('a.value * this.lastTotalAssets',a.value * this.lastTotalAssets, a.value , this.lastTotalAssets)
+
+						return {
+							...a,
+							value : Number((a.value * this.lastTotalAssets / 100).toFixed(2))
+						}
+					}) 
+
+				}
+			}
+
+			this.assets = assets
 		}
 	},
 }

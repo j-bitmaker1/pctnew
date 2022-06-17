@@ -15,6 +15,10 @@
 			<i class="fas fa-file"></i> Add from file
 		</button>
 
+		<button class="button black" key="aggregate" @click="model">
+			<i class="fas fa-percent"></i> <template v-if="!isModel">Model portfolio</template> <template v-else>Currency portfolio</template>
+		</button>
+
 		<!--<button class="button black" key="scan" v-if="cordova" :disabled="assets.length > 0" @click="scan">
 			<i class="fas fa-camera"></i> Photo document
 		</button>
@@ -43,17 +47,17 @@
 
 	<div v-if="!aggregation">
 
+
 		<div class="captionRow">
 			<div class="caption">
 				<span>Assets</span>
 			</div>
 			<div class="totalwrapper" v-if="total">
-				<b>Total:</b> <value :value="total" mode="auto"/>
+				<b>Total:</b> <value :value="isModel ? total / 100 : total" :mode="isModel ? 'p' : 'd'"/>
 			</div>
 		</div>
 
 		<div class="captionRow"  v-if="uncovered">
-			
 			<div class="uncoveredwrapper">
 				<span>Not covered:</span> <value :value="uncovered" mode="auto"/>
 			</div>

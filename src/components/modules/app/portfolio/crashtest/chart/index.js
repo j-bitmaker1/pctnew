@@ -14,7 +14,8 @@ export default {
 
 		return {
 			loading : false,
-			intervals : 3
+			intervals : 3,
+			zoomed : null
 		}
 
 	},
@@ -28,9 +29,13 @@ export default {
 	},
 	computed: mapState({
 		auth : state => state.auth,
-		
+		dwidth : state => state.dwidth,
 		roundbase : function(){
 			return Math.pow(10, Math.max((this.cts.total.toFixed(0)).length - 3, 1))
+		},
+
+		length : function(){
+			return _.toArray(this.cts.scenarios).length
 		},
 
 		currentStyles : state => state.currentStyles
@@ -74,6 +79,14 @@ export default {
 
 		scenarioClick : function(scenario){
 			this.$emit('scenarioClick', scenario)
-		}
+		},
+
+		zoom : function(id){
+            this.zoomed = id
+
+            setTimeout(() => {
+                if(this.zoomed == id) this.zoomed = null
+            }, 2000)
+        }
 	},
 }
