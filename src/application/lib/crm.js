@@ -3,10 +3,10 @@ import Queries from "./queries";
 
 
 class CRM {
-    constructor({api, user, store}){
-        this.queries = new Queries()
-        this.api = api
-        this.store = store
+    constructor(core){
+        this.queries = new Queries(core)
+        this.api = core.api
+        this.store = core.store
 
         this.schemas = {
             contact : {}
@@ -75,8 +75,6 @@ class CRM {
         if (contact.Status == 'LEAD_NEW') update.Status = "LEAD"
         if ((contact.Products || "").indexOf('PCT') == -1) {
             var products = _.filter((contact.Products || "").split(','), (f) => {return f})
-
-            console.log("products", products)
 
             products.push('PCT')
 

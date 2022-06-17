@@ -28,6 +28,10 @@ class Templates {
         return this.condition(conditions.notinlist, "Status", ["DELETED", "INACTIVE"])
     } 
 
+    userid = function(userid){
+        return this.condition(conditions.inlist, "UserId", [userid])
+    } 
+
     type_eq = function(type){
 
         return this.condition(conditions.eq, "Type", type)
@@ -108,8 +112,9 @@ class Templates {
 }
 
 class Queries {
-    constructor(){
+    constructor(core){
         this.t = new Templates()
+        this.core = core
     }
 
     make = function(query, p){
@@ -121,10 +126,13 @@ class Queries {
     simplesearch = function({search, type}){
         var groups = []
 
+        
+
         groups.push(
             this.t.group([
                 this.t.status_product(),
                 this.t.status_active(),
+                this.t.userid(this.core.user.info.ID),
                 this.t.type_eq(type)
             ], join.and)
         )

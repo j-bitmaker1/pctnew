@@ -62,6 +62,7 @@
 	grid-gap: $r
 	overflow-x: auto
 	margin-top: 2 * $r
+	scrollbar-width : none
 	&::-webkit-scrollbar
 		display: none
 

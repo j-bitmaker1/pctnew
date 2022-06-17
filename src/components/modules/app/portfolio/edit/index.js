@@ -393,7 +393,6 @@ export default {
 
 			if (!this.checkModel()) return
 
-			return 
 
 			var action = null
 			var positions = this.joinassets(this.assets)

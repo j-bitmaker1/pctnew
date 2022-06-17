@@ -48,6 +48,7 @@ export default {
     display: flex
     overflow-x: scroll
     scrollbar-width: none
+    scrollbar-width : none
     &::-webkit-scrollbar
       width: 0!important
       height: 0!important
