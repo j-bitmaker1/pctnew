@@ -3,6 +3,14 @@ import f from "@/application/functions.js"
 export default {
     name: 'allfactors',
     props: {
+        select : {
+            type : Object,
+            default : () => {
+                return {
+                    context : 'factors'
+                }
+            }
+        }
     },
 
     data : function(){
@@ -16,6 +24,7 @@ export default {
     },
 
     created (){
+        console.log("this", this.select)
         this.load()
     },
 
@@ -38,10 +47,6 @@ export default {
         },
 
         grouped : function(){
-
-            console.log('this.filtered', this.filtered, f.group(this.filtered, (f) => {
-                return f.type
-            }))
 
             return f.group(this.filtered, (f) => {
                 return f.type
@@ -69,7 +74,7 @@ export default {
             this.$emit('close')
         },
 
-        select : function(factor){
+        selectFactor : function(factor){
             this.selected([factor])
         }
     },

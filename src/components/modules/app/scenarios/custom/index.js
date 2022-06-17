@@ -272,8 +272,6 @@ export default {
 
 		addfactor : function(){
 
-			console.log("this.factors", this.factors)
-
 			if(!_.isEmpty(this.factors))
 				this.$store.commit('select', {
 					context : 'factors',

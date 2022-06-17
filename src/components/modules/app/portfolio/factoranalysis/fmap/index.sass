@@ -1,0 +1,82 @@
+.fmap
+    display: grid
+    grid-template-columns : 40px 1fr
+    grid-gap: $r
+    grid-auto-rows: minmax(50px, auto)
+
+.legend
+    margin-top: 4 * $r
+    margin-left: 50px
+    .line
+        width: 190px
+        border-radius: 6px
+        height: 6px
+        margin : 0 auto
+        background: linear-gradient(90deg, srgb(--color-bad) 0%, srgb(--color-yellow) 50%, srgb(--color-good) 100%)
+
+    .values
+        display: flex
+        justify-content: space-between
+        align-items: center
+        width: 190px
+        margin : 0 auto
+
+        .max
+            margin-left: auto
+
+        span
+            font-weight: 700
+            font-size: 0.8em
+
+.map
+    display: grid
+    grid-gap: 0.5 * $r
+    grid-auto-rows: minmax(70px, auto)
+    position: relative
+
+    .preloaderWrapper
+        position: absolute
+        left : 0
+        top : 0
+        right : 0
+        bottom : 0
+        background: srgba(--background-total-theme, 0.6)
+        display: flex
+        justify-content: center
+        align-items: center
+
+    >div
+        border-radius: 6px
+        background: srgb(--neutral-grad-0)
+
+    .value
+        +transition(0.3s)
+        transform-origin : center center
+
+        &.zoomed
+            +shadowSmaller()
+            transform: scale(2.5)
+
+    @media (pointer:fine)
+        .value
+            cursor: pointer
+            &:hover
+                opacity: 0.8
+                &.zoomed
+                    opacity: 1
+
+    .result
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        height: 100%
+        width: 100%
+
+        span
+            font-size: 0.6em
+
+            &:nth-last-child(1)
+                font-size: 0.8em
+                font-weight: 700
+                

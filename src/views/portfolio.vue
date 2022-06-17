@@ -56,6 +56,9 @@
 @media only screen and (min-width: 1024px)
 	.linenavigation
 		background: srgb(--background-total-theme)
+
+	.clientinfo
+		background: transparent
 </style>
 
 <script>
@@ -66,7 +69,10 @@ import shares from "@/components/modules/app/portfolio/shares/index.vue";
 import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 
-import client from '@/components/modules/app/portfolio/client/index.vue'
+import client from   '@/components/modules/app/portfolio/client/index.vue'
+
+import analysis from "@/components/modules/app/portfolio/analysis/index.vue";
+
 
 export default {
 	name: 'portfolios_page',
@@ -75,7 +81,8 @@ export default {
 		shares,
 		crashtest,
 		portfoliomenu,
-		client
+		client,
+		analysis
 	},
 
 	computed: {
@@ -113,6 +120,10 @@ export default {
 				{
 					text : 'labels.shares',
 					id : 'shares'
+				},
+				{
+					text : 'labels.more',
+					id : 'analysis'
 				}
 			],
 

@@ -9,7 +9,7 @@
 			<listcontrols @search="search" :searchvalue="searchvalue"/>
 		</div>
 
-		<listgroupedsliced :select="{context : 'factors'}" :group="grouped" :count="10" ref="list">
+		<listgroupedsliced :select="select" :group="grouped" :count="10" ref="list">
 
 			 <template v-slot:group="slotProps">
 				<div class="groupCaption mobp">
@@ -18,7 +18,7 @@
 			</template>
 
 			<template v-slot:list="slotProps">
-				<div class="factorWrapper mobp" @click="e => select(slotProps.item)">
+				<div class="factorWrapper mobp" @click="e => selectFactor(slotProps.item)">
 					<div class="name">
 						<span>{{slotProps.item.name}}</span>
 					</div>
@@ -42,7 +42,7 @@
 
 	</div>	
 
-	<selection context="factors" @success="selected"/>
+	<selection :context="select.context" @success="selected"/>
 
 </div>
 </template>

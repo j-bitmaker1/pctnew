@@ -233,8 +233,6 @@ var Request = function (core = {}, url, system) {
 
 		}).catch(e => {
 
-			console.log("E", e)
-
 
 			if (e && e.toString() && e.toString().indexOf('Failed to fetch') > -1) {
 				e.code = 20
@@ -465,7 +463,6 @@ var ApiWrapper = function (core) {
 
 			if (!data[p.from]) data[p.from] = 0
 
-			console.log('data', p.from, system, to)
 
 			_.each(r.records || [], (e, i) => {
 				var c = 0
@@ -736,6 +733,8 @@ var ApiWrapper = function (core) {
 
 			_storage = storage
 
+		
+
 			if (storage && !p.refreshDb) {
 				return storage.get(datahash).catch(e => {
 					return Promise.resolve()
@@ -746,6 +745,7 @@ var ApiWrapper = function (core) {
 			return Promise.resolve()
 
 		}).then(cached => {
+			
 
 			if (!cached) {
 
@@ -1298,6 +1298,28 @@ var ApiWrapper = function (core) {
 				}
 
 				return request(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
+
+					r = f.deep(r, 'records.0')
+
+					if (!r) return Promise.reject({ error: 'empty result' })
+
+					return Promise.resolve(r)
+				})
+			},
+
+			customtestScenarios : function({portfolio, scenarios}, p = {}){
+
+				p.storageparameters = dbmeta.stress()
+				p.storageparameters.invalidate = {
+					index: portfolio.id,
+					type: 'portfolio'
+				}
+
+				return request({
+					portfolioId : portfolio.id,
+					scenarios : scenarios
+					
+				}, 'pctapi', 'StressTest/GetCustomStressTestDetailed', p).then((r) => {
 
 					r = f.deep(r, 'records.0')
 
@@ -1899,6 +1921,9 @@ var ApiWrapper = function (core) {
 				return request({}, 'api', 'crm/Contacts/Scheme', p).then(r => {
 					return r.Contacts
 				}).catch(e => {
+
+					console.log("E", e)
+
 					if(e && e.error && e.error.indexOf('Access denied') > -1){
 						return Promise.resolve(null)
 					}
@@ -2273,14 +2298,10 @@ var ApiWrapper = function (core) {
 			},
 			portfolio: function ({ id, to, from }, p) {
 
-				console.log('id, to, from', id, to, from)
-
 				var data = {
 					id,
 					destinationCatalogId: to
 				}
-
-				console.log('id, to, from', id, to, from)
 
 				core.vxstorage.invalidateMany(
 					[to, from],
@@ -2344,8 +2365,6 @@ var ApiWrapper = function (core) {
 				p.method = 'POST'
 
 				return request({'trialDto.product' : id}, 'api', 'userdata/user/TrialRequest', p).then(r => {
-
-					console.log("R", r)
 
 					core.user.extendFeatures(r)
 
@@ -2561,7 +2580,6 @@ var ApiWrapper = function (core) {
 			data.appIdsFilter = ["PCT"]
 
 			return paginatedrequest(data, 'api', 'async_task_manager/AsyncTask/ListTasks', p).then(r => {
-				console.log("R, r", r)
 
 				return Promise.resolve(r)
 			})
@@ -2684,8 +2702,6 @@ var ApiWrapper = function (core) {
 		return Promise.all(_.map(dbmeta, (mf) => {
 			return getstorage(mf())
 		})).catch(e => {
-
-			console.error(e)
 
 			return Promise.resolve()
 		})

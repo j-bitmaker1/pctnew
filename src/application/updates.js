@@ -139,8 +139,6 @@ class Updates {
 
             request().then(r => {
 
-                console.log("UPDATES", r, d.id)
-
                 var result = r.count || 0
 
                 if (d.prepare){

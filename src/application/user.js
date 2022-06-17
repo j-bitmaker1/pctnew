@@ -765,7 +765,7 @@ var User = function ({
 
         var data = {}
 
-        clearSignin()
+        //clearSignin()
 
         vm.$store.commit('globalpreloader', true)
 

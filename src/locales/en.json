@@ -121,7 +121,9 @@
 		"moveportfoliotofolder" : "Move portfolio to folder",
 		"checkLicence" : "Check licence",
 		"accesDeniedLicence" : "Access to the section is prohibited from the terms of the license",
-		"licence" : "Licence"
+		"licence" : "Licence",
+		"more" : "More",
+		"factoranalysis" : "Factor analysis"
 	},
 
 	"caption" : {
