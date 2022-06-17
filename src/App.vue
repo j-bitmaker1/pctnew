@@ -67,6 +67,8 @@ import date from "@/components/assets/date/index.vue";
 import userpic from "@/components/assets/user/userpic/index.vue";
 import userspic from "@/components/assets/user/userspic/index.vue";
 import bgimage from "@/components/assets/bgimage.vue";
+import sticker from "@/components/assets/sticker.vue";
+
 import logotype from "@/components/assets/logotype/index.vue";
 import backButton from "@/components/assets/backButton/index.vue";
 import search from "@/components/assets/search/index.vue";
@@ -125,6 +127,8 @@ Vue.component("userpic", userpic);
 Vue.component("userspic", userspic);
 Vue.component("fixedmessageicon", fixedmessageicon);
 Vue.component("bgimage", bgimage);
+Vue.component("sticker", sticker);
+
 Vue.component("logotype", logotype);
 Vue.component("backButton", backButton);
 Vue.component("search", search);

@@ -195,6 +195,12 @@ var Request = function (core = {}, url, system) {
 
 		}).then(result => {
 
+			if(!_.isObject(result)){
+				result = {
+					Message : result
+				}
+			}
+
 			result.code = status
 
 			if (result.result == 'failed') {
@@ -226,6 +232,8 @@ var Request = function (core = {}, url, system) {
 			return Promise.resolve(data)
 
 		}).catch(e => {
+
+			console.log("E", e)
 
 
 			if (e && e.toString() && e.toString().indexOf('Failed to fetch') > -1) {
@@ -1886,6 +1894,12 @@ var ApiWrapper = function (core) {
 
 				return request({}, 'api', 'crm/Contacts/Scheme', p).then(r => {
 					return r.Contacts
+				}).catch(e => {
+					if(e && e.error && e.error.indexOf('Access denied') > -1){
+						return Promise.resolve(null)
+					}
+
+					return Promise.reject(e)
 				})
 			},
 
@@ -2308,13 +2322,32 @@ var ApiWrapper = function (core) {
 			})
 		},
 
-		sendFcmInfo: function (data) {
-
-			return Promise.resolve()
-
-			return request(data, 'api', 'userdata/user/SignIn', {
-				method: "POST",
+		register : function(data){
+			return request(data, 'api', 'userdata/user/Register', {
+				method: "POST"
 			})
+		},
+
+		activate : function(id){
+			return request({id}, 'api', 'userdata/user/Activate', {
+				method: "POST"
+			})
+		},
+
+		trial : {
+			activate : function(id, p = {}){
+
+				p.method = 'POST'
+
+				return request({'trialDto.product' : id}, 'api', 'userdata/user/TrialRequest', p).then(r => {
+
+					console.log("R", r)
+
+					core.user.extendFeatures(r)
+
+					return Promise.resolve()
+				})
+			}
 		},
 
 		prechangePassword: function (password, p = {}) {

@@ -1,6 +1,6 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.1.5/workbox-sw.js');
 
-const { version } = require('../package.json');
+
 
 /*
 workbox.setConfig({
@@ -15,7 +15,7 @@ core.clientsClaim();
 
 core.setCacheNameDetails({
 	prefix: 'pct',
-	suffix: version
+	suffix: '0.0.3'
 });
 
 console.log('--version', version)

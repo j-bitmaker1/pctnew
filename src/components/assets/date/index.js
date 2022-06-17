@@ -4,7 +4,13 @@ import f from "@/application/functions.js";
 
 export default {
     name: 'date',
-    props: ['date'],
+    props: {
+        date : [String, Date],
+        relative : {
+            type : Boolean,
+            default : true
+        }
+    },
 
     computed: mapState({
         auth : state => state.auth,
@@ -17,7 +23,11 @@ export default {
 
             moment.locale(this.$i18n.locale)
 
-            return moment(moment.utc(date)).local().fromNow();
+            var e = moment(moment.utc(date)).local()
+
+            if(this.relative) return e.fromNow();
+
+            return e.format('MM/DD/YYYY');
 
         }
     }),

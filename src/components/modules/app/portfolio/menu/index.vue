@@ -42,17 +42,23 @@ export default {
 				{
 					text : 'labels.portfoliopdf',
 					icon : 'fas fa-file-pdf',
-					action : 'portfoliopdf'
+					action : 'portfoliopdf',
+
+            		features : ['PCT']
 				},
 				{
 					text : 'menu.compare',
 					icon : 'fas fa-list-ul',
-					action : 'compare'
+					action : 'compare',
+
+            		features : ['PCT']
 				},
 				{
 					text : 'labels.editportfolio',
 					icon : 'fas fa-pen',
-					action : 'edit'
+					action : 'edit',
+
+            		features : ['PCT']
 				},
 				{
 					text : 'labels.moveportfoliotofolder',
@@ -70,20 +76,26 @@ export default {
 				menu.unshift({
 					text : 'labels.setportfoliotoclient',
 					icon : 'fas fa-user-times', 
-					action : 'linkToClient'
+					action : 'linkToClient',
+
+					features : ["CRM"]
 				})
 			}  
 			else{
 				menu.unshift({
 					text : 'labels.changeClient',
 					icon : 'fas fa-user-edit',
-					action : 'changeClient'
+					action : 'changeClient',
+
+					features : ["CRM"]
 				})
 
 				menu.unshift({
 					text : 'labels.unlinkClient',
 					icon : 'fas fa-user-edit',
-					action : 'unlinkClient'
+					action : 'unlinkClient',
+
+					features : ["CRM"]
 				})
 				
 			} 
@@ -98,7 +110,8 @@ export default {
 				]
 			}
 
-			return menu
+
+			return this.core.user.extendByFeaturesMenu(menu)
 		
 		}
 

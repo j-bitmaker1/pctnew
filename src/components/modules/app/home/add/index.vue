@@ -40,21 +40,28 @@ export default {
             var menu = [{
                     text: 'labels.newPortfolio',
                     icon: 'fas fa-suitcase',
-                    action: this.portfolio
+                    action: this.portfolio,
+
+                    features : ['PCT']
                 },
                 {
                     text: 'labels.newClient',
                     icon: 'fas fa-users',
-                    action: this.client
+                    action: this.client,
+
+                    features : ['CRM']
                 },
                 {
                     text: 'labels.newLead',
                     icon: 'fas fa-user-plus',
-                    action: this.lead
+                    action: this.lead,
+
+                    features : ['CRM']
                 }
             ]
+            
 
-            return menu
+            return this.core.user.extendByFeaturesMenu(menu)
 
         }
 

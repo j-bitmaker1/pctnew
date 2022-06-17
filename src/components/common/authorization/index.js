@@ -1,5 +1,5 @@
 import { mapState } from 'vuex';
-
+import f from "@/application/functions.js"
 export default {
 	name: 'Authorization',
 
@@ -83,6 +83,15 @@ export default {
 		changelogin : function(v){
 			this.login = v.target.value
 		},
+
+
+		registration : function(){
+			this.$router.push('/registration')
+		},
+
+		demo : function(){
+			f.openexternallink('https://rixtrema.com/requestdemo/TM?source=pctnew')
+		}
 
 	   
 	},

@@ -6,7 +6,7 @@
 
     <div class="data" v-if="userinfo">
       <div class="login"><span>@{{userinfo.Login}}</span></div>
-      <div class="name"><span>{{userinfo.FName}} {{userinfo.LName}}</span><span v-if="userinfo.Company && userinfo.Company.Name">, {{userinfo.Company.Name}}</span></div>
+      <div class="name"><span>{{userinfo.FName}} {{userinfo.LName}}</span><span v-if="userinfo.Company && userinfo.Company.Name">, {{userinfo.Company.Name.replace('_' + userinfo.Login || '', '')}}</span></div>
     </div>
 
     <div class="dummy" v-else>

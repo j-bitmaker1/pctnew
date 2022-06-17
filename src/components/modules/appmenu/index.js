@@ -30,6 +30,8 @@ export default {
 					text : 'menu.clients',
 					icon : "fas fa-users",
 
+					features : ['CRM'],
+
 					childrens : ['/client']
 			
 				},
@@ -47,6 +49,8 @@ export default {
 					id : 'leads',
 					text : 'menu.leads',
 					icon : "fas fa-user-plus",
+
+					features : ['CRM'],
 
 					childrens : ['/lead']
 				},
@@ -108,12 +112,14 @@ export default {
 			return ''
 		},
 
-		items : function(){
+		items : function(state){
 
 			var mobile = f.mobileview()
 
 			return _.filter(this.allitems, (item) => {
-				return typeof item.mobile == 'undefined' || item.mobile == mobile
+				return (typeof item.mobile == 'undefined' || item.mobile == mobile) && (!item.features || _.find(item.features, (f) => {
+					return state.features[f]
+				}))
 			})
 
 		}

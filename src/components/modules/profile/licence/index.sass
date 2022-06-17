@@ -1,0 +1,47 @@
+.feature
+    padding: 2 * $r
+    border-bottom: 1px solid srgb(--neutral-grad-0)
+
+    .description
+        margin-top: $r
+        margin-bottom: $r
+
+        span
+            font-size: 0.8em
+
+    .name
+        span
+            font-weight: 700
+
+    .needFeature
+        span
+            color : srgb(--color-txt-ac)
+            font-size: 0.8em
+.header
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    .my
+        margin-left: auto
+.my
+    display: flex
+
+    .expiration
+        border-radius: 24px
+        padding : $r 2 * $r
+        background: srgb(--neutral-grad-3)
+        color : srgb(--text-on-bg-shadow-color)
+        font-size: 0.9em
+
+    &.valid
+        .expiration
+            background: srgb(--color-good)
+
+.contacttosupport
+    margin-top: 4 * $r
+    text-align: center
+
+    .buttons
+        margin-top: 4 * $r
+        margin-bottom: 4 * $r

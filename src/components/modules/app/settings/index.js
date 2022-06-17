@@ -47,6 +47,14 @@ export default {
                 ],
 
                 account : [
+
+                    {
+                        text : 'labels.licence',
+                        view : 'button',
+
+                        route : '/features'
+                    },
+
                     {
                         text : 'common.2901009',
                         view : 'button',

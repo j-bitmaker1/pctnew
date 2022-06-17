@@ -30,6 +30,15 @@ export default {
 	},
 	computed: mapState({
 		auth : state => state.auth,
+
+		checkLicenceCRM : function(state){
+			return state.features['CRM'] && state.features['CRM'].valid
+		},
+		
+		features : function(state){
+			return state.features
+		}
+		
 	}),
 
 	methods : {

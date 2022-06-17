@@ -5,6 +5,13 @@
         <template v-slot:info>
             <span></span>
         </template>
+        <template v-slot:right>
+			<div class="buttonpanel">
+				<router-link to="/support">
+					<i class="fas fa-headset"></i>
+				</router-link>
+			</div>
+		</template>
     </topheader>
 
     <maincontent>

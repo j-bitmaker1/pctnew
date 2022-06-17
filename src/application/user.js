@@ -43,6 +43,13 @@ var User = function ({
 
     self.features = {}
 
+    
+    self.product = [
+        {id : "CRM", trial : true, name : "CRM features", description : "Manage your clients and leads"},
+        {id : "PCT", trial : true, name : "PCT features", description : "Advanced risk profiling and capacity features"},
+        {id : "CAMPAIGN", name : "Campaigns features", description : "Build up long relationship with clients and follow up leads to close sales with engaging marketing emails"}
+    ]
+
     self.activity = new Activity({
         api,
         user : self,
@@ -616,8 +623,6 @@ var User = function ({
             return Promise.resolve()
         }).then(r => {
 
-            console.log("CLEAR???")
-
             clear()
             wss.destroy()
 
@@ -628,8 +633,6 @@ var User = function ({
     }
 
     function clear() {
-
-        console.log("CLEAR@")
 
         api.clearCache()
 
@@ -648,62 +651,94 @@ var User = function ({
         token.value = ''
 
         self.info = {}
-        self.features = {}
+        features()
     }
 
-    function signup({
-        password_value,
-        login_value,
-        data_value
-    }) {
 
-        var en = false
-        var data = {}
+    function signup(data = {}){
+        if(!data.Email || !data.Password) return Promise.reject('emptydata')
 
-        if (password_value && login_value) {
 
-            data.pwdhash = crypt(password_value)
-            data.login = login_value
+        //data.Password = crypt(data.Password)
 
-            en = true;
-        }
+        return api.user.register(data).then(r => {
 
-        data.data = JSON.stringify(data_value || {})
-
-        if (en) {
-
-            self.deletefaceid()
-
-            return api.user.signup(data).then(sdata => {
-
-                pwdhash.value = data.pwdhash
-                login.value = data.login
-
-                return self.signin({
-                    pwdhash_value: pwdhash.value,
-                    login_value: login.value
-                })
-
+            return signin({
+                password_value : data.Password,
+                login_value : data.Email
             })
+        })
+    }
 
-                .then(() => {
+    function signupRixtrema(data = {}){
+        if(!data.Email || !data.Password) return Promise.reject('emptydata')
 
-                    return state.value
+        return api.user.register(data)
+    }
 
-                }).catch(e => {
+    var features = function(info = {}){
 
-                    state.value = 0
+        self.features = {}
 
-                    return Promise.reject(e)
+        _.each(info.Licenses, (l) => {
+            if(l.ProductCode){
+                self.features[l.ProductCode] = {
+                    permissions : l.Permissions,
+                    to : l.ValidTo,
+                }
 
-                })
+                self.features[l.ProductCode].valid = f.date.nowUtc1000() < self.features[l.ProductCode].to / 1000
 
-        }
+                
+            }
+        })
 
-        state.value = 0
+        vm.$store.commit('features', self.features)
 
-        return Promise.reject(error(511))
+    }
 
+    self.extendFeatures = function(license){
+        if(!self.info.Licenses) self.info.Licenses = []
+
+        self.info.Licenses.push(license)
+
+        features(self.info)
+    }
+
+    self.checkFeatures = function(features){
+        return !features || _.find(features, (f) => {
+            return self.features[f]
+        })
+    }
+
+    self.extendByFeatures = function(items){
+
+        return _.filter(items, (item) => {
+
+            return self.checkFeatures(item.features)
+
+        })
+
+    }
+
+    self.extendByFeaturesMenu = function(menu){
+        var fs = _.filter(menu, (item) => {
+
+            return self.checkFeatures(item.features)
+
+        })
+
+        if(fs.length) return fs
+
+        return [
+            {
+                text: 'labels.checkLicence',
+                icon: 'fas fa-certificate',
+                action: () => {
+                    vm.$router.push('/features')
+                },
+            }
+        ]
     }
 
     function signin({
@@ -778,6 +813,8 @@ var User = function ({
             login.value = data.login
 
             self.info = result
+
+            features(result)
 
             storage.setItem('ui', result)
 

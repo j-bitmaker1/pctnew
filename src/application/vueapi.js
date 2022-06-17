@@ -708,18 +708,26 @@ class Vueapi {
         var menu = [{
             text: 'labels.newPortfolio',
             icon: 'fas fa-suitcase',
-            action: actions.portfolio
+            action: actions.portfolio,
+
+            features : ['PCT']
         },
         {
             text: 'labels.newClient',
             icon: 'fas fa-users',
-            action: actions.client
+            action: actions.client,
+
+            features : ['CRM']
         },
         {
             text: 'labels.newLead',
             icon: 'fas fa-user-plus',
-            action: actions.lead
+            action: actions.lead,
+
+            features : ['CRM']
         }]
+
+        menu = this.core.user.extendByFeaturesMenu(menu)
 
         this.listmenu(menu)
     }

@@ -9,6 +9,41 @@ Vue.use(Router);
 
 
 const redirects = {
+
+	features: function(features, core, to){
+		return f.pretry(() => {
+
+			return core.user && core.user.inited
+
+		}).then(() => {
+
+			if(core.user.checkFeatures(features)){
+				return Promise.resolve(null)
+			}
+			else{
+
+				f.pretry(() => {
+					return core.vm.$dialog
+				}).then(() => {
+
+					core.vm.$dialog.confirm(
+						core.vm.$t('labels.accesDeniedLicence'), {
+						okText: core.vm.$t('button.ok'),
+					}).then((dialog) => {
+	
+					}).catch( e => {
+						
+					})
+				})
+				
+
+				return Promise.reject({
+					to: '/features?need=' + features.join(',')
+				})
+			}
+		})
+	},
+
 	authorized: function (core, to) {
 
 		var rs = ''
@@ -77,6 +112,17 @@ const redirects = {
 				})
 			}
 		})
+	},
+
+	check: function (core, to) {
+		return f.pretry(() => {
+			return core.user && core.user.inited
+		}).then(() => {
+			return core.user.state.is()
+		}).then(state => {
+
+			return Promise.resolve(null)
+		})
 	}
 }
 
@@ -111,7 +157,8 @@ const routes = [
 	{
 		path: '/support',
 		name: 'support',
-		component: () => import('@/views/support')
+		component: () => import('@/views/support'),
+		customRedirect: redirects.check
 	},
 
 	{
@@ -132,7 +179,9 @@ const routes = [
 		path: '/portfolio/:id',
 		name: 'portfolio',
 		component: () => import('@/views/portfolio'),
-		customRedirect: redirects.authorized
+		customRedirect: redirects.authorized,
+
+		features : ['PCT']
 	},
 
 	{
@@ -158,19 +207,44 @@ const routes = [
 		name: 'forgotpassword',
 		component: () => import('@/views/forgotpassword')
 	},
+
+	{
+		path: '/confirm',
+		name: 'confirm',
+		component: () => import('@/views/confirm')
+	},
+
+	{
+		path: '/confirmation',
+		name: 'confirmation',
+		component: () => import('@/views/confirmation')
+	},
+
+	{
+		path: '/registration',
+		name: 'registration',
+		component: () => import('@/views/registration'),
+		customRedirect: redirects.notauthorized
+	},
+
+	
 	
 	{
 		path: '/compare',
 		name: 'compare',
 		component: () => import('@/views/compare'),
-		customRedirect: redirects.authorized
+		customRedirect: redirects.authorized,
+
+		features : ['PCT']
 	},
 
 	{
 		path: '/leads',
 		name: 'leads',
 		component: () => import('@/views/leads'),
-		customRedirect: redirects.authorized
+		customRedirect: redirects.authorized,
+
+		features : ['CRM']
 	},
 
 	{
@@ -181,24 +255,37 @@ const routes = [
 	},
 
 	{
+		path: '/features',
+		name: 'features',
+		component: () => import('@/views/features'),
+		customRedirect: redirects.authorized
+	},
+
+	{
 		path: '/lead/:id',
 		name: 'lead',
 		component: () => import('@/views/lead'),
-		customRedirect: redirects.authorized
+		customRedirect: redirects.authorized,
+
+		features : ['CRM']
 	},
 
 	{
 		path: '/clients',
 		name: 'clients',
 		component: () => import('@/views/clients'),
-		customRedirect: redirects.authorized
+		customRedirect: redirects.authorized,
+
+		features : ['CRM']
 	},
 
 	{
 		path: '/client/:id',
 		name: 'client',
 		component: () => import('@/views/client'),
-		customRedirect: redirects.authorized
+		customRedirect: redirects.authorized,
+
+		features : ['CRM']
 	},
 
 	{
@@ -261,13 +348,27 @@ router.beforeEach((to, from, next) => {
 
 			router.app.core.store.commit('globalpreloader', true)
 
-			return r.customRedirect(router.app.core, to)
+			return r.customRedirect(router.app.core, to).then((t) => {
+
+				console.log('r.features', r.features)
+
+				if (r.features){
+					return redirects.features(r.features, router.app.core, to)
+				}
+
+				return Promise.resolve(t)
+
+			})
 		}).catch(obj => {
 			return Promise.resolve(obj)
 		}).then(obj => {
-			return obj ? next(obj.to) : next()
-		}).catch(e => {
 
+			router.app.core.store.commit('globalpreloader', false)
+
+			return obj ? next(obj.to) : next()
+
+		}).catch(e => {
+			
 		})
 
 	}
@@ -276,8 +377,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(() => {
-	router.app.core.store.commit('globalpreloader', false)
-
+	
 })
 
 export default router

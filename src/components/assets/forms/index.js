@@ -57,15 +57,33 @@ export default {
 
             r1[f.id] = _.map((f.rules || []).concat(addedRules), (r) => {
                 return r.rule
-            }).join('|')
-            
+            })//.join('|')
+
+            console.log('r1[f.id]', r1[f.id])
+
             if(!f.disabled){
                 _.each(f.rules || [], (r) => {
-                    m1[f.id + '.' + r.rule] = r.rule == 'required' ? (this.$t(f.text) + ' is Required') : r.message ? this.$t(r.message) : ''
+
+                    if(r.rule == 'required'){
+                        f.__required = true
+                    }
+
+                    var rid =  r.rule
+
+                    if (rid.indexOf('regex') > -1) rid = 'regex'
+
+                    console.log('r.message', r.message)
+
+                    m1[f.id + '.' + rid] = r.rule == 'required' ? (this.$t(f.text) + ' is Required') : r.message ? this.$t(r.message) : ''
                 })
             }
+
+
+            if(!r1[f.id]) delete r1[f.id]
             
         })
+
+        console.log("s", f1,r1,m1)
 
         this.form = new form(f1).rules(r1).messages(m1)
 
@@ -83,6 +101,7 @@ export default {
             deep: true,
             immediate: false,
             handler: function(now, old) { 
+
 
                 if (this.created /*|| !this.form.validate().errors().any()*/){
                     this.$emit('change', this.form.all())
@@ -110,7 +129,7 @@ export default {
         },
 
         getinternal : function(){
-   
+
             if (this.form.validate().errors().any() && !this.ignoreerrors) return null;
 
             var result = this.form.all()

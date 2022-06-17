@@ -94,7 +94,9 @@ var storeFactory = function (vxstorage) {
 
 		notifications: [],
 
-		updates : {}
+		updates : {},
+
+		features : {}
 	}
 
 
@@ -219,6 +221,10 @@ var storeFactory = function (vxstorage) {
 			state.theight = state.dheight = window.innerHeight
 			state.twidth = state.dwidth = window.innerWidth
 
+		},
+
+		features(state, v){
+			state.features = v
 		},
 
 		lastlogin(state, v) {

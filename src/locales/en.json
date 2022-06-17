@@ -16,11 +16,14 @@
 		"Email" : "Email",
 		"LName" : "Lastname",
 		"FName" : "Firstname",
+		"Company" : "Company",
 		"Title" : "Title",
 		"Country" : "Country",
 		"State" : "State",
 		"City" : "City",
 		"Zip" : "ZIP",
+		"Address1" : "First address",
+		"Address2" : "Second address",
 		"Phone" : "Phone",
 		"Status" : "Status",
 		"active" : "Active",
@@ -31,7 +34,12 @@
 		"additionalInfo" : "Additional information",
 		"foldername" : "Folder name",
 		"customScenarioName" : "Scenario name",
-		"customScenarioDescription" : "Scenario description"
+		"customScenarioDescription" : "Scenario description",
+		"mobilephone" : "Mobile phone",
+		"linkedin" : "LinkedIn",
+		"confirmpassword" : "Confirm password",
+		"password" : "Password",
+		"strongpassword" : "The password must be more than 8 symbols and must contain an uppercase and lowercase letters, numbers, special characters"
 
 	},
 
@@ -110,7 +118,10 @@
 		},
 		"confirmyourpassword" : "Confirm your assword",
 		"moveportfoliostofolder" : "Move portfolios to folder",
-		"moveportfoliotofolder" : "Move portfolio to folder"
+		"moveportfoliotofolder" : "Move portfolio to folder",
+		"checkLicence" : "Check licence",
+		"accesDeniedLicence" : "Access to the section is prohibited from the terms of the license",
+		"licence" : "Licence"
 	},
 
 	"caption" : {
@@ -141,7 +152,8 @@
 		"open" : "Open",
 		"You" : "You",
 		"helpfooter" : "Help & getting started",
-		"signin" : "Sign in to existing account"
+		"signin" : "Sign in to existing account",
+		"haventaccount" : "Don't have an account?"
 	},
 
 	"sort" : {

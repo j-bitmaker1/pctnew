@@ -6,39 +6,42 @@
 	font-weight: 100
 	max-width: 70%
 
-.maket
-	&.leftPart
+.item
+	padding-top : 3 * $r
+	.label
+		color : srgb(--color-bg-ac-bright)
+		margin-bottom: $r
 
-	.item
-		padding-top : 3 * $r
-		.label
-			color : srgb(--color-bg-ac-bright)
-			margin-bottom: $r
+		span
+			font-size: 0.9em
 
-			span
-				font-size: 0.9em
+		&.forgotPassword
+			margin-top: 2 * $r
 
-			&.forgotPassword
-				margin-top: 2 * $r
+.buttons
+	display: flex
+	grid-gap: $r
+	flex-wrap: wrap
 
-	button
+input
+	padding : 0 3 * $r
+	height: 66px
+	background: srgb(--neutral-grad-0)
+	width : 100%
+	border-radius: 6px
 
+.sitelogin
+	margin-bottom: 4 * $r
+
+::v-deep
+	
 	input
-		padding : 0 3 * $r
-		height: 66px
-		background: srgb(--neutral-grad-0)
-		width : 100%
-		border-radius: 6px
+		padding-left : 3 * $r
 
-	::v-deep
-		
+	.emailphoneinput
+
+		.inputWrapper
+			margin-bottom : 0
+			
 		input
-			padding-left : 3 * $r
-
-		.emailphoneinput
-
-			.inputWrapper
-				margin-bottom : 0
-				
-			input
-				padding-left: 0
+			padding-left: 0
