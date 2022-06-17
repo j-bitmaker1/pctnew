@@ -1,5 +1,5 @@
 <template>
-<div class="abspage">
+<div class="preabs">
 
     <topheader back="back">
         <template v-slot:info>

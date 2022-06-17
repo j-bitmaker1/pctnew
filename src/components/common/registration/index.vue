@@ -5,7 +5,7 @@
     </div>
 
     <div class="stickerwrapper">
-        <sticker src="brainstorming.png"/>
+        <sticker src="cloud-data.png"/>
     </div>
 
     <div class="formswrapper mobp">

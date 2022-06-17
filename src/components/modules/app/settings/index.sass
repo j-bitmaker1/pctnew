@@ -21,3 +21,11 @@
         margin-right: 1 * $r
         margin-left: auto
         color : srgb(--neutral-grad-2)
+
+@media (pointer:fine)
+    .view_button
+        cursor: pointer
+        +transition(0.3s)
+
+        &:hover
+            opacity: 0.8
