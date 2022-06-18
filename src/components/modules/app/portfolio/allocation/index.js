@@ -10,6 +10,7 @@ export default {
 	name: 'allocation',
 	props: {
 		assets : Array,
+		portfolio : Object
 	},
 
 	components : {

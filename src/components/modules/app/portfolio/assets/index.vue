@@ -15,7 +15,7 @@
 	</div>
 
 	<div class="assetsWrapper">
-		<assets :assets="assets" />
+		<assets :assets="assets" :mode="portfolio.isModel ? 'p100' : 'd'"/>
 	</div>
 </div>
 </template>

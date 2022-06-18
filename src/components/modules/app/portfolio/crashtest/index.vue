@@ -22,17 +22,17 @@
 
 			<div class="subheader mobp">
 				<div class="forvalue">
-					<value :value="portfolio.total() + portfolio.uncovered()" mode="auto"/>
+					<value :value="portfolio.total() + portfolio.uncovered()" :mode="portfolio.isModel ? 'p100' : 'd'"/>
 				</div>
 				<div class="forvalues">
-				<div class="positive" v-if="ct.profit"><i class="fas fa-arrow-up"></i> <value :value="portfolio.total() * ct.profit" mode="auto" colored="true"/></div>
-				<div class="negative" v-if="ct.loss"><i class="fas fa-arrow-down"></i> <value :value="portfolio.total() * ct.loss" mode="auto" colored="true"/></div>
+				<div class="positive" v-if="ct.profit"><i class="fas fa-arrow-up"></i> <value :value="portfolio.total() * ct.profit" :mode="portfolio.isModel ? 'p100' : 'd'" colored="true"/></div>
+				<div class="negative" v-if="ct.loss"><i class="fas fa-arrow-down"></i> <value :value="portfolio.total() * ct.loss" :mode="portfolio.isModel ? 'p100' : 'd'" colored="true"/></div>
 				</div>
 			</div>
 
 
 
-		<ctmain :cts="cts" :portfolios="{[portfolio.id] : portfolio}"/>
+		<ctmain :cts="cts" :mode="portfolio.isModel ? 'p100' : 'd'" :portfolios="{[portfolio.id] : portfolio}"/>
 
 
 	</div>

@@ -4,7 +4,7 @@
         <template v-slot:default="slotProps">
 
             <div class="assetWrapper mobp">
-                <asset :asset="slotProps.item" :info="assetsinfo[slotProps.item.ticker]"/>
+                <asset :mode="mode" :asset="slotProps.item" :info="assetsinfo[slotProps.item.ticker]"/>
             </div>
 
         </template>

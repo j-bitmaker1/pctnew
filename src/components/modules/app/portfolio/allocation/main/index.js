@@ -16,7 +16,7 @@ export default {
 			type : Object,
 			default : () => {return {}}
 		},
-
+		portfolio : Object,
 		colors : Object
     },
 

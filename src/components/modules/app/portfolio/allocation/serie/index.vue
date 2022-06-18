@@ -10,7 +10,7 @@
 	</div>
 
 	<div class="value">
-		<value :value="y" mode="auto"/>
+		<value :value="y" :mode="mode"/>
 	</div>
 </div>
 </template>
@@ -46,7 +46,12 @@ export default {
 	props: {
 		name: String,
 		y : Number,
-		color : String
+		color : String,
+
+		mode : {
+			type : String,
+			default : 'd'
+		}
 	},
 	computed: mapState({
 		auth: state => state.auth,

@@ -47,6 +47,18 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+
+        hasdollarsvm : function(){
+
+            var dp = _.filter(this.portfolios, (p) => {
+                return !p.isModel
+            })
+
+            return dp.length && !_.find(this.portfolios, (p) => {
+                return p.isModel
+            }) ? true : false
+
+        }
     }),
 
     methods : {

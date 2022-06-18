@@ -12,7 +12,7 @@
 				<span>Portfolios crash test</span>
 			</div>	
 
-			<div class="forsettigns">
+			<div class="forsettigns" v-if="hasdollarsvm">
 				<iconstoggle :icons="valuemodes" @change="changevaluemode" :value="valuemode"/>
 			</div>
 

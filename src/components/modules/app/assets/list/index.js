@@ -5,7 +5,8 @@ import asset from '../asset/index.vue'
 export default {
     name: 'assets_list',
     props: {
-        assets : Array
+        assets : Array,
+        mode : String
     },
 
     components : {

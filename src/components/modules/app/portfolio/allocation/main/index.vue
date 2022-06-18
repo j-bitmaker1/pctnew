@@ -11,7 +11,7 @@
         <list :items="currentSerie.data" @click="clickLegend">
             <template v-slot:default="slotProps">
                 <div class="serie mobp">
-                    <serie :name="slotProps.item.name" :y="slotProps.item.y" :color="slotProps.item.color"/>
+                    <serie :mode="portfolio.isModel ? 'p100' : 'd'" :name="slotProps.item.name" :y="slotProps.item.y" :color="slotProps.item.color"/>
                 </div>
             </template>
         </list>

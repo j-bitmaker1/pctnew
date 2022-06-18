@@ -31,7 +31,7 @@
 		</div>
 
 		<div class="total">
-			<value :value="total" mode="d" />
+			<value :value="total" :mode="portfolio.isModel ? 'p100' : 'd'" />
 		</div>
 	</div>
 </div>

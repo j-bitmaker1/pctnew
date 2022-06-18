@@ -58,7 +58,9 @@ class Distribution {
         deviation,
         period,
         current_std
-    }){
+    }, p = {}){
+
+        p.mode || (p.mode = 'd')
 
         var series = [];
         //var total = this.portfolio.total() 
@@ -135,7 +137,7 @@ class Distribution {
 
                                     var v = (_ltr - stdm) * total / 100
 
-                                    return f.values.format(locale, 'd', v)
+                                    return f.values.format(locale, p.mode, v)
                                 }
                             },
 
@@ -178,7 +180,7 @@ class Distribution {
 
                                     var v = (_ltr + stdm) * total / 100
 
-                                    return f.values.format(locale, 'd', v)
+                                    return f.values.format(locale, p.mode, v)
                                 }
                             },
                         });

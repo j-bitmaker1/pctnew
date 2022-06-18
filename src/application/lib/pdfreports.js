@@ -180,7 +180,7 @@ class PDFReports {
 
         return this.pct.stresstest(portfolio.id).then(ct => {
     
-            var xml = tools.svgCreator.createSvgs(ct, "Test Name");
+            var xml = tools.svgCreator.createSvgs(ct, "Test Name", portfolio);
             
             return Promise.all(_.map(xml, (xml, i) => {
                 return tools.svgCreator.topng(xml, size).then(img => {
@@ -688,6 +688,8 @@ class PDFReports {
             pageBreak : 'before'
         })
 
+        var mode = portfolio.isModel ? 'p100' : 'd'
+
 
         return this.pct.assets(portfolio).then(assetsInfo => {
 
@@ -757,7 +759,7 @@ class PDFReports {
                         style : 'table'
                     },{
                         margin: [ 2, 3, 2, 3 ],
-                        text : position.value,
+                        text : f.values.format(null, mode, position.value) ,
                         style : 'table'
                     },{
                         margin: [ 2, 3, 2, 3 ],
@@ -1162,7 +1164,7 @@ class PDFReports {
 
         var result = []
 
-        if (profile.questionnaire){
+        if (profile && profile.questionnaire){
 
             var monteCarlo = new MonteCarlo()
 
@@ -1289,6 +1291,8 @@ class PDFReports {
                     deviation : deviation,
                     period : pare.period.value,
                     current_std : pare.std.value
+                },{
+                    mode : portfolio.isModel ? 'p100' : 'd'
                 })
 
                 var chartOptions = distribution.chartOptions(series, {

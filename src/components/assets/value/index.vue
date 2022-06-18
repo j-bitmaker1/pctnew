@@ -37,31 +37,7 @@ export default {
         formatted : function(){
 
             return f.values.format(this.core.user.locale, this.valuemode, this.value)
-
-            if(!this.valuemode) 
-                return new Intl.NumberFormat(locale).format(this.value)
-
-            if(this.valuemode == 'd') 
-                return new Intl.NumberFormat(locale, { 
-                    
-                    style: 'currency', 
-                    currency: 'USD',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2
-
-                }).format(this.value)
-
-            if(this.valuemode == 'p') 
-                return new Intl.NumberFormat(locale, { 
-
-                    style: 'percent', 
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-
-                }).format(this.value)
-
-         
-            return this.value
+            
         }
     }),
 

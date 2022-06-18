@@ -8,7 +8,7 @@
 			{{contributor.asset.ticker}}
 		</div>
 		<div class="value">
-			<value :value="contributor.value" mode="auto"/>
+			<value :value="contributor.value" :mode="mode"/>
 		</div>
 	</div>
 

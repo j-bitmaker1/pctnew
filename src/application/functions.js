@@ -1263,6 +1263,15 @@ f.values = {
                 maximumFractionDigits: 2
 
             }).format(value)
+
+        if (mode == 'p100')
+            return new Intl.NumberFormat(locale, {
+
+                style: 'percent',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+
+            }).format(value / 100)
     }
 }
 

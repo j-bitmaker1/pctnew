@@ -5,7 +5,11 @@ export default {
 	name: 'portfolio_crashtest_contributor',
 	props: {
 		contributor : Object,
-		maxabs : Number
+		maxabs : Number,
+		mode : {
+            type : String,
+            default : 'd'
+        }
 	},
 
 	data : function(){

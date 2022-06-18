@@ -9,7 +9,7 @@
 		</div>
 	</div>
 
-	<allocationMain :assets="assets" :activegrouping="activegrouping"/>
+	<allocationMain  :portfolio="portfolio" :assets="assets" :activegrouping="activegrouping"/>
 
 </div>
 </template>

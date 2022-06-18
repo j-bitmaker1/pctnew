@@ -69,6 +69,8 @@ export default {
 				deviation : this.deviation,
 				period : this.period,
 				current_std : this.current_std
+			}, {
+				mode : this.portfolio.isModel ? 'p100' : 'd'
 			})
 
 		},

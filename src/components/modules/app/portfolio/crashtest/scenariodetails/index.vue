@@ -1,7 +1,7 @@
 <template>
 <div id="portfolio_crashtest_scenariodetails">
 	<div class="losswrapper">
-		<value :value="scenario.loss" mode="auto" colored="true" />
+		<value :value="scenario.loss" :mode="portfolio.isModel ? 'p100' : 'd'" colored="true" />
 	</div>
 
 	<linepreloader v-if="!info" />
@@ -33,7 +33,7 @@
 					<template v-slot:default="slotProps">
 
 						<div class="contributorWrapper">
-							<contributor :contributor="slotProps.item" :maxabs="maxabs" />
+							<contributor :mode="portfolio.isModel ? 'p100' : 'd'" :contributor="slotProps.item" :maxabs="maxabs" />
 						</div>
 
 					</template>

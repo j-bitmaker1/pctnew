@@ -149,7 +149,7 @@ export default {
 			if (this.haschanges){ /// check changes instead
 
 				return this.$dialog.confirm(
-					'You have unsaved changes, close the window and forget?', {
+					'You have unsaved changes. Discard them and close this window?', {
 					okText: 'Yes, close',
 					cancelText : 'No'
 				})
@@ -348,9 +348,9 @@ export default {
 		checkModel : function(){
 			if (this.isModel && this.total != 100){
 
-				return this.$dialog.confirm(
+				this.$dialog.confirm(
 					'The total amount of the model portfolio must be exactly equal to 100%. Do You want to automatically adjust position weights to a portfolio total of 100%?', {
-					okText: "Yes, correct automatically",
+					okText: "Yes",
 					cancelText : 'No'
 				})
 		
@@ -361,6 +361,8 @@ export default {
 				}).catch( e => {
 					
 				})
+
+				return false
 
 			}
 
@@ -397,9 +399,12 @@ export default {
 			var action = null
 			var positions = this.joinassets(this.assets)
 
+			
+
 			var data = {
 				name : this.name,
 				positions,
+				isModel : this.isModel,
 				... this.payload || {}
 			}
 

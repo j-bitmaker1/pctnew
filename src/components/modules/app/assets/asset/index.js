@@ -9,6 +9,11 @@ export default {
             default : () => {
                 return {}
             }
+        },
+
+        mode : {
+            type : String,
+            default : 'd'
         }
     },
 

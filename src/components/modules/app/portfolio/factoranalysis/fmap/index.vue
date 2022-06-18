@@ -12,7 +12,7 @@
 
             <div class="value" :class="{zoomed : zoomed == index - 1}" v-touch="e => zoom(index - 1)" :style="{background : colorByIndex(index - 1)}" :key="index" v-for="index in size * size">
                 <div class="result" v-if="result && result.scenarioResults[index - 1]">
-                    <value :value="result.scenarioResults[index - 1].value.toFixed(0)" mode="d" />
+                    <value :value="result.scenarioResults[index - 1].value.toFixed(0)" mode="d" v-if="!portfolio.isModel"/>
                     <value v-if="portfolio && portfolio.total()" :value="result.scenarioResults[index - 1].value / portfolio.total()" mode="p" />
                 </div>
             </div>
@@ -33,10 +33,10 @@
         </div>
         <div class="values">
             <div class="min">
-                <value :value="result.min.toFixed(0)" mode="d" />
+                <value :value="result.min.toFixed(0)" :mode="portfolio.isModel ? 'p100' : 'd'" />
             </div>
             <div class="max">
-                <value :value="result.max.toFixed(0)" mode="d" />
+                <value :value="result.max.toFixed(0)" :mode="portfolio.isModel ? 'p100' : 'd'" />
             </div>
         </div>
     </div>
