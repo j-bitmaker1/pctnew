@@ -34,6 +34,7 @@ const redirects = {
 					}).catch( e => {
 						
 					})
+
 				})
 				
 
@@ -172,7 +173,9 @@ const routes = [
 		path: '/portfolios',
 		name: 'portfolios',
 		component: () => import('@/views/portfolios'),
-		customRedirect: redirects.authorized
+		customRedirect: redirects.authorized,
+
+		features : ['PCT']
 	},
 
 	{

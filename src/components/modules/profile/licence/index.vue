@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="my" v-if="slotProps.item.trial && !myfeatures[slotProps.item.id]">
-                        <button class="button small orange gettrial" @click="e => gettrial(slotProps.item)">Get trial</button>
+                        <button class="button small orange gettrial" @click="e => gettrials(slotProps.item)">Get trial</button>
                     </div>
                     
                 </div>

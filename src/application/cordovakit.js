@@ -148,7 +148,7 @@ class Cordovakit {
 
 
 						return Promise.all(_.map(up, (f) => {
-							return this.f.Base64.toFileFetch(f)
+							return f.Base64.toFileFetch(f)
 						})).then(files => {
 							this.store.commit('uploading', files)
 

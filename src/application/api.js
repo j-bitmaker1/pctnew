@@ -1806,7 +1806,8 @@ var ApiWrapper = function (core) {
 				p.storageparameters = dbmeta.contacts()
 
 				return request({
-					Product: 'pct'
+					Product: 'pct',
+					OnlyUserInfo : true
 				}, 'api', 'crm/Contacts/GetCountsByType', p)
 			},
 
@@ -2362,7 +2363,7 @@ var ApiWrapper = function (core) {
 
 				p.method = 'POST'
 
-				return request({'trialDto.product' : id}, 'api', 'userdata/user/TrialRequest', p).then(r => {
+				return request({}, 'api', 'userdata/user/TrialRequest?trialDto.product=' + id, p).then(r => {
 
 					core.user.extendFeatures(r)
 

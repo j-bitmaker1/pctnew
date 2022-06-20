@@ -16,11 +16,13 @@
 		
 	</div>
 
-	
-		
 
 	<div class="signout mobp" @click="signout">
 		<button class="button black small">{{ $t("common.2901049") }}</button>
+	</div>
+
+	<div class="version mobp">
+		<span>Larkspur-Rixtrema &middot; Portfolio crash test &middot; v{{version}}</span>
 	</div>
 
 </div>

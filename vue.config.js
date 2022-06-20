@@ -4,7 +4,8 @@ var prependcssvars = `
 `
 var emptypublicpath = process.argv.find(function (el) { return el == '--emptypublicpath'; })
 
-console.log('process.env.publicPath', process.env.publicPath)
+
+process.env.VUE_APP_VERSION = process.env.npm_package_version
 
 module.exports = {
 

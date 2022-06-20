@@ -1,8 +1,8 @@
 import { mapState } from 'vuex';
 import card from "@/components/assets/user/card/index.vue";
 import themeToggle from "@/components/assets/themetoggle/index.vue";
-
 import settings from '../app/settings/index.vue'
+
 
 export default {
 	name: 'profile',
@@ -15,7 +15,7 @@ export default {
 
 		return {
 			loading : false,
-			
+			version : process.env.VUE_APP_VERSION
 		}
 
 	},

@@ -1,7 +1,7 @@
 <template>
 <div class="features_page page">
 
-	<topheader back="/profile">
+	<topheader back="back">
 		<template v-slot:info>
 			<span>Licence</span>
 		</template>
