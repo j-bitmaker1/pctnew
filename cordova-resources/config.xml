@@ -132,6 +132,7 @@
         <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     </platform>
     <platform name="ios">
+        <preference name="UseSwiftLanguageVersion" value="4" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <preference name="deployment-target" value="13.0.0" />

@@ -238,7 +238,7 @@ export default {
         },
         library : function(){
 
-            if(window.cordova && !f.isios()){
+            if(window.cordova){
 
                 if (window.cordova.plugins.photoLibrary)
                     window.cordova.plugins.photoLibrary.getLibrary(
