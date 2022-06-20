@@ -713,6 +713,10 @@ var User = function ({
     self.extendFeatures = function(license){
         if(!self.info.Licenses) self.info.Licenses = []
 
+        self.info.Licenses = _.filter(self.info.Licenses, (l) => {
+            return l.ProductCode != license.ProductCode
+        })
+
         self.info.Licenses.push(license)
 
         features(self.info)

@@ -2365,7 +2365,12 @@ var ApiWrapper = function (core) {
 
 				return request({}, 'api', 'userdata/user/TrialCreate?trialDto.product=' + id, p).then(r => {
 
-					core.user.extendFeatures(r)
+					console.log("R", r)
+
+					_.each(r, licence => {
+						core.user.extendFeatures(licence)
+					})
+					
 
 					return Promise.resolve()
 				})
