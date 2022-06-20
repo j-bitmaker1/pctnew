@@ -22,7 +22,7 @@
 	</div>
 
 	<div class="version mobp">
-		<span>Larkspur-Rixtrema &middot; Portfolio crash test &middot; v{{version}}</span>
+		<span>Larkspur-Rixtrema &middot; Portfolio Crash Test &middot; v{{version}}</span>
 	</div>
 
 </div>
