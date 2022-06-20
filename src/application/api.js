@@ -2363,7 +2363,7 @@ var ApiWrapper = function (core) {
 
 				p.method = 'POST'
 
-				return request({}, 'api', 'userdata/user/TrialRequest?trialDto.product=' + id, p).then(r => {
+				return request({}, 'api', 'userdata/user/CreateTrialLicense?trialDto.product=' + id, p).then(r => {
 
 					core.user.extendFeatures(r)
 
