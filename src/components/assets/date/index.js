@@ -1,6 +1,6 @@
 import { mapState } from 'vuex';
 import moment from 'moment'
-import f from "@/application/functions.js";
+import f from "@/application/shared/functions.js";
 
 export default {
     name: 'date',

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import f from '@/application/functions';
+import f from '@/application/shared/functions.js';
 import storeFactory from "@/vuex/store";
 
 var store = storeFactory()

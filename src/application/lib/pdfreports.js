@@ -1,7 +1,7 @@
-import f from '@/application/functions'
-import _, { max } from 'underscore'
+import f from '@/application/shared/functions.js'
+import _ from 'underscore'
 import moment from 'moment'
-
+import SVGMainChart from './svgmainchart.js'
 
 import {
     Allocation,
@@ -179,16 +179,16 @@ class PDFReports {
         var images = []
 
         return this.pct.stresstest(portfolio.id).then(ct => {
+
+            var svgmainchart = new SVGMainChart()
     
-            var xml = tools.svgCreator.createSvgs(ct, "Test Name", portfolio);
-            
+            var xml = svgmainchart.createSvgs(ct, "Test Name", portfolio);
+   
             return Promise.all(_.map(xml, (xml, i) => {
-                return tools.svgCreator.topng(xml, size).then(img => {
+                return tools.svgTools.topng(xml, size).then(img => {
                     images[i] = img
                 })
             }))
-    
-            return tools.svgCreator.topng(xml[0], size)
  
         }).then(() => {
 

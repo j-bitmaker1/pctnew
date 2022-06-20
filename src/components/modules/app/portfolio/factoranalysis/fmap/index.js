@@ -2,7 +2,7 @@ import { _ } from 'core-js';
 import { mapState } from 'vuex';
 import factor from '../factor/index.vue'
 
-import colors from "@/application/utils/colors.js";
+import colors from "@/application/shared/utils/colors.js";
 
 
 export default {

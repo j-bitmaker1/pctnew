@@ -11,7 +11,7 @@
 <script>
 import Vue2TouchEvents from 'vue2-touch-events'
 import vuescroll from 'vue-scroll'
-import VXStorage from '@/application/lib/vxstorage'
+import VXStorage from '@/application/shared/vxstorage'
 import storeFactory from "@/vuex/store";
 import router from "@/router/router";
 import modal from "@/components/assets/modal/index.vue";
@@ -48,7 +48,7 @@ import "vuejs-dialog/dist/vuejs-dialog.min.css";
 
 /// app
 
-import f from "@/application/functions.js";
+import f from "@/application/shared/functions.js";
 import Vue from "vue";
 import Core from "@/application/index.js";
 import VuePageTransition from 'vue-page-transition'

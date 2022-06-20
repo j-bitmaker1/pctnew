@@ -1,5 +1,5 @@
 import f from './functions'
-import { Contact, Portfolio, Task, Scenario } from './lib/kit.js'
+import { Contact, Portfolio, Task, Scenario } from './kit.js'
 var Axios = require('axios');
 
 var sha1 = require('sha1');
@@ -14,8 +14,8 @@ var FormDataRequest = function (core = {}, url, system) {
 
 	self.fetch = function (to, formData, p) {
 		const headers = { 'content-type': 'multipart/form-data' }
-
-		return core.user.extendA({ formData, system }).then(r => {
+		
+		return (core.user ? core.user.extendA({ formData, system }) : Promise.resolve()).then(r => {
 
 			return Axios({
 				baseURL: url,
@@ -47,8 +47,8 @@ var FormDataRequestAu_Headers = function (core = {}, url, system) {
 
 	self.fetch = function (to, formData, p) {
 		const headers = { 'content-type': 'multipart/form-data' }
-
-		return core.user.extendA({ headers, system }).then(r => {
+		
+		return (core.user ? core.user.extendA({ headers, system }) : Promise.resolve()).then(r => {
 
 			return Axios({
 				baseURL: url,
@@ -265,23 +265,28 @@ var Request = function (core = {}, url, system) {
 		if (!path) path = ''
 
 		return doublePreventRequest(url ? (url + (path.indexOf('?') == 0 ? '' : '/') + path) : path, data, p)
-
-		return direct(url ? (url + (path.indexOf('?') == 0 ? '' : '/') + path) : path, data, p)
-
 	}
 
 	return self
 }
 
-var ApiWrapper = function (core) {
+var ApiWrapper = function (core = {}) {
 
 	var self = this;
 
 	var cache = {}
-	var loading = {}
 	var storages = {}
 
-	self.appid = 'net.rixtrema.pct'
+	self.appid = core.appid
+
+	self.prepare = function () {
+		return Promise.all(_.map(dbmeta, (mf) => {
+			return getstorage(mf())
+		})).catch(e => {
+
+			return Promise.resolve()
+		})
+	}
 
 	var dbmeta = {
 		stress: function () {
@@ -496,152 +501,6 @@ var ApiWrapper = function (core) {
 		return Promise.resolve(storages[p.storage])
 	}
 
-	var scasheAct = function (ids, key, resultsKey, reload, storageparameters) {
-
-		if (!_.isArray(ids)) ids = [ids]
-
-		var waitLoading = {}
-
-		if (!resultsKey)
-			resultsKey = key
-
-		if (!cache[key]) {
-			cache[key] = {}
-		}
-
-		if (!loading[key]) {
-			loading[key] = {}
-		}
-
-		return (storageparameters ? getstorage(storageparameters) : f.ep()).then(storage => {
-
-			if (storage) {
-
-				return Promise.all(_.map(ids, (id) => {
-
-					if (cache[key][id]) {
-						return Promise.resolve()
-					}
-
-					return storage.get(id).then((stored) => {
-						cache[key][stored[resultsKey]] = stored
-
-						return Promise.resolve()
-					}).catch(e => {
-						return Promise.resolve()
-					})
-
-				}))
-
-			}
-
-			return Promise.resolve()
-
-
-		}).then(r => {
-
-			var idtoloadPrev = _.uniq(_.filter(ids, function (id) {
-				return reload || !cache[key][id] || cache[key][id].nocache
-			}))
-
-			var idtoload = _.filter(idtoloadPrev, function (id) {
-
-				if (!loading[key][id]) {
-					loading[key][id] = true
-					return true
-				}
-
-				waitLoading[id] = true
-			})
-
-			var handleResults = function (result, _ids) {
-
-				return (storageparameters ? getstorage(storageparameters) : f.ep()).then(storage => {
-
-					if (storage) {
-						return Promise.all(_.map(result, (row) => {
-
-							if (!row[resultsKey]) {
-								return Promise.resolve()
-							}
-
-							return storage.set(row[resultsKey], row)
-
-						}))
-					}
-
-					return Promise.resolve()
-
-				}).then(() => {
-
-					_.each(result, function (row) {
-
-						if (row[resultsKey]) {
-							cache[key][row[resultsKey]] = row
-						}
-
-					})
-
-					_.each(_ids, function (id) {
-						delete loading[key][id]
-						delete waitLoading[id]
-
-						if (!cache[key][id])
-							cache[key][id] = 'error'
-					})
-
-					var nresult = {};
-
-					return f.pretry(() => {
-
-						_.each(ids, function (id) {
-
-							if (cache[key][id]) {
-
-								if (cache[key][id] != 'error')
-
-									nresult[id] = (cache[key][id])
-
-								delete loading[key][id]
-								delete waitLoading[id]
-							}
-
-						})
-
-						return _.toArray(waitLoading).length == 0
-
-					}).then(() => {
-						return Promise.resolve(nresult)
-					})
-
-				})
-
-
-
-			}
-
-			return Promise.resolve({
-				id: idtoload,
-				handle: handleResults
-			})
-		})
-	}
-
-	var crequest = function (ids, key, rkey, reload, storageparameters) {
-
-		return scasheAct(ids, key, rkey, reload, storageparameters).then(sh => {
-
-			if (!sh.id.length) {
-				return sh.handle([])
-			}
-
-			return Promise.reject(sh)
-
-		})
-
-
-	}
-
 	var dbdividerequest = function (data, system, to, p = {}) {
 
 		if (!p.storageparameters) return Promise.reject('p.storageparameters')
@@ -787,7 +646,7 @@ var ApiWrapper = function (core) {
 
 
 
-		if (p.vxstorage && p.vxstorage.index) {
+		if (p.vxstorage && p.vxstorage.index && core.vxstorage) {
 			var r = core.vxstorage.get(p.vxstorage.index, p.vxstorage.type)
 
 			if (r) return Promise.resolve(r)
@@ -795,7 +654,7 @@ var ApiWrapper = function (core) {
 
 		var breakLoading = false
 
-		if (p.vxstorage && p.vxstorage.getloaded) {
+		if (p.vxstorage && p.vxstorage.getloaded && core.vxstorage) {
 
 			if (!p.vxstorage.one) {
 
@@ -843,7 +702,7 @@ var ApiWrapper = function (core) {
 
 		}
 
-		if (p.preloader) {
+		if (p.preloader && core.store) {
 			core.store.commit('globalpreloader', true)
 		}
 
@@ -879,7 +738,7 @@ var ApiWrapper = function (core) {
 
 				}
 
-				if (p.vxstorage) {
+				if (p.vxstorage && core.vxstorage) {
 
 					var ds = r
 
@@ -906,7 +765,7 @@ var ApiWrapper = function (core) {
 
 				}
 
-				if (p.showStatus) {
+				if (p.showStatus && core.store) {
 					core.store.commit('icon', {
 						icon: 'success',
 					})
@@ -918,7 +777,7 @@ var ApiWrapper = function (core) {
 
 				if (attempt < 3 && e && e.code == 20) {
 
-					if (!attempt)
+					if (!attempt && core.notifier)
 						core.notifier.simplemessage({
 							icon: "fas fa-wifi",
 							title: "Please wait",
@@ -941,7 +800,7 @@ var ApiWrapper = function (core) {
 
 				}
 
-				if (p.showStatus || p.showStatusFailed) {
+				if (core.store && (p.showStatus || p.showStatusFailed)) {
 					core.store.commit('icon', {
 						icon: 'error',
 						message: e.error
@@ -951,7 +810,7 @@ var ApiWrapper = function (core) {
 				return Promise.reject(e)
 
 			}).finally(() => {
-				if (p.preloader) {
+				if (core.store && p.preloader) {
 					core.store.commit('globalpreloader', false)
 				}
 			})
@@ -960,6 +819,22 @@ var ApiWrapper = function (core) {
 		})
 
 
+	}
+
+	var invalidateStorageType = function (type, updated) {
+		if (!storages[type]) return Promise.resolve()
+
+		return storages[type].invalidateMany(updated)
+	}
+
+	var invalidateStorage = function (inv) {
+		return Promise.all(_.map(inv, (item) => {
+
+			return Promise.all(_.map(item.type, (type) => {
+				return invalidateStorageType(type, item.updated)
+			}))
+
+		}))
 	}
 
 	self.invalidateDb = function (dbindex, updated, data) {
@@ -1006,6 +881,25 @@ var ApiWrapper = function (core) {
 			delete storages[key]
 		}
 	}
+
+	self.checkUpdates = function () {
+		return self.user.updated().then(inv => {
+			return invalidateStorage(inv)
+		}).catch(e => {
+			return Promise.resolve()
+		})
+	}
+
+	self.invalidateStorageNow = function (type) {
+		var inv = [{
+			updated: f.date.nowUtc1000(),
+			type
+		}]
+
+		return invalidateStorage(inv)
+	}
+
+	/////////
 
 	self.pct = {
 		tickers: {
@@ -1578,7 +1472,7 @@ var ApiWrapper = function (core) {
 						['filesystem']
 					)
 
-					core.user.activity.template('portfolio', updated)
+					core.activity.template('portfolio', updated)
 				}
 
 				return request(data, 'pctapi', 'Portfolio/Update', p).then(r => {
@@ -1663,7 +1557,7 @@ var ApiWrapper = function (core) {
 						id
 					}, 'portfolio')
 
-					core.user.activity.remove('portfolio', id)
+					core.activity.remove('portfolio', id)
 
 					if (updated) {
 						core.vxstorage.invalidateManyQueue(
@@ -1820,14 +1714,14 @@ var ApiWrapper = function (core) {
 
 				core.vxstorage.update(data, 'lead')
 
-				core.user.activity.remove('client', data.ID)
-				core.user.activity.remove('lead', data.ID)
+				core.activity.remove('client', data.ID)
+				core.activity.remove('lead', data.ID)
 
 				console.log("updated", updated, from)
 
 				if (updated) {
-					core.user.activity.template('client', updated)
-					core.user.activity.template('lead', updated)
+					core.activity.template('client', updated)
+					core.activity.template('lead', updated)
 
 					if (from.Status == 'LEAD_NEW' && updated.Status == "LEAD") {
 						core.updates.decrease('leads')
@@ -1976,13 +1870,13 @@ var ApiWrapper = function (core) {
 					var { updated } = core.vxstorage.update(ud, 'client')
 
 					if (updated) {
-						core.user.activity.template('client', updated)
+						core.activity.template('client', updated)
 					}
 
 					var { updated } = core.vxstorage.update(ud, 'lead')
 
 					if (updated) {
-						core.user.activity.template('lead', updated)
+						core.activity.template('lead', updated)
 					}
 
 					self.invalidateStorageNow(['portfolios', 'contacts'])
@@ -2503,39 +2397,6 @@ var ApiWrapper = function (core) {
 		}
 	}
 
-	self.checkUpdates = function () {
-		return self.user.updated().then(inv => {
-			return invalidateStorage(inv)
-		}).catch(e => {
-			return Promise.resolve()
-		})
-	}
-
-	var invalidateStorageType = function (type, updated) {
-		if (!storages[type]) return Promise.resolve()
-
-		return storages[type].invalidateMany(updated)
-	}
-
-	self.invalidateStorageNow = function (type) {
-		var inv = [{
-			updated: f.date.nowUtc1000(),
-			type
-		}]
-
-		return invalidateStorage(inv)
-	}
-
-	var invalidateStorage = function (inv) {
-		return Promise.all(_.map(inv, (item) => {
-
-			return Promise.all(_.map(item.type, (type) => {
-				return invalidateStorageType(type, item.updated)
-			}))
-
-		}))
-	}
-
 	self.tasks = {
 
 		create: function (data = {}, p = {}) {
@@ -2723,14 +2584,7 @@ var ApiWrapper = function (core) {
 		}
 	}
 
-	self.prepare = function () {
-		return Promise.all(_.map(dbmeta, (mf) => {
-			return getstorage(mf())
-		})).catch(e => {
-
-			return Promise.resolve()
-		})
-	}
+	
 
 	return self;
 }

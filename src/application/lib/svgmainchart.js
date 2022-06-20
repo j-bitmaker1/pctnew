@@ -1,12 +1,9 @@
-//import { SVG } from '@svgdotjs/svg.js'
 var XMLWriter = require('xml-writer')
-import { svg2png } from 'svg-png-converter'
 
-import f from '@/application/functions'
+import f from '@/application/shared/functions.js'
 import _ from 'underscore'
-import { make } from 'core-js/core/object';
 
-class SVGCreator {
+class SVGMainChart {
 
 
     constructor() {
@@ -62,7 +59,6 @@ class SVGCreator {
             return result;
         }
     }
-
 
     make4 = function (portfolio, data, name) {
 
@@ -862,16 +858,6 @@ class SVGCreator {
         return metrics.width;
     }
 
-    topng = function (xml, size) {
-        return svg2png({
-            input: xml,
-            encoding: 'dataURL',
-            format: 'jpeg',
-            multiplier: size.width / 2789,
-            quality: .5
-        })
-    }
-
 }
 
-export default SVGCreator
+export default SVGMainChart

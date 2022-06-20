@@ -3,9 +3,9 @@ const Header = require('@editorjs/header');
 const Paragraph = require('@editorjs/paragraph');
 import List from '@editorjs/list';
 
-import f from '@/application/functions.js'
+import f from '@/application/shared/functions.js'
 
-import PluginFactory from '@/application/campaigns/editorPlugin'
+import PluginFactory from '@/application/campaigns/ui/editorPlugin'
 import { _ } from 'core-js';
 
 

@@ -29,7 +29,7 @@ export default {
         set : function(v){
             this.$store.commit('theme', v)
 
-            this.core.user.activity.template('action', this.core.user.activity.actions.themeToggle())
+            this.core.activity.template('action', this.core.activity.actions.themeToggle())
         }
     },
 }

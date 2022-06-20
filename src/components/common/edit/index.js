@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import { mapState } from 'vuex';
-import f from '../../../application/functions';
+import f from '@/application/shared/functions';
 
 export default {
 	name: 'common_edit',

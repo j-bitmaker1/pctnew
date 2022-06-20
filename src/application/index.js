@@ -1,25 +1,89 @@
 
 
-import Notifier from "./notifier";
-import Api from "./api";
-import listeners from './listeners'
-import f from './functions'
-import user from './user'
-import wss from './wss'
+import Notifier from "./shared/notifier";
+import Api from "./shared/api";
+import listeners from './shared/listeners'
+import f from './shared/functions'
+import user from './shared/user'
+import wss from './shared/wss'
+
 import CRM from './lib/crm'
 import PCT from './lib/pct'
+
 import Vueapi from './vueapi'
-import Cordovakit from './cordovakit'
+import Cordovakit from './shared/cordovakit'
 import Filemanager from './lib/filemanager'
-import FX from './utils/fx.js'
-import {Settings, LSSettings} from "./lib/settings";
+import FX from './shared/utils/fx.js'
+
+import {Settings, LSSettings} from "./shared/settings";
+
 import PDFReports from "./lib/pdfreports";
-import { _ } from "core-js";
+
 import Updates from "./updates";
 import Filesystem from "./lib/filesystem"
+import Activity from "./lib/activity"
+
+var settings = {
+    server : {
+        PDF: {
+            logotype: {
+                name: 'logotype',
+                default: function() {
+                    return ''
+                },
+            },
+    
+            disclosure: {
+                name: 'disclosure',
+                default: function() {
+                    return {}
+                },
+            }
+        },
+        STRESS: {
+            scenarios: {
+    
+                name: 'scenarios',
+                default: function() {
+                    return []
+                },
+    
+            },
+    
+            definedRiskScore : {
+    
+                name: 'scenarios',
+                default: function() {
+    
+                    return {
+                        use : 'no',
+                        scores : {}
+                    }
+                    
+                },
+    
+            },
+        }
+    },
+
+    local : {
+        PDF: {
+            reports: {
+                name: 'reports',
+                default: function() {
+                    return {}
+                },
+            }
+        }
+    }
+}
+
+
 class Core {
 
     clbks = {}
+
+    appid = 'net.rixtrema.pct'
 
     constructor(vm, p){
         if(!p) p = {}
@@ -53,12 +117,10 @@ class Core {
         
 
         this.settings = {
-
-            stress : new Settings(this, "STRESS"), 
-            user : new Settings(this, "USER"),
-            pdf : new Settings(this, "PDF"),
-            
-            lspdf : new LSSettings(this, "PDF")
+            stress : new Settings(this, "STRESS", settings.server), 
+            user : new Settings(this, "USER", settings.server),
+            pdf : new Settings(this, "PDF", settings.server),
+            lspdf : new LSSettings(this, "PDF", settings.local)
         }
 
         this.filemanager = new Filemanager(this)
@@ -71,7 +133,38 @@ class Core {
         this.vueapi = new Vueapi(this)
         this.updates = new Updates(this)
 
-        this.user = new user(this)
+        
+
+        this.user = new user(this, {
+
+            prepare : () => {
+
+                return Promise.all([this.api.checkUpdates(), this.activity.load(), this.pct.prepare()]).catch(e => {
+                    return Promise.reject(e)
+                })
+
+            },
+
+            clearing : () => {
+
+                _.each(this.settings, (settings) => {
+                    settings.clear()
+                })
+
+                this.api.clearCache()
+
+                this.vxstorage.clear()
+        
+                this.updates.clearall()
+
+                this.store.commit('clearall')
+
+            }
+
+        })
+
+        this.activity = new Activity(this)
+
         this.pdfreports = new PDFReports(this)
 
         this.api.prepare().then(() => {
@@ -79,6 +172,8 @@ class Core {
         })
        
     }
+
+   
 
     on = function(event, key, f){
         if(!this.clbks[event]) this.clbks[event] = {}

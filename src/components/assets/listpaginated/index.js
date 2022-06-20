@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import { mapState } from 'vuex';
-import f from "@/application/functions.js";
+import f from "@/application/shared/functions.js";
 export default {
     name: 'listpaginated',
     props: {

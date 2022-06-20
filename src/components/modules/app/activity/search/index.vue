@@ -15,19 +15,23 @@
 </template>
 
 <style scoped lang="sass">
+@media (pointer:fine)
+	.row
+		cursor: pointer
+		
 .row
-    display: flex
-    padding : $r
-    padding-left: 0
-    align-items: center
-    justify-content: space-between
+	display: flex
+	padding : $r
+	padding-left: 0
+	align-items: center
+	justify-content: space-between
 
-    .type
-        margin-left: auto
+	.type
+		margin-left: auto
 
-        span
-            font-size: 0.8em
-            color : srgb(--color-txt-ac-1)
+		span
+			font-size: 0.8em
+			color : srgb(--color-txt-ac-1)
 </style>
 
 <script>

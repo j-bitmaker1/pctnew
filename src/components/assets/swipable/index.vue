@@ -14,7 +14,7 @@ import {
 	mapState
 } from 'vuex';
 
-import f from '@/application/functions.js'
+import f from '@/application/shared/functions.js'
 
 var directiontoprop = function(direction, value){
 

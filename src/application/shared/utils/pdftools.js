@@ -1,7 +1,6 @@
-import f from '@/application/functions'
+import f from '../functions.js'
 import _ from "underscore"
-import moment from 'moment'
-import SVGCreator from './svgcreator'
+import SVGTools from './svgtools'
 import Highcharts from 'highcharts'
 import {edjsPdfMake} from "./edjs"
 
@@ -223,7 +222,7 @@ var Tools = function(p, data){
 
     self.glossary = {};
     self.data = data || {};
-    self.svgCreator = new SVGCreator()
+    self.svgTools = new SVGTools()
 
     self.logotype = p.parent.logotype
 
@@ -1106,7 +1105,7 @@ var Tools = function(p, data){
 
         canvas.remove()
 
-        return self.svgCreator.topng(svg, size)
+        return self.svgTools.topng(svg, size)
     }
 
     self.fontCorrection = function(string) {

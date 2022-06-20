@@ -1,4 +1,4 @@
-import f from '@/application/functions'
+import f from '@/application/shared/functions.js'
 import _, { isObject } from "underscore"
 
 import Capacity from "./capacity";

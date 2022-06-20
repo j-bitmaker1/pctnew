@@ -46,9 +46,9 @@
 
 </style>
 <script>
-import Images from '@/application/utils/images.js'
+import Images from '@/application/shared/utils/images.js'
 
-import f from '@/application/functions.js'
+import f from '@/application/shared/functions.js'
 
 var each = require('async-each');
 

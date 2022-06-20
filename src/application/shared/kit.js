@@ -1,5 +1,4 @@
-import f from '@/application/functions'
-import _, { indexOf } from "underscore"
+import _ from "underscore"
 
 class Contact {
     constructor(data = {}) {

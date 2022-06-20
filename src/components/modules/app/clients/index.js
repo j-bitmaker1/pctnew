@@ -1,5 +1,5 @@
 import { mapState } from 'vuex';
-import f from "@/application/functions.js";
+import f from "@/application/shared/functions.js";
 import client from './client/index.vue'
 import _ from 'underscore';
 

@@ -1,4 +1,3 @@
-import moment from "moment";
 var _ = require('underscore');
 
 import f from "./functions";
@@ -87,12 +86,6 @@ class Notifier {
 				this.addshowed(event.eventId)
 
 		}
-
-		/*var msg = {
-			title: 'title',
-			message: 'message',
-			//icon: user.image,
-		}*/
 
 		this.notifySoundOrAction()
 		this.show(event, '/url')

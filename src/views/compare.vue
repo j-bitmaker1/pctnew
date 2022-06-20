@@ -89,8 +89,8 @@ export default {
 			if(this.ids.length > 1){
 
 				this.core.api.pctapi.portfolios.gets(this.ids).then(r => {
-					this.core.user.activity.template('compare', r)		
-					this.last = this.core.user.activity.getlastByType('compare')				
+					this.core.activity.template('compare', r)		
+					this.last = this.core.activity.getlastByType('compare')				
 				})
 
 			}
@@ -148,7 +148,7 @@ export default {
 	},
 
 	created() {
-		this.last = this.core.user.activity.getlastByType('compare')
+		this.last = this.core.activity.getlastByType('compare')
 
 		console.log('this.last', this.last)
 	}

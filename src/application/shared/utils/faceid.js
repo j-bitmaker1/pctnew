@@ -1,10 +1,7 @@
-import f from './functions'
 
 class FaceId {
-	constructor(core){
+	constructor(){
 
-		this.core = core
-		this.store = this.core.store
         this.key = 'authorization'
 
 	}
@@ -100,44 +97,7 @@ class FaceId {
 			
 		})
 
-		if (window.plugins && window.plugins.touchid) {
-			
-
-			window.plugins.touchid.isAvailable(function(biometryType) {
-
-				var serviceName = (biometryType === "face") ? "Face ID" : "Touch ID";
-
-				window.plugins.touchid.has("MyKey", function() {
-					alert(serviceName + " avaialble and Password key available");
-				}, function() {
-					alert(serviceName + " available but no Password Key available");
-				});
-
-			}, function(msg) {
-				alert("no Touch ID available");
-			});
-			
-			/*if (window.plugins) {
-				window.plugins.touchid.verify("MyKey", "My Message", function(password) {
-					alert("Touch " + password);
-				});
-			}
-			
-			if (window.plugins) {
-				window.plugins.touchid.save("MyKey", "My Password", true, function() {
-					alert("Password saved");
-				});
-			}
-			
-			if (window.plugins) {
-				window.plugins.touchid.delete("MyKey", function() {
-					alert("Password key deleted");
-				});
-			}*/
-		}
-		else{
-			return Promise.reject('notavailable')
-		}
+		
 	}
 
 

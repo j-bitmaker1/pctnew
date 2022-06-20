@@ -38,7 +38,7 @@ export default {
 				this.$emit('search', text)
 
 				if (this.activity && text){
-					this.core.user.activity.template('searching', {
+					this.core.activity.template('searching', {
 						type : this.activity,
 						value : text
 					})

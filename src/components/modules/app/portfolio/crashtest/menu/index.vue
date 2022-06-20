@@ -58,7 +58,7 @@ export default {
     methods: {
         scenarioManager: function () {
 
-            this.core.user.activity.template('action', this.core.user.activity.actions.scenarioManager())
+            this.core.activity.template('action', this.core.activity.actions.scenarioManager())
 
 			this.core.vueapi.scenarioManager((scenarios) => {
                 this.$emit('scenariosChanged')
@@ -67,7 +67,7 @@ export default {
 
         scoreConverter: function () {
 
-            this.core.user.activity.template('action', this.core.user.activity.actions.scoreConverter())
+            this.core.activity.template('action', this.core.activity.actions.scoreConverter())
 
 			this.core.vueapi.scoreConverter(() => {
                 this.$emit('scoreConverterChanged')

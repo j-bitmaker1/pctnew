@@ -4,7 +4,7 @@ import pages_list from './pages/list/index.vue'
 import pages_file from './pages/file/index.vue'
 import { isEmpty } from 'underscore';
 import { _ } from 'core-js';
-import f from '@/application/functions.js'
+import f from '@/application/shared/functions.js'
 
 export default {
     name: 'filemanager',
@@ -30,7 +30,7 @@ export default {
     
 
     created (){
-        this.core.user.activity.template('action', this.core.user.activity.actions.fileManager())
+        this.core.activity.template('action', this.core.activity.actions.fileManager())
 
         if(this.upload){
 

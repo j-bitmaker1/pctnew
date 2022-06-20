@@ -34,7 +34,7 @@ export default {
     },
 
     created() {
-        this.core.user.activity.template('action', this.core.user.activity.actions.changePassword())
+        this.core.activity.template('action', this.core.activity.actions.changePassword())
     }
 }
 </script>

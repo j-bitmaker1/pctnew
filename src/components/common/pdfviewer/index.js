@@ -1,6 +1,6 @@
 import { mapState } from 'vuex';
 import pdfvuer from 'pdfvuer'
-import f from '../../../application/functions';
+import f from '@/application/shared/functions';
 import 'pdfjs-dist/build/pdf.worker.entry'
 export default {
     name: 'pdfviewer',

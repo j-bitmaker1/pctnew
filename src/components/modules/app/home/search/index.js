@@ -64,9 +64,9 @@ export default {
                             this.fromsearch[i] = []
 
                             _.each (objects, (obj) => {
-                                if (this.core.user.activity.templates[i]){
+                                if (this.core.activity.templates[i]){
 
-                                    var t = this.core.user.activity.templates[i](obj)
+                                    var t = this.core.activity.templates[i](obj)
 
                                     t.index = i + t.key
 
@@ -81,7 +81,7 @@ export default {
                     this.loading = false
                 })
 
-                var actions = this.core.user.activity.getactions(this.searchvalue)
+                var actions = this.core.activity.getactions(this.searchvalue)
 
 
                 if(actions && actions.length){

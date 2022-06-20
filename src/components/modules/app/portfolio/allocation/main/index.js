@@ -1,5 +1,5 @@
 import { mapState } from 'vuex';
-import f from '@/application/functions.js'
+import f from '@/application/shared/functions.js'
 import serie from '../serie/index.vue'
 import { Allocation } from '@/application/charts/index';
 import {Chart} from 'highcharts-vue'

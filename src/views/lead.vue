@@ -135,7 +135,7 @@ export default {
 
 				this.profile = r
 
-				this.core.user.activity.template('lead', this.profile)
+				this.core.activity.template('lead', this.profile)
 
 				this.core.crm.contactAutoUpdate(this.profile)
 

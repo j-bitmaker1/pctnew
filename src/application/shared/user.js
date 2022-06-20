@@ -2,26 +2,20 @@ var _ = require('underscore');
 var sha1 = require('sha1');
 var Fingerprint2 = require('fingerprintjs2')
 var { error } = require('./error')
-var moment = require('moment');
+
 import f from './functions'
-import Activity from './lib/activity'
-import Storage from './utils/cryptoStorage'
+import Storage from './cryptoStorage'
 
 var User = function ({
     vm,
     api,
     wss,
-    pct, 
-    crm,
-    vxstorage,
-    i18n,
     cordovakit,
     vueapi,
-    settings,
-    updates
-}) {
+    updates,
+    
+}, {prepare, clearing}) {
 
-    console.log("api", api)
 
 
     var self = this
@@ -50,11 +44,7 @@ var User = function ({
         {id : "CAMPAIGN", name : "Campaigns features", description : "Build up long relationship with clients and follow up leads to close sales with engaging marketing emails"}
     ]
 
-    self.activity = new Activity({
-        api,
-        user : self,
-        i18n
-    })
+    
 
     var verify = function(){
 
@@ -632,7 +622,7 @@ var User = function ({
 
     }
 
-    function clearSignin(){
+    /*function clearSignin(){
         api.clearCache()
 
         vxstorage.clear()
@@ -641,17 +631,11 @@ var User = function ({
 
         self.info = {}
         features()
-    }
+    }*/
 
     function clear() {
 
-        api.clearCache()
-
-        vxstorage.clear()
-
-        updates.clearall()
-
-        vm.$store.commit('clearall')
+        clearing()
 
         if (storage)
             storage.removeItem('ui')
@@ -663,6 +647,8 @@ var User = function ({
 
         self.info = {}
         features()
+
+       
     }
 
 
@@ -683,8 +669,6 @@ var User = function ({
 
     function signupRixtrema(data = {}){
         if(!data.Email || !data.Password) return Promise.reject('emptydata')
-
-        clearSignin()
 
         return api.user.register(data)
     }
@@ -841,7 +825,9 @@ var User = function ({
 
             //settings.getall()
 
-            return self.prepare()
+            console.log('prepare', prepare)
+
+            prepare()
 
         }).then(() => {
 
@@ -865,13 +851,6 @@ var User = function ({
         })
     }
 
-    self.prepare = function(){
-
-        return Promise.all([api.checkUpdates(), self.activity.load(), pct.prepare(), crm.prepare()]).catch(e => {
-            return Promise.reject(e)
-        })
-
-    }
 
     self.init = function(){
         self.inited = true
@@ -906,7 +885,7 @@ var User = function ({
     self.extendWss = extendWss
 
     self.signin = signin
-    self.signup = signup
+    self.signup = signupRixtrema
     self.signout = signout
 
     self.crypt = crypt

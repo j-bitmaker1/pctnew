@@ -2,7 +2,7 @@
 <div class="filesystem" :class="[fclass, purpose || '']">
 	
 
-	<div class="items" ref="items">
+	<div class="items customscrollHorizontal" ref="items">
 
 		<div class="cnt back" v-if="showback" @click="up">
 

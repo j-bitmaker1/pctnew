@@ -62,7 +62,7 @@ export default {
     methods: {
         clearHistory: function () {
 
-            this.core.user.activity.clear().then(r => {
+            this.core.activity.clear().then(r => {
                 this.$refs.homesearch.reload()
             }).catch(e => {
                 console.error(e)

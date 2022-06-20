@@ -22,6 +22,13 @@
 </template>
 
 <style scoped lang="sass">
+
+@media (pointer:fine)
+	.namewrapper,
+	.total,
+	.action
+		cursor: pointer
+
 .activity_compare
 	border-bottom: 1px solid srgb(--neutral-grad-0)
 	padding : 2 * $r 0

@@ -26,7 +26,7 @@ import {
     mapState
 } from 'vuex';
 
-import f from '@/application/functions';
+import f from '@/application/shared/functions.js';
 
 export default {
     name: 'filemanager_filepreview',

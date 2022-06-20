@@ -1,6 +1,6 @@
 var EXIF = require('exif-js');
 
-import f from '@/application/functions'
+import f from '@/application/shared/functions'
 
 var Images = function(){
     var self = this;

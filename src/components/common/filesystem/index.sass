@@ -86,8 +86,6 @@
 			scroll-snap-type: x mandatory
 			scroll-behavior: smooth
 			scrollbar-width : none
-			&::-webkit-scrollbar
-				display: none!important
 
 			::v-deep
 
@@ -102,3 +100,10 @@
 	&.selectFolder
 		.fa-file
 			opacity: 0.6
+
+@media only screen and (max-width: 768px)
+	.filesystem
+		&.mini
+			.items
+				&::-webkit-scrollbar
+					display: none!important

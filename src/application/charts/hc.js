@@ -1,5 +1,3 @@
-import f from '../functions'
-
 var options = function(p){
 
 	if(!p) p = {};

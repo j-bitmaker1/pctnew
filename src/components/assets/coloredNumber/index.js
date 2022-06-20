@@ -1,5 +1,5 @@
 import { mapState } from 'vuex';
-import colors from "@/application/utils/colors.js";
+import colors from "@/application/shared/utils/colors.js";
 
 export default {
     name: 'coloredNumber',

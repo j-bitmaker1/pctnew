@@ -1,7 +1,7 @@
 import _ from 'underscore';
 import { mapState } from 'vuex';
 
-import f from "@/application/functions.js"
+import f from "@/application/shared/functions.js"
 
 import compare from "@/components/modules/app/activity/compare/index.vue"
 import portfolio from "@/components/modules/app/activity/portfolio/index.vue"
@@ -32,7 +32,7 @@ export default {
     },
 
     created(){
-        this.history = this.core.user.activity.history
+        this.history = this.core.activity.history
     },
 
     watch: {
@@ -87,7 +87,7 @@ export default {
             var h = this.history
 
             if (this.searchvalue){
-                h = this.core.user.activity.search(this.searchvalue)
+                h = this.core.activity.search(this.searchvalue)
             }
 
             return h
@@ -97,7 +97,7 @@ export default {
     methods : {
         reload : function(){
 
-            this.history = this.core.user.activity.history
+            this.history = this.core.activity.history
         },
         getmodule : function(item){
             

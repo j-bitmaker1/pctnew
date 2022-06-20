@@ -1,5 +1,5 @@
 import { mapState } from 'vuex';
-import f from '@/application/functions';
+import f from '@/application/shared/functions.js';
 
 import filespreview from '../../../filespreview/index.vue'
 import filemenu from '../../../filemenu/index.vue'

@@ -1,72 +1,10 @@
-import f from '@/application/functions'
 import _ from 'underscore'
-
-var meta = {
-    PDF: {
-        logotype: {
-            name: 'logotype',
-            default: function() {
-                return ''
-            },
-        },
-
-        disclosure: {
-            name: 'disclosure',
-            default: function() {
-                return {}
-            },
-        }
-    },
-    STRESS: {
-        scenarios: {
-
-            name: 'scenarios',
-            default: function() {
-                return []
-            },
-
-        },
-
-        definedRiskScore : {
-
-            name: 'scenarios',
-            default: function() {
-
-                return {
-                    use : 'no',
-                    scores : {}
-                }
-                
-            },
-
-        },
-
-        /*useKeyScenarios: {
-            name: 'useKeyScenarios',
-            default: function() {
-                return true
-            },
-
-        }*/
-    }
-}
-
-var lsmeta = {
-    PDF: {
-        reports: {
-            name: 'reports',
-            default: function() {
-                return {}
-            },
-        }
-    }
-}
 
 class Settings {
 
     product = 'PCT'
 
-    constructor(core, type) {
+    constructor(core, type, _meta) {
         this.api = core.api
         this.data = null
         this.type = type
@@ -75,7 +13,7 @@ class Settings {
 
         this.meta = {}
 
-        _.each(meta[this.type], (s, k) => {
+        _.each(_meta[this.type], (s, k) => {
             this.meta[k] = _.clone(s)
         })
 
@@ -193,9 +131,6 @@ class Settings {
             this.clear()
 
             return this.getall().then(() => {
-
-                console.log("???????")
-
                 this.core.emit('settingsUpdated', this.type)
 
                 return Promise.resolve()
@@ -211,13 +146,13 @@ class LSSettings {
 
     product = 'PCT'
 
-    constructor({ api }, type) {
+    constructor({}, type, _meta) {
         this.data = null
         this.type = type
 
         this.meta = {}
 
-        _.each(lsmeta[this.type], (s, k) => {
+        _.each(_meta[this.type], (s, k) => {
             this.meta[k] = _.clone(s)
         })
 
@@ -312,6 +247,10 @@ class LSSettings {
 
         return this.getbymeta()
 
+    }
+
+    clear(){
+        this.data = null
     }
 
 }

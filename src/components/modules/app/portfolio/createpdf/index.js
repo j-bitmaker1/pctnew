@@ -1,8 +1,8 @@
 import { mapState } from 'vuex';
-import PDFTools from "@/application/lib/pdftools";
+import PDFTools from "@/application/shared/utils/pdftools";
 import moment from 'moment'
 import _ from 'underscore';
-import f from '@/application/functions'
+import f from '@/application/shared/functions.js'
 var pdfMake = require('pdfmake/build/pdfmake.js');
 var pdfFonts = require('pdfmake/build/vfs_fonts.js');
 
@@ -98,7 +98,7 @@ export default {
 
                 this.portfolio = r
 
-                this.core.user.activity.template('portfoliopdf', this.portfolio)
+                this.core.activity.template('portfoliopdf', this.portfolio)
 
                 if (!r.crmContactId) {
                     return Promise.resolve()

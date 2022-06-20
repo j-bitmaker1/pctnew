@@ -4,7 +4,7 @@ import questionnaire from "@/components/common/questionnaire/index.vue";
 import _ from 'underscore';
 
 import secondpart from "./secondpart/index.vue"    
-import f from "@/application/functions.js"
+import f from "@/application/shared/functions.js"
 
 var testvalues = {
     values : {

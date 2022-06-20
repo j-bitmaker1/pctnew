@@ -1,5 +1,5 @@
 import pctdefault from './pctdefault'
-import f from '@/application/functions'
+import f from '@/application/shared/functions.js'
 
 class Riskscore {
 

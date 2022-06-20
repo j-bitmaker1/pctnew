@@ -156,7 +156,7 @@ html {
 	-webkit-overflow-scrolling: touch;
 
 	&::-webkit-scrollbar {
-			width: 7px;
+		width: 7px;
 	}
 
 	&::-webkit-scrollbar-track {
@@ -175,6 +175,15 @@ html {
 
 }
 
+.customscrollHorizontal{
+	.customscrollclass();
+	overflow-x: overlay;
+	overflow-y: hidden;
+
+	&::-webkit-scrollbar {
+		height: 7px;
+	}
+}
 @media only screen and (min-width: 768px){
 	.customscroll{
 		.customscrollclass()

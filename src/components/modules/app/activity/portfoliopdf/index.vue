@@ -21,6 +21,10 @@
 	border-bottom: 1px solid srgb(--neutral-grad-0)
 	padding : 2 * $r 0
 
+@media (pointer:fine)
+	.activity_portfolio
+		cursor: pointer
+
 .namerow
 	display: flex
 	align-content: space-between

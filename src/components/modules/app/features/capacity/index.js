@@ -2,7 +2,7 @@ import { mapState } from 'vuex';
 import {Chart} from 'highcharts-vue'
 
 import options from '@/application/charts/hc.js'
-import f from '@/application/functions.js'
+import f from '@/application/shared/functions.js'
 import VueSlider from 'vue-slider-component'
 import _ from 'underscore';
 

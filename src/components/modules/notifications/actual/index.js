@@ -1,6 +1,6 @@
 import { mapState } from 'vuex';
 import notification from "../notification/index.vue";
-import f from "@/application/functions.js"
+import f from "@/application/shared/functions.js"
 export default {
     name: 'notifications_actual',
     props: {

@@ -1,5 +1,5 @@
 import _ from "underscore"
-import f from '@/application/functions'
+import f from '@/application/shared/functions.js'
 class VXStorage {
     //// keys {type : 'client', index : 'ID'}
     constructor(keys){

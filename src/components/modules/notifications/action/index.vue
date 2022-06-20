@@ -18,9 +18,15 @@
 	font-size: 0.8em
 	padding-left: $r
 	padding-right: 3 * $r
+
+
 	i
 		width: 33px
 		text-align: center
+
+@media (pointer:fine)
+	.action
+		cursor: pointer
 </style>
 
 <script>
@@ -28,7 +34,7 @@ import {
 	mapState
 } from 'vuex';
 
-import f from '@/application/functions.js'
+import f from '@/application/shared/functions.js'
 
 export default {
 	name: 'notifications_action',

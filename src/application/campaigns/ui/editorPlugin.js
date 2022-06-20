@@ -1,4 +1,4 @@
-import f from '../functions.js'
+import f from '@/application/shared/functions.js'
 
 import Condition from './condition.js'
 

@@ -4,8 +4,6 @@ import {Random} from 'random'
 var quantile = require( 'compute-quantile' );
 var cdf = require( 'distributions-lognormal-cdf' );
 
-
-
 var normalArray = function(count, sigma){
     if(!count) count = 10000;
 

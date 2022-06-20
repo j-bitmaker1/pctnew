@@ -45,6 +45,12 @@
 			line-height: 44px
 			font-size: 0.8em
 			margin-right: 2 * $r
+
+@media (pointer:fine)
+	.userpicWrapper,
+	.data,
+	.action
+		cursor: pointer
 </style>
 
 <script>

@@ -1,7 +1,7 @@
 import { mapState } from 'vuex';
 import form from 'vuejs-form'
 import _ from 'underscore';
-import f from '@/application/functions.js'
+import f from '@/application/shared/functions.js'
 
 export default {
     name: 'forms',

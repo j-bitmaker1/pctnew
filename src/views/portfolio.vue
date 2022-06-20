@@ -144,7 +144,7 @@ export default {
 
 				this.portfolio = r
 
-				this.core.user.activity.template('portfolio', this.portfolio)
+				this.core.activity.template('portfolio', this.portfolio)
 
 				if(!r.crmContactId){
 					return Promise.resolve()

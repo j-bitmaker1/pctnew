@@ -1,5 +1,5 @@
 import _ from "underscore"
-import f from "../functions.js"
+import f from "../shared/functions.js"
 
 const and = "AND"
 const or = "OR"

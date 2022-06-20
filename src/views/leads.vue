@@ -49,7 +49,7 @@ export default {
 	methods: {
 		sharequestionnaire: function () {
 
-			this.core.user.activity.template('action', this.core.user.activity.actions.sharequestionnaire())
+			this.core.activity.template('action', this.core.activity.actions.sharequestionnaire())
 			this.core.vueapi.sharequestionnaire()
 			
 		},

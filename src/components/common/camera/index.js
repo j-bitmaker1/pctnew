@@ -1,6 +1,6 @@
 import { mapState } from 'vuex';
 import { Carousel, Slide } from 'vue-carousel';
-import f from "@/application/functions.js"
+import f from "@/application/shared/functions.js"
 
 export default {
     name: 'camera',
