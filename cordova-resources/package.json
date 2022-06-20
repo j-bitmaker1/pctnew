@@ -40,7 +40,7 @@
     "cc.fovea.cordova.openwith": "file:cc.fovea.cordova.openwith",
     "cordova-android": "^9.1.0",
     "cordova-ios": "^6.2.0",
-    "cordova-plugin-add-swift-support": "file:cordova-plugin-add-swift-support",
+    "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-apkupdater": "^4.0.0",
     "cordova-plugin-background-download": "0.0.2",

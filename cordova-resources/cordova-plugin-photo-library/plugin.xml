@@ -43,7 +43,7 @@ version="3.0.3" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="
         <source-file src="src/ios/PhotoLibraryProtocol.swift" />
         <source-file src="src/ios/PhotoLibraryService.swift" />
         <source-file src="src/ios/PhotoLibraryGetLibraryOptions.swift" />
-        <dependency id="cordova-plugin-add-swift-support" version="^2.0.2"/>
+        <!--<dependency id="cordova-plugin-add-swift-support" version="^2.0.2"/>-->
     </platform>
     <platform name="browser">
         <js-module src="www/PhotoLibrary.android.js" name="PhotoLibrary">
