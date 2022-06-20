@@ -2,8 +2,6 @@ import { mapState } from 'vuex';
 
 import pages_list from './pages/list/index.vue'
 import pages_file from './pages/file/index.vue'
-import { isEmpty } from 'underscore';
-import { _ } from 'core-js';
 import f from '@/application/shared/functions.js'
 
 export default {

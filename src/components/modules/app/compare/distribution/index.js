@@ -3,7 +3,6 @@ import { mapState } from 'vuex';
 import distributionMain from '@/components/modules/app/portfolio/distribution/main/index.vue'
 
 import { Distribution } from '@/application/charts/index';
-import { _ } from 'core-js';
 var distribution = new Distribution()
 
 export default {

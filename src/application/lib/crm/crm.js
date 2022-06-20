@@ -1,4 +1,3 @@
-import { _ } from "core-js";
 import Queries from "./queries";
 
 

@@ -1,4 +1,3 @@
-import { _ } from 'core-js';
 import { mapState } from 'vuex';
 
 import filepreview from '../list/file/index.vue'

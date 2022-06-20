@@ -1,6 +1,5 @@
 import { mapState } from 'vuex';
 import notification from "./notification/index.vue";
-import { _ } from 'core-js';
 export default {
 	name: 'notifications',
 	props: {

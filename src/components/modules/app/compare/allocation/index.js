@@ -2,7 +2,6 @@ import { mapState } from 'vuex';
 
 import allocationMain from "@/components/modules/app/portfolio/allocation/main/index.vue"
 import { Allocation } from '@/application/charts/index';
-import { _ } from 'core-js';
 
 var allocation = new Allocation()
 

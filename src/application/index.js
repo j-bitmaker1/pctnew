@@ -7,21 +7,21 @@ import f from './shared/functions'
 import user from './shared/user'
 import wss from './shared/wss'
 
-import CRM from './lib/crm'
-import PCT from './lib/pct'
+import CRM from './lib/crm/crm'
+import PCT from './lib/pct/pct'
 
 import Vueapi from './vueapi'
 import Cordovakit from './shared/cordovakit'
-import Filemanager from './lib/filemanager'
+import Filemanager from './lib/common/filemanager'
 import FX from './shared/utils/fx.js'
 
 import {Settings, LSSettings} from "./shared/settings";
 
-import PDFReports from "./lib/pdfreports";
+import PDFReports from "./lib/pct/pdfreports";
 
 import Updates from "./updates";
-import Filesystem from "./lib/filesystem"
-import Activity from "./lib/activity"
+import Filesystem from "./lib/common/filesystem"
+import Activity from "./lib/common/activity"
 
 var settings = {
     server : {

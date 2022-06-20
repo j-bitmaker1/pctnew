@@ -7,7 +7,7 @@ import {
     Allocation,
     Distribution,
     MonteCarlo
-} from "../charts/index.js"
+} from "@/application/charts/index.js"
 
 class PDFReports {
 

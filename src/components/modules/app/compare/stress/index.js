@@ -1,4 +1,3 @@
-import { _ } from 'core-js';
 import { mapState } from 'vuex';
 
 import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'

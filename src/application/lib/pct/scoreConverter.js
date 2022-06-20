@@ -1,5 +1,3 @@
-import { _ } from "core-js";
-
 class ScoreConverter {
 
     portfolios = [
