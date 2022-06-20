@@ -192,6 +192,9 @@ const dbstorage = function(storageName, version, time) {
                 })
 
                 return this.clearItems(needToClear).then(() => {
+
+                    console.log("CLEARED", storageName)
+
                     return Promise.resolve()
                 })
             },
@@ -217,6 +220,8 @@ const dbstorage = function(storageName, version, time) {
 
 
                 return this.clearItems(needToClear).then(() => {
+
+
                     return Promise.resolve(cleared)
                 })
             },
@@ -253,6 +258,7 @@ const dbstorage = function(storageName, version, time) {
 
             clear: (itemId) => {
                 debugLog('PCryptoStorage clearing', itemId);
+
 
                 function executor(resolve, reject) {
                     const transaction = openTransaction('items', true);

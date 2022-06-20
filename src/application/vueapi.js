@@ -409,7 +409,7 @@ class Vueapi {
             id : 'modal_filemanager',
             module : "filemanager",
             caption : "File manager",
-    
+            one : true,
             data : data || {},
             events : events
         })
@@ -421,6 +421,7 @@ class Vueapi {
             module : "filemanager_file",
             caption : p.name || "File",
             mclass : 'withoutheader',
+            one : true,
             data : {
                 file
             },
@@ -433,6 +434,7 @@ class Vueapi {
             id : 'modal_pdfviewer',
             module : "pdfviewer",
             caption : "Pdf viewer",
+            one : true,
             mclass : 'withoutheader',
             data : {
                 file

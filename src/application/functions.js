@@ -1631,6 +1631,23 @@ f.insertTextAtCursor = function(el, text, offset) {
     }
 }
 
+f.files = {
+    getExtension: function (file) {
+        var name = file.name.split('.');
+        var ext = name[name.length - 1].toLowerCase();
+
+        return ext;
+    },
+    checkExtension: function (file, extensions = []) {
+
+        if (extensions.length) {
+            if (_.indexOf(extensions, f.files.getExtension(file)) == -1) return false
+        }
+
+        return true;
+    }
+}
+
 f.ObjDiff = ObjDiff
 f._arrayBufferToBase64 = _arrayBufferToBase64
 f._base64ToArrayBuffer = _base64ToArrayBuffer

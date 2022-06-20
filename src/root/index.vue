@@ -1,10 +1,9 @@
 <template>
-<div id="root">
+<div id="root"  >
 
     <div class="cameramoduleWrapper" v-if="camera">
         <camera v-bind="camera.data || {}" v-on="camera.events" @close="closeCamera" />
     </div>
-
 
     <div class="rootapp" v-show="!camera">
 
@@ -37,6 +36,12 @@
     <transition name="fade" v-if="iconshow">
         <fixedmessageicon />
     </transition>
+
+    <div class="dropFile" v-if="dropfile">
+        <div>
+            <span>Drop files here</span>
+        </div>
+    </div>
 
     <!-- and other modals -->
 

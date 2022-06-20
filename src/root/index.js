@@ -17,7 +17,9 @@ export default {
 			loading : false,
 			blockTouch : false,
 			isRouterAlive : true,
-			refreshPosition : 0
+			refreshPosition : 0,
+
+			dropfile : false
 		}
 
 	},
@@ -37,6 +39,10 @@ export default {
 		online : state => state.online,
 		iconshow: function() {
 			return this.$store.state.icon ? true : false
+		},
+
+		candrop : function(){
+			return !this.camera && !this.globalpreloader && this.auth && !this.gallery
 		},
 
 		camera : state => state.camera,
@@ -83,22 +89,7 @@ export default {
 			this.core.updates.synk()
 		},
 
-	
 
-		/*fxtest : function(e){
 
-			this.core.vueapi.fx({
-				name : 'emoji',
-			
-				parameters : {
-					from : {
-						y : (e.clientY),
-						x : (e.clientX)
-					}
-				}
-
-			})
-			
-		}*/
 	},
 }

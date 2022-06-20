@@ -430,8 +430,6 @@ var ApiWrapper = function (core) {
 
 	var paginatedrequest = function (data, system, to, p) {
 
-
-
 		if (!p) p = {}
 		if (!data) data = {}
 
@@ -2537,6 +2535,10 @@ var ApiWrapper = function (core) {
 
 		create: function (data = {}, p = {}) {
 
+			console.log('data', data)
+
+			if(!data.file && !data.files) return Promise.reject('empty')
+
 			self.invalidateStorageNow(['tasks'])
 
 			let formData = new FormData();
@@ -2575,6 +2577,8 @@ var ApiWrapper = function (core) {
 				path: 'records'
 			}
 
+			data.includeStatusesFilter = ["NEW", "SUCCESS", "ACTIVE", "FAULTED"]
+
 			p.storageparameters = dbmeta.tasks()
 
 			data.appIdsFilter = ["PCT"]
@@ -2612,10 +2616,26 @@ var ApiWrapper = function (core) {
 		delete: function (taskId, p = {}) {
 			p.method = "POST"
 
+			self.invalidateStorageNow(['tasks'])
+
+			core.vxstorage.update({
+				status: "DELETED",
+				id : taskId
+			}, 'task')
+
 			return request({ taskId }, 'api', 'async_task_manager/AsyncTask/DeleteTask', p)
 		},
 		deleteItems: function (taskIds, p = {}) {
 			p.method = "POST"
+
+			self.invalidateStorageNow(['tasks'])
+
+			_.each(taskIds, (taskId) => {
+				core.vxstorage.update({
+					status: "DELETED",
+					id : taskId
+				}, 'task')
+			})
 
 			return request({ taskIds }, 'api', 'async_task_manager/AsyncTask/DeleteTasks', p)
 		},

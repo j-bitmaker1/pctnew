@@ -96,7 +96,9 @@ var storeFactory = function (vxstorage) {
 
 		updates : {},
 
-		features : {}
+		features : {},
+
+		uploading : []
 	}
 
 
@@ -187,6 +189,14 @@ var storeFactory = function (vxstorage) {
 
 		updates(state, value) {
 			state.updates = value;
+		},
+
+		uploading(state, value = []) {
+			state.uploading = state.uploading.concat(value);
+		},
+
+		clearUploading(state, value) {
+			state.uploading = [];
 		},
 
 		globalpreloader: function (state, value) {

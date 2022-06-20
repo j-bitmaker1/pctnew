@@ -70,10 +70,7 @@ class Cordovakit {
 			'image/jpeg' : 'images',
 			'image/jpg' : 'images',
 			'image/png' : 'images',
-			'image/webp' : 'images',
-			/*'application/pdf' : 'files',
-			'application/msword' : 'files',
-			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'files'*/
+			'image/webp' : 'images'
 
 		}
 
@@ -90,12 +87,6 @@ class Cordovakit {
 			var promises = _.map(
 				_.filter(intent.items || [], function(i){return i}),
 				(item) => {
-
-
-					/*if (item.type == 'text/plain'){
-						delete item.type
-					}*/
-
 
 				return new Promise((resolve, reject) => {
 
@@ -152,12 +143,19 @@ class Cordovakit {
 				else{
 
 					if(sharing.images || sharing.files){
-						this.core.vuieapi.fileManager({
-							upload : [].concat(sharing.images, sharing.files)
-						})
-					}
 
-					
+						var up = [].concat(sharing.images, sharing.files)
+
+
+						return Promise.all(_.map(up, (f) => {
+							return this.f.Base64.toFileFetch(f)
+						})).then(files => {
+							this.store.commit('uploading', files)
+
+							this.core.vuieapi.fileManager()
+						})
+						
+					}
 
 				}
 			})

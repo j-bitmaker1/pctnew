@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="failed" v-if="file.status == 'FAULTED' || ((!file.data || !file.data.length) && file.status == 'SUCCESS')">
+            <div class="failed" v-if="!file.info || file.status == 'FAULTED' || ((!file.data || !file.data.length) && file.status == 'SUCCESS')">
                 <span>Sorry, auto-recognition of this file is not possible.</span>
             </div>
         </div>

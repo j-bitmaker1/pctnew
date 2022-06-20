@@ -178,6 +178,8 @@ class Core {
         delete this.focusListener.clbks.pause.core
         delete this.onlineListener.clbks.online.core
         delete this.onlineListener.clbks.offline.core
+
+        document.removeEventListener("drop", this.dropFiles)
     }
 
     initEvents = function(){
@@ -200,6 +202,27 @@ class Core {
         this.onlineListener.clbks.offline.core = () => {
             this.online = this.onlineListener.online
         }
+
+        document.addEventListener("drop", this.dropFiles.bind(this))
+        document.addEventListener("dragover", event => {
+            event.preventDefault()
+        })
+    }
+
+    dropFiles = function(event){
+        event.preventDefault()
+
+        var files = []
+
+        console.log('event.dataTransfer.files', event.dataTransfer.files)
+        
+        _.each(event.dataTransfer.files, (F) => {
+            files.push(F)
+        })
+
+        this.store.commit('uploading', files)
+
+        this.vueapi.fileManager()
     }
 
     currentTime = function () {

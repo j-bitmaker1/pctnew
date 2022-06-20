@@ -42,7 +42,7 @@ export default {
         return {
             loading : false,
             page : 0,
-            refresh : false,
+            refresh : true,
             count : 0,
             records : [],
             end : false,
@@ -101,14 +101,8 @@ export default {
         },
        
         reload : function(){
-
-            /*if (this.$refs['list'])
-                this.$refs['list'].leaveSelectionMode()*/
-
             this.refresh = true
             this.init()
-            
-
         },
 
 
@@ -185,7 +179,8 @@ export default {
             if (i == -1){
 
                 this.records.unshift(obj)
-                this.count++
+
+                this.count = this.count + 1
 
                 this.$emit('count', this.count)
 
@@ -210,7 +205,9 @@ export default {
             if (i > -1){
                 this.$delete(this.records, i)
 
-                this.count--
+                this.count = this.count - 1
+
+                this.$emit('count', this.count)
             }
         }
     },

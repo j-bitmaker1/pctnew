@@ -48,6 +48,8 @@
 <script>
 import Images from '@/application/utils/images.js'
 
+import f from '@/application/functions.js'
+
 var each = require('async-each');
 
 var images = new Images()
@@ -156,7 +158,7 @@ export default {
 
                 }).then(data => {
 
-					data.extension = this.getExtension(file)
+					data.extension = f.files.getExtension(file)
 
                     ha.$emit('uploaded', data)
                     next()
@@ -205,19 +207,12 @@ export default {
         checkSize: function (file) {
             return file.size <= this.maxSize
         },
-        getExtension: function (file) {
-            var name = file.name.split('.');
-            var ext = name[name.length - 1].toLowerCase();
-
-            return ext;
-        },
+      
         checkExtension: function (file) {
 
-            if (this.extensions.length) {
-                if (_.indexOf(this.extensions, this.getExtension(file)) == -1) return false
-            }
+            return f.files.checkExtension(file, this.extensions)
 
-            return true;
+       
         },
         handle: function (data) {
 
