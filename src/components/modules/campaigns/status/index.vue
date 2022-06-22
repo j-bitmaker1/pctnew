@@ -24,7 +24,7 @@
 	i
 		color : srgb(--neutral-grad-2)
 
-.COMPLETED
+.campaigns_status.COMPLETED
 	.status
 		i
 			color : srgb(--color-good)

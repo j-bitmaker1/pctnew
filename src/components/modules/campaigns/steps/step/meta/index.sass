@@ -1,6 +1,12 @@
 .statusWrapper
     margin-top: $r
     padding-left: 2 * $r
+    display: flex
+    align-items: center
+    grid-gap: $r
+    .date
+        font-size: 0.8em
+
 .content
     display: flex
     justify-content: space-between
@@ -84,15 +90,15 @@
     padding: 0
 
 .COMPLETED
-    .icon
+    &.icon
         border-color: srgb(--color-txt-ac)
         color: srgb(--color-txt-ac)
 
 .ACTIVE
-    .icon
+    &.icon
         color: srgb(--color-good)
 
-    .time
+    &.time
         .timeline
             .stepfill
                 background: srgb(--color-good)

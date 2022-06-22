@@ -6,6 +6,7 @@ import wait from './wait/index.vue'
 import notify from './notify/index.vue'
 import finish from './finish/index.vue'
 import ifstep from './ifstep/index.vue'
+import whilestep from './whilestep/index.vue'
 
 export default {
     name: 'campaigns_step',
@@ -23,7 +24,8 @@ export default {
         wait,
         notify,
         finish,
-        ifstep
+        ifstep,
+        whilestep
     },
 
     data : function(){
@@ -53,6 +55,8 @@ export default {
             this.step.Type == "NOTIFY" ? type = 'notify' : null
             this.step.Type == "IF" ? type = 'ifstep' : null
             this.step.Type == "FINISH" ? type = 'finish' : null
+            this.step.Type == "WHILE" ? type = 'whilestep' : null
+            
 
             return type
         },

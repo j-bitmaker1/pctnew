@@ -626,7 +626,8 @@ class Campaigns {
 
         // Stand icon
         if (!this.series[2].icon) {
-            this.series[2].icon = this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
+            this.series[2].icon = this.renderer.path(
+                ['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
                 .attr({
                     stroke: '#303030',
                     'stroke-linecap': 'round',

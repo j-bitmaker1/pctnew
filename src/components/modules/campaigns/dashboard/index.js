@@ -47,8 +47,8 @@ export default {
 
     },
 
-    created : () => {
-
+    created () {
+        this.loadstats()
     },
 
     watch: {
@@ -124,6 +124,12 @@ export default {
 
         open : function(batch){
             this.$router.push('/campaigns/batch/' + batch.Id)
+        },
+
+        loadstats : function(){
+            this.core.api.campaigns.misc.stats().then(r => {
+                console.log("R2", r)
+            })
         }
     },
     

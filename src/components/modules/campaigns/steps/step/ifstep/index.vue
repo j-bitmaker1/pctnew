@@ -6,10 +6,11 @@
         <template v-slot:content>
             <div>
                 <div class="caption">
-                    <linepreloader v-if="loading"/>
-                    <template v-else>
 
-                        <div class="header">
+                    <div class="header">
+
+                        <linepreloader v-if="loading"/>
+                        <template v-else>
                             <div class="iconwrapper">
                                 <div class="icon">
                                     <i class="fas fa-map-signs"></i>
@@ -20,8 +21,9 @@
                                 <span v-if="template"> The email "{{template.Name}}" has been read? </span>
                                 <span v-else>Email template for statement hasn't loaded</span>
                             </div>
-                        </div>
-                    </template>
+                        </template>
+                    </div>
+                    
                 </div>
 
                 <div class="ifbody" :class="result">

@@ -417,6 +417,11 @@
 			"SentEmails" : "Sent Emails",
 			"TotalCampaigns" : "Total Campaigns",
 			"TotalEmails" : "Total Emails"
+		},
+
+		"labels" : {
+			"dashboard" : "Dashboard",
+			"templates" : "Templates"
 		}
 	}
 

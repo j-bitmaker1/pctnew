@@ -2771,7 +2771,7 @@ var ApiWrapper = function (core = {}) {
 		},
 
 		templates : {
-			gets : function(ids, p = {}){
+			gets : function(p = {}){
 
 				p.kit = {
 					class: Template,
@@ -2779,31 +2779,20 @@ var ApiWrapper = function (core = {}) {
 				}
 
 				p.vxstorage = {
-					getloaded: 'Ids',
 					path: 'Records',
 					type: 'template',
 				}
 
-				p.transformResponse = (r) => {
-					_.each(r.Records, (m, i) => {
-						m.TId = ids[i]
-					})
-				}
+				
 
 				return request({
 
 					Compact : true,
-					Ids : ids
+					//Ids : ids
 
 				}, 'campaigns', 'template/list', p).then(r => {
 
-					var res = {}
-
-					_.each(r.Records, (t) => {
-						res[t.TId] = t
-					})
-
-					return Promise.resolve(res)
+					return Promise.resolve(r)
 
 				})
 
