@@ -2,7 +2,7 @@ import ReconnectingWebSocket from 'reconnecting-websocket';
 import f from './functions'
 import moment from 'moment'
 import {Contact, Portfolio, Scenario, Task} from './kit.js'
-
+import { Campaign, Batch, Step } from './campaigns/kit.js'
 
 var WSS = function(core, url){
     var self = this

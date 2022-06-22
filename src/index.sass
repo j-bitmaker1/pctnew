@@ -344,6 +344,9 @@ button.button
 	min-width: 50px
 	text-align: center
 
+	i
+		color: srgb(--color-txt-ac) 
+
 	&[uncovered]
 		opacity: 0.2
 
@@ -644,6 +647,21 @@ button.button
 	.mobp
 		padding-left: $r
 		padding-right: $r
+
+	.mx-datepicker-popup
+		font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
+		font-size: 1em
+		position: fixed!important
+		left : $r!important
+		top : var(--app-margin-top)!important
+		bottom : var(--keyboardheight)!important
+		right : $r!important
+		width: auto!important
+		padding : 2 * $r
+
+		.mx-calendar
+			width: auto!important
+
 
 .dummy
 	.block

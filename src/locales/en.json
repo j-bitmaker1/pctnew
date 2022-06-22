@@ -396,6 +396,28 @@
 	"themes" : {
 		"white" : "Light theme",
 		"black" : "Dark theme"
+	},
+
+	"campaigns" : {
+		"status" : {
+			"completed" : "Completed",
+			"active" : "Active",
+			"process" : "Active",
+			"undefined" : "Undefined",
+			"wait" : "Waiting in queue"
+		},
+		"menu" : {
+			"deletebatch" : "Delete batch"
+		},
+		"summary" : {
+			"CompletedCampaigns" : "Completed Campaigns",
+			"ActiveCampaigns" : "Active Campaigns",
+			"ErrorCampaigns" : "Error Campaigns",
+			"OpenedEmails" : "Opened Emails",
+			"SentEmails" : "Sent Emails",
+			"TotalCampaigns" : "Total Campaigns",
+			"TotalEmails" : "Total Emails"
+		}
 	}
 
 }

@@ -49,6 +49,7 @@ export default {
 
     components : {
         notification,
+        
         home : () => import("@/components/modules/app/home/index.vue"),
         portfolio_edit : () => import("@/components/modules/app/portfolio/edit/index.vue"),
         client_edit : () => import("@/components/modules/app/client/edit/index.vue"),
@@ -83,17 +84,6 @@ export default {
     computed: mapState({
         auth : state => state.auth,
 
-        swipeableOptions : function(){
-            return {
-                swipeOutBy : '0px',
-                swipeAwayBy : '0px',
-                swipeAwayThreshold : '0px',
-                swipeOutThreshold : '0px',
-                type : 'vertical',
-                allowedDirection : this.scroll ? '' : 'bottom',
-                debug : true
-            }
-        },
 
         directionsNotification : function(){
             return {

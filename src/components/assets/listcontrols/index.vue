@@ -4,6 +4,10 @@
         <search @search="search" :value="searchvalue" :activity="activity"/>
     </div>
 
+    <div class="dateWrapper" v-if="datepicker">
+        <datepicker v-model="date" :options="datepicker" :range="true"/>
+    </div>
+
     <div class="sortWrapper">
 
         <div class="total">

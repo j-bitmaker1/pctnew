@@ -1,19 +1,13 @@
 <template>
 <transition name="fade">
-    <!-- v-swipeable="swipeableOptions" -->
     <div id="modal" :class="(mclass || '') + ' ' + (data.notification ? 'hasnotification' : '')">
         <div class="modal-backdrop" @click="close">
-			<div class="closecsscross"></div>
-		</div>
-        <!--<swipable :directions="directionsNotification" @end="endswipe" v-if="data.notification">
-            <div class="notificationWrapper" >
-                <notification :event="data.notification" :withoutInternal="true" />
-            </div>
-        </swipable>-->
+            <div class="closecsscross"></div>
+        </div>
 
         <div class="notificationWrapper" v-if="data.notification">
-                <notification :event="data.notification" :withoutInternal="true" />
-            </div>
+            <notification :event="data.notification" :withoutInternal="true" />
+        </div>
 
         <div class="modal-wrapper">
             <swipable :directions="directions" @end="endswipe">
@@ -56,6 +50,3 @@
 <script src="./index.js"></script>
 
 <style  lang="sass" src="./index.sass"></style>
-
-<!-- THEMES BEGIN -->
-<!-- THEMES END -->

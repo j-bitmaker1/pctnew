@@ -9,6 +9,7 @@ import wss from './shared/wss'
 
 import CRM from './lib/crm/crm'
 import PCT from './lib/pct/pct'
+import CAMPAIGNS from './campaigns/manager'
 
 import Vueapi from './vueapi'
 import Cordovakit from './shared/cordovakit'
@@ -126,6 +127,7 @@ class Core {
         this.filemanager = new Filemanager(this)
         this.crm = new CRM(this)
         this.pct = new PCT(this)
+        this.campaigns =  new CAMPAIGNS(this)
         this.fx = new FX(this)
         this.filesystem = new Filesystem(this)
 
@@ -402,9 +404,6 @@ class Core {
                     key : dbIndex
                 })
             })
-
-            
-
         })
     }
 
@@ -444,17 +443,11 @@ class Core {
             }
         })
 
-        console.log("invalidate", invalidate)
-
         this.api.invalidateStorageNow(invalidate)
-
-
-        //// like create updation TO DO
         
     }
 
     createByWs(data, type, invalidate = []){
-
 
         if(!this.ignoring[type]) 
             this.ignoring[type] = []

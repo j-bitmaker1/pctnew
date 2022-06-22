@@ -196,7 +196,7 @@ f.deepInsert = function (obj, key, _insert) {
 
         _key.splice(0, 1);
 
-        return deepInsert(obj[tkey], _key.join("."), _insert)
+        return f.deepInsert(obj[tkey], _key.join("."), _insert)
     }
 }
 
@@ -1275,6 +1275,15 @@ f.values = {
     }
 }
 
+var addZero = function(n){
+    if (Number(n) < 10)
+    {
+        n = "0" + n;
+    }
+
+    return n;
+}
+
 f.date = {
     nowUtc1000: function () {
         var date = new Date();
@@ -1291,7 +1300,7 @@ f.date = {
         return d
     },
     toserverFormatDate : function(date = new Date()){
-        return date.getUTCFullYear() + '' + date.getUTCMonth() + '' + date.getUTCDate() + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
+        return date.getUTCFullYear() + '' + addZero(date.getUTCMonth()) + '' + date.getUTCDate() + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
         
     },
     fromstring: function (str, utc) {

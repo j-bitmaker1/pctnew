@@ -1,0 +1,37 @@
+#campaigns_batch_main
+
+.header
+    .name
+        span
+            font-size: 2em
+    .template
+        span
+
+.statusrow
+    margin-top: 2 * $r
+    margin-bottom: 6 * $r
+    .campaigns_status
+
+    ::v-deep
+        .status
+            flex-direction: column
+            grid-gap: 0
+
+.summary
+    display: grid
+    grid-gap: $r
+    grid-template-columns: repeat(2, 1fr)
+    margin-bottom: 2 * $r
+    padding-bottom: 2 * $r
+
+    .sub
+        display: flex
+        flex-direction: column
+
+        .value
+            width: 44px
+            height: 44px
+            line-height: 44px
+            border-radius: 22px
+            text-align: center
+            background: srgb(--neutral-grad-0)

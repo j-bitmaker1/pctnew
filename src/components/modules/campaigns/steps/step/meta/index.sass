@@ -1,0 +1,96 @@
+.statusWrapper
+    margin-top: $r
+    padding-left: 2 * $r
+.content
+    display: flex
+    justify-content: space-between
+    align-items: flex-start
+
+::v-deep
+    .buttonpanel
+        i
+            color: srgb(--neutral-grad-1)
+
+.step_meta
+    display: grid
+    grid-gap: $r
+    grid-template-columns: 50px 1fr
+
+.wrapper
+    padding-bottom: 2 * $r
+
+.content
+    border-radius: 24px
+    padding: 2 * $r
+    background: srgb(--background-secondary-theme)
+
+.icontime
+    display: flex
+    flex-direction: column
+    height: 100%
+    width: 100%
+
+.icon
+    border-radius: 50%
+    width: 44px
+    margin: 0 auto
+    height: 44px
+    line-height: 42px
+    border: 1px solid srgb(--neutral-grad-1)
+    color: srgb(--neutral-grad-2)
+    text-align: center
+    display: flex
+    align-items: center
+    justify-content: center
+
+    i
+        font-size: 0.8em
+
+.time
+    flex-grow: 2
+    position: relative
+    .timeline
+        position: absolute
+        background: srgb(--neutral-grad-1)
+        left: 50%
+        width: 1px
+        top: 0.5 * $r
+        bottom: 0.75 * $r
+
+        .stepfill
+            position: absolute
+            left: 0
+            right: 0
+            top: 0
+            height: 100%
+            transform-origin: top center
+            background: srgb(--color-txt-ac)
+
+
+
+.icon.IF
+    width: 22px
+    height: 22px
+    border: 0
+    line-height: 22px
+
+.content.IF
+    background: transparent
+    padding: 0
+
+.wrapper.IF
+    padding: 0
+
+.COMPLETED
+    .icon
+        border-color: srgb(--color-txt-ac)
+        color: srgb(--color-txt-ac)
+
+.ACTIVE
+    .icon
+        color: srgb(--color-good)
+
+    .time
+        .timeline
+            .stepfill
+                background: srgb(--color-good)

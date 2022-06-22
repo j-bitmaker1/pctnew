@@ -1,0 +1,27 @@
+.failedpart,
+.successpart
+    display: grid
+    grid-gap: $r
+    position: relative
+    grid-template-columns: 50px 1fr
+    grid-auto-rows: minmax(300px, auto)
+
+
+
+.iftime
+    height: 100%
+    width: 100%
+    position: relative
+    .timeline
+        position: absolute
+        background: srgb(--neutral-grad-1)
+        left: 50%
+        width: 1px
+        top: 0.5 * $r
+        bottom: 0.75 * $r
+
+.ifbridge
+    height: 50px
+    width: 100px
+
+    

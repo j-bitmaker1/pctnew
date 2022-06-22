@@ -1,5 +1,7 @@
 import f from './functions'
 import { Contact, Portfolio, Task, Scenario } from './kit.js'
+import { Campaign, Batch, Step, Template, EmailTemplate } from '@/application/campaigns/kit.js'
+
 var Axios = require('axios');
 
 var sha1 = require('sha1');
@@ -352,6 +354,7 @@ var ApiWrapper = function (core = {}) {
 		pct: new Request(core, "https://rixtrema.net/RixtremaWS/AJAXPCT.aspx", 'pct'),
 		pctapi: new Request(core, "https://rixtrema.net/api/pct", 'pctapi'),
 		api: new Request(core, "https://rixtrema.net/api", 'api'),
+		campaigns: new Request(core, "https://rixtrema.net/api/campaigns", 'campaigns'),
 
 		apiFD: new FormDataRequest(core, "https://rixtrema.net/api", 'api'),
 		apiFDH: new FormDataRequestAu_Headers(core, "https://rixtrema.net/api", 'api'),
@@ -455,12 +458,15 @@ var ApiWrapper = function (core = {}) {
 
 		if (loaded) return Promise.resolve(loaded)
 
-		if (!liststorage[system][to][datahash].count) data[p.includeCount] = true
+		if (!liststorage[system][to][datahash].count && !p.countLater) data[p.includeCount] = true
 
 
 		return request(data, system, to, p).then(r => {
 
-			if (r.pagination) r.count = r.pagination.total
+			if (r.Pagination) r.pagination = r.Pagination
+			if (r.Records) r.records = r.Records
+
+			if (r.pagination) r.count = r.pagination.total || r.pagination.Total
 
 			prepareliststorage(data, system, to, p) /// async. maybe clear
 
@@ -475,8 +481,10 @@ var ApiWrapper = function (core = {}) {
 				liststorage[system][to][datahash].data[c] = e
 			})
 
-			if (typeof r.count != 'undefined' && data[p.includeCount])
+			if (typeof r.count != 'undefined' && (data[p.includeCount] || p.countLater)){
 				liststorage[system][to][datahash].count = r.count
+			}
+				
 
 			var loaded = getloaded(datahash, data, system, to, p)
 
@@ -632,7 +640,14 @@ var ApiWrapper = function (core = {}) {
 
 		return dbaction(datahash, () => {
 
-			return (requests[system] || requests['default']).fetch(to, data, p)
+			if(p.payloadChange) data = p.payloadChange(data)
+
+			return (requests[system] || requests['default']).fetch(to, data, p).then(r => {
+
+				if(p.transformResponse) p.transformResponse(r)
+
+				return Promise.resolve(r)
+			})
 		}, p)
 
 	}
@@ -1717,8 +1732,6 @@ var ApiWrapper = function (core = {}) {
 				core.activity.remove('client', data.ID)
 				core.activity.remove('lead', data.ID)
 
-				console.log("updated", updated, from)
-
 				if (updated) {
 					core.activity.template('client', updated)
 					core.activity.template('lead', updated)
@@ -1814,8 +1827,6 @@ var ApiWrapper = function (core = {}) {
 				return request({}, 'api', 'crm/Contacts/Scheme', p).then(r => {
 					return r.Contacts
 				}).catch(e => {
-
-					console.log("E", e)
 
 					if(e && e.error && e.error.indexOf('Access denied') > -1){
 						return Promise.resolve(null)
@@ -2401,8 +2412,6 @@ var ApiWrapper = function (core = {}) {
 
 		create: function (data = {}, p = {}) {
 
-			console.log('data', data)
-
 			if(!data.file && !data.files) return Promise.reject('empty')
 
 			self.invalidateStorageNow(['tasks'])
@@ -2584,7 +2593,272 @@ var ApiWrapper = function (core = {}) {
 		}
 	}
 
+	self.campaigns = {
+		batches : {
+
+			getbyids : function(ids, p){
+				return Promise.all(_.map(ids, id => {
+					return self.campaigns.batches.get(id)
+				}))
+			},
+
+			get : function(id, p = {}){
+
+				p.kit = {
+					class: Batch,
+					path: '',
+					getloaded : id,
+					one: true
+				}
+
+				p.vxstorage = {
+					type: 'batch',
+					index: id
+				}
+				
+				return request({}, 'campaigns', 'batches/get/' + id, p)
+			},
+
+			list: function (data = {}, p = {}) {
+
+				p.method = "POST"
+				p.count = 'PageSize'
+				p.from = 'PageNumber'
+				p.bypages = true
+				p.countLater = true
+				//p.includeCount = "IncludeCount"
+
+				p.payloadChange = (data) => {
+					var d = {
+						Parameters : data
+					}
+
+					return d
+				}
+
+				p.kit = {
+					class: Batch,
+					path: 'Records'
+				}
+
+				p.vxstorage = {
+					type: 'batch',
+					path: 'Records'
+				}
+
+				/*p.storageparameters = dbmeta.portfolios()*/
+
+				//data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
+
+				return paginatedrequest(data, 'campaigns', 'batches/list', p)
+
+			},
+
+			create : function(data, p = {}){
+				return request(data, 'campaigns', 'batches/create', p)
+			},
+
+			delete : function(id, p = {}){
+				return request({}, 'campaigns', 'batches/delete/' + id, p)
+			},
+
+			cancel : function(id, p = {}){
+				return request({}, 'campaigns', 'batches/cancel/' + id, p)
+			},
+
+			pause : function(id, p = {}){
+				return request({}, 'campaigns', 'batches/pause/' + id, p)
+			},
+
+			resume : function(id, p = {}){
+				return request({}, 'campaigns', 'batches/start/' + id, p)
+			},
+
+			update: function(data, p = {}){
+				return request(data, 'campaigns', 'batches/update', p)
+			},
+
+			
+		},
+
+		single : {
+
+			getbyids : function(ids, p){
+				return Promise.all(_.map(ids, id => {
+					return self.campaigns.single.get(id)
+				}))
+			},
+
+			get : function(id, p = {}){
+
+				p.kit = {
+					class: Campaign,
+					path: '',
+					getloaded : id,
+					one: true
+				}
+
+				p.vxstorage = {
+					type: 'campaign',
+					index: id
+				}
+				
+				return request({}, 'campaigns', 'campaigns/get/' + id, p)
+			},
+
+			pause : function(data, p = {}){
+				return request(data, 'campaigns', 'pause', p)
+			},
+			cancel : function(data, p = {}){
+				return request(data, 'campaigns', 'cancel', p)
+			},
+			
+			list : function(data, p = {}){
+
+				p.method = "POST"
+				p.count = 'PageSize'
+				p.from = 'PageNumber'
+				p.bypages = true
+				p.countLater = true
+				//p.includeCount = "IncludeCount"
+
+				p.payloadChange = (data) => {
+					var d = {
+						Parameters : data,
+						BatchId : data.BatchId
+					}
+
+					return d
+				}
+
+				p.kit = {
+					class: Campaign,
+					path: 'Records'
+				}
+
+				p.vxstorage = {
+					type: 'campaign',
+					path: 'Records'
+				}
+
+				return paginatedrequest(data, 'campaigns', 'campaigns/list', p)
+			},
+
+			steps : function(campaignId, p = {}){
+
+				p.method = "GET"
+
+				p.kit = {
+					class: Step,
+					path: 'Records',
+				}
+
+				p.vxstorage = {
+					type: 'step',
+					path: 'Records'
+				}
+
+				return request({campaignId}, 'campaigns', 'steps/list', p).then(r => {
+					return Promise.resolve(r.Records)
+				})
+			},
+
+			email : function(data, p = {}){
+				p.method = "GET"
+				return request(data, 'campaigns', 'steps/emailpreview', p)
+			}, 
+			
+		},
+
+		templates : {
+			gets : function(ids, p = {}){
+
+				p.kit = {
+					class: Template,
+					path: 'Records',
+				}
+
+				p.vxstorage = {
+					getloaded: 'Ids',
+					path: 'Records',
+					type: 'template',
+				}
+
+				p.transformResponse = (r) => {
+					_.each(r.Records, (m, i) => {
+						m.TId = ids[i]
+					})
+				}
+
+				return request({
+
+					Compact : true,
+					Ids : ids
+
+				}, 'campaigns', 'template/list', p).then(r => {
+
+					var res = {}
+
+					_.each(r.Records, (t) => {
+						res[t.TId] = t
+					})
+
+					return Promise.resolve(res)
+
+				})
+
+			}
+		},
+
+		misc : {
+			stats : function(p = {}){
+				p.method = "GET"
+				return request({}, 'campaigns', 'statistic/campaignstotal', p)
+			},
+		},
+
+		emails : {
+			templates : {
+				getall : function(p = {}){
+
+					p.kit = {
+						class: EmailTemplate,
+						path: 'FCT.MailTemplate'
+					}
 	
+					p.vxstorage = {
+						type: 'emailtemplate',
+						path: 'FCT.MailTemplate'
+					}
+
+					return request({
+					}, '401k', '?action=GETMAILTEMPLATES&withoutBody=true', p).then(r => {
+						return r.FCT.MailTemplate
+					})
+				},
+
+				getbyids : function(ids = []){
+					return self.campaigns.emails.templates.getall().then((r) => {
+
+						var res = {}
+
+						_.each(r, (et) => {
+
+							if(_.indexOf(ids, et.ID) > -1){
+								res[et.ID] = et
+							}
+
+						})
+
+						return Promise.resolve(res)
+					})
+				}
+			}
+		}
+	}
+
+	self.paginatedrequest = paginatedrequest
+	self.request = request
 
 	return self;
 }

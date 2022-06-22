@@ -2,21 +2,29 @@ import { mapState } from 'vuex';
 
 export default {
     name: 'listcontrols',
+    
     props: {
         searchvalue : String,
         count : Number,
         sorting : {
             type : Object,
-            default : () => {}
+            default : () => {return {}}
+        },
+        listdate : {
+            type : Array,
+            default : () => {return []}
         },
         sortvalue : String,
-        activity : String
+        activity : String,
+        datepicker : Object
+
     },
+
 
     data : function(){
 
         return {
-            loading : false
+            loading : false,
         }
 
     },
@@ -28,9 +36,22 @@ export default {
     watch: {
         //$route: 'getdata'
     },
-    computed: mapState({
-        auth : state => state.auth,
-    }),
+    computed: {
+        date: {
+            get() {
+                return this.listdate
+            },
+            set(value) {
+
+                this.$emit('date', value)
+            }
+        },
+
+        ...mapState({
+            auth : state => state.auth,
+        })
+    },
+    
 
     methods : {
         search : function(v){

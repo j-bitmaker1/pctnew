@@ -16,3 +16,22 @@
 
         .sortWrapper
             margin-left: auto
+
+    .dateWrapper
+        width: 100%
+        margin-bottom : 2 * $r
+
+        .mx-datepicker-range
+            width: 100%
+            
+
+            ::v-deep
+
+                .mx-icon-calendar, .mx-icon-clear
+                    right: 2 * $r
+
+                .mx-input
+                    border-radius: 24px
+                    color: srgb(--neutral-grad-3)
+                    padding : 0 2 * $r
+                    border : 1px solid srgb(--neutral-grad-1)

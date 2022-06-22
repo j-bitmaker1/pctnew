@@ -297,6 +297,29 @@ const routes = [
 		component: () => import('@/views/riskscore'),
 	},
 
+	////
+
+	{
+		path: '/campaigns',
+		name: 'campaigns',
+		component: () => import('@/views/campaigns/campaigns'),
+		customRedirect: redirects.authorized,
+	},
+
+	{
+		path: '/campaigns/campaign/:id',
+		name: 'campaigns',
+		component: () => import('@/views/campaigns/single'),
+		customRedirect: redirects.authorized,
+	},
+
+	{
+		path: '/campaigns/batch/:id',
+		name: 'batch',
+		component: () => import('@/views/campaigns/batch'),
+		customRedirect: redirects.authorized,
+	},
+
 
 ]
 

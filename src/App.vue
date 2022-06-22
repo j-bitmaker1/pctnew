@@ -68,6 +68,7 @@ import userpic from "@/components/assets/user/userpic/index.vue";
 import userspic from "@/components/assets/user/userspic/index.vue";
 import bgimage from "@/components/assets/bgimage.vue";
 import sticker from "@/components/assets/sticker.vue";
+import datepicker from "@/components/assets/datepicker/index.vue";
 
 import logotype from "@/components/assets/logotype/index.vue";
 import backButton from "@/components/assets/backButton/index.vue";
@@ -103,14 +104,19 @@ import drilldownInit from 'highcharts/modules/drilldown'
 import HighchartsMore from 'highcharts/highcharts-more'
 import Exporting from 'highcharts/modules/exporting'
 import OfflineExporting from 'highcharts/modules/offline-exporting'
+import SolidGaude from 'highcharts/modules/solid-gauge'
+
+import campaignsStepsList from "@/components/modules/campaigns/steps/list/index.vue";
 
 drilldownInit(Highcharts)
 HighchartsMore(Highcharts)
 Exporting(Highcharts)
 OfflineExporting(Highcharts)
+SolidGaude(Highcharts)
 
 import plugin, {Editor} from 'vue-editor-js/src/index'
 Vue.use(plugin)
+
 
 
 /*
@@ -128,6 +134,8 @@ Vue.component("userspic", userspic);
 Vue.component("fixedmessageicon", fixedmessageicon);
 Vue.component("bgimage", bgimage);
 Vue.component("sticker", sticker);
+Vue.component("datepicker", datepicker);
+
 
 Vue.component("logotype", logotype);
 Vue.component("backButton", backButton);
@@ -153,6 +161,9 @@ Vue.component("topheader", topheader);
 Vue.component("maincontent", maincontent);
 
 Vue.component("gallery", gallery);
+
+
+Vue.component("campaignsStepsList", campaignsStepsList);
 
 
 Vue.use(VuePageTransition)
@@ -229,6 +240,26 @@ var vxstorage = new VXStorage([{
     index : "ID",
     reload : 'api.crm.contacts.getbyids'
 }, {
+    type : "batch",
+    index : "Id",
+    reload : 'api.campaigns.getbyids'
+},{
+    type : "step",
+    index : "Id"
+},{
+    type : "template",
+    index : "TId"
+    
+},{
+    type : "emailtemplate",
+    index : "ID"
+},
+
+{
+    type : "campaign",
+    index : "Id",
+    reload : 'api.campaigns.getbyids'
+},{
     type : "portfolio",
     index : "id",
     reload : 'api.pctapi.portfolios.gets',
@@ -237,17 +268,13 @@ var vxstorage = new VXStorage([{
 }, {
     type : "task",
     index : "id",
-
 },
-
 {
     type : "customscenario",
     index : "id",
     reload : 'api.pctapi.customscenarios.gets',
     invalidateDb : ['stress']
-
 },
-
 {
     type : 'filesystem',
     index : 'id',
