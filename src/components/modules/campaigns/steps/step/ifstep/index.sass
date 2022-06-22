@@ -1,12 +1,44 @@
+$base: 50px
+
+.ifbody
+    margin-left: - 0.5 * $base
+
 .failedpart,
 .successpart
     display: grid
-    grid-gap: $r
+    grid-gap: 0
     position: relative
-    grid-template-columns: 50px 1fr
-    grid-auto-rows: minmax(300px, auto)
+    grid-template-columns: $base 1fr
+    grid-auto-columns: minmax(300px, auto)
 
+.header
+    display: flex
+    align-items: center
+    grid-gap: $r
+    border-radius: 12px
+    background: srgb(--neutral-grad-1)
+    padding: $r 0
 
+    .txt
+        span
+            font-weight: 700
+            font-size: 0.8em
+            color: srgb(--color-txt-ac)
+
+    .iconwrapper
+        flex-basis: $base
+        width: $base
+        min-width: $base
+
+.listWrapper
+    .ifcaption
+        width: 50px
+        text-align: center
+        padding: $r 0
+
+        span
+            font-size: 0.8em
+            font-weight: 700
 
 .iftime
     height: 100%
@@ -14,14 +46,121 @@
     position: relative
     .timeline
         position: absolute
-        background: srgb(--neutral-grad-1)
+        border-left: 1px solid srgb(--neutral-grad-1)
         left: 50%
         width: 1px
         top: 0.5 * $r
         bottom: 0.75 * $r
 
 .ifbridge
-    height: 50px
-    width: 100px
+    width: 2 * $base
+    display: flex
+    flex-direction: column
+    justify-content: center
+
+    .outer
+        height: $base
+    .inner
+        height: 0.5 * $base
+        display: grid
+        grid-template-columns: 1fr 1fr
+
+    .cb
+
+        overflow: hidden
+        position: relative
+
+    .bridge
+        position: absolute
+        width: $base
+        height: $base
+        border-radius: $base
+        border: 1px solid srgb(--neutral-grad-1)
+
+    .left
+        .bridge
+            left: 0.5 * $base
+            top: 0
+
+    .right
+        .bridge
+            right: 0.5 * $base
+            top: 0
+    &.leave
+        flex-direction: column-reverse
+
+        .left
+            .bridge
+                left: 0.5 * $base
+                top: auto
+                bottom: 0
+
+        .right
+            .bridge
+                right: 0.5 * $base
+                top: auto
+                bottom: 0
+
+.if_success>div
+    &.failedpart>div
+        &.iftime
+            .timeline
+                border-left: 1px solid srgb(--color-txt-ac)
+
+    &.ifbridge
+
+        &.start
+            &.enter
+                .right
+                    .bridge
+                        border: 1px solid srgb(--color-txt-ac)
+
+        &.beetween
+            &.enter
+                .right
+                    .bridge
+                        border: 1px solid srgb(--color-txt-ac)
+            &.leave
+                .left
+                    .bridge
+                        border: 1px solid srgb(--color-txt-ac)
+
+
+        &.end
+            &.leave
+                .left
+                    .bridge
+                        border: 1px solid srgb(--color-txt-ac)
 
     
+.if_failed>div
+    &.successpart>div
+        &.iftime
+            .timeline
+                border-left: 1px solid srgb(--color-bad)
+
+    &.ifbridge
+
+        &.start
+            &.enter
+                .left
+                    .bridge
+                        border: 1px solid srgb(--color-bad)
+
+        &.beetween
+            &.enter
+                .right
+                    .bridge
+                        border: 1px solid srgb(--color-bad)
+
+            &.leave
+                .left
+                    .bridge
+                        border: 1px solid srgb(--color-bad)
+
+
+        &.end
+            &.leave
+                .right
+                    .bridge
+                        border: 1px solid srgb(--color-txt-ac)

@@ -32,7 +32,22 @@ export default {
         //$route: 'getdata'
     },
     computed: mapState({
-        auth : state => state.auth
+        auth : state => state.auth,
+
+        result : function(){
+
+
+            if(this.step.Status == "COMPLETED" && this.refer){
+                if(this.refer.TrackDt){
+                    return 'if_success'
+                }
+                else{
+                    return 'if_failed'
+                }
+            }
+
+            return 'if_noresult'
+        }
     }),
 
     methods : {
@@ -40,12 +55,14 @@ export default {
             if(this.refer){
 
                 this.loading = true
+
                 this.core.campaigns.getEmailTemplate(this.refer.MailTemplateId).then(r => {
+
                     this.template = r
+
                 }).finally(() => {
                     this.loading = false
                 })
-
             }
         }
     },

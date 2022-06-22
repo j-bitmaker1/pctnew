@@ -27,7 +27,6 @@ export default {
     },
 
     created() {
-        console.log("S", this.steps)
     },
 
     watch: {
