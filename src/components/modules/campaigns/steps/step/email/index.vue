@@ -3,7 +3,6 @@
 
     <smeta :step="step" :editing="editing">
         <template v-slot:icon>
-            <i class="fas fa-envelope-open" v-if="step.OPENED"></i>
             <i class="fas fa-envelope"></i>
         </template>
 

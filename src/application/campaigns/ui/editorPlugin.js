@@ -33,8 +33,6 @@ var h = {
 
             var char = text[i]
 
-            console.log('char', char)
-
             if (char == '@') {
 
                 if (position.start == i || (i > 0 && reg.test(text[i - 1]))) {

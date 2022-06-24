@@ -10,7 +10,7 @@
                     <span>Notification</span>
                 </div>
                 <div class="message">
-                    <span>{{step.Message}}</span>
+                    <span>{{step.notification}}</span>
                 </div>
             </div>
         </template>

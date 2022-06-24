@@ -422,6 +422,15 @@
 		"labels" : {
 			"dashboard" : "Dashboard",
 			"templates" : "Templates"
+		},
+
+		"add" : {
+			"email" : "Add an email",
+			"subcampaign" : "Add a sub campaign",
+			"wait" : "Add Wait Interval",
+			"if" : "Add a condition once the email is read",
+			"notification" : "Add a notification",
+			"lead" : "Add Lead in Rixtrema CRM"
 		}
 	}
 

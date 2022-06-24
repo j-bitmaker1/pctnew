@@ -34,7 +34,11 @@ export default {
     methods : {
         load : function(){
             this.loading = true
-            this.core.campaigns.getEmailTemplate(this.step.MailTemplateId).then(r => {
+
+            console.log('this.step', this.step)
+
+            this.core.campaigns.getEmailTemplate(this.step.template).then(r => {
+
                 this.template = r
             }).finally(() => {
                 this.loading = false

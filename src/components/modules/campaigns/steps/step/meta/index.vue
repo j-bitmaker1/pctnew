@@ -1,22 +1,22 @@
 <template>
-<div class="step_meta" :class="this.step.Status + ' ' + this.step.Type">
+<div class="step_meta" :class="this.step.status + ' ' + this.step.type()">
 	<div class="icontime">
-        <div class="icon" :class="this.step.Status + ' ' + this.step.Type">
+        <div class="icon" :class="this.step.status + ' ' + this.step.type()">
             <slot name="icon"></slot>
         </div>
-        <div class="time" :class="this.step.Status + ' ' + this.step.Type" v-if="hasTime">
+        <div class="time" :class="this.step.status + ' ' + this.step.type()" v-if="hasTime">
 			<div class="timeline">
-				<div class="stepfill" v-if="step.Started" :key="wkey" :style="wtranform"></div>
+				<div class="stepfill" v-if="step.started" :key="wkey" :style="wtranform"></div>
 			</div>
         </div>
     </div>
-	<div class="wrapper" :class="this.step.Status + ' ' + this.step.Type">
-		<div class="content" :class="this.step.Status + ' ' + this.step.Type">
+	<div class="wrapper" :class="this.step.status + ' ' + this.step.type()">
+		<div class="content" :class="this.step.status + ' ' + this.step.type()">
 			<slot name="content" ></slot>
 			<slot name="menu" v-if="hasmenu"></slot>
 		</div>
-		<div class="statusWrapper" :class="this.step.Status + ' ' + this.step.Type" v-if="hasstatus && step.Status">
-			<status :status="step.Status"/> <date v-if="this.step.Ended" :date="this.step.Ended" />
+		<div class="statusWrapper" :class="this.step.status + ' ' + this.step.type()" v-if="hasstatus && step.status">
+			<status :status="step.status"/> <date v-if="this.step.ended" :date="this.step.ended" />
 		</div>
 	</div>
 </div>
@@ -47,19 +47,19 @@ export default {
 		auth: state => state.auth,
 
 		hasmenu : function(){
-            if(this.step.Type == "FINISH" || !this.editing) return false
+            if(this.step.type() == "finish" || !this.editing) return false
 
             return true
         },
 
 		hasstatus : function(){
-            if(this.step.Type == "IF" || this.editing) return false
+            if(this.step.type() == "ifstep" || this.editing) return false
 
             return true
         },
 
 		hasTime : function(){
-            if(this.step.Type == "FINISH" || this.step.Type == "IF") return false
+            if(this.step.type() == "finish" || this.step.type() == "ifstep") return false
 
             return true
         },

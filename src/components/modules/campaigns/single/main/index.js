@@ -3,7 +3,7 @@ import { mapState } from 'vuex';
 import status from '../../status/index.vue'
 import f from "@/application/shared/functions.js"
 export default {
-    name: 'campaigns_batch_main',
+    name: 'campaigns_signle_main',
     props: {
         campaign : Object
     },
@@ -38,8 +38,6 @@ export default {
 
     methods : {
         load : function(){
-
-            console.log('this.campaign', this.campaign)
 
             this.loading = true
             this.core.api.campaigns.single.steps(this.campaign.Id).then(r => {

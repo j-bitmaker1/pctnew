@@ -42,7 +42,7 @@ export default {
 
                 this.loading = true
 
-                this.core.campaigns.getEmailTemplate(this.refer.MailTemplateId).then(r => {
+                this.core.campaigns.getEmailTemplate(this.refer.template).then(r => {
 
                     this.template = r
 

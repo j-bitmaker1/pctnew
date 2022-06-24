@@ -30,7 +30,7 @@ export default {
     computed: mapState({
         auth : state => state.auth,
         duration : function(){
-            return moment.duration(this.step.Time, 'seconds').humanize(true);;
+            return moment.duration(this.step.time, 'seconds').humanize(true);;
         }
     }),
 

@@ -1,5 +1,5 @@
 <template>
-<div id="campaigns_batch_main">
+<div id="campaigns_signle_main">
 
 	<div class="hasOpened mobp">
 

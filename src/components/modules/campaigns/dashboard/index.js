@@ -128,7 +128,6 @@ export default {
 
         loadstats : function(){
             this.core.api.campaigns.misc.stats().then(r => {
-                console.log("R2", r)
             })
         }
     },

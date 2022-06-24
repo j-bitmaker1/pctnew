@@ -1,6 +1,6 @@
 import f from './functions'
 import { Contact, Portfolio, Task, Scenario } from './kit.js'
-import { Campaign, Batch, Step, Template, EmailTemplate } from '@/application/campaigns/kit.js'
+import { Campaign, Batch, Step, EditStep, ViewStep, Template, EmailTemplate } from '@/application/campaigns/kit.js'
 
 var Axios = require('axios');
 
@@ -2749,7 +2749,7 @@ var ApiWrapper = function (core = {}) {
 				p.method = "GET"
 
 				p.kit = {
-					class: Step,
+					class: ViewStep,
 					path: 'Records',
 				}
 
@@ -2783,13 +2783,8 @@ var ApiWrapper = function (core = {}) {
 					type: 'template',
 				}
 
-				
-
 				return request({
-
-					Compact : true,
-					//Ids : ids
-
+					Compact : false,
 				}, 'campaigns', 'template/list', p).then(r => {
 
 					return Promise.resolve(r)

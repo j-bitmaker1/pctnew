@@ -667,6 +667,30 @@ class Vueapi {
         })
     }
 
+    listmenupromise = function(items){
+
+        return new Promise((resolve, reject) => {
+            this.store.commit('OPEN_MODAL', {
+                id : 'modal_listmenu',
+                module : "listmenu",
+                caption : "",
+                mclass : 'small likemenu',
+                
+                data :  {
+                    items,
+                    
+                },
+                events : {
+                    close : () => {
+                        reject('closed')
+                    },
+                }
+            })
+        })
+
+       
+    }
+
     addMenu = function(){
         var actions = {
             portfolio:  () => {

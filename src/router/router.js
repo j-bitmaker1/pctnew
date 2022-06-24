@@ -314,6 +314,13 @@ const routes = [
 	},
 
 	{
+		path: '/campaigns/template/:id',
+		name: 'campaignTemplate',
+		component: () => import('@/views/campaigns/campaignTemplate'),
+		customRedirect: redirects.authorized,
+	},
+
+	{
 		path: '/campaigns/batch/:id',
 		name: 'batch',
 		component: () => import('@/views/campaigns/batch'),

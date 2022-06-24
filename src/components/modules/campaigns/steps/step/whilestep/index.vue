@@ -1,5 +1,5 @@
 <template>
-<div class="campaign_step_whilestep" :class="this.step.Status">
+<div class="campaign_step_whilestep" :class="this.step.status">
 
     <smeta :step="step" :editing="editing">
         <template v-slot:icon><i class="fas fa-clock"></i></template>
@@ -11,7 +11,7 @@
                 </div>
                 <linepreloader v-if="loading"/>
                 <div class="time" v-if="!loading && template">
-                    <span>Wait {{duration}}</span> <b>or</b> <span >until <b>{{template.Name}}</b> has been read</span>
+                    <span>Wait {{duration}}</span> <b>or</b> <span >until <b>&ldquo;{{template.Name}}&rdquo;</b> has been read</span>
                 </div>
 
             </div>

@@ -1,4 +1,5 @@
 const moment = require('moment');
+import CampaignTemplates from "./templates"
 
 class CampaignsManager {
 
@@ -30,10 +31,14 @@ class CampaignsManager {
         }
     }
 
-    constructor({api}) {
+    constructor({api, vueapi}) {
         this.api = api.campaigns
         this.emailTemplates = null
         this.templates = null
+        this.vueapi = vueapi
+
+
+        this.campaignTemplates = new CampaignTemplates(this)
     }
 
     getEmailTemplates(){
@@ -46,7 +51,7 @@ class CampaignsManager {
             this.emailTemplates = {}
 
             _.each(r, (et) => {
-                this.emailTemplates[et.ID] = et
+                this.emailTemplates[Number(et.ID)] = et
             })
 
             return Promise.resolve(this.emailTemplates)
@@ -55,6 +60,9 @@ class CampaignsManager {
 
     getEmailTemplate(id){
         return this.getEmailTemplates().then(r => {
+            
+           
+
             return Promise.resolve(r[id])
         })
     }
@@ -68,8 +76,8 @@ class CampaignsManager {
         return this.api.templates.gets().then(r => {
             this.templates = {}
 
-            _.each(r, (et) => {
-                this.templates[et.ID] = et
+            _.each(r.Records, (et) => {
+                this.templates[et.Id] = et
             })
 
             return Promise.resolve(this.templates)
@@ -83,4 +91,4 @@ class CampaignsManager {
     }
 }
 
-module.exports = CampaignsManager;
+export default CampaignsManager;

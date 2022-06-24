@@ -127,7 +127,7 @@ class Core {
         this.filemanager = new Filemanager(this)
         this.crm = new CRM(this)
         this.pct = new PCT(this)
-        this.campaigns =  new CAMPAIGNS(this)
+       
         this.fx = new FX(this)
         this.filesystem = new Filesystem(this)
 
@@ -135,7 +135,7 @@ class Core {
         this.vueapi = new Vueapi(this)
         this.updates = new Updates(this)
 
-        
+        this.campaigns = new CAMPAIGNS(this)
 
         this.user = new user(this, {
 

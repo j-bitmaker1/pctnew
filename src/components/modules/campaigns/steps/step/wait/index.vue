@@ -1,5 +1,5 @@
 <template>
-<div class="campaign_step_wait" :class="this.step.Status">
+<div class="campaign_step_wait" :class="this.step.status">
 
     <smeta :step="step" :editing="editing">
         <template v-slot:icon><i class="fas fa-clock"></i></template>

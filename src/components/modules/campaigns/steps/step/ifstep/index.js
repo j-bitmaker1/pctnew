@@ -37,8 +37,8 @@ export default {
         result : function(){
 
 
-            if(this.step.Status == "COMPLETED" && this.refer){
-                if(this.refer.TrackDt){
+            if(this.step.status == "COMPLETED" && this.refer){
+                if(this.refer.trackDt){
                     return 'if_success'
                 }
                 else{
@@ -52,11 +52,13 @@ export default {
 
     methods : {
         load : function(){
+
             if(this.refer){
 
                 this.loading = true
 
-                this.core.campaigns.getEmailTemplate(this.refer.MailTemplateId).then(r => {
+
+                this.core.campaigns.getEmailTemplate(this.refer.template).then(r => {
 
                     this.template = r
 

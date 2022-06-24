@@ -18,7 +18,7 @@
                             </div>
 
                             <div class="txt">
-                                <span v-if="template"> The email "{{template.Name}}" has been read? </span>
+                                <span v-if="template"> The email &ldquo;{{template.Name}}&rdquo; has been read? </span>
                                 <span v-else>Email template for statement hasn't loaded</span>
                             </div>
                         </template>
@@ -45,7 +45,7 @@
                             <div class="ifcaption">
                                 <span>Yes</span>
                             </div>
-                            <campaignsStepsList  v-if="step.SuccessSteps && step.SuccessSteps.length" :level="level + 1" :steps="step.SuccessSteps"/>
+                            <campaignsStepsList :editing="editing" v-if="step.success && step.success.length" :level="level + 1" :steps="step.success"/>
                         </div>
                     </div>
 
@@ -73,7 +73,7 @@
                             <div class="ifcaption">
                                 <span>No</span>
                             </div>
-                            <campaignsStepsList v-if="step.FailedSteps && step.FailedSteps.length" :level="level + 1" :steps="step.FailedSteps"/>
+                            <campaignsStepsList :editing="editing" v-if="step.fail && step.fail.length" :level="level + 1" :steps="step.fail"/>
                         </div>
                         
                     </div>

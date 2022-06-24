@@ -1299,6 +1299,12 @@ f.date = {
 
         return d
     },
+    addDays : function(now, days){
+        return f.date.addseconds(now, days * 86400)
+    },
+    addMinutes : function(now, minutes){
+        return f.date.addseconds(now, minutes * 60)
+    },
     toserverFormatDate : function(date = new Date()){
         return date.getUTCFullYear() + '' + addZero(date.getUTCMonth()) + '' + date.getUTCDate() + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
         
@@ -1324,7 +1330,51 @@ f.date = {
             d = str.substring(6, 8);
 
         return new Date(y, M - 1, d);
-    }
+    },
+
+    roundDay : function(date){
+
+		date.setHours(0);
+		date.setMinutes(0, 0, 0);
+
+		return date;
+	},
+
+    convertDaysToNotmal : function(dayOnetoSeven){
+		return dayOnetoSeven % 7
+	},
+
+    nextDateDayTime : function(targetDay, targetTimeMinutes){
+
+		var date = new Date(),
+			targetDate = new Date();
+
+			date.setSeconds(0)
+			targetDate.setSeconds(0)
+
+
+		var delta = (targetDay * 1440 + targetTimeMinutes) - (date.getDay() * 1440 + date.getHours() * 60 + date.getMinutes());
+
+		if (delta >= 0) {targetDate = targetDate.addMinutes(delta)}
+
+		else {
+
+			targetDate = targetDate.addMinutes(delta)
+			targetDate = targetDate.addMinutes(10080)
+		}
+
+		return targetDate
+
+	}
+}
+
+f.fll = function (str) {
+
+    if(!str) return ""
+    if(!str[0]) return str
+    if(!str.substr) return str
+
+    return str[0].toLowerCase() + str.substr(1);
 }
 
 f.getservers = function (arr, mult, address) {

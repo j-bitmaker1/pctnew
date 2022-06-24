@@ -22,8 +22,6 @@ export default {
     },
     computed: mapState({
         modals : state => state.modals,
-
-        
     }),
 
     methods : {

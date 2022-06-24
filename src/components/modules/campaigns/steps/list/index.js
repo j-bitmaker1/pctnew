@@ -27,6 +27,7 @@ export default {
     },
 
     created() {
+        console.log(this.steps)
     },
 
     watch: {
@@ -38,14 +39,34 @@ export default {
     methods: {
         refer: function (step) {
 
-            var refid = step.TrackStepId
+            var refid = step.while || step.mail
 
-            if (refid)
+            if (refid){
                 return _.find(this.steps, (s) => {
-                    return s.Id == refid
+                    return s.id == refid
                 })
+            }
 
             return null
+        },
+
+        addstep : function(p = {}){
+
+            p.steps = this.steps
+            p.level = this.level
+
+            this.core.campaigns.campaignTemplates.addstep(p).catch(e => {
+                if(e == 'closed'){
+
+                }
+                else{
+                    this.store.commit('icon', {
+                        icon: 'error',
+                        message: e.error
+                    })
+                }
+            })
+
         }
     },
 }

@@ -6,10 +6,7 @@ export default {
     props: {
         searchvalue : String,
         count : Number,
-        sorting : {
-            type : Object,
-            default : () => {return {}}
-        },
+        sorting : Object,
         listdate : {
             type : Array,
             default : () => {return []}

@@ -3,7 +3,7 @@ import smenu from '../menu/index.vue'
 
 import email from './email/index.vue'
 import wait from './wait/index.vue'
-import notify from './notify/index.vue'
+import notification from './notification/index.vue'
 import finish from './finish/index.vue'
 import ifstep from './ifstep/index.vue'
 import whilestep from './whilestep/index.vue'
@@ -22,7 +22,7 @@ export default {
 
         email,
         wait,
-        notify,
+        notification,
         finish,
         ifstep,
         whilestep
@@ -48,17 +48,10 @@ export default {
 
         component : function(){
 
-            var type = null
-
-            this.step.Type == "SEND" ? type = 'email' : null
-            this.step.Type == "WAIT" ? type = 'wait' : null
-            this.step.Type == "NOTIFY" ? type = 'notify' : null
-            this.step.Type == "IF" ? type = 'ifstep' : null
-            this.step.Type == "FINISH" ? type = 'finish' : null
-            this.step.Type == "WHILE" ? type = 'whilestep' : null
+            console.log("this.step.type()", this.step.type(), this.step)
             
+            return this.step.type() || ''
 
-            return type
         },
 
         
