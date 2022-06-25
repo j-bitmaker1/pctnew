@@ -154,6 +154,11 @@ const routes = [
 		name: 'terms',
 		component: () => import('@/views/terms')
 	},
+	{
+		path: '/privacy',
+		name: 'privacy',
+		component: () => import('@/views/privacy')
+	},
 
 	{
 		path: '/support',
