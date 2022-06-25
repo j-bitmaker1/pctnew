@@ -2412,6 +2412,8 @@ var ApiWrapper = function (core = {}) {
 
 		create: function (data = {}, p = {}) {
 
+			console.log("DATA", data)
+
 			if(!data.file && !data.files) return Promise.reject('empty')
 
 			self.invalidateStorageNow(['tasks'])
@@ -2420,13 +2422,21 @@ var ApiWrapper = function (core = {}) {
 
 			formData.append('Type', 'PARSEPORTFOLIO');
 			formData.append('AppId', 'PCT');
-			formData.append("File", data.file);
+
+			if(data.file){
+				formData.append("File", data.file);
+			}
+			if(data.files){
+				_.each(data.files, (file) => {
+					formData.append("File", file);
+				})
+			}
 
 			return request(formData, 'apiFDH', 'async_task_manager/AsyncTask/Create', p).then(r => {
 
-				core.ignore('task', {
+				/*core.ignore('task', {
 					id: r.id
-				})
+				})*/
 
 				return Promise.resolve(r.id)
 			})
@@ -2459,6 +2469,8 @@ var ApiWrapper = function (core = {}) {
 			data.appIdsFilter = ["PCT"]
 
 			return paginatedrequest(data, 'api', 'async_task_manager/AsyncTask/ListTasks', p).then(r => {
+
+				console.log("R", r)
 
 				return Promise.resolve(r)
 			})
@@ -2526,11 +2538,20 @@ var ApiWrapper = function (core = {}) {
 
 				return request({ taskId, storageKey: key }, 'api', 'async_task_manager/AsyncTask/GetAttachmentLink', p).then(r => {
 
+					console.log('r.url', r.url)
+
 					return Axios({
 						url: r.url,
+						responseType: 'blob'
 					})
 
 				}).then(r => {
+
+					console.log("R", r)
+
+					//if(r.config.transformResponse) r.data = r.config.transformResponse(r.data)
+
+					
 
 					var file = new Blob([r.data], { type: r.headers['content-type'] })
 
@@ -2539,6 +2560,9 @@ var ApiWrapper = function (core = {}) {
 			}, {
 				storageparameters: dbmeta.files()
 			}).then(r => {
+
+				console.log("R2", r)
+
 				core.store.commit('globalpreloader', false)
 
 				return Promise.resolve(r)

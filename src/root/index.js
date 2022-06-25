@@ -90,6 +90,8 @@ export default {
 		},
 
 
-
+		closeGallery: function () {
+            this.$store.commit('GALLERY', null)
+        },
 	},
 }

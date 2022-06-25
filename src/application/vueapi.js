@@ -781,6 +781,14 @@ class Vueapi {
         })
     }
 
+    gallery = function(images = [], index = 0){
+
+        this.store.commit('GALLERY', {
+            images,index
+        })
+
+    }
+
 }
 
 export default Vueapi

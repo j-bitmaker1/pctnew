@@ -20,6 +20,7 @@ export default {
             loading : false,
             searchvalue : '',
             count : null,
+			added : 0,
             sort : 'date_desc',
 			sorting : {
 				name_asc : {
@@ -48,8 +49,18 @@ export default {
 
     },
 
-    created(){
-    },
+	created : function(){
+		this.core.on('created', this.name, (d) => {
+			if (d.type == 'task' && !this.loading){
+				this.added++
+			}
+		})
+	},
+
+	beforeDestroy(){
+		this.core.off('created', this.name)
+	},
+	
 
     watch: {
 		tscrolly : function(){
@@ -105,8 +116,17 @@ export default {
 			this.sort = v
 		},
 
+		listloading : function(v){
+			this.loading = v
+		},
+
 		reload : function(){
-			if(this.$refs['list']) this.$refs['list'].reload()
+
+			this.added = 0
+
+			if (this.$refs['list']) {
+				this.$refs['list'].reload()
+			}
 		},
 
         search : function(v){
@@ -130,9 +150,7 @@ export default {
 			if(this.$refs['list']) this.$refs['list'].datadeleted(item, "id")
 		},
 
-        added : function(r){
-            
-        },
+    
 
         open : function(file){
             this.$emit('openFile', file)

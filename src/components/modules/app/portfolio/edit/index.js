@@ -518,14 +518,48 @@ export default {
 				},
 				events : {
 					selected : (images) => {
+
+						//base64
+
+						var r = []
+
+						console.log('image', images)
+
+						Promise.all(_.map(images, (image) => {
+							return f.urltoFile(image, "Image_" + f.date.nowUtc1000()).then(file => {
+
+								r.push({
+									base64 : image,
+									file : file
+								})
+
+								return Promise.resolve()
+							})
+						})).then(() => {
+
+							console.log("R", r)
+							this.filemanager(r)
+							
+						}).catch(e => {
+
+							console.error(e)
+
+							this.$store.commit('icon', {
+								icon: 'error'
+							})
+						})
+
+						
+
 					}
 				}
 			})
 		},
 
-		filemanager : function(){
+		filemanager : function(images){
 			this.core.vueapi.fileManager({
-				fromEditor : true
+				fromEditor : true,
+				upload : images
 			}, {
 				createPortfolio : (portfolio) => {
 					if(!this.name) this.name = portfolio.name

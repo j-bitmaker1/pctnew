@@ -103,14 +103,23 @@ class Task {
         this.status = data.status || "CREATED"
         this.type = data.type
         this.userId = data.userId
-        this.info = null
-        this.data = null
+
+        console.log("data", data)
+
+        if (data.dataManual || data.data){
+            this.data = null
+        }
 
         if (data.info){
+
+            this.info = null
+            
             try{
                 var i = JSON.parse(data.info || "[]")
                 this.info = i
-            }catch(e){}
+            }catch(e){
+                this.info = data.info
+            }
         }
 
         if (data.dataManual){
@@ -127,7 +136,9 @@ class Task {
                 try{
                     var d = JSON.parse(data.data || "{}")
                     this.data = d.Infos || []
-                }catch(e){}
+                }catch(e){
+                    this.data = data.data
+                }
             }
 
         

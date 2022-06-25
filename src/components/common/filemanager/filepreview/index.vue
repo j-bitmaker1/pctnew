@@ -43,7 +43,7 @@ export default {
                 if (type == 'application/pdf') return "fas fa-file-pdf"
                 if (type == 'text/csv') return "fas fa-file-csv"
 
-                if (type.indexOf('xls') > -1 || type.indexOf('xlsx')) return "fas fa-file-excel"
+                if (type.indexOf('xls') > -1 || type.indexOf('xlsx') > -1) return "fas fa-file-excel"
             }
 
             return "fas fa-file"
@@ -52,10 +52,13 @@ export default {
         type: function () {
             var type = this.file.ContentType
 
+            console.log('type', type)
+
             if (type) {
                 if (type == 'application/pdf') return "PDF"
                 if (type == 'text/csv') return "CSV"
-                if (type.indexOf('xls') > -1 || type.indexOf('xlsx')) return "XLS"
+                if (type.indexOf('xls') > -1 || type.indexOf('xlsx') > -1) return "XLS"
+                if (type.indexOf('image') > -1) return "IMG"
             }
 
             return "File"

@@ -254,6 +254,8 @@ var WSS = function(core, url){
 
         }
 
+        console.log('message', message)
+
         if(message.isSystem){
             if (message.Type == 'Update'){
 
@@ -305,18 +307,31 @@ var WSS = function(core, url){
                 var type = ''
                 var types = []
 
-                if(message.x_eventType == 'ASYNCTASKCOMPLETED') {
-                    types = ['task']; invalidate = ['tasks']; data = new Task(data)
+                console.log('PARSEPORTFOLIO',data, message)
 
-                    core.updateByWs(data, types, invalidate)
-                    return
-                }
+                try{
 
-                if(message.x_eventType == 'ASYNCTASKCREATED') {
-                    type = 'task'; invalidate = ['tasks']; data = new Task(data)
 
-                    core.createByWs(data, type, invalidate)
-                    return
+                    if(message.x_eventType == 'ASYNCTASKCOMPLETED') {
+                        types = ['task']; invalidate = ['tasks']; data = new Task(data)
+
+                        console.log('ASYNCTASKCOMPLETED', data, types, invalidate)
+
+                        core.updateByWs(data, types, invalidate)
+                        return
+                    }
+
+                    if(message.x_eventType == 'ASYNCTASKCREATE') {
+                        type = 'task'; invalidate = ['tasks']; data = new Task(data)
+
+                        console.log('ASYNCTASKCREATED', data, type, invalidate)
+
+                        core.createByWs(data, type, invalidate)
+                        return
+                    }
+
+                }catch(e) {
+                    console.error(e)
                 }
 
             }

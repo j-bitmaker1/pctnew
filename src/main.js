@@ -7,7 +7,7 @@ require('babel-polyfill')
 
 
 
-
+console.log('window.wFile', window.wFile)
 
 var deviceready = function(clbk){
 

@@ -54,7 +54,7 @@ export default {
 
     methods: {
 		checkFaceId : function(){
-			this.core.user.faceIdAvailable().then((type) => {
+			return this.core.user.faceIdAvailable().then((type) => {
 				this.faceIdAvailable = type
 
 				return this.core.user.hasFaceid()
@@ -79,18 +79,16 @@ export default {
                     this.$t('common.removefaceid_' + this.faceIdAvailable), {
                     okText: this.$t('yes'),
                     cancelText : this.$t('no')
-                })
-        
-                .catch(() => {})
+                }).catch(() => {})
 			}
 
 			a.then(() => {
-
-				
-				this.checkFaceId().catch(e => {
-					console.error(e)
-				})
-			})
+                return this.core.user.deletefaceid().then(() => {
+                    return this.checkFaceId()
+                })
+			}).catch(e => {
+                console.error(e)
+            })
 		}
     },
 }

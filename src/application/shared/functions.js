@@ -1024,33 +1024,40 @@ var Base64 = {
         reader.onerror = error => reject(error);
     }),
 
-    toFileFetch: function (base64, type, name) {
+    toFileFetch: function (base64, __type, name) {
+
+        var type = base64.split(';')[0].split('/')[1];
+
         return fetch(base64).then(res => {
             return res.blob()
         }).then(blob => {
-            return new (window.wFile || window.File)([blob], name || "File name", { type: type || "image/png" })
+            return Promise.resolve(new (window.wFile || window.File)([blob], name || "File name", { type: type || "image/png" }))
         })
     },
 
     toFile: function (base64) {
 
-        try {
-            var arr = base64.split(','),
-                mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]),
-                n = bstr.length,
-                u8arr = new Uint8Array(n);
+        return new Promise((resolve, reject) => {
 
-            while (n--) {
-                u8arr[n] = bstr.charCodeAt(n);
+            try {
+                var arr = base64.split(','),
+                    mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[1]),
+                    n = bstr.length,
+                    u8arr = new Uint8Array(n);
+
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+
+                var file = new (window.wFile || window.File)([u8arr], "Filename", { type: mime });
+
+                return resolve(file)
+            } catch (e) {
+                return reject(e)
             }
 
-            var file = new (window.wFile || window.File)([u8arr], "Filename", { type: mime });
-
-            return Promise.resolve(file)
-        } catch (e) {
-            return Promise.reject(e)
-        }
+        })
 
 
 
@@ -1059,6 +1066,14 @@ var Base64 = {
     fromBlob: function (blob) {
         var urlCreator = window.URL || window.webkitURL;
         return urlCreator.createObjectURL(blob);
+    },
+
+    blobToBase64(blob) {
+        return new Promise((resolve, _) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+        });
     }
 
 }
@@ -1081,7 +1096,27 @@ f.readFile = function (file) {
     })
 }
 
-f.fetchLocal = function (url) {
+f.urltoFile = function(url, name){
+    var type = ''
+
+    return fetch(url).then((res) => {
+
+        type = res.headers.get('content-type')
+
+        console.log('type', type)
+
+        return res.arrayBuffer();
+    })
+    .then(function(buf){
+
+        name = name + (f.files.extensions[type] ? ('.' + f.files.extensions[type]) : '')
+
+        return Promise.resolve(new (window.wFile || window.File)([buf], name, {type}));
+
+    })
+}
+
+f.fetchLocal = function (url, name = 'file') {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest
 
@@ -1089,8 +1124,10 @@ f.fetchLocal = function (url) {
 
             var type = xhr.getResponseHeader('content-type')
 
+            name = name + f.files.extensions[type] ? ('.' + f.files.extensions[type]) : ''
+
             resolve({
-                data: new Blob([xhr.response], { type: type, name: 'file' })
+                data: new Blob([xhr.response], { type: type, name: name })
             })
 
             // resolve()
@@ -1275,9 +1312,8 @@ f.values = {
     }
 }
 
-var addZero = function(n){
-    if (Number(n) < 10)
-    {
+var addZero = function (n) {
+    if (Number(n) < 10) {
         n = "0" + n;
     }
 
@@ -1299,15 +1335,15 @@ f.date = {
 
         return d
     },
-    addDays : function(now, days){
+    addDays: function (now, days) {
         return f.date.addseconds(now, days * 86400)
     },
-    addMinutes : function(now, minutes){
+    addMinutes: function (now, minutes) {
         return f.date.addseconds(now, minutes * 60)
     },
-    toserverFormatDate : function(date = new Date()){
+    toserverFormatDate: function (date = new Date()) {
         return date.getUTCFullYear() + '' + addZero(date.getUTCMonth()) + '' + date.getUTCDate() + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
-        
+
     },
     fromstring: function (str, utc) {
         var y = str.substring(0, 4),
@@ -1332,47 +1368,47 @@ f.date = {
         return new Date(y, M - 1, d);
     },
 
-    roundDay : function(date){
+    roundDay: function (date) {
 
-		date.setHours(0);
-		date.setMinutes(0, 0, 0);
+        date.setHours(0);
+        date.setMinutes(0, 0, 0);
 
-		return date;
-	},
+        return date;
+    },
 
-    convertDaysToNotmal : function(dayOnetoSeven){
-		return dayOnetoSeven % 7
-	},
+    convertDaysToNotmal: function (dayOnetoSeven) {
+        return dayOnetoSeven % 7
+    },
 
-    nextDateDayTime : function(targetDay, targetTimeMinutes){
+    nextDateDayTime: function (targetDay, targetTimeMinutes) {
 
-		var date = new Date(),
-			targetDate = new Date();
+        var date = new Date(),
+            targetDate = new Date();
 
-			date.setSeconds(0)
-			targetDate.setSeconds(0)
+        date.setSeconds(0)
+        targetDate.setSeconds(0)
 
 
-		var delta = (targetDay * 1440 + targetTimeMinutes) - (date.getDay() * 1440 + date.getHours() * 60 + date.getMinutes());
+        var delta = (targetDay * 1440 + targetTimeMinutes) - (date.getDay() * 1440 + date.getHours() * 60 + date.getMinutes());
 
-		if (delta >= 0) {targetDate = targetDate.addMinutes(delta)}
+        if (delta >= 0) { targetDate = targetDate.addMinutes(delta) }
 
-		else {
+        else {
 
-			targetDate = targetDate.addMinutes(delta)
-			targetDate = targetDate.addMinutes(10080)
-		}
+            targetDate = targetDate.addMinutes(delta)
+            targetDate = targetDate.addMinutes(10080)
+        }
 
-		return targetDate
+        return targetDate
 
-	}
+    }
 }
 
 f.fll = function (str) {
 
-    if(!str) return ""
-    if(!str[0]) return str
-    if(!str.substr) return str
+    if (!str) return ""
+    if (!str[0]) return str
+    if (!str.substr) return str
 
     return str[0].toLowerCase() + str.substr(1);
 }
@@ -1589,7 +1625,7 @@ f.getCaretPosition = function (ctrl) {
                 }
             }
 
-            
+
         }
 
         return {
@@ -1615,7 +1651,7 @@ f.setCaretPosition = function (ctrl, start, end) {
     }
 }
 
-f.saveSelection = function() {
+f.saveSelection = function () {
     if (window.getSelection) {
         var sel = window.getSelection();
         if (sel.getRangeAt && sel.rangeCount) {
@@ -1627,7 +1663,7 @@ f.saveSelection = function() {
     return null;
 }
 
-f.restoreSelection = function(range) {
+f.restoreSelection = function (range) {
     if (range) {
         if (window.getSelection) {
             var sel = window.getSelection();
@@ -1639,12 +1675,12 @@ f.restoreSelection = function(range) {
     }
 }
 
-f.insertTextAtCursor = function(el, text, offset) {
+f.insertTextAtCursor = function (el, text, offset) {
 
 
     offset || (offset = {
-        left : 0,
-        right : 0
+        left: 0,
+        right: 0
     })
 
     if (el && typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
@@ -1673,7 +1709,7 @@ f.insertTextAtCursor = function(el, text, offset) {
 
                 range.setStart(range.startContainer, s);
                 range.setEnd(range.endContainer, e);
-         
+
                 range.deleteContents();
 
                 var newel = document.createTextNode(text);
@@ -1691,6 +1727,13 @@ f.insertTextAtCursor = function(el, text, offset) {
 }
 
 f.files = {
+    extensions : {
+        'image/png' : 'png',
+        'image/jpeg' : 'jpg',
+        'image/jpg' : 'jpg',
+        'image/webp' : 'webp',
+        'image/jfif' : 'jfif'
+    },
     getExtension: function (file) {
         var name = file.name.split('.');
         var ext = name[name.length - 1].toLowerCase();

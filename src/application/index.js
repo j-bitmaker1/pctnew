@@ -24,6 +24,8 @@ import Updates from "./updates";
 import Filesystem from "./lib/common/filesystem"
 import Activity from "./lib/common/activity"
 
+import Images from "./shared/utils/images";
+
 var settings = {
     server : {
         PDF: {
@@ -431,13 +433,20 @@ class Core {
 
             if (index > -1){
 
+                console.log("IGNORE", data, type)
+
                 this.ignoring[type].splice(index, 1)
 
                 return
             }
 
             try{
-                this.vxstorage.update(data, type)
+
+                console.log('data, type', data, type)
+
+                var { updated, from = {} } = this.vxstorage.update(data, type)
+
+                console.log('updated, from', updated, from)
             }catch(e){
                 console.error(e)
             }
@@ -466,6 +475,8 @@ class Core {
         }
 
         this.api.invalidateStorageNow(invalidate)
+
+        console.log("created", data, type)
 
         this.emit('created', {
             data, 
@@ -513,6 +524,26 @@ class Core {
                 blob,
                 name : p.name
             })
+
+            if (blob.type.indexOf('image') > -1) {
+
+                return f.Base64.blobToBase64(blob).then(b64 => {
+
+                    var images = new Images()
+
+                    return images.wh(b64).then(i => {
+
+                        return this.vueapi.gallery([{
+                            src : b64,
+                            ... i
+                        }])
+
+                    })
+                    
+                })
+
+                
+            }
         }
 
         return f.download(blob, p.name)

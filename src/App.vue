@@ -323,9 +323,7 @@ export default {
 
     methods: {
 
-        closeGallery: function () {
-            this.$store.commit('GALLERY', null)
-        },
+        
 
 		tscroll : _.throttle(function(){
 			this.$store.commit('tscrolly', window.scrollY)

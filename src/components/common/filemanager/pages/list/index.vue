@@ -4,9 +4,12 @@
 		<listcontrols :sortvalue="sort" :sorting="sorting" @search="search" :count="count" @sort="sortchange" :searchvalue="searchvalue"/>
 	</div>
 
-	<linepreloader v-if="loading"/>
+	<div class="added mobp" v-if="added">
+		<button class="button" @click="reload">You have a new file recognition tasks ({{added}})</button>
+	</div>
 
-	<listpaginated placeholder="No files found" activity="client" :select="{context : 'filemanager'}" api="tasks.list" :payload="payload" :start="1" ref="list" @count="setcount" from="pageNumber" to="pageSize" :bypages="true">
+
+	<listpaginated @loading="listloading" placeholder="No files found" activity="client" :select="{context : 'filemanager'}" api="tasks.list" :payload="payload" :start="1" ref="list" @count="setcount" from="pageNumber" to="pageSize" :bypages="true">
 
 		<template v-slot:default="slotProps">
 			<div class="fileWrapper mobp">

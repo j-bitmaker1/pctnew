@@ -21,7 +21,7 @@ export default {
                 data : {}
             },
 
-            extensions : ['csv', 'xls', 'xlsx']
+            extensions : ['csv', 'xls', 'xlsx', 'pdf', 'png', 'jpg', 'jpeg']
         }
 
     },
@@ -30,8 +30,8 @@ export default {
     created (){
         this.core.activity.template('action', this.core.activity.actions.fileManager())
 
-        if(this.upload){
-
+        if(this.upload && this.upload.length){
+            this.uploaded(this.upload)
         }
     },
 
@@ -57,6 +57,7 @@ export default {
     }),
 
     methods : {
+        
         uploadStore : function(){
 
             var packs = {
@@ -84,6 +85,7 @@ export default {
 
             if (packs.images.files.length){
                 upack.push(packs.images)
+                upack = [upack]
             }
 
             
@@ -98,11 +100,13 @@ export default {
 
         uploaded : function(data){
 
-            if(isEmpty(data)) return Promise.resolve()
+            if(_.isEmpty(data)) return Promise.resolve()
             
             this.$store.commit('globalpreloader', true)
 
             var results = []
+
+            console.log("data", data)
 
             return Promise.all(_.map(data, (d) => {
 
@@ -173,6 +177,22 @@ export default {
         
 
             this.core.vueapi.camera((images) => {
+
+                var r = []
+                
+                Promise.all(_.map(images, (image) => {
+                    return f.urltoFile(image, "Image_" + f.date.nowUtc1000()).then(file => {
+
+                        r.push({
+                            base64 : image,
+                            file : file
+                        })
+
+                        return Promise.resolve()
+                    })
+                })).then(() => {
+                    this.uploaded(r)
+                })
 
             }, {
                 title : "Take a photo of a document"

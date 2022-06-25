@@ -19,11 +19,11 @@
 			<i class="fas fa-percent"></i> <template v-if="!isModel">Model portfolio</template> <template v-else>Currency portfolio</template>
 		</button>
 
-		<!--<button class="button black" key="scan" v-if="cordova" :disabled="assets.length > 0" @click="scan">
+		<button class="button black" key="scan" v-if="cordova" :disabled="assets.length > 0" @click="scan">
 			<i class="fas fa-camera"></i> Photo document
-		</button>
+		</button> 
 
-		<button class="button black" key="aggregate" @click="aggregate" :disabled="assets.length > 0">
+		<!--<button class="button black" key="aggregate" @click="aggregate" :disabled="assets.length > 0">
 			<i class="fas fa-tasks"></i> Create aggregate
 		</button> -->
 
