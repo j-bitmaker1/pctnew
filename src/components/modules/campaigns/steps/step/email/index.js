@@ -35,8 +35,6 @@ export default {
         load : function(){
             this.loading = true
 
-            console.log('this.step', this.step)
-
             this.core.campaigns.getEmailTemplate(this.step.template).then(r => {
 
                 this.template = r

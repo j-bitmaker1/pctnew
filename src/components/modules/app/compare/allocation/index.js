@@ -88,11 +88,8 @@ export default {
 
         drilldown : function(id, portfolio){
 
-            console.log('was', id, portfolio)
-
             _.each(this.portfolios, (p) => {
                 if(this.$refs[p.id] && p.id != portfolio.id){
-                    console.log('this.$refs[p.id]', p.id, portfolio.id)
                     this.$refs[p.id][0].doDrilldown(id, true)
                 }
             })

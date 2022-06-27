@@ -119,7 +119,6 @@ export default {
 
 		drilldown : function(obj){
 			this.drilldownLevel = obj
-			console.log("EMIT")
 			this.$emit('drilldown', this.drilldownLevel.id)
 		},
 
@@ -148,7 +147,6 @@ export default {
 		},
 
 		doDrilldown : function(drilldown){
-			console.log("doDrilldown", drilldown)
 			if(!this.drilldownLevel){
 
 				if(!f.deep(this.$refs, 'chart.chart.series.0')) return

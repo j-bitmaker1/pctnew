@@ -1103,8 +1103,6 @@ f.urltoFile = function(url, name){
 
         type = res.headers.get('content-type')
 
-        console.log('type', type)
-
         return res.arrayBuffer();
     })
     .then(function(buf){
@@ -1163,8 +1161,6 @@ f.download = function (file, name) {
     if (window.cordova) {
         return f.saveFileCordova(file, name, true)
     }
-
-    console.log("file", file, name)
 
     const url = URL.createObjectURL(file);
 
@@ -1596,8 +1592,6 @@ f.getCaretPosition = function (ctrl) {
         var rangelen = range.text.length;
 
         range.moveStart('character', - (ctrl.value || ctrl.innerText).length);
-
-        console.log('range', range)
 
         var start = range.text.length - rangelen;
 

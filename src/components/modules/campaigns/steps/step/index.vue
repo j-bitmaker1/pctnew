@@ -1,9 +1,10 @@
 <template>
 <div class="campaigns_step">
     
-    <component v-if="component" :editing="editing" :is="component" :step="step" :level="level" :refer="refer">
-        <template v-slot:menu><smenu :step="step" :level="level"/></template>
+    <component @change="change" v-if="component" :editing="editing" :is="component" :step="step" :level="level" :refer="refer">
+        <template v-slot:menu><smenu :step="step" :level="level" @edit="edit"/></template>
     </component>
+
     <div class="empty" v-else>
         <span>Step can't be rendered</span>
     </div>

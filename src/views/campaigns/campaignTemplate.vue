@@ -5,7 +5,7 @@
 		<template v-slot:info>
 			<div class="header" v-if="!loading && campaignTemplate">
 				<div class="name">
-					{{campaignTemplate.Name}}
+					{{campaignTemplate.Name || "Create new campaign template"}}
 				</div>
 			</div>
 		</template>
@@ -62,16 +62,28 @@ export default {
 	methods: {
         load : function(){
 
-			this.loading = true
+			
 
-            this.core.campaigns.getTemplate(this.id).then(r => {
+			console.log('this.id', this.id)
 
-				console.log("R", r)
+			if (this.id != 'new'){
 
-				this.campaignTemplate = r
-			}).finally(() => {
+				this.loading = true
+
+
+				this.core.campaigns.getTemplate(this.id).then(r => {
+					this.campaignTemplate = r
+				}).finally(() => {
+					this.loading = false
+				})
+			}
+			else{
+				this.campaignTemplate = this.core.campaigns.campaignTemplates.create() 
+
 				this.loading = false
-			})
+			}
+
+            
         }
 	},
 

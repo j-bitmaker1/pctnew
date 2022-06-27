@@ -14,12 +14,17 @@ export default {
     data : function(){
 
         return {
-           
+            steps : [],
+            prev : '',
+            name : ''
         }
 
     },
 
     created() {
+        this.prevsteps = JSON.stringify(this.campaignTemplate.content)
+        this.steps = this.core.campaigns.campaignTemplates.clonelist(this.campaignTemplate.content)
+        this.name = this.campaignTemplate.name
     },
 
     watch: {
@@ -27,21 +32,15 @@ export default {
     },
     computed: mapState({
         haschanges : function(){
-            return true
+            return JSON.stringify(this.steps) != this.prevsteps || this.name != this.campaignTemplate.name
         },
-        auth : state => state.auth,
-        steps : function(){
-
-            console.log('this.campaignTemplate', this.campaignTemplate)
-
-            return this.campaignTemplate.content
-        }
+        auth : state => state.auth
     }),
 
     methods : {
-        load : function(){
 
-          
+        change : function(steps){
+            this.steps = steps
         },
 
         save : function(){},

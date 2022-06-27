@@ -67,7 +67,6 @@ export default {
         },
 
         open : function(template){
-            console.log('template', template)
             this.$router.push('/campaigns/template/' + template.Id)
         }
     },

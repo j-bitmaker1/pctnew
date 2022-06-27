@@ -95,11 +95,9 @@ var PluginFactory = function (core) {
             }
 
             surround(range) {
-                console.log('surround', range)
             }
 
             checkState(selection) {
-                console.log('selection', selection)
             }
 
             apply(el) {
@@ -124,8 +122,6 @@ var PluginFactory = function (core) {
             }
 
             keyup(evt) {
-
-                console.log("THI", this)
 
                 this.apply(evt.target)
 

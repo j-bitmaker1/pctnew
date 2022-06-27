@@ -19,7 +19,6 @@ export default {
 
     components : {
         smenu,
-
         email,
         wait,
         notification,
@@ -48,8 +47,6 @@ export default {
 
         component : function(){
 
-            console.log("this.step.type()", this.step.type(), this.step)
-            
             return this.step.type() || ''
 
         },
@@ -58,6 +55,12 @@ export default {
     }),
 
     methods : {
-        
+        change : function(v){
+            this.$emit(v)
+        },
+
+        edit : function(){
+            this.$emit('editStep')
+        }
     },
 }

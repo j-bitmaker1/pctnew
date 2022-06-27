@@ -252,8 +252,6 @@ export default {
 
         useChange : function(id, v){
 
-            console.log('useChange', this.changeusing, id, v)
-
             if (this.changeusing[id]){
                 this.$delete(this.changeusing, id)
             }

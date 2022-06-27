@@ -80,8 +80,6 @@ class CRM {
             update.products = products.join(",")
         }
 
-        console.log("AUTO UPDATE", update)
-
         if(!_.isEmpty(update)){
 
             update.ID = contact.ID

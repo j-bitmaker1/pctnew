@@ -116,8 +116,6 @@ export default {
 
 			v = f.numberParse(v)
 
-			console.log("f.numberParse", v)
-
 			if(v > 50) v = 50
 
 			if(v < 50) v = 50

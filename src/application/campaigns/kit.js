@@ -45,7 +45,6 @@ class Step {
     timemode = function (step) {
         if (!step.day) return 'time'
         if (step.day > 7) return 'nextday'
-
         return 'day'
     }
 
@@ -166,6 +165,10 @@ class EditStep extends Step {
 
         this.CLASS = EditStep
     }
+
+    clone = function(){
+        return new EditStep(this)
+    }
 }
 
 class ViewStep extends Step {
@@ -234,11 +237,11 @@ class Template {
             this[i] = v
         })
 
-        if(data.Id == 'f52cfd31-27e1-8ec6-5b4e-9eb1c1bc2b6d')
-            console.log("f52cfd31-27e1-8ec6-5b4e-9eb1c1bc2b6d", data)
 
         this.content = []
-        this.version = 1
+        this.version = 2
+        
+        if(!this.name) this.name = ''
 
         try {
             var cjs = JSON.parse(this.Info)
@@ -251,8 +254,6 @@ class Template {
                 
             }
 
-            if(data.Id == 'f52cfd31-27e1-8ec6-5b4e-9eb1c1bc2b6d')
-            console.log("f52cfd31-27e1-8ec6-5b4e-9eb1c1bc2b6d", JSON.parse(f.hexDecode(cjs.c)))
 
         } catch (e) { }
 

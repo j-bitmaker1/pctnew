@@ -600,6 +600,40 @@ class Vueapi {
 
     ///
 
+    customWindow = function(path, caption, data = {}, events = {}){
+
+        var e = false
+
+        return new Promise((resolve, reject) => {
+
+            events.close = () => {
+
+                if(e) return
+
+                e = true
+                reject('closed')
+            }
+
+            events.success = (d) => {
+
+                if(e) return
+
+                e = true
+                resolve(d)
+            }
+
+            this.store.commit('OPEN_MODAL', {
+                id : 'modal_' + path,
+                path : path,
+                caption : caption || "",
+                data : data,
+                events : events
+            })
+        })
+
+        
+
+    }
 
     openlead = function(data, events){
 
@@ -788,6 +822,7 @@ class Vueapi {
         })
 
     }
+
 
 }
 

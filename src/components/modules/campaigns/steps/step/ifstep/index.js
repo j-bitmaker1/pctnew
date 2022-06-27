@@ -66,6 +66,14 @@ export default {
                     this.loading = false
                 })
             }
+        },
+
+        changeList : function(index, steps){
+            var step = this.step.clone()
+
+            step[index] = steps
+
+            this.$emit('change', step)
         }
     },
 }

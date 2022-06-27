@@ -1,18 +1,19 @@
 <template>
     <div class="campaigns_steps_list">
 
-        <div class="add" v-if="editing">
-            <div class="icon" @click="e => {addstep({})}">
+        <div class="add main" v-if="editing" @click="e => {addstep({})}">
+            <div class="icon" >
                 <i class="fas fa-plus-circle"></i>
             </div>
+            <div class="label"><span>Add step</span></div>
         </div>
 
         <div class="stepwrapper" v-for="step in steps" :key="step.id">
 
-            <step :level="level" :refer="refer(step)" :step="step" :editing="editing" />
+            <step @editStep="e => editStep(step)" @change="changeStep" :level="level" :refer="refer(step)" :step="step" :editing="editing" />
 
             <div class="add" v-if="editing">
-                <div class="icon" @click="e => {addstep({step : step})}">
+                <div class="icon" @click="e => {addstep({after : step})}">
                     <i class="fas fa-plus-circle"></i>
                 </div>
             </div>

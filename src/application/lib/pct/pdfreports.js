@@ -234,7 +234,6 @@ class PDFReports {
             scenarios = s
 
 
-            //console.log(scenarios);
             return this.pct.stresstest(portfolio.id).then(_ct => {
                 ct = _ct
 
@@ -278,16 +277,7 @@ class PDFReports {
                         
                         var info = scenarios.find(x => x.id == id);
 
-                        // var t = /Infationary boom/;
-                        // //t = new RegExp(t + "('s)", 'i');
-
-                        // var test1 = "Infationary boom S&P 500 test test Russia test";
-
-                        // console.log('testtest ' + test1.search(t));
-                        // console.log(test1.match(t)[0]);
-
-
-
+                     
                         var row = [
                             {
                                 margin: [ 3, 3, 3, 5 ],
@@ -376,9 +366,7 @@ class PDFReports {
                     iid = tt.id;
                 }
               });
-            // console.log(maxt);
-            // console.log(iid);
-            // console.log("scenarioDescriptionTable2");
+        
             return this.pct.stresstest(portfolio.id).then(_ct => {
                 ct = _ct
 
@@ -387,7 +375,6 @@ class PDFReports {
                     ct.scenarios.forEach((xct) => {
                         var info = scenarios.find(x => x.id == xct.id);
 
-                        console.log('info', info)
 
                         if(maxL < info.factors.length){
                             maxL = info.factors.length;
@@ -404,9 +391,7 @@ class PDFReports {
                     array : ct.scenarios,
                     
                     body : function(index){
-                        // console.log("scenarioDescriptionTable2 : body");
-                        // console.log(ct.scenarios);
-                        // console.log(maxL);
+                      
                         
                         var result = [[{
                             margin: [ 2, 4, 2, 4 ],
@@ -426,13 +411,11 @@ class PDFReports {
                             result[0].push({});
                         }
 
-                        //console.log(result);
                         return result;
                     },
         
                     table : function(body, index){
-                        // console.log("scenarioDescriptionTable2 : table");
-                        // console.log(maxL);
+                        
                         var wid = [];
                         
                         wid.push('*');
@@ -440,7 +423,6 @@ class PDFReports {
                             wid.push(50);
                         }
 
-                        // console.log(wid);
                         return tools.tables.scenarioDescription({
                             margin: [ 2, 20, 2, 10 ],
                             body : body,
@@ -449,23 +431,12 @@ class PDFReports {
                     },
         
                     row : (_p, clbk)=>{
-                        // console.log("scenarioDescriptionTable2 : row");
-                        // console.log(maxL);
+                      
                         var id = _p.item.id;
                         
                         var info = scenarios.find(x => x.id == id);
 
-                        // console.log(info.factors);
-                        // var t = /Infationary boom/;
-                        // //t = new RegExp(t + "('s)", 'i');
-
-                        // var test1 = "Infationary boom S&P 500 test test Russia test";
-
-                        // console.log('testtest ' + test1.search(t));
-                        // console.log(test1.match(t)[0]);
-
-
-
+                    
                         var row = [];
         
                         row.push(
@@ -476,8 +447,6 @@ class PDFReports {
                             }
                         )
                         for(var i = 0; i < maxL - 1; i++){
-                            // console.log(i);
-                            
 
                             if(info.factors[i] != null){
 
@@ -556,7 +525,6 @@ class PDFReports {
                         }
                         else{
                             if(info.factors[maxL - 1] != null){
-                                //console.log(info.factors[i]);
 
                                 var val = '';
                                 if (info.factors[maxL - 1].type == 'country' || 
@@ -594,7 +562,6 @@ class PDFReports {
                                 });
                             }
                         }
-                        //console.log(row);
                         clbk(row);
         
                     },

@@ -1,8 +1,12 @@
 <template>
 <div id="campaigns_template_main">
 
+	<div class="nameWrapper">
+		<input type="text" v-model="name"/>
+	</div>
+
     <div class="stepsWrapper mobp">
-		<campaignsStepsList :steps="steps" :editing="true"/>
+		<campaignsStepsList @change="change" :steps="steps" :editing="true"/>
 	</div>
 
 	<div class="savePanel">

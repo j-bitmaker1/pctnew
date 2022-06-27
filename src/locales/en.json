@@ -407,7 +407,10 @@
 			"wait" : "Waiting in queue"
 		},
 		"menu" : {
-			"deletebatch" : "Delete batch"
+			"deletebatch" : "Delete batch",
+			"editstep" : "Edit step",
+			"deletestep" : "Delete step",
+			"deletesingle" : "Delete campaign"
 		},
 		"summary" : {
 			"CompletedCampaigns" : "Completed Campaigns",
@@ -421,7 +424,9 @@
 
 		"labels" : {
 			"dashboard" : "Dashboard",
-			"templates" : "Templates"
+			"templates" : "Templates",
+			"newCampaign" : "Start new campaign",
+			"newCampaignTemplate" : "Create campaign template"
 		},
 
 		"add" : {
@@ -430,7 +435,11 @@
 			"wait" : "Add Wait Interval",
 			"if" : "Add a condition once the email is read",
 			"notification" : "Add a notification",
-			"lead" : "Add Lead in Rixtrema CRM"
+			"lead" : "Add Lead"
+		},
+
+		"fields" : {
+			"notificationmessage" : "Notification message"
 		}
 	}
 

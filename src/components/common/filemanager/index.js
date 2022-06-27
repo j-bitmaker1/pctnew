@@ -106,8 +106,6 @@ export default {
 
             var results = []
 
-            console.log("data", data)
-
             return Promise.all(_.map(data, (d) => {
 
                 return this.core.api.tasks.create({
@@ -163,7 +161,6 @@ export default {
 
         uploadError : function(e){
 
-            console.log("E", e)
 
             if (e.text){
 				this.$store.commit('icon', {
@@ -225,7 +222,6 @@ export default {
 
         createPortfolio : function(portfolio){
 
-            console.log('portfolio', portfolio)
             if (this.fromEditor)
                 this.$emit('createPortfolio', portfolio)
 

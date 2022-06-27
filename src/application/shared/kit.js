@@ -104,8 +104,6 @@ class Task {
         this.type = data.type
         this.userId = data.userId
 
-        console.log("data", data)
-
         if (data.dataManual || data.data){
             this.data = null
         }

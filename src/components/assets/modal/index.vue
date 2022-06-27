@@ -28,9 +28,10 @@
                         </div>
 
                         <div class="modal-body" id="modalDescription">
-                            <slot v-if="!module" name="body" :scroll="scroll">
+                            <slot v-if="!module && !path" name="body" :scroll="scroll">
                             </slot>
-                            <component v-else :is="module" @close="close" :wnd="true" v-bind="data || {}" v-on="events" :scroll="scroll" />
+                            <component v-if="module" :is="module" @close="close" :wnd="true" v-bind="data || {}" v-on="events" :scroll="scroll" />
+                            <component v-if="path" :is="bypath()" @close="close" :wnd="true" v-bind="data || {}" v-on="events" :scroll="scroll" />
                         </div>
 
                         <div class="modal-footer" v-if="displayFooter">

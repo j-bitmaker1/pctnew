@@ -16,7 +16,6 @@ class SVGMainChart {
         var dataN = _.sortBy(data.scenarios, (scenario) => { return -scenario.loss });
         var ints = this.getFirstGraphCount(dataN.length);
 
-        //console.log(ints);
         this._maxV = Math.max(Math.abs(dataN[0].loss), Math.abs(dataN[dataN.length - 1].loss));
 
         for (var i = 0; i < ints.length - 1; i++) {
@@ -346,7 +345,6 @@ class SVGMainChart {
         xw.endElement();   //<< </g>
 
         for (var i = 0; i < 4; i++) {
-            //console.log('id ' + result[i].id);
             var str0 = this.getText(result[i].name, 670);
             this._createG(xw, str0, result[i].loss, i, 8, result[i].id, mode);
         }
@@ -376,10 +374,6 @@ class SVGMainChart {
     make = function (portfolio, data, name) {
 
         var mode = portfolio.isModel ? 'p100' : 'd'
-
-        //console.log(data);
-        //var ints = [1200000,100000,-300000,1200000,100000,-300000,1200000,100000,-300000];
-        //var str = ['test1', 'test2', 'test3','test1', 'test2', 'test3','test1', 'test2', 'test3'];
 
         var xw = new XMLWriter;
 
@@ -660,13 +654,10 @@ class SVGMainChart {
         xw.endElement();   //<< </g>
 
 
-        //console.log(this.getTextWidth(' ', "italic 50px Segoe UI").toString());
 
         for (var i = 0; i < result.length; i++) {
-            //console.log('id ' + result[i].id);
             var str0 = this.getText(result[i].name, 670);
             this._createG(xw, str0, result[i].loss, i, result.length, result[i].id, mode);
-            //console.log(this.getTextWidth(result[i].name, "italic 50px Segoe UI").toString());
         }
 
         xw.startElement("g");
@@ -835,7 +826,6 @@ class SVGMainChart {
         for (var i = 1; i < ss.length; i++) {
             var wn = this.getTextWidth(ss[i], "italic 50px Segoe UI");
             if (wn + ww + 13.7 > size) {
-                //console.log(ss[i]);
                 ww = wn;
                 resultSS.push(sn);
                 sn = ss[i];

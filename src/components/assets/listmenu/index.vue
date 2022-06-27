@@ -73,6 +73,9 @@ export default {
 
             if(this.close) this.close()
 
+            else
+                this.$emit('close')
+
         }
     },
 }

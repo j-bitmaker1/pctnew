@@ -224,7 +224,6 @@ export default {
 			})
 		},
 		leaveAsset : function(){
-			console.log("SleaveAsset")
 			setTimeout(() => {
 				this.autofocus()
 			})
@@ -523,8 +522,6 @@ export default {
 
 						var r = []
 
-						console.log('image', images)
-
 						Promise.all(_.map(images, (image) => {
 							return f.urltoFile(image, "Image_" + f.date.nowUtc1000()).then(file => {
 
@@ -537,7 +534,6 @@ export default {
 							})
 						})).then(() => {
 
-							console.log("R", r)
 							this.filemanager(r)
 							
 						}).catch(e => {
@@ -597,8 +593,6 @@ export default {
 				if (this.lastTotalAssets){
 
 					assets = _.map(assets, (a) => {
-
-						console.log('a.value * this.lastTotalAssets',a.value * this.lastTotalAssets, a.value , this.lastTotalAssets)
 
 						return {
 							...a,

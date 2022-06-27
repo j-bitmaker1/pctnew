@@ -275,7 +275,8 @@ export default {
 		validateDefaultEvent : function(e){
 
 			var me = false,
-				another = false
+				another = false,
+				br = false
 
 			var path = e.path
 
@@ -286,11 +287,12 @@ export default {
 			_.find(path, (el) => {
 				me = this.$el == el
 				another = el.classList.contains('swipable') && this.$el != el
+				br = el.classList.contains('notswipable')
 
-				if(me || another) return true
+				if(me || another || br) return true
 			})
 
-			return me ? true : false
+			return me && !br ? true : false
 		},
 
 		movingHandler : function(e){

@@ -89,6 +89,8 @@ import selection from "@/components/assets/selection/index.vue";
 import listcontrols from "@/components/assets/listcontrols/index.vue";
 import forms from "@/components/assets/forms/index.vue";
 import iconstoggle from "@/components/assets/iconstoggle/index.vue";
+import checkboxtoggle from "@/components/assets/checkboxtoggle/index.vue";
+
 import value from "@/components/assets/value/index.vue";
 import tags from "@/components/assets/tags/index.vue";
 
@@ -144,6 +146,8 @@ Vue.component("upload", upload);
 Vue.component("linepreloader", linepreloader);
 Vue.component("coloredNumber", coloredNumber);
 Vue.component("iconstoggle", iconstoggle);
+Vue.component("checkboxtoggle", checkboxtoggle);
+
 Vue.component("value", value);
 Vue.component("listmenu", listmenu);
 Vue.component("list", list);

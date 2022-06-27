@@ -193,7 +193,6 @@ export default {
 
         input : function(v){
             this.values = v
-            console.log("V", v)
         }
     },
 }

@@ -75,13 +75,33 @@ export default {
 
 	methods: {
 		newcampaigns : function(){
+
+			var items = []
+
 			if(this.active == 'campaigns'){
-				
+				items.push({
+					text: 'campaigns.labels.newCampaign',
+					icon: 'fas fa-plus',
+					action: this.newCampaign
+				})
 			}
 
 			if(this.active == 'templates'){
-				
+				items.push({
+					text: 'campaigns.labels.newCampaignTemplate',
+					icon: 'fas fa-plus',
+					action: this.newCampaignTemplate
+				})
 			}
+
+			this.core.vueapi.listmenu(items)
+		},
+		newCampaignTemplate : function(){
+			console.log('newCampaignTemplate')
+			this.$router.push('/campaigns/template/new')
+		},
+		newCampaign : function(){
+
 		}
 	},
 

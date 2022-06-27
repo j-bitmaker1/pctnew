@@ -52,7 +52,6 @@ export default {
 
     methods : {
         gettrial : function(product){
-            console.log('product', product)
             return this.core.api.user.trial.activate(product.id, {
                 preloader : true,
                 showStatus : true
@@ -61,13 +60,10 @@ export default {
 
         gettrials : function(){
 
-            console.log("/")
 
             var productsForTrial = _.filter(this.product, (product) => {
                 return product.trial && !this.myfeatures[product.id]
             })
-
-            console.log('productsForTrial', productsForTrial)
 
             return Promise.all(_.map(productsForTrial, product => {
                 return this.gettrial(product)

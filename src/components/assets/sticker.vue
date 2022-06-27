@@ -1,5 +1,5 @@
 <template>
-    <img v-images-loaded="imageloaded" :class="{loaded}" :src="require('@/assets/' + this.src)" />
+    <img v-images-loaded="imageloaded" :class="{loaded}" :width="width" :src="require('@/assets/' + this.src)" />
 </template>
 
 
@@ -22,7 +22,8 @@ img
             imagesLoaded
         },
         props: {
-            src : String
+            src : String,
+            width : Number
         },
 
         data : function(){

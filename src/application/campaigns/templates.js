@@ -1,19 +1,47 @@
 import f from "@/application/shared/functions.js"
 
 const moment = require('moment');
-import {EditStep, ViewStep} from './kit.js'
+import {EditStep, ViewStep, Template} from './kit.js'
 
 class CampaignsTemplates {
     constructor({vueapi}) {
         this.vueapi = vueapi
     }
 
-    edit_email = function(step){}
-    edit_wait = function(step){}
+    edit_email = function(step){
+
+    }
+    edit_wait = function(step){
+        return this.vueapi.customWindow(
+            'modules/campaigns/steps/edit/index.vue', 
+            "Add wait interval", 
+            {
+                step,
+                type : 'wait'
+            }
+        )
+    }
     edit_subcampaign = function(step){}
     edit_if = function(step){}
-    edit_notification = function(step){}
+
+    edit_notification = function(step){
+        return this.vueapi.customWindow(
+            'modules/campaigns/steps/edit/index.vue', 
+            "Add notification", 
+            {
+                step,
+                type : 'notification'
+            }
+        )
+    }
+
     edit_lead = function(step){}
+
+    editstep = function(step, p = {}){
+        var type = step.type()
+
+        return this['edit_' + type](step, p)
+    }
 
     addstep = function(p){
 
@@ -25,32 +53,32 @@ class CampaignsTemplates {
                 {
                     text: 'campaigns.add.email',
                     icon: 'fas fa-envelope',
-                    action: this.edit_email,
+                    type: 'email',
                 },
                 {
                     text: 'campaigns.add.wait',
                     icon: 'fas fa-clock',
-                    action: this.edit_wait,
+                    type: 'wait',
                 },
                 {
                     text: 'campaigns.add.if',
                     icon: 'fas fa-map-signs',
-                    action: this.edit_if,
+                    type: 'ifstep',
                 },
                 {
                     text: 'campaigns.add.notification',
                     icon: 'fas fa-bell',
-                    action: this.edit_notification,
+                    type: 'notification',
                 },
                 {
                     text: 'campaigns.add.lead',
                     icon: 'fas fa-user-plus',
-                    action: this.edit_lead,
+                    type: 'lead',
                 },
                 {
                     text: 'campaigns.add.subcampaign',
                     icon: 'fas fa-route',
-                    action: this.edit_subcampaign,
+                    type: 'subcampaign',
                 }
             ]
 
@@ -58,7 +86,7 @@ class CampaignsTemplates {
                 return {
                     ...m,
                     ... {
-                        action : function(){
+                        action : () => {
 
                             completed = true
 
@@ -66,7 +94,7 @@ class CampaignsTemplates {
                                 id : f.makeid()
                             })
 
-                            m.action().then(resolve).catch(reject)
+                            this['edit_' + m.type](step, p).then(resolve).catch(reject)
                         }
                     }
                 }
@@ -81,6 +109,12 @@ class CampaignsTemplates {
 
             })
 
+        })
+    }
+
+    clonelist = function(steps){
+        return _.map(steps, (s) => {
+            return s.clone()
         })
     }
 
@@ -228,6 +262,10 @@ class CampaignsTemplates {
         outputInfo.medianTime = (outputInfo.maxTime + outputInfo.minTime) / 2
         outputInfo.totalEmails = outputInfo.successEmails + outputInfo.failEmails
         return outputInfo;
+    }
+
+    create = function(){
+        return new Template()
     }
 }
 

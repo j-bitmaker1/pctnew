@@ -90,8 +90,6 @@ export default {
             },
             set(value) {
 
-                console.log('value', value, new Date(value))
-
                 value = new Date(value)
 
                 var v = [this.modelValue[0], value]

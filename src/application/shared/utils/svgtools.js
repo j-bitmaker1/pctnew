@@ -16,7 +16,6 @@ class SVGTools {
         for (var i = 1; i < ss.length; i++) {
             var wn = this.getTextWidth(ss[i], "italic 50px Segoe UI");
             if (wn + ww + 13.7 > size) {
-                //console.log(ss[i]);
                 ww = wn;
                 resultSS.push(sn);
                 sn = ss[i];

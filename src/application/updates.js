@@ -147,7 +147,6 @@ class Updates {
 
                 this.update(d.id, result)
             }).catch(e => {
-                console.log('e', e)
             })
 
         }))

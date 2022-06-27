@@ -112,7 +112,6 @@ export default {
 		},
 
 		directoryChange : function(v){
-			console.log('directoryChangedirectoryChange', v)
 			this.$emit('directoryChange', v)
 		}
 

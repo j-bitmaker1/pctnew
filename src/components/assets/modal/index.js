@@ -12,6 +12,7 @@ export default {
         },
         cantclose : Boolean,
         module : String,
+        path : String,
         data : {
             type : Object,
             default : () => {return {}}
@@ -108,7 +109,8 @@ export default {
                     }   
                 }  
             }
-        }
+        },
+
 
     }),
 
@@ -142,6 +144,12 @@ export default {
         },
 
         moving : function(e, h){
+        },
+
+        bypath : function(){
+            return require("@/components/" + this.path).default
         }
+
+        
     },
 }

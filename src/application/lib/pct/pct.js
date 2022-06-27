@@ -319,7 +319,6 @@ class PCT {
 
         r.sharpeRatio = r.standardDeviation ? r.longTermReturn / r.standardDeviation : 0
 
-        console.log("RT", r)
         return r
     }
 
@@ -477,7 +476,6 @@ class PCT {
     }
 
     ocr = function(value){
-        console.log('this', this)
         return this.scoreConverter.convert(value)
     }
 
@@ -532,7 +530,6 @@ class PCT {
             common.total = 1
         }
 
-        console.log('common', common)
 
         return common
     }
@@ -573,7 +570,6 @@ class PCT {
                 ...data,
                 ...scdata
             }
-            console.log("scdata", scdata)
             return this.scoreConverter.prepare()
 
         }).then(() => {
@@ -642,7 +638,6 @@ class PCT {
                 })
             }
 
-            console.log("data", data)
             
             return Promise.resolve(data)
         }).catch(e => {

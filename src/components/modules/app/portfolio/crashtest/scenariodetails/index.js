@@ -103,7 +103,6 @@ export default {
 
 		loadscenatioinfo: function () {
 			this.core.pct.scenariosWithCustoms([this.scenario.id]).then(r => {
-				console.log("R11", r)
 				this.info = r[0]
 
 			})

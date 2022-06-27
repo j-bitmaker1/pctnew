@@ -40,11 +40,15 @@ export default {
 		menu : function(){
 
 			return [
-
+				{
+					text : 'campaigns.menu.editstep',
+					icon : 'fas fa-edit', 
+					action : 'editstep'
+				},
 				{
 					text : 'campaigns.menu.deletestep',
 					icon : 'fas fa-trash',
-					action : 'deletesingle'
+					action : 'deletestep'
 				}
 
 			]
@@ -57,6 +61,10 @@ export default {
 			if (this[action]){
 				this[action]()
 			}   
+		},
+
+		editstep : function(){
+			this.$emit('edit')
 		},
 
 		deletestep : function(){

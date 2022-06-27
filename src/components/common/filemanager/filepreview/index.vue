@@ -52,8 +52,6 @@ export default {
         type: function () {
             var type = this.file.ContentType
 
-            console.log('type', type)
-
             if (type) {
                 if (type == 'application/pdf') return "PDF"
                 if (type == 'text/csv') return "CSV"

@@ -116,7 +116,7 @@ var Request = function (core = {}, url, system) {
 		if (typeof AbortController != 'undefined') {
 			var controller = p.controller || (new AbortController())
 
-			var time = p.timeout || 30000
+			var time = p.timeout || 1000 //30000
 
 			if (window.cordova) {
 				time = time * 2
@@ -278,6 +278,7 @@ var ApiWrapper = function (core = {}) {
 
 	var cache = {}
 	var storages = {}
+	var blockNotify = false
 
 	self.appid = core.appid
 
@@ -792,12 +793,22 @@ var ApiWrapper = function (core = {}) {
 
 				if (attempt < 3 && e && e.code == 20) {
 
-					if (!attempt && core.notifier)
+					if (!attempt && !blockNotify && core.notifier){
+
 						core.notifier.simplemessage({
 							icon: "fas fa-wifi",
 							title: "Please wait",
 							message: "Loading takes longer than usual"
 						})
+
+						blockNotify = true
+
+						setTimeout(() => {
+							blockNotify = false
+						}, 30000)
+
+					}
+						
 
 					return new Promise((resolve, reject) => {
 
@@ -2412,7 +2423,6 @@ var ApiWrapper = function (core = {}) {
 
 		create: function (data = {}, p = {}) {
 
-			console.log("DATA", data)
 
 			if(!data.file && !data.files) return Promise.reject('empty')
 
@@ -2470,7 +2480,6 @@ var ApiWrapper = function (core = {}) {
 
 			return paginatedrequest(data, 'api', 'async_task_manager/AsyncTask/ListTasks', p).then(r => {
 
-				console.log("R", r)
 
 				return Promise.resolve(r)
 			})
@@ -2538,7 +2547,6 @@ var ApiWrapper = function (core = {}) {
 
 				return request({ taskId, storageKey: key }, 'api', 'async_task_manager/AsyncTask/GetAttachmentLink', p).then(r => {
 
-					console.log('r.url', r.url)
 
 					return Axios({
 						url: r.url,
@@ -2547,7 +2555,6 @@ var ApiWrapper = function (core = {}) {
 
 				}).then(r => {
 
-					console.log("R", r)
 
 					//if(r.config.transformResponse) r.data = r.config.transformResponse(r.data)
 
@@ -2560,8 +2567,6 @@ var ApiWrapper = function (core = {}) {
 			}, {
 				storageparameters: dbmeta.files()
 			}).then(r => {
-
-				console.log("R2", r)
 
 				core.store.commit('globalpreloader', false)
 

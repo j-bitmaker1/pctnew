@@ -313,7 +313,6 @@ class Core {
 
         var files = []
 
-        console.log('event.dataTransfer.files', event.dataTransfer.files)
         
         _.each(event.dataTransfer.files, (F) => {
             files.push(F)
@@ -433,7 +432,6 @@ class Core {
 
             if (index > -1){
 
-                console.log("IGNORE", data, type)
 
                 this.ignoring[type].splice(index, 1)
 
@@ -442,11 +440,9 @@ class Core {
 
             try{
 
-                console.log('data, type', data, type)
 
                 var { updated, from = {} } = this.vxstorage.update(data, type)
 
-                console.log('updated, from', updated, from)
             }catch(e){
                 console.error(e)
             }
@@ -476,7 +472,6 @@ class Core {
 
         this.api.invalidateStorageNow(invalidate)
 
-        console.log("created", data, type)
 
         this.emit('created', {
             data, 

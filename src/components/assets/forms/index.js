@@ -59,8 +59,6 @@ export default {
                 return r.rule
             })//.join('|')
 
-            console.log('r1[f.id]', r1[f.id])
-
             if(!f.disabled){
                 _.each(f.rules || [], (r) => {
 
@@ -72,8 +70,6 @@ export default {
 
                     if (rid.indexOf('regex') > -1) rid = 'regex'
 
-                    console.log('r.message', r.message)
-
                     m1[f.id + '.' + rid] = r.rule == 'required' ? (this.$t(f.text) + ' is Required') : r.message ? this.$t(r.message) : ''
                 })
             }
@@ -82,8 +78,6 @@ export default {
             if(!r1[f.id]) delete r1[f.id]
             
         })
-
-        console.log("s", f1,r1,m1)
 
         this.form = new form(f1).rules(r1).messages(m1)
 

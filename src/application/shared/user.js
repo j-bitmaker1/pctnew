@@ -825,7 +825,6 @@ var User = function ({
 
             //settings.getall()
 
-            console.log('prepare', prepare)
 
             prepare()
 
@@ -843,7 +842,6 @@ var User = function ({
 
             vm.$store.commit('globalpreloader', false)
 
-            console.log("E", e)
 
             state.value = 0
 
