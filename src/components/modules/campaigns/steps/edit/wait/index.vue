@@ -55,7 +55,11 @@
 		</div>
 		
 		<div class="whileselector" v-if="whilemode">
-			<button class="button">Select email</button>
+			<div class="stepWrapper" v-if="this.while">
+				<step :step="this.while" />
+			</div>
+			<button class="button" @click="selectWhile" v-if="!this.while">Select email</button>
+			<button class="button black" @click="selectWhile" v-if="this.while">Change email</button>
 		</div>
 	</div>
 
@@ -85,8 +89,22 @@
 	margin-top: 2 * $r
 	margin-bottom: 2 * $r
 
+	.stepWrapper
+		margin-bottom: 2 * $r
+
 	.whileselector
 		margin-top: 2 * $r
+
+	::v-deep
+		.step_meta
+			display: flex
+			align-items: center
+		.wrapper
+			padding-bottom: 0
+		.icontime
+			.time
+				display: none
+
 .mode
 	padding : 2 * $r 0
 	.modecnt
@@ -115,10 +133,20 @@ import timeInput from '../../../inputs/time/index.vue'
 import daytimeInput from '../../../inputs/daytime/index.vue'
 import weekdayInput from '../../../inputs/weekday/index.vue'
 
+import step from '../../step/index.vue'
+
 export default {
 	name: 'campaigns_steps_edit_notification',
 	props: {
-		step: Object
+		step: Object,
+		steps : Array
+	},
+
+	components : {
+		timeInput,
+		daytimeInput,
+		weekdayInput,
+		step
 	},
 
 	computed: {
@@ -162,24 +190,21 @@ export default {
 		}
 	},
 
-	components : {
-		timeInput,
-		daytimeInput,
-		weekdayInput
-	},
+	
 
 	data : function(){
 		return {
 			weekdaytime : {
-				days : 0,
+				day : 0,
 				time : 0
 			},
 			daytime : {
-				days : 0,
+				day : 0,
 				time : 0
 			},
 			time : 0,
 			selectwhile : false,
+			while : null,
 			timemode : 'time' // nextday, day
 		}
 	},
@@ -188,14 +213,22 @@ export default {
 		this.time = this.step.time || 0
 
 		this.daytime = {
-			days : this.step.days >= 8 ? this.step.days : 0,
+			day : this.step.day >= 8 ? this.step.day : 0,
 			time : this.step.time || 0
 		}
 
 		this.weekdaytime = {
-			days : this.step.days < 8 && this.step.days > 0 ? this.step.days : 1,
+			day : this.step.day < 8 && this.step.day > 0 ? this.step.day : 1,
 			time : this.step.time || 0
 		}
+
+		if (this.step.while){
+			this.core.campaigns.getEmailTemplate(this.step.while).then(r => {
+				this.while = r
+			})
+		}
+
+		
 	},
 
 	methods: {
@@ -209,12 +242,16 @@ export default {
 
 			if(this.timemode == 'nextday'){
 				clone.time = this.daytime.time
-				clone.days = this.daytime.days
+				clone.day = this.daytime.day
 			}
 
 			if(this.timemode == 'day'){
 				clone.time = this.weekdaytime.time
-				clone.days = this.weekdaytime.days
+				clone.day = this.weekdaytime.day
+			}
+
+			if(this.selectwhile && this.while){
+				clone.while = this.while.id
 			}
 
 
@@ -223,6 +260,25 @@ export default {
 
 		settimemode : function(v){
 			this.timemode = v
+		},
+
+		selectWhile : function(){
+			this.core.vueapi.customWindow(
+            	'modules/campaigns/steps/selectemails/index.vue', 
+            	"Select email for condition", 
+				{
+					steps : this.steps,
+					selected : this.while ? this.while.id : null
+				},
+
+				{
+					select : (step) => {
+						this.while = step
+					}
+				}
+			).catch(e => {
+
+			})
 		}
 	},
 }

@@ -1,6 +1,6 @@
 <template>
 <div class="customTimeInput">
-	<div class="inputWrapper days">
+	<div class="inputWrapper day">
 
 		<div class="arrows up" @click="e => arrow(1, 'd')">
 			<i class="fas fa-arrow-up"></i>
@@ -107,7 +107,7 @@
 				border-top-left-radius: 24px
 				border-bottom-left-radius: 24px
 
-		&.days
+		&.day
 			input
 				border-radius: 24px
 			
@@ -126,7 +126,7 @@ export default {
 			type : Object,
 			default : function() {
 				return {
-					days : 0,
+					day : 0,
 					time : 0
 				}
 			}
@@ -159,7 +159,7 @@ export default {
        
 		dvalue : {
 			get(){
-				return this.modelValue.days ? this.modelValue.days - this.ddiff : 0
+				return this.modelValue.day ? this.modelValue.day - this.ddiff : 0
 			},
 			set(value){
 
@@ -167,7 +167,7 @@ export default {
 
 				value = Number(value)
 
-				this.updateDays(value)
+				this.updateday(value)
 			}
 		},
 
@@ -210,14 +210,14 @@ export default {
 				(typeof m == 'undefined'? this.mvalue : m) * 1
 
 			this.$emit('update:modelValue', {
-				days : this.dvalue + this.ddiff,
+				day : this.dvalue + this.ddiff,
 				time : v
 			})
 		},
 
-		updateDays : function(v){
+		updateday : function(v){
 			this.$emit('update:modelValue', {
-				days : v + this.ddiff,
+				day : v + this.ddiff,
 				time : this.hvalue * 60 + this.mvalue * 1
 			})
 		},

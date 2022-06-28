@@ -116,7 +116,7 @@ var Request = function (core = {}, url, system) {
 		if (typeof AbortController != 'undefined') {
 			var controller = p.controller || (new AbortController())
 
-			var time = p.timeout || 1000 //30000
+			var time = p.timeout || 30000
 
 			if (window.cordova) {
 				time = time * 2

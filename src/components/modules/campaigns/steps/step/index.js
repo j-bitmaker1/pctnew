@@ -6,7 +6,9 @@ import wait from './wait/index.vue'
 import notification from './notification/index.vue'
 import finish from './finish/index.vue'
 import ifstep from './ifstep/index.vue'
+import subcampaign from './subcampaign/index.vue'
 import whilestep from './whilestep/index.vue'
+import lead from './lead/index.vue'
 
 export default {
     name: 'campaigns_step',
@@ -24,7 +26,9 @@ export default {
         notification,
         finish,
         ifstep,
-        whilestep
+        whilestep,
+        lead,
+        subcampaign
     },
 
     data : function(){
@@ -35,8 +39,7 @@ export default {
 
     },
 
-    created : () => {
-
+    created(){
     },
 
     watch: {
@@ -46,6 +49,8 @@ export default {
         auth : state => state.auth,
 
         component : function(){
+
+            console.log('this.step.type()', this.step.type())
 
             return this.step.type() || ''
 

@@ -1,29 +1,30 @@
 import { mapState } from 'vuex';
 import smeta from '../meta/index.vue'
-import moment from 'moment'
+
+
 export default {
-    name: 'campaign_step_wait',
+    name: 'campaign_step_subcampaign',
     props: {
         step : Object,
         editing : Boolean,
-        refer : Object
+        level : Number
     },
 
     components : {
-        smeta
+        smeta,
     },
 
     data : function(){
 
         return {
-            loading : false,
+            loading : true,
             template : null,
-            
+            expanded : false
         }
 
     },
 
-    created () {
+    created (){
         this.load()
     },
 
@@ -32,25 +33,29 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
-        duration : function(){
-            return this.step.durationLabel()
-        },
+
+        result : function(){
+        }
     }),
 
     methods : {
         load : function(){
-            if(this.refer){
 
+            if (this.step.subcampaign){
                 this.loading = true
 
-                this.core.campaigns.getEmailTemplate(this.refer.template).then(r => {
+
+                this.core.campaigns.getTemplate(this.step.subcampaign).then(r => {
 
                     this.template = r
+
+                    console.log("r", r)
 
                 }).finally(() => {
                     this.loading = false
                 })
             }
+
         }
     },
 }

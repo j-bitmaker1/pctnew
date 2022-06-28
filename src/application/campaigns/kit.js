@@ -1,6 +1,6 @@
 import _ from "underscore"
 import f from "@/application/shared/functions.js"
-
+import moment from 'moment'
 class Campaign {
     constructor(data = {}) {
 
@@ -55,15 +55,34 @@ class Step {
 
         if (this.subcampaign) return 'subcampaign'
 
-        if (this.while) return 'whilestep'
+        //if (this.while) return 'whilestep'
 
-        if (this.time) return 'wait'
+        if (this.time || this.day) return 'wait'
 
         if (this.html) return 'html'
 
         if (this.notification) return 'notification'
 
         if (this.lead) return 'lead'
+    }
+
+    durationLabel = function(){
+
+        var t = this.timeleft()
+
+        if (t) return moment.duration(this.timeleft(), 'seconds').humanize(true);
+
+        console.log("THIS", this)
+
+        if(!this.day || this.day > 7) return moment.duration(this.duration(), 'seconds').humanize(true);
+
+        var days = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday', 'Sunday']
+
+        var h = Math.floor(this.time / 60)
+        var m = this.time - h * 60
+
+        return days[this.day - 1] + " " + f.addZero(h) + ":" + f.addZero(m)
+
     }
 
     duration = function () {
@@ -142,6 +161,8 @@ class EditStep extends Step {
             if(data.time) importdata.time = data.time
             if(data.day) importdata.day = data.day
             if(data.notification) importdata.notification = data.notification
+            if(data.lead) importdata.lead = data.lead
+            if(data.subcampaign) importdata.subcampaign = data.subcampaign
     
             if(data.if){
                 importdata.if = data.if
@@ -162,6 +183,7 @@ class EditStep extends Step {
         super(convertToStep(data))
 
         this.id = data.id
+        this.status = ''
 
         this.CLASS = EditStep
     }
@@ -211,6 +233,10 @@ class ViewStep extends Step {
                 importdata.time = data.Time
                 importdata.day = data.Day
                 importdata.while = data.TrackStepId
+            }
+
+            if (data.Type == "ADDLEAD"){
+                importdata.lead = true
             }
     
             return importdata

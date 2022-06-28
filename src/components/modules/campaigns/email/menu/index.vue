@@ -41,9 +41,9 @@ export default {
 			return [
 
 				{
-					text : 'campaigns.menu.deletetemplate',
+					text : 'campaigns.menu.deleteemail',
 					icon : 'fas fa-trash',
-					action : 'deletetemplate'
+					action : 'deleteemail'
 				}
 			]
 		}
@@ -57,7 +57,7 @@ export default {
 			}   
 		},
 
-		deletetemplate : function(){
+		deleteemail : function(){
 
 		}
 	},

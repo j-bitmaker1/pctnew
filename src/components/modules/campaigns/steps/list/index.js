@@ -59,10 +59,12 @@ export default {
                 var cloned = this.core.campaigns.campaignTemplates.clonelist(this.steps)
 
                 if (p.after){
-                    var i = _.findIndex(cloned, (c) => {return c.id == p.after})
+                    var i = _.findIndex(cloned, (c) => {return c.id == p.after.id})
+
+                    console.log("i", i, p , cloned)
 
                     if (i > -1){
-                        cloned.splice(i, 0, step)
+                        cloned.splice(i + 1, 0, step)
                     }
                 }
                 else{

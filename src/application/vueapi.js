@@ -8,6 +8,13 @@ class Vueapi {
 
     }
 
+    icon = function(icon, message){
+        this.store.commit('icon', {
+            icon,
+            message
+        })
+    }
+
     selectClients = function(success, p = {}){
 
         if (p.selected){

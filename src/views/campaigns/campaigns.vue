@@ -36,13 +36,14 @@
 
 import campaigns from '@/components/modules/campaigns/dashboard/index.vue';
 import templates from '@/components/modules/campaigns/templates/index.vue';
+import emails from '@/components/modules/campaigns/emails/index.vue';
 import linenavigation from "@/components/assets/linenavigation/index.vue";
 
 export default {
 	name: 'campaigns_page',
 	components: {
         campaigns, templates,
-		linenavigation
+		linenavigation, emails
 	},
 
 	computed: {
@@ -65,6 +66,10 @@ export default {
 				{
 					text : 'campaigns.labels.templates',
 					id : 'templates'
+				},
+				{
+					text : 'campaigns.labels.emailtemplates',
+					id : 'emails'
 				}
 			],
 
@@ -94,11 +99,21 @@ export default {
 				})
 			}
 
+			if(this.active == 'email'){
+				items.push({
+					text: 'campaigns.labels.newEmailTemplate',
+					icon: 'fas fa-plus',
+					action: this.newEmailTemplate
+				})
+			}
+
 			this.core.vueapi.listmenu(items)
 		},
 		newCampaignTemplate : function(){
-			console.log('newCampaignTemplate')
 			this.$router.push('/campaigns/template/new')
+		},
+		newEmailTemplate : function(){
+			this.$router.push('/campaigns/emailtemplate/new')
 		},
 		newCampaign : function(){
 

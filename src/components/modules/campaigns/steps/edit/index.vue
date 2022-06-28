@@ -1,6 +1,6 @@
 <template>
 <div id="campaigns_steps_edit">
-    <component @change="change" :is="type" :step="clone || step" />
+    <component @change="change" :is="type" :step="clone || step" :steps="steps"/>
 
 	<div class="savePanel">
 		<button class="button black" @click="cancel">
@@ -51,17 +51,22 @@ import {
 
 import notification from './notification/index.vue'
 import wait from './wait/index.vue'
+import email from './email/index.vue'
+import ifstep from './ifstep/index.vue'
 
 export default {
 	name: 'campaigns_steps_edit_notification',
 	props: {
 		step: Object,
-		type : String
+		type : String,
+		steps : Array
 	},
 
 	components : {
 		notification,
-		wait
+		wait,
+		ifstep,
+		email
 	},
 
 	computed: mapState({

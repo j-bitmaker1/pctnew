@@ -410,7 +410,9 @@
 			"deletebatch" : "Delete batch",
 			"editstep" : "Edit step",
 			"deletestep" : "Delete step",
-			"deletesingle" : "Delete campaign"
+			"deletesingle" : "Delete campaign",
+			"deleteemail" : "Delete email template",
+			"deletetemplate" : "Delete campaign template"
 		},
 		"summary" : {
 			"CompletedCampaigns" : "Completed Campaigns",
@@ -426,7 +428,8 @@
 			"dashboard" : "Dashboard",
 			"templates" : "Templates",
 			"newCampaign" : "Start new campaign",
-			"newCampaignTemplate" : "Create campaign template"
+			"newCampaignTemplate" : "Create campaign template",
+			"emailtemplates" : "Email templates"
 		},
 
 		"add" : {
@@ -440,6 +443,16 @@
 
 		"fields" : {
 			"notificationmessage" : "Notification message"
+		},
+
+		"emailGroups" : {
+			"common" : "Public Templates",
+			"my" : "Your Templates",
+			"jt" : "JT Campaign Letters",
+			"financialLiteracy" : "Financial Literacy Letters",
+			"financialAwareness" : "Financial Awareness Letters",
+			"pooledEmployerA" : "Pooled Employer Plans A",
+			"pooledEmployerB" : "Pooled Employer Plans B"
 		}
 	}
 

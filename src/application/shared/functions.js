@@ -1785,4 +1785,5 @@ f.knsite = knsite
 f.stringify = stringify
 f.numberParse = numberParse
 f.round = round
+f.addZero = addZero
 export default f

@@ -9,20 +9,49 @@ class CampaignsTemplates {
     }
 
     edit_email = function(step){
-
+        return this.vueapi.customWindow(
+            'modules/campaigns/steps/edit/index.vue', 
+            "Add email", 
+            {
+                step,
+                type : 'email'
+            }
+        )
     }
-    edit_wait = function(step){
+    edit_wait = function(step, p){
+
+        var steps = this.filterStepsCustom(step, p)
+
         return this.vueapi.customWindow(
             'modules/campaigns/steps/edit/index.vue', 
             "Add wait interval", 
             {
+                steps,
                 step,
                 type : 'wait'
             }
         )
     }
     edit_subcampaign = function(step){}
-    edit_if = function(step){}
+    edit_ifstep = function(step, p){
+
+        var find = false
+
+        var steps = this.filterStepsCustom(step, p)
+
+       
+        return this.vueapi.customWindow(
+            'modules/campaigns/steps/edit/index.vue', 
+            "Select email for statement", 
+            {
+                step,
+                steps,
+                type : 'ifstep'
+            }
+        )
+        
+
+    }
 
     edit_notification = function(step){
         return this.vueapi.customWindow(
@@ -35,7 +64,28 @@ class CampaignsTemplates {
         )
     }
 
-    edit_lead = function(step){}
+    filterStepsCustom = function(step, p){
+        var find = false
+
+        var steps = _.filter(p.steps || [], (s, i) => {
+            if(s.id == (p.after || step).id) find = true
+
+            if(!find) return true
+
+            return false
+        })
+
+        if(!find) return []
+
+        return steps
+    }
+
+    edit_lead = function(step){
+        
+        step.lead = true
+
+        return Promise.resolve(step)
+    }
 
     editstep = function(step, p = {}){
         var type = step.type()
