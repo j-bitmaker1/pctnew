@@ -32,7 +32,16 @@ class CampaignsTemplates {
             }
         )
     }
-    edit_subcampaign = function(step){}
+    edit_subcampaign = function(step){
+        return this.vueapi.customWindow(
+            'modules/campaigns/steps/edit/index.vue', 
+            "Insert subcampaign", 
+            {
+                step,
+                type : 'subcampaign'
+            }
+        )
+    }
     edit_ifstep = function(step, p){
 
         var find = false

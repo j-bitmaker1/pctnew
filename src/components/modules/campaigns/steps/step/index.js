@@ -50,8 +50,6 @@ export default {
 
         component : function(){
 
-            console.log('this.step.type()', this.step.type())
-
             return this.step.type() || ''
 
         },

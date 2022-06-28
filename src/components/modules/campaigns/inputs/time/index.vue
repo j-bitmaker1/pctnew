@@ -193,7 +193,6 @@ export default {
 				(typeof h == 'undefined'? this.hvalue : h) * 60 + 
 				(typeof m == 'undefined'? this.mvalue : m) * 1
 
-			console.log("total", v, {d,h,m})
 
 			this.$emit('update:modelValue', v)
 		},

@@ -61,7 +61,6 @@ export default {
                 if (p.after){
                     var i = _.findIndex(cloned, (c) => {return c.id == p.after.id})
 
-                    console.log("i", i, p , cloned)
 
                     if (i > -1){
                         cloned.splice(i + 1, 0, step)
@@ -71,12 +70,10 @@ export default {
                     cloned.unshift(step)
                 }
 
-                console.log('cloned', cloned)
 
                 this.change(cloned)
 
             }).catch(e => {
-                console.log("E", e)
                 if(e == 'closed'){
 
                 }
@@ -114,6 +111,8 @@ export default {
 
             this.core.campaigns.campaignTemplates.editstep(step, p).then(clone => {
                 this.changeStep(clone)
+            }).catch(e => {
+                
             })
         }
     },

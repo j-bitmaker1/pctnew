@@ -1,9 +1,5 @@
 <template>
-<div id="campaigns_steps_edit_notification">
-
-	<div class="fromWrapper mobp">
-		<forms :value="value" @change="changeFields" ref="forms" :fields="fields"/>
-	</div>
+<div id="campaigns_steps_edit_subcampaign">
 
 	<div class="descriptionCaption">
 		<span>Descrtiption</span>
@@ -12,8 +8,10 @@
 		<span>This campaign step sends a notification with the text you entered to your phone.</span>
 	</div>
 
+	<emails :select="true" :selected="step.subcampaign" @select="select"/>
+
 	<div class="stickerWrapper">
-		<sticker src="mail.png" :width="128"/>
+		<sticker src="route.png" :width="128"/>
 	</div>
 	
 
@@ -29,10 +27,16 @@ import {
 	mapState
 } from 'vuex';
 
+import emails from '../../../templates/index.vue'
+
 export default {
-	name: 'campaigns_steps_edit_notification',
+	name: 'campaigns_steps_edit_subcampaign',
 	props: {
 		step: Object
+	},
+
+	components : {
+		emails
 	},
 
 	computed: mapState({
@@ -41,33 +45,24 @@ export default {
 
 	data : function(){
 		return {
-			value : {},
-			fields : [{
-				id : 'notification',
-				text : 'campaigns.fields.notificationmessage',
-				input : 'textarea',
-				rules : [{
-					rule : 'required'
-				}]
-			}]
 		}
 	},
 
 	created : function(){
-		this.value.notification = this.step.notification || ""
 	},
 
 	methods: {
-		changeFields : function(v){
-			this.change(v)
+	
+		select : function(template){
+			console.log('template', template)
+			this.change(template.Id)
 		},
-		change : function(values){
+		change : function(template){
 			var clone = this.step.clone()
 
-			_.each(values, (v, i) => {
-				clone[i] = v
-			})
+			clone.subcampaign = template
 
+			console.log("clone", clone)
 
 			this.$emit('change', clone)
 		}

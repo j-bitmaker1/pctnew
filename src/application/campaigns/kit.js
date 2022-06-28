@@ -72,7 +72,6 @@ class Step {
 
         if (t) return moment.duration(this.timeleft(), 'seconds').humanize(true);
 
-        console.log("THIS", this)
 
         if(!this.day || this.day > 7) return moment.duration(this.duration(), 'seconds').humanize(true);
 

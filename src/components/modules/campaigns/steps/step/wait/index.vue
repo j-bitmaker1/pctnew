@@ -18,9 +18,10 @@
                 <div class="caption">
                     <span>Wait until a condition is met or a time limit expires</span>
                 </div>
+                
                 <linepreloader v-if="loading"/>
 
-                <div class="time">
+                <div class="time" v-if="template">
                     <span>Wait{{duration}}</span>  <b>or</b> <span >until <b>&ldquo;{{template.Name}}&rdquo;</b> has been read</span>
                 </div>
 

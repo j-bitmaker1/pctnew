@@ -4,8 +4,8 @@ const fse = require('fs-extra');
 
 const SRC_CORDOVA_FOLDER = 'src-cordova'
 const CORDOVA_RESOURCES_FOLDER = 'cordova-resources'
-const OUTPUT_DIR_PATH = `./${SRC_CORDOVA_FOLDER}/platforms/android/app/build/outputs/apk/release/`;
-const OUTPUT_FILE_NAME = 'app-release.apk';
+const OUTPUT_DIR_PATH = `./${SRC_CORDOVA_FOLDER}/platforms/android/app/build/outputs/bundle/release/`;
+const OUTPUT_FILE_NAME = 'app-release.aab';
 
 const MODES = {
     PCT: "pct",
@@ -101,7 +101,7 @@ const CORDOVA_BUILD_OUTPUT = 'cordova-built'
 function renameOutputAndroid(newName) {
     const oldPath = `${OUTPUT_DIR_PATH}${OUTPUT_FILE_NAME}`;
     const oldPathOutputJson = `${OUTPUT_DIR_PATH}output.json`;
-    let newPath = `./${CORDOVA_BUILD_OUTPUT}/${newName}.apk`;
+    let newPath = `./${CORDOVA_BUILD_OUTPUT}/${newName}.aab`;
     let newPathOutputJson = `./${CORDOVA_BUILD_OUTPUT}/output-${newName}.json`;
     checkAndCreateIfNotExist(`./${CORDOVA_BUILD_OUTPUT}/`);
     console.log(`RENAME`)
@@ -110,7 +110,12 @@ function renameOutputAndroid(newName) {
     console.log(`FROM ${oldPathOutputJson}`);
     console.log(`TO ${newPathOutputJson}`);
     fse.moveSync(oldPath, newPath, {overwrite: true});
-    fse.moveSync(oldPathOutputJson, newPathOutputJson, {overwrite: true});
+
+    try{
+        fse.moveSync(oldPathOutputJson, newPathOutputJson, {overwrite: true});
+    }
+    catch(e){}
+    
 }
 
 function checkAndCreateIfNotExist(path){

@@ -18,7 +18,7 @@
             </template>
 
             <template v-slot:list="slotProps">
-                <div class="templateWrapper mobp">
+                <div class="templateWrapper mobp" :class="{selected : selected == slotProps.item.Id}">
                     <preview :template="slotProps.item" @open="e => {open(slotProps.item)}"/>
                 </div>
             </template>

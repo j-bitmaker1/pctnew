@@ -39,6 +39,8 @@ export default {
 
     methods : {
         load : function(){
+
+
             if(this.refer){
 
                 this.loading = true

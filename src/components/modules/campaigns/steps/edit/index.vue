@@ -53,6 +53,7 @@ import notification from './notification/index.vue'
 import wait from './wait/index.vue'
 import email from './email/index.vue'
 import ifstep from './ifstep/index.vue'
+import subcampaign from './subcampaign/index.vue'
 
 export default {
 	name: 'campaigns_steps_edit_notification',
@@ -66,7 +67,8 @@ export default {
 		notification,
 		wait,
 		ifstep,
-		email
+		email,
+		subcampaign
 	},
 
 	computed: mapState({

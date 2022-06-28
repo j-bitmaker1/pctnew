@@ -4,6 +4,8 @@ import preview from '../template/preview/index.vue';
 export default {
     name: 'campaigns_templates',
     props: {
+        select : Boolean,
+        selected : String
     },
 
     components : {
@@ -67,7 +69,16 @@ export default {
         },
 
         open : function(template){
-            this.$router.push('/campaigns/template/' + template.Id)
+
+            if(this.select){
+                this.$emit('select', template)
+                this.$emit('close')
+            }
+            else{
+                this.$router.push('/campaigns/template/' + template.Id)
+            }
+
+            
         }
     },
 }

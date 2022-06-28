@@ -14,3 +14,12 @@
         margin-bottom: 4 * $r
         span
             color: srgb(--color-txt-ac)
+
+.templates_single_preview
+        +transition(0.3s)
+
+.selected
+    ::v-deep
+        .templates_single_preview
+            border : 1px solid srgb(--color-txt-ac)
+            background: srgba(--color-txt-ac, 0.2)

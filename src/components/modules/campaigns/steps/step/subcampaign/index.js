@@ -49,7 +49,6 @@ export default {
 
                     this.template = r
 
-                    console.log("r", r)
 
                 }).finally(() => {
                     this.loading = false

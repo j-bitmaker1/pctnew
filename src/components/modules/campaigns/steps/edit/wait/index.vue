@@ -222,10 +222,22 @@ export default {
 			time : this.step.time || 0
 		}
 
+		console.log('this.step.while', this.step.while)
+
 		if (this.step.while){
-			this.core.campaigns.getEmailTemplate(this.step.while).then(r => {
-				this.while = r
+
+			var refer = _.find(this.steps, (s) => {
+				return s.id == this.step.while
 			})
+
+			this.selectwhile = true
+
+			if (refer){
+				this.while = refer
+			}
+
+			
+			
 		}
 
 		
