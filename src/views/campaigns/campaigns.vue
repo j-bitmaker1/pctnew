@@ -99,7 +99,7 @@ export default {
 				})
 			}
 
-			if(this.active == 'email'){
+			if(this.active == 'emails'){
 				items.push({
 					text: 'campaigns.labels.newEmailTemplate',
 					icon: 'fas fa-plus',

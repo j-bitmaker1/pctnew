@@ -296,13 +296,15 @@ class EmailTemplate {
             this[i] = v
         })
 
-        this.COMPLETED = Number(data.COMPLETED)
-        this.ID = Number(data.ID)
+        this.COMPLETED = Number(data.COMPLETED || '0')
 
-        this.LINKSVISITED = Number(data.LINKSVISITED)
-        this.OPENED = Number(data.OPENED)
+        if (data.ID)
+            this.ID = Number(data.ID)
 
-        this.UNSUBSCRIBED = Number(data.UNSUBSCRIBED)
+        this.LINKSVISITED = Number(data.LINKSVISITED || '0')
+        this.OPENED = Number(data.OPENED || '0')
+
+        this.UNSUBSCRIBED = Number(data.UNSUBSCRIBED || '0')
 
         try {
             this.Subject = decodeURIComponent(data.Subject)

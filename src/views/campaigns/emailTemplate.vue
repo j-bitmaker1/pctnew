@@ -3,14 +3,14 @@
 
 	<topheader back="back">
 		<template v-slot:info>
-			<div class="header" v-if="!loading && campaignTemplate">
+			<div class="header" v-if="!loading && emailTemplate">
 				<div class="name">
-					{{campaignTemplate.Name || "Create campaign template"}}
+					{{emailTemplate.Name || "Create email template"}}
 				</div>
 			</div>
 		</template>
 		<template v-slot:right>
-			<campaignTemplateMenu v-if="!loading && campaignTemplate" :campaignTemplate="campaignTemplate"/>
+			<emailTemplateMenu v-if="!loading && emailTemplate" :emailTemplate="emailTemplate"/>
 		</template>
 	</topheader>
 
@@ -19,7 +19,7 @@
 
 			<linepreloader v-if="loading"/>
 
-			<campaignTemplateMain v-if="!loading && campaignTemplate" :campaignTemplate="campaignTemplate"/>
+			<emailTemplateMain v-if="!loading && emailTemplate" :emailTemplate="emailTemplate"/>
 
 		</template>
 	</maincontent>
@@ -29,8 +29,8 @@
 
 <style scoped lang="sass">
 .name
-	white-space: nowrap
 	overflow: hidden
+	white-space: nowrap
 	text-overflow: ellipsis
 	font-weight : 700
 	font-size: 1.3em
@@ -38,20 +38,20 @@
 
 <script>
 
-import campaignTemplateMain from '@/components/modules/campaigns/template/main/index.vue'
-import campaignTemplateMenu from '@/components/modules/campaigns/template/menu/index.vue'
+import emailTemplateMain from '@/components/modules/campaigns/email/main/index.vue'
+import emailTemplateMenu from '@/components/modules/campaigns/email/menu/index.vue'
 
 
 export default {
 	name: 'campaign_page',
 	components: {
-        campaignTemplateMain,
-		campaignTemplateMenu
+        emailTemplateMain,
+		emailTemplateMenu
 	},
 
 	data : function(){
 		return {
-			campaignTemplate : null,
+			emailTemplate : null,
 			loading : true,
 		}
 	},
@@ -65,23 +65,19 @@ export default {
 	methods: {
         load : function(){
 
-			
-
-			console.log('this.id', this.id)
-
 			if (this.id != 'new'){
 
 				this.loading = true
 
-
-				this.core.campaigns.getTemplate(this.id).then(r => {
-					this.campaignTemplate = r
+				this.core.campaigns.getEmailTemplate(this.id).then(r => {
+					this.emailTemplate = r
 				}).finally(() => {
 					this.loading = false
 				})
+
 			}
 			else{
-				this.campaignTemplate = this.core.campaigns.campaignTemplates.createEmailTemplate() 
+				this.emailTemplate = this.core.campaigns.campaignTemplates.createEmailTemplate() 
 
 				this.loading = false
 			}

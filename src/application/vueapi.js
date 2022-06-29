@@ -607,7 +607,7 @@ class Vueapi {
 
     ///
 
-    customWindow = function(path, caption, data = {}, events = {}){
+    customWindow = function(module, caption, data = {}, events = {}){
 
         var e = false
 
@@ -630,8 +630,8 @@ class Vueapi {
             }
 
             this.store.commit('OPEN_MODAL', {
-                id : 'modal_' + path,
-                path : path,
+                id : 'modal_' + module,
+                module : module,
                 caption : caption || "",
                 data : data,
                 events : events

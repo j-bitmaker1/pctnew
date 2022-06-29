@@ -78,7 +78,15 @@ export default {
         pdfSettings: () => import("@/components/modules/app/settings/pdf/wnd.vue"),
         questionnaire_client: () => import("@/components/modules/app/client/questionnaire/index.vue"),
         scenario_custom: () => import("@/components/modules/app/scenarios/custom/index.vue"),
-        scenario_allfactors: () => import("@/components/modules/app/scenarios/allfactors/index.vue")
+        scenario_allfactors: () => import("@/components/modules/app/scenarios/allfactors/index.vue"),
+
+
+        //// campaigns
+
+        campaigns_steps_edit: () => import("@/components/modules/campaigns/steps/edit/index.vue"),
+        campaigns_steps_selectemails: () => import("@/components/modules/campaigns/steps/selectemails/index.vue"),
+      
+        
 
     },
  
@@ -146,9 +154,9 @@ export default {
         moving : function(e, h){
         },
 
-        bypath : function(){
+        /*bypath : function(){
             return require("@/components/" + this.path).default
-        }
+        }*/
 
         
     },

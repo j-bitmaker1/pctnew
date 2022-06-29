@@ -429,7 +429,8 @@
 			"templates" : "Templates",
 			"newCampaign" : "Start new campaign",
 			"newCampaignTemplate" : "Create campaign template",
-			"emailtemplates" : "Email templates"
+			"emailtemplates" : "Email templates",
+			"newEmailTemplate" : "Create email template"
 		},
 
 		"add" : {

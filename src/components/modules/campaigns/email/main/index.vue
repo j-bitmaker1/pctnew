@@ -5,9 +5,7 @@
 		<input type="text" v-model="name"/>
 	</div>
 
-    <div class="stepsWrapper mobp">
-		<campaignsStepsList @change="change" :steps="steps" :editing="true"/>
-	</div>
+    
 
 	<div class="savePanel">
 		<button class="button black" @click="cancel">

@@ -276,7 +276,7 @@ export default {
 
 		selectWhile : function(){
 			this.core.vueapi.customWindow(
-            	'modules/campaigns/steps/selectemails/index.vue', 
+            	'campaigns_steps_selectemails', 
             	"Select email for condition", 
 				{
 					steps : this.steps,

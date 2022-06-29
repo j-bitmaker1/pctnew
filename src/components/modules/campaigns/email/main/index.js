@@ -5,7 +5,7 @@ import f from "@/application/shared/functions.js"
 export default {
     name: 'campaigns_template_main',
     props: {
-        campaignTemplate : Object
+        emailTemplate : Object
     },
 
     components : {
@@ -14,7 +14,6 @@ export default {
     data : function(){
 
         return {
-            steps : [],
             prev : '',
             name : ''
         }
@@ -22,9 +21,8 @@ export default {
     },
 
     created() {
-        this.prevsteps = JSON.stringify(this.campaignTemplate.content)
-        this.steps = this.core.campaigns.campaignTemplates.clonelist(this.campaignTemplate.content)
-        this.name = this.campaignTemplate.name
+        this.prevsteps = JSON.stringify(this.emailTemplate)
+        this.name = this.emailTemplate.name
     },
 
     watch: {
@@ -32,7 +30,7 @@ export default {
     },
     computed: mapState({
         haschanges : function(){
-            return JSON.stringify(this.steps) != this.prevsteps || this.name != this.campaignTemplate.name
+            return false
         },
         auth : state => state.auth
     }),
@@ -40,7 +38,6 @@ export default {
     methods : {
 
         change : function(steps){
-            this.steps = steps
         },
 
         save : function(){},

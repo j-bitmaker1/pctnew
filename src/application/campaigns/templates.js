@@ -1,7 +1,7 @@
 import f from "@/application/shared/functions.js"
 
 const moment = require('moment');
-import {EditStep, ViewStep, Template} from './kit.js'
+import {EditStep, ViewStep, Template, EmailTemplate} from './kit.js'
 
 class CampaignsTemplates {
     constructor({vueapi}) {
@@ -10,7 +10,7 @@ class CampaignsTemplates {
 
     edit_email = function(step){
         return this.vueapi.customWindow(
-            'modules/campaigns/steps/edit/index.vue', 
+            'campaigns_steps_edit', 
             "Add email", 
             {
                 step,
@@ -23,7 +23,7 @@ class CampaignsTemplates {
         var steps = this.filterStepsCustom(step, p)
 
         return this.vueapi.customWindow(
-            'modules/campaigns/steps/edit/index.vue', 
+            'campaigns_steps_edit', 
             "Add wait interval", 
             {
                 steps,
@@ -34,7 +34,7 @@ class CampaignsTemplates {
     }
     edit_subcampaign = function(step){
         return this.vueapi.customWindow(
-            'modules/campaigns/steps/edit/index.vue', 
+            'campaigns_steps_edit', 
             "Insert subcampaign", 
             {
                 step,
@@ -50,7 +50,7 @@ class CampaignsTemplates {
 
        
         return this.vueapi.customWindow(
-            'modules/campaigns/steps/edit/index.vue', 
+            'campaigns_steps_edit', 
             "Select email for statement", 
             {
                 step,
@@ -64,7 +64,7 @@ class CampaignsTemplates {
 
     edit_notification = function(step){
         return this.vueapi.customWindow(
-            'modules/campaigns/steps/edit/index.vue', 
+            'campaigns_steps_edit', 
             "Add notification", 
             {
                 step,
@@ -325,6 +325,10 @@ class CampaignsTemplates {
 
     create = function(){
         return new Template()
+    }
+
+    createEmailTemplate = function(){
+        return new EmailTemplate()
     }
 }
 

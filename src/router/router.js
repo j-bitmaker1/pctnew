@@ -326,6 +326,13 @@ const routes = [
 	},
 
 	{
+		path: '/campaigns/emailtemplate/:id',
+		name: 'emailTemplate',
+		component: () => import('@/views/campaigns/emailTemplate'),
+		customRedirect: redirects.authorized,
+	},
+
+	{
 		path: '/campaigns/batch/:id',
 		name: 'batch',
 		component: () => import('@/views/campaigns/batch'),

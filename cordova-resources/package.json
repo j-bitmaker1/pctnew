@@ -1,7 +1,7 @@
 {
   "name": "com.rixtrema.pct",
   "displayName": "Portfolio Crash Test",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "",
   "main": "index.js",
   "scripts": {
