@@ -27,6 +27,8 @@ export default {
 	},
 	computed: mapState({
 		auth : state => state.auth,
+
+		cordova : function(){return window.cordova}
 	}),
 
 	methods : {

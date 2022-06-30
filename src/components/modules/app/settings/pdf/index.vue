@@ -15,12 +15,12 @@
 
         <div class="row">
             <div class="label">
-                <span>Logotype</span>
+                <span>Logo</span>
             </div>
             <div class="setting">
-                <upload :images="images" @uploaded="imageChanged">
+                <upload :extensions="extensions" :images="images" @uploaded="imageChanged" @error="uploadError">
                     <template v-slot:content>
-                        <button class="button small black" :style="logotypestyle">Upload logotype</button>
+                        <button class="button small black" :style="logotypestyle">Upload logo</button>
                     </template>
                 </upload>
                 

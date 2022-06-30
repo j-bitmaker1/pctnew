@@ -42,10 +42,26 @@ export default {
         auth : state => state.auth,
         logotypestyle : function(){
             return this.logotype ? "color:#fff;background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url('"+this.logotype+"'); background-size: cover; background-position: center center; background-repeat: no-repeat" : ''
+        },
+        extensions : function(){
+            return ['png', 'jpg', 'jpeg', 'jfif']
         }
     }),
 
     methods : {
+
+        uploadError : function(e){
+
+            console.log("E", e)
+
+            if (e.text){
+				this.$store.commit('icon', {
+					icon: 'error',
+					message: e.text
+				})
+			}
+        },
+
         load : function(){
 
             this.loading = true

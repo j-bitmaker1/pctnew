@@ -1,6 +1,6 @@
 <template>
 <div id="share">
-	<div class="sway" @click="sharelink">
+	<div class="sway" @click="sharelink" v-if="cordova">
 		<i class="fas fa-share-alt"></i>
 		<span>Share</span>
 	</div>
