@@ -143,7 +143,7 @@ class Core {
 
             prepare : () => {
 
-                return Promise.all([this.api.checkUpdates(), this.activity.load(), this.pct.prepare()]).catch(e => {
+                return Promise.all([this.api.checkUpdates(), this.activity.load(), this.pct.prepare(), this.crm.prepare()]).catch(e => {
                     return Promise.reject(e)
                 })
 

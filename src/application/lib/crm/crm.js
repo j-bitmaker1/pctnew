@@ -158,12 +158,15 @@ class CRM {
     }
 
     prepare = function(){
+        console.log("PREPAR")
         return this.api.crm.contacts.scheme().then(r => {
 
             if (r)
                 this.schemas.contact = this.rewriteContactSchema(r)
 
             else this.schemas.contact = {}
+
+            console.log('this.schemas', this.schemas)
 
             this.store.commit('crmschemas', this.schemas)
 
