@@ -10,7 +10,7 @@
 
 				<div class="data" v-if="profile">
 					<div class="name">{{profile.FName}} {{profile.LName}}</div>
-					<div class="email">{{profile.Email}}</div>
+					<div class="email"><avalue :value="profile.Email"/></div>
 				</div>
 			</div>
 		</template>

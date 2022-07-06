@@ -25,7 +25,7 @@
 						<div class="label"><span>{{$t(slotProps.item.text)}}</span></div>
 
 						<div class="value">
-							<span v-if="profile[slotProps.item.id]">{{profile[slotProps.item.id]}}</span>
+							<avalue v-if="profile[slotProps.item.id]" :value="profile[slotProps.item.id]"></avalue>
 							<span v-else>&mdash;</span>
 						</div>
 					</div>

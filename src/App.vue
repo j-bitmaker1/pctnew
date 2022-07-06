@@ -92,6 +92,9 @@ import iconstoggle from "@/components/assets/iconstoggle/index.vue";
 import checkboxtoggle from "@/components/assets/checkboxtoggle/index.vue";
 
 import value from "@/components/assets/value/index.vue";
+import avalue from "@/components/assets/avalue/index.vue";
+
+
 import tags from "@/components/assets/tags/index.vue";
 
 import topheader from "@/components/layouts/topheader/index.vue";
@@ -149,6 +152,7 @@ Vue.component("iconstoggle", iconstoggle);
 Vue.component("checkboxtoggle", checkboxtoggle);
 
 Vue.component("value", value);
+Vue.component("avalue", avalue);
 Vue.component("listmenu", listmenu);
 Vue.component("list", list);
 Vue.component("listgrouped", listgrouped);
