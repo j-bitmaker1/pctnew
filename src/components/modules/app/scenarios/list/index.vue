@@ -17,22 +17,6 @@
                 <button class="button black" @click="useDefault">Use default scenarios</button>
             </div>
 
-            <!--<div>
-                <button class="button small black">All scenarios</button>
-            </div>
-            <div>
-                <button class="button small black">Custom scenarios</button>
-            </div>-->
-
-            <!--<div class="keyscenariosWrapper ">
-                <div class="wr2">
-                    <iconstoggle :icons="keyscenarios" :value="usekeyscenarios" @change="changeKeyScenariosUse" />
-                    <div class="label">
-                        <span>Use key scenarios</span>
-                    </div>
-                </div>
-            </div>-->
-
         </div>
 
         <div class="controls mobp">

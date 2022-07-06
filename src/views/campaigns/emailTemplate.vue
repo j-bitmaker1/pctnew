@@ -21,6 +21,10 @@
 
 			<emailTemplateMain v-if="!loading && emailTemplate" :emailTemplate="emailTemplate"/>
 
+			<div class="empty" v-if="!loading && !emailTemplate">
+				<span>Email template not found</span>
+			</div>
+
 		</template>
 	</maincontent>
 
@@ -28,6 +32,12 @@
 </template>
 
 <style scoped lang="sass">
+.empty
+	text-align: center
+	padding : 6 * $r
+
+	span
+		font-size: 0.9em
 .name
 	overflow: hidden
 	white-space: nowrap
@@ -69,9 +79,9 @@ export default {
 
 				this.loading = true
 
-				this.core.campaigns.getEmailTemplate(this.id).then(r => {
+				this.core.campaigns.getEmailWithBody(this.id).then(r => {
 					this.emailTemplate = r
-				}).finally(() => {
+				}).catch(e => {}).finally(() => {
 					this.loading = false
 				})
 

@@ -15,7 +15,7 @@
 
         <div class="row">
             <div class="label">
-                <span>Logo</span>
+                <span>Logo</span> <i v-if="this.logotype" class="fas fa-check-circle good"></i>
             </div>
             <div class="setting">
                 <upload :extensions="extensions" :images="images" @uploaded="imageChanged" @error="uploadError">

@@ -1670,8 +1670,6 @@ f.restoreSelection = function (range) {
 }
 
 f.insertTextAtCursor = function (el, text, offset) {
-
-
     offset || (offset = {
         left: 0,
         right: 0
@@ -1680,13 +1678,15 @@ f.insertTextAtCursor = function (el, text, offset) {
     if (el && typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
         var val = el.value, endIndex;
 
+        console.log("1")
+
         endIndex = el.selectionEnd;
 
         el.value = val.slice(0, endIndex + offset.left) + text + val.slice(endIndex + offset.right);
 
         el.selectionStart = el.selectionEnd = endIndex + offset.left + text.length;
 
-        return el.selectionStart
+        f.setCaretPosition(el, el.selectionStart, el.selectionEnd)
 
     } else {
 
@@ -1712,9 +1712,13 @@ f.insertTextAtCursor = function (el, text, offset) {
                 range.setStartAfter(newel);
                 range.setEndAfter(newel);
 
+
+                f.restoreSelection(range)
+
             }
         } else if (document.selection && document.selection.createRange) {
             document.selection.createRange().text = text;
+
         }
 
     }
@@ -1743,6 +1747,8 @@ f.files = {
         return true;
     }
 }
+
+
 
 f.ObjDiff = ObjDiff
 f._arrayBufferToBase64 = _arrayBufferToBase64

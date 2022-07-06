@@ -908,6 +908,14 @@ var User = function ({
         })
     }
 
+    self.getinfo = function(){
+        return state.is().then(state => {
+            if(self.info) {
+                return Promise.resolve(self.info)
+            }
+        })
+    }
+
     return self
 
 }

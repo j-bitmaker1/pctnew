@@ -82,6 +82,16 @@ export default {
 
             if (key == 'enter')
                 this.select(this.searchresult[this.tipposition])
+        },
+
+        focus : function(){
+            if (this.$refs.search)
+                this.$refs.search.focus()
+        },
+
+        blur : function(){
+            if (this.$refs.search)
+                this.$refs.search.blur()
         }
     },
 }

@@ -1,28 +1,16 @@
-#campaigns_template_main
-
-.infoWrapper
-    margin-top: 2 * $r
+.nameWrapper,
+.subjectWrapper
     margin-bottom: 2 * $r
-    padding-left: 2 * $r
-.statusrow
-    margin-top: 2 * $r
-    margin-bottom: 6 * $r
-    .campaigns_status
+    padding : 0 $r
 
-    ::v-deep
-        .status
-            flex-direction: column
-            grid-gap: 0
-.hasOpened
-    margin-top: 2 * $r
-    margin-bottom: 6 * $r
-    text-align: center
+    label
+        font-size: 0.8em
+        font-weight: 700
+        margin-left: $r
 
-    .label
-        span
-            color : srgb(--color-txt-ac)
-
-.stepsWrapper
-    overflow-x: auto
-    &::-webkit-scrollbar
-        display: none
+    input
+        background: srgb(--neutral-grad-0)
+        border-radius: 12px
+        width: 100%
+        padding : 0 2 * $r
+        height: 55px

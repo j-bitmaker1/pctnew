@@ -47,8 +47,13 @@ export default {
 			}, 500)
 		},
 
-		value : function(value){
-			this.searchTxt = value
+		value : {
+			immediate : true,
+			handler : function(value){
+				this.searchTxt = value
+	
+				console.log('this.searchTxt', this.searchTxt)
+			}
 		}
 	},
 	computed: mapState({

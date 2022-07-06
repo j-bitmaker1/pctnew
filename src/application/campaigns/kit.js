@@ -303,14 +303,33 @@ class EmailTemplate {
 
         this.LINKSVISITED = Number(data.LINKSVISITED || '0')
         this.OPENED = Number(data.OPENED || '0')
-
         this.UNSUBSCRIBED = Number(data.UNSUBSCRIBED || '0')
 
-        try {
-            this.Subject = decodeURIComponent(data.Subject)
-        } catch (e) { }
+        if (data.Subject){
+            this.setSubject(data.Subject)
+        }
 
+        if (data.Body){
+            this.setBody(data.Body)
+        }
+    }
 
+    setSubject = function(subject){
+        try{
+            this.Subject = decodeURIComponent(subject)
+        }catch(e){
+            this.Subject = subject
+        }
+        
+    }
+
+    setBody = function(body){
+        try{
+            this.Body = decodeURIComponent(body)
+        }catch(e){
+            this.Body = body
+        }
+        
     }
 }
 

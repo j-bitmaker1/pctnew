@@ -429,8 +429,9 @@
 			"templates" : "Templates",
 			"newCampaign" : "Start new campaign",
 			"newCampaignTemplate" : "Create campaign template",
-			"emailtemplates" : "Email templates",
-			"newEmailTemplate" : "Create email template"
+			"emailtemplates" : "Emails",
+			"newEmailTemplate" : "Create email template",
+			"emailTemplateCancel" : "Are you sure you want to cancel the changes?"
 		},
 
 		"add" : {
@@ -454,6 +455,11 @@
 			"financialAwareness" : "Financial Awareness Letters",
 			"pooledEmployerA" : "Pooled Employer Plans A",
 			"pooledEmployerB" : "Pooled Employer Plans B"
+		},
+
+		"variables" : {
+			"general" : "General variables",
+			"pct" : "Portfolio Crash Test Variables"
 		}
 	}
 

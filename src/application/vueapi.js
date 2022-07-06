@@ -831,6 +831,28 @@ class Vueapi {
     }
 
 
+    searchVariable = function(value, success){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_campaigns_variables',
+            module : "campaigns_variables",
+            mclass : "topsearching",
+            fromtop : true,
+            one : true,
+            caption : "Search variable",
+    
+            data : {
+                value,
+                onlysearch : true
+            },
+            events : {
+                selected : function(a){
+                    if(success) success(a)
+                }
+            }
+        })
+    }
+
+
 }
 
 export default Vueapi

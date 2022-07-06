@@ -1,6 +1,6 @@
 {
   "name": "pct",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -36,6 +36,7 @@
     "highcharts": "^10.1.0",
     "highcharts-vue": "^1.4.0",
     "howler": "^2.2.3",
+    "jquery": "^3.6.0",
     "linkifyjs": "^3.0.5",
     "miscreant": "^0.3.2",
     "moment": "^2.29.1",
@@ -70,6 +71,7 @@
     "vue-router": "^3.5.3",
     "vue-scroll": "^2.1.13",
     "vue-slider-component": "^3.2.15",
+    "vue-trumbowyg": "^3.6.2",
     "vue2-datepicker": "^3.11.0",
     "vue2-touch-events": "^3.2.2",
     "vuejs-dialog": "^1.4.2",

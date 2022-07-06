@@ -2679,6 +2679,8 @@ var ApiWrapper = function (core = {}) {
 
 				//data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
 
+				data.MailSystem = 'pct'
+
 				return paginatedrequest(data, 'campaigns', 'batches/list', p)
 
 			},
@@ -2800,7 +2802,7 @@ var ApiWrapper = function (core = {}) {
 		},
 
 		templates : {
-			gets : function(p = {}){
+			gets : function(data = {}, p = {}){
 
 				p.kit = {
 					class: Template,
@@ -2812,9 +2814,9 @@ var ApiWrapper = function (core = {}) {
 					type: 'template',
 				}
 
-				return request({
-					Compact : false,
-				}, 'campaigns', 'template/list', p).then(r => {
+				data.Compact = false
+
+				return request(data, 'campaigns', 'template/list', p).then(r => {
 
 					return Promise.resolve(r)
 
@@ -2832,7 +2834,7 @@ var ApiWrapper = function (core = {}) {
 
 		emails : {
 			templates : {
-				getall : function(p = {}){
+				getall : function(data, p = {}){
 
 					p.kit = {
 						class: EmailTemplate,
@@ -2844,10 +2846,46 @@ var ApiWrapper = function (core = {}) {
 						path: 'FCT.MailTemplate'
 					}
 
-					return request({
-					}, '401k', '?action=GETMAILTEMPLATES&withoutBody=true', p).then(r => {
+					return request(data, '401k', '?action=GETMAILTEMPLATES&withoutBody=true', p).then(r => {
 						return r.FCT.MailTemplate
 					})
+				},
+
+				create : function(data, p = {}){
+
+					return request(data, '401k', '?action=CREATEMAILTEMPLATE', p).then(r => {
+
+						data.ID = r.MailTemplateID
+
+						var obj = new EmailTemplate(data)
+
+						core.vxstorage.set(obj, 'emailtemplate')
+						
+						return Promise.resolve(obj)
+					})
+				},
+
+				update : function(data, p = {}){
+					
+					return request(data, '401k', '?action=UPDATEMAILTEMPLATE', p).then(r => {
+
+						if (data.Body){
+							data.Body = decodeURIComponent(data.Body)
+						}
+
+						var {updated} = core.vxstorage.update(data, 'emailtemplate')
+
+						return Promise.resolve()
+					})
+				},
+
+				getBody : function(id, p = {}){
+
+					return request({
+					}, '401k', '?action=GETMAILTEMPLATES&ids=' + id, p).then(r => {
+						return f.deep(r, 'FCT.MailTemplate.0.Body') || ''
+					})
+
 				},
 
 				getbyids : function(ids = []){
