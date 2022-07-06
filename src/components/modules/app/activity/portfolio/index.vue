@@ -46,12 +46,8 @@
 	align-content: space-between
 	align-items: center
 	
-	
-
 	.namewrapper
 		flex-grow: 2
-	.name
-		span
 
 	.assets
 		margin-left: auto

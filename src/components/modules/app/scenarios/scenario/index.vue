@@ -61,9 +61,6 @@
 			background: srgb(--neutral-grad-4)
 			color : srgb(--neutral-grad-0)
 
-		&.edit
-			
-
 		i
 			font-size: 0.8em
 			color : srgb(--color-txt-ac)
