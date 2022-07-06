@@ -571,7 +571,7 @@ export default {
 				upload : images
 			}, {
 				createPortfolio : (portfolio) => {
-					if(!this.name) this.name = portfolio.name
+					if(!this.name) this.name = f.files.getName(portfolio.name)
 
 					this.multiple(portfolio.assets)
 				}

@@ -1,6 +1,6 @@
 <template>
-    <span class="value" v-if="!type">{{formatted}}</span>
-    <a :href="link" v-else>{{formatted}}</a>
+    <span class="value" @click="action">{{formatted}}</span>
+    <!--<a :href="link" v-else>{{formatted}}</a>-->
 </template>
 
 <script>
@@ -65,7 +65,47 @@ export default {
         action : function(){
             if(this.type){
 
+                var menu = [
+                    {
+                        text: 'button.copy',
+                        icon: 'fas fa-copy',
+                        action : this.copyvalue
+                    }
+                ]
+
+                if(this.type == 'phone'){
+                    menu.push({
+                        text: 'button.call',
+                        icon: 'fas fa-phone',
+                        action : this.defaultLinkAction
+                    })
+                }
+
+                if(this.type == 'email'){
+                    menu.push({
+                        text: 'button.sendemail',
+                        icon: 'fas fa-at',
+                        action : this.defaultLinkAction
+                    })
+                }
+
+                this.core.vueapi.listmenupromise(menu).catch(e => {})
             }
+
+
+        },
+
+        copyvalue : function(){
+            f.copytext(this.formatted)
+
+            this.$store.commit('icon', {
+                icon: 'success',
+                message: "Text was copied"
+            })
+        },
+
+        defaultLinkAction : function(){
+            f.openexternallink(this.link)
         }
     },
 }

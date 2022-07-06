@@ -1738,6 +1738,12 @@ f.files = {
 
         return ext;
     },
+    getName: function (file) {
+        var name = file.name.split('.');
+            name.pop()
+
+        return name.join('.');
+    },
     checkExtension: function (file, extensions = []) {
 
         if (extensions.length) {

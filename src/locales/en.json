@@ -181,7 +181,9 @@
 		"downloaded" : "Downloaded",
 		"sendFile" : "Send File",
 		"takePhotoOrVideo" : "Send image",
-		"edit" : "Edit"
+		"edit" : "Edit",
+		"sendemail" : "Send email",
+		"call" : "Call"
 	},
 
 	"yes" : "Yes",

@@ -11,7 +11,7 @@
 			<i class="fas fa-plus"></i> Add asset
 		</button>
 
-		<button class="button" key="filemanager" @click="filemanager" :disabled="assets.length > 0">
+		<button class="button" key="filemanager" @click="e => {filemanager()}" :disabled="assets.length > 0">
 			<i class="fas fa-file"></i> Add from file
 		</button>
 

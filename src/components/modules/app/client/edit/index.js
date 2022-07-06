@@ -180,7 +180,18 @@ export default {
 
 								var type = 'client'
 
-								if(r.Type == "LEAD") type = 'lead'
+								if (r.Type == "LEAD") type = 'lead'
+
+								if (r.Status == "DELETED"){
+									this.edit = {
+										ID : r.ID,
+										Status : "ACTIVE"
+									}
+
+									this.save()
+
+									return
+								}
 
 								return this.$dialog.confirm(
 									this.$t('labels.exist' + type), {
