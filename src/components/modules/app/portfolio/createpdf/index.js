@@ -119,7 +119,8 @@ export default {
 
             this.making = true
 
-            var nameOfReport = "New PCT report"
+            var nameOfReport = "Portfolio Crash Testing Report: " + this.portfolio.name
+            var saveName = 'RiXtrema - Portfolio Crash Testing Report as of ' + moment().format('MMMM/DD/YYYY');
 
             this.core.settings.pdf.getall().then(settings => {
                 
@@ -189,7 +190,7 @@ export default {
                 return new Promise((resolve, reject) => {
 
                     if(f.isios()){
-                        d.download(nameOfReport);
+                        d.download(saveName);
                     }
                     else{
                         d.getBase64((data) => {
@@ -202,7 +203,7 @@ export default {
                             this.$store.commit('globalpreloader', true)
     
                             this.core.vueapi.pdfviewer({
-                                name: nameOfReport,
+                                name: saveName,
                                 base64: 'data:application/pdf;base64,' + data
                             }, {
                                 mounted: () => {

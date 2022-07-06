@@ -106,8 +106,8 @@
 		"fileManager" : "File manager",
 		"deleteFile" : "Delete file",
 		"openOriginal" : "Open original",
-		"portfolioswithclientq" : "Some portfolios are already assigned to other clients. Do you want to reassign a client?",
-		"portfolioswithclientyes" : "Reassign a client",
+		"portfolioswithclientq" : "One or more of the selected portfolios are already assigned to other clients. Continue?",
+		"portfolioswithclientyes" : "Yes",
 		"portfoliopdf" : "Create PDF report",
 		"makeasreadnotifications" : "Make as read",
 		"notifications" : {
