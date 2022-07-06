@@ -1026,7 +1026,7 @@ var Base64 = {
 
     toFileFetch: function (base64, __type, name) {
 
-        var type = base64.split(';')[0].split('/')[1];
+        var type = base64.split(';')[0].replace("data:", '');
 
         return fetch(base64).then(res => {
             return res.blob()

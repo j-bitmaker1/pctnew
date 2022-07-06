@@ -2,14 +2,14 @@ import { mapState } from 'vuex';
 
 import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'
 import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
-
+import summarybutton from '@/components/delements/summarybutton/index.vue'
 export default {
     name: 'compare',
     props: {
         ids : Array
     },
 
-    components : {ctmain, ctmenu},
+    components : {ctmain, ctmenu, summarybutton},
 
     data : function(){
 
@@ -62,6 +62,10 @@ export default {
 
     methods : {
 
+        summatytext : function(id){
+            return "Crash rating: " + this.portfolios[id].name
+        },
+
         changevaluemode : function(v){
 			this.valuemode = v
 
@@ -95,6 +99,8 @@ export default {
             }).then((cts) => {
 
                 this.cts = cts
+                
+                console.log('this.cts', this.cts)
 
             }).finally(() => {
                 this.loading = false

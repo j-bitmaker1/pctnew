@@ -147,6 +147,7 @@ export default {
 
 					if(!data.ID) data.ID = this.edit.ID
 
+
 					if (this.uploading){
 						return this.core.crm.uploadAvatar(data.ID, this.uploading.file, {
 							preloader : true

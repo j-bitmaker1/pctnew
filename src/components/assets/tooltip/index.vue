@@ -1,6 +1,6 @@
 <template>
 <div class="tooltip">
-    <v-popover v-bind="options" v-if="!mobileview">
+    <v-popover ref="tooltip" v-bind="options" v-if="!mobileview">
         <slot name="item">
             <div class="diconbutton">
                 <i class="fas fa-ellipsis-v"></i>
@@ -35,12 +35,11 @@
         </transition>
 
     </div>
-    
+
 </div>
 </template>
 
 <style scoped lang="sass">
-
 
 </style>
 
@@ -54,14 +53,15 @@ export default {
     props: {
         data: Object
     },
-    data : function(){
+    data: function () {
         return {
-            showed : false,
+            showed: false,
 
-            options : {
-                    autoHide : true,
-                    placement : 'left'
-                
+            options: {
+                autoHide: true,
+                placement: 'left',
+                trigger : 'click',
+                hideOnTargetClick : true
             }
         }
     },
@@ -72,26 +72,35 @@ export default {
             return state.dwidth <= 768
         },
 
-        modals : state => state.modals
+        modals: state => state.modals
     }),
 
     methods: {
-        show : function(){
+        show: function () {
             this.showed = true
 
-            var h = document.getElementById( 'html' );
-			    h.style.overflow = 'hidden'
+            var h = document.getElementById('html');
+            h.style.overflow = 'hidden'
         },
 
-        close : function(){
+        close: function () {
             this.showed = false
 
-            if(!this.modals.length){
-                var h = document.getElementById( 'html' );
-				    h.style.overflow = null
+            if(this.$refs.tooltip){
+
+                this.$refs.tooltip.hide()
+
+            }
+            else{
+
+                if (!this.modals.length) {
+                    var h = document.getElementById('html');
+                    h.style.overflow = null
+                }
             }
 
             
+
         }
     },
 }

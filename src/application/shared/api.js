@@ -428,10 +428,14 @@ var ApiWrapper = function (core = {}) {
 			first: _.isEmpty(storage.data) ? undefined : _.min(_.map(Object.keys(storage.data), v => Number(v)))
 		}
 
+		console.log('_count', flength, storage.count)
+
 
 		if (flength == storage.count) return r
 
-		if (_count && _count == loaded.length) return r
+	
+
+		if (typeof _count != 'undefined' && _count == loaded.length) return r
 
 		return null
 
@@ -467,12 +471,16 @@ var ApiWrapper = function (core = {}) {
 			if (r.Pagination) r.pagination = r.Pagination
 			if (r.Records) r.records = r.Records
 
-			if (r.pagination) r.count = r.pagination.total || r.pagination.Total
+			if (r.pagination) {
+				r.count = (typeof r.pagination.total != 'undefined' ? r.pagination.total : 0) || 
+					(typeof r.pagination.Total != 'undefined' ? r.pagination.Total : 0)
+			}
 
 			prepareliststorage(data, system, to, p) /// async. maybe clear
 
 			if (!data[p.from]) data[p.from] = 0
 
+			console.log("P", p, r)
 
 			_.each(r.records || [], (e, i) => {
 				var c = 0

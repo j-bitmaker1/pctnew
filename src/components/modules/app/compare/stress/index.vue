@@ -23,6 +23,10 @@
 			
 		</div>
 
+		<div class="summary mobp" v-if="cts">
+			<summarybutton :reversed="true" :colored="true" v-for="(item, id) in cts.cts" :key="id" :text="summatytext(id)" :number="core.pct.ocr(item.ocr)"/>
+		</div>
+
         <ctmain :cts="cts" :portfolios="portfolios" :mode="valuemode"/>
     </div>
 </div>
