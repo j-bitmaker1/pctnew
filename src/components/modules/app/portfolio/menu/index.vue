@@ -140,15 +140,26 @@ export default {
 		},
 
 		delete : function(){
-			
 
-			this.core.api.pctapi.portfolios.delete(this.portfolio.id, {
-				preloader : true,
-				showStatus : true
-			}).then(r => {
-				
-				this.$emit('delete', this.portfolio)
+			this.$dialog.confirm(
+				"Do you really want to delete this portfolio?", {
+				okText: vm.$t('yes'),
+				cancelText : vm.$t('no')
 			})
+	
+			.then((dialog) => {
+
+				this.core.api.pctapi.portfolios.delete(this.portfolio.id, {
+					preloader : true,
+					showStatus : true
+				}).then(r => {
+					
+					this.$emit('delete', this.portfolio)
+				})
+
+			})
+
+			
 		},
 
 		recover: function(){

@@ -480,8 +480,6 @@ var ApiWrapper = function (core = {}) {
 
 			if (!data[p.from]) data[p.from] = 0
 
-			console.log("P", p, r)
-
 			_.each(r.records || [], (e, i) => {
 				var c = 0
 

@@ -111,7 +111,7 @@ export default {
 				{
 					text : 'labels.deleteportfolios',
 					icon : 'fas fa-trash',
-					action : this.deleteportfolios
+					action : this.deleteportfoliosMenu
 				}
 			]
 
@@ -182,6 +182,40 @@ export default {
 
 		gotofolder : function(f){
 			this.$emit('gotofolder', f)
+		},
+
+		deleteportfoliosMenu : function(portfolios){
+			this.$dialog.confirm(
+				"Do you really want to delete "+portfolios.length+" portfolio(s)?", {
+				okText: vm.$t('yes'),
+				cancelText : vm.$t('no')
+			})
+	
+			.then((dialog) => {
+
+				this.$store.commit('globalpreloader', true)
+				
+				return Promise.all(_.map(portfolios, (c) => {
+					return this.core.api.pctapi.portfolios.delete(c.id)
+				})).then(r => {
+
+					this.deleteportfolios(portfolios)
+	
+					this.$store.commit('icon', {
+						icon: 'success'
+					})
+
+				}).catch(e => {
+
+					this.$store.commit('icon', {
+						icon: 'error',
+						message: e.error
+					})
+				}).finally(() => {
+					this.$store.commit('globalpreloader', false)
+				})
+
+			})
 		}
 	},
 }

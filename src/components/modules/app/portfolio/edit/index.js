@@ -341,7 +341,12 @@ export default {
 
 			if(this.currentroot && this.currentroot != '0' && this.currentroot) r = this.currentroot
 
-			this.save(r)
+			this.save(r).catch(e => {
+				this.$store.commit('icon', {
+					icon: 'error',
+					message: e.text
+				})
+			})
 		},
 
 		checkModel : function(){
@@ -389,16 +394,18 @@ export default {
 
 		save : function(catalogId){
 			if (!this.cansave()){
-				return
+				return 
 			}
 
-			if (!this.checkModel()) return
+			if (!this.checkModel()) return 
+
+
+			console.log("SAVE",catalogId )
 
 
 			var action = null
 			var positions = this.joinassets(this.assets)
 
-			
 
 			var data = {
 				name : this.name,
@@ -436,7 +443,7 @@ export default {
 			}
 
 
-			action.then(r => {
+			return action.then(r => {
 
 				data = {
 					...data,
@@ -447,12 +454,7 @@ export default {
 
 				this.$emit('close')
 
-			}).catch((e = {}) => {
-				
 			})
-
-			//this.$emit('save', this.assets)
-
 			
 		},
 
@@ -462,8 +464,19 @@ export default {
 				return
 			}
 
-			this.core.vueapi.selectFolder(this.selected, (folder) => {
-				this.save(folder.id)
+			//this.selected, 
+
+			this.core.vueapi.selectFolder((folder) => {
+
+				console.log('folder', folder)
+
+				this.save(folder.id).catch(e => {
+					console.log('e', e)
+					this.$store.commit('icon', {
+						icon: 'error',
+						message: e.text
+					})
+				})
 			})
 
 		},

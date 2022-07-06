@@ -116,14 +116,27 @@ export default {
 
 		deleteclient : function(){
 
-			this.core.crm.deletecontact(this.profile.ID, {
-				preloader : true,
-				showStatus : true
-			}).then(r => {
-				this.$emit('delete', this.profile)
-			}).catch(e => {
+			this.$dialog.confirm(
+				"Do you really want to delete this contact?", {
+				okText: vm.$t('yes'),
+				cancelText : vm.$t('no')
+			})
+	
+			.then((dialog) => {
+
+				this.core.crm.deletecontact(this.profile.ID, {
+					preloader : true,
+					showStatus : true
+				}).then(r => {
+					this.$emit('delete', this.profile)
+				}).catch(e => {
+
+				})
+
+			}).catch((e) => {
 
 			})
+			
 			
 		},
 

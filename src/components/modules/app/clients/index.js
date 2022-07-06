@@ -149,8 +149,43 @@ export default {
 			this.sort = v
 		},
 
+		
+
 		deletecontacts : function(contacts){
-			this.deleteclients(contacts)
+
+			this.$dialog.confirm(
+				"Do you really want to delete "+contacts.length+" client(s)?", {
+				okText: vm.$t('yes'),
+				cancelText : vm.$t('no')
+			})
+	
+			.then((dialog) => {
+
+				this.$store.commit('globalpreloader', true)
+				
+				return Promise.all(_.map(contacts, (c) => {
+					return this.core.crm.deletecontact(c.ID)
+				})).then(r => {
+
+					
+					this.deleteclients(contacts)
+	
+					this.$store.commit('icon', {
+						icon: 'success'
+					})
+					
+				}).catch(e => {
+
+					this.$store.commit('icon', {
+						icon: 'error',
+						message: e.error
+					})
+				}).finally(() => {
+					this.$store.commit('globalpreloader', false)
+				})
+
+			})
+
 		},
 		
 		selected : function(profiles){
