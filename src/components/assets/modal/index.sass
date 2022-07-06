@@ -1,4 +1,4 @@
-.modal-backdrop 
+.modal-backdrop
     position: absolute
     top: 0
     bottom: 0
@@ -21,20 +21,20 @@
 
 #modal
     position: fixed
-    left : 0
-    top : 0
-    bottom : 0
+    left: 0
+    top: 0
+    bottom: 0
     right: 0
     z-index: 2023
 
     .notificationWrapper
-        padding : $r
+        padding: $r
         padding-left: 0
         padding-right: 0
         position: absolute
-        left : 50%
+        left: 50%
         right: 0
-        top : 0
+        top: 0
         z-index: 10000
         max-width: 640px
         margin-left: -320px
@@ -46,15 +46,14 @@
 
     .swipable
         position: absolute
-        left : 0
-        right : 0
-        top : 0
-        bottom : 0
+        left: 0
+        right: 0
+        top: 0
+        bottom: 0
 
     &.hasnotification
         .modal-wrapper
-            top : 100px
-          
+            top: 100px
 
     &.small
         .modal-body
@@ -62,9 +61,8 @@
         .swipable
             position: static
         .modal-wrapper
-            top : auto
+            top: auto
             max-height: 90vh
-            
 
             .modal
                 max-height: 90vh
@@ -72,29 +70,27 @@
 
     &.likelabel
 
-        top : auto
+        top: auto
 
         .modal-wrapper
             padding-bottom: 0
-
 
         .modal-body
             padding-bottom: 0
 
         .modal
-            background: srgb(--color-bg-ac-bright) 
-            padding : 2 * $r
-            color : srgb(--text-on-bg-ac-color)
+            background: srgb(--color-bg-ac-bright)
+            padding: 2 * $r
+            color: srgb(--text-on-bg-ac-color)
             text-align: center
 
         .modal-header
             position: absolute
             background: transparent
-            left : auto
-            
+            left: auto
 
         .modal-close
-            color : srgb(--text-on-bg-ac-color)
+            color: srgb(--text-on-bg-ac-color)
         .modal-backdrop
             display: none
 
@@ -108,17 +104,15 @@
             border-top-right-radius: 22px
 
         .modal-body
-            padding : 2 * $r
+            padding: 2 * $r
             padding-bottom: 10 * $r
-            
 
     &.withoutheader
         .modal-header
             display: none
 
-
     .stickedTop
-        top : 0
+        top: 0
 
     &.absoluteContent
         .modal-header
@@ -129,7 +123,7 @@
             left: 0
             bottom: 0
             right: 0
-            top : 55px
+            top: 55px
 
         .absmodal
             width: 100%
@@ -139,15 +133,15 @@
         .modal-backdrop
             background: srgba(--color-shadow-base, 0.95)
         .modal-wrapper
-            top : 0
+            top: 0
         .closecsscross
             display: none
         .modal-body
-            top : 0
+            top: 0
         .modal
             border-radius: 0
             background: transparent
-            color : srgba(--text-on-bg-shadow-color, 0.7)
+            color: srgba(--text-on-bg-shadow-color, 0.7)
 
     &.cover
         .modal-close
@@ -160,7 +154,7 @@
                 span
                     font-size: 2em
         .modal-wrapper
-            top : 0
+            top: 0
         .modal
             border-radius: 0
 
@@ -171,8 +165,8 @@
             position: static
 
         .headerWrapper
-            margin : 0 auto
-            padding : 0
+            margin: 0 auto
+            padding: 0
             span
                 font-size: 0.8em
                 font-weight: 400
@@ -181,8 +175,8 @@
             display: none
 
         .modal-wrapper
-            top : 0
-            bottom : auto
+            top: 0
+            bottom: auto
             max-height: 90vh
 
             .modal
@@ -191,93 +185,89 @@
                 max-height: 90vh
                 position: static
                 border-radius: 0
-                border : 0
+                border: 0
                 border-bottom-left-radius: 20px
                 border-bottom-right-radius: 20px
-                border-bottom : 1px solid srgba(--neutral-grad-3, 0.2)
+                border-bottom: 1px solid srgba(--neutral-grad-3, 0.2)
 
 .modal-wrapper
     position: absolute
-    left : 50%
+    left: 50%
     margin-left: -320px
-    right : 0
-    top : 7%
-    bottom : 0
+    right: 0
+    top: 7%
+    bottom: 0
     overflow: hidden
     max-width: 640px
 
-.modal 
+.modal
     border-top-left-radius: 10px
     border-top-right-radius: 10px
-    border-top : 1px solid srgba(--neutral-grad-3, 0.2)
-    background: srgb(--background-total-theme)  
+    border-top: 1px solid srgba(--neutral-grad-3, 0.2)
+    background: srgb(--background-total-theme)
     overflow-x: hidden
-    
-    margin : 0 auto
+
+    margin: 0 auto
     +shadowSmall()
     position: absolute
-    left : 0
-    right : 0
-    top : 0
-    bottom : 0
-    overscroll-behavior : contain
-
-
+    left: 0
+    right: 0
+    top: 0
+    bottom: 0
+    overscroll-behavior: contain
 
 .modal-close
     margin-left: auto
-    padding : 2 * $r
-    width : 50px
+    padding: 2 * $r
+    width: 50px
     text-align: center
-    color : srgb(--neutral-grad-4)
+    color: srgb(--neutral-grad-4)
     cursor: pointer
     z-index: 1
 
     &:hover
-        color : srgb(--text-color)
+        color: srgb(--text-color)
 
 .modal-header,
-.modal-footer 
+.modal-footer
     display: flex
-    
-    margin : 0 auto
 
+    margin: 0 auto
 
-.modal-header 
+.modal-header
     color: srgb(--text-color)
     justify-content: space-between
     font-weight: 700
     position: sticky
     display: flex
     justify-content: space-between
-    left : 0
-    top : 0
+    left: 0
+    top: 0
     right: 0
     z-index: 10
     background: srgb(--background-total-theme)
 
     .headerWrapper
-        padding : 2 * $r
+        padding: 2 * $r
 
-
-.modal-footer 
+.modal-footer
     justify-content: flex-end
 
 .mwork
     padding: 2 * $r 2 * $r
 
-.modal-body 
+.modal-body
     padding: 0
-   
+
 .eff
     text-align: center
-    color : srgb(--color-txt-ac)
-    width : 100%
+    color: srgb(--color-txt-ac)
+    width: 100%
 
     i
         font-size: 0.2em
 
-.btn-close 
+.btn-close
     border: none
     padding: 2 * $r
     cursor: pointer
@@ -285,21 +275,19 @@
     color: srgb(--neutral-grad-4)
     background: transparent
 
-
-.btn-success 
+.btn-success
     color: white
     background: srgb(--color-bg-ac)
     border: 1px solid srgb(--color-bg-ac)
 
-
-@media only screen and (max-width: 768px) 
+@media only screen and (max-width: 768px)
 
     .modal-wrapper
-        left : 0
+        left: 0
         margin-left: 0
         max-width: none
 
-    .modal 
+    .modal
         min-width: 0
         width: 100%
         height: 100%
@@ -309,22 +297,22 @@
 
     .modal-footer
         position: absolute
-        bottom : 0
-        right : 0
-        left : 0
+        bottom: 0
+        right: 0
+        left: 0
 
     #modal
         .notificationWrapper
-            left : 0
+            left: 0
             padding-left: $r
             padding-right: $r
             max-width: none
             margin-left: 0
         &.hasnotification
             .modal-wrapper
-                left : $r
-                bottom : $r
-                right : $r
+                left: $r
+                bottom: $r
+                right: $r
                 border-radius: 12px
 
 .separator
