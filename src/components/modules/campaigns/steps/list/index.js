@@ -114,6 +114,16 @@ export default {
             }).catch(e => {
                 
             })
+        },
+
+        removeStep : function(step){
+            var cloned = this.core.campaigns.campaignTemplates.clonelist(this.steps)
+
+            cloned = _.filter(this.steps, (s) => {
+                return s.id != step.id
+            })
+
+            this.change(cloned)
         }
     },
 }

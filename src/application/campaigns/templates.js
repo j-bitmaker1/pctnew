@@ -4,8 +4,9 @@ const moment = require('moment');
 import {EditStep, ViewStep, Template, EmailTemplate} from './kit.js'
 
 class CampaignsTemplates {
-    constructor({vueapi}) {
+    constructor({vueapi, mailsystem}) {
         this.vueapi = vueapi
+        this.mailsystem = mailsystem
     }
 
     edit_email = function(step){
@@ -324,7 +325,12 @@ class CampaignsTemplates {
     }
 
     create = function(){
-        return new Template()
+        return new Template({
+            IsPublic : false,
+            Platform : this.mailsystem,
+            Path : '',
+            Name : ''
+        })
     }
 
     createEmailTemplate = function(){

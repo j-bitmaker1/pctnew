@@ -83,29 +83,23 @@ export default {
 
 			var items = []
 
-			if(this.active == 'campaigns'){
 				items.push({
 					text: 'campaigns.labels.newCampaign',
 					icon: 'fas fa-plus',
 					action: this.newCampaign
 				})
-			}
 
-			if(this.active == 'templates'){
 				items.push({
 					text: 'campaigns.labels.newCampaignTemplate',
 					icon: 'fas fa-plus',
 					action: this.newCampaignTemplate
 				})
-			}
 
-			if(this.active == 'emails'){
 				items.push({
 					text: 'campaigns.labels.newEmailTemplate',
 					icon: 'fas fa-plus',
 					action: this.newEmailTemplate
 				})
-			}
 
 			this.core.vueapi.listmenu(items)
 		},
@@ -116,7 +110,7 @@ export default {
 			this.$router.push('/campaigns/emailtemplate/new')
 		},
 		newCampaign : function(){
-
+			this.core.campaigns.start()
 		}
 	},
 

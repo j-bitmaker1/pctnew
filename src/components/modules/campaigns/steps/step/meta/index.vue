@@ -47,7 +47,7 @@ export default {
 		auth: state => state.auth,
 
 		hasmenu : function(){
-            if(this.step.type() == "finish" || !this.editing) return false
+            if(this.step.type() == "finish" || this.step.type() == "start" || !this.editing) return false
 
             return true
         },
@@ -59,7 +59,7 @@ export default {
         },
 
 		hasTime : function(){
-            if(this.step.type() == "finish" || this.step.type() == "ifstep") return false
+            if(this.step.type() == "finish" || this.step.type() == "start" || this.step.type() == "ifstep") return false
 
             return true
         },

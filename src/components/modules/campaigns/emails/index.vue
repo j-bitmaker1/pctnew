@@ -5,11 +5,17 @@
 
     <div class="cnt" v-if="!loading && templates">
 
+        <div class="panel mobp" v-if="!select">
+            <router-link to="/campaigns/emailtemplate/new">
+                <button class="button">Create email template</button>
+            </router-link>
+        </div>
+
         <div class="controls mobp">
             <listcontrols @search="search" :searchvalue="searchvalue" />
         </div>
 
-        <listgroupedsliced :group="grouped" :count="10" ref="list">
+        <listgroupedsliced :group="grouped" :count="5" ref="list" v-if="filtered.length">
 
             <template v-slot:group="slotProps">
                 <div class="groupCaption mobp">
@@ -24,11 +30,12 @@
             </template>
         </listgroupedsliced>
 
+        <div class="empty" v-else>
+            <span>Email templates not found</span>
+        </div>
     </div>
 
-    <div class="empty">
-        <span></span>
-    </div>
+    
 
 </div>
 </template>

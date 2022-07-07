@@ -44,9 +44,17 @@ export default {
             }
         },
 
+        sorted : function(){
+            return _.sortBy(this.filtered, (t) => {
+                if(t.Email) return 0
+
+                return 1
+            })
+        },
+
         grouped : function(){
 
-            return f.group(this.filtered, (t) => {
+            return f.group(this.sorted, (t) => {
 
                 if(t.Email) return 'my'
 

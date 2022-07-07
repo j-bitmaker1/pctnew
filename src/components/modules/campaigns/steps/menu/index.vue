@@ -68,7 +68,7 @@ export default {
 		},
 
 		deletestep : function(){
-
+			this.$emit('remove')
 		}
 	},
 }

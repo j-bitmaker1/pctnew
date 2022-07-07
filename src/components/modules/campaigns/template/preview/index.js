@@ -6,7 +6,11 @@ import moment from 'moment'
 export default {
     name: 'templates_single_preview',
     props: {
-        template : Object
+        template : Object,
+        showMenu : {
+            type : Boolean,
+            default : true
+        }
     },
 
     components : {
@@ -44,6 +48,10 @@ export default {
     methods : {
         open : function(){
             this.$emit('open')
-        }
+        },
+
+        remove : function(){
+            this.$emit('remove')
+        },
     },
 }

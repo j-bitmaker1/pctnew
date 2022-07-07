@@ -33,13 +33,14 @@ class CampaignsManager {
         }
     }
 
-    constructor({api, vueapi}) {
-        this.api = api.campaigns
+    constructor(core) {
+        this.api = core.api.campaigns
         this.emailTemplates = null
         this.templates = null
-        this.vueapi = vueapi
+        this.vueapi = core.vueapi
         this.variables = Variables
-        this.mailsystem = 'pct'
+        this.mailsystem = 'PCT'
+        this.core = core
 
         this.campaignTemplates = new CampaignTemplates(this)
     }
@@ -47,6 +48,42 @@ class CampaignsManager {
     varhelper(el){
         varhelper(el, (value, clbk) => {
             this.vueapi.searchVariable(value, clbk)
+        })
+    }
+
+    createCampaignTemplate(data = {}){
+        return this.api.templates.add(data, {
+            preloader : true,
+            showStatus : true
+        }).then(r => {
+
+            if (this.templates){
+                this.templates[r.Id] = r
+            }
+
+            return Promise.resolve(r)
+        })
+    }
+
+    removeCampaignTemplate(data = {}){
+        console.log("D", data, this.api.templates.remove)
+        return this.api.templates.remove(data, {
+            preloader : true,
+            showStatus : true
+        }).then(r => {
+
+            if (this.templates){
+                delete this.templates[data.Id]
+            }
+
+            return Promise.resolve(r)
+        })
+    }
+
+    updateCampaignTemplate(data = {}){
+        return this.api.templates.update(data, {
+            preloader : true,
+            showStatus : true
         })
     }
 
@@ -59,10 +96,16 @@ class CampaignsManager {
 
         if (data.Body)
             data.Body = encodeURIComponent(data.Body)
-        
-        return this.api.emails.templates.create(data, {
-            preloader : true,
-            showStatus : true
+
+        return this.core.user.getinfo().then(r => {
+
+            data.Email = r.Email
+
+            return this.api.emails.templates.create(data, {
+                preloader : true,
+                showStatus : true
+            })
+
         }).then(r => {
 
             if (this.emailTemplates){
@@ -74,6 +117,10 @@ class CampaignsManager {
     }
 
     updateEmailTemplate(data){
+
+        if (data.Body)
+            data.Body = encodeURIComponent(data.Body)
+            
         return this.api.emails.templates.update(data, {
             preloader : true,
             showStatus : true
@@ -129,7 +176,7 @@ class CampaignsManager {
             return Promise.resolve(this.templates)
         }
 
-        return this.api.templates.gets({MailSystem : this.mailsystem}).then(r => {
+        return this.api.templates.gets({Platforms : [this.mailsystem]}).then(r => {
             this.templates = {}
 
             _.each(r.Records, (et) => {
@@ -144,6 +191,24 @@ class CampaignsManager {
         return this.getTemplates().then(r => {
             return Promise.resolve(r[id])
         })
+    }
+
+    start(){
+        return this.vueapi.customWindow(
+            'campaigns_start', 
+            "New campaign"
+        )
+    }
+
+    selectTemplate(selected){
+        return this.vueapi.customWindow(
+            'campaigns_selecttemlpate', 
+            "Select template",
+            {
+                select : true,
+                selected
+            }
+        )
     }
 }
 

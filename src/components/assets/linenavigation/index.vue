@@ -21,7 +21,7 @@
         display: flex
         align-items: center
         justify-content: space-around
-        grid-gap: 0
+        grid-gap: $r
 
     .item
         flex-grow: 2
@@ -47,6 +47,7 @@
         .wrapper
             border : 1px solid srgb(--neutral-grad-1)
             border-radius: 12px
+            grid-gap: 0
 
         .item
             height: 44px

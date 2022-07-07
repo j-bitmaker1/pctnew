@@ -61,18 +61,18 @@ export default {
             if (this.emailTemplate.ID){
                 promise = this.core.campaigns.updateEmailTemplate({
                     Name : this.name,
-                    Subject : this.Subject,
-                    Body : this.Body,
+                    Subject : this.subject,
+                    Body : this.body,
                     ID : this.emailTemplate.ID
                 })
             }
             else{
                 promise = this.core.campaigns.createEmailTemplate({
                     Name : this.name,
-                    Subject : this.Subject,
-                    Body : this.Body,
-                    ID : this.emailTemplate.ID
+                    Subject : this.subject,
+                    Body : this.body
                 }).then(r => {
+                    console.log("R", r)
                     this.$router.replace('/campaigns/emailtemplate/' + r.ID)
                 })
             }
@@ -87,10 +87,10 @@ export default {
                 return
             }
 
-            return vm.$dialog.confirm(
-                vm.$t('campaigns.labels.emailTemplateCancel'), {
-                okText: vm.$t('yes'),
-                cancelText : vm.$t('no')
+            return this.$dialog.confirm(
+                this.$t('campaigns.labels.emailTemplateCancel'), {
+                okText: this.$t('yes'),
+                cancelText : this.$t('no')
             })
     
             .then((dialog) => {

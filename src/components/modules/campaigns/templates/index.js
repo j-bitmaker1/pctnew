@@ -71,14 +71,17 @@ export default {
         open : function(template){
 
             if(this.select){
-                this.$emit('select', template)
+                this.$emit('success', template)
                 this.$emit('close')
             }
             else{
                 this.$router.push('/campaigns/template/' + template.Id)
             }
 
-            
+        },
+
+        remove : function(){
+            this.load()
         }
     },
 }

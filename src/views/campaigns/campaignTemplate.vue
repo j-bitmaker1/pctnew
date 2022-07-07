@@ -10,7 +10,7 @@
 			</div>
 		</template>
 		<template v-slot:right>
-			<campaignTemplateMenu v-if="!loading && campaignTemplate" :campaignTemplate="campaignTemplate"/>
+			<campaignTemplateMenu @remove="remove" v-if="!loading && campaignTemplate" :campaignTemplate="campaignTemplate"/>
 		</template>
 	</topheader>
 
@@ -62,18 +62,21 @@ export default {
         }
 	},
 
+	watch : {
+		id : {
+			immediate : true,
+			handler : function(){
+				this.load()
+			}
+		}
+	},
+
 	methods: {
         load : function(){
-
-			
-
-			console.log('this.id', this.id)
 
 			if (this.id != 'new'){
 
 				this.loading = true
-
-
 				this.core.campaigns.getTemplate(this.id).then(r => {
 					this.campaignTemplate = r
 				}).finally(() => {
@@ -81,17 +84,20 @@ export default {
 				})
 			}
 			else{
-				this.campaignTemplate = this.core.campaigns.campaignTemplates.createEmailTemplate() 
+				this.campaignTemplate = this.core.campaigns.campaignTemplates.create() 
 
 				this.loading = false
 			}
-
             
-        }
+        },
+
+		remove : function(){
+			this.$router.replace('/campaigns?p=templates')
+		}
 	},
 
 	created(){
-		this.load()
+		//this.load()
 	},
 
 	mounted() {

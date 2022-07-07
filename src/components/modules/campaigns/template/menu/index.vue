@@ -59,6 +59,26 @@ export default {
 
 		deletetemplate : function(){
 
+			this.$dialog.confirm(
+				this.$t('campaigns.labels.removeCampaignTemplate'), {
+				okText: this.$t('yes'),
+				cancelText : this.$t('no')
+			})
+	
+			.then((dialog) => {
+
+				console.log("REMOVE")
+
+				this.core.campaigns.removeCampaignTemplate(this.campaignTemplate).then(r => {
+					this.$emit('remove')
+				}).catch(e => {
+					console.error(e)
+				})
+
+			}).catch( e => {
+				console.error(e)
+            })
+
 		}
 	},
 }

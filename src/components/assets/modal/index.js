@@ -86,8 +86,9 @@ export default {
         campaigns_steps_edit: () => import("@/components/modules/campaigns/steps/edit/index.vue"),
         campaigns_steps_selectemails: () => import("@/components/modules/campaigns/steps/selectemails/index.vue"),
         campaigns_variables: () => import("@/components/modules/campaigns/variables/index.vue"),
+        campaigns_start: () => import("@/components/modules/campaigns/start/index.vue"),
+        campaigns_selecttemlpate: () => import("@/components/modules/campaigns/templates/index.vue"),
         
-
     },
  
     computed: mapState({

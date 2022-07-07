@@ -256,7 +256,7 @@ var vxstorage = new VXStorage([{
     index : "Id"
 },{
     type : "template",
-    index : "TId"
+    index : "Id"
     
 },{
     type : "emailtemplate",

@@ -190,6 +190,32 @@ class EditStep extends Step {
     clone = function(){
         return new EditStep(this)
     }
+
+    export = function(){
+        var data = {}
+
+        if(this.template) data.template = this.template.toString()
+        if(this.while) data.while = this.while
+        if(this.time) data.time = this.time
+        if(this.day) data.day = this.day
+        if(this.notification) this.notification = this.notification
+        if(this.lead) data.lead = this.lead
+        if(this.subcampaign) data.subcampaign = this.subcampaign
+
+        if(this.if){
+            data.if = this.if
+            data.mail = this.mail
+            data.success = _.map(this.success, (d) => {
+                return d.export()
+            })
+
+            data.fail = _.map(this.fail, (d) => {
+                return d.export()
+            })
+        }
+
+        return data
+    }
 }
 
 class ViewStep extends Step {
@@ -266,26 +292,69 @@ class Template {
         this.content = []
         this.version = 2
         
-        if(!this.name) this.name = ''
+        if(!this.Name) this.Name = ''
 
-        try {
-            var cjs = JSON.parse(this.Info)
-
-            this.version = cjs.version || 1
-
-            if (cjs.version == 2) {
-                this.content = JSON.parse(f.hexDecode(cjs.c))
-
-                
-            }
-
-
-        } catch (e) { }
+        this.setInfo(this.Info)
 
         this.content = _.map(this.content, (c) => {
             return new EditStep(c)
         })
 
+    }
+
+    setInfo = function(info){
+        if(info){
+            try {
+                var cjs = JSON.parse(info)
+    
+                this.version = cjs.version || 2
+    
+                if (cjs.version == 2) {
+                    this.content = JSON.parse(f.hexDecode(cjs.c))
+                }
+    
+            } catch (e) { 
+                console.error(e, info)
+            }
+        }
+        
+        
+    }
+
+    clone = function(){
+        var t = new Template()
+
+        t.content = _.map(this.content, (c) => {
+            return c.clone()
+        })
+
+        t.version = this.version
+        t.Name = this.Name
+        t.Id = this.Id
+        t.IsPublic = this.IsPublic
+        t.Path = this.Path
+        t.Platform = this.Platform
+
+        return t
+    }
+
+    export = function(){
+        var data = {
+            Name : this.Name,
+            Id : this.Id,
+            IsPublic : this.IsPublic,
+            Path : this.Path,
+            Platform : this.Platform,
+
+            Info : JSON.stringify({
+                version : this.version,
+                c : f.hexEncode(JSON.stringify(_.map(this.content, (c) => {
+                    return c.export()
+                })))
+            })
+        }
+
+        return data
     }
 }
 
@@ -324,6 +393,7 @@ class EmailTemplate {
     }
 
     setBody = function(body){
+
         try{
             this.Body = decodeURIComponent(body)
         }catch(e){

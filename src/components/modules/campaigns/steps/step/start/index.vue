@@ -1,11 +1,11 @@
 <template>
-<div class="campaign_step_finish">
+<div class="campaign_step_start">
 
     <smeta :step="step">
-        <template v-slot:icon><i class="fas fa-stop"></i></template>
+        <template v-slot:icon><i class="fas fa-play"></i></template>
 
         <template v-slot:content>
-            <div><span>Finish</span></div>
+            <div><span>Start</span></div>
         </template>
 
     </smeta>

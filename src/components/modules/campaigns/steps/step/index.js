@@ -5,6 +5,7 @@ import email from './email/index.vue'
 import wait from './wait/index.vue'
 import notification from './notification/index.vue'
 import finish from './finish/index.vue'
+import start from './start/index.vue'
 import ifstep from './ifstep/index.vue'
 import subcampaign from './subcampaign/index.vue'
 import whilestep from './whilestep/index.vue'
@@ -28,7 +29,8 @@ export default {
         ifstep,
         whilestep,
         lead,
-        subcampaign
+        subcampaign,
+        start
     },
 
     data : function(){
@@ -59,11 +61,15 @@ export default {
 
     methods : {
         change : function(v){
-            this.$emit(v)
+            this.$emit('change', v)
         },
 
         edit : function(){
             this.$emit('editStep')
+        },
+
+        remove : function(){
+            this.$emit('removeStep')
         }
     },
 }

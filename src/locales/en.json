@@ -433,7 +433,9 @@
 			"newCampaignTemplate" : "Create campaign template",
 			"emailtemplates" : "Emails",
 			"newEmailTemplate" : "Create email template",
-			"emailTemplateCancel" : "Are you sure you want to cancel the changes?"
+			"emailTemplateCancel" : "Are you sure you want to cancel the changes?",
+			"templateCancel" : "Are you sure you want to cancel the changes?",
+			"removeCampaignTemplate" : "Are you really want to delete campaign template?"
 		},
 
 		"add" : {
@@ -456,7 +458,8 @@
 			"financialLiteracy" : "Financial Literacy Letters",
 			"financialAwareness" : "Financial Awareness Letters",
 			"pooledEmployerA" : "Pooled Employer Plans A",
-			"pooledEmployerB" : "Pooled Employer Plans B"
+			"pooledEmployerB" : "Pooled Employer Plans B",
+			"rpag" : "RPAG"
 		},
 
 		"variables" : {

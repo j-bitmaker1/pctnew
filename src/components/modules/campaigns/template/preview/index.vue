@@ -24,7 +24,7 @@
             
         </div>
         <div class="formenu">
-            <cmenu :template="template"/>
+            <cmenu v-if="showMenu" :campaignTemplate="template" @remove="remove"/>
         </div>
     </div>
 

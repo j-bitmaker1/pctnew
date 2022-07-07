@@ -158,9 +158,32 @@ var Request = function (core = {}, url, system) {
 				signal: signal
 			}
 
-			if (parameters.method == 'POST') parameters.body = JSON.stringify(data)
+			
+			if (parameters.method == 'POST') {
+				if (p.urldata){
+
+					const us = new URLSearchParams();
+
+					_.each(data, (d, i) => {
+						us.append(i, d);
+					})
+
+					parameters.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+
+					parameters.body = us
+				}
+				
+				else{
+					parameters.body = JSON.stringify(data)
+				}
+				
+			}
+
+
 			if (parameters.method == 'GET') url = url + (url.indexOf('?') > -1 ? '&' : '?') + new URLSearchParams(data)
 
+
+			
 			return fetch(url, parameters)
 
 		}).then(response => {
@@ -2665,7 +2688,8 @@ var ApiWrapper = function (core = {}) {
 
 				p.payloadChange = (data) => {
 					var d = {
-						Parameters : data
+						Parameters : data,
+						Product : 'PCT'
 					}
 
 					return d
@@ -2685,7 +2709,7 @@ var ApiWrapper = function (core = {}) {
 
 				//data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
 
-				data.MailSystem = 'pct'
+				data.Product = 'PCT'
 
 				return paginatedrequest(data, 'campaigns', 'batches/list', p)
 
@@ -2828,7 +2852,42 @@ var ApiWrapper = function (core = {}) {
 
 				})
 
-			}
+			},
+
+			add : function(data = {}, p = {}){
+				return request(data, 'campaigns', 'template/add', p).then(r => {
+
+					var obj = new Template(data)
+
+					core.vxstorage.set(obj, 'emailtemplate')
+
+					return Promise.resolve(obj)
+
+				})
+			},
+
+			update : function(data = {}, p = {}){
+				return request(data, 'campaigns', 'template/add', p).then(r => {
+
+					var obj = new Template(data)
+
+					var {updated} = core.vxstorage.update(obj, 'emailtemplate')
+
+					return Promise.resolve()
+
+				})
+			},
+
+			remove: function(data = {}, p = {}){
+				console.log("??")
+				return request(data, 'campaigns', 'template/delete', p).then(r => {
+
+					core.vxstorage.invalidate(data.Id, 'emailtemplate')
+
+					return Promise.resolve()
+
+				})
+			},
 		},
 
 		misc : {
@@ -2852,16 +2911,22 @@ var ApiWrapper = function (core = {}) {
 						path: 'FCT.MailTemplate'
 					}
 
-					return request(data, '401k', '?action=GETMAILTEMPLATES&withoutBody=true', p).then(r => {
+					p.urldata = true
+
+					data.withoutBody = true
+
+					return request(data, '401k', '?action=GETMAILTEMPLATES', p).then(r => {
 						return r.FCT.MailTemplate
 					})
 				},
 
 				create : function(data, p = {}){
 
+					p.urldata = true
+
 					return request(data, '401k', '?action=CREATEMAILTEMPLATE', p).then(r => {
 
-						data.ID = r.MailTemplateID
+						data.ID = r.FCT.MailTemplateID
 
 						var obj = new EmailTemplate(data)
 
@@ -2872,20 +2937,22 @@ var ApiWrapper = function (core = {}) {
 				},
 
 				update : function(data, p = {}){
+
+					p.urldata = true
 					
 					return request(data, '401k', '?action=UPDATEMAILTEMPLATE', p).then(r => {
 
-						if (data.Body){
-							data.Body = decodeURIComponent(data.Body)
-						}
+						var obj = new EmailTemplate(data)
 
-						var {updated} = core.vxstorage.update(data, 'emailtemplate')
+						var {updated} = core.vxstorage.update(obj, 'emailtemplate')
 
 						return Promise.resolve()
 					})
 				},
 
 				getBody : function(id, p = {}){
+
+					p.urldata = true
 
 					return request({
 					}, '401k', '?action=GETMAILTEMPLATES&ids=' + id, p).then(r => {
