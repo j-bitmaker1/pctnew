@@ -1,13 +1,14 @@
 import { mapState } from 'vuex';
-import f from "@/application/shared/functions.js";
-import lead from './lead/index.vue'
+import contact from './contact/index.vue'
 import _ from 'underscore';
 
 export default {
-	name: 'app_leads',
+	name: 'app_contacts',
 	props: {
 		actions : Array,
 		select : Object,
+
+		type : String,
 
 		hasmenu : {
 			type : Boolean,
@@ -17,7 +18,7 @@ export default {
 		scroll : Number
 	},
 
-	components : {lead},
+	components : {contact},
 
 	data : function(){
 
@@ -26,7 +27,7 @@ export default {
 			searchvalue : '',
 			count : 0,
 			added : 0,
-			sort : 'Created_desc',
+			sort : 'FName_asc',
 			sorting : {
 				FName_asc : {
 					text : 'fname_asc',
@@ -38,7 +39,6 @@ export default {
 					field : 'FName',
 					sort : 'desc'
 				},
-
 				Created_asc : {
 					text : 'date_asc',
 					field : 'Created',
@@ -47,15 +47,21 @@ export default {
 				Created_desc : {
 					text : 'date_desc',
 					field : 'Created',
-					sort : 'desc',
+					sort : 'desc'
+				},
 
-					prepend : {
-						"IsNewLead": 'desc'
-					}
-				}
+				$$PCT_PortfoliosTotalSum_asc : {
+					text : 'total_assets_asc',
+					field : '$$PCT_PortfoliosTotalSum',
+					sort : 'asc'
+				},
+				$$PCT_PortfoliosTotalSum_desx : {
+					text : 'total_assets_desc',
+					field : '$$PCT_PortfoliosTotalSum',
+					sort : 'desc'
+				},
+
 			},
-
-
 
 		}
 
@@ -63,10 +69,8 @@ export default {
 
 	created : function(){
 		this.core.on('created', this.name, (d) => {
-			if (d.type == 'lead'){
-
+			if (d.type == this.type){
 				this.added ++
-
 			}
 		})
 	},
@@ -74,12 +78,12 @@ export default {
 	beforeDestroy(){
 		this.core.off('created', this.name)
 	},
+	
 
 	watch: {
 		tscrolly : function(){
 
 			if (this.$refs['list']){
-
 
 				if (this.$refs['list'].height() - 1000 < this.tscrolly + this.dheight){
 					this.$refs['list'].next()
@@ -89,59 +93,76 @@ export default {
 			
 		}
 	},
-
 	computed: mapState({
 		auth : state => state.auth,
 		tscrolly : function(state){
 			return this.scroll || state.tscrolly
 		},
 		dheight : state => state.dheight,
-		
+
+		menu : function(){
+
+			if(this.select) return null
+			
+			if(this.actions) return this.actions
+
+			var a = [
+				{
+					text : 'labels.delete' + this.label + 's',
+					icon : 'fas fa-trash',
+					action : 'deletecontacts'
+				}
+			]
+
+			if(this.type == 'lead'){
+				a.unshift({
+					text : 'labels.leadstocontacts',
+					icon : 'fas fa-user-friends',
+					action : this.leadstocontacts
+				})
+			}
+
+			return a
+
+		},
+
 		payload : function(){
 
 			var orderBy = {}
 
-			if(this.sorting[this.sort].prepend){
-				orderBy = {
-					... this.sorting[this.sort].prepend
-				}
-			}
 			orderBy[this.sorting[this.sort].field] = this.sorting[this.sort].sort
+
+			var p = {search : this.searchvalue}
+
+			if(this.type){
+				p.type = this.type.toUpperCase()
+			}
 
 			return {
 				orderBy,
-				query : this.core.crm.query('simplesearch', {search : this.searchvalue, type : "LEAD"})
+				query : this.core.crm.query('simplesearch', p)
 			}
 		},
 
-		elheight : function(){
-
-			return f.mobileview() ? 195 : 120
+		label : function(){
+			return this.type ? this.type : 'contact'
 		},
 
-		menu : function(){
-			return this.actions ? this.actions : [
-
-				{
-					text : 'labels.leadstocontacts',
-					icon : 'fas fa-user-friends',
-					action : this.leadstocontacts
-				},
-			   
-				{
-					text : 'labels.deleteleads',
-					icon : 'fas fa-trash',
-					action : this.deletecontacts
-				},
-
-			]
-		}
 	}),
 
 	methods : {
 
-		search : function(v){
+		addedreload : function(){
+			this.sort = 'Created_desc'
+			this.reload()
+		},
 
+		reload : function(){
+			this.added = 0
+			if(this.$refs['list']) this.$refs['list'].reload()
+		},
+
+		search : function(v){
 			this.searchvalue = v
 		},
 
@@ -151,41 +172,6 @@ export default {
 
 		sortchange : function(v){
 			this.sort = v
-		},
-
-		edit : function(profile){
-			if(this.$refs['list']) this.$refs['list'].datachanged(profile, "ID")
-		},
-
-		addedreload : function(){
-			this.sort = 'Created_desc'
-			this.reload()
-		},
-
-		reload : function(){
-
-			this.added = 0
-
-			if(this.$refs['list']) this.$refs['list'].reload()
-		},
-
-		open : function(client){
-
-			if (this.select){
-				this.$emit('selected', [client])
-				this.$emit('close')
-			}
-			else{
-
-				this.core.vueapi.openlead({
-					leadid : client.ID
-				},{
-					leadtocontact : (lead) => {
-						this.deletelead(lead)
-					}
-				})
-			}
-
 		},
 
 		leadstocontacts : function(leads){
@@ -210,7 +196,7 @@ export default {
 		deletecontacts : function(contacts){
 
 			this.$dialog.confirm(
-				"Do you really want to delete "+contacts.length+" lead(s)?", {
+				"Do you really want to delete "+contacts.length+" "+this.label+"(s)?", {
 				okText: vm.$t('yes'),
 				cancelText : vm.$t('no')
 			})
@@ -223,12 +209,12 @@ export default {
 					return this.core.crm.deletecontact(c.ID)
 				})).then(r => {
 
-					this.deleteleads(contacts)
+					this.deleteContactFromLists(contacts)
 	
 					this.$store.commit('icon', {
 						icon: 'success'
 					})
-
+					
 				}).catch(e => {
 
 					this.$store.commit('icon', {
@@ -241,21 +227,46 @@ export default {
 
 			})
 
-		},	
+		},
 
-		deleteleads : function(cc){
+		////clbks
+
+		deleteContactFromLists : function(cc){
 			_.each(cc, (profile) => {
 				if(this.$refs['list']) this.$refs['list'].datadeleted(profile, "ID")
 			})
 		},
 
-		deletelead : function(c){
-			return this.deleteleads([c])
+		deleteContactFromList : function(c){
+			return this.deleteContactFromLists([c])
 		},
 
-		leadtocontactClbk : function(profile){
-			this.deletelead(profile) /// from list
-		}
+		portfoliosChanged : function(client, p){
+			
+		},
+
+		////
+		
+		selected : function(profiles){
+			this.$emit('selected', profiles)
+			this.$emit('close')
+		},
+
+		open : function(profile){
+
+			if (this.select){
+				this.selected([profile])
+			}
+			else{
+
+				if (this.type){
+					this.$router.push(this.type + '/' + profile.ID)
+				}
+				
+			}
+			
+		},
+
 
 	},
 }

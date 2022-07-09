@@ -2,6 +2,9 @@ import { mapState } from 'vuex';
 import form from 'vuejs-form'
 import _ from 'underscore';
 import f from '@/application/shared/functions.js'
+import datepicker from '../datepicker/index.vue'
+import timezonepicker from '../timezonepicker/index.vue'
+
 
 export default {
     name: 'forms',
@@ -22,6 +25,10 @@ export default {
 
         ignoreerrors : Boolean,
         
+    },
+
+    components : {
+        datepicker, timezonepicker
     },
 
     data : function(){
@@ -80,6 +87,9 @@ export default {
         })
 
         this.form = new form(f1).rules(r1).messages(m1)
+
+
+        console.log('this.form', this.form, this.value)
 
 
         setTimeout(() => {

@@ -575,7 +575,7 @@ class MonteCarlo {
 
 }
 
-class Campaigns {
+class CampaignsOld {
 
     chartcolors = ['#F2994A', '#9B51E0']
 
@@ -754,6 +754,76 @@ class Campaigns {
 
 
         return dod
+
+    }
+
+}
+
+class Campaigns {
+
+    chartcolors = ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757']
+
+    constructor() {
+
+    }
+
+    colorbyindex = function (i) {
+        return this.chartcolors[i % this.chartcolors.length]
+    }
+
+    chartData(points) {
+
+        var serie = {
+            minPointSize: 10,
+            innerSize: '80%',
+            name: "Campaigns",
+            data: [],
+            colorByPoint: true,
+            size: '75%'
+        }
+
+        var drilldown = []
+
+        var c = 0
+
+        _.each(points,(p, i) => {
+            var point = {}
+
+            point.name = p.name
+            point.color = p.color ? p.color : this.colorbyindex(c)
+
+            point.y = p.value
+
+            serie.data.push(point)
+
+            c++
+        })
+
+        return {
+            serie
+        }
+    }
+
+    chartOptions(chartdata, p = {}) {
+
+        var d = options(p)
+
+        d.chart.height = p.height || 350
+
+        if (p.width) d.chart.width = p.width
+
+        d.chart.type = 'pie'
+        d.legend.enabled = false
+        d.title = { text: (''), style: { color: "#000000", fontSize: p.print ? 48 : 12 + 'px' } }
+        d.plotOptions.pie.showInLegend = false
+        d.plotOptions.pie.animation = true
+        d.plotOptions.pie.allowPointSelect = false
+        d.plotOptions.pie.size = '90%'
+        d.plotOptions.pie.colorByPoint = true
+
+        d.series = [chartdata.serie]
+
+        return d
 
     }
 

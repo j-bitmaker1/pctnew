@@ -82,22 +82,21 @@ export default {
 		newcampaigns : function(){
 
 			var items = []
-
 				items.push({
 					text: 'campaigns.labels.newCampaign',
-					icon: 'fas fa-plus',
+					icon: 'fas fa-play',
 					action: this.newCampaign
 				})
 
 				items.push({
 					text: 'campaigns.labels.newCampaignTemplate',
-					icon: 'fas fa-plus',
+					icon: 'fas fa-route',
 					action: this.newCampaignTemplate
 				})
 
 				items.push({
 					text: 'campaigns.labels.newEmailTemplate',
-					icon: 'fas fa-plus',
+					icon: 'fas fa-envelope',
 					action: this.newEmailTemplate
 				})
 

@@ -20,7 +20,7 @@
 	<maincontent>
 
 		<template v-slot:content>
-			<leads ref="list"/>
+			<leads ref="list" type="lead"/>
 		</template>
 
 	</maincontent>
@@ -33,7 +33,7 @@
 </style>
 
 <script>
-import leads from "@/components/modules/app/leads/index.vue";
+import leads from "@/components/modules/app/contacts/index.vue";
 
 export default {
 	name: 'leads_page',

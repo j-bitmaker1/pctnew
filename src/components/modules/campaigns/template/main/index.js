@@ -5,7 +5,8 @@ import f from "@/application/shared/functions.js"
 export default {
     name: 'campaigns_template_main',
     props: {
-        campaignTemplate : Object
+        campaignTemplate : Object,
+        wnd : Boolean
     },
 
     components : {
@@ -50,26 +51,53 @@ export default {
         },
 
         save : function(){
-            var promise = null
+            
 
             var clone = this.campaignTemplate.clone()
 
                 clone.Name = this.name
                 clone.content = this.steps
 
-            if (clone.Id){
-                promise = this.core.campaigns.updateCampaignTemplate(clone.export())
-            }
-            else{
+            this.core.campaigns.campaignTemplates.validsteps(clone.content).then(r => {
 
-                clone.Id = f.makeid()
+                var promise = null
 
-                console.log('clone', clone)
+                if (clone.Id){
+                    promise = this.core.campaigns.updateCampaignTemplate(clone.export())
+                }
+                else{
+    
+                    clone.Id = f.makeid()
+    
+                    console.log('clone', clone)
+    
+                    promise = this.core.campaigns.createCampaignTemplate(clone.export())
+                }
 
-                promise = this.core.campaigns.createCampaignTemplate(clone.export()).then(r => {
-                    this.$router.replace('/campaigns/template/' + r.Id)
+                return promise
+
+            }).then(r => {
+
+                if(!this.wnd){
+                    this.$router.replace('/campaigns/template/' + clone.Id)
+                }
+                else{
+                    this.$emit('close')
+                }
+                
+
+            }).catch(e => {
+
+                console.log("E", e)
+
+                this.$store.commit('icon', {
+                    icon: 'error',
+                    message: e.error
                 })
-            }
+
+            })
+
+            
         },
         cancel : function(){
 

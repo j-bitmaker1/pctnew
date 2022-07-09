@@ -151,7 +151,6 @@ export default {
                 if(data.count) this.$emit('count', data.count)
 
             }).catch(e => {
-                console.error('e', e)
 
             }).finally(() => {
                 this.loading = false

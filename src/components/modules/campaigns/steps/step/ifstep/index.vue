@@ -17,16 +17,22 @@
                                 </div>
                             </div>
 
-                            <div class="txt">
-                                <span v-if="template"> The email &ldquo;{{template.Name}}&rdquo; has been read? </span>
+                            <div class="txt" v-if="refer">
+                                <span v-if="template"> The email &ldquo;{{template.Name}}&rdquo; has been read?</span>
                                 <span v-else>Email template for statement hasn't loaded</span>
+                            </div>
+
+                            <div class="txt" v-if="!refer">
+                                <span>Please select email for statement</span>
                             </div>
                         </template>
                     </div>
+
+                 
                     
                 </div>
 
-                <div class="ifbody" :class="result">
+                <div class="ifbody" :class="result" v-if="refer">
 
                     <div class="ifbridge enter start">
                         <div class="inner">

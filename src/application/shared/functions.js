@@ -1400,6 +1400,19 @@ f.date = {
     }
 }
 
+f.reqstepsSync = function(steps, action){
+    _.each(steps, (step, i) => {
+        action(step, i, steps)
+
+        var type = step.type()
+
+        if (type == 'ifstep'){
+            f.reqstepsSync(step.success, action)
+            f.reqstepsSync(step.fail, action)
+        }
+    })
+}
+
 f.fll = function (str) {
 
     if (!str) return ""

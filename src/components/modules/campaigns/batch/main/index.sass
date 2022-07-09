@@ -2,7 +2,10 @@
     .name
         span
             font-size: 2em
-
+.datewrapper
+    text-align: center
+    span
+        font-size: 0.9em
 .statusrow
     margin-top: 2 * $r
     margin-bottom: 6 * $r
@@ -11,6 +14,30 @@
         .status
             flex-direction: column
             grid-gap: 0
+
+.chartWrapper
+    height: 350px
+    width: 100%
+    position: relative
+
+    .swr
+        position: absolute
+        left: 0
+        right: 0
+        top : 0
+        bottom: 0
+        z-index: 0
+        display: flex
+        justify-content: center
+        align-items: center
+
+    .chw
+        position: absolute
+        left: 0
+        right: 0
+        top : 0
+        bottom: 0
+        z-index: 1
 
 .summary
     display: grid

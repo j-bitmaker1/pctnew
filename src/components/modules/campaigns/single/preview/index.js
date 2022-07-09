@@ -35,7 +35,11 @@ export default {
 
     methods : {
         open : function(){
-            this.$emit('open')
+            
+            if(!this.campaign.Error){
+                this.$emit('open')
+            }
+            
         }
     },
 }

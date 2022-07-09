@@ -7,6 +7,8 @@ class Contact {
             this[i] = v
         })
 
+        this.totalSum = 0
+
         if (data.__customfields__) {
 
             if (data.__customfields__.$$PCT_Capacity)

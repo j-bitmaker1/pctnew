@@ -7,7 +7,7 @@
 			Cancel
 		</button>
 
-		<button class="button" @click="save" :disabled="!haschanges">
+		<button class="button" @click="save" :disabled="!haschanges || !valid">
 			Save
 		</button>
 	</div>
@@ -76,6 +76,11 @@ export default {
 
 		haschanges : function(){
 			return this.clone && JSON.stringify(this.step) != JSON.stringify(this.clone)
+		},
+
+		valid : function(){
+			console.log('this.step.type()', this.clone.type())
+			return this.clone.type()
 		}
 	}),
 

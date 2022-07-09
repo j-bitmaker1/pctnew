@@ -16,7 +16,7 @@
 		</template>
 	</listpaginated>
 
-	<selection :context="select.context" v-if="!select && !select.disableMenu" :menu="menu"/>
+	<selection :context="select.context" v-if="!select.disableMenu" :menu="menu"/>
 	
 </div>
 </template>

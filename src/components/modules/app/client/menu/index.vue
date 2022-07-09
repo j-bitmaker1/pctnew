@@ -65,8 +65,6 @@ export default {
 
 			 if(this.profile.Type == "LEAD"){
 
-				 
-
 				return [
 
 					{

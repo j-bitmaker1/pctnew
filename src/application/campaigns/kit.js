@@ -198,7 +198,7 @@ class EditStep extends Step {
         if(this.while) data.while = this.while
         if(this.time) data.time = this.time
         if(this.day) data.day = this.day
-        if(this.notification) this.notification = this.notification
+        if(this.notification) data.notification = this.notification
         if(this.lead) data.lead = this.lead
         if(this.subcampaign) data.subcampaign = this.subcampaign
 
@@ -213,6 +213,10 @@ class EditStep extends Step {
                 return d.export()
             })
         }
+
+        data.id = this.id
+
+        console.log("data", data, this)
 
         return data
     }

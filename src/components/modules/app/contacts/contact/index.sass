@@ -1,0 +1,137 @@
+.contacts_contact
+	border-radius: 12px
+	border : 1px solid srgba(--neutral-grad-1, 0.5)
+	
+
+	.line
+		align-items: center
+		display: flex
+		justify-content: space-between
+		padding-right: 2 * $r
+
+	.row
+		align-items: center
+		display: flex
+
+	.menurow
+		justify-content: flex-end
+	
+
+	.statsrow
+		max-width: 240px
+		margin-left: auto
+		margin-right: 4 * $r
+		text-align: right
+		
+		>div
+			
+			padding : 2 * $r
+			flex-grow: 1
+
+		span
+			display: block
+
+		.label
+			white-space: nowrap
+			font-size: 0.8em
+			color : srgb(--neutral-grad-2)
+		
+		::v-deep
+			.coloredNumber
+				font-size: 1.2em
+				font-weight: 700
+	
+
+	.daterow
+		padding : 0.5 * $r 2 * $r 
+		border-top : 1px solid srgba(--neutral-grad-1, 0.5)
+		background: srgba(--neutral-grad-0, 0.1)
+		display: flex
+		grid-gap: $r
+		justify-content: space-between
+
+		.value
+			font-weight: 700
+
+		span
+			font-size: 0.9em
+			color : srgb(--neutral-grad-2)
+
+	.menuWrapper
+		margin-left: auto
+		::v-deep
+			.itemWrapper
+				color : srgb(--neutral-grad-2)
+
+	.profilerow
+		padding : 2 * $r
+		align-items: center
+		justify-content: space-between
+
+	::v-deep
+		.userpicWrapper
+			max-width: 44px
+			min-width: 44px
+			width: 44px
+			line-height: 44px
+			font-size: 0.8em
+			margin-right: 2 * $r
+	
+.data
+	>div
+		max-width: 140px
+		overflow: hidden
+		text-overflow: ellipsis
+	.email
+		
+		span
+			font-size: 0.8em
+			color : srgb(--neutral-grad-2)
+	.name
+		span
+			font-weight: 700
+
+	.verify
+		color : srgb(--color-txt-ac)
+		font-size: 0.9em
+
+
+@media only screen and (max-width: 768px)
+	.contacts_contact
+		border-radius: 18px
+		background: srgba(--neutral-grad-0, 0.1)
+
+		.data
+			>div
+				max-width: none
+
+		.line
+			flex-wrap: wrap
+			padding-right: 0
+
+		.menurow
+			order : 2
+			padding-right: 2 * $r
+
+		.profilerow
+			flex-grow: 2
+			order : 1
+			justify-content: flex-start
+		
+		.statsrow
+			width: 100%
+			max-width: none
+			margin-right: 0
+			text-align: center
+			order : 3
+			flex-grow: 2
+			border-top : 1px solid srgba(--neutral-grad-1, 0.5)
+			
+			>div
+				width: 33%
+				border-right : 1px solid srgba(--neutral-grad-1, 0.5)
+
+				&:nth-last-child(1)
+					border-right : 0
+			
+	  

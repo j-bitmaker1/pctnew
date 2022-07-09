@@ -11,7 +11,7 @@
 		<portfoliolist @gotofolder="gotofolder" :select="pfselect" key="list" :showClient="true" ref="list" :additional="additional" @open="open"/>
 	</div>
 
-	<selection context="portfolio" @success="selected"/>
+	<selection context="portfolio" @success="selected" v-if="select"/>
 
 </div>
 </template>

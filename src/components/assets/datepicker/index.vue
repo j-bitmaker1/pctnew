@@ -1,11 +1,11 @@
 <template>
 <div id="datepicker">
 
-	<input type="date" :placeholder="options.placeholders ? options.placeholders.from : ''" v-if="range" v-model="rangeValueFrom" :min="fromMin" :max="fromMax"/>
+	<input :type="type" :placeholder="options.placeholders ? options.placeholders.from : ''" v-if="range" v-model="rangeValueFrom" :min="fromMin" :max="fromMax"/>
 
-	<input type="date" :placeholder="options.placeholders ? options.placeholders.to : ''" v-if="range" v-model="rangeValueTo" :min="toMin" :max="toMax"/>
+	<input :type="type" :placeholder="options.placeholders ? options.placeholders.to : ''" v-if="range" v-model="rangeValueTo" :min="toMin" :max="toMax"/>
 
-    <input type="date" :placeholder="options.placeholder" v-if="!range" v-model="value" :max="fromMin" :min="toMax"/>
+    <input :type="type" :placeholder="options.placeholder" v-if="!range" v-model="value" :min="fromMin" :max="toMax"/>
 
 </div>
 </template>
@@ -47,7 +47,11 @@ export default {
 
     props: {
         range : Boolean,
-        modelValue: [Date, Array],
+        type : {
+            type : String,
+            default : 'date'
+        },
+        modelValue: [Date, Array, String],
 		options: {
             type: Object,
             default: () => {
@@ -58,6 +62,9 @@ export default {
     emits: ['update:modelValue'],
 
     computed: {
+        hastime : function(){
+            return this.type.indexOf('datetime') > -1
+        },
         value: {
             get() {
                 return this.modelValue ? this.fromdate(this.modelValue) : undefined
@@ -124,7 +131,7 @@ export default {
 
             if(!date) return undefined
 
-            return date.getFullYear() + '-' + addZero(date.getMonth() + 1) + '-' + addZero(date.getDate())
+            return date.getFullYear() + '-' + addZero(date.getMonth() + 1) + '-' + addZero(date.getDate()) + (!this.hastime ? "" : ( 'T' + addZero(date.getHours()) + ":" + addZero(date.getMinutes()) ) )
         },
 
         toDate : function(str){

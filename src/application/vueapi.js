@@ -17,38 +17,52 @@ class Vueapi {
 
     selectClients = function(success, p = {}){
 
+        p.type = 'client'
+
+        this.selectContacts(success, p)
+    }
+
+    selectLeads = function(success, p = {}){
+
+        p.type = 'lead'
+
+        this.selectContacts(success, p)
+    }
+
+    selectContacts = function(success, p = {}){
+
         if (p.selected){
             this.store.commit('select', {
-                context : 'client',
+                context : p.type || 'contact',
                 items : p.selected
             })
         }
 
         this.store.commit('OPEN_MODAL', {
-            id : 'modal_clients',
-            module : "clients",
-            caption : "Select Client",
+            id : 'modal_contacts',
+            module : "contacts",
+            caption : "Select " + (p.type || 'contact'),
             data : {
                 select : {
-                    context : 'client',
+                    context : (p.type || 'contact'),
                     filter : p.filter,
                     disabled : p.one ? true : false
                 },
-
+                type : p.type,
                 hasmenu : false
             },
 
             events : {
-                selected : (clients) => {
-                    if(success) success(clients)
+                selected : (contacts) => {
+                    if(success) success(contacts)
                 }
             }
         })
     }
 
-    selectClientToPortfolios = function(portfolios, success){
+    selectContactToPortfolios = function(portfolios, success, type){
 
-        this.selectClients((clients) => {
+        this.selectContacts((clients) => {
             var client = clients[0]
 
             this.core.pct.setPortfoliosToClient(client.ID, portfolios, {
@@ -60,12 +74,19 @@ class Vueapi {
                     success(client)
 
             })
-        })
+        }, {type})
 
     }
 
-    selectPortfolios = function(success, p = {}){
+    selectClientToPortfolios = function(portfolios, success){
+        this.selectContactToPortfolios(portfolios, success, 'client')
+    }
 
+    selectLeadToPortfolios = function(portfolios, success){
+        this.selectContactToPortfolios(portfolios, success, 'lead')
+    }
+
+    selectPortfolios = function(success, p = {}){
 
         if (p.selected){
             this.store.commit('select', {

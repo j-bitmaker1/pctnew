@@ -67,7 +67,7 @@ export default {
 
 	created() {
 
-
+		console.log("SEL", this.select)
 	},
 
 	watch: {
@@ -161,6 +161,14 @@ export default {
 
 			this.core.vueapi.selectClientToPortfolios(portfolios, (client) => {
 
+				this.changeClient(client)
+			})
+
+		},
+
+		selectLeadToPortfolios : function(portfolios){
+
+			this.core.vueapi.selectLeadToPortfolios(portfolios, (client) => {
 				this.changeClient(client)
 			})
 

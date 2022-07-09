@@ -69,6 +69,7 @@
 		"editlead" : "Edit Lead",
 		"deletelead" : "Delete Lead",
 		"deleteleads" : "Delete selected Leads",
+		"deletecontacts" : "Delete selected Contacts",
 		"deletenotifications" : "Delete Notifications",
 		"deleteportfolios" : "Delete Portfolios",
 		"leadstocontacts" : "Convert to clients",
@@ -80,6 +81,7 @@
 		"setportfoliostoclient" : "Set portfolios to client",
 		"info" : "Information",
 		"setportfoliotoclient" : "Set portfolio to client",
+		"setportfoliotolead" : "Set portfolio to lead",
 		"changeClient" : "Change client",
 		"unlinkClient" : "Unlink client",
 		"deleteitems" : "Delete items",
@@ -406,7 +408,10 @@
 			"active" : "Active",
 			"process" : "Active",
 			"undefined" : "Undefined",
-			"wait" : "Waiting in queue"
+			"wait" : "Waiting in queue",
+			"completedwitherrors" : "Completed with errors",
+			"processfailed" : "Process failed",
+			"preparing" : "Preparing"
 		},
 		"menu" : {
 			"deletebatch" : "Delete batch",
@@ -448,7 +453,12 @@
 		},
 
 		"fields" : {
-			"notificationmessage" : "Notification message"
+			"notificationmessage" : "Notification message",
+			"start" : {
+				"RecipientTimeZone" : "Recipients time zone",
+				"Started" : "Start time (local)",
+				"Name" : "Campaign name"
+			}
 		},
 
 		"emailGroups" : {
@@ -465,6 +475,32 @@
 		"variables" : {
 			"general" : "General variables",
 			"pct" : "Portfolio Crash Test Variables"
+		},
+
+		"clientsGroup" : {
+			"CLIENT" : "Clients",
+			"LEAD" : "Leads"
+		},
+
+		"errors" : {
+			"start" : {
+				"templateFail" : "Selected campaign template is not valid",
+				"template" : "Please select campaign template",
+				"name" : "Please input campaign name",
+				"contacts" : "Please select campaign recipients"
+			}
+		},
+
+
+		"batch" : {
+			"PreparingCampaigns" : "Preparing campaigns",
+			"WaitCampaigns" : "Pending сampaigns",
+			"UnsubscribedCampaigns" : "Unsubscribed campaigns",
+			"VerificationCampaigns" : "Сampaigns in the process of verification",
+			"ActiveCampaigns" : "Active campaigns",
+			"PauseCampaigns" : "Paused campaigns",
+			"CompletedCampaigns" : "Completed campaigns",
+			"ErrorCampaigns" : "Error campaigns"
 		}
 	}
 

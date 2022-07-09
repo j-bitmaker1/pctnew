@@ -23,11 +23,34 @@ export default {
 
     },
 
+    
+
     created () {
         this.load()
     },
 
     watch: {
+        refer : {
+            immediate : true,
+            handler : function(){
+                if(this.refer){
+
+                    this.loading = true
+    
+                    this.core.campaigns.getEmailTemplate(this.refer.template).then(r => {
+    
+                        this.template = r
+    
+                    }).finally(() => {
+                        this.loading = false
+                    })
+                }
+                else{
+                    this.loading = false
+                    this.template = null
+                }
+            }
+        }
         //$route: 'getdata'
     },
     computed: mapState({

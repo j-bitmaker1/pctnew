@@ -6,7 +6,7 @@
     </component>
 
     <div class="empty" v-else>
-        <span>Step can't be rendered</span>
+        <span @click="remove">Step can't be rendered</span>
     </div>
 </div>
 </template>

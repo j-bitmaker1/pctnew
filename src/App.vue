@@ -243,17 +243,17 @@ var vxstorage = new VXStorage([{
     type : "client",
     index : "ID",
     reload : 'api.crm.contacts.getbyids'
-}, {
+}, /*{
     type : "lead",
     index : "ID",
     reload : 'api.crm.contacts.getbyids'
-}, {
+},*/ {
     type : "batch",
     index : "Id",
     reload : 'api.campaigns.getbyids'
 },{
     type : "step",
-    index : "Id"
+    index : "id"
 },{
     type : "template",
     index : "Id"

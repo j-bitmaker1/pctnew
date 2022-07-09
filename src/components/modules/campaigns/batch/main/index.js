@@ -6,32 +6,34 @@ import summarybutton from '@/components/delements/summarybutton/index.vue'
 import campaignslist from '../../list/index.vue'
 
 import { Campaigns } from '@/application/charts/index';
-import {Chart} from 'highcharts-vue'
+import { Chart } from 'highcharts-vue'
+import f from '@/application/shared/functions';
+
 var campaignsChart = new Campaigns()
 
 export default {
     name: 'campaigns_batch_main',
     props: {
-        batch : Object
+        batch: Object
     },
 
-    components : {status, summarybutton, campaignslist, highcharts : Chart}, 
+    components: { status, summarybutton, campaignslist, highcharts: Chart },
 
-    data : function(){
+    data: function () {
 
         return {
-            loading : false,
+            loading: false,
 
-            summary : [
+            summary: [
 
                 {
-                    index : 'ErrorCampaigns',
-                    text : 'campaigns.summary.ErrorCampaigns'
+                    index: 'ErrorCampaigns',
+                    text: 'campaigns.summary.ErrorCampaigns'
                 },
 
                 {
-                    index : 'OpenedEmails',
-                    text : 'campaigns.summary.OpenedEmails'
+                    index: 'OpenedEmails',
+                    text: 'campaigns.summary.OpenedEmails'
                 },
 
                 /*{
@@ -60,7 +62,7 @@ export default {
 
     },
 
-    created : () => {
+    created: () => {
 
     },
 
@@ -68,21 +70,54 @@ export default {
         //$route: 'getdata'
     },
     computed: mapState({
-        auth : state => state.auth,
+        auth: state => state.auth,
 
-        chartOptions: function(){
+        sticker : function(){
+            var s = ['advertising.png', 'marketing.png', 'product.png', 'goal.png', 's2.png']
 
-			var d = campaignsChart.chartOptions({
-                emails : 100 * this.batch.OpenedEmails / this.batch.TotalEmails,
-                batchProgress : 100 * this.batch.CompletedCampaigns / this.batch.TotalCampaigns,
-                current : 50 
+            console.log('f.rand(0, s.length - 1)', f.rand(0, s.length - 1))
+
+            return s[f.rand(0, s.length - 1)]
+        },
+
+        chartOptions: function () {
+
+            var metrics = [
+                { index: 'PreparingCampaigns', color: "#999999" }, 
+                { index: 'VerificationCampaigns', color: "#999999" }, 
+                { index: 'WaitCampaigns', color: "#888888" }, 
+                { index: 'ActiveCampaigns', color: '#000080' }, 
+                { index: 'PauseCampaigns', color: "#999999" }, 
+                { index: 'UnsubscribedCampaigns', color: "#ff033e" }, 
+                { index: 'ErrorCampaigns', color: "#ff033e" }, 
+                { index: 'CompletedCampaigns', color: '#228b22' }
+            ]
+
+            var points = _.map(metrics, (m) => {
+                return {
+                    value : this.batch[m.index],
+                    color : m.color,
+                    name : this.$t('campaigns.batch.' + m.index)
+                }
             })
 
-			return d
-		},
+            points = _.filter(points, (p) => {return p.value})
+
+            var chartData = campaignsChart.chartData(points)
+
+            /*var d = campaignsChart.chartOptions({
+                emails : this.batch.TotalEmail ? 100 * this.batch.OpenedEmails / this.batch.TotalEmails : 0,
+                batchProgress : this.batch.TotalCampaigns ? 100 * this.batch.CompletedCampaigns / this.batch.TotalCampaigns : 0,
+                current : 50 
+            })*/
+
+            var d = campaignsChart.chartOptions(chartData)
+
+            return d
+        },
     }),
 
-    methods : {
-        
+    methods: {
+
     },
 }

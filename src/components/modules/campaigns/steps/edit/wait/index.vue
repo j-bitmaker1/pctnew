@@ -222,8 +222,6 @@ export default {
 			time : this.step.time || 0
 		}
 
-		console.log('this.step.while', this.step.while)
-
 		if (this.step.while){
 
 			var refer = _.find(this.steps, (s) => {
@@ -234,6 +232,9 @@ export default {
 
 			if (refer){
 				this.while = refer
+			}
+			else{
+				this.selectwhile = false
 			}
 
 			

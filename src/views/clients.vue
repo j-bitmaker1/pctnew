@@ -15,7 +15,7 @@
 	<maincontent>
 
 		<template v-slot:content>
-			<clients />
+			<clients type="client"/>
 		</template>
 
 	</maincontent>
@@ -28,13 +28,12 @@
 </style>
 
 <script>
-import clients from "@/components/modules/app/clients/index.vue";
+import clients from "@/components/modules/app/contacts/index.vue";
 
 export default {
 	name: 'clients_page',
 	components: {
 		clients
-
 	},
 
 	computed: {

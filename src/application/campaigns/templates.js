@@ -1,12 +1,14 @@
 import f from "@/application/shared/functions.js"
+import { _ } from "core-js";
 
 const moment = require('moment');
 import {EditStep, ViewStep, Template, EmailTemplate} from './kit.js'
 
 class CampaignsTemplates {
-    constructor({vueapi, mailsystem}) {
-        this.vueapi = vueapi
-        this.mailsystem = mailsystem
+    constructor(manager) {
+        this.vueapi = manager.vueapi
+        this.mailsystem = manager.mailsystem
+        this.manager = manager
     }
 
     edit_email = function(step){
@@ -21,7 +23,12 @@ class CampaignsTemplates {
     }
     edit_wait = function(step, p){
 
-        var steps = this.filterStepsCustom(step, p)
+        var steps = this.filterStepsCustom(step, {
+            ...p,
+            includeAfter : true
+        })
+
+        console.log("steps", steps)
 
         return this.vueapi.customWindow(
             'campaigns_steps_edit', 
@@ -77,8 +84,17 @@ class CampaignsTemplates {
     filterStepsCustom = function(step, p){
         var find = false
 
+        console.log("P", p, step)
+
         var steps = _.filter(p.steps || [], (s, i) => {
             if(s.id == (p.after || step).id) find = true
+
+            if(find){
+
+                if (p.includeAfter && p.after && s.id == p.after.id){
+                    return true
+                }
+            }
 
             if(!find) return true
 
@@ -194,6 +210,73 @@ class CampaignsTemplates {
 
         if(step.lead) return 'lead'
 
+    }
+
+    
+
+    reqsteps = function(steps, action){
+        return Promise.all(_.map(steps, (step) => {
+            return action(step).then(() => {
+
+                var type = step.type()
+
+                if (type == 'ifstep'){
+                    return this.reqsteps(step.success).then(() => {
+                        return this.reqsteps(step.fail)
+                    })
+                }
+
+                if (type == 'subcampaign'){
+                    return this.manager.getTemplate(step.subcampaign).catch(e => {
+
+                        return Promise.reject({
+                            step,
+                            steps,
+                            error : 'Subcampaign template not found'
+                        })
+
+                    }).then(sc => {
+                        return this.reqsteps(sc.content)
+                    })
+                }
+
+                return Promise.resolve()
+            })
+        }))
+    }
+
+    validsteps = function(steps){
+        return this.reqsteps(steps, (step) => {
+
+            var type = step.type()
+
+            if(!type) return Promise.reject({step, steps, error : "Campaign step not valid"})
+
+            if (type == 'ifstep' || (type == 'wait' && step.while)){
+
+                var refid = step.while || step.mail
+
+                var ref = _.find(steps, (s) => {
+                    return refid ? s.id == refid : false
+                })
+
+                if (ref){
+
+                    return this.getEmailTemplate(ref.template).catch(() => {
+                        return Promise.reject({step, steps, error : "Step email template referenced is not found"})
+                    })
+                    
+                }
+                else
+                {
+                    return Promise.reject({step, steps, error : "Step referenced is not found"})
+                }
+
+            }
+
+            return Promise.resolve()
+
+        })
     }
     
     contentInfo = function(content, successindex, subin) {

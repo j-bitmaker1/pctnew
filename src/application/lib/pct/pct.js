@@ -440,7 +440,7 @@ class PCT {
         
         this.vxstorage.invalidateManyQueue(
             [portfolio.crmContactId], 
-            ['client', 'lead']
+            ['client']
         )
 
         return this.api.pctapi.portfolios.update(data, p).then(r => {

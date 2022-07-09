@@ -6,11 +6,20 @@
 		<span>{{$t('campaigns.status.' + meta.text)}}</span>
 
 	</div>
+
+	<div class="error" v-if="error">
+		<span>{{error}}</span>
+	</div>
 </div>
 </template>
 
 <style scoped lang="sass">
-
+.error
+	margin-top: $r
+	span
+		font-weight: 700
+		font-size: 0.8em
+		color : srgb(--color-bad)
 .status
 	display: flex
 	align-items: center
@@ -41,7 +50,7 @@ export default {
 	name: 'campaigns_status',
 	props: {
 		status: String,
-		error : Object
+		error : String
 	},
 	computed: mapState({
 		auth: state => state.auth,

@@ -48,7 +48,7 @@ class VXStorage {
     }
 
     set(obj, type){
-        if(!this.storage[type]) throw new Error('type')
+        if(!this.storage[type]) throw new Error('type: ' + type)
         if(!this.store) throw new Error('notlinked')
 
         this.invalidateDb(obj, type)
@@ -63,7 +63,7 @@ class VXStorage {
 
     update(obj, type){
 
-        if(!this.storage[type]) throw new Error('type')
+        if(!this.storage[type]) throw new Error('type: ' + type)
         if(!this.store) throw new Error('notlinked')
 
         var last = this.get(obj[this.index(type)], type)
@@ -93,15 +93,21 @@ class VXStorage {
     }
 
     get(index, type){
-        if(!this.storage[type]) throw new Error('type')
+        if(!this.storage[type]) throw new Error('type: ' + type)
         if(!this.store) throw new Error('notlinked')
 
 
         return this.store.state['_' + type][index] || null
     }
 
+    getall(type){
+        if(!this.storage[type]) throw new Error('type: ' + type)
+
+        return this.store.state['_' + type]
+    }
+
     invalidate(index, type){
-        if(!this.storage[type]) throw new Error('type')
+        if(!this.storage[type]) throw new Error('type: ' + type)
         if(!this.store) throw new Error('notlinked')
 
         this.clearFromQueue(this.index(type), type)
@@ -134,7 +140,7 @@ class VXStorage {
     }
 
     invalidateQueue(index, type){
-        if(!this.storage[type]) throw new Error('type')
+        if(!this.storage[type]) throw new Error('type: ' + type)
         if(!this.store) throw new Error('notlinked')
 
         if(!index) return

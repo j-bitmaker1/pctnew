@@ -73,13 +73,26 @@ export default {
 			]
 
 			if(!this.portfolio.crmContactId){
+
+				menu.unshift({
+					text : 'labels.setportfoliotolead',
+					icon : 'fas fa-user-plus', 
+					action : 'linkToLead',
+
+					features : ["CRM"]
+				})
+				
 				menu.unshift({
 					text : 'labels.setportfoliotoclient',
-					icon : 'fas fa-user-times', 
+					icon : 'fas fa-user-plus', 
 					action : 'linkToClient',
 
 					features : ["CRM"]
 				})
+
+				
+
+				
 			}  
 			else{
 				menu.unshift({
@@ -176,6 +189,14 @@ export default {
 		linkToClient : function(){
 
 			this.core.vueapi.selectClientToPortfolios([this.portfolio], (client) => {
+				this.$emit('changeClient', client)
+			})
+
+		},
+
+		linkToLead : function(){
+
+			this.core.vueapi.selectLeadToPortfolios([this.portfolio], (client) => {
 				this.$emit('changeClient', client)
 			})
 

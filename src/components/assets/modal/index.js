@@ -31,7 +31,7 @@ export default {
         return {
             loading : false,
             scroll : 0,
-
+            blockclose : null,
             blockTouch : false,
         }
 
@@ -61,6 +61,7 @@ export default {
         lead_page : () => import("@/views/lead.vue"),
         portfolios_main : () => import("@/components/modules/app/portfolios/main/index.vue"),
         clients : () => import("@/components/modules/app/clients/index.vue"),
+        contacts : () => import("@/components/modules/app/contacts/index.vue"),
         filesystem_edit : () => import("@/components/common/filesystem/edit/index.vue"),
         filesystem : () => import("@/components/common/filesystem/index.vue"),
         homesearch : () => import("@/components/modules/app/home/search/index.vue"),
@@ -88,6 +89,7 @@ export default {
         campaigns_variables: () => import("@/components/modules/campaigns/variables/index.vue"),
         campaigns_start: () => import("@/components/modules/campaigns/start/index.vue"),
         campaigns_selecttemlpate: () => import("@/components/modules/campaigns/templates/index.vue"),
+        campaigns_template: () => import("@/components/modules/campaigns/template/main/index.vue"),
         
     },
  
@@ -126,10 +128,29 @@ export default {
     methods : {
         endswipe : function(direction){
 
-            this.$emit('close')
+            this.close()
         },
         close : function(){
-            this.$emit('close')
+
+            if(!this.blockclose){
+                this.$emit('close')
+            }
+            else{
+
+                this.vm.$dialog.confirm(
+                    this.vm.$t(this.blockclose), {
+                    okText: "Yes, close",
+                    cancelText : 'No'
+                })
+        
+                .then((dialog) => {
+                    this.setblockclose(null)
+                    this.$emit('close')
+                }).catch( e => {
+                    
+                })
+
+            }
         },
 
         closeiftop : function(e){
@@ -150,6 +171,10 @@ export default {
                 }, 500)
             }
             
+        },
+
+        setblockclose : function(text){
+            this.blockclose = text
         },
 
         moving : function(e, h){

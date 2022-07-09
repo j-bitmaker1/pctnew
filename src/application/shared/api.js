@@ -1,6 +1,6 @@
 import f from './functions'
 import { Contact, Portfolio, Task, Scenario } from './kit.js'
-import { Campaign, Batch, Step, EditStep, ViewStep, Template, EmailTemplate } from '@/application/campaigns/kit.js'
+import { Campaign, Batch, ViewStep, Template, EmailTemplate } from '@/application/campaigns/kit.js'
 
 var Axios = require('axios');
 
@@ -785,28 +785,35 @@ var ApiWrapper = function (core = {}) {
 
 				if (p.vxstorage && core.vxstorage) {
 
-					var ds = r
+					if(!p.vxstorage.setcustom){
+						var ds = r
 
-					if (p.vxstorage.path) ds = f.deep(ds, p.vxstorage.path) || (p.vxstorage.one ? null : [])
+						if (p.vxstorage.path) ds = f.deep(ds, p.vxstorage.path) || (p.vxstorage.one ? null : [])
 
-					if (p.vxstorage.one) {
-						var stored = core.vxstorage.set(ds, p.vxstorage.type)
+						if (p.vxstorage.one) {
+							var stored = core.vxstorage.set(ds, p.vxstorage.type)
+						}
+						else {
+
+							var stored = core.vxstorage.sets(ds, p.vxstorage.type)
+
+							if (p.vxstorage.getloaded)
+								stored = stored.concat(alreadyLoaded)
+
+						}
+
+						if (p.vxstorage.path) {
+							f.deepInsert(r, p.vxstorage.path, stored)
+						}
+						else {
+							r = stored
+						}
 					}
-					else {
-
-						var stored = core.vxstorage.sets(ds, p.vxstorage.type)
-
-						if (p.vxstorage.getloaded)
-							stored = stored.concat(alreadyLoaded)
-
+					else{
+						r = p.vxstorage.setcustom(r)
 					}
 
-					if (p.vxstorage.path) {
-						f.deepInsert(r, p.vxstorage.path, stored)
-					}
-					else {
-						r = stored
-					}
+					
 
 				}
 
@@ -1488,7 +1495,7 @@ var ApiWrapper = function (core = {}) {
 				if (data.crmContactId) {
 					core.vxstorage.invalidateManyQueue(
 						[updated.crmContactId],
-						['client', 'lead']
+						['client']
 					)
 				}
 
@@ -1515,11 +1522,13 @@ var ApiWrapper = function (core = {}) {
 
 				var { updated, from = {} } = core.vxstorage.update(data, 'portfolio')
 
+				console.log("updated", updated, from)
+
 				if (updated) {
 
 					core.vxstorage.invalidateManyQueue(
 						[updated.crmContactId, from.crmContactId],
-						['client', 'lead']
+						['client']
 					)
 
 					core.vxstorage.invalidateMany(
@@ -1617,7 +1626,7 @@ var ApiWrapper = function (core = {}) {
 					if (updated) {
 						core.vxstorage.invalidateManyQueue(
 							[updated.crmContactId],
-							['client', 'lead']
+							['client']
 						)
 
 						core.vxstorage.invalidateMany(
@@ -1659,7 +1668,7 @@ var ApiWrapper = function (core = {}) {
 						if (updated) {
 							core.vxstorage.invalidateManyQueue(
 								[updated.crmContactId],
-								['client', 'lead']
+								['client']
 							)
 
 							core.vxstorage.invalidateMany(
@@ -1767,7 +1776,7 @@ var ApiWrapper = function (core = {}) {
 
 				var { updated, from } = core.vxstorage.update(data, 'client')
 
-				core.vxstorage.update(data, 'lead')
+				//core.vxstorage.update(data, 'contact')
 
 				core.activity.remove('client', data.ID)
 				core.activity.remove('lead', data.ID)
@@ -1794,9 +1803,9 @@ var ApiWrapper = function (core = {}) {
 						ID: data.ID
 					})
 
-					core.ignore('lead', {
+					/*core.ignore('lead', {
 						ID: data.ID
-					})
+					})*/
 
 					return Promise.resolve(data)
 				})
@@ -1817,19 +1826,15 @@ var ApiWrapper = function (core = {}) {
 
 					data.ID = r.id
 
-					if (data.type == 'CLIENT') {
-						core.ignore('client', {
-							ID: data.ID
-						})
+					core.ignore('client', {
+						ID: data.ID
+					})
 
+					if (data.type == 'CLIENT') {
 						core.updates.increase('totalClients')
 					}
 
 					if (data.type == 'LEAD') {
-						core.ignore('lead', {
-							ID: data.ID
-						})
-
 						core.updates.increase('totalLeads')
 					}
 
@@ -1921,14 +1926,20 @@ var ApiWrapper = function (core = {}) {
 					var { updated } = core.vxstorage.update(ud, 'client')
 
 					if (updated) {
-						core.activity.template('client', updated)
+
+						if (updated.Type == "CLIENT")
+							core.activity.template('client', updated)
+
+						if (updated.Type == "LEAD")
+							core.activity.template('lead', updated)
+
 					}
 
-					var { updated } = core.vxstorage.update(ud, 'lead')
+					/*var { updated } = core.vxstorage.update(ud, 'lead')
 
 					if (updated) {
 						core.activity.template('lead', updated)
-					}
+					}*/
 
 					self.invalidateStorageNow(['portfolios', 'contacts'])
 
@@ -1936,9 +1947,9 @@ var ApiWrapper = function (core = {}) {
 						ID: ContactId
 					})
 
-					core.ignore('lead', {
+					/*core.ignore('lead', {
 						ID: ContactId
-					})
+					})*/
 
 
 
@@ -2816,10 +2827,27 @@ var ApiWrapper = function (core = {}) {
 
 				p.vxstorage = {
 					type: 'step',
-					path: 'Records'
+					path: 'Records',
+
+					setcustom : function(r){
+						var steps = r.Records
+
+						f.reqstepsSync(steps, (step, i, steps) => {
+							var stored = core.vxstorage.set(step, 'step')
+
+							steps[i] = stored
+						})
+
+						return {
+							Records : steps
+						}
+					}
 				}
 
 				return request({campaignId}, 'campaigns', 'steps/list', p).then(r => {
+
+					console.log(core.vxstorage.getall('step'))
+
 					return Promise.resolve(r.Records)
 				})
 			},

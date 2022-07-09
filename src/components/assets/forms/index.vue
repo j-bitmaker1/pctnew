@@ -14,6 +14,11 @@
                 <option :value="v.value" v-for="(v, i) in field.values" :key="i">{{$t(v.text)}}</option>
             </select>
 
+            <datepicker :type="field.type" :options="field.options" :range="field.range" v-if="field.input == 'date'" :disabled="field.disabled" :ref="i" v-model="form[field.id]"/>
+            
+            <timezonepicker v-if="field.input == 'timezone'" :ref="i" v-model="form[field.id]"/>
+
+    
             <div class="radio" v-if="field.input == 'radio'" :ref="i">
                 <div class="radioWrapper" v-for="(v, i) in field.values" :key="i">
                     <input  :name="field.id" :id="formid + field.id + '_' + i" type="radio" 

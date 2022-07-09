@@ -148,7 +148,7 @@ var WSS = function(core, url){
 
         return authsend({
             action : 'register',
-            appids : 'net.rixtrema.pct'
+           // appids : 'net.rixtrema.pct'
         }, function(data){
             
             if (data.registered) {
@@ -262,9 +262,9 @@ var WSS = function(core, url){
                 var invalidate = []
                 var data = message.Data
 
-                if(message.x_eventType == 'LEADUPDATE') {types = ['client', 'lead']; invalidate = ['contacts']; data = new Contact(data)}
+                if(message.x_eventType == 'LEADUPDATE') {types = ['client']; invalidate = ['contacts']; data = new Contact(data)}
 
-                if(message.x_eventType == 'CLIENTUPDATE') {types = ['client', 'lead']; invalidate = ['contacts']; data = new Contact(data)}
+                if(message.x_eventType == 'CLIENTUPDATE') {types = ['client']; invalidate = ['contacts']; data = new Contact(data)}
                 if(message.x_eventType == 'CATALOGUPDATE') types = ['filesystem']
                 
                 if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; invalidate = ['portfolios']; data = new Portfolio(data)}
@@ -329,13 +329,23 @@ var WSS = function(core, url){
 
             }
 
-
             if (message.x_eventType == 'READEVENTS'){
 
                 core.readNotification(message.Ids || [])
 
                 return
             }
+
+
+
+            ///// campaigns
+
+            if(message.x_eventType == 'CAMPAIGNSTATUSCHANGED' || message.x_eventType == 'STEPCOMPLETED' || message.x_eventType == 'BATCHSTATUSCHANGED'){
+                if (core.campaigns)
+                    core.campaigns.updateByWs(message)    
+            }
+
+           
         }
         else{
 

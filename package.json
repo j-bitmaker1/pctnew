@@ -40,6 +40,7 @@
     "linkifyjs": "^3.0.5",
     "miscreant": "^0.3.2",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.34",
     "pbkdf2": "^3.1.2",
     "pdfmake": "^0.2.5",
     "pdfvuer": "^1.9.2",
