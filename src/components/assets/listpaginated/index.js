@@ -208,6 +208,12 @@ export default {
 
                 this.$emit('count', this.count)
             }
+        },
+        datadeletedall : function(){
+            this.records = []
+            this.count = 0
+            this.$emit('count', this.count)
         }
+
     },
 }

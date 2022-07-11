@@ -332,7 +332,12 @@ var WSS = function(core, url){
 
             if (message.x_eventType == 'READEVENTS'){
 
-                core.readNotification(message.Ids || [])
+                if(message.Ids)
+                    core.readNotification(message.Ids || [])
+
+                else{
+                    core.readAllNotifications()
+                }
 
                 return
             }

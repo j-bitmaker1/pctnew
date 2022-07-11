@@ -502,6 +502,12 @@ class Core {
 
     }
 
+    readAllNotifications(){
+        this.updates.clear('home')
+
+        this.emit('readAllNotifications', ids)
+    }
+
     notification(notification){
 
         this.updates.increase('home')

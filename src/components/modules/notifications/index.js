@@ -34,12 +34,20 @@ export default {
 			}
 		})
 
+		this.core.on('readAllNotifications', this.name, (ids) => {
+
+			if (this.$refs['list']) {
+				this.$refs['list'].datadeletedall()
+			}
+		})
+
 		this.$store.commit('removeNotifications')
 	},
 
 	beforeDestroy() {
 		this.core.off('notification', this.name)
 		this.core.off('readNotification', this.name)
+		this.core.off('readAllNotifications', this.name)
 	},
 
 	components: {
@@ -119,7 +127,6 @@ export default {
 					this.core.api.notifications.hide(n.id)
 				})
 			}
-			
 
 			_.each(notification, (notification) => {
 				if (this.$refs['list']) this.$refs['list'].datadeleted(notification, "id")
