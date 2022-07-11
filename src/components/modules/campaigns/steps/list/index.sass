@@ -8,6 +8,7 @@
             font-weight: 700
             font-size: 0.9em
             color: srgb(--color-txt-ac)
+            +transition(0.3s)
 
     .icon
         width: 50px
@@ -16,7 +17,20 @@
         i
             font-size: 0.8em
             color: srgb(--color-txt-ac)
+            +transition(0.3s)
 
     &.main
         margin-top: 0
         margin-bottom: 2 * $r
+
+@media (pointer:fine)
+    .add
+        cursor: pointer
+
+        &:hover
+            .icon
+                i
+                    color: srgb(--color-good)
+            .label
+                span
+                    color: srgb(--color-good)
