@@ -71,7 +71,7 @@ export default {
 
 		wtranform : function(){
 			return {
-				transform : 'scale(1, '+this.stepProgress+')'
+				transform : 'scale(1, '+ Math.min(this.stepProgress, 1) +')'
 			}
 		},
 

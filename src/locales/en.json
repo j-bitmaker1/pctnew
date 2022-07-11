@@ -414,6 +414,7 @@
 			"completedwitherrors" : "Completed with errors",
 			"processfailed" : "Process failed",
 			"preparing" : "Preparing",
+			"prepared" : "Prepared. Waiting for launch",
 			"cancelled" : "Cancelled",
 			"paused" : "Paused",
 			"unsubscribed" : "Unsubscribed",

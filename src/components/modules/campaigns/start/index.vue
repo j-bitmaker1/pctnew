@@ -69,7 +69,7 @@
         </div>
 
         <div class="settingsContent">
-            <forms :value="settings" :fields="settingsFields"/>
+            <forms @change="schange" :value="settings" :fields="settingsFields"/>
         </div>
 
     </div>

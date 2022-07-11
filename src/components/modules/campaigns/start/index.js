@@ -146,6 +146,8 @@ export default {
                 }
             })
 
+            console.log("S", s)
+
             return s
 
         },
@@ -162,6 +164,9 @@ export default {
     }),
 
     methods : {
+        schange : function(v){
+            this.settings = v
+        },
         start : function(){
 
             if(!this.error){

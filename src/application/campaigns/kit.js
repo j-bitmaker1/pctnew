@@ -143,7 +143,7 @@ class Step {
 
         if (!this.duration()) return 1
 
-        return this.timeleft() / this.duration()
+        return Math.max(Math.min(this.timeleft() / this.duration(), 1), 0)
     }
 }
 

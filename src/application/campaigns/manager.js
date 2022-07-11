@@ -2,6 +2,9 @@ const moment = require('moment');
 import CampaignTemplates from "./templates"
 import varhelper from "./varhelper";
 import Variables from './variables'
+
+import f from "@/application/shared/functions.js"
+
 class CampaignsManager {
 
     statuses = {
@@ -39,6 +42,11 @@ class CampaignsManager {
             icon : "fas fa-exclamation-circle",
             text : 'completedwitherrors' ,
             statistic : ''
+        },
+
+        PREPARED : {
+            icon : "fas fa-spinner fa-spin",
+            text : 'prepared'
         },
 
         PREPARING: {
@@ -290,8 +298,8 @@ class CampaignsManager {
         var campaignupdate = {}
         var batchupdate = {}
 
-        if (message.group_id){
-            batch = this.core.vxstorage.get(message.group_id, 'batch')
+        if (message.group_id || message.batch_id){
+            batch = this.core.vxstorage.get(message.group_id || message.batch_id, 'batch')
 
             if(batch)
                 batchupdate.Id = batch.Id
@@ -351,7 +359,8 @@ class CampaignsManager {
                 if (message.next_step){
                     var nextstep = this.core.vxstorage.get(message.next_step, 'step')
 
-                    if (nextstep){
+                    if (nextstep && nextstep.Status && nextstep.Status == 'WAIT'){
+                        
 
                         var nextupd = {
                             id : message.next_step,
