@@ -75,9 +75,7 @@ export default {
         sticker : function(){
             var s = ['advertising.png', 'marketing.png', 'product.png', 'goal.png', 's2.png']
 
-            console.log('f.rand(0, s.length - 1)', f.rand(0, s.length - 1))
-
-            return s[f.rand(0, s.length - 1)]
+            return s[0, this.batch.CompletedCampaigns % s.length]
         },
 
         chartOptions: function () {

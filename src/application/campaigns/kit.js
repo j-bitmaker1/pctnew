@@ -77,8 +77,8 @@ class Step {
 
         var days = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday', 'Sunday']
 
-        var h = Math.floor(this.time / 60)
-        var m = this.time - h * 60
+        var h = Math.floor(this.time / 3600)
+        var m = Math.floor((this.time - h * 3600) / 60) 
 
         return days[this.day - 1] + " " + f.addZero(h) + ":" + f.addZero(m)
 
@@ -86,18 +86,18 @@ class Step {
 
     duration = function () {
 
-        if (!this.day) return (this.time || 0) * 60
+        if (!this.day) return (this.time || 0) 
 
         if (!this.started) {
 
             if (this.day > 7) {
                 var days = this.day - 8
 
-                return (this.time || 0) * 60 + (days || 0) * 86400
+                return (this.time || 0) + (days || 0) * 86400
             }
 
             if (this.day && this.day <= 7) {
-                return (this.time || 0) * 60 + (7) * 86400
+                return (this.time || 0) + (7) * 86400
             }
         }
 
@@ -109,7 +109,7 @@ class Step {
             if (this.day > 7) {
                 var days = this.Day - 8
 
-                to = f.date.addMinutes(f.date.addDays(started, days), this.time)
+                to = f.date.addseconds(f.date.addDays(started, days), this.time)
             }
 
             if (this.day && this.day <= 7) {

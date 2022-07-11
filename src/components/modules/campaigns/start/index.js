@@ -29,7 +29,8 @@ export default {
             settings : {
                 Started : null,
                 Name : '',
-                TimeZone : moment.tz.guess()
+                TimeZone : moment.tz.guess(),
+                GroupBy : "EMAIL"
             }
         }
 
@@ -102,6 +103,20 @@ export default {
                 rules : [{
                     rule : 'required'
                 }]
+            },{
+                id : 'GroupBy',
+                text : 'campaigns.fields.start.GroupBy',
+                input : 'select',
+                values : [{
+                    value : 'INORDER',
+                    text : 'campaigns.fields.start.INORDER'
+                },{
+                    value : 'EMAIL',
+                    text : 'campaigns.fields.start.EMAIL'
+                }],
+                rules : [{
+                    rule : 'required'
+                }]
             }]
         },
 
@@ -118,7 +133,7 @@ export default {
 
             s.settings.TimeZone = ((zr - zl) / 60)
             s.settings.Platform = this.core.campaigns.mailsystem
-            s.settings.GroupBy = 'EMAIL'
+            s.settings.GroupBy = this.settings.GroupBy
 
             s.Name = this.settings.Name
             s.TemplateId = this.template.Id
@@ -167,13 +182,13 @@ export default {
                         showStatus : true
                     }).then(batch => {
 
-                        this.$store.commit('globalpreloader', true)
+                        /*this.$store.commit('globalpreloader', true)
 
                         setTimeout(() => {
-                            this.$store.commit('globalpreloader', false)
+                            this.$store.commit('globalpreloader', false)*/
                             this.$emit('close')
                             this.$router.push('/campaigns/batch/' + batch.Id)
-                        }, 2000)
+                        /*}, 2000)*/
 
                         
                     })

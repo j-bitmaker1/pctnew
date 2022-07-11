@@ -72,6 +72,15 @@ export default {
 				},
 
 				{
+					route : '/campaigns',
+					id : 'campaigns',
+					text : 'menu.campaigns',
+					icon : "fas fa-route",
+                    features : ['CAMPAIGN'],
+					mobile : false
+				},
+
+				{
 					route : '/profile',
 					id : 'profile',
 					text : 'menu.profile',

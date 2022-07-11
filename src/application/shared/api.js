@@ -2887,7 +2887,7 @@ var ApiWrapper = function (core = {}) {
 
 					var obj = new Template(data)
 
-					core.vxstorage.set(obj, 'emailtemplate')
+					core.vxstorage.set(obj, 'template')
 
 					return Promise.resolve(obj)
 
@@ -2899,9 +2899,9 @@ var ApiWrapper = function (core = {}) {
 
 					var obj = new Template(data)
 
-					var {updated} = core.vxstorage.update(obj, 'emailtemplate')
+					var {updated} = core.vxstorage.update(obj, 'template')
 
-					return Promise.resolve()
+					return Promise.resolve(updated)
 
 				})
 			},
@@ -2910,7 +2910,7 @@ var ApiWrapper = function (core = {}) {
 				console.log("??")
 				return request(data, 'campaigns', 'template/delete', p).then(r => {
 
-					core.vxstorage.invalidate(data.Id, 'emailtemplate')
+					core.vxstorage.invalidate(data.Id, 'template')
 
 					return Promise.resolve()
 

@@ -9,13 +9,13 @@
 
             <div class="contentinfo">
                 <div class="row">
-                    <div class="icon"><i class="fas fa-envelope"></i></div>
+                    <div class="icon goodcolor"><i class="fas fa-envelope"></i></div>
                     <div class="label"><span>Total emails:</span></div>
                     <div class="value"><span>{{info.totalEmails}}</span></div>
                 </div>
 
                 <div class="row">
-                    <div class="icon"><i class="fas fa-clock"></i></div>
+                    <div class="icon maincolor"><i class="fas fa-clock"></i></div>
                     <div class="label"><span>Median time:</span></div>
                     <div class="value"><span>{{medianTime}}</span></div>
                 </div>

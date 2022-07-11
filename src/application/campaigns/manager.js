@@ -4,46 +4,83 @@ import varhelper from "./varhelper";
 import Variables from './variables'
 class CampaignsManager {
 
-
     statuses = {
         COMPLETED : {
             icon : "fas fa-check-circle",
             text : 'completed',
+            statistic : 'CompletedCampaigns'
+        },
+
+        PAUSED : {
+            icon : "fas fa-pause",
+            text : 'paused',
+            statistic : 'PauseCampaigns'
+        },
+
+        CANCELLED : {
+            icon : "fas fa-stop",
+            text : 'cancelled',
+            statistic : 'ErrorCampaigns'
         },
 
         ACTIVE : {
             icon : "fas fa-spinner fa-spin",
-            text : 'active'
+            text : 'active',
+            statistic : 'ActiveCampaigns'
         },
 
         PROCESS : {
             icon : "fas fa-spinner fa-spin",
-            text : 'process'
+            text : 'process',
+            statistic : 'ActiveCampaigns'
         },
 
         COMPLETEDWITHERRORS : {
             icon : "fas fa-exclamation-circle",
-            text : 'completedwitherrors' 
+            text : 'completedwitherrors' ,
+            statistic : ''
         },
 
         PREPARING: {
             icon : "fas fa-spinner fa-spin",
-            text : 'preparing' 
+            text : 'preparing' ,
+            statistic : 'PreparingCampaigns'
+        },
+
+        VERIFICATION : {
+            icon : "fas fa-spinner fa-spin",
+            text : 'verification' ,
+            statistic : 'VerificationCampaigns'
+        },
+
+        UNSUBSCRIBED: {
+            icon : "fas fa-ban",
+            text : 'unsubscribed' ,
+            statistic : 'PreparingCampaigns'
         },
 
         PROCESSFAILED : {
             icon : "fas fa-exclamation-triangle",
-            text : 'processfailed' 
+            text : 'processfailed',
+            statistic : 'ErrorCampaigns'
         },
 
         WAIT : {
             icon : "fas fa-clock",
-            text : 'wait'
+            text : 'wait',
+            statistic : 'WaitCampaigns'
+        },
+
+        READYTOPROCESS: {
+            icon : "fas fa-clock",
+            text : 'wait',
+            statistic : 'WaitCampaigns'
         },
 
         default : {
             icon : "fas fa-question-circle",
-            text : 'undefined'
+            text : 'undefined',
+            statistic : ''
         }
     }
 
@@ -97,6 +134,13 @@ class CampaignsManager {
         return this.api.templates.update(data, {
             preloader : true,
             showStatus : true
+        }).then(updated => {
+
+            if (this.templates){
+                this.templates[data.Id] = updated
+            }
+
+            return Promise.resolve(updated)
         })
     }
 
@@ -232,6 +276,10 @@ class CampaignsManager {
         )
     }
 
+    statusToStatistic(){
+        
+    }
+
     updateByWs(message){
 
         console.log("UPDATE WS", message)
@@ -260,10 +308,20 @@ class CampaignsManager {
         if(message.x_eventType == 'CAMPAIGNSTATUSCHANGED'){
             campaignupdate.Status = message.campaign_status
 
+            //campaign_status_old
 
-            if(message.campaign_status == 'COMPLETED' && batch){
+            if(batch){
+                if(message.campaign_status && this.statuses[message.campaign_status] && this.statuses[message.campaign_status].statistic){
+                    batchupdate[this.statuses[message.campaign_status].statistic] = (batch[this.statuses[message.campaign_status].statistic] || 0) + 1
+                }
+
+                if(message.campaign_status_old && this.statuses[message.campaign_status_old] && this.statuses[message.campaign_status_old].statistic && batch[this.statuses[message.campaign_status_old].statistic]){
+                    batchupdate[this.statuses[message.campaign_status_old].statistic] = batch[this.statuses[message.campaign_status_old].statistic] - 1
+                }
+            }
+            /*if(message.campaign_status == 'COMPLETED' && batch){
                 batchupdate.CompletedCampaigns = batch.CompletedCampaigns + 1
-            }   
+            } */  
         }
 
         if(message.x_eventType == 'BATCHSTATUSCHANGED'){

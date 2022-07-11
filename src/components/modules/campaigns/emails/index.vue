@@ -5,11 +5,11 @@
 
     <div class="cnt" v-if="!loading && templates">
 
-        <div class="panel mobp" v-if="!select">
+        <!--<div class="panel mobp" v-if="!select">
             <router-link to="/campaigns/emailtemplate/new">
                 <button class="button">Create email template</button>
             </router-link>
-        </div>
+        </div>-->
 
         <div class="controls mobp">
             <listcontrols @search="search" :searchvalue="searchvalue" />

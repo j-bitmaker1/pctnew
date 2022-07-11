@@ -141,7 +141,7 @@ export default {
        
 		dvalue : {
 			get(){
-				return Math.floor(this.modelValue / (24 * 60))
+				return Math.floor(this.modelValue / (24 * 3600))
 			},
 			set(value){
 
@@ -156,7 +156,7 @@ export default {
 
 		hvalue : {
 			get(){
-				return Math.floor((this.modelValue - this.dvalue * 24 * 60) / 60)
+				return Math.floor((this.modelValue - this.dvalue * 24 * 3600) / 3600)
 			},
 			set(value){
 
@@ -171,7 +171,7 @@ export default {
 
 		mvalue : {
 			get(){
-				return this.modelValue - this.dvalue * 24 * 60 - this.hvalue * 60
+				return Math.floor((this.modelValue - this.dvalue * 24 * 3600 - this.hvalue * 3600) / 60)
 			},
 			set(value){
 
@@ -189,9 +189,9 @@ export default {
 		update : function({d,h,m}){
 
 			var v = 
-				(typeof d == 'undefined'? this.dvalue : d) * 24 * 60 + 
-				(typeof h == 'undefined'? this.hvalue : h) * 60 + 
-				(typeof m == 'undefined'? this.mvalue : m) * 1
+				(typeof d == 'undefined'? this.dvalue : d) * 24 * 3600 + 
+				(typeof h == 'undefined'? this.hvalue : h) * 3600 + 
+				(typeof m == 'undefined'? this.mvalue : m) * 60
 
 
 			this.$emit('update:modelValue', v)

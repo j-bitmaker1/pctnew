@@ -37,8 +37,7 @@ export default {
 		auth: state => state.auth,
 
 		menu : function(){
-
-			return [
+			var menu = [
 
 				{
 					text : 'campaigns.menu.deletesingle',
@@ -46,6 +45,16 @@ export default {
 					action : 'deletesingle'
 				}
 			]
+
+			if (this.campaign.RecipientId){
+				menu.unshift({
+					text : 'campaigns.menu.gotocontact',
+					icon : 'fas fa-user',
+					action : 'gotocontact'
+				})
+			}
+
+			return menu
 		}
 
 	}),
@@ -59,6 +68,22 @@ export default {
 
 		deletesingle : function(){
 
+		},
+
+		gotocontact : function(){
+			this.core.api.crm.contacts.get(this.campaign.RecipientId, {
+				preloader : true
+			}).then(profile => {
+
+
+				if(profile.Type == "LEAD"){
+					this.$router.push('/lead/' + profile.ID)
+				}
+
+				if(profile.Type == "CLIENT"){
+					this.$router.push('/client/' + profile.ID)
+				}
+			})
 		}
 	},
 }

@@ -120,6 +120,10 @@ export default {
 					id: 'info'
 				},
 				{
+					text: 'labels.portfolios',
+					id: 'portfolios'
+				},
+				{
 					text: 'labels.capacity',
 					id: 'capacity'
 				}

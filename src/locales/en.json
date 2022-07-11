@@ -9,7 +9,9 @@
 		"menu" : "Menu",
 		"add" : "Create",
 		"questionnaire" : "Questionnaire",
-		"compare" : "Compare"
+		"compare" : "Compare",
+		"campaigns" : "Campaigns",
+		"help" : "Help"
 	},
 
 	"fields" : {
@@ -411,7 +413,11 @@
 			"wait" : "Waiting in queue",
 			"completedwitherrors" : "Completed with errors",
 			"processfailed" : "Process failed",
-			"preparing" : "Preparing"
+			"preparing" : "Preparing",
+			"cancelled" : "Cancelled",
+			"paused" : "Paused",
+			"unsubscribed" : "Unsubscribed",
+			"verification" : "Verification"
 		},
 		"menu" : {
 			"deletebatch" : "Delete batch",
@@ -419,7 +425,8 @@
 			"deletestep" : "Delete step",
 			"deletesingle" : "Delete campaign",
 			"deleteemail" : "Delete email template",
-			"deletetemplate" : "Delete campaign template"
+			"deletetemplate" : "Delete campaign template",
+			"gotocontact" : "Go to recipient"
 		},
 		"summary" : {
 			"CompletedCampaigns" : "Completed Campaigns",
@@ -457,7 +464,10 @@
 			"start" : {
 				"RecipientTimeZone" : "Recipients time zone",
 				"Started" : "Start time (local)",
-				"Name" : "Campaign name"
+				"Name" : "Campaign name",
+				"GroupBy" : "Sequencing",
+				"INORDER" : "One after another",
+				"EMAIL" : "All at once"
 			}
 		},
 

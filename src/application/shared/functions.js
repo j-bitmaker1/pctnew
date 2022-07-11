@@ -1337,6 +1337,7 @@ f.date = {
     addMinutes: function (now, minutes) {
         return f.date.addseconds(now, minutes * 60)
     },
+   
     toserverFormatDate: function (date = new Date()) {
         return date.getUTCFullYear() + '' + addZero(date.getUTCMonth()) + '' + date.getUTCDate() + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
 

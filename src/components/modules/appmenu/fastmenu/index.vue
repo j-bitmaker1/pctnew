@@ -11,9 +11,9 @@
 
     </div>
 
-    <div class="help" @click="tohelp">
+    <!--<div class="help" @click="tohelp">
         <span>Help & getting started</span>
-    </div>
+    </div>-->
 </div>
 </template>
 

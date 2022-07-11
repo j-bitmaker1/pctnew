@@ -209,7 +209,7 @@ export default {
 
 		hvalue : {
 			get(){
-				return Math.floor((this.modelValue.time) / 60)
+				return Math.floor((this.modelValue.time) / 3600)
 			},
 			set(value){
 
@@ -224,7 +224,7 @@ export default {
 
 		mvalue : {
 			get(){
-				return this.modelValue.time - this.hvalue * 60
+				return Math.floor((this.modelValue.time - this.hvalue * 3600) / 60)
 			},
 			set(value){
 
@@ -242,8 +242,8 @@ export default {
 		update : function({h,m}){
 
 			var v = 
-				(typeof h == 'undefined'? this.hvalue : h) * 60 + 
-				(typeof m == 'undefined'? this.mvalue : m) * 1
+				(typeof h == 'undefined'? this.hvalue : h) * 3600 + 
+				(typeof m == 'undefined'? this.mvalue : m) * 60
 
 			this.$emit('update:modelValue', {
 				day : this.dvalue,
@@ -254,7 +254,7 @@ export default {
 		updateday : function(v){
 			this.$emit('update:modelValue', {
 				day : v,
-				time : this.hvalue * 60 + this.mvalue * 1
+				time : this.hvalue * 3600 + this.mvalue * 1
 			})
 		},
 

@@ -3,6 +3,7 @@ import f from './functions'
 import moment from 'moment'
 import {Contact, Portfolio, Scenario, Task} from './kit.js'
 import { Campaign, Batch, Step } from './campaigns/kit.js'
+import { _ } from 'core-js';
 
 var WSS = function(core, url){
     var self = this
@@ -148,7 +149,7 @@ var WSS = function(core, url){
 
         return authsend({
             action : 'register',
-           // appids : 'net.rixtrema.pct'
+            appids : 'net.rixtrema.pct'
         }, function(data){
             
             if (data.registered) {
@@ -336,13 +337,22 @@ var WSS = function(core, url){
                 return
             }
 
-
-
             ///// campaigns
 
             if(message.x_eventType == 'CAMPAIGNSTATUSCHANGED' || message.x_eventType == 'STEPCOMPLETED' || message.x_eventType == 'BATCHSTATUSCHANGED'){
                 if (core.campaigns)
                     core.campaigns.updateByWs(message)    
+            }
+
+            if (message.x_eventType == 'CAMPAIGNSSTATUSCHANGED'){
+                var ids = message.campaign_ids.split(',')
+
+                _.each(ids, (id) => {
+                    var msg = {...message, ...{campaign_id : id, x_eventType : 'CAMPAIGNSTATUSCHANGED'}}
+
+                    if (core.campaigns)
+                        core.campaigns.updateByWs(msg)  
+                })
             }
 
            

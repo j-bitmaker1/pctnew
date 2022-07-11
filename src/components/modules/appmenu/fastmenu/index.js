@@ -9,7 +9,7 @@ export default {
 
         return {
             loading : false,
-            items : [
+            allitems : [
                 {
 					id : 'explore',
 					text : 'menu.explore',
@@ -33,7 +33,24 @@ export default {
                     route : '/compare',
 					id : 'compare',
 					text : 'menu.compare', 
-					icon : "fas fa-list-ul"
+					icon : "fas fa-list-ul",
+                    features : ['PCT'],
+				},
+
+                {
+                    route : '/campaigns',
+					id : 'campaigns',
+					text : 'menu.campaigns', 
+					icon : "fas fa-route",
+                    
+                    features : ['CAMPAIGN'],
+				},
+
+                {
+                    route : '/help',
+					id : 'help',
+					text : 'menu.help', 
+					icon : "fas fa-info",
 				},
 
                 /*{
@@ -58,6 +75,14 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+
+        items : function(state){
+            return _.filter(this.allitems, (item) => {
+				return !item.features || _.find(item.features, (f) => {
+					return state.features[f]
+				})
+			})
+        }
     }),
 
     methods : {
