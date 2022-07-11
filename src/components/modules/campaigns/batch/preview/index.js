@@ -36,6 +36,9 @@ export default {
     methods : {
         open : function(){
             this.$emit('open')
-        }
+        },
+        deletebatch : function(){
+            this.$emit('deletebatch')
+        },
     },
 }

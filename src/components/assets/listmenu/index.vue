@@ -3,7 +3,7 @@
     <list :items="items" @click="click">
         <template v-slot:default="slotProps">
 
-            <div class="menuitem">
+            <div class="menuitem" :class="slotProps.item.class || ''">
                 <i :class="slotProps.item.icon" />
                 <span>{{$t(slotProps.item.text)}}</span>
             </div>
@@ -22,6 +22,10 @@
     color : srgb(--neutral-grad-4)
     margin-bottom: $r
     border-radius: 22px
+    &.good
+        color : srgb(--color-good)
+    &.bad
+        color : srgb(--color-bad)
     i
         width: 33px
         text-align: center

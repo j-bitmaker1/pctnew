@@ -7,7 +7,7 @@
     <listpaginated placeholder="No batch campaigns found" :select="select" :api="api" :payload="payload" @count="setcount" :start="0" from="PageNumber" to="PageSize" ref="list" :bypages="true">
         <template v-slot:default="slotProps">
             <div class="cardWrapper mobp">
-                <batchPreview :batch="slotProps.item" @open="e => {open(slotProps.item)}"/>
+                <batchPreview @deletebatch="e => {deletebatch(slotProps.item)}" :batch="slotProps.item" @open="e => {open(slotProps.item)}"/>
             </div>
         </template>
     </listpaginated>

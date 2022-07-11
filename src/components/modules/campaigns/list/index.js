@@ -82,6 +82,10 @@ export default {
 
         open : function(campaign){
             this.$router.push('/campaigns/campaign/' + campaign.Id)
+        },
+
+        deletesingle : function(item){
+            if(this.$refs['list']) this.$refs['list'].datadeleted(item, "Id")
         }
     },
 }

@@ -15,7 +15,7 @@
 			</div>
 		</template>
 		<template v-slot:right>
-			<batchmenu v-if="!loading && batch" :batch="batch"/>
+			<batchmenu @deletebatch="deletebatch" v-if="!loading && batch" :batch="batch"/>
 		</template>
 	</topheader>
 
@@ -81,7 +81,11 @@ export default {
 			}).finally(() => {
 				this.loading = false
 			})
-        }
+        },
+
+		deletebatch : function(){
+			this.$router.replace('/campaigns?p=campaigns')
+		}
 	},
 
 	created(){

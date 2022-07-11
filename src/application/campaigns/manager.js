@@ -14,6 +14,18 @@ class CampaignsManager {
             statistic : 'CompletedCampaigns'
         },
 
+        DELETED : {
+            icon : "fas fa-trash",
+            text : 'deleted',
+            statistic : 'DeletedCampaigns'
+        },
+
+        PROCESSPAUSED : {
+            icon : "fas fa-pause",
+            text : 'paused',
+            statistic : 'PauseCampaigns'
+        },
+
         PAUSED : {
             icon : "fas fa-pause",
             text : 'paused',

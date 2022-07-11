@@ -2778,11 +2778,25 @@ var ApiWrapper = function (core = {}) {
 				return request({}, 'campaigns', 'campaigns/get/' + id, p)
 			},
 
-			pause : function(data, p = {}){
-				return request(data, 'campaigns', 'pause', p)
+			pause : function(ids, p = {}){
+				if(!_.isArray(ids)) ids = [ids]
+
+				return request({Ids : ids}, 'campaigns', 'campaigns/pause', p)
 			},
-			cancel : function(data, p = {}){
-				return request(data, 'campaigns', 'cancel', p)
+			resume : function(ids, p = {}){
+				if(!_.isArray(ids)) ids = [ids]
+				
+				return request({Ids : ids}, 'campaigns', 'campaigns/start', p)
+			},
+			delete : function(ids, p = {}){
+				if(!_.isArray(ids)) ids = [ids]
+
+				return request({Ids : ids}, 'campaigns', 'campaigns/delete', p)
+			},
+			cancel : function(ids, p = {}){
+				if(!_.isArray(ids)) ids = [ids]
+
+				return request({Ids : ids}, 'campaigns', 'campaigns/cancel', p)
 			},
 			
 			list : function(data, p = {}){

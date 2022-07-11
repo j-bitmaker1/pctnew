@@ -129,6 +129,10 @@ export default {
         loadstats : function(){
             this.core.api.campaigns.misc.stats().then(r => {
             })
+        },
+
+        deletebatch : function(item){
+            if(this.$refs['list']) this.$refs['list'].datadeleted(item, "Id")
         }
     },
     

@@ -12,7 +12,7 @@
         </div>
 
         <div class="formenu">
-            <bmenu :batch="batch"/>
+            <bmenu @deletebatch="deletebatch" :batch="batch"/>
         </div>
     </div>
 

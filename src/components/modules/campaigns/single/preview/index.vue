@@ -23,7 +23,7 @@
     <div class="statusrow" @click="open">
         <status :status="campaign.Status" :error="campaign.Error"/>
 
-        <date :date="campaign.Started"/>
+        <date @deletesignle="deletesignle" :date="campaign.Started"/>
     </div>
     
 </div>

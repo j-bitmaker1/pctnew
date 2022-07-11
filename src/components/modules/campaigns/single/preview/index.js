@@ -40,6 +40,10 @@ export default {
                 this.$emit('open')
             }
             
+        },
+
+        deletesignle : function(){
+            this.$emit('deletesignle')
         }
     },
 }

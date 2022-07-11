@@ -418,25 +418,34 @@
 			"cancelled" : "Cancelled",
 			"paused" : "Paused",
 			"unsubscribed" : "Unsubscribed",
-			"verification" : "Verification"
+			"verification" : "Verification",
+			"deleted" : "Deleted"
 		},
 		"menu" : {
-			"deletebatch" : "Delete batch",
+			"deletebatch" : "Delete batch campaign",
 			"editstep" : "Edit step",
 			"deletestep" : "Delete step",
 			"deletesingle" : "Delete campaign",
+			"deletecampaign" : "Delete campaign",
 			"deleteemail" : "Delete email template",
 			"deletetemplate" : "Delete campaign template",
-			"gotocontact" : "Go to recipient"
+			"gotocontact" : "Go to recipient",
+
+			"cancelbatch" : "Cancel batch campaign",
+			"pausebatch" : "Pause batch campaign",
+			"resumebatch" : "Resume batch campaign",
+			"cancelcampaign" : "Cancel campaign",
+			"pausecampaign" : "Pause campaign",
+			"resumecampaign" : "Resume campaign"
 		},
 		"summary" : {
-			"CompletedCampaigns" : "Completed Campaigns",
-			"ActiveCampaigns" : "Active Campaigns",
-			"ErrorCampaigns" : "Error Campaigns",
-			"OpenedEmails" : "Opened Emails",
-			"SentEmails" : "Sent Emails",
-			"TotalCampaigns" : "Total Campaigns",
-			"TotalEmails" : "Total Emails"
+			"CompletedCampaigns" : "Completed campaigns",
+			"ActiveCampaigns" : "Active campaigns",
+			"ErrorCampaigns" : "Error campaigns",
+			"OpenedEmails" : "Opened emails",
+			"SentEmails" : "Sent emails",
+			"TotalCampaigns" : "Total campaigns",
+			"TotalEmails" : "Total emails"
 		},
 
 		"labels" : {
@@ -512,6 +521,18 @@
 			"PauseCampaigns" : "Paused campaigns",
 			"CompletedCampaigns" : "Completed campaigns",
 			"ErrorCampaigns" : "Error campaigns"
+		},
+
+		"dialog" : {
+			"deletebatch" : "Do you really want to remove batch campaign?",
+			"cancelbatch" : "Do you really want to cancel batch campaign?",
+			"pausebatch" : "Do you really want to pause batch campaign?",
+			"resumebatch" : "Do you really want to resume batch campaign?",
+
+			"deletecampaign" : "Do you really want to remove campaign?",
+			"cancelcampaign" : "Do you really want to cancel campaign?",
+			"pausecampaign" : "Do you really want to pause campaign?",
+			"resumecampaign" : "Do you really want to resume campaign?"
 		}
 	}
 
