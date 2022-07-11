@@ -2931,6 +2931,82 @@ var ApiWrapper = function (core = {}) {
 
 					p.kit = {
 						class: EmailTemplate,
+						path: 'Records'
+					}
+	
+					p.vxstorage = {
+						type: 'emailtemplate',
+						path: 'Records'
+					}
+
+					data.Parameters || (data.Parameters = {})
+					data.Parameters.PageSize = -1
+					data.Parameters.SystemFilter = data.MailSystem
+					data.WithoutBody = true
+
+					return request(data, 'campaigns', 'mailtemplate/list', p).then(r => {
+						return r.Records
+					})
+				},
+
+				create : function(data, p = {}){
+
+					return request(data, 'campaigns', 'mailtemplate/add', p).then(r => {
+
+						data.Id = r.Id
+
+						return Promise.resolve(new EmailTemplate(data))
+						
+					})
+				},
+
+				update : function(data, p = {}){
+
+					return request(data, 'campaigns', 'mailtemplate/update', p).then(r => {
+						return r
+					})
+				},
+
+				getBody : function(id, p = {}){
+
+					var data = {
+						Parameters : {
+							IdsFilter : [id]
+						},
+						WithoutBody : false
+					}
+
+					return request(data, 'campaigns', 'mailtemplate/list', p).then(r => {
+
+						var body = f.deep(r, 'Records.0.Body') || ''
+
+						return body
+					})
+
+				},
+
+				getbyids : function(ids = []){
+					return self.campaigns.emails.templates.getall().then((r) => {
+
+						var res = {}
+
+						_.each(r, (et) => {
+
+							if(_.indexOf(ids, et.Id) > -1){
+								res[et.Id] = et
+							}
+
+						})
+
+						return Promise.resolve(res)
+					})
+				}
+			},
+			templatesOld : {
+				getall : function(data, p = {}){
+
+					p.kit = {
+						class: EmailTemplate,
 						path: 'FCT.MailTemplate'
 					}
 	

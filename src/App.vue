@@ -260,7 +260,7 @@ var vxstorage = new VXStorage([{
     
 },{
     type : "emailtemplate",
-    index : "ID"
+    index : "Id"
 },
 {
     type : "campaign",

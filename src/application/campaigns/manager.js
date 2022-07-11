@@ -154,9 +154,9 @@ class CampaignsManager {
 
     createEmailTemplate(data = {}){
 
-        data.MailSystem = this.mailsystem
+        data.System = this.mailsystem
         data.Type = "Email"
-        data.CommonTemplate = 0
+        data.IsCommonTemplate = 0
         data.Email = ''
 
         if (data.Body)
@@ -174,7 +174,7 @@ class CampaignsManager {
         }).then(r => {
 
             if (this.emailTemplates){
-                this.emailTemplates[r.ID] = r
+                this.emailTemplates[r.Id] = r
             }
 
             return Promise.resolve(r)
@@ -204,7 +204,7 @@ class CampaignsManager {
             this.emailTemplates = {}
 
             _.each(r, (et) => {
-                this.emailTemplates[Number(et.ID)] = et
+                this.emailTemplates[Number(et.Id)] = et
             })
 
             return Promise.resolve(this.emailTemplates)

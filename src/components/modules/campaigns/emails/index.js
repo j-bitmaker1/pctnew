@@ -56,7 +56,7 @@ export default {
 
             return f.group(this.sorted, (t) => {
 
-                if(t.Email) return 'my'
+                if (t.Email) return 'my'
 
                 if (t.Path === 'jtCampaigns') return 'jt';
                 if (t.Path === 'rpagCampaigns') return 'rpag';
@@ -93,7 +93,7 @@ export default {
                 this.$emit('close')
             }
             else{
-                this.$router.push('/campaigns/emailtemplate/' + template.ID)
+                this.$router.push('/campaigns/emailtemplate/' + template.Id)
             }
             
         }

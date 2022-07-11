@@ -58,12 +58,12 @@ export default {
 
             var promise = null
 
-            if (this.emailTemplate.ID){
+            if (this.emailTemplate.Id){
                 promise = this.core.campaigns.updateEmailTemplate({
                     Name : this.name,
                     Subject : this.subject,
                     Body : this.body,
-                    ID : this.emailTemplate.ID
+                    Id : this.emailTemplate.Id
                 })
             }
             else{
@@ -73,7 +73,7 @@ export default {
                     Body : this.body
                 }).then(r => {
                     console.log("R", r)
-                    this.$router.replace('/campaigns/emailtemplate/' + r.ID)
+                    this.$router.replace('/campaigns/emailtemplate/' + r.Id)
                 })
             }
 

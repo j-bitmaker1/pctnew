@@ -5,7 +5,7 @@
 		<span>Descrtiption</span>
 	</div>
 	<div class="description mobp">
-		<span>This campaign step sends a notification with the text you entered to your phone.</span>
+		<span>This step sends an email to the recipient of the campaign.</span>
 	</div>
 
 	<emails :select="true" :selected="step.template" @select="select"/>
@@ -54,7 +54,7 @@ export default {
 	methods: {
 	
 		select : function(template){
-			this.change(Number(template.ID))
+			this.change(Number(template.Id))
 		},
 		change : function(template){
 			var clone = this.step.clone()

@@ -21,14 +21,23 @@ export default {
     },
 
     created() {
-        this.load()
+        //this.load()
     },
 
     watch: {
+        templateId : {
+            immediate : true,
+            handler : function(){
+                this.load()
+            }
+        }
         //$route: 'getdata'
     },
     computed: mapState({
         auth : state => state.auth,
+        templateId : function(){
+            return this.step.template
+        }
     }),
 
     methods : {

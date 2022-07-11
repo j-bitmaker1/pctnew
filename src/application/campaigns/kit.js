@@ -371,8 +371,8 @@ class EmailTemplate {
 
         this.COMPLETED = Number(data.COMPLETED || '0')
 
-        if (data.ID)
-            this.ID = Number(data.ID)
+        if (data.Id)
+            this.Id = Number(data.Id)
 
         this.LINKSVISITED = Number(data.LINKSVISITED || '0')
         this.OPENED = Number(data.OPENED || '0')
