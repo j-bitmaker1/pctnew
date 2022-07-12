@@ -12,7 +12,13 @@
             <div v-else>
                 <div class="template" v-if="template">
                     <div class="name"><span>{{template.Name}}</span></div>
-                    <div class="subject"><span>{{template.Subject}}</span></div>
+                    <div class="subject"><span>{{template.Subject}}</span> <i class="fas fa-envelope-open goodcolor" v-if="step.track"></i></div>
+
+                    <div class="showWrapper" v-if="campaign && step.status == 'COMPLETED'">
+                        <button class="button black" @click="showemail">
+                            Show sent email
+                        </button>
+                    </div>
                 </div>
 
                 <div v-else class="empty">

@@ -57,6 +57,13 @@ export default {
                     action: this.lead,
 
                     features : ['CRM']
+                },
+                {
+                    text: 'campaigns.labels.newCampaign',
+					icon: 'fas fa-play',
+                    action: this.campaign,
+
+                    features : ['CAMPAIGN']
                 }
             ]
             
@@ -68,7 +75,9 @@ export default {
     }),
 
     methods: {
-
+        campaign : function(){
+            this.core.campaigns.start()
+        },
         portfolio: function () {
             this.$store.commit('OPEN_MODAL', {
                 id: 'modal_portfolios_edit',

@@ -296,13 +296,20 @@ class CampaignsManager {
         )
     }
 
+    emailpreview(data){
+        return this.vueapi.customWindow(
+            'campaigns_emailpreview', 
+            "", data, {}, {
+                mclass : 'withoutheader'
+            }
+        ).catch(e => {})
+    }
+
     statusToStatistic(){
         
     }
 
     updateByWs(message){
-
-        console.log("UPDATE WS", message)
 
         var batch = null
         var campaign = null
@@ -380,7 +387,6 @@ class CampaignsManager {
                             started : f.date.toserverFormatDate()
                         }
 
-                        console.log("UPDATE WS2 STEP", nextupd)
 
                         this.core.vxstorage.update(nextupd, 'step')
         
@@ -389,7 +395,6 @@ class CampaignsManager {
             }
         }
 
-        console.log("UPDATE WS2", campaignupdate, batchupdate)
 
         if(!_.isEmpty(campaignupdate) && campaignupdate.Id){
             this.core.vxstorage.update(campaignupdate, 'campaign')

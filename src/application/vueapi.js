@@ -628,7 +628,7 @@ class Vueapi {
 
     ///
 
-    customWindow = function(module, caption, data = {}, events = {}){
+    customWindow = function(module, caption, data = {}, events = {}, p){
 
         var e = false
 
@@ -655,7 +655,8 @@ class Vueapi {
                 module : module,
                 caption : caption || "",
                 data : data,
-                events : events
+                events : events,
+                mclass : p.mclass,
             })
         })
 
@@ -790,7 +791,13 @@ class Vueapi {
                 }, {
                     caption: "New lead"
                 })
+            },
+
+            campaign : () => {
+                this.core.campaigns.start()
             }
+
+
         }
 
         var menu = [{
@@ -813,6 +820,12 @@ class Vueapi {
             action: actions.lead,
 
             features : ['CRM']
+        },{
+            text: 'campaigns.labels.newCampaign',
+            icon: 'fas fa-play',
+            action: actions.campaign,
+
+            features : ['CAMPAIGN']
         }]
 
         menu = this.core.user.extendByFeaturesMenu(menu)

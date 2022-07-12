@@ -8,7 +8,8 @@ export default {
         step : Object,
         editing : Boolean,
         level : Number,
-        refer : Object
+        refer : Object,
+        campaign : Object
     },
 
     components : {

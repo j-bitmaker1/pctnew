@@ -4,7 +4,8 @@ export default {
     name: 'campaign_step_email',
     props: {
         step : Object,
-        editing : Boolean
+        editing : Boolean,
+        campaign : Object
     },
 
     components : {
@@ -49,6 +50,41 @@ export default {
                 this.template = r
             }).finally(() => {
                 this.loading = false
+            })
+        },
+
+        showemail : function(){
+            this.core.api.campaigns.single.email(this.campaign.Id, this.step.id, {
+                preloader : true
+            }).then(r => {
+
+                console.log("this", this.step, this.campaign)
+
+                this.core.api.crm.contacts.get(this.campaign.RecipientId, {
+                    preloader : true
+                }).then(profile => {
+
+                    console.log('profile', profile)
+
+                    this.core.campaigns.emailpreview({
+                        ...r,
+                        ... {
+                            date : this.step.started,
+    
+                        },
+                        ...{
+                            email : this.campaign.RecipientEmail,
+                            name : this.campaign.RecipientName,
+                            profile : profile,
+                            read : this.step.track
+                        }
+                    })
+
+                })
+
+                
+
+                console.log("R", r)
             })
         }
     },

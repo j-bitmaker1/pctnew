@@ -179,6 +179,9 @@ Vue.use(VuePageTransition)
  
 Vue.use(vuescroll, {throttle: 100})
 
+import shadow from 'vue-shadow-dom'
+Vue.use(shadow)
+
 /////////////////////////
 
 Vue.directive("click-outside", {

@@ -9,7 +9,7 @@
 		
 	</div>
 	<div class="email">
-		<span>&lt;{{profile.Email}}&gt;</span>
+		<span>&lt;<avalue :value="profile.Email"/>&gt;</span>
 		<i v-if="profile.Type == 'CLIENT'" class="fas fa-check-circle verify"></i>
 	</div>
 </div>

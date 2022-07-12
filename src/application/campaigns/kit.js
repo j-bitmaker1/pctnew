@@ -143,7 +143,7 @@ class Step {
 
         if (!this.duration()) return 1
 
-        return Math.max(Math.min(this.timeleft() / this.duration(), 1), 0)
+        return 1 - Math.max(Math.min(this.timeleft() / this.duration(), 1), 0)
     }
 }
 
@@ -232,6 +232,8 @@ class ViewStep extends Step {
     
             if (data.Type == "SEND"){
                 importdata.template = data.MailTemplateId
+
+                importdata.track = data.TrackDt
             }
     
             if (data.Type == "WAIT"){

@@ -90,6 +90,8 @@ export default {
         campaigns_start: () => import("@/components/modules/campaigns/start/index.vue"),
         campaigns_selecttemlpate: () => import("@/components/modules/campaigns/templates/index.vue"),
         campaigns_template: () => import("@/components/modules/campaigns/template/main/index.vue"),
+        campaigns_emailpreview: () => import("@/components/modules/campaigns/emailpreview/index.vue"),
+        
         
     },
  

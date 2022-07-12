@@ -10,7 +10,8 @@ export default {
         level: {
             type: Number,
             default: 0
-        }
+        },
+        campaign : Object
     },
 
     components: {

@@ -32,7 +32,7 @@
 
     <div class="stepsWrapper mobp">
 		<linepreloader v-if="loading"/>
-		<campaignsStepsList :steps="steps" v-else/>
+		<campaignsStepsList :steps="steps" :campaign="campaign" v-else/>
 	</div>
 
 </div>

@@ -323,6 +323,14 @@ var ApiWrapper = function (core = {}) {
 			}
 		},
 
+		campaigns: function () {
+			return {
+				storage: 'campaigns',
+				time: 60 * 60 * 148,
+				version: 2
+			}
+		},
+
 		system: function () {
 			return {
 				storage: 'system',
@@ -2869,9 +2877,27 @@ var ApiWrapper = function (core = {}) {
 				})
 			},
 
-			email : function(data, p = {}){
+			email : function(campaignId, stepId, p = {}){
+
 				p.method = "GET"
-				return request(data, 'campaigns', 'steps/emailpreview', p)
+				p.storageparameters = dbmeta.campaigns()
+
+				return request({
+					campaignId, stepId
+				}, 'campaigns', 'steps/jsonemailpreview', p).then(r => {
+					var email = {}
+					console.log("R", r)
+					try{
+						email.body = f.Base64.decode(r.Body)
+						email.subject = f.Base64.decode(r.subject)
+					}
+					catch(e){
+						return Promise.reject(e)
+					}
+
+					return email
+				})
+
 			}, 
 			
 		},
@@ -2940,6 +2966,7 @@ var ApiWrapper = function (core = {}) {
 				p.method = "GET"
 				return request({}, 'campaigns', 'statistic/campaignstotal', p)
 			},
+			
 		},
 
 		emails : {
@@ -3011,86 +3038,6 @@ var ApiWrapper = function (core = {}) {
 
 							if(_.indexOf(ids, et.Id) > -1){
 								res[et.Id] = et
-							}
-
-						})
-
-						return Promise.resolve(res)
-					})
-				}
-			},
-			templatesOld : {
-				getall : function(data, p = {}){
-
-					p.kit = {
-						class: EmailTemplate,
-						path: 'FCT.MailTemplate'
-					}
-	
-					p.vxstorage = {
-						type: 'emailtemplate',
-						path: 'FCT.MailTemplate'
-					}
-
-					p.urldata = true
-
-					data.withoutBody = true
-
-					return request(data, '401k', '?action=GETMAILTEMPLATES', p).then(r => {
-						return r.FCT.MailTemplate
-					})
-				},
-
-				create : function(data, p = {}){
-
-					p.urldata = true
-
-					return request(data, '401k', '?action=CREATEMAILTEMPLATE', p).then(r => {
-
-						data.ID = r.FCT.MailTemplateID
-
-						var obj = new EmailTemplate(data)
-
-						core.vxstorage.set(obj, 'emailtemplate')
-						
-						return Promise.resolve(obj)
-					})
-				},
-
-				update : function(data, p = {}){
-
-					p.urldata = true
-					
-					return request(data, '401k', '?action=UPDATEMAILTEMPLATE', p).then(r => {
-
-						var obj = new EmailTemplate(data)
-
-						var {updated} = core.vxstorage.update(obj, 'emailtemplate')
-
-						return Promise.resolve()
-					})
-				},
-
-				getBody : function(id, p = {}){
-
-					p.urldata = true
-
-					return request({
-					}, '401k', '?action=GETMAILTEMPLATES&ids=' + id, p).then(r => {
-						return f.deep(r, 'FCT.MailTemplate.0.Body') || ''
-					})
-
-				},
-
-				getbyids : function(ids = []){
-					return self.campaigns.emails.templates.getall().then((r) => {
-
-						var res = {}
-
-						_.each(r, (et) => {
-
-							if(_.indexOf(ids, et.ID) > -1){
-								res[et.ID] = et
 							}
 
 						})

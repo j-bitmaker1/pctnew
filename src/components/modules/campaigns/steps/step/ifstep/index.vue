@@ -51,7 +51,7 @@
                             <div class="ifcaption">
                                 <span>Yes</span>
                             </div>
-                            <campaignsStepsList @change="list => changeList('success', list)" :editing="editing" v-if="(step.success && step.success.length) || editing" :level="level + 1" :steps="step.success || []"/>
+                            <campaignsStepsList :campaign="campaign" @change="list => changeList('success', list)" :editing="editing" v-if="(step.success && step.success.length) || editing" :level="level + 1" :steps="step.success || []"/>
                         </div>
                     </div>
 
@@ -79,7 +79,7 @@
                             <div class="ifcaption">
                                 <span>No</span>
                             </div>
-                            <campaignsStepsList @change="list => changeList('fail', list)" :editing="editing" v-if="(step.fail && step.fail.length) || editing" :level="level + 1" :steps="step.fail || []"/>
+                            <campaignsStepsList :campaign="campaign" @change="list => changeList('fail', list)" :editing="editing" v-if="(step.fail && step.fail.length) || editing" :level="level + 1" :steps="step.fail || []"/>
                         </div>
                         
                     </div>
