@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-	<topheader back="back">
+	<topheader :back="mobileview ? 'back' : ''">
 		<template v-slot:info>
 			<span>Compare</span>
 		</template>
@@ -61,7 +61,7 @@ import stress from '@/components/modules/app/compare/stress/index.vue'
 import allocation from '@/components/modules/app/compare/allocation/index.vue'
 import distribution from '@/components/modules/app/compare/distribution/index.vue'
 
-
+import { mapState } from 'vuex';
 export default {
 	name: 'compare_page',
 	components: {
@@ -80,7 +80,9 @@ export default {
 		active : function(){
 			return this.$route.query[this.navkey] || this.navdefault
 		},
-
+		...mapState({
+			mobileview : state => state.mobileview,
+		})
 	},
 
 	watch : {
@@ -141,7 +143,7 @@ export default {
 							}).join(',')
 						}
                     }
-                })
+                }).catch(e => {})
 
 			}, {selected})
 		}

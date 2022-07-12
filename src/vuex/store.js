@@ -98,7 +98,8 @@ var storeFactory = function (vxstorage) {
 
 		features : {},
 
-		uploading : []
+		uploading : [],
+		mobileview : false
 	}
 
 
@@ -169,6 +170,7 @@ var storeFactory = function (vxstorage) {
 
 		twidth(state, value) {
 			state.twidth = value;
+			state.mobileview = state.twidth <= 768 ? true : false
 		},
 
 		dheight(state, value) {

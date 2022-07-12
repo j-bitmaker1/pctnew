@@ -347,7 +347,7 @@ class Core {
 
         this.cancelDefaultRoute = true;
 
-        this.vm.$router.push(route);
+        this.vm.$router.push(route).catch(e => {})
     }
 
     updateUser(){

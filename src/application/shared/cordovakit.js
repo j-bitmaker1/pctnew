@@ -54,7 +54,7 @@ class Cordovakit {
 				var route = (eventData.url || '').replace('https://rixtrema.net/pctnew/')
 
 				if (route){
-					this.core.router.push(route)
+					this.core.router.push(route).catch(e => {})
 				}
 				
             });

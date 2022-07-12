@@ -174,11 +174,11 @@ export default {
 
 
 				if(profile.Type == "LEAD"){
-					this.$router.push('/lead/' + profile.ID)
+					this.$router.push('/lead/' + profile.ID).catch(e => {})
 				}
 
 				if(profile.Type == "CLIENT"){
-					this.$router.push('/client/' + profile.ID)
+					this.$router.push('/client/' + profile.ID).catch(e => {})
 				}
 			})
 		}

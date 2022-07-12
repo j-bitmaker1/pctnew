@@ -520,7 +520,8 @@
 			"ActiveCampaigns" : "Active campaigns",
 			"PauseCampaigns" : "Paused campaigns",
 			"CompletedCampaigns" : "Completed campaigns",
-			"ErrorCampaigns" : "Error campaigns"
+			"ErrorCampaigns" : "Error campaigns",
+			"DeletedCampaigns" : "Deleted campaigns"
 		},
 
 		"dialog" : {

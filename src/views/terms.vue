@@ -1,5 +1,5 @@
 <template>
-<div class="terms">
+<div class="terms page">
 
 	<topheader back="/">
 	  <template v-slot:info>
@@ -99,7 +99,7 @@ export default {
 
 	methods: {
 		back: function () {
-			this.$router.go(-1)
+			this.$router.go(-1).catch(e => {})
 		},
 	}
 }

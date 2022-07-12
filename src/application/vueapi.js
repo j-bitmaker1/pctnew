@@ -404,7 +404,7 @@ class Vueapi {
     
             events : {
                 edit : (portfolio) => {
-                    this.router.push('portfolio/' + portfolio.id)
+                    this.router.push('portfolio/' + portfolio.id).catch(e => {})
                 }
             }
         })
@@ -413,7 +413,7 @@ class Vueapi {
     newClient = function () {
         this.createContact({type : "CLIENT"}, (data) => {
             if (data.ID)
-                this.router.push('client/' + data.ID)
+                this.router.push('client/' + data.ID).catch(e => {})
         }, {
             caption : "New client"
         })
@@ -424,7 +424,7 @@ class Vueapi {
         this.createContact({type : "LEAD"}, (data) => {
 
             if (data.ID)
-                this.router.push('lead/' + data.ID)
+                this.router.push('lead/' + data.ID).catch(e => {})
 
         }, {
             caption : "New lead"
@@ -763,7 +763,7 @@ class Vueapi {
     
                     events: {
                         edit: (data) => {
-                            this.router.push('portfolio/' + data.id)
+                            this.router.push('portfolio/' + data.id).catch(e => {})
                         }
                     }
                 })
@@ -773,7 +773,7 @@ class Vueapi {
                     Type: "CLIENT"
                 }, (data) => {
     
-                    this.router.push('client/' + data.ID)
+                    this.router.push('client/' + data.ID).catch(e => {})
     
                 }, {
                     caption: "New client"
@@ -785,7 +785,7 @@ class Vueapi {
                     Type: "LEAD"
                 }, (data) => {
     
-                    this.router.push('lead/' + data.ID)
+                    this.router.push('lead/' + data.ID).catch(e => {})
     
                 }, {
                     caption: "New lead"

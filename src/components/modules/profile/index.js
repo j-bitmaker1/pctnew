@@ -35,7 +35,7 @@ export default {
 	methods : {
 		signout : function(){
 			this.core.user.signout().then(() => {
-				this.$router.push('/')
+				this.$router.push('/').catch(e => {})
 			})
 			
 		},

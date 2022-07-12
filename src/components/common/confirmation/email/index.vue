@@ -97,7 +97,7 @@ export default {
 
 					setTimeout(() => {
 
-						this.$router.push('/authorization')
+						this.$router.push('/authorization').catch(e => {})
 
 					}, 2000)
 				}).finally(() => {

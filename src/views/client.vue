@@ -196,7 +196,7 @@ export default {
 		},
 
 		deleted : function(){
-			this.$router.push('/clients')
+			this.$router.push('/clients').catch(e => {})
 			this.$emit('close')
 		},
 

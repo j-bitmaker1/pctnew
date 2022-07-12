@@ -158,13 +158,13 @@ export default {
 		},
 
 		deleted : function(){
-			this.$router.push('/leads')
+			this.$router.push('/leads').catch(e => {})
 			this.$emit('close')
 		},
 
 		leadtocontact : function(lead){
 
-			this.$router.push('/client/' + lead.ID)
+			this.$router.push('/client/' + lead.ID).catch(e => {})
 
 			this.$emit('leadtocontact', lead)
 			this.$emit('close')

@@ -1,12 +1,18 @@
 body
 	color: $color-text-common
-	background: srgb(--background-total-theme)
+	background: srgb(--background-secondary-theme)
 	font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
 	color: srgb(--text-color)
-	
-@media only screen and (min-width: 1024px)
+
+@media only screen and (max-width: 768px)
+	/*html
+		scroll-snap-type: y proximity*/
 	body
-		background: srgb(--background-secondary-theme)
+		background: srgb(--background-total-theme)
+
+/*@media only screen and (min-width: 1024px)
+	body
+		background: srgb(--background-secondary-theme)*/
 
 a
 	text-decoration: none
@@ -211,8 +217,8 @@ html[camera="true"]
 		.popover-inner
 			background: $color
 			color: black
-			padding: 2 * $r
-			border-radius: 24px
+			padding: $r
+			border-radius: 12px
 			+shadowSmaller()
 
 		.popover-arrow

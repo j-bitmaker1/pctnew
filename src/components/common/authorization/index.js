@@ -44,7 +44,7 @@ export default {
 
 			}).then(state => {
 
-				this.$router.push('/')
+				this.$router.push('/').catch(e => {})
 
 			}).catch(e => {
 
@@ -86,7 +86,7 @@ export default {
 
 
 		registration : function(){
-			this.$router.push('/registration')
+			this.$router.push('/registration').catch(e => {})
 		},
 
 		demo : function(){

@@ -84,7 +84,7 @@ export default {
         },
 
 		deletebatch : function(){
-			this.$router.replace('/campaigns?p=campaigns')
+			this.$router.replace('/campaigns?p=campaigns').catch(e => {})
 		}
 	},
 

@@ -201,7 +201,7 @@ export default {
 						
 								.then((dialog) => {
 									this.$emit('close')
-									this.$router.push(type + '/' + r.ID)
+									this.$router.push(type + '/' + r.ID).catch(e => {})
 				
 								}).catch( e => {
 									

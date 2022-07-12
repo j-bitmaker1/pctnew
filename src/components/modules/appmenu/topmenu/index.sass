@@ -1,0 +1,38 @@
+#topmenu
+    background: srgb(--background-total-theme)
+    height: 66px
+    border-bottom: 1px solid srgb(--neutral-grad-0)
+    padding : 0 2 * $r
+    display: flex
+    grid-gap: $r
+    align-items: center
+
+    .profilewrapper
+        margin-left: auto
+
+        .userpic
+            width: 44px
+            height: 44px
+            line-height: 44px
+            
+            +shadowSmaller()
+
+            ::v-deep
+                .charAvatar,
+                .statusIcon
+                    font-size: 1em
+
+    ::v-deep
+        .logo
+            img
+                height: 24px
+
+    &.authorization
+        border-bottom : 0
+        .logowrapper
+            display: none
+
+@media only screen and (max-width: 768px)
+    #topmenu
+        padding-right: 1.5 * $r
+        /*scroll-snap-align: start*/

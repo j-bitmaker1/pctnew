@@ -123,7 +123,7 @@ export default {
 		},
 
         open : function(batch){
-            this.$router.push('/campaigns/batch/' + batch.Id)
+            this.$router.push('/campaigns/batch/' + batch.Id).catch(e => {})
         },
 
         loadstats : function(){

@@ -1,5 +1,5 @@
 <template>
-<div class="registration_page">
+<div class="registration_page page">
 
 	<topheader back="/">
 		<template v-slot:info>

@@ -330,8 +330,6 @@ export default {
 
     methods: {
 
-        
-
 		tscroll : _.throttle(function(){
 			this.$store.commit('tscrolly', window.scrollY)
 			this.$store.commit('tscrollx', window.scrollX)
@@ -394,6 +392,11 @@ export default {
 		window.addEventListener('scroll', this.dscroll)
 		window.addEventListener('resize', this.dresize)
 		window.addEventListener('resize', this.tresize)
+
+        this.tscroll()
+        this.dscroll()
+        this.dresize()
+        this.tresize()
 
     }
 };

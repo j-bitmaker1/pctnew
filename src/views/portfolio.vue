@@ -164,7 +164,7 @@ export default {
 
 
 		deleteportfolio : function(){
-			this.$router.push('/portfolios')
+			this.$router.push('/portfolios').catch(e => {})
 		},
 
 		editportfolio : function(portfolio){

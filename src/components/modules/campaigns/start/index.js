@@ -192,7 +192,7 @@ export default {
                         setTimeout(() => {
                             this.$store.commit('globalpreloader', false)*/
                             this.$emit('close')
-                            this.$router.push('/campaigns/batch/' + batch.Id)
+                            this.$router.push('/campaigns/batch/' + batch.Id).catch(e => {})
                         /*}, 2000)*/
 
                         

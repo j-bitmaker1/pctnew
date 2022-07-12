@@ -218,7 +218,7 @@ export default {
 		},
 
 		compare : function(){
-			this.$router.push('/compare?ids=' + this.portfolio.id)
+			this.$router.push('/compare?ids=' + this.portfolio.id).catch(e => {})
 		},
 
 		moveportfoliotofolder : function(){

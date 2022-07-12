@@ -101,7 +101,7 @@ export default {
 	},
 	computed: mapState({
 		auth : state => state.auth,
-
+		mobileview : state => state.mobileview,
 		active : function(){
 
 			var path = this.$route.path
@@ -123,7 +123,7 @@ export default {
 
 		items : function(state){
 
-			var mobile = f.mobileview()
+			var mobile = this.mobileview
 
 			return _.filter(this.allitems, (item) => {
 				return (typeof item.mobile == 'undefined' || item.mobile == mobile) && (!item.features || _.find(item.features, (f) => {
@@ -147,7 +147,7 @@ export default {
 
 		open : function(item){
 			if(item.route) {
-				this.$router.push(item.route)
+				this.$router.push(item.route).catch(e => {})
 			}
 
 			if(item.action) item.action()

@@ -1,5 +1,5 @@
 <template>
-<div class="privacy">
+<div class="privacy page">
 
     <topheader back="/">
         <template v-slot:info>

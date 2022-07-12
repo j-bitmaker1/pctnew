@@ -77,7 +77,7 @@ export default {
 
                 events: {
                     edit: (data) => {
-                        this.$router.push('portfolio/' + data.id)
+                        this.$router.push('portfolio/' + data.id).catch(e => {})
                     }
                 }
             })
@@ -87,7 +87,7 @@ export default {
                 Type: "CLIENT"
             }, (data) => {
 
-                this.$router.push('client/' + data.ID)
+                this.$router.push('client/' + data.ID).catch(e => {})
 
             }, {
                 caption: "New client"
@@ -99,7 +99,7 @@ export default {
                 Type: "LEAD"
             }, (data) => {
 
-                this.$router.push('lead/' + data.ID)
+                this.$router.push('lead/' + data.ID).catch(e => {})
 
             }, {
                 caption: "New lead"

@@ -75,7 +75,7 @@ export default {
                 this.$emit('close')
             }
             else{
-                this.$router.push('/campaigns/template/' + template.Id)
+                this.$router.push('/campaigns/template/' + template.Id).catch(e => {})
             }
 
         },

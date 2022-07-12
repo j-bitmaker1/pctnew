@@ -73,7 +73,7 @@ export default {
                     Body : this.body
                 }).then(r => {
                     console.log("R", r)
-                    this.$router.replace('/campaigns/emailtemplate/' + r.Id)
+                    this.$router.replace('/campaigns/emailtemplate/' + r.Id).catch(e => {})
                 })
             }
 

@@ -116,7 +116,7 @@ export default {
                                 [this.navkey] : v
                             }
                     }
-                })
+                }).catch(e => {})
             }
             else{
                 this.$emit('change', v)

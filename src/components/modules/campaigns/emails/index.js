@@ -93,7 +93,7 @@ export default {
                 this.$emit('close')
             }
             else{
-                this.$router.push('/campaigns/emailtemplate/' + template.Id)
+                this.$router.push('/campaigns/emailtemplate/' + template.Id).catch(e => {})
             }
             
         }

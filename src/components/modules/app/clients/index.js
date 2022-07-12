@@ -199,7 +199,7 @@ export default {
 				this.selected([profile])
 			}
 			else{
-				this.$router.push('client/' + profile.ID)
+				this.$router.push('client/' + profile.ID).catch(e => {})
 			}
 			
 		},

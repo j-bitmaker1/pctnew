@@ -163,7 +163,7 @@ export default {
 					preloader : true,
 					showStatus : true
 				}).then(r => {
-					this.$router.push('/')
+					this.$router.push('/').catch(e => {}).catch(e => {})
 				})
 
 			}	
@@ -175,7 +175,7 @@ export default {
 					preloader : true,
 					showStatus : true
 				}).then(r => {
-					this.$router.push('/')
+					this.$router.push('/').catch(e => {}).catch(e => {})
 				})
 			}
 

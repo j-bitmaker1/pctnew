@@ -103,7 +103,7 @@ export default {
 
         open : function(item){
 			if(item.route) {
-				this.$router.push(item.route)
+				this.$router.push(item.route).catch(e => {})
 			}
 
 			if(item.action) item.action()
@@ -116,7 +116,7 @@ export default {
         },
 
         tohelp : function(){
-            this.$router.push("/faq")
+            this.$router.push("/faq").catch(e => {})
         }
     },
 }

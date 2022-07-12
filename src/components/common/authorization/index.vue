@@ -55,18 +55,20 @@
 	</div>
 
 	<div class="newaccount section">
-
 		<div class="item buttons">
-			
 			<button class="enter button black" v-on:click="registration">
 				Register and start trial
 			</button>
-
 			<button class="enter button ghost" v-on:click="demo">
 				Request demo
 			</button>
 		</div>
-		
+	</div>
+
+	<div class="help section">
+		<router-link to="/faq">
+			<span>{{$t('caption.helpfooter')}}</span>
+		</router-link>
 	</div>
 
 	<transition name="fade">

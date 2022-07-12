@@ -380,7 +380,7 @@ var WSS = function(core, url){
                 },
 
                 click : function(data){
-                    core.vm.$router.push('/mynotifications')
+                    core.vm.$router.push('/mynotifications').catch(e => {})
                 }
             }
             

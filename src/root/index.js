@@ -1,5 +1,6 @@
 import { mapState } from 'vuex';
 import appmenu from "@/components/modules/appmenu/index.vue";
+import topmenu from "@/components/modules/appmenu/topmenu/index.vue";
 
 import camera from "@/components/common/camera/index.vue";
 
@@ -23,7 +24,7 @@ export default {
 		}
 
 	},
-	components : {appmenu, camera, fx, actual},
+	components : {appmenu, camera, fx, actual, topmenu},
 	created (){
 		
 	},

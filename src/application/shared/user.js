@@ -733,7 +733,7 @@ var User = function ({
                 text: 'labels.checkLicence',
                 icon: 'fas fa-certificate',
                 action: () => {
-                    vm.$router.push('/features')
+                    vm.$router.push('/features').catch(e => {})
                 },
             }
         ]

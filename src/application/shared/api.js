@@ -2721,6 +2721,7 @@ var ApiWrapper = function (core = {}) {
 				//data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
 
 				data.Product = 'PCT'
+				data.ExcludeStatusesFilter = ["DELETED"]
 
 				return paginatedrequest(data, 'campaigns', 'batches/list', p)
 
@@ -2826,6 +2827,8 @@ var ApiWrapper = function (core = {}) {
 					type: 'campaign',
 					path: 'Records'
 				}
+
+				data.ExcludeStatusesFilter = ["DELETED"]
 
 				return paginatedrequest(data, 'campaigns', 'campaigns/list', p)
 			},

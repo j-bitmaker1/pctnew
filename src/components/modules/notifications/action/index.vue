@@ -107,7 +107,7 @@ export default {
 						
 					}
 
-					this.$router.push(this.action.link.address)
+					this.$router.push(this.action.link.address).catch(e => {})
 				}
 
 				

@@ -120,7 +120,7 @@ export default {
 
             if (item.link){
 
-                this.$router.push(item.link)
+                this.$router.push(item.link).catch(e => {})
 
                 this.$emit('close')
             }
@@ -139,7 +139,7 @@ export default {
         },
 
         to : function(path){
-            this.$router.push(path)
+            this.$router.push(path).catch(e => {})
 
             this.$emit('close')
         }

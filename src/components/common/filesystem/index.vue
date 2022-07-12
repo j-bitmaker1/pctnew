@@ -58,8 +58,8 @@
 
 				<div class="cnt" :ref="slotProps.item.id" @click="e => { open(slotProps.item) }">
 					<div class="icon">
-						<i class="fas fa-folder" v-if="slotProps.item.type == 'folder'"></i>
-						<i class="fas fa-file" v-if="slotProps.item.type == 'portfolio'"></i>
+						<i class="fas fa-folder fld" v-if="slotProps.item.type == 'folder'"></i>
+						<i class="fas fa-file fl" v-if="slotProps.item.type == 'portfolio'"></i>
 					</div>
 					<div class="name">
 						<span>{{slotProps.item.name}}</span>

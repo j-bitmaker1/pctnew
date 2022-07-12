@@ -177,7 +177,7 @@ export default {
 
             this.core.user.signup(data).then(r => {
 
-                this.$router.push('/confirm?type=email&email=' + data.Email)
+                this.$router.push('/confirm?type=email&email=' + data.Email).catch(e => {})
 
             }).catch((e) => {
 

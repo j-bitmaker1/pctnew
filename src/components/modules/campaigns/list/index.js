@@ -81,7 +81,7 @@ export default {
 		},
 
         open : function(campaign){
-            this.$router.push('/campaigns/campaign/' + campaign.Id)
+            this.$router.push('/campaigns/campaign/' + campaign.Id).catch(e => {})
         },
 
         deletesingle : function(item){

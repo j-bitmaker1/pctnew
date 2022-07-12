@@ -79,7 +79,7 @@ export default {
             }).then(r => {
 
                 if(!this.wnd){
-                    this.$router.replace('/campaigns/template/' + clone.Id)
+                    this.$router.replace('/campaigns/template/' + clone.Id).catch(e => {})
                 }
                 else{
                     this.$emit('close')

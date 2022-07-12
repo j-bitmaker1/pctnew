@@ -5,6 +5,10 @@
         <camera v-bind="camera.data || {}" v-on="camera.events" @close="closeCamera" />
     </div>
 
+    <div class="topheader" v-show="!camera">
+        <topmenu />
+    </div>
+
     <div class="rootapp" v-show="!camera">
 
         <div class="refresher" :style="{opacity : refreshPosition > 0 ? 1 : 0, transform : 'translateY('+refreshPosition+'%)'}">

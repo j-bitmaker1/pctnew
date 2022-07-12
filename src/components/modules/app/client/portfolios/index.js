@@ -114,7 +114,7 @@ export default {
 		},
 
 		open : function(portfolio){
-			this.$router.push('/portfolio/' + portfolio.id)
+			this.$router.push('/portfolio/' + portfolio.id).catch(e => {})
 
 			this.$emit('close')
 		}

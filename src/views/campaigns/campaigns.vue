@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-	<topheader back="back">
+	<topheader :back="mobileview ? 'back' : ''">
 		<template v-slot:info>
 			<span>Campaigns</span>
 		</template>
@@ -38,7 +38,7 @@ import campaigns from '@/components/modules/campaigns/dashboard/index.vue';
 import templates from '@/components/modules/campaigns/templates/index.vue';
 import emails from '@/components/modules/campaigns/emails/index.vue';
 import linenavigation from "@/components/assets/linenavigation/index.vue";
-
+import { mapState } from 'vuex';
 export default {
 	name: 'campaigns_page',
 	components: {
@@ -54,6 +54,9 @@ export default {
 		active : function(){
 			return this.$route.query[this.navkey] || this.navdefault
 		},
+		...mapState({
+			mobileview : state => state.mobileview,
+		})
 	},
 
 	data : function(){
@@ -103,10 +106,10 @@ export default {
 			this.core.vueapi.listmenu(items)
 		},
 		newCampaignTemplate : function(){
-			this.$router.push('/campaigns/template/new')
+			this.$router.push('/campaigns/template/new').catch(e => {})
 		},
 		newEmailTemplate : function(){
-			this.$router.push('/campaigns/emailtemplate/new')
+			this.$router.push('/campaigns/emailtemplate/new').catch(e => {})
 		},
 		newCampaign : function(){
 			this.core.campaigns.start()

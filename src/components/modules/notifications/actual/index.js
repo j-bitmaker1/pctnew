@@ -133,7 +133,7 @@ export default {
         showmore : function(){
 
             if (this.$route.name != 'index')
-                this.$router.push('/')
+                this.$router.push('/').catch(e => {})
                 
         },
 

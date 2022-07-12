@@ -92,7 +92,7 @@ export default {
         },
 
 		remove : function(){
-			this.$router.replace('/campaigns?p=templates')
+			this.$router.replace('/campaigns?p=templates').catch(e => {})
 		}
 	},
 

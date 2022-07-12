@@ -1,10 +1,11 @@
 <template>
   <div class="bgpage">
-	<div class="brandWrapper">
+	<!---->
+	<div class="authorizationWrapper">
+		<div class="brandWrapper">
 		<logotype />
 	</div>
-	<div class="authorizationWrapper">
-	  <authorization />
+	  	<authorization />
 	</div>
   </div>
 </template>
@@ -17,10 +18,10 @@
 		border-radius: 6px
 		border: 1px solid srgb(--neutral-grad-0)
 		padding: 4 * $r
+		background: srgb(--background-total-theme)
 
 	.brandWrapper
-		display: none
-		padding-left: 20%
+		margin-bottom: 4 * $r
 
 	@media only screen and (max-width: 768px)
 		.brandWrapper

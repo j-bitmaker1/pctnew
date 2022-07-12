@@ -260,7 +260,7 @@ export default {
 			else{
 
 				if (this.type){
-					this.$router.push(this.type + '/' + profile.ID)
+					this.$router.push(this.type + '/' + profile.ID).catch(e => {})
 				}
 				
 			}

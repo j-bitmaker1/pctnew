@@ -1,9 +1,9 @@
 <template>
 <div id="appmenu">
 
-    <div class="logowrapper">
+    <!--<div class="logowrapper">
         <logotype />
-    </div>
+    </div>-->
 
     <div class="items">
 

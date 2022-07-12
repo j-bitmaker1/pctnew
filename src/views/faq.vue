@@ -1,5 +1,5 @@
 <template>
-<div class="faq_page">
+<div class="faq_page page">
 
 	<topheader back="back">
         <template v-slot:info>

@@ -23,9 +23,9 @@ export default {
     methods: {
         click: function () {
             if (this.action == "back") {
-                this.$router.go(-1);
+                this.$router.go(-1)
             } else {
-				this.$router.push(this.action);
+				this.$router.push(this.action).catch(e => {});
 			}
         },
     },

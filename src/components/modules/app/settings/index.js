@@ -86,7 +86,7 @@ export default {
         action : function(item){
             if(item.action) item.action()
 
-            if(item.route) this.$router.push(item.route)
+            if(item.route) this.$router.push(item.route).catch(e => {})
         }
     },
 }

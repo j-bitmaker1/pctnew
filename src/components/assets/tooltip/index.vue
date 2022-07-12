@@ -40,7 +40,16 @@
 </template>
 
 <style scoped lang="sass">
-
+.content
+    ::v-deep
+        .simplelist
+            .menuitem
+                padding-left: $r
+                border-radius: 12px
+                i
+                    margin-right: 0
+                i,span
+                    font-size: 0.8em
 </style>
 
 <script>
