@@ -339,6 +339,20 @@ const routes = [
 		customRedirect: redirects.authorized,
 	},
 
+	{
+		path: '/signatures',
+		name: 'signatures',
+		component: () => import('@/views/campaigns/signatures'),
+		customRedirect: redirects.authorized,
+	},
+
+	{
+		path: '/signature/:id',
+		name: 'signature',
+		component: () => import('@/views/campaigns/signature'),
+		customRedirect: redirects.authorized,
+	},
+
 
 ]
 
@@ -360,7 +374,7 @@ const scrollBehavior = function (to, from, savedPosition) {
 
 		if (to.matched.some(m => !m.meta || !m.meta.dontScrollToTop)) {
 			position.x = 0
-			position.y = f.mobileview() || window.cordova ? 66 : 0
+			position.y = f.mobileview() || window.cordova ? 77 : 0
 		}
 
 		resolve(position)

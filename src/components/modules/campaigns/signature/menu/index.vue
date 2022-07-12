@@ -1,5 +1,5 @@
 <template>
-<div class="template_menu">
+<div class="signature_menu">
 	<tooltip>
 		<template v-slot:item>
 			<div :class="buttonclass">
@@ -25,9 +25,9 @@ import {
 } from 'vuex';
 
 export default {
-	name: 'template_menu',
+	name: 'signature_menu',
 	props: {
-		emailTemplate: Object,
+		campaignTemplate: Object,
 		buttonclass : {
 			type : String,
 			default : 'buttonpanel'
@@ -41,9 +41,9 @@ export default {
 			return [
 
 				{
-					text : 'campaigns.menu.deleteemail',
+					text : 'campaigns.menu.deletesignature',
 					icon : 'fas fa-trash',
-					action : 'deleteemail'
+					action : 'deletesignature'
 				}
 			]
 		}
@@ -57,10 +57,8 @@ export default {
 			}   
 		},
 
-		deleteemail : function(){
-			this.core.campaigns.deleteEmailTemplate(this.emailTemplate.Id).then(r => {
-				this.$emit('deleted')
-			})
+		deletesignature : function(){
+
 		}
 	},
 }

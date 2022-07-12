@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="formenu">
-            <cmenu :template="template"/>
+            <cmenu :emailTemplate="template" @deleted="deleted"/>
         </div>
     </div>
 

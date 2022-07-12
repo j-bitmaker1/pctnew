@@ -628,7 +628,7 @@ class Vueapi {
 
     ///
 
-    customWindow = function(module, caption, data = {}, events = {}, p){
+    customWindow = function(module, caption, data = {}, events = {}, p = {}){
 
         var e = false
 

@@ -42,7 +42,8 @@ export default {
 				}
 			},
 
-            listdate : []
+            listdate : [],
+            stats : null
         }
 
     },
@@ -128,6 +129,8 @@ export default {
 
         loadstats : function(){
             this.core.api.campaigns.misc.stats().then(r => {
+                this.stats = r
+                console.log("STATR", r)
             })
         },
 

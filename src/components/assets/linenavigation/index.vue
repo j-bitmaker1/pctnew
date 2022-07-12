@@ -31,7 +31,10 @@
         white-space: nowrap
         text-align: center
         border-bottom: 2px solid srgb(--neutral-grad-1)
-        
+        i
+            color : srgb(--neutral-grad-2)
+            margin-right: $r
+            font-size: 0.8em
         a
             width: 100%
 
@@ -46,7 +49,7 @@
         
         .wrapper
             border : 1px solid srgb(--neutral-grad-1)
-            border-radius: 12px
+            border-radius: 24px
             grid-gap: 0
 
         .item
@@ -59,12 +62,14 @@
             span
                 font-size: 0.9em
 
-
             &.active
                 background: srgb(--color-bg-ac-bright)
                 color : srgb(--text-on-bg-shadow-color)
                 border-color: srgb(--color-bg-ac-bright)
-                border-radius: 12px
+                border-radius: 24px
+
+                i
+                    color : srgb(--text-on-bg-shadow-color)
                 
 @media (pointer:fine)
     .item

@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-	<topheader back="back">
+	<topheader back="/campaigns?p=alltemplates&t=templates">
 		<template v-slot:info>
 			<div class="header" v-if="!loading && campaignTemplate">
 				<div class="name">
@@ -92,7 +92,7 @@ export default {
         },
 
 		remove : function(){
-			this.$router.replace('/campaigns?p=templates').catch(e => {})
+			this.$router.replace('/campaigns?p=alltemplates&t=templates').catch(e => {})
 		}
 	},
 

@@ -25,7 +25,7 @@
 
             <template v-slot:list="slotProps">
                 <div class="templateWrapper mobp" :class="{selected : selected == slotProps.item.Id}">
-                    <preview :template="slotProps.item" @open="e => {open(slotProps.item)}" />
+                    <preview :template="slotProps.item" @open="e => {open(slotProps.item)}" @deleted="e => {deleted(slotProps.item)}"/>
                 </div>
             </template>
         </listgroupedsliced>

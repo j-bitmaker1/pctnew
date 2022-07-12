@@ -286,8 +286,8 @@ export default {
 
 			_.find(path, (el) => {
 				me = this.$el == el
-				another = el.classList.contains('swipable') && this.$el != el
-				br = el.classList.contains('notswipable')
+				another = el.classList && el.classList.contains('swipable') && this.$el != el
+				br = el.classList && el.classList.contains('notswipable')
 
 				if(me || another || br) return true
 			})

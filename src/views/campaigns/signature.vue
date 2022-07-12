@@ -1,16 +1,16 @@
 <template>
 <div class="page">
 
-	<topheader back="/campaigns?p=alltemplates&t=emails">
+	<topheader back="/campaigns?p=settings">
 		<template v-slot:info>
-			<div class="header" v-if="!loading && emailTemplate">
+			<div class="header" v-if="!loading && signature">
 				<div class="name">
-					{{emailTemplate.Name || "Create email template"}}
+					{{signature.Name || "Create signature"}}
 				</div>
 			</div>
 		</template>
 		<template v-slot:right>
-			<emailTemplateMenu v-if="!loading && emailTemplate" :emailTemplate="emailTemplate" @deleted="deleted"/>
+			<signatureMenu v-if="!loading && signature && signature.Id" :signature="signature"/>
 		</template>
 	</topheader>
 
@@ -19,10 +19,10 @@
 
 			<linepreloader v-if="loading"/>
 
-			<emailTemplateMain v-if="!loading && emailTemplate" :emailTemplate="emailTemplate"/>
+			<signatureMain v-if="!loading && signature" :signature="signature"/>
 
-			<div class="empty" v-if="!loading && !emailTemplate">
-				<span>Email template not found</span>
+			<div class="empty" v-if="!loading && !signature">
+				<span>Signature not found</span>
 			</div>
 
 		</template>
@@ -48,20 +48,20 @@
 
 <script>
 
-import emailTemplateMain from '@/components/modules/campaigns/email/main/index.vue'
-import emailTemplateMenu from '@/components/modules/campaigns/email/menu/index.vue'
+import signatureMain from '@/components/modules/campaigns/signature/main/index.vue'
+import signatureMenu from '@/components/modules/campaigns/signature/menu/index.vue'
 
 
 export default {
 	name: 'campaign_page',
 	components: {
-        emailTemplateMain,
-		emailTemplateMenu
+        signatureMain,
+		signatureMenu
 	},
 
 	data : function(){
 		return {
-			emailTemplate : null,
+			signature : null,
 			loading : true,
 		}
 	},
@@ -80,27 +80,26 @@ export default {
 				this.loading = true
 
 				this.core.campaigns.getEmailWithBody(this.id).then(r => {
-					this.emailTemplate = r
+					this.signature = r
 				}).catch(e => {}).finally(() => {
 					this.loading = false
 				})
 
 			}
 			else{
-				this.emailTemplate = this.core.campaigns.campaignTemplates.createEmailTemplate() 
+				this.signature = this.core.campaigns.createSignature() 
+
+                console.log('this.signature', this.signature)
 
 				this.loading = false
 			}
 
             
-        },
-
-		deleted : function(){
-			this.$router.replace('/campaigns?p=alltemplates&t=emails')
-		}
+        }
 	},
 
 	created(){
+        console.log("ASD")
 		this.load()
 	},
 

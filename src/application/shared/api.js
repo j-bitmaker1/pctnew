@@ -2964,9 +2964,27 @@ var ApiWrapper = function (core = {}) {
 		misc : {
 			stats : function(p = {}){
 				p.method = "GET"
+				//GET /statistic/getStatisticByAllCampaigns
 				return request({}, 'campaigns', 'statistic/campaignstotal', p)
 			},
-			
+
+			emailsCount : function(dates, p = {}){
+				p.method = "POST"
+				//GET /statistic/getStatisticByAllCampaigns
+				return request({
+					DateFilter : {
+						Start : f.toserverFormatDate(dates.start),
+						End : f.toserverFormatDate(dates.end)
+					}
+				}, 'campaigns', 'statistic/totalEmailsStatistic', p)
+			},
+
+			exportEmails : function(dates, p = {}){
+				p.method = "GET"
+				//GET /statistic/getStatisticByAllCampaigns
+				return request({startDate : f.toserverFormatDate(dates.start), endDate : f.toserverFormatDate(dates.end)}, 'campaigns', 'statistic/totalEmailsStatistic', p)
+			},
+
 		},
 
 		emails : {
@@ -3000,6 +3018,14 @@ var ApiWrapper = function (core = {}) {
 						data.Id = r.Id
 
 						return Promise.resolve(new EmailTemplate(data))
+						
+					})
+				},
+
+				delete : function(Id, p = {}){
+
+					return request({Id}, 'campaigns', 'mailtemplate/delete', p).then(r => {
+						return Promise.resolve()
 						
 					})
 				},

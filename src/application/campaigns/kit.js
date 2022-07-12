@@ -364,6 +364,16 @@ class Template {
     }
 }
 
+class Signature {
+    constructor(data = {}) {
+
+        _.each(data, (v, i) => {
+            this[i] = v
+        })
+        
+    }
+}
+
 class EmailTemplate {
     constructor(data = {}) {
 
@@ -410,5 +420,5 @@ class EmailTemplate {
 }
 
 export {
-    Campaign, Batch, Step, EditStep, ViewStep, Template, EmailTemplate
+    Campaign, Batch, Step, EditStep, ViewStep, Template, EmailTemplate, Signature
 }

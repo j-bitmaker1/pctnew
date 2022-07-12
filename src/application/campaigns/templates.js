@@ -2,7 +2,7 @@ import f from "@/application/shared/functions.js"
 import { _ } from "core-js";
 
 const moment = require('moment');
-import {EditStep, ViewStep, Template, EmailTemplate} from './kit.js'
+import {EditStep, ViewStep, Template, EmailTemplate, Signature} from './kit.js'
 
 class CampaignsTemplates {
     constructor(manager) {
@@ -146,11 +146,11 @@ class CampaignsTemplates {
                     icon: 'fas fa-bell',
                     type: 'notification',
                 },
-                {
+                /*{
                     text: 'campaigns.add.lead',
                     icon: 'fas fa-user-plus',
                     type: 'lead',
-                },
+                },*/
                 {
                     text: 'campaigns.add.subcampaign',
                     icon: 'fas fa-route',
@@ -419,6 +419,8 @@ class CampaignsTemplates {
     createEmailTemplate = function(){
         return new EmailTemplate()
     }
+
+    
 }
 
 export default CampaignsTemplates;

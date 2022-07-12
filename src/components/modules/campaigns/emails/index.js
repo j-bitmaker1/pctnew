@@ -96,6 +96,10 @@ export default {
                 this.$router.push('/campaigns/emailtemplate/' + template.Id).catch(e => {})
             }
             
+        },
+
+        deleted : function(item){
+            this.load()
         }
     },
 }

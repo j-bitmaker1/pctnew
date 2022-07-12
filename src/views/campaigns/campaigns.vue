@@ -6,9 +6,11 @@
 			<span>Campaigns</span>
 		</template>
 		<template v-slot:right>
+			
 			<div class="buttonpanel">
 				<i class="fas fa-plus" @click="newcampaigns"></i>
 			</div>
+			
 		</template>
 	</topheader>
 
@@ -28,22 +30,24 @@
 </template>
 
 <style scoped lang="sass">
-.linenavigation
-	margin-bottom: 3 * $r
+
 </style>
 
 <script>
 
 import campaigns from '@/components/modules/campaigns/dashboard/index.vue';
-import templates from '@/components/modules/campaigns/templates/index.vue';
-import emails from '@/components/modules/campaigns/emails/index.vue';
+import alltemplates from '@/components/modules/campaigns/alltemplates/index.vue';
+import settings from '@/components/modules/campaigns/settings/index.vue';
+
 import linenavigation from "@/components/assets/linenavigation/index.vue";
 import { mapState } from 'vuex';
 export default {
 	name: 'campaigns_page',
 	components: {
-        campaigns, templates,
-		linenavigation, emails
+        campaigns, 
+		linenavigation,
+		alltemplates,
+		settings
 	},
 
 	computed: {
@@ -64,15 +68,18 @@ export default {
 			navigation : [
 				{
 					text : 'campaigns.labels.dashboard',
-					id : 'campaigns'
+					id : 'campaigns',
+					icon : "fas fa-list"
 				},
 				{
 					text : 'campaigns.labels.templates',
-					id : 'templates'
+					id : 'alltemplates',
+					icon : "fas fa-adjust"
 				},
 				{
-					text : 'campaigns.labels.emailtemplates',
-					id : 'emails'
+					text : 'campaigns.labels.settings',
+					id : 'settings',
+					icon : "fas fa-cogs"
 				}
 			],
 
@@ -112,6 +119,7 @@ export default {
 			this.$router.push('/campaigns/emailtemplate/new').catch(e => {})
 		},
 		newCampaign : function(){
+			console.log("???")
 			this.core.campaigns.start()
 		}
 	},

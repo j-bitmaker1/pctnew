@@ -1,2 +1,31 @@
 .cardWrapper
     margin-top: 2 * $r
+
+.limits
+    padding-top: 0
+    margin-bottom: 2 * $r
+    margin-top: 3 * $r
+    .caption
+        padding : 0 $r
+        margin-bottom: $r
+        span
+            font-weight: 700
+    .items
+        display: flex
+        grid-gap: $r
+
+        .item
+            border-radius: 12px
+            background: srgb(--background-secondary-theme)
+            padding : 2 * $r
+            flex-grow: 2
+
+            .value
+                .b
+                    font-weight: 700
+
+            .label
+                span
+                    font-size: 0.8em
+                    font-weight: 700
+                    color : srgb(--color-txt-ac)

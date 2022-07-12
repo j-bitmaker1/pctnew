@@ -104,11 +104,6 @@ export default {
 
             var chartData = campaignsChart.chartData(points)
 
-            /*var d = campaignsChart.chartOptions({
-                emails : this.batch.TotalEmail ? 100 * this.batch.OpenedEmails / this.batch.TotalEmails : 0,
-                batchProgress : this.batch.TotalCampaigns ? 100 * this.batch.CompletedCampaigns / this.batch.TotalCampaigns : 0,
-                current : 50 
-            })*/
 
             var d = campaignsChart.chartOptions(chartData)
 

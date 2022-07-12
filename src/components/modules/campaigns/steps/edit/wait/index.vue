@@ -222,6 +222,18 @@ export default {
 			time : this.step.time || 0
 		}
 
+		if(this.step.day) {
+
+			if(this.step.day < 8){
+				this.timemode = 'day'
+			}
+			else{
+				this.timemode = 'nextday'
+			}
+			
+
+		}
+
 		if (this.step.while){
 
 			var refer = _.find(this.steps, (s) => {
@@ -236,9 +248,6 @@ export default {
 			else{
 				this.selectwhile = false
 			}
-
-			
-			
 		}
 
 		

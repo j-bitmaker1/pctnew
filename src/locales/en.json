@@ -41,6 +41,7 @@
 		"linkedin" : "LinkedIn",
 		"confirmpassword" : "Confirm password",
 		"password" : "Password",
+		"daterange" : "Date range",
 		"strongpassword" : "The password must be more than 8 symbols and must contain an uppercase and lowercase letters, numbers, special characters"
 
 	},
@@ -127,7 +128,8 @@
 		"accesDeniedLicence" : "Access to the section is prohibited from the terms of the license",
 		"licence" : "Licence",
 		"more" : "More",
-		"factoranalysis" : "Factor analysis"
+		"factoranalysis" : "Factor analysis",
+		"campaignsSettings" : "Marketing campaign settings"
 	},
 
 	"caption" : {
@@ -397,7 +399,8 @@
 		"interface" : "Interface",
 		"pdf" : "PDF reports",
 		"stress" : "Crash testing",
-		"account" : "Account"
+		"account" : "Account",
+		"campaigns" : "Campaigns"
 	},	
 	"themes" : {
 		"white" : "Light theme",
@@ -451,13 +454,16 @@
 		"labels" : {
 			"dashboard" : "Dashboard",
 			"templates" : "Templates",
+			"campaigntemplates" : "Campaigns",
 			"newCampaign" : "Start new campaign",
 			"newCampaignTemplate" : "Create campaign template",
 			"emailtemplates" : "Emails",
 			"newEmailTemplate" : "Create email template",
 			"emailTemplateCancel" : "Are you sure you want to cancel the changes?",
 			"templateCancel" : "Are you sure you want to cancel the changes?",
-			"removeCampaignTemplate" : "Are you really want to delete campaign template?"
+			"removeCampaignTemplate" : "Are you really want to delete campaign template?",
+			"settings" : "Settings",
+			"newsignature" : "New signature"
 		},
 
 		"add" : {
@@ -534,6 +540,11 @@
 			"cancelcampaign" : "Do you really want to cancel campaign?",
 			"pausecampaign" : "Do you really want to pause campaign?",
 			"resumecampaign" : "Do you really want to resume campaign?"
+		},
+		"settings" : {
+			"signatures" : "Email signatures",
+			"defaultsignature" : "Default email signature",
+			"exportEmailsStatistic" : "Export email statistic"
 		}
 	}
 

@@ -1,5 +1,37 @@
 <template>
 <div id="campaigns_dashboard">
+
+    <div class="limits mobp" >
+        <div class="caption">
+            <span>Limits</span>
+        </div>
+        <div class="items" v-if="stats">
+            <div class="item">
+                <div class="label">
+                    <span>Active campaigns</span>
+                </div>
+
+                <div class="value">
+                    <span class="b">{{stats.ActiveCampaigns}}</span> <span>from</span> <span >{{stats.ActiveLimit}}</span>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="label">
+                    <span>Monthly Limit</span>
+                </div>
+
+                <div class="value">
+                    <span class="b">{{stats.MonthlyTotalCampaigns}}</span> <span>from</span> <span >{{stats.MonthlyLimit}}</span>
+                </div>
+            </div>
+        </div>
+
+        <linepreloader v-else/>
+    </div>
+    
+
+
     <div class="controls mobp">
         <listcontrols @date="setdate" :listdate="listdate" :datepicker="datepicker" :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
     </div>

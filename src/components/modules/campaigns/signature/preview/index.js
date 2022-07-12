@@ -4,9 +4,9 @@ import moment from 'moment'
 
 
 export default {
-    name: 'emails_templates_preview',
+    name: 'signature_preview',
     props: {
-        template : Object
+        signature : Object
     },
 
     components : {
@@ -30,23 +30,11 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
-
-        info : function(){
-
-            return this.core.campaigns.campaignTemplates.contentInfo(this.template.content)
-        },
-
-        medianTime : function(){
-            return moment.duration(this.info.medianTime, 'seconds').humanize(true);
-        }
     }),
 
     methods : {
         open : function(){
             this.$emit('open')
-        },
-        deleted : function(){
-            this.$emit('deleted')
-        },
+        }
     },
 }

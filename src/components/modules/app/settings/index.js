@@ -46,6 +46,15 @@ export default {
 
                 ],
 
+                campaigns : [
+                    {
+                        text : 'labels.campaignsSettings',
+                        view : 'button',
+                        route : '/campaigns?p=settings'
+                    },
+
+                ],
+
                 account : [
 
                     {

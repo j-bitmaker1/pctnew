@@ -5,6 +5,8 @@ import Variables from './variables'
 
 import f from "@/application/shared/functions.js"
 
+import {Signature} from './kit.js'
+
 class CampaignsManager {
 
     statuses = {
@@ -193,6 +195,19 @@ class CampaignsManager {
         })
     }
 
+    deleteEmailTemplate(Id){
+        return this.api.emails.templates.delete(Id, {
+            preloader : true,
+            showStatus : true
+        }).then(() => {
+            if (this.emailTemplates){
+                delete this.emailTemplates[Id]
+            }
+
+            return Promise.resolve()
+        })
+    }
+
     updateEmailTemplate(data){
 
         if (data.Body)
@@ -271,6 +286,7 @@ class CampaignsManager {
     }
 
     start(){
+        console.log("AS")
         return this.vueapi.customWindow(
             'campaigns_start', 
             "New campaign"
@@ -303,6 +319,17 @@ class CampaignsManager {
                 mclass : 'withoutheader'
             }
         ).catch(e => {})
+    }
+
+    exportEmailsStatistic(){
+        return this.vueapi.customWindow(
+            'export', 
+            "Export emails statistic",
+            {
+                api : 'campaigns.misc.exportEmails',
+                previewApi : 'campaigns.misc.emailsCount'
+            }
+        )
     }
 
     statusToStatistic(){
@@ -406,6 +433,10 @@ class CampaignsManager {
 
     }
 
+   
+    createSignature(){
+        return new Signature()
+    }
 
 }
 
