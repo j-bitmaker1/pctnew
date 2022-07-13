@@ -106,15 +106,17 @@ class CampaignsManager {
         }
     }
 
-    constructor(core) {
+    constructor(core, settings) {
         this.api = core.api.campaigns
         this.emailTemplates = null
+        this.signatures = null
         this.templates = null
         this.vueapi = core.vueapi
         this.variables = Variables
         this.mailsystem = 'PCT'
         this.core = core
         this.campaignTemplates = new CampaignTemplates(this)
+        this.settings = settings
     }
 
     varhelper(el){
@@ -122,6 +124,8 @@ class CampaignsManager {
             this.vueapi.searchVariable(value, clbk)
         })
     }
+
+    ////
 
     createCampaignTemplate(data = {}){
         return this.api.templates.add(data, {
@@ -165,6 +169,32 @@ class CampaignsManager {
             return Promise.resolve(updated)
         })
     }
+
+    getTemplates(){
+
+        if (this.templates){
+            return Promise.resolve(this.templates)
+        }
+
+        return this.api.templates.gets({Platforms : [this.mailsystem, "CRM"]}).then(r => {
+            this.templates = {}
+
+            _.each(r.Records, (et) => {
+                this.templates[et.Id] = et
+            })
+
+            return Promise.resolve(this.templates)
+        })
+    }
+
+    getTemplate(id){
+        return this.getTemplates().then(r => {
+            return Promise.resolve(r[id])
+        })
+    }
+
+
+    ////
 
     createEmailTemplate(data = {}){
 
@@ -226,7 +256,7 @@ class CampaignsManager {
         }
 
         return this.api.emails.templates.getall({
-            MailSystem : this.mailsystem
+            MailSystem : [this.mailsystem, 'CRM']
         }).then(r => {
             this.emailTemplates = {}
 
@@ -240,6 +270,10 @@ class CampaignsManager {
 
     getEmailTemplate(id){
         return this.getEmailTemplates().then(r => {
+
+            if(!r[id]){
+                return Promise.reject('Empty')
+            }
 
             return Promise.resolve(r[id])
         })
@@ -262,31 +296,106 @@ class CampaignsManager {
         })
     }
 
-    getTemplates(){
+    ////
 
-        if (this.templates){
-            return Promise.resolve(this.templates)
+    getSettings(){
+        return this.settings.getall()
+    }
+
+    getSignatures(){
+
+        if (this.signatures){
+            return Promise.resolve(this.signatures)
         }
 
-        return this.api.templates.gets({Platforms : [this.mailsystem]}).then(r => {
-            this.templates = {}
+        return this.api.signatures.gets({
+        }).then(r => {
+  
+            this.signatures = {}
 
-            _.each(r.Records, (et) => {
-                this.templates[et.Id] = et
+            _.each(r, (et) => {
+                this.signatures[et.Id] = et
             })
 
-            return Promise.resolve(this.templates)
+            return Promise.resolve(this.signatures)
         })
     }
 
-    getTemplate(id){
-        return this.getTemplates().then(r => {
+    getSignature(id){
+        return this.getSignatures().then(r => {
+
+            console.log("R", r, id)
+
+            if(!r[id]){
+                return Promise.reject('Empty')
+            }
+
             return Promise.resolve(r[id])
         })
     }
 
+    getSignatureWithData(id){
+        return this.getSignature(id).then(sig => {
+
+            if(!sig) return Promise.reject()
+
+            if (sig.html || sig.json){
+                return Promise.resolve(sig)
+            }
+
+            return this.api.signatures.getdata(id).then(r => {
+                sig.setData(r)
+
+                return Promise.resolve(sig)
+            })
+        })
+    }
+
+    createSignature(signature){
+
+        signature.System = this.mailsystem
+
+        return this.api.signatures.create(signature.export(), {
+            preloader : true,
+            showStatus : true
+        })
+
+        .then(r => {
+
+            if (this.signatures){
+                this.signatures[signature.Id] = signature
+            }
+
+            return Promise.resolve(r)
+        })
+    }
+
+    updateSignature(signature){
+            
+        return this.api.signatures.update(signature.export(), {
+            preloader : true,
+            showStatus : true
+        })
+    }
+
+    deleteSignature(Id, System){
+        return this.api.signatures.delete({Id, System}, {
+            preloader : true,
+            showStatus : true
+        }).then(() => {
+
+            if (this.signatures){
+                delete this.signatures[Id]
+            }
+
+            return Promise.resolve()
+        })
+    }
+
+    ////
+
     start(){
-        console.log("AS")
+
         return this.vueapi.customWindow(
             'campaigns_start', 
             "New campaign"
@@ -308,6 +417,16 @@ class CampaignsManager {
             {
                 select : true,
                 selected
+            }
+        )
+    }
+
+    selectSignature(){
+        return this.vueapi.customWindow(
+            'campaigns_selectsignature', 
+            "Select signature",
+            {
+                select : true
             }
         )
     }
@@ -434,7 +553,7 @@ class CampaignsManager {
     }
 
    
-    createSignature(){
+    emptySignature(){
         return new Signature()
     }
 

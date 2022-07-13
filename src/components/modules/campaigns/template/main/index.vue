@@ -3,8 +3,8 @@
 	
 
 	<div class="nameWrapper mobp">
-		<label>Campaign template name</label>
-		<input type="text" v-model="name"/>
+		<div class="label"><span>Campaign template name</span></div>
+		<div><input type="text" v-model="name"/></div>
 	</div>
 
 	<div class="caption mobp">
@@ -12,16 +12,22 @@
 	</div>
 
     <div class="stepsWrapper mobp">
-		<campaignsStepsList @change="change" :steps="steps" :editing="true"/>
+		<campaignsStepsList @change="change" :steps="steps" :editing="campaignTemplate.canedit()"/>
 	</div>
 
-	<div class="savePanel">
+	<div class="savePanel" v-if="campaignTemplate.canedit()">
 		<button class="button black" @click="cancel" v-if="haschanges">
 			Cancel
 		</button>
 
-		<button class="button" @click="save" :disabled="!haschanges || !valid">
+		<button class="button" @click="e => {saveEvent()}" :disabled="!haschanges || !valid">
 			Save
+		</button>
+	</div>
+
+	<div class="savePanel" v-else>
+		<button class="button" @click="cloneTemplate">
+			Clone template
 		</button>
 	</div>
 

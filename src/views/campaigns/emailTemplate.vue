@@ -72,6 +72,15 @@ export default {
         }
 	},
 
+	watch : {
+		id : {
+			immediate : true,
+			handler : function(){
+				this.load()
+			}
+		}
+	},
+
 	methods: {
         load : function(){
 
@@ -101,7 +110,7 @@ export default {
 	},
 
 	created(){
-		this.load()
+		
 	},
 
 	mounted() {

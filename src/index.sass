@@ -5,8 +5,11 @@ body
 	color: srgb(--text-color)
 
 @media only screen and (max-width: 768px)
-	/*html
-		scroll-snap-type: y proximity*/
+	html
+		
+		&.snap
+			scroll-snap-type: y proximity
+			scroll-snap-stop: always
 	body
 		background: srgb(--background-total-theme)
 

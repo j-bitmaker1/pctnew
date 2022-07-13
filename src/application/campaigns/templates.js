@@ -252,6 +252,12 @@ class CampaignsTemplates {
 
             if(!type) return Promise.reject({step, steps, error : "Campaign step not valid"})
 
+            if (type == 'email') {
+                return this.manager.getEmailTemplate(step.template).catch((e) => {
+                    return Promise.reject({step, steps, error : "Step email template is not found"})
+                })
+            }
+
             if (type == 'ifstep' || (type == 'wait' && step.while)){
 
                 var refid = step.while || step.mail
@@ -262,7 +268,7 @@ class CampaignsTemplates {
 
                 if (ref){
 
-                    return this.getEmailTemplate(ref.template).catch(() => {
+                    return this.manager.getEmailTemplate(ref.template).catch((e) => {
                         return Promise.reject({step, steps, error : "Step email template referenced is not found"})
                     })
                     
@@ -324,7 +330,7 @@ class CampaignsTemplates {
                 if(!subin)
                     times[successindex + 'StepsWithoutSub']++
             }
-    
+
             if (type == 'email'){
     
                 if(!successindex){
@@ -403,7 +409,7 @@ class CampaignsTemplates {
         });
 
         outputInfo.medianTime = (outputInfo.maxTime + outputInfo.minTime) / 2
-        outputInfo.totalEmails = outputInfo.successEmails + outputInfo.failEmails
+        outputInfo.totalEmails = Math.max(outputInfo.successEmails, outputInfo.failEmails)
         return outputInfo;
     }
 

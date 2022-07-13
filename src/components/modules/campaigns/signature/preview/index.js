@@ -35,6 +35,9 @@ export default {
     methods : {
         open : function(){
             this.$emit('open')
-        }
+        },
+        deleted: function(){
+            this.$emit('deleted')
+        },
     },
 }

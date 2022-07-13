@@ -1,8 +1,12 @@
 import { mapState } from 'vuex';
-
+import defaultsignature from "./defaultsignature/index.vue"
 export default {
     name: 'campaigns_settings',
     props: {
+    },
+
+    components : {
+        defaultsignature
     },
 
     data : function(){
@@ -20,14 +24,12 @@ export default {
                     text : 'campaigns.settings.exportEmailsStatistic',
                     view : 'button',
                     action : () =>  this.core.campaigns.exportEmailsStatistic()
-                }
+                },
                 
 
-                /*{
-                    text : 'campaigns.settings.defaultsignature',
-                    view : 'button',
-                    action : () =>  this.core.vueapi.scoreConverter()
-                },*/
+                {
+                    component : 'defaultsignature'
+                },
 
             ]
         }

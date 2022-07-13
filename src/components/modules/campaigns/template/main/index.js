@@ -24,7 +24,6 @@ export default {
 
     created() {
         this.ini()
-        console.log('this.campaignTemplate', this.campaignTemplate)
     },
 
     watch: {
@@ -50,15 +49,22 @@ export default {
             this.steps = steps
         },
 
-        save : function(){
-            
-
+        saveEvent : function(){
             var clone = this.campaignTemplate.clone()
 
-                clone.Name = this.name
-                clone.content = this.steps
+            clone.Name = this.name
+            clone.content = this.steps
 
+            this.save(clone)
+        },
+
+        save : function(clone){
+            
             this.core.campaigns.campaignTemplates.validsteps(clone.content).then(r => {
+
+                console.log('clone', clone)
+
+                return Promise.reject("DISABLED")
 
                 var promise = null
 
@@ -88,8 +94,6 @@ export default {
 
             }).catch(e => {
 
-                console.log("E", e)
-
                 this.$store.commit('icon', {
                     icon: 'error',
                     message: e.error
@@ -114,8 +118,18 @@ export default {
             }).catch( e => {
                 
             })
-
             
+        },
+
+        cloneTemplate : function(){
+            var clone = this.campaignTemplate.clone()
+
+            clone.IsPublic = false
+            clone.Name = [clone.Name, '(Copy)'].join(" ")
+
+            delete clone.Id
+
+            this.save(clone)
         }
     },
 }

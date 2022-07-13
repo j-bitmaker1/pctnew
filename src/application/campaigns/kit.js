@@ -327,6 +327,10 @@ class Template {
         
     }
 
+    canedit = function(){
+        return !this.IsPublic
+    }
+
     clone = function(){
         var t = new Template()
 
@@ -367,10 +371,73 @@ class Template {
 class Signature {
     constructor(data = {}) {
 
+        /*{
+            "Id": "",
+            "System": "",
+            "Type": "",
+            "Name": "",
+            "Json": "",
+            "Html": ""
+        }*/
+
         _.each(data, (v, i) => {
             this[i] = v
         })
+
+
         
+
+        this.setData({
+            html : data.Html,
+            json : data.JSON
+        })
+        
+    }
+
+    setData(r = {}){
+
+        console.log("R", r)
+
+        if(r.html){
+            try{
+                this.Html = f.Base64.decodeUnicode(r.html)
+            }catch(e){
+                this.Html = ''//r.html
+            }
+        }
+
+        if(r.json){
+            try{
+                this.Json = JSON.parse(f.Base64.decodeUnicode(r.json))
+            }catch(e){
+                this.Json = {}
+            }
+        }
+        
+    }
+
+    export(){
+        var d = {
+            Id : this.Id,
+            System : this.System,
+            Type : this.Type,
+            Name : this.Name,
+            Json : this.Json
+        }
+
+        if(this.Json){
+            d.Json = f.Base64.encodeUnicode(JSON.stringify(this.json))
+        }
+
+        if(this.Html){
+            d.Html = f.Base64.encodeUnicode(this.Html)
+        }
+
+        return d
+    }
+
+    clone(){
+        return new Signature(this.export())
     }
 }
 

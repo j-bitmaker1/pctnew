@@ -91,7 +91,7 @@ export default {
         campaigns_selecttemlpate: () => import("@/components/modules/campaigns/templates/index.vue"),
         campaigns_template: () => import("@/components/modules/campaigns/template/main/index.vue"),
         campaigns_emailpreview: () => import("@/components/modules/campaigns/emailpreview/index.vue"),
-        
+        campaigns_selectsignature: () => import("@/components/modules/campaigns/signatures/index.vue"),
         
     },
  

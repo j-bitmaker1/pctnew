@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-	<topheader back="back">
+	<topheader back="/campaigns?p=settings">
 		<template v-slot:info>
 			<span>Signatures</span>
 		</template>
@@ -15,6 +15,7 @@
 	<maincontent>
 		<template v-slot:content>
 
+			<signatures />
 
 		</template>
 	</maincontent>
@@ -27,11 +28,12 @@
 </style>
 
 <script>
-
+import signatures from '@/components/modules/campaigns/signatures/index.vue'
 import { mapState } from 'vuex';
 export default {
 	name: 'signatures_page',
 	components: {
+		signatures
 	},
 
 	computed: {

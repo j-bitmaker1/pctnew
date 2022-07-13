@@ -27,7 +27,7 @@ import {
 export default {
 	name: 'signature_menu',
 	props: {
-		campaignTemplate: Object,
+		signature: Object,
 		buttonclass : {
 			type : String,
 			default : 'buttonpanel'
@@ -58,7 +58,9 @@ export default {
 		},
 
 		deletesignature : function(){
-
+			this.core.campaigns.deleteSignature(this.signature.Id, this.signature.System).then(() => {
+				this.$emit('deleted')
+			})
 		}
 	},
 }

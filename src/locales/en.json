@@ -210,8 +210,8 @@
 		"usefaceidcheck_YES" : "Use Touch ID",
 		"usefaceid_face" : "Do you want to use Face ID for protect your account?",
 		"usefaceid_YES" : "Do you want to use Touch ID for protect your account?",
-		"removefaceid_face" : "Do you really want to remove Face ID protection?",
-		"removefaceid_YES" : "Do you really want to remove Touch ID protection?",
+		"removefaceid_face" : "Would you like to remove Face ID protection?",
+		"removefaceid_YES" : "Would you like to remove Touch ID protection?",
 		"enteremail" : "Enter Email",
 		"2901001" : "Or create a new account",
 		"2901005" : "Sign in with Apple",
@@ -249,7 +249,7 @@
 		"2901038" : "Mail to us if you have any questions",
 		"2901039" : "Support team",
 		"2901041" : "User not found",
-		"2901043" : "Do you really want to remove connection with",
+		"2901043" : "Would you like to remove connection with",
 		"2901044" : "Connection removed",
 		"2901046" : "Download Application",
 		"2901047" : "Authorization",
@@ -439,7 +439,9 @@
 			"resumebatch" : "Resume batch campaign",
 			"cancelcampaign" : "Cancel campaign",
 			"pausecampaign" : "Pause campaign",
-			"resumecampaign" : "Resume campaign"
+			"resumecampaign" : "Resume campaign",
+
+			"deletesignature" : "Delete signature"
 		},
 		"summary" : {
 			"CompletedCampaigns" : "Completed campaigns",
@@ -461,7 +463,7 @@
 			"newEmailTemplate" : "Create email template",
 			"emailTemplateCancel" : "Are you sure you want to cancel the changes?",
 			"templateCancel" : "Are you sure you want to cancel the changes?",
-			"removeCampaignTemplate" : "Are you really want to delete campaign template?",
+			"removeCampaignTemplate" : "Would you like to remove campaign template?",
 			"settings" : "Settings",
 			"newsignature" : "New signature"
 		},
@@ -483,7 +485,8 @@
 				"Name" : "Campaign name",
 				"GroupBy" : "Sequencing",
 				"INORDER" : "One after another",
-				"EMAIL" : "All at once"
+				"EMAIL" : "All at once",
+				"SignatureId" : "Signature"
 			}
 		},
 
@@ -531,15 +534,15 @@
 		},
 
 		"dialog" : {
-			"deletebatch" : "Do you really want to remove batch campaign?",
-			"cancelbatch" : "Do you really want to cancel batch campaign?",
-			"pausebatch" : "Do you really want to pause batch campaign?",
-			"resumebatch" : "Do you really want to resume batch campaign?",
+			"deletebatch" : "Would you like to remove batch campaign?",
+			"cancelbatch" : "Would you like to cancel batch campaign?",
+			"pausebatch" : "Would you like to pause batch campaign?",
+			"resumebatch" : "Would you like to resume batch campaign?",
 
-			"deletecampaign" : "Do you really want to remove campaign?",
-			"cancelcampaign" : "Do you really want to cancel campaign?",
-			"pausecampaign" : "Do you really want to pause campaign?",
-			"resumecampaign" : "Do you really want to resume campaign?"
+			"deletecampaign" : "Would you like to remove campaign?",
+			"cancelcampaign" : "Would you like to cancel campaign?",
+			"pausecampaign" : "Would you like to pause campaign?",
+			"resumecampaign" : "Would you like to resume campaign?"
 		},
 		"settings" : {
 			"signatures" : "Email signatures",

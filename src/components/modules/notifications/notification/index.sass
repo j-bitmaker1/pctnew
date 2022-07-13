@@ -33,8 +33,10 @@
 	width: 100%
 	flex-wrap: nowrap
 	overflow: hidden
-
+	.body
+		padding-left: $r
 	.title
+		padding-left: $r
 		.txt
 			font-weight: 700
 
@@ -42,7 +44,6 @@
 		min-width: 55px
 		width: 55px
 		text-align: center
-		margin-right: 2 * $r
 		color : srgb(--neutral-grad-2)
 
 		.icon
@@ -65,7 +66,7 @@
 .actionsWrapper
 	overflow-x: auto
 	scroll-behavior: smooth
-	margin-top: 2 * $r
+	margin-top: $r
 	padding-right: 2 * $r
 	width: 100%
 	scrollbar-width : none

@@ -1,0 +1,22 @@
+.signatureWrapper
+    margin-bottom: 2 * $r
+
+::v-deep
+
+    .signature_preview
+        +transition(0.3s)
+
+.selected
+    ::v-deep
+        .signature_preview
+            border : 1px solid srgb(--color-txt-ac)
+            background: srgba(--color-txt-ac, 0.2)
+
+.empty
+    padding: 4 * $r
+    text-align: center
+    span
+        font-size: 0.9em
+
+.panel
+    margin-bottom: 2 * $r

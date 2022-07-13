@@ -18,26 +18,28 @@ export default {
     data : function(){
 
         return {
-            loading : false,
+            loading : true,
 
             template : null,
             templatechecked : false,
             templatechecking : false,
             list : null,
             contacts : [],
+            signatures : [],
 
             settings : {
                 Started : null,
                 Name : '',
                 TimeZone : moment.tz.guess(),
-                GroupBy : "EMAIL"
+                GroupBy : "EMAIL",
+                SignatureId : "none"
             }
         }
 
     },
 
-    created : () => {
-
+    created() {
+        this.prepare()
     },
 
     watch: {
@@ -45,6 +47,7 @@ export default {
             this.checkTemplate().catch()
         }
     },
+
     computed: mapState({
         auth : state => state.auth,
         valid : function(){
@@ -80,7 +83,26 @@ export default {
         },
 
         settingsFields : function(){
-            return [{
+
+            var signatureSelect = {
+                id : 'SignatureId',
+                text : 'campaigns.fields.start.SignatureId',
+                input : 'select',
+                
+                values : [{
+                    value : "none",
+                    text : "Without signature"
+                }].concat(_.map(this.signatures, (s => {
+                    return {
+                        value : s.Id,
+                        text : s.Name
+                    }
+                }))),
+               
+                rules : []
+            }
+
+            var m = [{
                 id : 'Name',
                 text : 'campaigns.fields.start.Name',
                 rules : [{
@@ -118,6 +140,12 @@ export default {
                     rule : 'required'
                 }]
             }]
+
+            if(_.toArray(this.signatures).length){
+                m.push(signatureSelect)
+            }
+
+            return m
         },
 
         readyData : function(){
@@ -137,6 +165,10 @@ export default {
 
             s.Name = this.settings.Name
             s.TemplateId = this.template.Id
+
+            if(this.settings.SignatureId != 'none'){
+                s.SignatureId = this.settings.SignatureId
+            }
 
             s.CampaignsData = _.map(this.contacts, (profile) => {
                 return {
@@ -164,6 +196,32 @@ export default {
     }),
 
     methods : {
+        prepare : function(){
+            this.loading = true
+
+            this.core.campaigns.getSignatures().then(r => {
+
+                this.signatures = r
+
+                return this.core.campaigns.getSettings()
+
+            }).then(r => {
+
+                console.log('r.signature.value', r.signature.value, this.signatures)
+
+                if (r.signature.value && _.find(this.signatures, (s)=>{
+                    return s.Id == r.signature.value
+                })){    
+
+                    console.log("Sd")
+
+                    this.$set(this.settings, 'SignatureId', r.signature.value)
+                }
+
+            }).finally(() => {
+                this.loading = false
+            })
+        },
         schange : function(v){
             this.settings = v
         },

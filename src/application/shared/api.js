@@ -1,6 +1,6 @@
 import f from './functions'
 import { Contact, Portfolio, Task, Scenario } from './kit.js'
-import { Campaign, Batch, ViewStep, Template, EmailTemplate } from '@/application/campaigns/kit.js'
+import { Campaign, Batch, ViewStep, Template, EmailTemplate, Signature } from '@/application/campaigns/kit.js'
 
 var Axios = require('axios');
 
@@ -2950,10 +2950,91 @@ var ApiWrapper = function (core = {}) {
 			},
 
 			remove: function(data = {}, p = {}){
-				console.log("??")
 				return request(data, 'campaigns', 'template/delete', p).then(r => {
 
 					core.vxstorage.invalidate(data.Id, 'template')
+
+					return Promise.resolve()
+
+				})
+			},
+		},
+
+		signatures : {
+
+			getdata : function(id, p = {}){
+
+				var data = {
+					Parameters : {
+						IdsFilter : [id]
+					},
+					Compact : false
+				}
+
+				return request(data, 'campaigns', 'signatures/list', p).then(r => {
+
+					var html = f.deep(r, 'Records.0.Html') || ''
+					var json = f.deep(r, 'Records.0.Json') || ''
+
+					return {html, json}
+				})
+
+			},
+
+			gets : function(data = {}, p = {}){
+
+				p.kit = {
+					class: Signature,
+					path: 'Records',
+				}
+
+				p.vxstorage = {
+					path: 'Records',
+					type: 'signature',
+				}
+
+				data.Compact = true
+
+				return request(data, 'campaigns', 'signatures/list', p).then(r => {
+
+					var signatures = _.filter(r.Records, (r) => {
+						return r.Type == 'html'
+					})
+
+					return Promise.resolve(signatures)
+
+				})
+
+			},
+
+			create : function(data = {}, p = {}){
+				return request(data, 'campaigns', 'signatures/add', p).then(r => {
+
+					var obj = new Signature(data)
+
+					core.vxstorage.set(obj, 'signature')
+
+					return Promise.resolve(obj)
+
+				})
+			},
+
+			update : function(data = {}, p = {}){
+				return request(data, 'campaigns', 'signatures/update', p).then(r => {
+
+					var obj = new Signature(data)
+
+					var {updated} = core.vxstorage.update(obj, 'signature')
+
+					return Promise.resolve(updated)
+
+				})
+			},
+
+			delete: function(data = {}, p = {}){
+				return request(data, 'campaigns', 'signatures/delete', p).then(r => {
+
+					core.vxstorage.invalidate(data.Id, 'signature')
 
 					return Promise.resolve()
 
@@ -3005,6 +3086,8 @@ var ApiWrapper = function (core = {}) {
 					data.Parameters.PageSize = -1
 					data.Parameters.SystemFilter = data.MailSystem
 					data.WithoutBody = true
+
+					delete data.MailSystem
 
 					return request(data, 'campaigns', 'mailtemplate/list', p).then(r => {
 						return r.Records

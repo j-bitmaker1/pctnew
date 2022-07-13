@@ -264,8 +264,10 @@ var vxstorage = new VXStorage([{
 },{
     type : "emailtemplate",
     index : "Id"
-},
-{
+},{
+    type : "signature",
+    index : "Id"
+},{
     type : "campaign",
     index : "Id",
     reload : 'api.campaigns.getbyids'

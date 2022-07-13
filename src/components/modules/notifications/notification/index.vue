@@ -15,7 +15,7 @@
             <div class="title" v-if="event.title || event.body">
                 <span class="txt">{{event.title || event.body}}</span> <date :date="event.created" />
             </div>
-            <div class="body" v-if="event.title && !withoutInternal">
+            <div class="body" v-if="event.title">
                 <span>{{event.body}}</span>
             </div>
 

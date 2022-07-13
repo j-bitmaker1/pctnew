@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-	<topheader back="/campaigns?p=settings">
+	<topheader back="/signatures">
 		<template v-slot:info>
 			<div class="header" v-if="!loading && signature">
 				<div class="name">
@@ -10,7 +10,7 @@
 			</div>
 		</template>
 		<template v-slot:right>
-			<signatureMenu v-if="!loading && signature && signature.Id" :signature="signature"/>
+			<signatureMenu @deleted="deleted" v-if="!loading && signature && signature.Id" :signature="signature"/>
 		</template>
 	</topheader>
 
@@ -72,6 +72,15 @@ export default {
         }
 	},
 
+	watch : {
+		id : {
+			immediate : true,
+			handler : function(){
+				this.load()
+			}
+		}
+	},
+
 	methods: {
         load : function(){
 
@@ -79,15 +88,18 @@ export default {
 
 				this.loading = true
 
-				this.core.campaigns.getEmailWithBody(this.id).then(r => {
+				this.core.campaigns.getSignatureWithData(this.id).then(r => {
+					console.log("R", r)
 					this.signature = r
-				}).catch(e => {}).finally(() => {
+				}).catch(e => {
+					console.error(e)
+				}).finally(() => {
 					this.loading = false
 				})
 
 			}
 			else{
-				this.signature = this.core.campaigns.createSignature() 
+				this.signature = this.core.campaigns.emptySignature() 
 
                 console.log('this.signature', this.signature)
 
@@ -95,12 +107,14 @@ export default {
 			}
 
             
-        }
+        },
+
+		deleted : function(){
+			this.$router.push('/signatures')
+		}
 	},
 
 	created(){
-        console.log("ASD")
-		this.load()
 	},
 
 	mounted() {

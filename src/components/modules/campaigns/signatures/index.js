@@ -1,8 +1,8 @@
 import { mapState } from 'vuex';
 import f from "@/application/shared/functions.js"
-import preview from '../email/preview/index.vue';
+import preview from '../signature/preview/index.vue';
 export default {
-    name: 'emails_templates',
+    name: 'campaigns_signatures',
     props: {
         select : Boolean,
         selected : Number
@@ -16,7 +16,7 @@ export default {
 
         return {
             loading : false,
-            templates : null,
+            signatures : null,
             searchvalue : '',
         }
 
@@ -33,46 +33,28 @@ export default {
         auth : state => state.auth,
 
         filtered : function(){
+
+            console.log('this.signatures', this.signatures)
             if(this.searchvalue){
 
-                return f.clientsearch(this.searchvalue, this.templates, (template) => {
-                    return (template.Name) + " " + template.Subject
+                return f.clientsearch(this.searchvalue, this.signatures, (template) => {
+                    return (signature.Name)
                 })
             }
             else{
-                return this.templates
+                return this.signatures
             }
         },
 
         sorted : function(){
-            console.log('this.filtered', this.filtered)
+     
             return _.sortBy(this.filtered, (t) => {
 
                 var d = Number(t.Modified || t.Created || 0)
 
-                console.log("D", d)
-
                 if(t.Email) return -10 * d
 
                 return -1 * d
-            })
-        },
-
-        grouped : function(){
-
-            return f.group(this.sorted, (t) => {
-
-                if (t.Email) return 'my'
-
-                if (t.Path === 'jtCampaigns') return 'jt';
-                if (t.Path === 'rpagCampaigns') return 'rpag';
-                if (t.Path === 'financialLiteracy') return 'financialLiteracy';
-                if (t.Path === 'financialAwareness') return 'financialAwareness';
-                if (t.Path === 'pooledEmployerA') return 'pooledEmployerA';
-                if (t.Path === 'pooledEmployerB') return 'pooledEmployerB';
-
-                return 'common'
-
             })
         }
 
@@ -86,20 +68,20 @@ export default {
         load : function(){
             this.loading = true
 
-            this.core.campaigns.getEmailTemplates().then(r => {
-                this.templates = _.toArray(r)
+            this.core.campaigns.getSignatures().then(r => {
+                this.signatures = _.toArray(r)
             }).finally(() => {
                 this.loading = false
             })
         },
 
-        open : function(template){
+        open : function(signature){
             if(this.select){
-                this.$emit('select', template)
+                this.$emit('success', signature)
                 this.$emit('close')
             }
             else{
-                this.$router.push('/campaigns/emailtemplate/' + template.Id).catch(e => {})
+                this.$router.push('/signature/' + signature.Id).catch(e => {})
             }
             
         },

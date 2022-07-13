@@ -66,6 +66,15 @@ var settings = {
                 },
     
             },
+        },
+
+        CAMPAIGNS : {
+            signature : {
+                name: 'signature',
+                default: function() {
+                    return null
+                },
+            }
         }
     },
 
@@ -121,6 +130,7 @@ class Core {
 
         this.settings = {
             stress : new Settings(this, "STRESS", settings.server), 
+            campaigns : new Settings(this, "CAMPAIGNS", settings.server), 
             user : new Settings(this, "USER", settings.server),
             pdf : new Settings(this, "PDF", settings.server),
             lspdf : new LSSettings(this, "PDF", settings.local)
@@ -137,7 +147,7 @@ class Core {
         this.vueapi = new Vueapi(this)
         this.updates = new Updates(this)
 
-        this.campaigns = new CAMPAIGNS(this)
+        this.campaigns = new CAMPAIGNS(this, this.settings.campaigns)
 
         this.user = new user(this, {
 

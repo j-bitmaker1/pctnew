@@ -10,7 +10,7 @@
 			</div>
 		</template>
 		<template v-slot:right>
-			<campaignTemplateMenu @remove="remove" v-if="!loading && campaignTemplate" :campaignTemplate="campaignTemplate"/>
+			<campaignTemplateMenu @remove="remove" v-if="!loading && campaignTemplate && campaignTemplate.canedit()" :campaignTemplate="campaignTemplate"/>
 		</template>
 	</topheader>
 
