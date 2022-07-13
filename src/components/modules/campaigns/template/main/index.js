@@ -62,10 +62,6 @@ export default {
             
             this.core.campaigns.campaignTemplates.validsteps(clone.content).then(r => {
 
-                console.log('clone', clone)
-
-                return Promise.reject("DISABLED")
-
                 var promise = null
 
                 if (clone.Id){
