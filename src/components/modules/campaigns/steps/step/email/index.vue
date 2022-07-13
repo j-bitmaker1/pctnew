@@ -22,7 +22,7 @@
                 </div>
 
                 <div v-else class="empty">
-                    <span>Email template hasn't loaded</span>
+                    <span>Email template is not found</span>
                 </div>
             </div>
         </template>

@@ -204,6 +204,10 @@ var Request = function (core = {}, url, system) {
 
 			token = response.headers.get("Token");
 
+			if(p.blob){
+				return response.blob()
+			}
+
 
 			if (contentType && contentType.indexOf("application/json") !== -1) {
 
@@ -220,6 +224,10 @@ var Request = function (core = {}, url, system) {
 			}
 
 		}).then(result => {
+
+			if(p.blob) {
+				return Promise.resolve(result)
+			}
 
 			if(!_.isObject(result)){
 				result = {
@@ -3062,6 +3070,7 @@ var ApiWrapper = function (core = {}) {
 
 			campaignsFile : function(data, p = {}){
 				p.method = "GET"
+				p.blob = true
 				//p.withheaders = true
 				//GET /statistic/getStatisticByAllCampaigns
 				return request({
@@ -3069,14 +3078,19 @@ var ApiWrapper = function (core = {}) {
 					endDate : data.date ? f.date.toserverFormatDate(data.date.end, true) : null
 				}, 'campaigns', 'statistic/campaigns', p).then(r => {
 
-					var file = new Blob([r.Message], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' })
+					//var type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8'
 
+					//var file = new Blob([r.Message], { type })
+
+					/*saveAs(file, "hello world.xlsx");
+					
+					return Promise.reject()*/
 					//
 
 					return Promise.resolve({
-						base64 : f.Base64.fromBlob(file),
+						base64 : f.Base64.fromBlob(r),
 						name : "Campaigns " + moment().format('MMMM/DD/YYYY') + '.xlsx',
-                    	type : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8"
+                    	type : r.type
 					})
 				})
 			},

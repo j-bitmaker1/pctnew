@@ -1362,10 +1362,10 @@ f.date = {
     toserverFormatDate: function (date = new Date(), short) {
 
         if(short){
-            return date.getUTCFullYear() + '' + addZero(date.getUTCMonth()) + '' + addZero(date.getUTCDate())
+            return date.getUTCFullYear() + '' + addZero(date.getUTCMonth() + 1) + '' + addZero(date.getUTCDate())
         }
 
-        return date.getUTCFullYear() + '' + addZero(date.getUTCMonth()) + '' + addZero(date.getUTCDate()) + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
+        return date.getUTCFullYear() + '' + addZero(date.getUTCMonth() + 1) + '' + addZero(date.getUTCDate()) + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
 
     },
     fromstring: function (str, utc) {
