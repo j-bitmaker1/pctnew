@@ -440,13 +440,13 @@ class CampaignsManager {
         ).catch(e => {})
     }
 
-    exportEmailsStatistic(){
+    exportStatistic(){
         return this.vueapi.customWindow(
             'export', 
             "Export emails statistic",
             {
-                api : 'campaigns.misc.exportEmails',
-                previewApi : 'campaigns.misc.emailsCount'
+                api : 'campaigns.misc.campaignsFile',
+                previewApi : 'campaigns.misc.campaignsCount'
             }
         )
     }

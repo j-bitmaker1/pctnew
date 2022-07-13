@@ -207,13 +207,9 @@ export default {
 
             }).then(r => {
 
-                console.log('r.signature.value', r.signature.value, this.signatures)
-
                 if (r.signature.value && _.find(this.signatures, (s)=>{
                     return s.Id == r.signature.value
                 })){    
-
-                    console.log("Sd")
 
                     this.$set(this.settings, 'SignatureId', r.signature.value)
                 }
@@ -235,8 +231,6 @@ export default {
                         icon: 'error',
                         message: this.$t("campaigns.errors.start.templateFail")
                     })
-
-
 
                 }).then(() => {
 

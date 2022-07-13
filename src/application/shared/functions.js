@@ -1359,8 +1359,13 @@ f.date = {
         return f.date.addseconds(now, minutes * 60)
     },
    
-    toserverFormatDate: function (date = new Date()) {
-        return date.getUTCFullYear() + '' + addZero(date.getUTCMonth()) + '' + date.getUTCDate() + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
+    toserverFormatDate: function (date = new Date(), short) {
+
+        if(short){
+            return date.getUTCFullYear() + '' + addZero(date.getUTCMonth()) + '' + addZero(date.getUTCDate())
+        }
+
+        return date.getUTCFullYear() + '' + addZero(date.getUTCMonth()) + '' + addZero(date.getUTCDate()) + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
 
     },
     fromstring: function (str, utc) {

@@ -21,15 +21,17 @@ export default {
                 },
 
                 {
-                    text : 'campaigns.settings.exportEmailsStatistic',
+                    component : 'defaultsignature'
+                },
+
+                {
+                    text : 'campaigns.settings.exportStatistic',
                     view : 'button',
-                    action : () =>  this.core.campaigns.exportEmailsStatistic()
+                    action : () =>  this.core.campaigns.exportStatistic().catch(e => {})
                 },
                 
 
-                {
-                    component : 'defaultsignature'
-                },
+                
 
             ]
         }

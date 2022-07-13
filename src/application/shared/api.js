@@ -7,6 +7,7 @@ var Axios = require('axios');
 var sha1 = require('sha1');
 var { parseerror } = require('./error')
 
+import moment from 'moment';
 import dbstorage from "./dbstorage";
 import _ from 'underscore';
 
@@ -2605,7 +2606,6 @@ var ApiWrapper = function (core = {}) {
 
 
 					//if(r.config.transformResponse) r.data = r.config.transformResponse(r.data)
-
 					
 
 					var file = new Blob([r.data], { type: r.headers['content-type'] })
@@ -3049,21 +3049,36 @@ var ApiWrapper = function (core = {}) {
 				return request({}, 'campaigns', 'statistic/campaignstotal', p)
 			},
 
-			emailsCount : function(dates, p = {}){
-				p.method = "POST"
-				//GET /statistic/getStatisticByAllCampaigns
-				return request({
-					DateFilter : {
-						Start : f.toserverFormatDate(dates.start),
-						End : f.toserverFormatDate(dates.end)
-					}
-				}, 'campaigns', 'statistic/totalEmailsStatistic', p)
-			},
-
-			exportEmails : function(dates, p = {}){
+			campaignsCount : function(data, p = {}){
 				p.method = "GET"
 				//GET /statistic/getStatisticByAllCampaigns
-				return request({startDate : f.toserverFormatDate(dates.start), endDate : f.toserverFormatDate(dates.end)}, 'campaigns', 'statistic/totalEmailsStatistic', p)
+				return request({
+					startDate : data.date ? f.date.toserverFormatDate(data.date.start, true) : null, 
+					endDate : data.date ? f.date.toserverFormatDate(data.date.end, true) : null
+				}, 'campaigns', 'statistic/campaignscount', p).then(r => {
+					return Promise.resolve(r.Count)
+				})
+			},
+
+			campaignsFile : function(data, p = {}){
+				p.method = "GET"
+				//p.withheaders = true
+				//GET /statistic/getStatisticByAllCampaigns
+				return request({
+					startDate : data.date ? f.date.toserverFormatDate(data.date.start, true) : null, 
+					endDate : data.date ? f.date.toserverFormatDate(data.date.end, true) : null
+				}, 'campaigns', 'statistic/campaigns', p).then(r => {
+
+					var file = new Blob([r.Message], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' })
+
+					//
+
+					return Promise.resolve({
+						base64 : f.Base64.fromBlob(file),
+						name : "Campaigns " + moment().format('MMMM/DD/YYYY') + '.xlsx',
+                    	type : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8"
+					})
+				})
 			},
 
 		},

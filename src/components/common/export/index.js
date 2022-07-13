@@ -1,6 +1,8 @@
 
 import { mapState } from 'vuex';
 
+import f from '@/application/shared/functions.js'
+
 export default {
     name: 'export',
     props: {
@@ -52,6 +54,19 @@ export default {
             return !_.isEmpty(this.payload)
         },
 
+        cpayload : function(){
+            var d = {}
+
+            if (this.payload.date){
+                d.date = {
+                    start : this.payload.date[0],
+                    end : this.payload.date[1]
+                }
+            }
+
+            return d
+        }
+
 
     }),
 
@@ -59,16 +74,20 @@ export default {
         change : function(v){
             this.payload = v
 
+            this.preview()
+
             console.log("V", v)
         },
 
         preview : function(){
 
+            console.log('this.cpayload', this.cpayload)
+
             if(this.previewApi){
 
                 this.loading = true
 
-                this.core.api[this.previewApi](this.payload, {
+                f.deep(this.core.api, this.previewApi)(this.cpayload, {
                   
                 }).then(r => {
                     this.itemsForExport = r
@@ -81,10 +100,19 @@ export default {
 
         run : function(){
 
-            this.core.api[this.api](this.payload, {
+            f.deep(this.core.api,this.api)(this.cpayload, {
                 preloader : true,
-                showStatus : true
             }).then(r => {
+
+                this.core.vueapi.share({
+                    files : [r]
+                })
+
+                /*this.core.filehandler(r, {
+					name : "Exporting"
+				})*/
+
+                console.log("R", r)
                 this.close()
             })
 

@@ -547,7 +547,8 @@
 		"settings" : {
 			"signatures" : "Email signatures",
 			"defaultsignature" : "Default email signature",
-			"exportEmailsStatistic" : "Export email statistic"
+			"exportEmailsStatistic" : "Export email statistic",
+			"exportStatistic" : "Export campaigns statistic"
 		}
 	}
 
