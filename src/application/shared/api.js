@@ -3145,7 +3145,12 @@ var ApiWrapper = function (core = {}) {
 				update : function(data, p = {}){
 
 					return request(data, 'campaigns', 'mailtemplate/update', p).then(r => {
-						return r
+
+						var obj = new EmailTemplate(data)
+
+						var {updated} = core.vxstorage.update(obj, 'emailtemplate')
+
+						return Promise.resolve(updated)
 					})
 				},
 

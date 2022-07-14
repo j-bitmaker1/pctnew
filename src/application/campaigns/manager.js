@@ -258,6 +258,13 @@ class CampaignsManager {
         return this.api.emails.templates.update(data, {
             preloader : true,
             showStatus : true
+        }).then(updated => {
+
+            if (this.emailTemplates){
+                this.emailTemplates[data.Id] = updated
+            }
+
+            return Promise.resolve(updated)
         })
     }
 
