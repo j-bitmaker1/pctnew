@@ -47,11 +47,18 @@ export default {
 				},
 
                 {
+					id : 'filemanager',
+					text : 'menu.filemanager',
+					icon : "fas fa-eye",
+					action : this.filemanager
+				}
+
+                /*{
                     route : '/help',
 					id : 'help',
 					text : 'menu.help', 
 					icon : "fas fa-info",
-				},
+				},*/
 
                 /*{
 					id : 'questionnaire',
@@ -117,6 +124,13 @@ export default {
 
         tohelp : function(){
             this.$router.push("/faq").catch(e => {})
+        },
+
+        filemanager : function(){
+            this.core.vueapi.fileManager({
+			}, {
+				
+			})
         }
     },
 }

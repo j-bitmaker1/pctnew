@@ -21,7 +21,7 @@
             <div class="contents" v-if="file.status == 'SUCCESS' && file.data && file.data.length">
                 <!--<button class="button small black" @click="open" v-if="!hasassets">Show result</button>
                 <button class="button small black" @click="createPortfolio" v-if="hasassets">Create portfolio</button>-->
-                <div class="ticker" :key="i" v-for="(asset, i) in file.data">
+                <div class="ticker" v-if="asset.Ticker && asset.Value" :key="i" v-for="(asset, i) in file.data">
                     <span>{{asset.Ticker}}</span>
                 </div>
             </div>

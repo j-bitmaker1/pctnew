@@ -4,17 +4,17 @@
 
     <div class="filecontents">
 
-        <listselectable :context="file.id" :items="data" ref="list">
+        <list :context="file.id" :items="filtered" ref="list">
             <template v-slot:default="slotProps">
                 <div class="assetWrapper mobp">
                     <asset :asset="slotProps.item" @changeValue="v => {changeValue(slotProps.item, v)}" @changeAsset="asset => {changeAsset(slotProps.item, asset)}" @remove="asset => {remove(slotProps.item)}"/>
                 </div>
             </template>
-        </listselectable>
+        </list>
 
     </div>
 
-    <selection :context="file.id" :menu="menu"/>
+    <!--<selection :context="file.id" :menu="menu"/>-->
 
     <div class="savePanel">
 		

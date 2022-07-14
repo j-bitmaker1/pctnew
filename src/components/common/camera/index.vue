@@ -62,7 +62,7 @@
     <div class="library" v-if="!current && photos && (photos.length || photolibraryaccessdecline)">
         <div class="liblist">
 
-            <div class="access" @click="initlibraryagain">
+            <div class="access" @click="initlibraryagain" v-if="photolibraryaccessdecline">
                 <div>
                     <div>
                         <div class="icon"><i class="fas fa-lock"></i></div>

@@ -52,7 +52,9 @@ export default {
 	created : function(){
 		this.core.on('created', this.name, (d) => {
 			if (d.type == 'task' && !this.loading){
-				this.added++
+				//this.added++
+
+				this.reload()
 			}
 		})
 	},

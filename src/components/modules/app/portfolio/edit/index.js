@@ -571,9 +571,6 @@ export default {
 				upload : images
 			}, {
 				createPortfolio : (portfolio) => {
-
-					console.log('portfolio', portfolio)
-
 					if(!this.name) this.name = f.files.getName(portfolio)
 
 					this.multiple(portfolio.assets)

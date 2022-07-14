@@ -11,7 +11,8 @@
 		"questionnaire" : "Questionnaire",
 		"compare" : "Compare",
 		"campaigns" : "Campaigns",
-		"help" : "Help"
+		"help" : "Help",
+		"filemanager" : "File recognition"
 	},
 
 	"fields" : {

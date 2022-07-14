@@ -1,3 +1,4 @@
+import { _ } from 'core-js';
 import { mapState } from 'vuex';
 
 import filepreview from '../list/file/index.vue'
@@ -56,6 +57,12 @@ export default {
             return _.filter(this.file.data, (d) => {
                 return d.Name
             }).length > 0
+        },
+
+        filtered : function(){
+            return _.filter(this.data, (asset) => {
+                return asset.Ticker || asset.Value > 0
+            })
         }
     }),
 

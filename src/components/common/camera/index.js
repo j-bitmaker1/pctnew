@@ -408,7 +408,7 @@ export default {
                 })
 
                 CameraPreview.takePicture(
-                    {width : maxdimension.width, height : maxdimension.height, quality: 85}, 
+                    {width : maxdimension.width, height : maxdimension.height, quality: 95}, 
                     (base64PictureData) => {
     
                         base64PictureData = 'data:image/jpeg;base64,' + base64PictureData
