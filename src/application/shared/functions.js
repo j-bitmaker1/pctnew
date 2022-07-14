@@ -1013,7 +1013,8 @@ var Base64 = {
         var i = 0;
         var c = 0,
             c1 = 0,
-            c2 = 0;
+            c2 = 0,
+            c3 = 0;
 
         while (i < utftext.length) {
 
@@ -1717,8 +1718,6 @@ f.insertTextAtCursor = function (el, text, offset) {
 
     if (el && typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
         var val = el.value, endIndex;
-
-        console.log("1")
 
         endIndex = el.selectionEnd;
 
