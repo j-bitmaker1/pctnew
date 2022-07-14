@@ -344,7 +344,12 @@ var WSS = function(core, url){
 
             ///// campaigns
 
-            if(message.x_eventType == 'CAMPAIGNSTATUSCHANGED' || message.x_eventType == 'STEPCOMPLETED' || message.x_eventType == 'BATCHSTATUSCHANGED'){
+            if(
+                message.x_eventType == 'CAMPAIGNSTATUSCHANGED' || 
+                message.x_eventType == 'STEPCOMPLETED' || 
+                message.x_eventType == 'BATCHSTATUSCHANGED' || 
+                message.x_eventType == 'TRACKINGIMG'){
+
                 if (core.campaigns)
                     core.campaigns.updateByWs(message)    
             }

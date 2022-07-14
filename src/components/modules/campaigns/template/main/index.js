@@ -71,14 +71,14 @@ export default {
     
                     clone.Id = f.makeid()
     
-                    console.log('clone', clone)
-    
                     promise = this.core.campaigns.createCampaignTemplate(clone.export())
                 }
 
                 return promise
 
             }).then(r => {
+
+                this.$emit('success')
 
                 if(!this.wnd){
                     this.$router.replace('/campaigns/template/' + clone.Id).catch(e => {})

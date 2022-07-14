@@ -485,7 +485,7 @@ class CampaignsManager {
         if (message.group_id || message.batch_id){
             batch = this.core.vxstorage.get(message.group_id || message.batch_id, 'batch')
 
-            if(batch)
+            if (batch)
                 batchupdate.Id = batch.Id
         }
 
@@ -520,22 +520,32 @@ class CampaignsManager {
             batchupdate.Status = message.batch_status
         }
 
+        if(message.x_eventType == 'TRACKINGIMG'){
+
+            if (batch){
+                batchupdate.OpenedEmails = batch.OpenedEmails + 1
+            }
+            
+            campaignupdate.HaveOpenedMail = true
+            batchupdate.HaveOpenedMail = true
+            
+        }
+
         if (message.step_id){
             var step = this.core.vxstorage.get(message.step_id, 'step')
 
             if (step){
 
                 var upd = {
-                    id : message.step_id,
-                    status : message.step_status,
-                    started : message.step_activated
+                    id : message.step_id
                 }
 
-                console.log("UPDATE WS STEP", upd)
+                if(message.step_status) upd.status = message.step_status
+                if(message.step_activated) upd.started = message.step_activated
+
+                if(message.x_eventType == 'TRACKINGIMG') upd.track = f.date.toserverFormatDate()
 
                 this.core.vxstorage.update(upd, 'step')
-
-                
 
             }
 

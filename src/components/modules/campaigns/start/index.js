@@ -344,6 +344,8 @@ export default {
 
             this.core.campaigns.edittemplate({
                 campaignTemplate : this.template
+            }).then(r => {
+                this.checkTemplate()
             })
             
         }
