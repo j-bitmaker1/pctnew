@@ -3184,6 +3184,21 @@ var ApiWrapper = function (core = {}) {
 					})
 				}
 			}
+		},
+
+		variables : {
+			get : function(types, p){
+
+				var data = {
+					Parameters : {
+						GroupsFilter : types
+					}
+				}
+
+				return request(data, 'campaigns', 'dynamicparameters/list', p).then(r => {
+					return Promise.resolve(r.Records)
+				})
+			}
 		}
 	}
 

@@ -5,6 +5,10 @@
         <search ref="search" @controlKey="controlKey" :controlKeys="filtered.length ? true : false" placeholder="Search by variables" :value="searchvalue" @search="search"/>
     </div>
 
+    <div class="preloaderWrapper" v-if="loading && filtered.length">
+        <linepreloader />
+    </div>
+
     <div class="filtered " v-if="filtered.length">
 
         <listgroupedsliced :group="grouped" :count="10" ref="list">

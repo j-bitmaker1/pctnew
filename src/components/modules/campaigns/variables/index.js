@@ -19,13 +19,15 @@ export default {
         return {
             loading : false,
             searchvalue : '',
-            variables : this.core.campaigns.variables,
+            variables : null,
             tipposition : 0
         }
 
     },
 
     created : function(){
+        this.load()
+
         if (this.value) {
             this.searchvalue = this.value
         }
@@ -33,6 +35,8 @@ export default {
         setTimeout(() => {
             this.$refs.search.focus()
         }, 200)
+
+
     },
 
     watch: {
@@ -48,7 +52,7 @@ export default {
             if(this.searchvalue){
 
                 return f.clientsearch(this.searchvalue, this.variables, (variable) => {
-                    return variable.name + ' ' + variable.id
+                    return variable.Name + ' ' + variable.Id
                 })
             }
             else{
@@ -72,13 +76,26 @@ export default {
         grouped : function(){
 
             return f.group(this.filteredcnt, (variable) => {
-                return variable.system || "general"
+                return variable.Group || "General"
 
             })
         }
     }),
 
     methods : {
+
+        load : function(){
+            this.loading = true
+            this.core.campaigns.getvariables().then(variables => {
+
+                this.variables = variables
+
+            }).finally(() => {
+
+                this.loading = false
+
+            })
+        },
 
         search : function(v){
 
@@ -99,7 +116,7 @@ export default {
         select : function(variable){
             this.$emit("close")
 
-            this.$emit("selected", variable.id)
+            this.$emit("selected", variable.Id)
         },
 
         controlKey : function(key){

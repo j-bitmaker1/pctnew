@@ -2,10 +2,10 @@
 <div class="campaigns_variable">
 
 	<div class="id">
-		<span>@{{variable.id}}</span>
+		<span>@{{variable.Id}}</span>
 	</div>
 	<div class="name">
-		<span>{{variable.name}}</span>
+		<span>{{variable.Name}}</span>
 	</div>
 
 </div>

@@ -1,7 +1,6 @@
 const moment = require('moment');
 import CampaignTemplates from "./templates"
 import varhelper from "./varhelper";
-import Variables from './variables'
 
 import f from "@/application/shared/functions.js"
 
@@ -107,13 +106,16 @@ class CampaignsManager {
     }
 
     constructor(core, settings) {
-        this.api = core.api.campaigns
+        
         this.emailTemplates = null
         this.signatures = null
         this.templates = null
-        this.vueapi = core.vueapi
-        this.variables = Variables
+        this.variables = null
         this.mailsystem = 'PCT'
+        this.vargroups = ['RECIPIENT', 'USER', 'CRM', 'PCT']
+
+        this.vueapi = core.vueapi
+        this.api = core.api.campaigns
         this.core = core
         this.campaignTemplates = new CampaignTemplates(this)
         this.settings = settings
@@ -122,6 +124,16 @@ class CampaignsManager {
     varhelper(el){
         varhelper(el, (value, clbk) => {
             this.vueapi.searchVariable(value, clbk)
+        })
+    }
+
+    getvariables(){
+        if(this.variables) return Promise.resolve(this.variables)
+
+        return this.api.variables.get(this.vargroups).then(variables => {
+            this.variables = variables
+
+            return Promise.resolve(this.variables)
         })
     }
 

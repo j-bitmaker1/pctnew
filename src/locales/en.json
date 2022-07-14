@@ -502,8 +502,10 @@
 		},
 
 		"variables" : {
-			"general" : "General variables",
-			"pct" : "Portfolio Crash Test Variables"
+			"General" : "General",
+			"PCT" : "Portfolio Crash Test",
+			"USER" : "User",
+			"RECIPIENT" : "Recipient"
 		},
 
 		"clientsGroup" : {
