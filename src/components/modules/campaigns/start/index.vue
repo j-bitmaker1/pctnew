@@ -3,7 +3,7 @@
 
     <template v-if="!loading">
 
-        <div class="campaignTemplate mobp">
+        <div class="campaignTemplate mobp" ref="template">
             <div class="caption">
                 <div class="num"><span>1</span></div> <div class="sz"><span>Select campaign template</span></div>
             </div>
@@ -30,7 +30,7 @@
         </div>
 
 
-        <div class="contacts mobp" v-if="template">
+        <div class="contacts mobp" v-if="template" ref="recipients">
             <div class="caption">
                 <div class="num"><span>2</span></div> <div class="sz"><span>Select recipients</span></div> <div class="sz cr" v-if="contactsSelected"><span >({{contactsSelected}})</span></div>
             </div>
@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <div class="settings mobp" v-if="template && contactsSelected">
+        <div class="settings mobp" v-if="template && contactsSelected" ref="settings">
             <div class="caption">
                 <div class="num"><span>3</span></div> <div class="sz"><span>Settings</span></div>
             </div>

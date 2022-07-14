@@ -277,9 +277,23 @@ export default {
 
             return this.core.campaigns.campaignTemplates.validsteps(this.template.content).then(r => {
                 this.templatechecked = true
-            }).finally(() => {
+            }).catch(e => {}).finally(() => {
                 this.templatechecking = false
             })
+        },
+
+        scrollToRef : function(ref){
+
+            setTimeout(() => {
+
+                if(this.$refs[ref] ){
+                    var v = this.$refs[ref].offsetTop - 117
+                    this.$el.closest('.customscroll').scrollTop = v
+                }
+            }, 200)
+
+            
+
         },
 
         selecttemplate : function(){
@@ -288,7 +302,7 @@ export default {
 
                 this.setName()
 
-                
+                this.scrollToRef('recipients')
 
             }).catch(e => {
                 console.error(e)
@@ -296,8 +310,13 @@ export default {
         },
 
         selectcontacts : function(){
+
+            var needscroll = _.isEmpty(this.contacts)
+
             this.core.vueapi.selectContacts((contacts) => {
                 this.contacts = contacts
+
+                if(needscroll) this.scrollToRef('settings')
 
                 this.setName()
             },{
