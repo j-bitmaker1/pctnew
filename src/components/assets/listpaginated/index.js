@@ -169,7 +169,7 @@ export default {
 			this.$emit('click', item)
 		},
 
-        dataunshift : function(obj){
+        dataunshift : function(obj, key){
 
             var i = _.findIndex(this.records, (r) => {
                 return r[key] == obj[key]
