@@ -28,8 +28,6 @@ export default {
         this.name = this.emailTemplate.Name || ""
         this.subject = this.emailTemplate.Subject || ""
         this.body = this.emailTemplate.Body || ""
-
-        console.log('this.emailTemplate', this.emailTemplate)
     },
 
     watch: {
@@ -37,8 +35,6 @@ export default {
     },
     computed: mapState({
         valid : function(){
-
-            console.log('this.body', this.body)
 
             if(this.name && this.subject && this.body) return true
 
@@ -109,10 +105,17 @@ export default {
         },
 
         keyupSubject(evt) {
-            this.core.campaigns.varhelper(evt.target)
+            this.core.campaigns.varhelper(evt.target, () => {
+                //this.$refs['subject'].change()
+                this.subject = evt.target.value
+
+                
+            })
         },
         keyupEditor(evt) {
-            this.core.campaigns.varhelper(document.getSelection().focusNode)
+            this.core.campaigns.varhelper(document.getSelection().focusNode, () => {
+                this.$refs.htmleditor.sync()
+            })
         },
     },
 }

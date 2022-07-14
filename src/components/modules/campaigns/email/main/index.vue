@@ -8,11 +8,11 @@
 
 	<div class="subjectWrapper">
 		<label>Email subject</label>
-		<input type="text" v-model="subject" @keyup="keyupSubject"/>
+		<input ref="subject" type="text" v-model="subject" @keyup="keyupSubject"/>
 	</div>
 
     <div class="editorWrapper">
-		<htmleditor @keyup="keyupEditor" v-model="body"/>
+		<htmleditor ref="htmleditor" @keyup="keyupEditor" v-model="body"/>
 	</div>
 
 	<div class="savePanel">

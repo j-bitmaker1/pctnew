@@ -35,6 +35,7 @@ import 'trumbowyg/dist/ui/trumbowyg.css';
             variables: {
                 // Code called by Trumbowyg core to register the plugin
                 init: function (trumbowyg) {
+
                     // Fill current Trumbowyg instance with the plugin default options
                     trumbowyg.o.plugins.variables = $.extend(true, {},
                         defaultOptions,
@@ -68,6 +69,46 @@ import 'trumbowyg/dist/ui/trumbowyg.css';
     })
 })(jQuery);
 
+(function ($) {
+    'use strict';
+
+    // Plugin default options
+    var defaultOptions = {
+    };
+
+    $.extend(true, $.trumbowyg, {
+        // Add some translations
+        langs: {
+            en: {
+                variables: 'initvue'
+            }
+        },
+        // Register plugin in Trumbowyg
+        plugins: {
+            initvue: {
+                // Code called by Trumbowyg core to register the plugin
+                init: function (trumbowyg) {
+
+                    // Fill current Trumbowyg instance with the plugin default options
+                    trumbowyg.o.plugins.initvue = $.extend(true, {},
+                        defaultOptions,
+                        trumbowyg.o.plugins.initvue || {}
+                    );
+
+                    trumbowyg.o.plugins.initvue.init(trumbowyg)
+
+
+                    //trumbowyg.addBtnDef('variables', buildButtonDef(trumbowyg));
+                },
+
+                destroy: function (trumbowyg) {
+                    trumbowyg.o.plugins.initvue.destroy()
+                }
+            }
+        }
+    })
+})(jQuery);
+
 export default {
     name: 'htmleditor',
     model: {
@@ -83,7 +124,8 @@ export default {
     data: function () {
 
         return {
-            loading: false
+            loading: false,
+            trumbowyg : null
         }
 
     },
@@ -123,6 +165,15 @@ export default {
                         open : function(){
 
                         }
+                    },
+
+                    initvue : {
+                        init : (trumbowyg) => {
+                            this.trumbowyg = trumbowyg
+                        }, 
+                        destroy : () => {
+                            this.trumbowyg = null
+                        }
                     }
                 }
                 
@@ -142,6 +193,11 @@ export default {
 
     methods: {
         init : function(v){
+        },
+
+        sync : function(){
+            this.trumbowyg.syncCode()
+            this.trumbowyg.$c.trigger('tbwchange');
         }
     },
 }

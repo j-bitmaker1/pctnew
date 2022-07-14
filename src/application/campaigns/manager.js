@@ -121,10 +121,10 @@ class CampaignsManager {
         this.settings = settings
     }
 
-    varhelper(el){
+    varhelper(el, added){
         varhelper(el, (value, clbk) => {
             this.vueapi.searchVariable(value, clbk)
-        })
+        }, added)
     }
 
     getvariables(){

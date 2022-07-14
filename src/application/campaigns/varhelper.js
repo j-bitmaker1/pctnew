@@ -83,7 +83,7 @@ var h = {
     }
 }
 
-var varhelper = function(el, searher){
+var varhelper = function(el, searher, added){
 
     var position = f.getCaretPosition(el)
 
@@ -108,6 +108,8 @@ var varhelper = function(el, searher){
                 left: -position.start + vp.position.start,
                 right: -position.end + vp.position.end
             })
+
+            if(added) added()
 
             
         })
