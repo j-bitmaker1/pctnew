@@ -2,7 +2,7 @@
     background: srgb(--background-total-theme)
     height: 66px
     border-bottom: 1px solid srgb(--neutral-grad-0)
-    padding : 0 2 * $r
+    padding : 2 * $r 2 * $r
     display: flex
     grid-gap: $r
     align-items: center
@@ -35,5 +35,7 @@
 @media only screen and (max-width: 768px)
     #topmenu
         padding-right: 1.5 * $r
-        height : 77px
+        height : 88px
         scroll-snap-align: start
+        align-items: flex-end
+        padding-bottom: $r

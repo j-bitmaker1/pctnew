@@ -35,6 +35,14 @@
 		.select
 			color : srgb(--neutral-grad-2)
 
+@media (pointer:fine)
+	.campaigns_settings_defaultsignature
+		cursor: pointer
+		+transition(0.3s)
+
+		&:hover
+			opacity: 0.8
+
 </style>
 
 <script>
