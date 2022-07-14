@@ -505,7 +505,8 @@
 			"General" : "General",
 			"PCT" : "Portfolio Crash Test",
 			"USER" : "User",
-			"RECIPIENT" : "Recipient"
+			"RECIPIENT" : "Recipient",
+			"CRM" : "CRM"
 		},
 
 		"clientsGroup" : {
