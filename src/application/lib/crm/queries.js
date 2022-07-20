@@ -20,8 +20,11 @@ class Templates {
 
     }
 
-    status_product = function(){
-        return this.condition(conditions.like, "products", "pct")
+    status_product = function(products){
+
+        if(!products) products = 'pct'
+
+        return this.condition(conditions.inlist, "products", products)
     } 
 
     status_active = function(){
@@ -123,14 +126,14 @@ class Queries {
         return {}
     }
 
-    simplesearch = function({search, type}){
+    simplesearch = function({search, type, products}){
         var groups = []
 
-        
+        console.log('products', products)
 
         groups.push(
             this.t.group([
-                this.t.status_product(),
+                this.t.status_product(products),
                 this.t.status_active(),
                 this.t.userid(this.core.user.info.ID),
                 this.t.type_eq(type)

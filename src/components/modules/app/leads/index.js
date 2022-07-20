@@ -110,7 +110,10 @@ export default {
 
 			return {
 				orderBy,
-				query : this.core.crm.query('simplesearch', {search : this.searchvalue, type : "LEAD"})
+				query : this.core.crm.query('simplesearch', {
+					search : this.searchvalue, 
+					type : "LEAD", 
+					products : ['pct','crm']})
 			}
 		},
 

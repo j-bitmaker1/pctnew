@@ -134,8 +134,14 @@ export default {
 
 			var p = {search : this.searchvalue}
 
-			if(this.type){
+			if (this.type){
 				p.type = this.type.toUpperCase()
+			}
+
+			console.log('this.type', this.type)
+
+			if(this.type == "lead"){
+				p.products = ['pct', '']
 			}
 
 			return {
