@@ -140,7 +140,7 @@ export default {
 
 			console.log('this.type', this.type)
 
-			if(this.type == "lead"){
+			if(this.type == "lead" || !this.type){
 				p.products = ['pct', '']
 			}
 
