@@ -17,6 +17,8 @@ class Settings {
             this.meta[k] = _.clone(s)
         })
 
+        console.log(_meta, this.type)
+
     }
 
     set(name, value) {
@@ -150,12 +152,20 @@ class LSSettings {
         this.data = null
         this.type = type
 
+        this.setmeta(_meta)
+
+    }
+
+    setmeta(_meta){
         this.meta = {}
 
         _.each(_meta[this.type], (s, k) => {
-            this.meta[k] = _.clone(s)
+            this.setmetaOne(k,s)
         })
+    }
 
+    setmetaOne(k, s){
+        this.meta[k] = _.clone(s)
     }
 
     set(name, value) {

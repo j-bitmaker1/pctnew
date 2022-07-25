@@ -1,7 +1,7 @@
 <template>
 <div id="campaigns_list">
     <div class="controls mobp">
-        <listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
+        <listcontrols :store="'batch_campaigns_' + batch.Id" :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
     </div>
 
     <listpaginated placeholder="No campaigns found" :select="{context : 'campaigns'}" :api="api" :payload="payload" @count="setcount" :start="0" from="PageNumber" to="PageSize" ref="list" :bypages="true">

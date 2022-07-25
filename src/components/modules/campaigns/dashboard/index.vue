@@ -33,7 +33,7 @@
 
 
     <div class="controls mobp">
-        <listcontrols @date="setdate" :listdate="listdate" :datepicker="datepicker" :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
+        <listcontrols store="campaigns_dashboard" @date="setdate" :listdate="listdate" :datepicker="datepicker" :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
     </div>
 
     <listpaginated placeholder="No batch campaigns found" :select="select" :api="api" :payload="payload" @count="setcount" :start="0" from="PageNumber" to="PageSize" ref="list" :bypages="true">

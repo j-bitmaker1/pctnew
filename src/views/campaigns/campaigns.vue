@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 
-	<topheader :back="mobileview ? 'back' : ''">
+	<topheader :back="mobileview ? '/' : ''">
 		<template v-slot:info>
 			<span>Campaigns</span>
 		</template>

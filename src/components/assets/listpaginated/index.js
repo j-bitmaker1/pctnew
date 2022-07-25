@@ -46,7 +46,7 @@ export default {
             count : 0,
             records : [],
             end : false,
-            controller : null,
+            controller : null
         }
 
     },
@@ -82,7 +82,8 @@ export default {
             epayload[this.to || "To"] = this.perpage
 
             return epayload
-        }
+        },
+
     }),
 
     methods : {
@@ -91,8 +92,8 @@ export default {
             this.end = false
             this.loading = false
 
-            this.records = []
-            this.count = 0
+            /*this.records = []*/
+            /*this.count = 0*/
             this.page = 0
 
             if(this.controller && !this.controller.signal.dontabortable) this.controller.abort()
@@ -106,11 +107,13 @@ export default {
         },
 
 
+
+
         height : function(){
             return this.$el.clientHeight
         },  
 
-        load : function(){
+        load : _.throttle(_.debounce(function(){
 
             if(this.end) return
             if(this.loading) return
@@ -121,6 +124,7 @@ export default {
 
             this.$emit('loading', this.loading)
 
+            console.log('this.records', this.records)
 
             f.deep(this.core.api, this.api)(this.epayload, {
 
@@ -129,10 +133,19 @@ export default {
 
             }).then(data => {
 
+                console.log("DATA", data)
 
-                this.refresh = false
+                
+
+                this.oldrecords = null
+
+                if (this.refresh){
+                    this.records = []
+                }
 
                 this.records = this.records.concat(data.data)
+
+                this.refresh = false
 
                 if(!this.count)
                     this.count = data.count
@@ -159,7 +172,7 @@ export default {
 
                 this.controller = null
             })
-        },
+        }, 50), 50 ),
 
         next : function(){
             this.load()

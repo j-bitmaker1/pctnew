@@ -86,6 +86,10 @@ var settings = {
                     return {}
                 },
             }
+        },
+
+        UI : {
+
         }
     }
 }
@@ -133,8 +137,11 @@ class Core {
             campaigns : new Settings(this, "CAMPAIGNS", settings.server), 
             user : new Settings(this, "USER", settings.server),
             pdf : new Settings(this, "PDF", settings.server),
-            lspdf : new LSSettings(this, "PDF", settings.local)
+            lspdf : new LSSettings(this, "PDF", settings.local),
+            ui : new LSSettings(this, "UI", settings.local)
         }
+
+        this.dynamicSettings = {}
 
         this.filemanager = new Filemanager(this)
         this.crm = new CRM(this)
@@ -148,6 +155,8 @@ class Core {
         this.updates = new Updates(this)
 
         this.campaigns = new CAMPAIGNS(this, this.settings.campaigns)
+
+        
 
         this.user = new user(this, {
 

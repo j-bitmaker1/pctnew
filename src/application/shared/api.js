@@ -339,6 +339,13 @@ var ApiWrapper = function (core = {}) {
 				version: 2
 			}
 		},
+		campaignsFast: function () {
+			return {
+				storage: 'campaigns',
+				time: 60 * 10,
+				version: 2
+			}
+		},
 
 		system: function () {
 			return {
@@ -3053,6 +3060,9 @@ var ApiWrapper = function (core = {}) {
 		misc : {
 			stats : function(p = {}){
 				p.method = "GET"
+
+				p.storageparameters = dbmeta.campaignsFast()
+
 				//GET /statistic/getStatisticByAllCampaigns
 				return request({}, 'campaigns', 'statistic/campaignstotal', p)
 			},

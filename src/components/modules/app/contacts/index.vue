@@ -1,7 +1,7 @@
 <template>
 <div id="contacts">
 	<div class="controls mobp">
-		<listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
+		<listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" :store="type || 'contacts'"/>
 	</div>
 
 	<div class="added mobp" v-if="added">

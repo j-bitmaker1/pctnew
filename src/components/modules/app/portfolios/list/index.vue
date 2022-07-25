@@ -2,7 +2,7 @@
 <div id="portfolios_list">
 
 	<div class="controls mobp">
-		<listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange"/>
+		<listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" store="portfolios"/>
 	</div>
 
 	<slot name="prepend">
