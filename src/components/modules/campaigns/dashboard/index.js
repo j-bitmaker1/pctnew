@@ -70,18 +70,16 @@ export default {
 				}]
             }
 
+            console.log('this.listdate', this.listdate)
 
-            if(this.listdate && this.listdate[0] && this.listdate[1]){
+            if(this.listdate){
                 data.CreatedFilter = {
-                    Start : this.listdate[0] ? f.date.toserverFormatDate(this.listdate[0]) + '0000' : undefined,
-                    End : this.listdate[1] ? f.date.toserverFormatDate(this.listdate[1]) + '0000' : undefined
+                    Start : this.listdate[0] ? f.date.toserverFormatDate(this.listdate[0]) + '000' : undefined,
+                    End : this.listdate[1] ? f.date.toserverFormatDate(this.listdate[1]) + '000' : undefined
                 }
             }
             else{
-                data.CreatedFilter = {
-                    Start: "20220103000000",
-                    End: "20220715235959"
-                }
+               
             }
 
             
