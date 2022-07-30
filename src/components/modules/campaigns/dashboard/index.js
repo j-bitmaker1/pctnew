@@ -70,8 +70,6 @@ export default {
 				}]
             }
 
-            console.log('this.listdate', this.listdate)
-
             if(this.listdate){
                 data.CreatedFilter = {
                     Start : this.listdate[0] ? f.date.toserverFormatDate(this.listdate[0]) + '000' : undefined,
