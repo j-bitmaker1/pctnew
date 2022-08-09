@@ -21,7 +21,11 @@
 	align-items: center
 	grid-gap: $r
 
+	.name
+		white-space: nowrap
+
 	.email
+		white-space: nowrap
 		span
 			color : srgb(--color-bg-ac-bright)
 

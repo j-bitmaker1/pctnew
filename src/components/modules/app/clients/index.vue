@@ -17,7 +17,7 @@
 	   
 	</listpaginated>
 
-	<selection context="client" :menu="menu" @success="selected"/>
+	<selection context="client" :selectall="select && select.selectall" :menu="menu" @success="selected" @cancel="cancel"/>
 
 
 </div>

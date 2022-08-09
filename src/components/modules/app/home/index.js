@@ -47,6 +47,10 @@ export default {
 			var c = this.$store.state.updates[id] || 0
 
 			return Math.min(c, 99)
+		},
+
+		lbl : function(id){
+			return this.$store.state.updates[id] || 0
 		}
 	},
 }

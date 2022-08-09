@@ -113,6 +113,14 @@ export default {
             return this.$el.clientHeight
         },  
 
+        getall : function(){
+            return f.deep(this.core.api, this.api)(this.payload, {
+                preloader : true
+            }).then(data => {
+                return Promise.resolve(data.data)
+            })
+        },
+
         load : _.throttle(_.debounce(function(){
 
             if(this.end) return
@@ -124,18 +132,12 @@ export default {
 
             this.$emit('loading', this.loading)
 
-            console.log('this.records', this.records)
-
             f.deep(this.core.api, this.api)(this.epayload, {
 
                 refresh : this.refresh, 
                 controller : this.controller 
 
             }).then(data => {
-
-                console.log("DATA", data)
-
-                
 
                 this.oldrecords = null
 

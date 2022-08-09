@@ -314,13 +314,16 @@ export default {
             var needscroll = _.isEmpty(this.contacts)
 
             this.core.vueapi.selectContacts((contacts) => {
-                this.contacts = contacts
+                this.contacts = _.filter(contacts, (contact) => {
+                    return contact.Email
+                })
 
                 if(needscroll) this.scrollToRef('settings')
 
                 this.setName()
             },{
-                selected : this.contacts
+                selected : this.contacts,
+                selectall : true
             })
         },
 

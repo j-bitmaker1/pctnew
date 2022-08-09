@@ -193,6 +193,11 @@ export default {
 			this.$emit('close')
 		},
 
+		cancel: function(profiles){
+			this.$emit('selected', {})
+			this.$emit('close')
+		},
+
 		open : function(profile){
 
 			if (this.select){

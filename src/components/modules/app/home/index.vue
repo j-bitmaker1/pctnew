@@ -3,10 +3,10 @@
 
 	<div class="buttonsWrapper mobp" v-if="checkLicenceCRM">
 		<router-link to="/clients">
-			<bigmainbutton icon="fas fa-users" :label="$t('menu.clients')" :blabel="notifications('totalClients')" :active="true" :nlabel="notifications('clients')" />
+			<bigmainbutton icon="fas fa-users" :label="$t('menu.clients')" :blabel="lbl('totalClients')" :active="true" :nlabel="notifications('clients')" />
 		</router-link>
 		<router-link to="/leads">
-			<bigmainbutton icon="fas fa-user-plus" :label="$t('menu.leads')" :blabel="notifications('totalLeads')" :nlabel="notifications('leads')" />
+			<bigmainbutton icon="fas fa-user-plus" :label="$t('menu.leads')" :blabel="lbl('totalLeads')" :nlabel="notifications('leads')" />
 		</router-link>
 	</div>
 

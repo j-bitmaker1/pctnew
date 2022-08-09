@@ -38,6 +38,8 @@ class Vueapi {
             })
         }
 
+        console.log(")", p)
+
         this.store.commit('OPEN_MODAL', {
             id : 'modal_contacts',
             module : "contacts",
@@ -46,7 +48,8 @@ class Vueapi {
                 select : {
                     context : (p.type || 'contact'),
                     filter : p.filter,
-                    disabled : p.one ? true : false
+                    disabled : p.one ? true : false,
+                    selectall : p.selectall
                 },
                 type : p.type,
                 hasmenu : false

@@ -39,7 +39,17 @@ export default {
     },
 
     watch: {
-        //$route: 'getdata'
+        tscrolly : function(){
+
+            if (this.$refs['list']){
+
+                if (this.$refs['list'].height() - 1000 < this.tscrolly + this.dheight){
+                    this.$refs['list'].next()
+                }
+                
+            }
+            
+        }
     },
     computed: mapState({
         auth : state => state.auth,
@@ -47,6 +57,11 @@ export default {
         api : function(){
             return 'campaigns.single.list'
         },
+
+        tscrolly : function(state){
+			return state.tscrolly
+		},
+        dheight : state => state.dheight,
 
         payload : function(){
 

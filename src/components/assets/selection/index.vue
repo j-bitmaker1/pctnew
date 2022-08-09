@@ -6,9 +6,10 @@
             <span>Select elements from list</span>
         </div>
         <div class="controls">
-
+           
             <button class="button" v-if="selectionLength" @click="success">Select ({{selectionLength}})</button>
-            <button class="button black" @click="cancel">Unselect all</button>
+            <button class="button black" @click="selectallclick" v-if="selectall">Select all</button>
+            <button class="button black" @click="cancel" v-if="selectionLength">Unselect all</button>
             
         </div>
     </div>

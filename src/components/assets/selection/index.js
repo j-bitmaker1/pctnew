@@ -8,7 +8,7 @@ export default {
             type : String,
             default : 'general'
         },
-
+        selectall : Boolean,
         menu : Array
     },
 
@@ -105,6 +105,12 @@ export default {
 
         clear : function(){
             this.$store.commit('unselect', {context : this.context})
+        },
+
+        selectallclick : function(){
+            this.$emit('selectall')
+            this.clear()
+            this.close()
         }
 
     },

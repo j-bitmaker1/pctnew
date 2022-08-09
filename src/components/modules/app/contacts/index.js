@@ -258,6 +258,18 @@ export default {
 			this.$emit('close')
 		},
 
+		cancel : function(){
+			this.$emit('selected', [])
+			this.$emit('close')
+		},
+
+
+		selectall : function(){
+			this.$refs['list'].getall().then(profiles => {
+				this.selected(profiles)
+			})
+		},
+
 		open : function(profile){
 
 			if (this.select){
