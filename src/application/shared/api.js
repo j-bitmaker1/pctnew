@@ -452,13 +452,18 @@ var ApiWrapper = function (core = {}) {
 	var getloaded = function (datahash, data, system, to, p) {
 
 		var _fr = data[p.from] || 0
-		var _count = data[p.count] || 100
+		var _count = data[p.count]
 
 		if (p.bypages) _fr = (_fr * _count)
+
+		console.log('_count', _count)
 
 		var storage = liststorage[system][to][datahash]
 
 		var loaded = _.filter(storage.data, function (e, i) {
+
+			if(typeof _count == 'undefined') return true
+
 			if (i >= _fr && (i < _count + _fr)) {
 				return true
 			}
@@ -475,7 +480,7 @@ var ApiWrapper = function (core = {}) {
 			first: _.isEmpty(storage.data) ? undefined : _.min(_.map(Object.keys(storage.data), v => Number(v)))
 		}
 
-		console.log('_count', flength, storage.count)
+		console.log('_count', flength, storage.count, _count , loaded.length)
 
 
 		if (flength == storage.count) return r
