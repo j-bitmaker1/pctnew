@@ -1518,7 +1518,7 @@ var ApiWrapper = function (core = {}) {
 
 				if (data.crmContactId) {
 					core.vxstorage.invalidateManyQueue(
-						[updated.crmContactId],
+						[data.crmContactId],
 						['client']
 					)
 				}
