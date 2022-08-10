@@ -1415,12 +1415,12 @@ f.date = {
 
         var delta = (targetDay * 1440 + targetTimeMinutes) - (date.getDay() * 1440 + date.getHours() * 60 + date.getMinutes());
 
-        if (delta >= 0) { targetDate = targetDate.addMinutes(delta) }
+        if (delta >= 0) { targetDate =  f.date.addMinutes(targetDate, delta) }
 
         else {
 
-            targetDate = targetDate.addMinutes(delta)
-            targetDate = targetDate.addMinutes(10080)
+            targetDate = f.date.addMinutes(targetDate, delta)
+            targetDate = f.date.addMinutes(targetDate, 10080) 
         }
 
         return targetDate

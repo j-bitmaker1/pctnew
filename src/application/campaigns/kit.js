@@ -113,10 +113,12 @@ class Step {
             }
 
             if (this.day && this.day <= 7) {
-                to = f.date.nextDateDayTime(f.date.convertDaysToNotmal(this.day), this.time)
+                to = f.date.nextDateDayTime(f.date.convertDaysToNotmal(this.day), this.time / 60)
             }
 
-            return (to.getTime() - started.getTime()) / 1000
+            console.log('started', started)
+
+            return (to.getTime() - started) / 1000
 
         }
 
