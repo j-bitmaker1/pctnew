@@ -72,17 +72,27 @@ class Step {
 
         if (t) return moment.duration(this.timeleft(), 'seconds').humanize(true);
 
-
-        if(!this.day || this.day > 7) return moment.duration(this.duration(), 'seconds').humanize(true);
-
-        var days = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday', 'Sunday']
+        console.log("this.time", this.time)
 
         var h = Math.floor(this.time / 3600)
         var m = Math.floor((this.time - h * 3600) / 60) 
 
+        if (!this.day) {
+            return moment.duration(this.duration(), 'seconds').humanize(true)
+        }
+
+        if (this.day > 7) {
+            return moment.duration(this.duration(), 'seconds').humanize(true) + " "+ f.addZero(h) + ":" + f.addZero(m) +"";
+        }
+
+        var days = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday', 'Sunday']
+
+        
+
         return days[this.day - 1] + " " + f.addZero(h) + ":" + f.addZero(m)
 
     }
+
 
     duration = function () {
 
@@ -116,30 +126,38 @@ class Step {
                 to = f.date.nextDateDayTime(f.date.convertDaysToNotmal(this.day), this.time / 60)
             }
 
-            console.log('started', started)
-
             return (to.getTime() - started) / 1000
 
         }
 
     }
 
+    hasstarted = function(){
+        if(!this.started || this.status == "WAIT") return false
+
+        console.log((f.date.fromstring(this.started, true) / 1000) - f.date.nowUtc1000(), this.started)
+
+        if((f.date.fromstring(this.started, true) / 1000) - f.date.nowUtc1000() > 0) return false
+
+        return true
+    }
+
     timeleft = function () {
-        if (!this.started || this.ended) return null
+        if (!this.hasstarted() || this.ended) return null
 
         return ((f.date.fromstring(this.started, true) / 1000) + this.duration()) - f.date.nowUtc1000()
     }
 
     completedTime = function () {
-        if (!this.started) return 0
-        if (this.ended) return this.duration()
+        if (!this.hasstarted()) return 0
+        if  (this.ended) return this.duration()
 
         return f.date.nowUtc1000() - (f.date.fromstring(this.started, true) / 1000)
 
     }
 
     progress = function () {
-        if (!this.started) return 0
+        if (!this.hasstarted()) return 0
 
         if (this.ended) return 1
 
@@ -157,15 +175,20 @@ class EditStep extends Step {
 
             var importdata = {}
     
-            if(data.template) importdata.template = Number(data.template)
-            if(data.while) importdata.while = data.while
-            if(data.time) importdata.time = data.time
-            if(data.day) importdata.day = data.day
-            if(data.notification) importdata.notification = data.notification
-            if(data.lead) importdata.lead = data.lead
-            if(data.subcampaign) importdata.subcampaign = data.subcampaign
+            if (data.template) importdata.template = Number(data.template)
+            if (data.while) importdata.while = data.while
+            if (data.time) importdata.time = data.time
+            if (data.day) importdata.day = data.day
+
+            /*if (data.day){
+                importdata.time = importdata.time * 60
+            }*/
+
+            if (data.notification) importdata.notification = data.notification
+            if (data.lead) importdata.lead = data.lead
+            if (data.subcampaign) importdata.subcampaign = data.subcampaign
     
-            if(data.if){
+            if (data.if){
                 importdata.if = data.if
                 importdata.mail = data.mail
                 importdata.success = _.map(data.success, (d) => {
@@ -200,6 +223,11 @@ class EditStep extends Step {
         if(this.while) data.while = this.while
         if(this.time) data.time = this.time
         if(this.day) data.day = this.day
+
+        /*if (this.day){
+            this.time = this.time / 60
+        }*/
+
         if(this.notification) data.notification = this.notification
         if(this.lead) data.lead = this.lead
         if(this.subcampaign) data.subcampaign = this.subcampaign
@@ -298,7 +326,7 @@ class Template {
 
 
         this.content = []
-        this.version = 2
+        this.version = 3
         
         if(!this.Name) this.Name = ''
 
@@ -315,9 +343,9 @@ class Template {
             try {
                 var cjs = JSON.parse(info)
     
-                this.version = cjs.version || 2
+                this.version = cjs.version || 3
     
-                if (cjs.version == 2) {
+                if (cjs.version == 2 || cjs.version == 3) {
                     this.content = JSON.parse(f.hexDecode(cjs.c))
                 }
     
