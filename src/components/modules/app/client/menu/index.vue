@@ -116,8 +116,8 @@ export default {
 
 			this.$dialog.confirm(
 				"Do you really want to delete this contact?", {
-				okText: vm.$t('yes'),
-				cancelText : vm.$t('no')
+				okText: this.$t('yes'),
+				cancelText : this.$t('no')
 			})
 	
 			.then((dialog) => {
