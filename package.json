@@ -44,7 +44,7 @@
     "moment-timezone": "^0.5.34",
     "pbkdf2": "^3.1.2",
     "pdfmake": "^0.2.5",
-    "pdfvuer": "^1.9.2",
+    "pdfvuer": "1.9.2",
     "pixi.js": "^6.3.2",
     "qs": "^6.10.3",
     "random": "^3.0.6",
