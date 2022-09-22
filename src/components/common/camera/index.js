@@ -381,7 +381,6 @@ export default {
                         this.newpicture()
                     }
                     
-                    
                 })
             }
             
