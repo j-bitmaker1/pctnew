@@ -272,6 +272,9 @@ export default {
 
 		open : function(profile){
 
+			console.log("THIS", this, profile)
+
+
 			if (this.select){
 				this.selected([profile])
 			}

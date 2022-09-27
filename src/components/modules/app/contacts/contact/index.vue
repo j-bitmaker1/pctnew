@@ -25,14 +25,16 @@
 			</div>
 
 			<div>
+				<span class="label">Tolerance</span>
+				<coloredNumber :reversed="true" :number="core.pct.ocr(profile.tolerance)"/>
+			</div>
+
+			<div>
 				<span class="label">Capacity</span>
 				<coloredNumber :number="profile.capacity"/>
 			</div>
 
-			<div>
-				<span class="label">Tolerance</span>
-				<coloredNumber :reversed="true" :number="core.pct.ocr(profile.tolerance)"/>
-			</div>
+			
 		</div>
 
 		<div class="menurow row">

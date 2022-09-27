@@ -72,6 +72,10 @@ export default {
 
 		gotofolder : function(f){
 			this.$emit('gotofolder', f)
+		},
+
+		changeClient : function(client){
+			this.$emit('changeClient', client)
 		}
 	},
 }

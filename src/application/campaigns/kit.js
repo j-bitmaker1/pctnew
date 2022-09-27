@@ -72,8 +72,6 @@ class Step {
 
         if (t) return moment.duration(this.timeleft(), 'seconds').humanize(true);
 
-        console.log("this.time", this.time)
-
         var h = Math.floor(this.time / 3600)
         var m = Math.floor((this.time - h * 3600) / 60) 
 
@@ -82,7 +80,7 @@ class Step {
         }
 
         if (this.day > 7) {
-            return moment.duration(this.duration(), 'seconds').humanize(true) + " "+ f.addZero(h) + ":" + f.addZero(m) +"";
+            return  (this.day - 7) + " day(s) later in "+ f.addZero(h) + ":" + f.addZero(m) +"";
         }
 
         var days = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday', 'Sunday']

@@ -154,6 +154,7 @@ export default {
 		},
 
 		changeClient : function(client){
+			console.log("changeClient", client)
 			this.$emit('changeClient', client)
 		},
 

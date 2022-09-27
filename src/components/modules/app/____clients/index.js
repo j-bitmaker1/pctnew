@@ -200,6 +200,7 @@ export default {
 
 		open : function(profile){
 
+
 			if (this.select){
 				this.selected([profile])
 			}

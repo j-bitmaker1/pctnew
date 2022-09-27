@@ -60,7 +60,7 @@ export default {
         client_page : () => import("@/views/client.vue"),
         lead_page : () => import("@/views/lead.vue"),
         portfolios_main : () => import("@/components/modules/app/portfolios/main/index.vue"),
-        clients : () => import("@/components/modules/app/clients/index.vue"),
+        //clients : () => import("@/components/modules/app/clients/index.vue"),
         contacts : () => import("@/components/modules/app/contacts/index.vue"),
         filesystem_edit : () => import("@/components/common/filesystem/edit/index.vue"),
         filesystem : () => import("@/components/common/filesystem/index.vue"),

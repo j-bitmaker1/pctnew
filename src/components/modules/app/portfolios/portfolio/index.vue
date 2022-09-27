@@ -11,7 +11,7 @@
 
 		<div class="forsettings" v-if="hasmenu">
 
-			<portfoliomenu @gotofolder="gotofolder" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" buttonclass="diconbutton"/>
+			<portfoliomenu @changeClient="changeClient" @gotofolder="gotofolder" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" buttonclass="diconbutton"/>
 
 		</div>
 	</div>

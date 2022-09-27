@@ -22,7 +22,7 @@
                 <linepreloader v-if="loading"/>
 
                 <div class="time" v-if="template">
-                    <span>Wait{{duration}}</span>  <b>or</b> <span >until <b>&ldquo;{{template.Name}}&rdquo;</b> has been read</span>
+                    <span>Wait{{duration}}</span> <b>or</b> <span >until <b>&ldquo;{{template.Name}}&rdquo;</b> has been read</span>
                 </div>
 
             </div>
