@@ -5,7 +5,7 @@
 		<template v-slot:info>
 			<div class="header" v-if="!loading && emailTemplate">
 				<div class="name">
-					{{emailTemplate.Name || "Create email template"}}
+					{{clone ? "Clone email template" : emailTemplate.Name || "Create email template"}}
 				</div>
 			</div>
 		</template>
@@ -19,7 +19,7 @@
 
 			<linepreloader v-if="loading"/>
 
-			<emailTemplateMain v-if="!loading && emailTemplate" :emailTemplate="emailTemplate"/>
+			<emailTemplateMain v-if="!loading && emailTemplate" :emailTemplate="emailTemplate" :clone="clone"/>
 
 			<div class="empty" v-if="!loading && !emailTemplate">
 				<span>Email template not found</span>
@@ -63,6 +63,7 @@ export default {
 		return {
 			emailTemplate : null,
 			loading : true,
+			clone : false
 		}
 	},
 
@@ -90,15 +91,32 @@ export default {
 
 				this.core.campaigns.getEmailWithBody(this.id).then(r => {
 					this.emailTemplate = r
+					
 				}).catch(e => {}).finally(() => {
 					this.loading = false
 				})
 
 			}
 			else{
-				this.emailTemplate = this.core.campaigns.campaignTemplates.createEmailTemplate() 
 
-				this.loading = false
+				if (this.$route.query.clone){
+
+					this.core.campaigns.campaignTemplates.cloneEmailTemplate(this.$route.query.clone).then(tpl => {
+						this.emailTemplate = tpl
+						this.clone = true
+					}).finally(() => {
+						this.loading = false
+					})
+
+					
+        		}
+				else{
+					this.emailTemplate = this.core.campaigns.campaignTemplates.createEmailTemplate() 
+					this.loading = false
+					
+				}
+
+				
 			}
 
             

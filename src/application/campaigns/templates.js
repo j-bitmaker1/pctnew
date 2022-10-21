@@ -422,8 +422,35 @@ class CampaignsTemplates {
         })
     }
 
+    clone = function(id){
+        var tpl = this.create()   
+
+        return this.manager.getTemplate(id).then(ctpl => {
+
+            ctpl = ctpl.clone()
+
+            tpl.Name = ctpl.Name  + " (cloned)"
+            tpl.content = ctpl.content
+
+            return Promise.resolve(tpl)
+
+        })
+    }
+
     createEmailTemplate = function(){
         return new EmailTemplate()
+    }
+
+    cloneEmailTemplate = function(id){
+        var tpl = new EmailTemplate()
+
+        return this.manager.getEmailWithBody(id).then(tplc => {
+            tpl.Name = (tplc.Name || "") + " (cloned)"
+            tpl.Subject = (tplc.Subject || "")
+            tpl.Body = tplc.Body || ""
+
+            return Promise.resolve(tpl)
+        })
     }
 
     

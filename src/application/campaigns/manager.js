@@ -208,6 +208,8 @@ class CampaignsManager {
 
     ////
 
+    
+
     createEmailTemplate(data = {}){
 
         data.System = this.mailsystem

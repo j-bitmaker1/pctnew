@@ -431,7 +431,9 @@
 			"deletestep" : "Delete step",
 			"deletesingle" : "Delete campaign",
 			"deletecampaign" : "Delete campaign",
+			"clonecampaign" : "Clone campaign template",
 			"deleteemail" : "Delete email template",
+			"cloneemail" : "Clone email template",
 			"deletetemplate" : "Delete campaign template",
 			"gotocontact" : "Go to recipient",
 

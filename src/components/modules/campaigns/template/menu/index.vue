@@ -38,14 +38,21 @@ export default {
 
 		menu : function(){
 
-			return [
-
-				{
+			var menu = [{
 					text : 'campaigns.menu.deletetemplate',
 					icon : 'fas fa-trash',
 					action : 'deletetemplate'
-				}
-			]
+				}]
+
+			if(this.campaignTemplate.Id){
+				menu.push({
+					text : 'campaigns.menu.clonecampaign',
+					icon : 'fas fa-clone',
+					action : 'clonecampaign'
+				})
+			}
+
+			return menu
 		}
 
 	}),
@@ -57,7 +64,13 @@ export default {
 			}   
 		},
 
+		clonecampaign : function(){
+			this.$router.push('/campaigns/template/new?clone=' + this.campaignTemplate.Id).catch(e => {})
+		},
+
 		deletetemplate : function(){
+
+			//console.log('this.campaignTemplate', this.campaignTemplate)
 
 			this.$dialog.confirm(
 				this.$t('campaigns.labels.removeCampaignTemplate'), {

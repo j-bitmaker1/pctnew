@@ -38,14 +38,21 @@ export default {
 
 		menu : function(){
 
-			return [
+			var menu = [{
+				text : 'campaigns.menu.deleteemail',
+				icon : 'fas fa-trash',
+				action : 'deleteemail'
+			}]
 
-				{
-					text : 'campaigns.menu.deleteemail',
-					icon : 'fas fa-trash',
-					action : 'deleteemail'
-				}
-			]
+			if(this.emailTemplate.Id){
+				menu.push({
+					text : 'campaigns.menu.cloneemail',
+					icon : 'fas fa-clone',
+					action : 'cloneemail'
+				})
+			}
+
+			return menu
 		}
 
 	}),
@@ -61,6 +68,10 @@ export default {
 			this.core.campaigns.deleteEmailTemplate(this.emailTemplate.Id).then(r => {
 				this.$emit('deleted')
 			})
+		},
+
+		cloneemail : function(){
+			this.$router.push('/campaigns/emailtemplate/new?clone=' + this.emailTemplate.Id).catch(e => {})
 		}
 	},
 }

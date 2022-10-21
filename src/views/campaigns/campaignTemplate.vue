@@ -5,7 +5,7 @@
 		<template v-slot:info>
 			<div class="header" v-if="!loading && campaignTemplate">
 				<div class="name">
-					{{campaignTemplate.Name || "Create campaign template"}}
+					{{clone ? "Clone campaign template" : campaignTemplate.Name || "Create campaign template"}}
 				</div>
 			</div>
 		</template>
@@ -53,6 +53,7 @@ export default {
 		return {
 			campaignTemplate : null,
 			loading : true,
+			clone : false
 		}
 	},
 
@@ -84,9 +85,25 @@ export default {
 				})
 			}
 			else{
-				this.campaignTemplate = this.core.campaigns.campaignTemplates.create() 
 
-				this.loading = false
+				if (this.$route.query.clone){
+
+					this.core.campaigns.campaignTemplates.clone(this.$route.query.clone).then(tpl => {
+						this.campaignTemplate = tpl
+						this.clone = true
+					}).finally(() => {
+						this.loading = false
+					})
+
+					
+        		}
+				else{
+					this.campaignTemplate = this.core.campaigns.campaignTemplates.create() 
+					this.loading = false
+					
+				}
+
+				
 			}
             
         },

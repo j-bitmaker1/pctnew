@@ -7,7 +7,8 @@ import htmleditor from '@/components/common/htmleditor/index.vue'
 export default {
     name: 'campaigns_template_main',
     props: {
-        emailTemplate : Object
+        emailTemplate : Object,
+        clone : Boolean
     },
 
     components : {
@@ -28,6 +29,9 @@ export default {
         this.name = this.emailTemplate.Name || ""
         this.subject = this.emailTemplate.Subject || ""
         this.body = this.emailTemplate.Body || ""
+
+
+        
     },
 
     watch: {
