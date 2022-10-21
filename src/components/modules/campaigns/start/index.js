@@ -154,7 +154,9 @@ export default {
                 settings : {}
             }
 
-            if(this.settings.Started) s.settings.Started = f.date.toserverFormatDate(this.settings.Started)
+            if(this.settings.Started) {
+                s.Started = f.date.toserverFormatDate(this.settings.Started)
+            }
 
             var zr = moment.tz.zone(this.settings.TimeZone).parse(Date.UTC());
             var zl = moment.tz.zone(moment.tz.guess()).parse(Date.UTC());

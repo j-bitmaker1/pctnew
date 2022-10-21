@@ -1366,7 +1366,7 @@ f.date = {
             return date.getUTCFullYear() + '' + addZero(date.getUTCMonth() + 1) + '' + addZero(date.getUTCDate())
         }
 
-        return date.getUTCFullYear() + '' + addZero(date.getUTCMonth() + 1) + '' + addZero(date.getUTCDate()) + '' + date.getUTCHours() + '' + date.getUTCMinutes() + '' + date.getUTCSeconds()
+        return date.getUTCFullYear() + '' + addZero(date.getUTCMonth() + 1) + '' + addZero(date.getUTCDate()) + '' + addZero(date.getUTCHours()) + '' + addZero(date.getUTCMinutes()) + '' + addZero(date.getUTCSeconds())
 
     },
     fromstring: function (str, utc) {
