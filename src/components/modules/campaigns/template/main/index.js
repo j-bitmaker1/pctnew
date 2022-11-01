@@ -44,6 +44,8 @@ export default {
             this.prevsteps = JSON.stringify(this.campaignTemplate.content)
             this.steps = this.core.campaigns.campaignTemplates.clonelist(this.campaignTemplate.content)
             this.name = this.campaignTemplate.Name
+
+            console.log('this.steps', this.steps)
         },
         change : function(steps){
             this.steps = steps

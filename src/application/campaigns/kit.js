@@ -29,6 +29,8 @@ class Step {
             this[i] = v
         })
 
+        if(this.day && !this.time) this.time = 0
+
         /*if (this.successSteps || this.success) {
             this.successSteps = _.map(this.success, (d) => {
                 return new (this.CLASS || Step)(d)
@@ -176,7 +178,11 @@ class EditStep extends Step {
             if (data.template) importdata.template = Number(data.template)
             if (data.while) importdata.while = data.while
             if (data.time) importdata.time = data.time
-            if (data.day) importdata.day = data.day
+            if (data.day) {
+                importdata.day = data.day
+
+                if(!importdata.time) importdata.time = 0
+            }
 
             /*if (data.day){
                 importdata.time = importdata.time * 60
@@ -345,6 +351,8 @@ class Template {
     
                 if (cjs.version == 2 || cjs.version == 3) {
                     this.content = JSON.parse(f.hexDecode(cjs.c))
+
+                    console.log('this.content',  JSON.parse(f.hexDecode(cjs.c)))
                 }
     
             } catch (e) { 
