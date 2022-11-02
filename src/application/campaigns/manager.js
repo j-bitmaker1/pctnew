@@ -33,6 +33,11 @@ class CampaignsManager {
             statistic : 'PauseCampaigns'
         },
 
+        VERIFICATIONFAILED: {
+            icon : "fas fa-user-slash",
+            text : 'verificationfailed',
+            statistic : 'ErrorCampaigns'
+        },
         CANCELLED : {
             icon : "fas fa-stop",
             text : 'cancelled',

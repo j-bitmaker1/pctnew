@@ -82,7 +82,7 @@ class Step {
         }
 
         if (this.day > 7) {
-            return  (this.day - 7) + " day(s) later in "+ f.addZero(h) + ":" + f.addZero(m) +"";
+            return  (this.day - 7) + " day(s) later at "+ f.addZero(h) + ":" + f.addZero(m) +"";
         }
 
         var days = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday', 'Sunday']
