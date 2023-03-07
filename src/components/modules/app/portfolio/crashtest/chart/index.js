@@ -7,7 +7,8 @@ export default {
 		mode : {
             type : String,
             default : 'd'
-        }
+        },
+		mobileview : Boolean
 	},
 
 	data : function(){
@@ -79,6 +80,14 @@ export default {
 
 		scenarioClick : function(scenario){
 			this.$emit('scenarioClick', scenario)
+		},
+
+		scenarioClickDirect: function(scenario, key){
+			this.$emit('scenarioClickDirect', {scenario, key})
+		},
+
+		scenarioClickDirectOne: function(scenario){
+			this.$emit('scenarioClickDirectOne', scenario)
 		},
 
 		zoom : function(id){

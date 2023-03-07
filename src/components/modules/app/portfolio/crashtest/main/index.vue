@@ -6,13 +6,13 @@
     <template v-else>
 
 
-            <div class="chartWrapper mobp">
-                <chart :mode="mode" :info="info" :cts="cts" @scenarioClick="toScenario" />
-            </div>
+        <div class="chartWrapper mobp">
+            <chart :mobileview="mobileview" :mode="mode" :info="info" :cts="cts" @scenarioClick="toScenario" @scenarioClickDirect="toScenarioDirectMany" @scenarioClickDirectOne="toScenarioDirectOne"/>
+        </div>
 
-            <div class="detailsWrapper ">
-                <ctdetails :mode="mode" ref="ctdetails" :info="info" :cts="cts" :portfolios="portfolios" />
-            </div>
+        <div class="detailsWrapper" v-if="mobileview">
+            <ctdetails :mode="mode" ref="ctdetails" :info="info" :cts="cts" :portfolios="portfolios" />
+        </div>
 
 
     </template>

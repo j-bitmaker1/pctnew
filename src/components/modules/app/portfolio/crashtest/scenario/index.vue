@@ -1,10 +1,10 @@
 <template>
-<div class="portfolio_crashtest_scenario" :class="{showNames}">
+<div class="portfolio_crashtest_scenario" :class="{showNames}" @click="selectIfOne">
 	<div class="header">
 		<div class="name">
 			<span>{{scenario.name}}</span> <span class="custom" v-if="scenario.custom">Custom scenario</span>
 		</div>
-		<div class="more">
+		<div class="more" v-if="!showNames">
 			<i class="fas fa-angle-down"></i>
 		</div>
 	</div>

@@ -1,13 +1,13 @@
 <template>
 <transition name="fade">
-    <div id="modal" :class="(mclass || '') + ' ' + (data.notification ? 'hasnotification' : '')">
+    <div id="modal" :class="(mclass || '') + ' ' + (data.notification ? 'hasnotification_tttt' : '')">
         <div class="modal-backdrop" @click="close">
             <div class="closecsscross"></div>
         </div>
 
-        <div class="notificationWrapper" v-if="data.notification">
+        <!--<div class="notificationWrapper" v-if="data.notification">
             <notification :event="data.notification" :withoutInternal="true" />
-        </div>
+        </div>-->
 
         <div class="modal-wrapper">
             <swipable :directions="directions" @end="endswipe">

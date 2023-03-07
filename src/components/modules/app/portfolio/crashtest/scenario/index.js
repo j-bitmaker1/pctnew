@@ -32,7 +32,7 @@ export default {
 		currentStyles : state => state.currentStyles,
 		showNames : function(){
 			return _.toArray(this.portfolios || {}).length > 1
-		}
+		},
 	}),
 
 	methods : {
@@ -54,7 +54,25 @@ export default {
 		},
 
 		select : function(i){
-			this.$emit('select', i)
+
+			if(_.toArray(this.scenario.loss).length > 1) this.$emit('select', i)
+		},
+
+		selectIfOne: function(){
+
+			if(_.toArray(this.scenario.loss).length == 1){
+				var index = 0
+				
+				_.find(this.scenario.loss, (v, i) => {
+					index = i
+					return true
+				})
+
+				this.$emit('select', index)
+
+			}
+
+
 		},
 
 		showName : function(i){

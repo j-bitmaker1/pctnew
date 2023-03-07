@@ -1,124 +1,247 @@
 .portfolio_crashtest_chart
-	height: 550px
-	width: 100%
-	position: relative
-	scrollbar-width : none
-	&::-webkit-scrollbar
-		display: none
 
-	.wrapper
-		height: 100%
-		position: absolute
-		left: 55px
-		right: 0
-		top: 0
-		bottom: 0
+	&.standart
+		width: 100%
+		height:100%
+		background-size: 40px 40px
+		background-position: center center
+		background-image: linear-gradient(90deg, transparent 9%,  srgba(--neutral-grad-2, 0.1) 10%, srgba(--neutral-grad-2, 0.1) 12%, transparent 13%, transparent 29%,  srgba(--neutral-grad-2, 0.1) 30%, srgba(--neutral-grad-2, 0.1) 31%, transparent 32%, transparent 49%,  srgba(--neutral-grad-2, 0.5) 50%, srgba(--neutral-grad-2, 0.5) 51%, transparent 52%, transparent 69%,  srgba(--neutral-grad-2, 0.1) 70%, srgba(--neutral-grad-2, 0.1) 71%, transparent 72%, transparent 89%, srgba(--neutral-grad-2, 0.1) 90%, srgba(--neutral-grad-2, 0.1) 91%, transparent 92%, transparent)
 
-		.wrp
-			width: 100%
-			height: 100%
+		.wrapperAll
+			padding: 4 * $r
+			max-width: 650px
+			margin: 0 auto
 			position: relative
-
-	&.increased
-
-		.wrapper
-			overflow-x: scroll
-			overflow-y: hidden
-			.wrp
-				min-width: 768px
-
-	.scale
-		position: absolute
-		left: 0
-		width: 55px
-		top: 0
-		bottom: 100px
-		display: flex
-		flex-direction: column-reverse
-
-		.num
-			flex-basis: 30%
 			display: flex
-			align-items: center
+			flex-direction: column-reverse
 
-		div
-			color: srgb(--neutral-grad-2)
-			font-size: 0.8em
-			transform: translateY(-4px)
+		.background
+			display: none
 
-	.scenarios,
-	.background
-		position: absolute
-		left: 0
-		right: 0
-		top: 0
-		bottom: 100px
-
-	.background
-		background: repeating-linear-gradient(to top, srgb(--neutral-grad-2), srgb(--neutral-grad-2) 1px, srgb(--background-total-theme) 1px, srgb(--background-total-theme) 10%)
-
-	.scenarios
-		display: flex
-		align-items: center
-
-		.scenario
-			padding: 0 $r
-			flex-grow: 2
-			height: 100%
-			display: flex
-			align-items: center
-			position: relative
-			grid-gap: 2px
-
-			&.custom
-				.name
-					color: srgb(--color-txt-ac)
-
-			.name
-				position: absolute
-				left: 0
-				top: 100%
-				right: 0
-				line-height: 0.3em
+		.scale
+			display: table
+			table-layout: fixed
+			>div
+				display: table-cell
 				text-align: center
-				+transition(0.3s)
-				transform-origin: center bottom
-				padding : $r 0
-				border-radius: 12px
+				max-width: 0px
 
-				@media (pointer:fine)
+				::v-deep
+					span
+						font-size: 0.8em
+
+		.scenarios
+			display: flex
+			align-items: center
+			flex-direction: column-reverse
+
+			.scenario
+				padding: 0.5 * $r
+				flex-grow: 2
+				width: 100%
+				display: flex
+				align-items: center
+				position: relative
+				flex-direction: row-reverse
+				grid-gap: $r
+
+				&.negative
+					flex-direction: row
+					.barwrapper
+						flex-direction: row-reverse
+
+					.name
+						text-align: left
+	
+
+				&.custom
+					.name
+						color: srgb(--color-txt-ac)
+
+				.name
+					text-align: right
+					font-size: 0.8em
+					span
+						
+
+				.valueswrapper
+					display: flex
+					flex-direction: column
+					align-items: center
+					grid-gap: $r
+					.valuewrapper
+						background: srgb(--background-total-theme)
+						padding: 0.5 * $r
+						border-radius: 24px
+						border : 1px solid srgb(--color-txt-ac)
+						display: flex
+						justify-content: center
+						align-items: center
+						cursor: pointer
+						&:hover
+							opacity: 0.8
+						.value
+							font-size: 0.8em
+							::v-deep
+								span
+									
+
+				.barswrapper
+					flex-shrink: 0
+					width: 50%
+					max-width: 50%
+					height: 100%
+					display: flex
+					flex-direction: column
+					align-items: center
+					grid-gap: 0.25 * $r
+
+					
+
+				.barwrapper
+					width: 100%
+					display: flex
+					height: 45px
 					cursor: pointer
 
-				&.zoomed
-					z-index: 1
-					background: srgb(--background-total-theme)
-					+shadowSmaller()
-					transform: scale(2.5)
+					&:hover
+						opacity: 0.8
 
-				span
+				.bar
+					background: srgb(--neutral-grad-1)
+					border-radius: 9px
+					width: 100%
+					height: 100%
 
-					font-size: 0.3em
 
-			.barswrapper
+
+	&.mobileview
+
+		height: 550px
+		width: 100%
+		position: relative
+		scrollbar-width : none
+		&::-webkit-scrollbar
+			display: none
+
+		.wrapper
+			height: 100%
+			position: absolute
+			left: 55px
+			right: 0
+			top: 0
+			bottom: 0
+
+			.wrp
 				width: 100%
 				height: 100%
+				position: relative
+
+		&.increased
+
+			.wrapper
+				overflow-x: scroll
+				overflow-y: hidden
+				.wrp
+					min-width: 768px
+
+		.scale
+			position: absolute
+			left: 0
+			width: 55px
+			top: 0
+			bottom: 100px
+			display: flex
+			flex-direction: column-reverse
+
+			.num
+				flex-basis: 30%
 				display: flex
 				align-items: center
 
-				&.positive
-					align-items: flex-start
+			div
+				color: srgb(--neutral-grad-2)
+				font-size: 0.8em
+				transform: translateY(-4px)
 
-					.barwrapper
-						align-items: flex-end
-				&.negative
-					align-items: flex-end
+		.scenarios,
+		.background
+			position: absolute
+			left: 0
+			right: 0
+			top: 0
+			bottom: 100px
 
-			.barwrapper
-				height: 50%
-				width: 100%
+		.background
+			background-size: 40px 40px
+			background-position: center center
+			background-image: linear-gradient(0deg, transparent 9%, srgba(--neutral-grad-2, 0.1) 10%, srgba(--neutral-grad-2, 0.1) 12%, transparent 13%, transparent 29%, srgba(--neutral-grad-2, 0.1) 30%, srgba(--neutral-grad-2, 0.1) 31%, transparent 32%, transparent 49%, srgba(--neutral-grad-2, 0.5) 50%, srgba(--neutral-grad-2, 0.5) 51%, transparent 52%, transparent 69%,srgba(--neutral-grad-2, 0.1) 70%, srgba(--neutral-grad-2, 0.1) 71%, transparent 72%, transparent 89%, srgba(--neutral-grad-2, 0.1) 90%, srgba(--neutral-grad-2, 0.1) 91%, transparent 92%, transparent)
+
+		.scenarios
+			display: flex
+			align-items: center
+
+			.scenario
+				padding: 0 $r
+				flex-grow: 2
+				height: 100%
 				display: flex
+				align-items: center
+				position: relative
+				grid-gap: 2px
 
-			.bar
-				background: srgb(--neutral-grad-1)
-				border-radius: 9px
-				width: 100%
+				&.custom
+					.name
+						color: srgb(--color-txt-ac)
+
+				.valueswrapper
+					display: none
+
+				.name
+					position: absolute
+					left: 0
+					top: 100%
+					right: 0
+					line-height: 0.3em
+					text-align: center
+					+transition(0.3s)
+					transform-origin: center bottom
+					padding : $r 0
+					border-radius: 12px
+
+					@media (pointer:fine)
+						cursor: pointer
+
+					&.zoomed
+						z-index: 1
+						background: srgb(--background-total-theme)
+						+shadowSmaller()
+						transform: scale(2.5)
+
+					span
+
+						font-size: 0.3em
+
+				.barswrapper
+					width: 100%
+					height: 100%
+					display: flex
+					align-items: center
+					grid-gap: 0.25 * $r
+					&.positive
+						align-items: flex-start
+
+						.barwrapper
+							align-items: flex-end
+					&.negative
+						align-items: flex-end
+
+				.barwrapper
+					height: 50%
+					width: 100%
+					display: flex
+
+				.bar
+					background: srgb(--neutral-grad-1)
+					border-radius: 9px
+					width: 100%
