@@ -37,6 +37,7 @@ export default {
         auth : state => state.auth,
 
         mobileview : function(){
+            return false
             return this.dwidth <= 768
         },
 
