@@ -1,7 +1,7 @@
 <template>
 <div id="campaigns_alltemplates">
 	<div class="linenavigation">
-		<linenavigation :buttons="true" :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
+		<linenavigation :buttons="true" :second="true" :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
 	</div>
 	<div class="cwrapper">
 		<component :is="module"/>

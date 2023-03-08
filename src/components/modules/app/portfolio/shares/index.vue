@@ -2,7 +2,7 @@
 <div class="portfolios_shares ">
 
 	<div class="navwrapper">
-		<linenavigation :items="navigation" :navdefault="navdefault" :buttons="true" :navkey="navkey" />
+		<linenavigation :items="navigation" :navdefault="navdefault" :buttons="true" :second="true" :navkey="navkey" />
 	</div>
 
 	<linepreloader v-if="loading" />

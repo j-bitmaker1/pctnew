@@ -55,7 +55,7 @@
 	-webkit-mask-image: linear-gradient(to left, transparent 3%, black 10%)
 	mask-image: linear-gradient(to left, transparent 3%, black 10%)
 
-@media only screen and (min-width: 1024px)
+@media only screen and (min-width: 768px)
 	.linenavigation
 		background: srgb(--background-total-theme)
 

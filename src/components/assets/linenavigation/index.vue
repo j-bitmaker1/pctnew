@@ -1,5 +1,5 @@
 <template>
-<div id="linenavigation" class="mobp" :class="{buttons : true}">
+<div id="linenavigation" class="mobp" :class="{buttons : true, second}">
     <div class="wrapper">
         <div class="item" :class="{active : active == item.id}" :key="item.id" v-for="item in items">
 
@@ -17,6 +17,7 @@
 #linenavigation
     padding-bottom: $r
     .wrapper
+        justify-content: center
         display: flex
         align-items: center
         grid-gap: $r
@@ -66,6 +67,20 @@
                 i
                     color : srgb(--text-on-bg-shadow-color)
                 
+    &.second
+        font-size: 0.8em
+        position: relative
+        &::after
+            position: absolute
+            left : 50%
+            margin-left: -2px
+            top : -$r
+            content: ''
+            width: 4px
+            height: 4px
+            border-radius: 4px
+            background: srgba(--color-bg-ac-bright, 0.5)
+
 @media (pointer:fine)
     .item
         +transition(0.3s)
@@ -87,6 +102,7 @@ export default {
         items: Array,
         navdefault : String,
         buttons : Boolean,
+        second : Boolean,
         navkey : String,
         mode : {
             type : String,

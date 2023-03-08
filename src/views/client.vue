@@ -62,7 +62,7 @@
 		font-size: 0.8em
 		margin-right: 2 * $r
 
-@media only screen and (min-width: 1024px)
+@media only screen and (min-width: 768px)
 	.linenavigation
 		background: srgb(--background-total-theme)
 

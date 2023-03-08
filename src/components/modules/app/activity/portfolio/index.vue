@@ -49,6 +49,11 @@
 	.namewrapper
 		flex-grow: 2
 		padding-left: $r
+		white-space: nowrap
+		overflow: hidden
+		text-overflow: ellipsis
+		-webkit-mask-image: linear-gradient(to left, transparent 3%, black 10%)
+		mask-image: linear-gradient(to left, transparent 3%, black 10%)
 
 	.assets
 		margin-left: auto
