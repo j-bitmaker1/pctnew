@@ -25,7 +25,7 @@ export default {
 					icon : 'fas fa-th'
 				}
 			],
-			navkey : 's',
+			navkey : 'm',
 			navdefault : 'factoranalysis',
 
 			assets : [],

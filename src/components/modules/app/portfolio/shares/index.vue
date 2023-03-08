@@ -1,7 +1,7 @@
 <template>
 <div class="portfolios_shares ">
 
-	<div class="navwrapper mobp">
+	<div class="navwrapper">
 		<linenavigation :items="navigation" :navdefault="navdefault" :buttons="true" :navkey="navkey" />
 	</div>
 

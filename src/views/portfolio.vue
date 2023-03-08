@@ -3,7 +3,7 @@
 
 	<topheader back="back" :gray="true">
 		<template v-slot:info>
-
+			
 			<div class="captionsl">
 				<div class="clientinfo" v-if="profile">
 					<router-link :to="'/client/' + profile.ID">
@@ -52,6 +52,8 @@
 	align-items: center
 	grid-gap: $r
 	white-space: nowrap
+	-webkit-mask-image: linear-gradient(to left, transparent 3%, black 10%)
+	mask-image: linear-gradient(to left, transparent 3%, black 10%)
 
 @media only screen and (min-width: 1024px)
 	.linenavigation
@@ -115,15 +117,18 @@ export default {
 			navigation : [
 				{
 					text : 'labels.crashtest',
-					id : 'crashtest'
+					id : 'crashtest',
+					icon : 'fas fa-chart-bar'
 				},
 				{
 					text : 'labels.shares',
-					id : 'shares'
+					id : 'shares',
+					icon : 'fas fa-list'
 				},
 				{
 					text : 'labels.more',
-					id : 'analysis'
+					id : 'analysis',
+					icon : 'fas fa-caret-down'
 				}
 			],
 

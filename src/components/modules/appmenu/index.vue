@@ -16,16 +16,19 @@
 
     <div class="footer">
 
-        <div class="help">
+        <!--<div class="help">
             <router-link to="/faq">
             <i class="far fa-question-circle"></i> <span>{{$t('caption.helpfooter')}}</span>
             </router-link>
-        </div>
+        </div>-->
 
         <div class="themeToggleWrapper">
             <themeToggle />
         </div>
 
+        <div class="exploreWrapper" @click="explore">
+            <i class="fas fa-search"></i>
+        </div>
         
     </div>
 

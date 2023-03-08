@@ -48,6 +48,7 @@
 	
 	.namewrapper
 		flex-grow: 2
+		padding-left: $r
 
 	.assets
 		margin-left: auto

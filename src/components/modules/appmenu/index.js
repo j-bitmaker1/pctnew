@@ -80,11 +80,21 @@ export default {
 					mobile : false
 				},
 
+				
+
 				{
 					route : '/profile',
 					id : 'profile',
 					text : 'menu.profile',
 					icon : "fas fa-user",
+					mobile : false
+				},
+
+				{
+					route : '/faq',
+					id : 'faq',
+					text : 'caption.helpfooter',
+					icon : "far fa-question-circle",
 					mobile : false
 				}
 			]
@@ -135,6 +145,9 @@ export default {
 	}),
 
 	methods : {
+		explore : function(){
+			this.core.vueapi.explore()
+		},
 		notifications : function(id){
 			var c = this.$store.state.updates[id] || 0
 

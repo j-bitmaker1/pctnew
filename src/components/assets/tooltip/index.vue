@@ -40,6 +40,7 @@
 </template>
 
 <style scoped lang="sass">
+    
 .content
     ::v-deep
         .simplelist
@@ -70,7 +71,7 @@ export default {
                 autoHide: true,
                 placement: 'left',
                 trigger : 'click',
-                hideOnTargetClick : true
+                /*hideOnTargetClick : true*/
             }
         }
     },

@@ -1,5 +1,5 @@
 <template>
-<div id="linenavigation" class="mobp" :class="{buttons}">
+<div id="linenavigation" class="mobp" :class="{buttons : true}">
     <div class="wrapper">
         <div class="item" :class="{active : active == item.id}" :key="item.id" v-for="item in items">
 
@@ -16,16 +16,12 @@
 
 #linenavigation
     padding-bottom: $r
-
     .wrapper
         display: flex
         align-items: center
-        justify-content: space-around
         grid-gap: $r
 
     .item
-        flex-grow: 2
-        flex-basis: 300px
         height: 55px
         line-height: 55px
         white-space: nowrap
@@ -48,7 +44,6 @@
     &.buttons
         
         .wrapper
-            border : 1px solid srgb(--neutral-grad-1)
             border-radius: 24px
             grid-gap: 0
 
