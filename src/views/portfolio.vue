@@ -112,6 +112,15 @@ export default {
 		}
 	},
 
+	watch : {
+		id : {
+			handler : function(){
+				this.load()
+			},
+			immediate : true
+		}
+	},
+
 	data : function(){
 		return {
 			navigation : [
@@ -158,7 +167,6 @@ export default {
 				
 
 				return this.core.api.crm.contacts.gets({Ids : [r.crmContactId]}).then(c => {
-			
 					this.profile = c[0]
 				})
 
@@ -182,7 +190,7 @@ export default {
 	},
 
 	created() {
-		this.load()
+		//this.load()
 	}
 }
 </script>

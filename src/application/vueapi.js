@@ -594,7 +594,6 @@ class Vueapi {
 
     fx = function({place, name, parameters = {}}){
 
-
         var dp = {}
 
         if (name == 'stars') 
@@ -663,7 +662,21 @@ class Vueapi {
             })
         })
 
-        
+    }
+
+    portfolioSummary = function(data, events){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_summary',
+            module : "portfolio_summary",
+            caption : "",
+            mclass : 'allscreen',
+            data : data,
+            events : events,
+            canpip : true,
+            one : true,
+            save : true
+        })
 
     }
 
@@ -753,8 +766,6 @@ class Vueapi {
                 }
             })
         })
-
-       
     }
 
     addMenu = function(){

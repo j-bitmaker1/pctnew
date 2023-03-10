@@ -15,7 +15,7 @@ export default {
 
 		return {
 			loading : false,
-			intervals : 3,
+			intervals : 2,
 			zoomed : null
 		}
 
@@ -88,6 +88,10 @@ export default {
 
 		scenarioClickDirectOne: function(scenario){
 			this.$emit('scenarioClickDirectOne', scenario)
+		},
+
+		scenarioMouseOverDirectOne: function(scenario){
+			this.$emit('scenarioMouseOverDirectOne', scenario)
 		},
 
 		zoom : function(id){

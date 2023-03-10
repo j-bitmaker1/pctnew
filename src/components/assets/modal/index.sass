@@ -143,6 +143,21 @@
             background: transparent
             color: srgba(--text-on-bg-shadow-color, 0.7)
 
+    &.allscreen
+        .modal
+            border-radius: 12px
+        .modal-wrapper
+            top : $r
+            left: $r
+            right: $r
+            bottom: $r
+            margin-left: 0
+            max-width: none
+        .modal-header
+            position: absolute
+            left: auto
+            background: transparent
+
     &.cover
         .modal-close
             margin-right: $r
@@ -213,7 +228,7 @@
     top: 0
     bottom: 0
     overscroll-behavior: contain
-
+.modal-pip,
 .modal-close
     margin-left: auto
     padding: 2 * $r
@@ -225,6 +240,8 @@
 
     &:hover
         color: srgb(--text-color)
+.modal-pip
+    padding-right: 0
 
 .modal-header,
 .modal-footer
@@ -277,6 +294,111 @@
     color: white
     background: srgb(--color-bg-ac)
     border: 1px solid srgb(--color-bg-ac)
+
+
+#modal.pip
+    bottom : 2 * $r
+    top : auto
+    left : auto
+    right: 2 * $r
+    width: 146px
+    height: 200px
+    border-radius: 12px
+    +transition(0.3s)
+    +shadowSmaller()
+    overflow: hidden
+
+    .modal-wrapper
+        box-shadow: none
+        left : 0
+        top : 0
+        bottom : 0
+        right : 0
+
+
+    .modal-backdrop
+        display: none
+    .modal-header
+        position: static
+
+    .modal-pip
+        position: absolute
+        left : 0
+        top : 0
+        bottom : 0
+        right: 0
+        display: flex
+        align-items: center
+        justify-content: center
+        margin : 0
+        width : auto
+        z-index: 3
+        padding : 0
+        +transition(0.3s)
+
+        i
+            display: none
+
+        &:hover
+            background: srgba(--color-shadow-base, 0.05)
+
+    .modal-close
+        display: none
+
+
+    .mobp
+        padding: 0!important
+
+    #portfolio_summary
+        .headerWrapper
+            display: none
+        .bodyWrapper
+            top : 0
+            .part
+                overflow: hidden
+            .center
+                left : 0
+                right : 0
+                width: 100%
+
+                .chartWrapper
+                    position: absolute
+                    left: 0
+                    top : 0
+                    bottom : 0
+                    right : 0
+
+                .ct
+                    .header
+                        display: none
+
+                .summary
+                    display: none
+
+                .portfolio_crashtest_chart
+                    font-size: 0.2em
+                    justify-content: center
+                    align-items: center
+                    display: flex
+
+                    .wrapperAll
+                        min-width: 100%
+
+                    .scale
+                        display: none
+
+                    .valueswrapper
+                        display: none
+
+                    .name
+                        display: none
+
+
+            .right
+                display: none
+            .left
+                display: none
+            
 
 @media only screen and (max-width: 768px)
 

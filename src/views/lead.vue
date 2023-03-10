@@ -106,6 +106,15 @@ export default {
 
 	},
 
+	watch : {
+		id : {
+			handler : function(){
+				this.load()
+			},
+			immediate : true
+		}
+	},
+
 	data: function () {
 		return {
 			profile: {},
@@ -176,7 +185,7 @@ export default {
 	},
 
 	mounted() {
-		this.load()
+		
 	}
 }
 </script>

@@ -225,6 +225,19 @@ var storeFactory = function (vxstorage) {
 			state.crmschemas = v;
 		},
 
+		initmodals(state){
+			try{
+				var modals = JSON.parse(localStorage['savedModals'] || '[]')
+
+				_.each(modals, (modal) => {
+					this.commit('OPEN_MODAL', modal)
+				})
+			}
+			catch(e){
+
+			}
+		},
+
 		init(state) {
 			mex.theme(state, localStorage.getItem('theme') || 'white')
 
@@ -232,6 +245,7 @@ var storeFactory = function (vxstorage) {
 
 			state.theight = state.dheight = window.innerHeight
 			state.twidth = state.dwidth = window.innerWidth
+
 
 		},
 
@@ -273,19 +287,64 @@ var storeFactory = function (vxstorage) {
 			state.camera = null
 		},
 
+		PIP_MODAL(state, {id, value}){
+			var index = -1 
+			var modal = _.find(state.modals, (m, i) => {
+				if(m.id == id){
+					index = i
+					return true
+				}
+			})
+
+			if (modal){
+				modal.pip = value
+				Vue.set(state.modals, index, modal)
+			}
+
+			this.commit('OVF_HA')
+		},
+
+		OVF_HA(state){
+
+			var mdls = _.filter(state.modals, (modal) => {
+				return !modal.pip
+			})
+
+			var h = document.getElementById('html');
+
+			if (mdls.length) {
+				h.style.overflow = 'hidden'
+			}
+			else{
+				h.style.overflow = null
+			}
+
+			var saved = _.filter(state.modals, (m) => {
+				return m.save
+			})
+
+			console.log('saved', saved, state.modals)
+
+			localStorage['savedModals'] = JSON.stringify(saved)
+		},
+
 		OPEN_MODAL(state, modal) {
 
-			if(modal.one && _.find(state.modals, (m) => {
-				return m.id == modal.id
-			})) return
+			console.log("STATE", this)
+
+			if(modal.one){
+				var last = _.find(state.modals, (m) => {
+					return m.id == modal.id
+				})
+
+				if(last){
+					this.commit('CLOSE_MODAL', modal.id)
+				}
+			}
 
 			state.modals.push(modal);
 
-			if (state.modals.length) {
-				var h = document.getElementById('html');
-
-				h.style.overflow = 'hidden'
-			}
+			this.commit('OVF_HA')
 		},
 
 		CLOSE_MODAL(state, id) {
@@ -293,12 +352,7 @@ var storeFactory = function (vxstorage) {
 				return m.id != id
 			})
 
-
-			if (!state.modals.length) {
-				var h = document.getElementById('html');
-
-				h.style.overflow = null
-			}
+			this.commit('OVF_HA')
 		},
 
 		/// temp

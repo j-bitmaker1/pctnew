@@ -27,15 +27,16 @@
 	--neutral-grad-3: 85,87,112;
 	--neutral-grad-4: 64,65,82;
 
+
 	--text-color: 10, 12, 23;
 	--text-on-main-bg-color: 85,87,112;
 	--text-on-bg-ac-color: 255, 255, 255;
-	--color-bg-ac-bright: 47, 128, 237;
-	--color-bg-ac: 47, 128, 237;
+	--color-bg-ac-bright: 0, 87, 255;
+	--color-bg-ac: 0, 87, 255;
 	--color-bg-ac-1: 0,142,191;
 	--color-bg-ac-2: 250,110,132;
 	--color-bg-selection: 179, 212, 252;
-	--color-txt-ac: 47, 128, 237;
+	--color-txt-ac: 0, 87, 255;
 	--color-txt-ac-1: 0,142,191;
 	--color-txt-ac-2: 250,110,132;
 	--color-txt-gray: 70, 71, 98;
@@ -160,17 +161,17 @@ html {
 	}
 
 	&::-webkit-scrollbar-track {
-			background:rgba(var(--background-main-contrast), .05);
+		background:rgba(var(--background-main-contrast), .05);
 	}
 
 	&::-webkit-scrollbar-thumb {
-			background-color: rgba(var(--background-main-contrast), .25);
-			border: 0 solid rgba(var(--background-main-contrast), 0.05);
-			background-image: linear-gradient(
-				180deg,
-				rgba(var(--background-main-contrast), .25) 0%,
-				rgba(var(--background-hidden-layer), 0) 90%
-			);
+		background-color: rgba(var(--background-main-contrast), .15);
+		border: 0 solid rgba(var(--background-main-contrast), 0.05);
+		background-image: linear-gradient(
+			180deg,
+			rgba(var(--background-main-contrast), .15) 0%,
+			rgba(var(--background-hidden-layer), 0) 90%
+		);
 	}
 
 }

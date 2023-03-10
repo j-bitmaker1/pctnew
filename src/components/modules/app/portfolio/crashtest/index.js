@@ -113,6 +113,11 @@ export default {
 
 				this.ct = this.cts.cts[this.portfolio.id]
 
+				this.$emit('loaded', {
+					ct : this.ct, 
+					cts : this.cts
+				})
+
 				return Promise.resolve(r)
 
 			}).catch(e => {
@@ -132,6 +137,10 @@ export default {
 
 		scoreConverterChanged : function(){
 			//this.get()
+		},
+
+		scenarioMouseOver : function(e){
+			this.$emit('scenarioMouseOver', e)
 		}
 	},
 }

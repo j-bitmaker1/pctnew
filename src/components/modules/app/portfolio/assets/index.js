@@ -48,7 +48,7 @@ export default {
 
 				events : {
 					edit : () => {
-						
+						this.$emit('editportfolio')
 					}
 				}
 			})

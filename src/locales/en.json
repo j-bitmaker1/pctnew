@@ -116,6 +116,7 @@
 		"portfolioswithclientyes" : "Yes",
 		"portfoliopdf" : "Create PDF report",
 		"makeasreadnotifications" : "Make as read",
+		"summary" : "Summary",
 		"notifications" : {
 			"show" : {
 				"onlyunread" : "Show all",

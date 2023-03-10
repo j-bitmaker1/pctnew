@@ -35,7 +35,7 @@ export default {
 	},
 	computed: mapState({
 		auth: state => state.auth,
-
+		mobileview : state => state.mobileview,
 		menu : function(){
 
 			var menu = [
@@ -60,6 +60,10 @@ export default {
 
             		features : ['PCT']
 				},
+
+				
+
+				
 				{
 					text : 'labels.moveportfoliotofolder',
 					icon : 'fas fa-folder',
@@ -71,6 +75,15 @@ export default {
 					action : 'delete'
 				}
 			]
+
+			if(!this.mobileview){
+				menu.unshift({
+					text : 'labels.summary',
+					icon : 'far fa-compass',
+					action : 'portfolioSummary',
+            		features : ['PCT']
+				},)
+			}
 
 			if(!this.portfolio.crmContactId){
 
@@ -135,6 +148,12 @@ export default {
 			if (this[action]){
 				this[action]()
 			}   
+		},
+
+		portfolioSummary: function(){
+
+			this.core.vueapi.portfolioSummary({portfolioId : this.portfolio.id}, {})
+
 		},
 
 		edit : function(){

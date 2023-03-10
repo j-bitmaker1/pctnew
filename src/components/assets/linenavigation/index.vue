@@ -23,8 +23,8 @@
         grid-gap: $r
 
     .item
-        height: 55px
-        line-height: 55px
+        height: 7 * $r
+        line-height: 7 * $r
         white-space: nowrap
         text-align: center
         border-bottom: 2px solid srgb(--neutral-grad-1)
@@ -49,8 +49,8 @@
             grid-gap: 0
 
         .item
-            height: 44px
-            line-height: 44px
+            height: 6 * $r
+            line-height: 6 * $r
             padding : 0 2 * $r
             border : 0
 
@@ -70,16 +70,7 @@
     &.second
         font-size: 0.8em
         position: relative
-        &::after
-            position: absolute
-            left : 50%
-            margin-left: -2px
-            top : -$r
-            content: ''
-            width: 4px
-            height: 4px
-            border-radius: 4px
-            background: srgba(--color-bg-ac-bright, 0.5)
+        
 
 @media (pointer:fine)
     .item

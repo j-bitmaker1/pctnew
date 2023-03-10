@@ -60,7 +60,7 @@ export default {
 					text : 'menu.portfolios',
 					icon : "fas fa-suitcase",
 
-					childrens : ['/portfolio', '/compare']
+					childrens : ['/portfolio']
 				},
 
 				{

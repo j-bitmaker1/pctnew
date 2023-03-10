@@ -1,6 +1,6 @@
 <template>
 <transition name="fade">
-    <div id="modal" :class="(mclass || '') + ' ' + (data.notification ? 'hasnotification_tttt' : '')">
+    <div id="modal" :class="(mclass || '') + ' ' + (data.notification ? 'hasnotification_tttt' : '') + ' ' + (pip ? 'pip' : '')">
         <div class="modal-backdrop" @click="close">
             <div class="closecsscross"></div>
         </div>
@@ -20,6 +20,10 @@
                             <div class="headerWrapper">
                                 <slot name="header">
                                 </slot>
+                            </div>
+
+                            <div class="modal-pip" v-if="canpip" @click="e => {changepip(!pip)}">
+                                <i class="fas fa-compress"></i>
                             </div>
 
                             <div class="modal-close" @click="close">

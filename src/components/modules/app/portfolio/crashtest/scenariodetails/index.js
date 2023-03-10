@@ -52,12 +52,12 @@ export default {
 		auth: state => state.auth,
 		positives: function () {
 			return _.filter(this.contributors, (c) => {
-				return c.value > 0
+				return c.value > 0 + 0.001
 			}).length
 		},
 		negatives: function () {
 			return _.filter(this.contributors, (c) => {
-				return c.value < 0
+				return c.value < 0 - 0.001
 			}).length
 		},
 

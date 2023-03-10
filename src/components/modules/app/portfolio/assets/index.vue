@@ -17,6 +17,16 @@
 	<div class="assetsWrapper">
 		<assets :assets="assets" :mode="portfolio.isModel ? 'p100' : 'd'"/>
 	</div>
+
+	<div class="total mobp">
+		<div class="forcaption">
+			<span>Total</span>
+		</div>
+
+		<div class="forvalue">
+            <value :value="portfolio.total() + portfolio.uncovered()" :mode="portfolio.isModel ? 'p100' : 'd'" />
+		</div>
+	</div>
 </div>
 </template>
 

@@ -384,8 +384,32 @@ export default {
 
         core
             .initWithUser()
-            .then((r) => {})
+            .then((r) => {
+                
+            })
             .catch((g) => {});
+
+        core.user.state.is().then(state => {
+            if(state == 1) this.$store.commit("initmodals");
+        })
+
+        /*
+        f.pretry(() => {
+
+				return core.user && core.user.inited
+	
+			}).then(() => {
+
+				if(core.user.state){
+					
+				}
+
+				
+
+			})
+        
+        
+        */
 
         core.api.prepare()
         core.cordovakit.prepare()

@@ -22,11 +22,10 @@
 
 				<div class="scenarios">
 
-					<div class="scenario" @click="e => scenarioClickDirectOne(scenario)" :class="{custom : scenario.custom, negative : _.toArray(scenario.loss)[0] < 0}" v-for="scenario in cts.scenarios" :key="scenario.id" >
+					<div class="scenario" @mouseover="e => scenarioMouseOverDirectOne(scenario)" @click="e => scenarioClickDirectOne(scenario)" :class="{custom : scenario.custom, negative : _.toArray(scenario.loss)[0] < 0}" v-for="scenario in cts.scenarios" :key="scenario.id" >
 						<div class="barswrapper"  @click="e => scenarioClick(scenario)">
 							<div class="barwrapper" @click="e => scenarioClickDirect(scenario, i)" :class="{positive : loss > 0, negative : loss < 0}" :key="i" v-for="(loss, i) in scenario.loss">
 								<div class="bar" :style="{[mobileview ? 'height' : 'width'] : height(scenario, loss) + '%', background : color(scenario, loss) }"></div>
-								
 							</div>
 							
 						</div>

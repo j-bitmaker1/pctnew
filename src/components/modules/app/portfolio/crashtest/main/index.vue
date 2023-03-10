@@ -7,7 +7,7 @@
 
 
         <div class="chartWrapper mobp">
-            <chart :mobileview="mobileview" :mode="mode" :info="info" :cts="cts" @scenarioClick="toScenario" @scenarioClickDirect="toScenarioDirectMany" @scenarioClickDirectOne="toScenarioDirectOne"/>
+            <chart :mobileview="mobileview" :mode="mode" :info="info" :cts="cts" @scenarioClick="toScenario" @scenarioClickDirect="toScenarioDirectMany" @scenarioClickDirectOne="toScenarioDirectOne" @scenarioMouseOverDirectOne="scenarioMouseOverDirectOne"/>
         </div>
 
         <div class="detailsWrapper" v-if="mobileview">

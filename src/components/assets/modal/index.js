@@ -22,17 +22,19 @@ export default {
             default : () => {return {}}
         },
         mclass : String,
-        fromtop : Boolean
+        fromtop : Boolean,
+        canpip : Boolean,
+        modalid : String
     },
 
     data : function(){
         
-
         return {
             loading : false,
             scroll : 0,
             blockclose : null,
             blockTouch : false,
+            //pip : false
         }
 
     },
@@ -60,6 +62,7 @@ export default {
         client_page : () => import("@/views/client.vue"),
         lead_page : () => import("@/views/lead.vue"),
         portfolios_main : () => import("@/components/modules/app/portfolios/main/index.vue"),
+        portfolio_summary : () => import("@/components/modules/app/portfolio/summary/index.vue"),
         //clients : () => import("@/components/modules/app/clients/index.vue"),
         contacts : () => import("@/components/modules/app/contacts/index.vue"),
         filesystem_edit : () => import("@/components/common/filesystem/edit/index.vue"),
@@ -98,7 +101,16 @@ export default {
     computed: mapState({
         auth : state => state.auth,
 
+        pip : function(state){
 
+            var mdl = _.find(state.modals, (modal) => {
+                return modal.id == this.modalid
+            })
+
+            if(mdl) return mdl.pip || false
+
+            return false
+        },
         directionsNotification : function(){
             return {
                 top : {
@@ -132,6 +144,13 @@ export default {
 
             this.close()
         },
+
+        changepip : function(p){
+            console.log('this.modalid', this.modalid)
+            this.$store.commit('PIP_MODAL', {id : this.modalid, value : p ? true : false})
+
+        },
+
         close : function(){
 
             if(!this.blockclose){

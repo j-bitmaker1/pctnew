@@ -69,11 +69,30 @@ export default {
             }
 		},
 
+        scenarioMouseOverDirectOne : function(scenario){
+            if(!this.many){
+
+                if(scenario.id < 0) return
+
+                var key = _.toArray(this.portfolios)[0].id
+
+                var ct = this.cts.cts[key]
+
+                var _scenario = {
+                    id : scenario.id,
+                    name : scenario.name,
+                    loss : scenario.loss[key] * this.cts.total
+                }
+
+                this.$emit('scenarioMouseOver', {
+                    ct : ct,
+                    scenario : _scenario
+                })
+            }
+        },
+
         toScenarioDirectOne : function(scenario){
             if (!this.mobileview && !this.many){
-
-                
-
                 this.toScenarioDirect({scenario, key : _.toArray(this.portfolios)[0].id})
             }
         },

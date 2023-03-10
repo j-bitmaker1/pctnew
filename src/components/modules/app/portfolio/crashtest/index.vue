@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <ctmain :cts="cts" :mode="portfolio.isModel ? 'p100' : 'd'" :portfolios="{[portfolio.id] : portfolio}" />
+        <ctmain @scenarioMouseOver="scenarioMouseOver" :cts="cts" :mode="portfolio.isModel ? 'p100' : 'd'" :portfolios="{[portfolio.id] : portfolio}" />
 
     </div>
 </div>

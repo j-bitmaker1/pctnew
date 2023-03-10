@@ -1,0 +1,166 @@
+#portfolio_summary
+    position: absolute
+    left : 0
+    top : 0
+    right : 0
+    bottom: 0
+
+    .loading
+        position: absolute
+        left : 0
+        top : 0
+        right : 0
+        bottom: 0
+        display: flex
+        align-items: center
+        justify-content: center
+
+    .headerWrapper
+        position: absolute
+        left : 0
+        top : 0
+        right : 0
+        height: 55px
+        align-items: center
+        display: flex
+        background: srgba(--background-main-contrast, .05)
+
+        .captionsl
+            margin-left: $r
+            display: flex
+            flex-wrap: nowrap
+            align-content: space-between
+            align-items: center
+            grid-gap: $r
+            white-space: nowrap
+
+            span
+                font-size: 0.9em
+
+        .portfolioMenu
+            ::v-deep
+                i
+                    font-size: 0.8em
+
+        .potfoliosHistory
+            margin-left: $r
+            padding : $r
+            cursor: pointer
+            display: flex
+            align-items: center
+
+            i
+                font-size: 0.8em
+
+    .bodyWrapper
+        position: absolute
+        left : 0
+        bottom : 0
+        right : 0
+        top: 55px
+
+    .part
+        overflow: hidden
+        overflow-y: scroll
+        height: 100%
+
+    .left
+        position: absolute
+        left : 0
+        top : 0
+        width: 30%
+        bottom: 0
+
+    .center
+        position: absolute
+        left : 30%
+        top : 0
+        width: 40%
+        bottom: 0
+
+    .right
+        position: absolute
+        left : 70%
+        top : 0
+        width: 30%
+        bottom: 0
+
+.scenario
+    .header
+        display: flex
+        align-items: center
+        position: sticky
+        height: 56px
+        top: 0
+        left: 0
+        right: 0
+        z-index: 2
+        background: srgb(--background-total-theme)
+
+        span
+            font-weight: 700
+
+.emptyScenario
+    position: absolute
+    left : 0
+    top : 0
+    bottom : 0
+    right: 0
+    display: flex
+    align-items: center
+    justify-content: center
+
+    .textWrapper
+        border-radius: 12px
+        background: srgb(--neutral-grad-0)
+        padding : 2 * $r
+        max-width: 70%
+        text-align: center
+        span
+            font-size: 0.9em
+
+::v-deep
+
+    #portfolio_assets
+        padding-top : 0
+
+        .assetsWrapper
+            border-top : 7px solid srgba(--background-main-contrast, .05)
+
+    #portfolios_crashtest
+        .ct
+            
+
+            .subheader
+                display: none
+
+            .header
+                position: sticky
+                height: 56px
+                top : 0
+                left : 0
+                right: 0
+                z-index: 2
+                background: srgb(--background-total-theme)
+
+            #crashtest_main
+              
+                bottom : 0
+                left : 0
+                right: 0
+
+                .chartWrapper
+                    margin-top: 0
+                    padding-left: 0
+                    padding-right: 0
+
+    #portfolio_crashtest_scenariodetails
+
+        .losswrapper
+            border-bottom : 7px solid srgba(--background-main-contrast, .05)
+        
+        .infoWrapper
+            display: none
+
+        .factors
+            display: none

@@ -94,5 +94,9 @@ export default {
 			})
 		},
 
+		editportfolio : function(){
+			this.$emit('editportfolio')
+		}
+
 	},
 }
