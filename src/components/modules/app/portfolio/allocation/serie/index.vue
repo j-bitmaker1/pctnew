@@ -10,7 +10,7 @@
 	</div>
 
 	<div class="value">
-		<value :value="y" :mode="mode"/>
+		<portfoliovalue :portfolio="portfolio" :value="y"/>
 	</div>
 </div>
 </template>
@@ -47,7 +47,7 @@ export default {
 		name: String,
 		y : Number,
 		color : String,
-
+		portfolio : Object,
 		mode : {
 			type : String,
 			default : 'd'

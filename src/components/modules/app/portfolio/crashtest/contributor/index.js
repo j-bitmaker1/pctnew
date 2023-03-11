@@ -8,7 +8,8 @@ export default {
 		mode : {
             type : String,
             default : 'd'
-        }
+        },
+		portfolio : Object
 	},
 
 	data : function(){

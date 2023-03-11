@@ -47,6 +47,9 @@
 	display: flex
 	align-items: center
 
+	.themeToggleWrapper
+		margin-left: 0.5 * $r
+
 	.exploreWrapper
 		margin-left: 2 * $r
 		cursor: pointer
@@ -57,6 +60,10 @@
 		i,
 		span
 			font-size: 0.7em
+
+	::v-deep
+		.label
+			display: none
 
 .tempexit
 	margin-top : 2 * $r

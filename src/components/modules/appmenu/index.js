@@ -1,5 +1,7 @@
 import { mapState } from 'vuex';
 import themeToggle from "@/components/assets/themetoggle/index.vue";
+import dollarsToggle from "@/components/assets/dollarstoggle/index.vue";
+
 import _ from 'underscore';
 import f from '@/application/shared/functions.js'
 
@@ -9,7 +11,8 @@ export default {
 	},
 
 	components : {
-		themeToggle
+		themeToggle,
+		dollarsToggle
 	},
 
 	data : function(){

@@ -33,7 +33,7 @@
 						<div class="valueswrapper"  @click="e => scenarioClick(scenario)">
 							<div class="valuewrapper" :class="{positive : loss > 0, negative : loss < 0}" :key="'v' + i" v-for="(loss, i) in scenario.loss" @click="e => scenarioClickDirect(scenario, i)">
 								<div class="value">
-									<value :value="cts.total * loss" :mode="mode"/>
+									<portfoliovalue :value="cts.total * loss" :portfolio="portfolios[i]" :mode="mode"/>
 								</div>
 							</div>
 							

@@ -22,6 +22,10 @@
             </router-link>
         </div>-->
 
+        <div class="dollarsToggleWrapper">
+            <dollarsToggle />
+        </div>
+
         <div class="themeToggleWrapper">
             <themeToggle />
         </div>
@@ -29,6 +33,8 @@
         <div class="exploreWrapper" @click="explore">
             <i class="fas fa-search"></i>
         </div>
+
+        
         
     </div>
 

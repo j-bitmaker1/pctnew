@@ -19,25 +19,36 @@
 					<span>Contributors</span>
 				</div>
 				<div class="lossicons">
-					<div class="positive" v-if="positives"><i class="fas fa-arrow-up"></i>
+
+					
+					
+
+					<div class="positive" :class="{active : filter == 'positive'}" @click="e => setfilter('positive')" v-if="positives"><i class="fas fa-arrow-up"></i>
 						<value :value="positives" />
 					</div>
-					<div class="negative" v-if="negatives"><i class="fas fa-arrow-down"></i>
+					<div class="negative" :class="{active : filter == 'negative'}" @click="e => setfilter('negative')" v-if="negatives"><i class="fas fa-arrow-down"></i>
 						<value :value="negatives" />
+					</div>
+					<div class="reversed" :class="{active : filter == 'reversed'}" @click="e => setfilter('reversed')">
+						<i class="fas fa-redo"></i>
 					</div>
 				</div>
 			</div>
 
 			<div class="contributorsList">
-				<list :items="contributors">
+				<list :items="filtered" v-if="filtered.length">
 					<template v-slot:default="slotProps">
 
 						<div class="contributorWrapper">
-							<contributor :mode="portfolio.isModel ? 'p100' : 'd'" :contributor="slotProps.item" :maxabs="maxabs" />
+							<contributor :portfolio="portfolio" :contributor="slotProps.item" :maxabs="maxabs" />
 						</div>
 
 					</template>
 				</list>
+
+				<div class="empty" v-else>
+					<span>There are no contributors for the specified filter in the scenario</span>
+				</div>
 			</div>
 
 		</div>

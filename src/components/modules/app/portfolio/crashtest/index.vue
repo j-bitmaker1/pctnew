@@ -20,14 +20,14 @@
 
         <div class="subheader mobp">
             <div class="forvalue">
-                <value :value="portfolio.total() + portfolio.uncovered()" :mode="portfolio.isModel ? 'p100' : 'd'" />
+                <portfoliovalue :portfolio="portfolio" :value="portfolio.total() + portfolio.uncovered()" />
             </div>
             <div class="forvalues">
                 <div class="positive" v-if="ct.profit"><i class="fas fa-arrow-up"></i>
-                    <value :value="portfolio.total() * ct.profit" :mode="portfolio.isModel ? 'p100' : 'd'" colored="true" />
+                    <portfoliovalue :portfolio="portfolio" :value="portfolio.total() * ct.profit" colored="true" />
                 </div>
                 <div class="negative" v-if="ct.loss"><i class="fas fa-arrow-down"></i>
-                    <value :value="portfolio.total() * ct.loss" :mode="portfolio.isModel ? 'p100' : 'd'" colored="true" />
+                    <portfoliovalue :portfolio="portfolio" :value="portfolio.total() * ct.loss"  colored="true" />
                 </div>
             </div>
         </div>

@@ -6,7 +6,8 @@ export default {
     name: 'assets_list',
     props: {
         assets : Array,
-        mode : String
+        mode : String,
+        portfolio : Object
     },
 
     components : {

@@ -1306,7 +1306,7 @@ f.values = {
                 style: 'currency',
                 currency: 'USD',
                 minimumFractionDigits: 0,
-                maximumFractionDigits: 2
+                maximumFractionDigits: value > 1000 || value < 1000 ? 0 : 2
 
             }).format(value)
 

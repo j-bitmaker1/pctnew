@@ -8,7 +8,8 @@ export default {
             type : String,
             default : 'd'
         },
-		mobileview : Boolean
+		mobileview : Boolean,
+		portfolios : Object
 	},
 
 	data : function(){
@@ -21,8 +22,8 @@ export default {
 
 	},
 
-	created : () => {
-
+	created : function() {
+		console.log('this.cts', this.cts)
 	},
 
 	watch: {

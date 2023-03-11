@@ -15,7 +15,7 @@
 	</div>
 
 	<div class="assetsWrapper">
-		<assets :assets="assets" :mode="portfolio.isModel ? 'p100' : 'd'"/>
+		<assets :portfolio="portfolio" :assets="assets" :mode="portfolio.isModel ? 'p100' : 'd'"/>
 	</div>
 
 	<div class="total mobp">

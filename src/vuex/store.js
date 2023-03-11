@@ -59,6 +59,7 @@ var storeFactory = function (vxstorage) {
 		wssready: false,
 		online: true,
 		theme: 'white',
+		dollars : 'd',
 		themes: themes,
 		globalpreloader: false,
 		allnotifications: 0,
@@ -246,7 +247,7 @@ var storeFactory = function (vxstorage) {
 			state.theight = state.dheight = window.innerHeight
 			state.twidth = state.dwidth = window.innerWidth
 
-
+			state.dollars = localStorage.getItem('dollars') || 'd'
 		},
 
 		features(state, v){
@@ -273,6 +274,12 @@ var storeFactory = function (vxstorage) {
 
 		theme(state, value) {
 			mex.theme(state, value)
+		},
+
+		dollars(state, value) {
+			state.dollars = value || 'd'
+
+			localStorage['dollars'] = state.dollars
 		},
 
 		SET_MENU(state, v) {

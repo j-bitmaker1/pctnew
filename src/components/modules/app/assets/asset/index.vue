@@ -12,7 +12,7 @@
         </div>
 
         <div class="valueWrapper">
-            <value :value="asset.value" :mode="mode"/>
+            <portfoliovalue :portfolio="portfolio" :value="asset.value" :mode="mode"/>
         </div>
 
     </div>

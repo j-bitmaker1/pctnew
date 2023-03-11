@@ -168,6 +168,9 @@ export default {
 		},
 
 		cansave : function(){
+
+			console.log('this.validate', this.validate)
+
 			if (this.validate){
 
 				this.$store.commit('icon', {
@@ -342,15 +345,22 @@ export default {
 			if(this.currentroot && this.currentroot != '0' && this.currentroot) r = this.currentroot
 
 			this.save(r).catch(e => {
-				this.$store.commit('icon', {
-					icon: 'error',
-					message: e.text
-				})
+
+				if(e){
+					this.$store.commit('icon', {
+						icon: 'error',
+						message: e.text
+					})
+				}
+				
 			})
 		},
 
 		checkModel : function(){
-			if (this.isModel && this.total != 100){
+
+			console.log('this.total', this.total)
+
+			if (this.isModel && this.total.toFixed(0) != 100){
 
 				this.$dialog.confirm(
 					'The total amount of the model portfolio must be exactly equal to 100%. Do You want to automatically adjust position weights to a portfolio total of 100%?', {
@@ -363,7 +373,7 @@ export default {
 					this.autoCorrectAssets()
 
 				}).catch( e => {
-					
+					console.error(e)
 				})
 
 				return false
@@ -394,10 +404,10 @@ export default {
 
 		save : function(catalogId){
 			if (!this.cansave()){
-				return 
+				return Promise.reject()
 			}
 
-			if (!this.checkModel()) return 
+			if (!this.checkModel()) return Promise.reject() 
 
 
 			console.log("SAVE",catalogId )

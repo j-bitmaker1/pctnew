@@ -42,6 +42,7 @@ export default {
         },
 
         many : function(){
+            console.log('this.portfolios', this.portfolios)
             return _.toArray(this.portfolios).length > 1
         }
     }),

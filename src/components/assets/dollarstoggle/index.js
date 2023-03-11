@@ -1,22 +1,8 @@
 import { mapState } from 'vuex';
 
 export default {
-    name: 'assets_asset',
+    name: 'themeToggle',
     props: {
-        asset : Object,
-        info : {
-            type : Object,
-            default : () => {
-                return {}
-            }
-        },
-
-        mode : {
-            type : String,
-            default : 'd'
-        },
-
-        portfolio : Object
     },
 
     data : function(){
@@ -36,9 +22,12 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+        dollars : state => state.dollars
     }),
 
     methods : {
-        
+        set : function(v){
+            this.$store.commit('dollars', v)
+        }
     },
 }

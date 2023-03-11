@@ -22,7 +22,8 @@ export default {
 		return {
 			loading: false,
 			info: null,
-			dct: null
+			dct: null,
+			filter : null
 		}
 
 	},
@@ -65,10 +66,37 @@ export default {
 			return Math.max(Math.abs(this.dct.profit), Math.abs(this.dct.loss))
 		},
 
+		filtered : function(){
+			if(this.filter){
+				return _.filter(this.contributors, (c) => {
+					if(this.filter == 'positive' && c.value <= 0) return false
+					if(this.filter == 'negative' && c.value >= 0) return false
+					if(this.filter == 'reversed' && ((this.scenario.loss > 0 && c.value >= 0) || (this.scenario.loss < 0 && c.value <= 0))) return false
+
+					return true
+				})
+			}
+
+			return this.contributors
+		},
+
 		contributors: function () {
 			if (this.dct) {
 
-				var cs = _.sortBy(this.dct.contributors[this.scenario.id], (c) => { return -Math.abs(c.value) })
+				console.log('this.dct', this.dct)
+
+				var total = this.portfolio.total() + this.portfolio.uncovered()
+
+				var cs = _.sortBy(this.dct.contributors[this.scenario.id], (c) => { 
+
+					var asset = _.find(this.portfolio.positions, (ps) => {
+						return ps.ticker == c.ticker
+					}) || {}
+
+					return -Math.abs(c.value / ((asset.value || 0) / total) )
+				})
+
+				
 
 				return _.map(cs, (c) => {
 					return {
@@ -106,6 +134,12 @@ export default {
 				this.info = r[0]
 
 			})
+		},
+
+		setfilter : function(filter){
+			if(this.filter == filter || !filter) this.filter = null
+			
+			else this.filter = filter
 		}
 	},
 }
