@@ -12,7 +12,8 @@
 		"compare" : "Compare",
 		"campaigns" : "Campaigns",
 		"help" : "Help",
-		"filemanager" : "File recognition"
+		"filemanager" : "File recognition",
+		"capacity" : "Capacity"
 	},
 
 	"fields" : {

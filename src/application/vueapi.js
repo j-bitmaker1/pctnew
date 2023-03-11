@@ -38,8 +38,6 @@ class Vueapi {
             })
         }
 
-        console.log(")", p)
-
         this.store.commit('OPEN_MODAL', {
             id : 'modal_contacts',
             module : "contacts",

@@ -75,6 +75,15 @@ export default {
 				},
 
 				{
+					route : '/capacity',
+					id : 'capacity',
+					text : 'menu.capacity',
+
+					icon : "fas fa-check-circle",
+					mobile : false
+				},
+
+				{
 					route : '/campaigns',
 					id : 'campaigns',
 					text : 'menu.campaigns',

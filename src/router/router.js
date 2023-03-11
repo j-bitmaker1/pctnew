@@ -254,6 +254,15 @@ const routes = [
 	},
 
 	{
+		path: '/capacity',
+		name: 'capacity',
+		component: () => import('@/views/capacity'),
+		customRedirect: redirects.authorized,
+
+		features : ['PCT', 'CRM']
+	},
+
+	{
 		path: '/leads',
 		name: 'leads',
 		component: () => import('@/views/leads'),

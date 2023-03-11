@@ -19,9 +19,18 @@
 </template>
 
 <style scoped lang="sass">
+#client_capacity
+	padding-left: $r
+
+
+
 ::v-deep
 	.stickedTop
 		top : 0px
+
+@media only screen and (max-width: 768px)
+	#client_capacity
+		padding-left: 0
 </style>
 
 <script>

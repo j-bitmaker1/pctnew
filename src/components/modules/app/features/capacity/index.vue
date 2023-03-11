@@ -3,11 +3,11 @@
 
 	<div class="header mobp stickedTop">
 		<div class="caption">
-			<span>Capacity</span>
+			<span>Capacity score</span>
 		</div>
 		<div class="result" v-if="simulation">
 			<div class="valuewrapper" v-if="simulation.capacity">
-				<i class="fas fa-check-circle"></i> <value :value="simulation.capacity.toFixed(0)"/>
+				<i class="fas fa-check-circle"></i>&nbsp;<value :value="simulation.capacity.toFixed(0)"/>
 			</div>
 			<div class="valuewrapper bad" v-else>
 				<i  class="fas fa-exclamation-triangle"></i>
