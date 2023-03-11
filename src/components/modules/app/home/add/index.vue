@@ -1,6 +1,6 @@
 <template>
 <div class="home_add">
-    <tooltip>
+    <tooltip v-if="!ext">
         <template v-slot:item>
             <div :class="buttonclass">
                 <i class="fas fa-plus"></i>
@@ -12,11 +12,28 @@
         </template>
 
     </tooltip>
+
+    <div class="ext" v-else>
+        <button class="button" v-for="item in menu" @click="item.action">
+            <i :class="item.icon" />
+            <span>{{$t(item.text)}}</span>
+        </button>
+    </div>
 </div>
 </template>
 
 <style scoped lang="sass">
+.ext
+    display: flex
+    flex-wrap: wrap
+    
+    button
+        margin-right: $r
+        margin-bottom: $r
 
+        i
+            margin-right: $r
+    
 </style>
 
 <script>
@@ -27,6 +44,7 @@ import {
 export default {
     name: 'home_add',
     props: {
+        ext : Boolean,
         buttonclass: {
             type: String,
             default: 'buttonpanel'

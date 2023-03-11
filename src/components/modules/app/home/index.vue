@@ -1,9 +1,13 @@
 <template>
 <div id="home">
 
+	<div class="mobp addwrapper">
+		<homeAdd :ext="true"/>
+	</div>
+
 	<div class="buttonsWrapper mobp" v-if="checkLicenceCRM">
 		<router-link to="/clients">
-			<bigmainbutton icon="fas fa-users" :label="$t('menu.clients')" :blabel="lbl('totalClients')" :active="true" :nlabel="notifications('clients')" />
+			<bigmainbutton icon="fas fa-users" :label="$t('menu.clients')" :blabel="lbl('totalClients')"  :nlabel="notifications('clients')" />
 		</router-link>
 		<router-link to="/leads">
 			<bigmainbutton icon="fas fa-user-plus" :label="$t('menu.leads')" :blabel="lbl('totalLeads')" :nlabel="notifications('leads')" />

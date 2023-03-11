@@ -6,7 +6,7 @@
 			<span>Home</span>
 		</template>
 		<template v-slot:right>
-			<homeAdd />
+			<!--<homeAdd />-->
 			<div class="buttonpanel" @click="explore">
 				<i class="fas fa-search"></i>
 			</div>
