@@ -34,7 +34,7 @@
                         <div class="modal-body" id="modalDescription">
                             <slot v-if="!module && !path" name="body" :scroll="scroll">
                             </slot>
-                            <component @blockclose="setblockclose" v-if="module" :is="module" @close="close" :wnd="true" v-bind="data || {}" v-on="events" :scroll="scroll" />
+                            <component @changeData="changeData" @blockclose="setblockclose" v-if="module" :is="module" @close="close" :wnd="true" v-bind="data || {}" v-on="events" :scroll="scroll" />
                             <!--<component v-if="path" :is="bypath()" @close="close" :wnd="true" v-bind="data || {}" v-on="events" :scroll="scroll" />-->
                         </div>
 

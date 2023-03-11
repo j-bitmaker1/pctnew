@@ -83,8 +83,6 @@ export default {
 		contributors: function () {
 			if (this.dct) {
 
-				console.log('this.dct', this.dct)
-
 				var total = this.portfolio.total() + this.portfolio.uncovered()
 
 				var cs = _.sortBy(this.dct.contributors[this.scenario.id], (c) => { 

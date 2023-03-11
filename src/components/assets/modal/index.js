@@ -201,6 +201,16 @@ export default {
         moving : function(e, h){
         },
 
+        changeData : function(data){
+
+            this.$store.commit('CHANGE_MODAL_DATA', {
+                data, id : this.modalid
+            })
+            
+
+            //this.$emit('changeData', data)
+        }
+
         /*bypath : function(){
             return require("@/components/" + this.path).default
         }*/

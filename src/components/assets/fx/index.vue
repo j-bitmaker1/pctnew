@@ -51,6 +51,10 @@ export default {
 
 	methods: {
 		make(){
+
+			if(!this.core.fx){
+				this.$store.commit('FX')
+			}
 			
 			this.core.fx.prepare(() => {
 				this.loading = false

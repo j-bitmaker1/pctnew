@@ -1,3 +1,7 @@
+import plugin from 'vue-editor-js/src/index'
+
+Vue.use(plugin)
+
 import { mapState } from 'vuex';
 const Header = require('@editorjs/header');
 const Paragraph = require('@editorjs/paragraph');

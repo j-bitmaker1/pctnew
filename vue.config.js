@@ -4,6 +4,7 @@ var prependcssvars = `
 `
 var emptypublicpath = process.argv.find(function (el) { return el == '--emptypublicpath'; })
 
+var production = process.env.NODE_ENV === 'production' ? true : false
 
 process.env.VUE_APP_VERSION = process.env.npm_package_version
 
@@ -24,7 +25,29 @@ module.exports = {
 	},
 
 	pluginOptions: {
-		cordovaPath: 'src-cordova'
+		cordovaPath: 'src-cordova',
+		webpackBundleAnalyzer: {
+			openAnalyzer: true,
+			//analyzerMode: !production ? "disabled" : "",
+		},
+	},
+
+	
+	configureWebpack: {
+		optimization: {
+			splitChunks: {
+				minSize: 30000,
+				maxInitialRequests : 10
+			},
+			
+			concatenateModules: production,
+			flagIncludedChunks: production,
+
+			
+		},
+
+		
+	
 	},
 
 	runtimeCompiler: true,
@@ -37,7 +60,6 @@ module.exports = {
 		appleMobileWebAppCapable: 'yes',
 		appleMobileWebAppStatusBarStyle: 'white',
 
-		// настройки манифеста
 		manifestOptions: {
 			short_name : "PCT",
 			start_url : '.',
@@ -50,7 +72,6 @@ module.exports = {
 			}]
 		},
 
-		// настройка workbox-плагина
 		workboxPluginMode: 'InjectManifest',
 		workboxOptions: {
 			swSrc: './src/service-worker.js',

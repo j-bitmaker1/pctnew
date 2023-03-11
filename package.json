@@ -1,10 +1,10 @@
 {
   "name": "pct",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "private": true,
   "scripts": {
     "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "cordova": "node cordova.js",
     "cordova-build-android": "cross-env CORDOVA_PLATFORM=android vue-cli-service cordova-build-android --buildConfig build.json --emptypublicpath --packageType=bundle",
@@ -113,7 +113,9 @@
     "typescript": "^4.5.5",
     "vue-cli-plugin-cordova": "^2.4.0",
     "vue-cli-plugin-electron-builder": "^1.4.4",
-    "vue-template-compiler": "^2.6.14"
+    "vue-template-compiler": "^2.6.14",
+    "vue-cli-plugin-webpack-bundle-analyzer": "^4.0.0",
+		"webpack-bundle-analyzer": "^4.6.0"
   },
   "browserslist": [
     "> 1%",

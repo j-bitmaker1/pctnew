@@ -169,8 +169,6 @@ export default {
 
 		cansave : function(){
 
-			console.log('this.validate', this.validate)
-
 			if (this.validate){
 
 				this.$store.commit('icon', {
@@ -358,8 +356,6 @@ export default {
 
 		checkModel : function(){
 
-			console.log('this.total', this.total)
-
 			if (this.isModel && this.total.toFixed(0) != 100){
 
 				this.$dialog.confirm(
@@ -408,10 +404,6 @@ export default {
 			}
 
 			if (!this.checkModel()) return Promise.reject() 
-
-
-			console.log("SAVE",catalogId )
-
 
 			var action = null
 			var positions = this.joinassets(this.assets)
@@ -478,10 +470,8 @@ export default {
 
 			this.core.vueapi.selectFolder((folder) => {
 
-				console.log('folder', folder)
 
 				this.save(folder.id).catch(e => {
-					console.log('e', e)
 					this.$store.commit('icon', {
 						icon: 'error',
 						message: e.text

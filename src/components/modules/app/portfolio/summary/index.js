@@ -48,7 +48,6 @@ export default {
     methods : {
         ctloaded : function({ct, cts}){
             this.ct = ct
-            console.log('this.ct', this.ct)
 
             var scenario = this.ct.scenarios[this.ct.scenarios.length - 1]
 
@@ -95,13 +94,9 @@ export default {
 
         editportfolio : function(){
 
-            console.log('editportfolio')
-
             this.load().then(() => {
                 return this.$nextTick();
             }).then(() => {
-
-                console.log('crashtest')
 
                 if (this.$refs.crashtest)
                     this.$refs.crashtest.load()
@@ -113,6 +108,18 @@ export default {
         },
         changeClient : function(profile){
 			this.profile = profile
-		}
+		},
+
+        selectPortfolio : function(){
+            this.core.vueapi.selectPortfolios((portfolios) => {
+
+                this.$emit('changeData', {
+                    portfolioId : portfolios[0].id
+                })
+
+            }, {
+                one : true
+            })
+        }
     },
 }

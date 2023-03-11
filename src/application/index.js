@@ -14,7 +14,7 @@ import CAMPAIGNS from './campaigns/manager'
 import Vueapi from './vueapi'
 import Cordovakit from './shared/cordovakit'
 import Filemanager from './lib/common/filemanager'
-import FX from './shared/utils/fx.js'
+//import FX from './shared/utils/fx.js'
 
 import {Settings, LSSettings} from "./shared/settings";
 
@@ -147,7 +147,7 @@ class Core {
         this.crm = new CRM(this)
         this.pct = new PCT(this)
        
-        this.fx = new FX(this)
+        //this.fx = new FX(this)
         this.filesystem = new Filesystem(this)
 
         this.cordovakit = new Cordovakit(this)

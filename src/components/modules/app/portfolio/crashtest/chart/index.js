@@ -23,7 +23,6 @@ export default {
 	},
 
 	created : function() {
-		console.log('this.cts', this.cts)
 	},
 
 	watch: {

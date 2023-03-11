@@ -335,6 +335,23 @@ var storeFactory = function (vxstorage) {
 			localStorage['savedModals'] = JSON.stringify(saved)
 		},
 
+		CHANGE_MODAL_DATA(state, {id, data}) {
+
+			var index = -1 
+			var modal = _.find(state.modals, (m, i) => {
+				if(m.id == id){
+					index = i
+					return true
+				}
+			})
+
+			if (modal){
+				modal.data = data
+				Vue.set(state.modals, index, modal)
+			}
+			
+		},
+
 		OPEN_MODAL(state, modal) {
 
 			console.log("STATE", this)

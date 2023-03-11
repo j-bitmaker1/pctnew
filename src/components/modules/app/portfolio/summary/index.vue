@@ -37,9 +37,9 @@
 			    <portfoliomenu @changeClient="changeClient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
             </div>
 
-            <!--<div class="potfoliosHistory">
+            <div class="potfoliosHistory" @click="selectPortfolio">
                 <i class="fas fa-chevron-down"></i>
-            </div>-->
+            </div>
             
         </div>
 

@@ -592,6 +592,8 @@ class Vueapi {
 
     fx = function({place, name, parameters = {}}){
 
+        return
+
         var dp = {}
 
         if (name == 'stars') 
