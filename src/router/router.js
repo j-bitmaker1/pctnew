@@ -136,6 +136,13 @@ const routes = [
 	},
 
 	{
+		path: '/notifications',
+		name: 'notifications',
+		component: () => import('@/views/notifications'),
+		customRedirect: redirects.redirect
+	},
+
+	{
 		path: '/authorization',
 		name: 'authorization',
 		component: () => import('@/views/authorization'),

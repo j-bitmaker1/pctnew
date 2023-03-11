@@ -7,7 +7,7 @@
 	align-content: space-between
 	align-items: center
 	margin-bottom: $r
-	padding-left: 2 * $r
+	padding-left: 3 * $r
 	>div
 		padding-top: $r
 		padding-bottom: $r
@@ -40,3 +40,7 @@
 	.list-leave-to
 		opacity: 0
 		transform: translateX(-3 * $r)
+
+@media only screen and (max-width: 768px)
+	.panelWrapper
+		padding-left: 2 * $r
