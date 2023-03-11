@@ -1,24 +1,22 @@
 <template>
-<div class="portfolios_portfolio" :class="{deleted : portfolio.status == 'DELETED'}">
+<div class="portfolios_portfolio" @click="click" :class="{deleted : portfolio.status == 'DELETED'}">
 
 
 
 	<div class="namerow">
-		<div class="namewrapper" @click="click">
+		<div class="namewrapper">
 			<div class="name"><span>{{portfolio.name}}</span></div> 
 			<div class="date"><date :date="portfolio.created" /></div>
 		</div>
 
 		<div class="forsettings" v-if="hasmenu">
-
 			<portfoliomenu @changeClient="changeClient" @gotofolder="gotofolder" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" buttonclass="diconbutton"/>
-
 		</div>
 	</div>
 
 	
 
-	<div class="assets" @click="click">
+	<div class="assets" >
 
 		<div class="assetsClList">
 			

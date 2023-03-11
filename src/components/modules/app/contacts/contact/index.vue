@@ -1,9 +1,9 @@
 <template>
-<div class="contacts_contact">
+<div class="contacts_contact" @click="open">
 
-	<div class="line">
+	<div class="line" >
 
-		<div class="profilerow row" @click="open">
+		<div class="profilerow row" >
 			<div class="userpicWrapper">
 				<userpic :userinfo="profile" />
 			</div>
@@ -18,7 +18,7 @@
 
 		
 
-		<div class="statsrow row" @click="open">
+		<div class="statsrow row" >
 			<div>
 				<span class="label">Crash Rating</span>
 				<coloredNumber :number="profile.riskscore"/>

@@ -1,11 +1,11 @@
 <template>
-<div class="activity_portfolio">
+<div class="activity_portfolio" @click="open">
 	<div class="namerow">
-		<div class="namewrapper" @click="open">
+		<div class="namewrapper" >
 			<div class="name"><span>{{portfolio.name}}</span></div> 
 		</div>
 
-		<div class="total" @click="open">
+		<div class="total">
 			<value :value="total" mode="d" />
 		</div>
 
@@ -14,10 +14,10 @@
 	<div class="assets" >
 		<div class="actions">
 			<div class="action" v-for="action in actions" :key="action.route">
-				<i :class="action.icon" @click="to(action.route)"/>
+				<i :class="action.icon" @click.stop="to(action.route)"/>
 			</div>
 		</div>
-		<div class="assetsClList" @click="open">
+		<div class="assetsClList">
 			<div class="ticker" :uncovered="!asset.isCovered" :key="i" v-for="(asset, i) in portfolio.positions">
 				<span>{{asset.ticker}}</span>
 			</div>
@@ -32,9 +32,7 @@
 <style scoped lang="sass">
 
 @media (pointer:fine)
-	.namewrapper,
-	.total,
-	.action
+	.activity_portfolio
 		cursor: pointer
 		
 .activity_portfolio

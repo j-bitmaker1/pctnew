@@ -41,6 +41,9 @@ export default {
 		},
 
 		open : function(e){
+
+			if(e.usedByTooltip) return
+			
 			this.$emit('open', this.profile)
 		},
 

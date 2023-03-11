@@ -2,6 +2,8 @@ import _ from 'underscore';
 import { mapState } from 'vuex';
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 import client from '@/components/modules/app/portfolio/client/index.vue'
+import f from '@/application/shared/functions';
+
 export default {
 	name: 'portfolios_portfolio',
 	props: {
@@ -50,8 +52,10 @@ export default {
 
 	methods : {
 
-		click : function(){
+		click : function(e){
 
+			if(e.usedByTooltip) return
+			
 			if(this.portfolio.status == 'DELETED') return
 
 			this.$emit('click', this.portfolio)

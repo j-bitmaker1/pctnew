@@ -1,18 +1,18 @@
 <template>
-<div class="activity_client">
+<div class="activity_client" @click="open">
 	<div class="profilerow">
-		<div class="userpicWrapper" @click="open">
+		<div class="userpicWrapper" >
 			<userpic :userinfo="profile" />
 		</div>
 
-		<div class="data" v-if="profile" @click="open">
+		<div class="data" v-if="profile">
 			<div class="name"><span>{{profile.FName}} {{profile.LName}}</span></div>
 			<div class="email"><span>{{profile.Email}}</span></div>
 		</div>
 
 		<div class="actions" v-if="actions">
 			<div class="action" v-for="action in actions" :key="action.route">
-				<i :class="action.icon" @click="to(action.route)"/>
+				<i :class="action.icon" @click.stop="to(action.route)"/>
 			</div>
 		</div>
 
@@ -25,7 +25,7 @@
 .profilerow
 	align-items: center
 	display: flex
-
+	
 	.actions
 		margin-left: auto
 
@@ -47,9 +47,7 @@
 			margin-right: 2 * $r
 
 @media (pointer:fine)
-	.userpicWrapper,
-	.data,
-	.action
+	.profilerow
 		cursor: pointer
 </style>
 

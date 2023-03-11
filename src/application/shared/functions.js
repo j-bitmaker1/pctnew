@@ -1330,6 +1330,22 @@ f.values = {
     }
 }
 
+f.removePopoverFromEvent = function(e){
+
+    var sel = _.find(e.path, function(p){
+        return p.classList.contains('v-popover');
+    })
+
+
+    if (sel || e.usedByTooltip){
+        console.log("HERE")
+        e.stopPropagation();
+		e.preventDefault();
+    }
+
+    return
+}
+
 var addZero = function (n) {
     if (Number(n) < 10) {
         n = "0" + n;
