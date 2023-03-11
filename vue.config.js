@@ -26,10 +26,10 @@ module.exports = {
 
 	pluginOptions: {
 		cordovaPath: 'src-cordova',
-		webpackBundleAnalyzer: {
-			openAnalyzer: true,
-			//analyzerMode: !production ? "disabled" : "",
-		},
+		/*webpackBundleAnalyzer: {
+			openAnalyzer: false,
+			analyzerMode: "disabled",
+		},*/
 	},
 
 	
