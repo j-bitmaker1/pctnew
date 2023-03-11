@@ -8,7 +8,10 @@
 		<template v-slot:right>
 			<div class="buttonpanel">
 				<button class="button small" @click="getclient">Select client</button>
+				<i class="fas fa-link" @click="sharequestionnaire"></i>
 			</div>
+
+			
 		</template>
 	</topheader>
 
@@ -162,6 +165,10 @@ export default {
 			}, {
 				one : true
 			})
+		},
+
+		sharequestionnaire : function(){
+			this.core.vueapi.sharequestionnaire()
 		}
 	},
 
