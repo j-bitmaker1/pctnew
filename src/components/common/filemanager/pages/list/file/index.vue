@@ -1,5 +1,5 @@
 <template>
-<div class="filemanager_list_file">
+<div class="filemanager_list_file" @click="open">
 
     <div class="filepreviewWrapper">
         <filespreview :info="file.info" />
@@ -7,16 +7,16 @@
 
     <div class="data">
 
-        <div class="name" @click="open">
+        <div class="name" >
             <span v-if="name">{{name}}</span>
             <span v-else>&mdash;</span>
         </div>
-        <div class="meta" @click="open">
+        <div class="meta" >
             <span v-if="size">{{size}}, </span>
             <date :date="file.completed || file.created" />
         </div>
 
-        <div class="extended" v-if="!cut" @click="open">
+        <div class="extended" v-if="!cut" >
 
             <div class="contents" v-if="file.status == 'SUCCESS' && file.data && file.data.length">
                 <!--<button class="button small black" @click="open" v-if="!hasassets">Show result</button>

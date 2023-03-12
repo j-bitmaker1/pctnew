@@ -58,7 +58,10 @@ export default {
     }),
 
     methods : {
-        open : function(){
+        open : function(e){
+
+			if(e.usedByTooltip) return
+
             this.$emit('open')
         },
 

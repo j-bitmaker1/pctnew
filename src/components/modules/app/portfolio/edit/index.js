@@ -224,8 +224,16 @@ export default {
 				this.assets.push(asset)
 			})
 		},
-		leaveAsset : function(){
+		leaveAsset : function(index){
 			setTimeout(() => {
+
+				console.log('index', index, this.assets.length)
+
+				if (index < this.assets.length - 1){
+					document.activeElement.blur();
+					return
+				}
+
 				this.autofocus()
 			})
 		},
@@ -257,6 +265,9 @@ export default {
 		},
 
 		autofocus : function(){
+
+			
+
 			var assetindex = Math.max(this.assets.length - 1, 0)
 
 			if (this.assets[assetindex] && this.assets[assetindex].value){
