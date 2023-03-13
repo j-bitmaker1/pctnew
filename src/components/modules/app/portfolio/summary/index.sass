@@ -5,6 +5,40 @@
     right : 0
     bottom: 0
 
+    background-size: 40px 40px
+    background-position: center center
+    background-image: linear-gradient(90deg, transparent 9%,  srgba(--neutral-grad-2, 0.05) 10%, srgba(--neutral-grad-2, 0.05) 12%, transparent 13%, transparent 29%,  srgba(--neutral-grad-2, 0.05) 30%, srgba(--neutral-grad-2, 0.05) 31%, transparent 32%, transparent 49%,  srgba(--neutral-grad-2, 0.055) 50%, srgba(--neutral-grad-2, 0.055) 51%, transparent 52%, transparent 69%,  srgba(--neutral-grad-2, 0.05) 70%, srgba(--neutral-grad-2, 0.05) 71%, transparent 72%, transparent 89%, srgba(--neutral-grad-2, 0.05) 90%, srgba(--neutral-grad-2, 0.05) 91%, transparent 92%, transparent)
+
+    &.portfolio
+        background: transparent
+
+    .portfoliotip
+        position: absolute
+        z-index : 1
+        left: 0
+        top : 44px
+        bottom: 0
+        right: 0
+        display: flex
+        align-content: center
+        align-items: center
+
+        .stickerWrapper
+            margin-top: 3 * $r
+            padding-bottom: 3 * $r
+
+        .wrapper
+            margin : 0 auto
+            max-width: 200px
+            text-align: center
+            padding : 2 * $r
+            border-radius: 12px
+            background: srgba(--neutral-grad-0, 0.5)
+
+            span
+                font-size: 0.9em
+
+
     .loading
         position: absolute
         left : 0
@@ -20,10 +54,26 @@
         left : 0
         top : 0
         right : 0
-        height: 55px
+        height: 44px
         align-items: center
         display: flex
-        background: srgba(--background-main-contrast, .05)
+        background: srgb(--background-secondary-theme)
+        border-left: 1px solid srgb(--background-total-theme)
+
+        .firstmenu,
+        .portfolioPart
+            align-items: center
+            display: flex
+
+        .portfolioPart
+            margin-left: auto
+
+        .firstmenu
+            button
+                margin-right: $r
+
+  
+                    
 
         .captionsl
             margin-left: $r
@@ -33,6 +83,7 @@
             align-items: center
             grid-gap: $r
             white-space: nowrap
+            flex-direction: row-reverse
 
             span
                 font-size: 0.9em
@@ -57,7 +108,7 @@
         left : 0
         bottom : 0
         right : 0
-        top: 55px
+        top: 44px
 
     .part
         overflow: hidden
@@ -84,6 +135,7 @@
         top : 0
         width: 30%
         bottom: 0
+        overflow: hidden
 
 .scenario
     .header
@@ -121,20 +173,77 @@
 
 ::v-deep
 
-    #portfolio_assets
+    .mobp
+        padding-left: $r
+        padding-right: $r
+
+    .diconbutton
+        background: srgb(--background-secondary-theme)
+        +shadowSmaller()
+
+    #linenavigation.buttons
+        .item
+            height: 2em
+            line-height: 2em
+
+
+    .portfolios_shares
         padding-top : 0
 
-        .assetsWrapper
-            border-top : 7px solid srgba(--background-main-contrast, .05)
+        .navwrapper
+            position: sticky
+            z-index: 1
+            left : 0
+            top : 0
+            right: 0
+            background: srgb(--background-total-theme)
+            margin-top: 0
+            padding-top: $r
+
+        #linenavigation
+            .wrapper
+                justify-content: flex-start
+
+        #portfolio_assets
+
+            padding-top: $r
+            .total
+                padding-left: $r
+                padding-right: 0.5 * $r
+
+            .controls
+                position: absolute
+                right: 0
+                left : auto
+                top : 0
+                padding-right : 0
+
+                .forcaption
+                    display: none
+
+            .assetsWrapper
+                padding-top: 0
+                margin-top: 0
+                border-top : 0
+
+                .assetWrapper
+                    padding-left: 0.5 * $r
+                    padding-right: 0
+
+                    .nameinv
+                        span
+                            font-size: 0.8em
 
     #portfolios_crashtest
         .ct
             
+            .summary
+                display: none
 
             .subheader
                 display: none
 
-            .header
+            /*.header
                 position: sticky
                 height: 56px
                 top : 0
@@ -142,6 +251,22 @@
                 right: 0
                 z-index: 2
                 background: srgb(--background-total-theme)
+                padding-left: $r
+                padding-right: $r*/
+
+            .header
+                position: absolute
+                right: 0
+                left : auto
+                top : 0
+                padding-right : 0
+                z-index: 1
+
+                .forsettigns
+                    padding-right: $r
+
+                .forpanel
+                    display: none
 
             #crashtest_main
               
@@ -154,9 +279,14 @@
                     padding-left: 0
                     padding-right: 0
 
-    #portfolio_crashtest_scenariodetails
+                .wrapperAll
+                    padding : $r
 
+    #portfolio_crashtest_scenariodetails
+        .scenario
+            display: none
         .losswrapper
+            display: none
             border-bottom : 7px solid srgba(--background-main-contrast, .05)
         
         .infoWrapper
@@ -164,3 +294,54 @@
 
         .factors
             display: none
+
+        .contributorWrapper
+            padding : 0
+
+        .topheader
+            display: flex
+
+        .lossgain
+            position: absolute
+            left : 0
+            top : 0
+            bottom : 0
+            right: 0
+            overflow: hidden
+
+            .lgpart
+                position: absolute
+                left : 0
+                top : 0
+                bottom : 0
+                right: 0
+                
+                overflow: hidden
+                overflow-y: scroll
+
+                .listempty
+                    padding : $r
+
+                .csubheader
+                    position: sticky
+                    top : 0
+                    left : 0
+                    height: 55px
+                    right: 0
+                    
+                    background: srgb(--background-total-theme)
+                    z-index: 1
+
+                    .label
+                        flex-grow: 2
+
+                &.loss
+                    top : auto
+                    height: 50%
+
+                &.gain
+                    bottom: auto
+                    height: 50%
+
+                .nameinv
+                    font-size: 0.8em

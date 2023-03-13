@@ -32,6 +32,7 @@ export default {
 	},
 	computed: mapState({
 		auth : state => state.auth,
+        mobileview : state => state.mobileview,
 
 		checkLicenceCRM : function(state){
 			return state.features['CRM'] && state.features['CRM'].valid

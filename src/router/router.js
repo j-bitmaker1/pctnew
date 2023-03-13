@@ -199,6 +199,24 @@ const routes = [
 		features : ['PCT']
 	},
 
+	/*{
+		path: '/summary/:id',
+		name: 'summary',
+		component: () => import('@/views/summary'),
+		customRedirect: redirects.authorized,
+
+		features : ['PCT']
+	},*/
+
+	{
+		path: '/summary',
+		name: 'summary',
+		component: () => import('@/views/summary'),
+		customRedirect: redirects.authorized,
+
+		features : ['PCT']
+	},
+
 	{
 		path: '/changepassword',
 		name: 'changepassword',

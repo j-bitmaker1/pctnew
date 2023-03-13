@@ -14,7 +14,7 @@
     </tooltip>
 
     <div class="ext" v-else>
-        <button class="button" v-for="item in menu" @click="item.action">
+        <button class="button small" :class="{black : i}" v-for="(item, i) in menu" @click="item.action">
             <i :class="item.icon" />
             <span>{{$t(item.text)}}</span>
         </button>
@@ -25,13 +25,19 @@
 <style scoped lang="sass">
 .ext
     display: flex
-    flex-wrap: wrap
+    align-items: center
+    flex-wrap: nowrap
+    white-space: nowrap
     
     button
+        display: flex
+        align-items: center
         margin-right: $r
-        margin-bottom: $r
+        justify-content: center
 
         i
+            margin-top: 2px
+            font-size: 0.8em
             margin-right: $r
     
 </style>
@@ -48,10 +54,13 @@ export default {
         buttonclass: {
             type: String,
             default: 'buttonpanel'
-        }
+        },
+
+        success : Boolean
     },
     computed: mapState({
         auth: state => state.auth,
+
 
         menu: function () {
 
@@ -82,6 +91,14 @@ export default {
                     action: this.campaign,
 
                     features : ['CAMPAIGN']
+                },
+
+                {
+                    text: 'menu.questionnaire',
+                    icon: 'fas fa-link',
+                    action: this.sharequestionnaire,
+
+                    features : ['PCT']
                 }
             ]
             
@@ -104,17 +121,35 @@ export default {
 
                 events: {
                     edit: (data) => {
-                        this.$router.push('portfolio/' + data.id).catch(e => {})
+                        if(this.success){
+                            this.success('portfolio', data.id)
+                        }
+                        else{
+                            this.$router.push('portfolio/' + data.id).catch(e => {})
+                        }
+                        
                     }
                 }
             })
         },
+
+        sharequestionnaire : function(){
+			this.core.vueapi.sharequestionnaire()
+		},
+
         client: function () {
             this.core.vueapi.createContact({
                 Type: "CLIENT"
             }, (data) => {
 
-                this.$router.push('client/' + data.ID).catch(e => {})
+                if (this.success){
+                    this.success('client', data.id)
+                }
+                else{
+                    this.$router.push('client/' + data.ID).catch(e => {})
+
+                }
+
 
             }, {
                 caption: "New client"
@@ -126,7 +161,13 @@ export default {
                 Type: "LEAD"
             }, (data) => {
 
-                this.$router.push('lead/' + data.ID).catch(e => {})
+                if (this.success){
+                    this.success('lead', data.id)
+                }
+                else{
+                    this.$router.push('lead/' + data.ID).catch(e => {})
+
+                }
 
             }, {
                 caption: "New lead"

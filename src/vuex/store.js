@@ -85,6 +85,7 @@ var storeFactory = function (vxstorage) {
 		modals: [],
 		portfolios: [],
 		valuemode: 'd',
+		summaryview : false,
 
 		crmschemas: {},
 		selection: null,
@@ -248,6 +249,10 @@ var storeFactory = function (vxstorage) {
 			state.twidth = state.dwidth = window.innerWidth
 
 			state.dollars = localStorage.getItem('dollars') || 'd'
+		},
+
+		summaryview(state, v){
+			state.summaryview = v ? true : false
 		},
 
 		features(state, v){

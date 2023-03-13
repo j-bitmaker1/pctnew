@@ -42,10 +42,11 @@
 
 .footer
 	position: fixed
-	left : 3 * $r
-	bottom : 3 * $r
+	left : $r
+	bottom : $r
 	display: flex
 	align-items: center
+	z-index: 10
 
 	.themeToggleWrapper
 		margin-left: 0.5 * $r
@@ -74,9 +75,6 @@
 	.logowrapper
 		padding-left: 2 * $r
 
-	.footer
-		left : $r
-		bottom : 2 * $r
 
 @media (pointer:fine)
 	.items

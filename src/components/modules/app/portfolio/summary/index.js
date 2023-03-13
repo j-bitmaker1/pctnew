@@ -5,7 +5,7 @@ import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
 import scenariodetails from "@/components/modules/app/portfolio/crashtest/scenariodetails/index.vue";
 import client from   '@/components/modules/app/portfolio/client/index.vue'
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
-
+import homeAdd from "@/components/modules/app/home/add/index.vue";
 
 export default {
     name: 'portfolio_summary',
@@ -14,7 +14,8 @@ export default {
 		crashtest,
         scenariodetails,
         client,
-        portfoliomenu
+        portfoliomenu,
+        homeAdd
 	},
     props: {
         portfolioId : Number
@@ -24,10 +25,11 @@ export default {
     data : function(){
 
         return {
-            loading : true,
+            loading : false,
             selectedScenario : null,
             ct : null,
             profile : null,
+            portfolio : null
         }
 
     },
@@ -67,6 +69,10 @@ export default {
         },
 
         load : function(){
+
+            if(!this.portfolioId){
+                return
+            }
 
             this.loading = true
 
@@ -120,6 +126,35 @@ export default {
             }, {
                 one : true
             })
-        }
+        },
+
+        homeadd : function(type, id){
+            if (type == 'portfolio'){
+
+                this.$emit('changeData', {
+                    portfolioId : id
+                })
+
+                return
+            }
+        },
+
+        createportfolio: function () {
+            this.$store.commit('OPEN_MODAL', {
+                id: 'modal_portfolios_edit',
+                module: "portfolio_edit",
+                caption: "New Portfolio",
+
+                events: {
+                    edit: (data) => {
+
+                        this.$emit('changeData', {
+                            portfolioId : data.id
+                        })
+                        
+                    }
+                }
+            })
+        },
     },
 }

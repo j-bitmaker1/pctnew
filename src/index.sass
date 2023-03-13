@@ -194,6 +194,7 @@ html[camera="true"]
 .buttonpanel
 	display: flex
 	flex-direction: row-reverse
+	align-items: center
 	span
 		line-height: 44px
 	i
@@ -269,7 +270,10 @@ button.button
 	border-radius: 24px
 
 	&.small
+		min-width: 100px
 		font-size: 0.8em
+		padding: 0.5 * $r 1.5 * $r
+		height: 25px
 
 	&.good
 		background: srgb(--color-good)
@@ -306,6 +310,11 @@ button.button
 		min-width: 0
 		padding: 0
 		line-height: 42px
+
+		&.small
+			width: 25px
+			height: 25px
+			line-height: 23px
 
 	&.rounded
 		border-radius: 22px
@@ -357,6 +366,8 @@ button.button
 	border-radius: 12px
 	min-width: 50px
 	text-align: center
+	white-space: nowrap
+	flex-shrink: 0
 
 	i
 		color: srgb(--color-txt-ac) 

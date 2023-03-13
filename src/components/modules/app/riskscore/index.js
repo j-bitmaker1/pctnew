@@ -584,7 +584,9 @@ export default {
             var data = {
                 ...this.finishValues,
                 Tolerance : Number((this.crvalue || 0).toFixed()),
-                Capacity : this.capacity ? Number((this.capacity.capacity || 0).toFixed()) : null
+                Capacity : this.capacity ? Number((this.capacity.capacity || 0).toFixed()) : null,
+
+                ...(this.existlead ? {} : this.client)
             }
 
             _.each(data, (v, i) => {

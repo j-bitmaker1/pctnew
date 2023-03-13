@@ -7,17 +7,19 @@
 		<div class="ticker">
 			{{contributor.asset.ticker}}
 		</div>
+		<div class="nameinv" :title="contributor.asset.name">
+			<span>{{contributor.asset.name}}</span>
+		</div>
 		<div class="value">
 			<portfoliovalue :portfolio="portfolio" :value="contributor.value"/>
 		</div>
 	</div>
 
-	<div class="header">
+	<!--<div class="header">
 		<div class="name">
 			<span>{{contributor.asset.name}}</span>
 		</div>
-		
-	</div>
+	</div>-->
 	<div class="lineWrapper">
 		<div class="line">
 			<div class="fill" :style="{width : width + '%', background:color}">

@@ -1,7 +1,7 @@
 <template>
 <div id="home">
 
-	<div class="mobp addwrapper">
+	<div class="mobp addwrapper" v-if="!mobileview">
 		<homeAdd :ext="true"/>
 	</div>
 

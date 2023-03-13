@@ -1,5 +1,5 @@
 <template>
-<div id="root"  >
+<div id="root" :class="{summaryview}">
 
     <div class="cameramoduleWrapper" v-if="camera">
         <camera v-bind="camera.data || {}" v-on="camera.events" @close="closeCamera" />

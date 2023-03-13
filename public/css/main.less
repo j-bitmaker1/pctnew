@@ -161,16 +161,17 @@ html {
 	}
 
 	&::-webkit-scrollbar-track {
-		background:rgba(var(--background-main-contrast), .05);
+		background:rgb(var(--background-secondary-theme));
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background-color: rgba(var(--background-main-contrast), .15);
+		background-color: rgba(var(--background-main-contrast), .1);
 		border: 0 solid rgba(var(--background-main-contrast), 0.05);
+		border-radius: 10px;
 		background-image: linear-gradient(
 			180deg,
-			rgba(var(--background-main-contrast), .15) 0%,
-			rgba(var(--background-hidden-layer), 0) 90%
+			rgba(var(--background-main-contrast), .1) 0%,
+			rgba(var(--background-secondary-theme), 0) 90%
 		);
 	}
 

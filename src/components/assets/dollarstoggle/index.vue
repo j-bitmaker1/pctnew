@@ -1,10 +1,10 @@
 <template>
 <div id="themeToggle">
 
-    <div class="tgl">
+    <div class="tgl" @click="seta">
         <div>
-            <i class="fas fa-dollar-sign" :class="{active : dollars == 'd'}" @click="set('d')"></i>
-            <i class="fas fa-percent" :class="{active : dollars == 'p'}" @click="set('p')"></i>
+            <i class="fas fa-dollar-sign" :class="{active : dollars == 'd'}"></i>
+            <i class="fas fa-percent" :class="{active : dollars == 'p'}"></i>
         </div>
     </div>
     

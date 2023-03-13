@@ -57,3 +57,41 @@
 
 	.negative
 		color : srgb(--color-bad)
+
+
+.lossgain
+	.csubheader
+		display: flex
+		justify-content: space-between
+		align-items: center
+		.label
+			margin-left: $r
+			overflow: hidden
+			text-overflow: ellipsis
+			white-space: nowrap
+			span
+				font-weight: 700
+				font-size: 0.8em
+	.icon
+		display: flex
+		align-items: center
+
+		span
+			margin-left: $r
+
+	.end
+		padding : $r
+		text-align: center
+
+		i
+			color : srgb(--neutral-grad-1)
+			font-size: 0.7em
+
+	.loss
+		.csubheader
+			.icon
+				color : srgb(--color-bad)
+	.gain
+		.csubheader
+			.icon
+				color : srgb(--color-good)

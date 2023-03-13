@@ -10,7 +10,9 @@ export default {
 
 	props: {
 		portfolio: Object,
-		scenario: Object
+		scenario: Object,
+
+		lossgain : Boolean
 	},
 
 	components: {
@@ -23,7 +25,8 @@ export default {
 			loading: false,
 			info: null,
 			dct: null,
-			filter : null
+			filter : null,
+			lg : ['gain', 'loss']
 		}
 
 	},
@@ -80,6 +83,32 @@ export default {
 			return this.contributors
 		},
 
+		gain : function(){
+			return _.filter(this.contributors, (c) => {
+				return c.value > 0
+			})
+		},
+
+		loss : function(){
+			return _.filter(this.contributors, (c) => {
+				return c.value < 0
+			})
+		},
+
+		lgs : function(){
+			return {
+				loss : this.loss,
+				gain : this.gain
+			}
+		},
+
+		lgssum : function(){
+			return {
+				loss : _.reduce(this.loss, (m , c) => {return m + c.value}, 0),
+				gain : _.reduce(this.gain, (m , c) => {return m + c.value}, 0),
+			}
+		},
+
 		contributors: function () {
 			if (this.dct) {
 
@@ -91,7 +120,7 @@ export default {
 						return ps.ticker == c.ticker
 					}) || {}
 
-					return -Math.abs(c.value / ((asset.value || 0) / total) )
+					return -Math.abs(c.value / ((asset.value || 0) / this.lossgain ? 1 : total) )
 				})
 
 				

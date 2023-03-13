@@ -11,16 +11,21 @@
             <span>{{asset.ticker}}</span>
         </div>
 
+        <div class="nameinv">
+            <span v-if="/*asset.isCovered && */info.name" :title="info.name">{{info.name}}</span>
+            <span v-else>Not covered</span>
+        </div>
+
         <div class="valueWrapper">
             <portfoliovalue :portfolio="portfolio" :value="asset.value" :mode="mode"/>
         </div>
 
     </div>
 
-    <div class="name">
+    <!--<div class="name">
         <span v-if="/*asset.isCovered && */info.name">{{info.name}}</span>
         <span v-else>Not covered</span>
-    </div>
+    </div>-->
 
     
 </div>

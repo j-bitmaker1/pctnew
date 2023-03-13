@@ -1,13 +1,32 @@
 <template>
-<div id="portfolio_summary">
+<div id="portfolio_summary" :class="{portfolio : portfolio}">
 
     <div class="loading" v-if="loading">
         <linepreloader />
     </div>
 
-    <template v-else>
 
-        <div class="headerWrapper mobp">
+    <div class="headerWrapper mobp">
+
+        <div class="firstmenu">
+
+            <button class="button small round ghost" @click="selectPortfolio">
+                <i class="fas fa-search"></i>
+            </button>
+            
+            <homeAdd :ext="true" @success="homeadd"/>
+
+            <!--<button class="button small">
+                <i class="fas fa-plus"></i> Create portfolio
+            </button>-->
+
+            
+            <!--<div class="potfoliosHistory" @click="selectPortfolio">
+                <i class="fas fa-chevron-down"></i>
+            </div>-->
+        </div>
+
+        <div class="portfolioPart" v-if="portfolio">
 
             <div class="captionsl">
 
@@ -34,37 +53,56 @@
             </div>
 
             <div class="portfolioMenu">
-			    <portfoliomenu @changeClient="changeClient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
+                <portfoliomenu @changeClient="changeClient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
             </div>
 
-            <div class="potfoliosHistory" @click="selectPortfolio">
-                <i class="fas fa-chevron-down"></i>
-            </div>
             
         </div>
+        
+    </div>
 
-        <div class="bodyWrapper">
-            <div class="left part customscroll">
-                <shares :portfolio="portfolio" @editportfolio="editportfolio"/>
-            </div>
-            <div class="center part customscroll">
-                <crashtest ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
-            </div>
-            <div class="right part customscroll">
+    <div class="bodyWrapper">
+        <div class="left part customscroll">
+            <shares  v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+        </div>
+        <div class="center part customscroll">
+            <crashtest  v-if="portfolio" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+        </div>
+        <div class="right part ">
+            <template  v-if="portfolio">
                 <div class="emptyScenario" v-if="!selectedScenario || !ct">
                     <div class="textWrapper"><span>Select scenario to see contributors</span></div>
                 </div>
                 <div class="scenario" v-else>
-                    <div class="header mobp">
+                    <!--<div class="header mobp">
                         <span>{{selectedScenario.name}}</span>
-                    </div>
-                    <scenariodetails :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
+                    </div>-->
+                    <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
                     
                 </div>
-                
+            </template>
+            
+        </div>
+    </div>
+
+    <div class="portfoliotip" v-if="!portfolio">
+        <div class="wrapper">
+            <span>Load or select a portfolio and get Stress test!</span>
+            <div class="stickerWrapper">
+                <sticker src="goal.png" :width="128"/>
+            </div>
+            <div class="menu">
+                <button class="button small" @click="createportfolio">
+                    <i class="fas fa-suitcase"></i> New portfolio
+                </button>
+                <button class="button small round ghost" @click="selectPortfolio">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </div>
-    </template>
+
+        
+    </div>
 
     
 

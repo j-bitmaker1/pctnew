@@ -1,10 +1,10 @@
 <template>
 <div id="themeToggle">
 
-    <div class="tgl">
+    <div class="tgl" @click="seta">
         <div>
-            <i class="fas fa-sun" :class="{active : theme == 'white'}" @click="set('white')"></i>
-            <i class="fas fa-moon" :class="{active : theme == 'black'}" @click="set('black')"></i>
+            <i class="fas fa-sun" :class="{active : theme == 'white'}"></i>
+            <i class="fas fa-moon" :class="{active : theme == 'black'}"></i>
         </div>
     </div>
 

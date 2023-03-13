@@ -73,6 +73,81 @@
 	.preabs
 		position: absolute
 
+#root
+	&.summaryview
+		.topheader
+			display: none
+		.refresher
+			display: none!important
+		.rootapp
+			position: absolute
+			left: 0
+			top : 0
+			bottom: 0
+			right: 0
+			height: auto
+			padding : 0
+			max-width: 100%
+			margin : 0
+
+			>div
+				height: 100%
+				min-height: 0
+
+			>div:not(#appmenu)
+				position: absolute
+				left: 55px
+				right: 0
+				top : 0
+				bottom: 0
+				width: auto
+
+		#appmenu
+			padding : 0 0.5 * $r
+			width: 55px
+			z-index: 10
+			position: absolute
+			left : 0
+			top : 0
+			bottom: 0
+
+			.item
+				position: relative
+
+				.notifications
+					position: absolute
+					left : 50%
+					top : 50%
+					transform: scale(0.75)
+
+			.label
+				display: none
+
+		.footer
+			flex-direction: column-reverse
+			left: 1.5 * $r
+
+			i
+				font-size: 0.8em
+
+			>div
+				margin-top: 2 * $r
+
+			.themeToggleWrapper
+				margin-left: 0
+
+			.exploreWrapper
+				margin-left: 0
+
+			.help
+				margin-bottom: 0
+				padding-left: 0
+
+			.tgl
+				width: auto
+				>div
+					display: flex
+					flex-direction: column
 		
 .fade-enter-active, .fade-leave-active
 	transition: opacity .5s
@@ -86,7 +161,6 @@
 		padding : 3 * $r
 		max-width: 1180px
 		margin : 0 auto
-		
 
 		#appmenu
 			width : 260px
@@ -99,8 +173,33 @@
 			padding-bottom: 0
 			margin : 0 auto
 
+#root
+	&.summaryview
+		.rootapp
+			padding : 0
+			max-width: 100%
+			margin : 0
+
 
 @media only screen and (max-width: 768px)
+
+	#root
+		&.summaryview
+			#appmenu
+				width: 100%
+				position: fixed
+				z-index: 10
+				bottom : 0
+				left : 0
+				padding: 2 * $r
+				top : auto
+				height: auto
+
+			.rootapp
+				>div:not(#appmenu)
+					left: 0
+			
+
 	.rootapp
 		display: block
 		min-height: 110vh

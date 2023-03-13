@@ -28,6 +28,14 @@ export default {
     methods : {
         set : function(v){
             this.$store.commit('dollars', v)
+        },
+
+        seta : function(){
+            var v = 'p'
+
+            if(this.dollars == 'p') v = 'd'
+
+            this.$store.commit('dollars', v)
         }
     },
 }

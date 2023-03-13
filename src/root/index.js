@@ -50,7 +50,11 @@ export default {
 		fx : state => state.fx,
 		theight : state => state.theight,
 		tscrolly : state => state.tscrolly,
+		//summaryview : state => state.summaryview,
 
+		summaryview : function(){
+			return this.$route.name == 'summary' || !this.$route.name
+		},
 
 		directions : function(){
 

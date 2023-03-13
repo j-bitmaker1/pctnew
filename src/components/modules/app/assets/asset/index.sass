@@ -4,6 +4,16 @@
     align-items: center
     position: relative
 
+    .nameinv
+        flex-grow: 2
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+        margin-left: $r
+        span
+            font-size: 0.9em
+            color : srgb(--neutral-grad-3)
+
 .name
     padding : 0 2 * $r
     flex-grow: 2
@@ -16,8 +26,8 @@
 .valueWrapper
     max-width: 90px
     padding-right: $r
+    margin-left: $r
 
 .ticker
-    margin-top : 0.5 * $r
     margin-left: $r
 

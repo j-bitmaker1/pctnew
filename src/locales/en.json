@@ -49,6 +49,7 @@
 	},
 
 	"labels" : {
+		
 		"crashtest" : "Crashtest",
 		"shares" : "Shares",
 		"capacity" : "Capacity",
@@ -132,7 +133,12 @@
 		"licence" : "Licence",
 		"more" : "More",
 		"factoranalysis" : "Factor analysis",
-		"campaignsSettings" : "Marketing campaign settings"
+		"campaignsSettings" : "Marketing campaign settings",
+
+		"nocontributors" : {
+			"loss" : "There are no loss contributors for the specified scenario",
+			"gain" : "There are no gain contributors for the specified scenario"
+		}
 	},
 
 	"caption" : {
