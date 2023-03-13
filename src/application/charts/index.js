@@ -84,7 +84,7 @@ class Distribution {
         });
 
         series.push({
-            name: 'Standart Deviation Range',
+            name: 'Standard Deviation Range',
             type: 'areaspline',
             color: this.colors[1],
             lineColor: this.colors[1],

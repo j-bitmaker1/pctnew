@@ -8,8 +8,8 @@
 		</div>
 
 		<div class="foredit">
-			<div class="diconbutton">
-				<i class="fas fa-list" @click="edit"></i>
+			<div class="diconbutton" @click="edit">
+				<i class="fas fa-list" ></i>
 			</div>
 		</div>
 	</div>
