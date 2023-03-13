@@ -18,7 +18,8 @@ export default {
         homeAdd
 	},
     props: {
-        portfolioId : Number
+        portfolioId : Number,
+        last : Object
     },
 
 
@@ -74,7 +75,7 @@ export default {
         load : function(){
 
             if(!this.portfolioId){
-                return
+                return Promise.reject('empty')
             }
 
             this.loading = true
@@ -83,8 +84,6 @@ export default {
             this.portfolio = null
 
 			return this.core.api.pctapi.portfolios.get(this.portfolioId).then(r => {
-
-                console.log("RESULT", r)
 
 				this.portfolio = r
 
@@ -164,5 +163,11 @@ export default {
                 }
             })
         },
+
+        gotolast : function(){
+            this.$emit('changeData', {
+                portfolioId : this.last.data.portfolio.id
+            })
+        }
     },
 }

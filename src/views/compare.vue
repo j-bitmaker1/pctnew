@@ -151,8 +151,7 @@ export default {
 
 	created() {
 		this.last = this.core.activity.getlastByType('compare')
-
-		console.log('this.last', this.last)
+		
 	}
 }
 </script>

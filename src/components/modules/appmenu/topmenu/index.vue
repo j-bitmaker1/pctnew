@@ -1,9 +1,9 @@
 <template>
 <div id="topmenu" :class="path">
-    <div class="logowrapper">
-        <router-link to="/">
-            <logotype />
-        </router-link>
+    <div class="logowrapper" @click="gotohome">
+        
+        <logotype />
+        
     </div>
 
     <div class="profilewrapper" v-if="auth && userinfo">

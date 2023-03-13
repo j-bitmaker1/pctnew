@@ -32,10 +32,14 @@ export default {
         path : function(){
             console.log('this.$router', this.$router.currentRoute.name)
             return this.$router.currentRoute.name
-        }
+        },
+        mobileview : state => state.mobileview
     }),
 
     methods : {
-        
+        gotohome : function(){
+            if (this.mobileview) this.$router.push('/')
+            if(!this.mobileview) this.$router.push('/summary')
+        }
     },
 }

@@ -1,7 +1,7 @@
 <template>
 <div id="summary_page">
 
-    <psummary :portfolioId="id" @changeData="change"/>
+    <psummary :portfolioId="id" @changeData="change" :last="last"/>
 
 </div>
 </template>
@@ -24,8 +24,7 @@ export default {
 	computed: {
 
 		id : function(){
-			console.log('Number(this.$route.query.id)', Number(this.$route.query.id))
-			return Number(this.$route.query.id)
+			return this.$route.query.id ? Number(this.$route.query.id) : 0
 		},
 		
 	},
@@ -58,12 +57,18 @@ export default {
 	},
 
 	created() {
-        this.$store.commit('summaryview', true)
+        //this.$store.commit('summaryview', true)
+
+
+		this.last = this.core.activity.getlastByType('portfolio')
+
+		console.log('this.last', this.last)
+
 		//this.load()
 	},
 
     destroyed(){
-        this.$store.commit('summaryview', false)
+        //this.$store.commit('summaryview', false)
 
     }
 }

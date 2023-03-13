@@ -29,7 +29,7 @@
 
         .wrapper
             margin : 0 auto
-            max-width: 200px
+            max-width: 250px
             text-align: center
             padding : 2 * $r
             border-radius: 12px
@@ -37,6 +37,32 @@
 
             span
                 font-size: 0.9em
+
+        .iflast
+            width: 80%
+            margin : 0 auto
+            margin-bottom: 2 * $r
+            cursor: pointer
+            color : srgb(--color-txt-ac)
+            text-align: left
+            +transition(0.3s)
+            &:hover
+                color : srgb(--neutral-grad-4)
+
+            .lpwrapper
+                display: flex
+                flex-direction: column
+
+                .lpname
+                    white-space: nowrap
+                    text-overflow: ellipsis
+                    overflow: hidden
+
+                span
+                    font-size: 0.8em
+                   
+
+        
 
 
     .loading

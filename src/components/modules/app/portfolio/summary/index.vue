@@ -95,6 +95,15 @@
             <div class="stickerWrapper">
                 <sticker src="goal.png" :width="128"/>
             </div>
+
+            <div class="iflast" v-if="last && last.data && last.data.portfolio">
+                <div class="lpwrapper" @click="gotolast">
+                    <span>Go to last Portfolio:</span> 
+                    <span class="lpname">{{last.data.portfolio.name}}</span>
+                </div>
+            </div>
+
+            
             <div class="menu">
                 <button class="button small" @click="createportfolio">
                     <i class="fas fa-suitcase"></i> New portfolio
@@ -103,6 +112,8 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
+
+            
         </div>
 
         
