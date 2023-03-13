@@ -1,0 +1,61 @@
+#crashtest_crslider
+    padding-bottom: $r
+
+    .legend
+        display: flex
+        justify-content: center
+        align-items: center
+        position: absolute
+        bottom: 0
+        left : 0
+        right: 0
+
+        .icon
+            width: 6px
+            height: 6px
+            border-radius: 50%
+
+        .litem
+            margin-left: $r
+            margin-right: $r
+            display: flex
+            justify-content: center
+            align-items: center
+
+        .label
+            font-size: 0.7em
+            margin-left: $r
+    
+    
+    .crslider
+        height: 40px
+        position: relative
+        display: flex
+        align-items: center
+
+    .item
+        position: absolute
+        top : 5px
+        width: 30px
+        height: 30px
+        display: flex
+        align-items: center
+        justify-content: center
+        background: srgb(--neutral-grad-1)
+        border-radius: 50%
+        +shadowSmaller()
+
+        &.tolerance
+            background: srgb(--color-bg-ac-bright)
+            color : srgb(--text-on-bg-shadow-color)
+
+    .crline
+        flex-grow: 2
+        height: 6px
+        border-radius: 3px
+
+        background: #006c28
+        background: -moz-linear-gradient(142deg, rgba(0, 108, 40, 0.85758053) 0%, #e4ff00 50%, #ff0045 100%)
+        background: -webkit-linear-gradient(142deg, rgba(0, 108, 40, 0.85758053) 0%, #e4ff00 50%, #ff0045 100%)
+        background: linear-gradient(142deg, rgba(0, 108, 40, 0.85758053) 0%, #e4ff00 50%, #ff0045 100%)
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#006c28", endColorstr="#ff0045", GradientType=1)

@@ -386,7 +386,8 @@ var ApiWrapper = function (core = {}) {
 		financial: function () {
 			return {
 				storage: 'financial',
-				time: 60 * 60 * 248
+				time: 60 * 60 * 248,
+				version: 2
 			}
 		},
 

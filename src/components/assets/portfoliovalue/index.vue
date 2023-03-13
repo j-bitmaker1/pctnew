@@ -15,8 +15,6 @@ export default {
         dollars : state => state.dollars,
         resvalue : function(){
 
-            console.log('this.portfolio', this.portfolio)
-
             if(!this.portfolio) return this.value
 
             if(this.dollars == 'p' && !this.portfolio.isModel && this.mode != 'p') {

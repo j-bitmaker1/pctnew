@@ -85,6 +85,11 @@
             white-space: nowrap
             flex-direction: row-reverse
 
+            .portfolioname
+                max-width: 170px
+                text-overflow: ellipsis
+                overflow: hidden
+
             span
                 font-size: 0.9em
 
@@ -243,6 +248,14 @@
             .subheader
                 display: none
 
+            .crsliderWrapper
+                position: sticky
+                top : 0
+                left : 0
+                right: 0
+                z-index: 1
+                background: srgb(--background-total-theme)
+
             /*.header
                 position: sticky
                 height: 56px
@@ -300,6 +313,8 @@
 
         .topheader
             display: flex
+            margin-bottom: 0
+            margin-top: $r
 
         .lossgain
             position: absolute
@@ -315,7 +330,7 @@
                 top : 0
                 bottom : 0
                 right: 0
-                
+                background: srgb(--background-secondary-theme)
                 overflow: hidden
                 overflow-y: scroll
 

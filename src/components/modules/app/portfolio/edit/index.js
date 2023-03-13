@@ -77,6 +77,7 @@ export default {
 		auth : state => state.auth,
 
 		total : function(){
+			console.log('this.assets', this.assets)
 			return Number((_.reduce(this.assets, (m, asset) => {
 				return m + asset.value
 			}, 0)).toFixed(2))

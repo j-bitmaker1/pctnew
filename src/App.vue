@@ -120,7 +120,9 @@ Exporting(Highcharts)
 OfflineExporting(Highcharts)
 SolidGaude(Highcharts)
 
-
+/*
+import plugin, {Editor} from 'vue-editor-js/src/index'
+Vue.use(plugin)*/
 
 /*
 import { Swipeable } from 'vue-swipeable';

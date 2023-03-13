@@ -244,7 +244,7 @@ class Allocation {
         return [
             {
                 text: 'labels.bygroup',
-                id: 'type'
+                id: 'group'
             },
 
             {

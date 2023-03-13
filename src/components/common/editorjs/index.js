@@ -1,5 +1,5 @@
 import plugin from 'vue-editor-js/src/index'
-
+import Vue from "vue";
 Vue.use(plugin)
 
 import { mapState } from 'vuex';

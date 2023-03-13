@@ -152,7 +152,10 @@ export default {
 
 		portfolioSummary: function(){
 
-			this.core.vueapi.portfolioSummary({portfolioId : this.portfolio.id}, {})
+
+			this.$router.push('/summary?id=' + this.portfolio.id)
+
+			//this.core.vueapi.portfolioSummary({portfolioId : this.portfolio.id}, {})
 
 		},
 

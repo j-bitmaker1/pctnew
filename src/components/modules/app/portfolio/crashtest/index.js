@@ -3,6 +3,7 @@ import { mapState } from 'vuex';
 import ctmenu from './menu/index.vue'
 import ctmain from './main/index.vue'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
+import crslider from './crslider/index.vue'
 
 export default {
 	name: 'portfolios_crashtest',
@@ -14,7 +15,8 @@ export default {
 	components : {
 		ctmain,
 		summarybutton,
-		ctmenu
+		ctmenu,
+		crslider
 	},
 
 	data : function(){
@@ -82,6 +84,9 @@ export default {
 	},
 
 	watch: {
+		portfolio : function(){
+			this.get()
+		}
 		/*portfolio : {
 			immediate : true,
 			deep : true,
@@ -106,7 +111,6 @@ export default {
 		get : function(){
 
 			this.loading = true
-
 
 			this.core.pct.stresstest(this.portfolio.id).then(r => {
 				this.cts = this.core.pct.composeCTS({[this.portfolio.id] : r}, this.portfolio.total())

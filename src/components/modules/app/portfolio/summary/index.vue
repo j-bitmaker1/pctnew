@@ -38,7 +38,7 @@
                     <span>/</span>
                 </div>
 
-                <div>
+                <div class="portfolioname">
                     <span>{{portfolio.name}}</span>
                 </div>
 
@@ -68,18 +68,22 @@
         <div class="center part customscroll">
             <crashtest  v-if="portfolio" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
         </div>
-        <div class="right part ">
+        <div class="right part">
             <template  v-if="portfolio">
-                <div class="emptyScenario" v-if="!selectedScenario || !ct">
-                    <div class="textWrapper"><span>Select scenario to see contributors</span></div>
-                </div>
-                <div class="scenario" v-else>
-                    <!--<div class="header mobp">
-                        <span>{{selectedScenario.name}}</span>
-                    </div>-->
-                    <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
-                    
-                </div>
+
+                <linepreloader v-if="!ct"/>
+                <template  v-else>
+                    <div class="emptyScenario" v-if="!selectedScenario || !ct">
+                        <div class="textWrapper"><span>Select scenario to see contributors</span></div>
+                    </div>
+                    <div class="scenario" v-else>
+                        <!--<div class="header mobp">
+                            <span>{{selectedScenario.name}}</span>
+                        </div>-->
+                        <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
+                        
+                    </div>
+                </template>
             </template>
             
         </div>

@@ -40,6 +40,9 @@ export default {
 
     watch: {
         portfolioId : function(){
+
+            console.log("HERE", this.portfolioId)
+
             this.load().catch(e => {})
         }
     },
@@ -75,8 +78,13 @@ export default {
             }
 
             this.loading = true
+            this.ct = null
+            this.selectedScenario = null
+            this.portfolio = null
 
 			return this.core.api.pctapi.portfolios.get(this.portfolioId).then(r => {
+
+                console.log("RESULT", r)
 
 				this.portfolio = r
 

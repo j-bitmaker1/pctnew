@@ -24,16 +24,14 @@ export default {
 	computed: {
 
 		id : function(){
-			return this.$route.query.id
+			console.log('Number(this.$route.query.id)', Number(this.$route.query.id))
+			return Number(this.$route.query.id)
 		},
-
 		
 	},
 
 	watch : {
-		id : {
-			
-		}
+		id : function(){}
 	},
 
 	data : function(){

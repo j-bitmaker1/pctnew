@@ -53,7 +53,7 @@
 							</div>
 
 							<div class="empty" v-else>
-								<span>{{$e('labels.nocontributors.' + i)}}</span>
+								<span>{{$t('labels.nocontributors.' + i)}}</span>
 							</div>
 						</div>
 

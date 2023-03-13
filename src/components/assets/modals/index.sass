@@ -22,3 +22,9 @@
             .modal
                 -webkit-transform: translateY(-100%)
                 transform: translateY(-100%)
+
+#modal
+    +transition(0.3s)
+    &:nth-last-child(2)
+        transform: scale(1.05)
+        

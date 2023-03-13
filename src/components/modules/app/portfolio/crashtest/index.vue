@@ -5,9 +5,14 @@
 
     <div class="ct" v-else>
 
-        <div class="summary mobp">
+        <!--<div class="summary mobp">
             <summarybutton :reversed="true" :colored="true" v-for="item in summary" :key="item.index" :text="item.text" :number="core.pct.ocr(item.index ? ct[item.index] : th[item.th])" @click="e => {item.click ? item.click() : null}" />
+        </div>-->
+
+        <div class="crsliderWrapper mobp">
+            <crslider :ct="ct" :items="summary" :th="th"/>
         </div>
+
 
         <div class="header mobp">
             <div class="forpanel">

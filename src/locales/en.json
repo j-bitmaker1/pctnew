@@ -125,6 +125,10 @@
 				"all" : "Show only unread"
 			}
 		},
+		"crslider" : {
+			"ocr" : "Crash rating",
+			"tolerance" : "Tolerance"
+		},
 		"confirmyourpassword" : "Confirm your assword",
 		"moveportfoliostofolder" : "Move portfolios to folder",
 		"moveportfoliotofolder" : "Move portfolio to folder",

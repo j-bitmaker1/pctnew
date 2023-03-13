@@ -113,7 +113,7 @@ export default {
                     return {
                         isCovered : true,
                         ticker : d.Ticker,
-                        value : d.Value,
+                        value : Number(d.Value),
                         name : d.Name
                     }
                 }
