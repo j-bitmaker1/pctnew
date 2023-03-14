@@ -7,6 +7,7 @@ import VueSlider from 'vue-slider-component'
 import _ from 'underscore';
 
 import { MonteCarlo } from '@/application/charts/index';
+import slider from '@/components/assets/slider/index.vue'
 
 var monteCarlo = new MonteCarlo()
 
@@ -23,7 +24,8 @@ export default {
 
 	components : {
 		highcharts : Chart,
-		VueSlider
+		VueSlider,
+		slider
 	},
 
 	data : function(){
@@ -105,6 +107,36 @@ export default {
 					}
 				},
 
+				'savemoreRange' : {
+					text : "Saving Horizon",
+					
+					mode : '',
+
+					options : {
+						min : this.values.ages[0],
+						max : this.values.ages[1],
+						interval : 1,
+						maxRange : 50,
+						type : [Number, Number],
+					}
+				},
+
+				'withdrawRange' : {
+					text : "Withdrawal Horizon",
+					
+					mode : '',
+
+					options : {
+						min : this.values.ages[0],
+						max : 99,
+						interval : 1,
+						maxRange : 50,
+						type : [Number, Number],
+					}
+				},
+
+				
+
 				'save' : {
 					text : "Yearly Savings",
 					
@@ -142,33 +174,7 @@ export default {
 					}
 				},
 
-				'savemoreRange' : {
-					text : "Saving Horizon",
-					
-					mode : '',
-
-					options : {
-						min : this.values.ages[0],
-						max : this.values.ages[1],
-						interval : 1,
-						maxRange : 50,
-						type : [Number, Number],
-					}
-				},
-
-				'withdrawRange' : {
-					text : "Withdrawal Horizon",
-					
-					mode : '',
-
-					options : {
-						min : this.values.ages[0],
-						max : 99,
-						interval : 1,
-						maxRange : 50,
-						type : [Number, Number],
-					}
-				},
+				
 			}
 		},
 

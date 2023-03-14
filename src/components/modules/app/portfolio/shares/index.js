@@ -4,18 +4,21 @@ import linenavigation from "@/components/assets/linenavigation/index.vue";
 import distribution from "../distribution/index.vue";
 import allocation from "../allocation/index.vue";
 import assets from "../assets/index.vue";
+import edit from "../edit/index.vue";
 
 export default {
 	name: 'portfolios_shares',
 	props: {
-		portfolio : Object
+		portfolio : Object,
+		editInsteadList : Boolean
 	},
 
 	components : {
 		linenavigation,
 		allocation,
 		distribution,
-		assets
+		assets,
+		edit
 	},
 
 	data : function(){
@@ -34,7 +37,6 @@ export default {
 					text : 'labels.allocation',
 					id : 'allocation',
 					icon : 'fas fa-chart-pie'
-				   
 				},
 				
 				{
@@ -74,7 +76,18 @@ export default {
 			return this.$route.query[this.navkey] || this.navdefault
 		},
 		module : function(){
+
+			if(this.active == 'assets' && this.editInsteadList) return 'edit'
+
 			return this.active
+		},
+
+		assetsedit : function(){
+			return {
+				name : this.portfolio.name,
+				assets : this.assets,
+				id : this.portfolio.id
+			}
 		}
 	}),
 
@@ -96,6 +109,11 @@ export default {
 
 		editportfolio : function(){
 			this.$emit('editportfolio')
+		},
+
+		updclbk : function(){
+			console.log("updclbkupdclbk")
+			this.editportfolio()
 		}
 
 	},

@@ -20,8 +20,8 @@ export default {
 
 	},
 
-	created : () => {
-
+	created() {
+		console.log("this.contributor", this.contributor, this.mode)
 	},
 
 	watch: {

@@ -9,7 +9,7 @@ import {
 
 export default {
     name: 'portfoliovalue',
-    props: ['value', 'colored', 'portfolio', 'mode'],
+    props: ['value', 'colored', 'portfolio', 'mode', 'includeuncovered'],
     computed: mapState({
         auth: state => state.auth,
         dollars : state => state.dollars,
@@ -18,7 +18,7 @@ export default {
             if(!this.portfolio) return this.value
 
             if(this.dollars == 'p' && !this.portfolio.isModel && this.mode != 'p') {
-                return this.value / (this.portfolio.total() + this.portfolio.uncovered()) * 100
+                return this.value / (this.portfolio.total() + (this.includeuncovered ? this.portfolio.uncovered() : 0)) * 100
             }
 
             return this.value

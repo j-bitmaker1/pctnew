@@ -182,6 +182,18 @@ Vue.use(VuePageTransition)
  
 Vue.use(vuescroll, {throttle: 100})
 
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask)
+
+import money from 'v-money'
+
+Vue.use(money, {
+    precision: 2,
+    decimal: ',',
+    thousands: '.',
+    prefix: '$ ',
+})
+
 import shadow from 'vue-shadow-dom'
 Vue.use(shadow)
 

@@ -11,7 +11,9 @@ export default {
 		edit : Object,
 		payload : Object,
 		currentroot : [String, Number],
-		from : Object
+		from : Object,
+		wnd : Boolean,
+		updclbk : Function
 	},
 
 	components : {
@@ -38,20 +40,7 @@ export default {
 
 	created : function() {
 
-		var donor = this.edit || this.from
-
-		if (donor){
-			this.assets = []
-			
-			_.each(donor.assets, (e) => {
-				this.assets.push(_.clone(e))
-			})
-
-			this.name = donor.name
-			this.isModel = donor.isModel
-		}
-
-		this.hash = this.datahash()
+		this.ini()
 		
 	},
 
@@ -149,19 +138,27 @@ export default {
 		cancel : function(){
 			if (this.haschanges){ /// check changes instead
 
-				return this.$dialog.confirm(
-					'You have unsaved changes. Discard them and close this window?', {
-					okText: 'Yes, close',
-					cancelText : 'No'
-				})
-		
-				.then((dialog) => {
-					
-					this.$emit('close')
+				if(this.wnd){
+					return this.$dialog.confirm(
+						'You have unsaved changes. Discard them and close this window?', {
+						okText: 'Yes, close',
+						cancelText : 'No'
+					})
+			
+					.then((dialog) => {
+						
+						this.$emit('close')
+	
+					}).catch( e => {
+						
+					})
+				}
 
-				}).catch( e => {
-					
-				})
+				else{
+					this.ini()
+				}
+
+				
 
 			}
 
@@ -464,6 +461,8 @@ export default {
 					...r
 				}
 
+				if(this.updclbk) this.updclbk(data)
+
 				this.$emit('edit', data)
 
 				this.$emit('close')
@@ -592,6 +591,23 @@ export default {
 
 		addasset : function(){
 			this.autofocus()
+		},
+
+		ini : function(){
+			var donor = this.edit || this.from
+
+			if (donor){
+				this.assets = []
+				
+				_.each(donor.assets, (e) => {
+					this.assets.push(_.clone(e))
+				})
+
+				this.name = donor.name
+				this.isModel = donor.isModel
+			}
+
+			this.hash = this.datahash()
 		},
 
 		model : function(){

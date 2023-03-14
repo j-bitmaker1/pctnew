@@ -16,7 +16,23 @@
 
 .summary
     display: flex
-    grid-gap: $r
+    flex-wrap: wrap
+    justify-content: space-between
+    
+
+    .crsliderWrapper
+        flex-basis: 30%
+
+    .label
+        overflow: hidden
+        max-width: 180px
+        
+        text-align: center
+        text-overflow: ellipsis
+        margin: 0 auto
+        white-space: nowrap
+        span
+            font-size: 0.9em
 
     >div
         flex-basis: 50%

@@ -3,13 +3,13 @@
 	<div class="wrapperAll">
 		<div class="scale">
 			<div class="num" v-for="index in intervals" :key="-index">
-				<div><value :value="num(index - 1 - intervals)" :mode="mode"/></div>
+				<div><value :value="num(index - 1 - intervals)" :mode="modecomposed"/></div>
 			</div>
 			<div class="num" :key="0">
-				<div><value :value="0" :mode="mode"/></div>
+				<div><value :value="0" :mode="modecomposed"/></div>
 			</div>
 			<div class="num" v-for="index in intervals" :key="index">
-				<div><value :value="num(index)" :mode="mode"/></div>
+				<div><value :value="num(index)" :mode="modecomposed"/></div>
 			</div>
 		</div>
 
@@ -26,6 +26,12 @@
 						<div class="barswrapper"  @click="e => scenarioClick(scenario)">
 							<div class="barwrapper" @click="e => scenarioClickDirect(scenario, i)" :class="{positive : loss > 0, negative : loss < 0}" :key="i" v-for="(loss, i) in scenario.loss">
 								<div class="bar" :style="{[mobileview ? 'height' : 'width'] : height(scenario, loss) + '%', background : color(scenario, loss) }"></div>
+
+								<div class="portfolioname" v-if="many">
+									<div>
+									<span>{{portfolios[i].name}}</span>
+									</div>
+								</div>
 							</div>
 							
 						</div>

@@ -24,7 +24,13 @@
 		</div>
 
 		<div class="summary mobp" v-if="cts">
-			<summarybutton :reversed="true" :colored="true" v-for="(item, id) in cts.cts" :key="id" :text="summatytext(id)" :number="core.pct.ocr(item.ocr)"/>
+			<div class="crsliderWrapper" v-for="(ct, id) in cts.cts">
+				<div class="label">
+					<span>{{summatytext(id)}}</span>
+				</div>
+				<crslider :ct="ct" :items="summary"/>
+			</div>
+			<!--<summarybutton :reversed="true" :colored="true" v-for="(item, id) in cts.cts" :key="id" :text="summatytext(id)" :number="core.pct.ocr(item.ocr)"/>-->
 		</div>
 
         <ctmain :cts="cts" :portfolios="portfolios" :mode="valuemode"/>

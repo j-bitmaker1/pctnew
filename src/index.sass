@@ -607,6 +607,8 @@ button.button
 	padding: $r
 	border-bottom: 1px solid srgb(--neutral-grad-0)
 
+	
+
 	.inputwrapper
 		padding-left: $r
 		padding-right: $r
@@ -624,7 +626,7 @@ button.button
 
 			input
 				height: 33px
-				max-width: 60px
+				max-width: 80px
 				padding : 0 $r
 				border-radius: 12px
 				background: srgb(--neutral-grad-0)
@@ -632,12 +634,23 @@ button.button
 				font-size: 0.9em
 				font-weight: 700
 
+		.values
+			display: flex
+			align-items: center
+
+			.divider
+				margin-right: 0.5 * $r
+				margin-left: 0.5 * $r
+
 		.name
 			span
 				font-size: 0.9em
 				font-weight: 700
 
 	.minmax
+		padding-top : 0
+		padding-bottom: 0
+		line-height: 14px
 		span
 			font-size: 0.8em
 

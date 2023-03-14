@@ -45,7 +45,8 @@ export default {
             console.log("HERE", this.portfolioId)
 
             this.load().catch(e => {})
-        }
+        },
+
     },
     computed: mapState({
         auth : state => state.auth,
@@ -107,9 +108,15 @@ export default {
 
         editportfolio : function(){
 
+            console.log("HERE!")
+
             this.load().then(() => {
+                console.log("HERE1")
                 return this.$nextTick();
             }).then(() => {
+
+                console.log("HERE2")
+
 
                 if (this.$refs.crashtest)
                     this.$refs.crashtest.load()

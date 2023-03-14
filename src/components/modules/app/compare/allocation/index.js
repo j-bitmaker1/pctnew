@@ -19,7 +19,7 @@ export default {
 
         return {
             loading : false,
-            activegrouping : 'type',
+            activegrouping : 'group',
 			groups : allocation.groups(),
             portfolios : [],
             agroups : {}

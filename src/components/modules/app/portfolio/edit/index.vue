@@ -1,5 +1,5 @@
 <template>
-<div id="portfolios_edit">
+<div id="portfolios_edit" :class="{haschanges}">
 
 	<div class="namewrapper" >
 		<input placeholder="Portfolio name" ref="inputname" @keyup="changename" :value="name"/>

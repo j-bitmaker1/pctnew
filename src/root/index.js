@@ -53,7 +53,7 @@ export default {
 		//summaryview : state => state.summaryview,
 
 		summaryview : function(){
-			return this.$route.name == 'summary' || !this.$route.name
+			return this.$route.name == 'summary'
 		},
 
 		directions : function(){

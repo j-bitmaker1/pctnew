@@ -1,6 +1,8 @@
 import _ from 'underscore';
 import { mapState } from 'vuex';
 
+
+
 export default {
     name: 'assets_edit',
     props: {
@@ -8,7 +10,10 @@ export default {
         name : String,
         value : Number,
         isCovered : Boolean,
-       
+        mode : {
+            type : String,
+            default : 'd'
+        }
     },
 
     data : function(){

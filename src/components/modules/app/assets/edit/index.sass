@@ -4,6 +4,11 @@
     align-items: center
     border-bottom: 1px solid srgb(--neutral-grad-1)
     font-size: 0.9em
+
+    &.focused
+        .tickerwrapper,
+        .ticker
+            display: none
     /*position: relative*/
 
 .assets_fromsearch
@@ -76,6 +81,13 @@
 
 input
     padding : 0 2 * $r
+    padding-right: 0
     height: 44px
     width: 100%
 
+.pdicon
+    margin-right: 3 * $r
+    margin-left: 0.5 * $r
+
+.tickerwrapper
+    min-width: 120px

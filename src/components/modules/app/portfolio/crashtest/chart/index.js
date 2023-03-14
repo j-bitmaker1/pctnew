@@ -34,12 +34,22 @@ export default {
 		roundbase : function(){
 			return Math.pow(10, Math.max((this.cts.total.toFixed(0)).length - 3, 1))
 		},
-
+		dollars : state => state.dollars,
 		length : function(){
 			return _.toArray(this.cts.scenarios).length
 		},
 
-		currentStyles : state => state.currentStyles
+		currentStyles : state => state.currentStyles,
+
+		modecomposed : function(){
+			if(this.dollars == 'd') return this.mode
+
+			return this.dollars
+		},
+
+		many : function(){
+			return _.toArray(this.portfolios).length > 1
+		}
 	}),
 
 	methods : {
@@ -66,14 +76,23 @@ export default {
 		},
 
 		num : function(index){
+
+			console.log('this.cts', this.cts)
+
 			var v = (index) * (this.cts.total * this.cts.max / this.intervals)
 			
 			if(this.mode == 'p'){
 				return v
 			}
 			else{
-		
-				return f.round(v, this.roundbase) || 0
+				
+				if(this.dollars == 'd'){
+					return f.round(v, this.roundbase) || 0
+				}
+				else{
+					return (index) * (this.cts.max / this.intervals)
+				}
+				
 			}
 		},
 

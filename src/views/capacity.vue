@@ -3,7 +3,26 @@
 
 	<topheader :back="mobileview ? 'back' : ''">
 		<template v-slot:info>
-			<span>Capacity</span>
+			<div class="capacityheader">
+				<div class="forheader">
+					<span>Capacity</span>
+				</div>
+
+				<div class="forclient">
+					<div class="profileWrapper" v-if="profile">
+						<div id="clientprofile">
+							
+
+							<div class="data" v-if="profile">
+								<b>{{profile.FName}} {{profile.LName}},</b>&nbsp;<avalue :value="profile.Email"/>
+							</div>
+							<div class="userpicWrapper">
+								<userpic :userinfo="profile || {}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</template>
 		<template v-slot:right>
 			<div class="buttonpanel">
@@ -19,18 +38,7 @@
 		<template v-slot:content>
 
 			<div class="componentWrapper" v-if="id">
-				<div class="profileWrapper" v-if="profile">
-					<div id="clientprofile">
-						<div class="userpicWrapper">
-							<userpic :userinfo="profile || {}" />
-						</div>
-
-						<div class="data" v-if="profile">
-							<div class="name">{{profile.FName}} {{profile.LName}}</div>
-							<div class="email"><avalue :value="profile.Email"/></div>
-						</div>
-					</div>
-				</div>
+				
 				<capacity :ids="ids" :profile="profile" v-if="profile"/>
 
 				<div class="loading" v-else>
@@ -50,26 +58,36 @@
 
 <style scoped lang="sass">
 
+.capacityheader
+	display: flex
+	align-items: center
+.forclient
+	margin-left: auto
+
 #clientprofile
-	display: column
 	justify-content: center
 	align-items: center
-	text-align: center
-	margin-bottom: 2 * $r
+	display: flex
+
+	::v-deep
+		span
+			font-size: 0.8em!important
+
+	span
+		font-size: 1em!important
 
 	.userpicWrapper
-		max-width: 80px
-		margin : 0 auto
+		max-width: 33px
+		width: 33px
+		height: 33px
+
 
 	.data
-		.name
-			font-size: 1.2em
-			font-weight: 700
-		.email
-			font-size: 0.8em
+		margin-right: $r
+		display: flex
+		font-size: 0.8em
 			
 .componentWrapper
-	margin-top: 2 * $r
 
 .golast
 	text-align: center

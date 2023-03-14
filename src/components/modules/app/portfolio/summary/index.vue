@@ -63,7 +63,7 @@
 
     <div class="bodyWrapper">
         <div class="left part customscroll">
-            <shares  v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+            <shares :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
         </div>
         <div class="center part customscroll">
             <crashtest  v-if="portfolio" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>

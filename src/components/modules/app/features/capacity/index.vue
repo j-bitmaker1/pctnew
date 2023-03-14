@@ -40,9 +40,10 @@
 		</div>
 
 		<div class="options">
-			<div class="slider mobp customslider" :key="i" v-for="(slider, i) in sliders">
 
-				<div class="sheader">
+				<slider v-model="values[i]" :key="i" v-for="(slider, i) in sliders" :name="slider.text" :options="slider.options"/>
+
+				<!--<div class="sheader">
 
 					<div class="name">
 						<span>{{slider.text}}</span>
@@ -64,8 +65,7 @@
 					<div class="max">
 						<value :value="slider.options.max" :mode="slider.mode" />
 					</div>
-				</div>
-			</div>
+				</div>-->
 			
 		</div>
 

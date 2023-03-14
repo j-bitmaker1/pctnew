@@ -3,13 +3,14 @@ import { mapState } from 'vuex';
 import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'
 import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
+import crslider from '@/components/modules/app/portfolio/crashtest/crslider/index.vue'
 export default {
     name: 'compare',
     props: {
         ids : Array
     },
 
-    components : {ctmain, ctmenu, summarybutton},
+    components : {ctmain, ctmenu, summarybutton, crslider},
 
     data : function(){
 
@@ -28,6 +29,15 @@ export default {
 					id : 'p'
 				}
 			],
+
+            summary : [
+
+				{
+					text : 'labels.crashrating',
+					index : 'ocr'
+				}
+				
+			]
         }
 
     },
@@ -63,7 +73,7 @@ export default {
     methods : {
 
         summatytext : function(id){
-            return "Crash rating: " + this.portfolios[id].name
+            return this.portfolios[id].name
         },
 
         changevaluemode : function(v){

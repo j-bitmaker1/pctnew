@@ -1552,8 +1552,6 @@ var ApiWrapper = function (core = {}) {
 
 				var { updated, from = {} } = core.vxstorage.update(data, 'portfolio')
 
-				console.log("updated", updated, from)
-
 				if (updated) {
 
 					core.vxstorage.invalidateManyQueue(

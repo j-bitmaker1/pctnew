@@ -17,7 +17,7 @@
         </div>
 
         <div class="valueWrapper">
-            <portfoliovalue :portfolio="portfolio" :value="asset.value" :mode="mode"/>
+            <portfoliovalue :includeuncovered="true" :portfolio="portfolio" :value="asset.value" :mode="mode"/>
         </div>
 
     </div>

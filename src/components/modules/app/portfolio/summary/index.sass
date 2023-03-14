@@ -235,9 +235,51 @@
             .wrapper
                 justify-content: flex-start
 
+        #portfolios_edit 
+            .captionRow,
+            .addwrapper
+                display: none
+            .namewrapper
+                display: none
+
+            .assetsList
+                padding-top: 0
+
+                .value
+                    max-width: 70px
+
+                .tickerwrapper
+                    min-width: 0
+                    flex-shrink: 0
+
+                .pdicon
+                    margin-right: $r
+
+                .ticker
+                    margin-left: 0.5 * $r
+
+                input
+                    padding-left: $r
+
+            &.haschanges
+                .savePanel
+                    display: flex
+
+            .savePanel
+                height: 6 * $r
+                display: none
+                padding-right: $r
+
+                button
+                    min-width: 0
+                    font-size: 0.8em
+
         #portfolio_assets
 
             padding-top: $r
+
+            
+
             .total
                 padding-left: $r
                 padding-right: 0.5 * $r
