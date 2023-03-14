@@ -112,7 +112,7 @@ export default {
 
 				this.fromsettings = _.clone(this.capacity.values)
 
-				this.core.dynamicSettings[this.settingsKey].set('values', this.fromsettings)
+				this.core.dynamicSettings[this.settingsKey].set('values_' + this.profile.ID, this.fromsettings)
 			}
 		},	
 
@@ -128,9 +128,9 @@ export default {
 
 			if(!this.core.dynamicSettings[this.settingsKey]){
 				this.core.dynamicSettings[this.settingsKey] = new Settings(this.core, 'CAPACITYVALUES', {
-					'CAPACITYVALUES' : {
-						values : {
-							name: 'values',
+					['CAPACITYVALUES'] : {
+						['values_' + this.profile.ID] : {
+							name: 'values_' + this.profile.ID,
 							default: function() {
 								return null
 							}
@@ -140,8 +140,8 @@ export default {
 			}
 
 			return this.core.dynamicSettings[this.settingsKey].getall().then(d => {
-				console.log("D", d)
-				this.fromsettings = d.values.value
+				if (d['values_' + this.profile.ID])
+					this.fromsettings = d['values_' + this.profile.ID].value
 			})
 		},
 
