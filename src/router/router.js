@@ -272,6 +272,15 @@ const routes = [
 	},
 
 	{
+		path: '/comparewith',
+		name: 'comparewith',
+		component: () => import('@/views/comparewith'),
+		customRedirect: redirects.authorized,
+
+		features : ['PCT']
+	},
+
+	{
 		path: '/capacity',
 		name: 'capacity',
 		component: () => import('@/views/capacity'),
