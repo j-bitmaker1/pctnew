@@ -4,7 +4,9 @@
 	increased : dwidth < 768 && length > 12, 
 	mobileview, 
 	standart : !mobileview, 
-	calcheight
+	calcheight,
+	many
+	
 	}">
 
 	<div class="wrapperAll">
