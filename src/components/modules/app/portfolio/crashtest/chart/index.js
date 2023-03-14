@@ -59,6 +59,9 @@ export default {
 	}),
 
 	methods : {
+		rcolor : function(v){
+			return f.colorFromRatingGradient(v)
+		},
 		height : function(scenario, loss){
 
 			if(!this.cts.max) return 0

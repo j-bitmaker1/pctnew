@@ -2428,6 +2428,14 @@ var ApiWrapper = function (core = {}) {
 			}
 		},
 
+		initlookup : function(){
+			return request({}, 'pctapi', 'User/Init', {
+				method: "POST"
+			}).then(r => {
+
+			})
+		},
+
 		updated: function (p = {}) {
 			return request({}, 'pctapi', 'User/GetLastUpdates', {
 				method: "POST"

@@ -381,6 +381,36 @@ class Vueapi {
         })
     }
 
+    integrations = function(success, p = {}){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_settings_integrations',
+            module : "settings_integrations",
+            caption : "Integrations",
+    
+            events : {
+                changed : function(){
+                    success()
+                }
+            }
+        })
+    }
+
+    integrationsAdd = function(success, p = {}){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_settings_integrations_add',
+            module : "settings_integrations_add",
+            caption : "Add connection",
+            data : p,
+            events : {
+                changed : function(){
+                    success()
+                }
+            }
+        })
+    }
+
     scoreConverter = function(success, p = {}){
 
         this.store.commit('OPEN_MODAL', {

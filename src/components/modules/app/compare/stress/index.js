@@ -123,6 +123,14 @@ export default {
             })
 
            
+        },
+
+        selectone : function(id){
+            this.$emit('selectone', id)
+        },
+
+        removeitem : function(id){
+            this.$emit('removeitem', id)
         }
     },
 }

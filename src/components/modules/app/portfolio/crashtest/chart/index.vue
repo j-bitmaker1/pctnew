@@ -37,8 +37,11 @@
 								<div class="bar" :style="{[mobileview ? 'height' : 'width'] : height(scenario, loss) + '%', background : color(scenario, loss) }"></div>
 
 								<div class="portfolioname" v-if="many">
-									<div>
-									<span>{{portfolios[i].name}}</span>
+									<div class="icon" :style="'background:' + rcolor(core.pct.ocr(cts.cts[i].ocr))">
+										<span>{{core.pct.ocr(cts.cts[i].ocr)}}</span>
+									</div>
+									<div class="label">
+										<span>{{portfolios[i].name}}</span>
 									</div>
 								</div>
 							</div>

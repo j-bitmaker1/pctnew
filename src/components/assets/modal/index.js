@@ -79,6 +79,9 @@ export default {
         explore : () => import("@/views/explore.vue"),
         fastmenu: () => import("@/components/modules/appmenu/fastmenu/index.vue"),
         settings_scoreConverter: () => import("@/components/modules/app/settings/scoreConverter/index.vue"),
+        settings_integrations: () => import("@/components/modules/app/settings/integrations/index.vue"),
+        settings_integrations_add: () => import("@/components/modules/app/settings/integrations/add/index.vue"),
+        
         pdfSettings: () => import("@/components/modules/app/settings/pdf/wnd.vue"),
         questionnaire_client: () => import("@/components/modules/app/client/questionnaire/index.vue"),
         scenario_custom: () => import("@/components/modules/app/scenarios/custom/index.vue"),

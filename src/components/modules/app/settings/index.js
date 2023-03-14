@@ -52,7 +52,14 @@ export default {
                         view : 'button',
                         route : '/campaigns?p=settings'
                     },
+                ],
 
+                integrations : [
+                    {
+                        text : 'labels.editIntegrations',
+                        view : 'button',
+                        action : () => this.core.vueapi.integrations()
+                    },
                 ],
 
                 account : [

@@ -170,7 +170,7 @@ class Templates {
 class Actions {
     constructor () {
         this.keys = [
-            'themeToggle', 'changePassword', 'scenarioManager', 'scoreConverter',
+            'themeToggle', 'changePassword', 'scenarioManager', 'scoreConverter', 'integrations',
             'newPortfolio', 'newClient', 'newLead', 'sharequestionnaire',
             'fileManager'
         ]
@@ -233,6 +233,23 @@ class Actions {
             data : {
                 label : 'labels.scenarioManager',
                 type : 'labels.crashtestSettings'
+            }
+        }
+    }
+
+    integrations () {
+        return {
+            type: 'setting',
+            subtype: 'integrations',
+
+
+            action : {
+                vueapi : 'integrations'
+            },
+
+            data : {
+                label : 'labels.editIntegrations',
+                type : 'labels.integrations'
             }
         }
     }

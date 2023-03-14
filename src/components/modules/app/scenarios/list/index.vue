@@ -6,15 +6,15 @@
         <div class="panel mobp">
 
 			<div>
-                <button class="button" @click="createCustomScenario">Create custom scenario <i class="fas fa-plus"></i></button>
+                <button class="button small" @click="createCustomScenario">Create custom scenario <i class="fas fa-plus"></i></button>
             </div>
 
 			<div>
-                <button class="button black" @click="unselectAll">Unselect all</button>
+                <button class="button black small" @click="unselectAll">Unselect all</button>
             </div>
 
 			<div>
-                <button class="button black" @click="useDefault">Use default scenarios</button>
+                <button class="button black small" @click="useDefault">Use default scenarios</button>
             </div>
 
         </div>

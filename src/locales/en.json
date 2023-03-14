@@ -49,7 +49,7 @@
 	},
 
 	"labels" : {
-		
+		"editIntegrations" : "Set Integrations",
 		"crashtest" : "Crashtest",
 		"shares" : "Shares",
 		"capacity" : "Capacity",
@@ -413,7 +413,8 @@
 		"pdf" : "PDF reports",
 		"stress" : "Crash testing",
 		"account" : "Account",
-		"campaigns" : "Campaigns"
+		"campaigns" : "Campaigns",
+		"integrations" : "Integrations"
 	},	
 	"themes" : {
 		"white" : "Light theme",

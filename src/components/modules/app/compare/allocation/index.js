@@ -103,6 +103,14 @@ export default {
                     this.$refs[p.id][0].doDrillup(true)
                 }
             })
+        },
+
+        selectone : function(id){
+            this.$emit('selectone', id)
+        },
+
+        removeitem : function(id){
+            this.$emit('removeitem', id)
         }
     },
 }

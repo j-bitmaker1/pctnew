@@ -27,6 +27,10 @@
 			<div class="crsliderWrapper" v-for="(ct, id) in cts.cts">
 				<div class="label">
 					<span>{{summatytext(id)}}</span>
+					<div class="selectionpanel">
+						<i class="fas fa-search" @click="e => selectone(id)"></i>
+						<i class="fas fa-times" @click="e => removeitem(id)"></i>
+					</div>
 				</div>
 				<crslider :ct="ct" :items="summary"/>
 			</div>

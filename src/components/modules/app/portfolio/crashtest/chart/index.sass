@@ -57,7 +57,8 @@
 				&:hover
 					.barwrapper
 						.portfolioname
-							opacity: 1
+							.label
+								opacity: 1
 					
 
 				&.negative
@@ -67,6 +68,18 @@
 
 					.name
 						text-align: left
+
+					.portfolioname
+						flex-flow: row-reverse
+						left: auto
+						right: 0
+
+						.icon
+							margin-right: 0
+							margin-left: 0.5 * $r
+						
+						.label
+							margin-left: auto
 	
 
 				&.custom
@@ -96,6 +109,7 @@
 						justify-content: center
 						align-items: center
 						cursor: pointer
+						+transition(0.3s)
 						&:hover
 							opacity: 0.8
 						.value
@@ -120,33 +134,59 @@
 					height: 6 * $r
 					cursor: pointer
 					position: relative
-
-					.portfolioname
-						opacity: 0.5
-						position: absolute
-						left: 0
-						top : 0
-						bottom : 0
-						display: flex
-						align-items: center
-						max-width: 95%
-						padding : 0 $r
-						+transition(0.3s)
-
-						div
-							width: 100%
-							overflow: hidden
-							white-space: nowrap
-							text-overflow: ellipsis
-
-						span
-							font-size: 0.8em
-							
-							
-
+					+transition(0.3s)
 
 					&:hover
 						opacity: 0.8
+
+				.portfolioname
+					
+					position: absolute
+					left: 0
+					top : 0
+					bottom : 0
+					display: flex
+					align-items: center
+					max-width: 95%
+					padding : 0 $r
+
+					.icon
+						margin-right: 0.5 * $r
+						flex-shrink: 0
+						width: 22px
+						height: 22px
+						border-radius: 11px
+						display: flex
+						align-items: center
+						justify-content: center
+						background: srgb(--neutral-grad-0)
+						color : srgb(--text-on-bg-shadow-color)
+						+shadowSmaller()
+						span
+							font-size: 0.7em
+					
+
+					.label
+						font-size: 0.8em
+						opacity: 0
+						+transition(0.3s)
+						background: srgb(--background-total-theme)
+						border-radius: 12px
+						padding: 0.5 * $r
+						+shadowSmaller()
+
+					div
+						width: 100%
+						overflow: hidden
+						white-space: nowrap
+						text-overflow: ellipsis
+
+						
+							
+							
+
+
+					
 
 				.bar
 					background: srgb(--neutral-grad-1)
@@ -157,8 +197,11 @@
 		&.many
 			.scenarios
 				.scenario
+					.barswrapper
+						grid-gap: 0
 					.barwrapper
-						height: 4 * $r
+						height: 5 * $r
+
 
 		&.calcheight
 

@@ -106,6 +106,14 @@ export default {
 
         getserie : function(portfolio, serie){
             this.$set(this.series, portfolio.id, serie)
+        },
+
+        selectone : function(id){
+            this.$emit('selectone', id)
+        },
+
+        removeitem : function(id){
+            this.$emit('removeitem', id)
         }
     },
 }

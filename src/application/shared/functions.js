@@ -1817,6 +1817,32 @@ f.rgb2hex = function(rgb){
         ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
         ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
+
+f.colorFromRatingGradient = function(value){
+    var ratingGradient = [
+        {
+            color : [0,108,40,1],
+            position : 0
+        },
+        {
+            color :  [228,255,0,1],
+            position : 50
+        },
+        {
+            color : [255,0,69,1],
+            position : 100
+        },
+    ];
+    /*---------------------------------------------------------------------------------------*/
+    // Crash ratings
+
+    return f.colorFromGradient({
+        gradient : ratingGradient,
+        value : value,
+        toHex : true
+    });
+}
+
 f.colorFromGradient = function(p){
 
     p.mode || (p.mode = 'equal')

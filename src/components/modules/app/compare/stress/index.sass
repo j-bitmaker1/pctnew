@@ -18,20 +18,29 @@
     display: flex
     flex-wrap: wrap
     justify-content: space-between
+    align-items: flex-end
 
     .crsliderWrapper
         padding : 0.5 * $r
         flex-basis: 30%
         flex-grow: 2
+        min-width: 0
 
     .label
         overflow: hidden
-        max-width: 180px
-        
         text-align: center
         text-overflow: ellipsis
         margin: 0 auto
+        border-radius: 24px
+        background: rgb(var(--neutral-grad-0))
+        margin: 0 auto
+        padding: 0.5em 1em
+        text-align: center
+        text-overflow: ellipsis
         white-space: nowrap
+        overflow: hidden
+        position: relative
+
         span
             font-size: 0.9em
 

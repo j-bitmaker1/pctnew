@@ -20,7 +20,7 @@
 			</div>
 
 			<div class="componentWrapper" v-if="ids.length">
-				<component :is="module" :ids="ids" />
+				<component :is="module" :ids="ids" @selectone="selectone" @removeitem="removeitem"/>
 			</div>
 
 			<div class="empty mobp" v-if="!ids.length">
@@ -52,6 +52,30 @@
 
 	span
 		font-size: 0.9em
+
+::v-deep
+	.selectionpanel
+		position: absolute
+		right : $r
+		top : 0
+		bottom: 0
+		display: flex
+		border-radius: 24px
+		align-items: center
+		border-left: 1px solid srgb(--neutral-grad-1)
+		background: srgb(--neutral-grad-0)
+
+		i
+			cursor: pointer
+			width : 24px
+			padding : $r
+			font-size: 0.8em
+			color : srgb(--neutral-grad-3)
+
+			+transition(0.3s)
+
+			&:hover
+				color : srgb(--neutral-grad-2)
 </style>
 
 <script>
@@ -122,6 +146,16 @@ export default {
 	},
 
 	methods: {
+		gotoportfolios : function(ids){
+			this.$router.replace({
+				query : {
+					... this.$route.query,
+					... {
+						ids : ids.join(',')
+					}
+				}
+			}).catch(e => {})
+		},	
 		addportfolio : function(){
 
 			var selected = {}
@@ -132,18 +166,36 @@ export default {
 
 			this.core.vueapi.selectPortfolios((portfolios) => {
 
-				this.$router.replace({
-                    query : {
-                        ... this.$route.query,
-                        ... {
-							ids : _.map(portfolios, (p) => {
-								return p.id
-							}).join(',')
-						}
-                    }
-                }).catch(e => {})
+				this.gotoportfolios(_.map(portfolios, (p) => {
+					return p.id
+				}))
 
 			}, {selected})
+		},
+
+		selectone : function(id){
+
+			var ids = _.filter(this.ids, (i) => {return i != id})
+
+			this.core.vueapi.selectPortfolios((portfolios) => {
+
+				var id = portfolios[0].id
+
+				ids.push(id)
+
+				this.gotoportfolios(ids)
+
+			}, {one : true, filter : (portfolio) => {
+				console.log('portfolio', portfolio)
+				return portfolio.id != id
+			}})
+		},
+
+		removeitem : function(id){
+
+			var ids = _.filter(this.ids, (i) => {return i != id})
+			this.gotoportfolios(ids)
+
 		}
 	},
 

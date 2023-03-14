@@ -19,6 +19,10 @@
                 <div class="name">
                     <div class="nameB">
                         <span>{{portfolio.name}}</span>
+                        <div class="selectionpanel">
+                            <i class="fas fa-search" @click="e => selectone(portfolio.id)"></i>
+                            <i class="fas fa-times" @click="e => removeitem(portfolio.id)"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="dwrapper">
