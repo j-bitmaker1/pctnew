@@ -1,5 +1,12 @@
 <template>
-<div class="portfolio_crashtest_chart" :class="{increased : dwidth < 768 && length > 12, mobileview, standart : !mobileview}">
+<div class="portfolio_crashtest_chart" :class="{
+
+	increased : dwidth < 768 && length > 12, 
+	mobileview, 
+	standart : !mobileview, 
+	calcheight
+	}">
+
 	<div class="wrapperAll">
 		<div class="scale">
 			<div class="num" v-for="index in intervals" :key="-index">
@@ -22,7 +29,7 @@
 
 				<div class="scenarios">
 
-					<div class="scenario" @mouseover="e => scenarioMouseOverDirectOne(scenario)" @click="e => scenarioClickDirectOne(scenario)" :class="{custom : scenario.custom, negative : _.toArray(scenario.loss)[0] < 0}" v-for="scenario in cts.scenarios" :key="scenario.id" >
+					<div class="scenario" @mouseover="e => scenarioMouseOverDirectOne(scenario)" @click="e => scenarioClickDirectOne(scenario)" :class="{custom : scenario.custom, negative : _.toArray(scenario.loss)[0] < 0}" v-for="scenario in cts.scenarios" :key="scenario.id" :style="'height:' + (calcheight ? ((chartheight / length)  + 'px'): 'auto')">
 						<div class="barswrapper"  @click="e => scenarioClick(scenario)">
 							<div class="barwrapper" @click="e => scenarioClickDirect(scenario, i)" :class="{positive : loss > 0, negative : loss < 0}" :key="i" v-for="(loss, i) in scenario.loss">
 								<div class="bar" :style="{[mobileview ? 'height' : 'width'] : height(scenario, loss) + '%', background : color(scenario, loss) }"></div>

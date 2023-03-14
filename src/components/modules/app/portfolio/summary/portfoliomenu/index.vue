@@ -1,0 +1,36 @@
+<template>
+<div id="summary_portfoliomenu">
+    <div class="captionsl" v-if="portfolio">
+
+        <div class="clientinfo" v-if="profile">
+            <client :profile="profile" :small="true"/>
+        </div>
+        
+        <div class="divider" v-if="profile">
+            <span>/</span>
+        </div>
+
+        <div class="portfolioname">
+            <span>{{portfolio.name}}</span>
+        </div>
+
+        <div class="divider">
+            <span>&middot;</span>
+        </div>
+
+        <div class="forvalue">
+            <value :value="portfolio.total() + portfolio.uncovered()" :mode="portfolio.isModel ? 'p100' : 'd'" />
+        </div>
+
+    </div>
+
+    <div class="portfolioMenu" v-if="portfolio">
+        <portfoliomenu buttonclass="diconbutton" @changeClient="changeClient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
+    </div>
+    
+</div>
+</template>
+
+<script src="./index.js"></script>
+
+<style scoped lang="sass" src="./index.sass"></style>

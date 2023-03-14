@@ -479,7 +479,7 @@ class PCT {
         return this.scoreConverter.convert(value)
     }
 
-    composeCTS = function(cts, total, mode){
+    composeCTS = function(cts, total, mode, portfolios = {}){
         var common = {
             cts : {},
             scenarios : {}
@@ -501,7 +501,13 @@ class PCT {
         else maxAbs = 0
         
         _.each(cts, (c, i) => {
-            common.cts[i] = this.ctRelative(c, mode == 'p' ? Math.max( Math.abs(c.loss) , Math.abs(c.profit)) : total)
+
+            var portfolio = portfolios[i]
+
+            console.log('total', total)
+
+            common.cts[i] = this.ctRelative(c, portfolio && portfolio.isModel ? 100 : (mode == 'p' && portfolio ? portfolio.total() : total))
+
 
             _.each(common.cts[i].scenarios, (scenario) => {
                 if(!common.scenarios[scenario.id]) common.scenarios[scenario.id] = {
@@ -511,6 +517,8 @@ class PCT {
 
                     custom : scenario.custom ? true : false
                 }
+
+                console.log('scenario.loss', scenario.loss)
 
                 common.scenarios[scenario.id].loss[i] = scenario.loss
             })
@@ -534,7 +542,7 @@ class PCT {
         return common
     }
 
-    stresstests = function(ids, total, mode, p = {}){
+    stresstests = function(ids, total, mode, portfolios){
 
         var cts = {}
 
@@ -545,7 +553,7 @@ class PCT {
                 return Promise.resolve()
             })
         })).then(r => {
-            return Promise.resolve(this.composeCTS(cts, total, mode))
+            return Promise.resolve(this.composeCTS(cts, total, mode, portfolios))
         })
       
     }

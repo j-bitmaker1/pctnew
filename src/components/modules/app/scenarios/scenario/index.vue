@@ -3,7 +3,7 @@
 		
 		<div class="nameWrapper mobp">
 			<div class="name" @click="use">
-				<span>{{scenario.name}}</span> 
+				<i class="fas fa-question-circle" @click.stop="showinfo"></i><span>{{scenario.name}}</span>
 			</div>
 
 			<div class="forcheck" @click="use">
@@ -12,23 +12,24 @@
 			</div>
 		</div>
 
-		<div class="description mobp">
-			<span>{{scenario.shocks || scenario.description}}</span> <span class="showmore" @click="showfactors"><template v-if="!factorsshowed">Details</template><template v-else>Hide</template></span>
-		</div>
+		<div class="extra" v-if="infoShowed">
+			<div class="description mobp">
+				<span>{{scenario.shocks || scenario.description}}</span> 
+				<!--<span class="showmore" @click="showfactors"><template v-if="!factorsshowed">Details</template><template v-else>Hide</template></span>-->
+			</div>
 
-		<div class="factorsWrapper" v-if="factorsshowed">
-			<factors :info="scenario"/>
-		</div>
+			<div class="factorsWrapper">
+				<factors :info="scenario"/>
+			</div>
 
 
-		<div class="keywords infopt mobp" v-if="scenario.region || (scenario.keywords && scenario.keywords.length)">
-			<span class="liketicker">{{scenario.region}}</span> <tags :tags="scenario.keywords"/>
+			<div class="keywords infopt mobp" v-if="scenario.region || (scenario.keywords && scenario.keywords.length)">
+				<span class="liketicker">{{scenario.region}}</span> <tags :tags="scenario.keywords"/>
+			</div>
 		</div>
 
 		<div class="custom mobp" v-if="scenario.custom">
-			<div class="cwrap label">
-				<i class="fas fa-user"></i> <date :date="scenario.updated || scenario.created"/>
-			</div>
+			
 
 			<div class="cwrap edit" @click="edit">
 				<i class="fas fa-pen"></i> <span>Edit</span>
@@ -37,7 +38,13 @@
 			<div class="cwrap delete" @click="remove">
 				<i class="fas fa-trash"></i> <span>Delete</span>
 			</div>
+
+			<div class="cwrap label">
+				<i class="fas fa-user"></i> <date :date="scenario.updated || scenario.created"/>
+			</div>
 		</div>
+
+		
 	</div>
 	
 
@@ -46,22 +53,22 @@
 <style scoped lang="sass">
 .custom
 	display: flex
-	grid-gap: $r
 	align-items: center
+	margin-top: $r
 	.cwrap
 		display: flex
 		align-items: center
 		border-radius: 24px
 		background: srgb(--neutral-grad-0)
 		padding : $r 2 * $r
-		grid-gap: $r
+		margin-right: $r
 		font-size: 0.8em
 
 		&.label
-			background: srgb(--neutral-grad-4)
-			color : srgb(--neutral-grad-0)
+			background: transparent
 
 		i
+			margin-right: $r
 			font-size: 0.8em
 			color : srgb(--color-txt-ac)
 		
@@ -71,10 +78,11 @@
 	text-overflow: ellipsis
 .description
 	margin-bottom: 2 * $r
+	margin-left: 30px
 	span
 		font-size: 0.8em
+		
 .nameWrapper
-	margin-bottom: $r
 	display: flex
 	align-items: flex-start
 	justify-content: space-between
@@ -83,6 +91,7 @@
 		margin-left: auto
 		padding : 2 * $r
 		padding-top: 0
+		padding-bottom: 0
 
 		i
 			color : srgb(--neutral-grad-0)
@@ -91,17 +100,24 @@
 				color : srgb(--color-good)
 
 	.name
+		cursor: pointer
 		padding-right: 6 * $r
+		i
+			
+			margin-right: 10px
+			width: 20px
+			font-size: 0.9em
+			opacity: 0.7
 		span
 			font-weight: 700
-			font-size: 1.2em
+			font-size: 1em
 .factorsWrapper
-	margin-bottom: 4 * $r
 
 	::v-deep
 		.infopt
 			display: none
 .showmore
+	cursor: pointer
 	text-decoration: underline
 	color : srgb(--color-txt-ac)
 </style>
@@ -131,7 +147,8 @@ export default {
 
 	data : function(){
 		return {
-			factorsshowed : false
+			factorsshowed : false,
+			infoShowed : false
 		}
 	},
 
@@ -161,6 +178,11 @@ export default {
 
 			}).catch( e => {
 			})
+		},
+
+
+		showinfo : function(){
+			this.infoShowed = !this.infoShowed
 		},
 
 		edit : function(){

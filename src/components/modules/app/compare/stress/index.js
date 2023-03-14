@@ -56,8 +56,10 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
-
+        dollars : state => state.dollars,
         hasdollarsvm : function(){
+
+            if(this.dollars != 'd') return false
 
             var dp = _.filter(this.portfolios, (p) => {
                 return !p.isModel
@@ -67,6 +69,10 @@ export default {
                 return p.isModel
             }) ? true : false
 
+        },
+
+        valuemodecomposed : function(){
+            return !this.hasdollarsvm ? 'p' : this.valuemode
         }
     }),
 
@@ -104,7 +110,7 @@ export default {
 
                 var max = _.max(this.portfolios, (p) => {return p.total()})
 
-                return this.core.pct.stresstests(_.map(r, (portfolio) => {return portfolio.id}), max.total(), this.valuemode)
+                return this.core.pct.stresstests(_.map(r, (portfolio) => {return portfolio.id}), max.total(), this.valuemode, this.portfolios)
                 
             }).then((cts) => {
 

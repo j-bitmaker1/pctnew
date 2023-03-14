@@ -9,6 +9,7 @@ var bwl = {
 export default {
     name: 'wai-logotype',
     props: {
+        small : Boolean
     },
 
     data : function(){

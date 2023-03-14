@@ -1,0 +1,28 @@
+.captionsl
+    display: flex
+    flex-wrap: nowrap
+    align-items: center
+    grid-gap: $r
+    white-space: nowrap
+    flex-direction: row
+    flex-shrink: 1
+    min-width: 0
+
+    .portfolioname
+        text-overflow: ellipsis
+        overflow: hidden
+
+    span
+        font-size: 0.9em
+
+.portfolioMenu
+    margin-left: 0.5 * $r
+    ::v-deep
+        i
+            font-size: 0.8em
+
+#summary_portfoliomenu
+    padding : $r
+    display: flex
+    align-items: center
+    width : 100%

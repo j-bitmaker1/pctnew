@@ -3,9 +3,11 @@ import { mapState } from 'vuex';
 import shares from "@/components/modules/app/portfolio/shares/index.vue";
 import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
 import scenariodetails from "@/components/modules/app/portfolio/crashtest/scenariodetails/index.vue";
-import client from   '@/components/modules/app/portfolio/client/index.vue'
-import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
+
 import homeAdd from "@/components/modules/app/home/add/index.vue";
+
+import portfolioMenu from "./portfoliomenu/index.vue";
+
 
 export default {
     name: 'portfolio_summary',
@@ -13,8 +15,7 @@ export default {
 		shares,
 		crashtest,
         scenariodetails,
-        client,
-        portfoliomenu,
+        portfolioMenu,
         homeAdd
 	},
     props: {
@@ -37,6 +38,8 @@ export default {
 
     created : function() {
         this.load().catch(e => {})
+
+        console.log("HHH", this.height)
     },
 
     watch: {
@@ -50,6 +53,7 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+        height : state => state.dheight - 44 - 56 - 40
     }),
 
     methods : {
@@ -126,7 +130,7 @@ export default {
         deleteportfolio : function(){
             this.$emit('close')
         },
-        changeClient : function(profile){
+        changeclient : function(profile){
 			this.profile = profile
 		},
 

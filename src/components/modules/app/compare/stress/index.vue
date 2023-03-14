@@ -33,7 +33,7 @@
 			<!--<summarybutton :reversed="true" :colored="true" v-for="(item, id) in cts.cts" :key="id" :text="summatytext(id)" :number="core.pct.ocr(item.ocr)"/>-->
 		</div>
 
-        <ctmain :cts="cts" :portfolios="portfolios" :mode="valuemode"/>
+        <ctmain :cts="cts" :portfolios="portfolios" :mode="valuemodecomposed"/>
     </div>
 </div>
 </template>

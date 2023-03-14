@@ -9,7 +9,8 @@ export default {
             default : 'd'
         },
 		mobileview : Boolean,
-		portfolios : Object
+		portfolios : Object,
+		chartheight : Number
 	},
 
 	data : function(){
@@ -49,6 +50,11 @@ export default {
 
 		many : function(){
 			return _.toArray(this.portfolios).length > 1
+		},
+
+		calcheight : function(){
+			console.log('this.chartheight', this.chartheight, this.length)
+			return this.chartheight > 0 && this.length < 14
 		}
 	}),
 

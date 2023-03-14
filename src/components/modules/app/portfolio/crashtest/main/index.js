@@ -6,6 +6,7 @@ export default {
     props: {
         cts : Object,
         portfolios : Object,
+        height : Number,
         mode : {
             type : String,
             default : 'd'

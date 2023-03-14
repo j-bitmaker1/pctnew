@@ -21,7 +21,8 @@
 </template>
 
 <style scoped lang="sass">
-
+.showmore
+    cursor: pointer
 </style>
 
 <script>

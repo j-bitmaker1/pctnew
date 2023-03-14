@@ -26,47 +26,27 @@
             </div>-->
         </div>
 
-        <div class="portfolioPart" v-if="portfolio">
-
-            <div class="captionsl">
-
-                <div class="clientinfo" v-if="profile">
-                    <client :profile="profile" :small="true"/>
-                </div>
-                
-                <div class="divider" v-if="profile">
-                    <span>/</span>
-                </div>
-
-                <div class="portfolioname">
-                    <span>{{portfolio.name}}</span>
-                </div>
-
-                <div class="divider">
-                    <span>&middot;</span>
-                </div>
-
-                <div class="forvalue">
-                    <value :value="portfolio.total() + portfolio.uncovered()" :mode="portfolio.isModel ? 'p100' : 'd'" />
-                </div>
-
-            </div>
-
-            <div class="portfolioMenu">
-                <portfoliomenu @changeClient="changeClient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
-            </div>
-
-            
+        <div class="logowrapper">
+            <logotype :small="true"/>
         </div>
+
+        <!--<div class="portfolioPart" v-if="portfolio">
+
+            <portfolioMenu :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
+            
+        </div>-->
         
     </div>
 
     <div class="bodyWrapper">
         <div class="left part customscroll">
+
+            <portfolioMenu :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
+
             <shares :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
         </div>
         <div class="center part customscroll">
-            <crashtest  v-if="portfolio" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+            <crashtest :height="height" v-if="portfolio" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
         </div>
         <div class="right part">
             <template  v-if="portfolio">

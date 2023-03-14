@@ -66,7 +66,7 @@ export default {
 
             var menu = [{
                     text: 'labels.newPortfolio',
-                    icon: 'fas fa-suitcase',
+                    icon: 'fas fa-plus',
                     action: this.portfolio,
 
                     features : ['PCT']

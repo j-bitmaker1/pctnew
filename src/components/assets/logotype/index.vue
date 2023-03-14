@@ -2,7 +2,8 @@
   <div class="logotype">
     <div class="item">
       <div class="logo">
-        <img src="@/assets/logo.svg"> 
+        <img v-if="!small" src="@/assets/logo.svg"> 
+        <img v-if="small" src="@/assets/logosmall.svg"> 
       </div>
     </div>
   

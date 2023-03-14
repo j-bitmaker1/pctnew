@@ -64,6 +64,7 @@ export default {
 			return  u
 		},
 
+        mobileview : state => state.mobileview,
 
         showsave : function(){
             return (JSON.stringify(this.changeusing) != JSON.stringify(this.initialusing))

@@ -9,7 +9,8 @@ export default {
 	name: 'portfolios_crashtest',
 	props: {
 		portfolio : Object,
-		profile : Object
+		profile : Object,
+		height : Number
 	},
 
 	components : {
