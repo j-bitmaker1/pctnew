@@ -558,6 +558,69 @@ class PCT {
       
     }
 
+    stresstestWithPosition = function(portfolio, assets, mode){
+
+        var cts = {}
+
+        var promises = []
+
+        var portfolios = {
+            [portfolio.id] : portfolio
+        }
+
+        var aportfolio = portfolio.clone()
+
+        _.each(assets, (asset) => {
+            aportfolio.positions.push({
+                ...asset,
+
+                external : true
+            })
+        })
+
+        aportfolio.originalid = aportfolio.id
+        aportfolio.id = aportfolio.id + '_with_assets'
+
+        portfolios[aportfolio.id] = aportfolio
+
+
+        promises.push(this.stresstest(portfolio.id).then((r) => {
+            cts[portfolio.id] = r
+
+            return Promise.resolve()
+        }))
+
+        promises.push(this.stresstestPortfolio(aportfolio).then((r) => {
+            cts[aportfolio.id] = r
+
+            return Promise.resolve()
+        }))
+
+        var max = _.max(portfolios, (p) => {return p.total()})
+
+        console.log("max", max)
+
+        return Promise.all(promises).then(() => {
+
+            return Promise.resolve({
+                result : this.composeCTS(cts, max.total(), mode, portfolios),
+                portfolios
+            })
+
+        })
+
+        return Promise.all(_.map(ids, (id) => {
+            return this.stresstest(id).then(r => {
+                cts[id] = r
+    
+                return Promise.resolve()
+            })
+        })).then(r => {
+            return Promise.resolve(this.composeCTS(cts, total, mode, portfolios))
+        })
+      
+    }
+
     customstresstest = function(data, p = {}){
 
         return this.api.pctapi.stress.customtest(data, p).then(r => {
@@ -566,11 +629,35 @@ class PCT {
 
     }
 
+    stresstestPortfolio = function(portfolio, p = {}){
+
+        var data = {
+            portfolioId : portfolio.originalid || portfolio.id,
+            positions : _.map(_.filter(portfolio.positions, (p) => {
+                return p.external
+            }), asset => {
+                return {
+                    name : asset.name,
+                    ticker : asset.ticker,
+                    value : asset.value
+                }
+            } )
+        }
+
+        return this.stresstestdt(data, p)
+    }
+
     stresstest = function(id, p = {}){
 
         var data = {
             portfolioId : id
         }
+
+        return this.stresstestdt(data, p)
+
+    }
+
+    stresstestdt = function(data, p = {}){
 
         return this.getscenarios().then(scdata => {
 
@@ -585,6 +672,7 @@ class PCT {
         }).then(r => {
             return Promise.resolve(this.parseStressTest(r))
         })
+
     }
 
     stressdetails = function(id, p = {}){

@@ -381,6 +381,21 @@ class Vueapi {
         })
     }
 
+    annuitiesLookup = function(success, p = {}){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_assets_annuities',
+            module : "assets_annuities",
+            caption : "Select structure",
+    
+            events : {
+                selected : function(annuity){
+                    
+                    success(annuity)
+                }
+            }
+        })
+    }
+
     integrations = function(success, p = {}){
 
         this.store.commit('OPEN_MODAL', {

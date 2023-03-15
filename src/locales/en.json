@@ -570,6 +570,24 @@
 			"exportEmailsStatistic" : "Export email statistic",
 			"exportStatistic" : "Export campaigns statistic"
 		}
+	},
+
+	"annuity" : {
+		"margin_spread" : "Margin spread",
+		"participation_guarantee" : "Participation guarantee",
+		"guaranteed_principal" : "Guaranteed principal",
+		"withdrawal_starting_date" : "Withdrawal starting date",
+		"guaranteed_income" : "Guaranteed income",
+		"start_date_principal_guarantee" : "Start date principal guarantee",
+		"annuity_type" : "Type",
+		"stepup_rate" : "Stepup rate",
+		"death_benefit" : "Death benefit",
+		"buffer" : "Buffer",
+		"upside_max" : "Upside max",
+		"downside_max" : "Downside max",
+		"barrier" : "Barrier",
+		"coupon" : "Coupon",
+		"enhancement" : "Enhancement"
 	}
 
 }

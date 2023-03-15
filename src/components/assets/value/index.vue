@@ -8,6 +8,7 @@ import {
 } from 'vuex';
 
 import f from '@/application/shared/functions.js'
+
 export default {
     name: 'value',
     props: ['value', 'mode', 'colored'],
@@ -18,9 +19,7 @@ export default {
 
             if(!this.mode) return null
 
-            if(this.mode == 'auto')
-
-                return state.valuemode
+            if (this.mode == 'auto') return state.valuemode
 
             return this.mode
         },

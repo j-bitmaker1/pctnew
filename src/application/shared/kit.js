@@ -50,10 +50,14 @@ class Contact {
 }
 
 class Portfolio {
+    fields = []
+
     constructor(data = {}) {
 
         _.each(data, (v, i) => {
             this[i] = v
+
+            this.fields.push(i)
         })
 
     }
@@ -91,6 +95,16 @@ class Portfolio {
         })
 
         return _.toArray(jg)
+    }
+
+    clone = function(){
+        var data = {}
+
+        _.each(this.fields, (i) => {
+            data[i] = _.clone(this[i])
+        })
+
+        return new Portfolio(data)
     }
 }
 

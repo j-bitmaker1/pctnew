@@ -1272,6 +1272,31 @@ var ApiWrapper = function (core = {}) {
 		},
 
 		stress: {
+
+			annuities : {
+				list : function(data = {}, p = {}){
+				
+					p.storageparameters = dbmeta.system()
+	
+					return request(data, 'pctapi', 'StressTest/GetAnnuitiesList', p).then(r => {
+	
+						return Promise.resolve(r.records)
+					}).then((assets) => {
+						return _.map(assets, (asset) => {
+							return {...asset, name : asset.id.replace(/_/g, ' ') }
+						})
+					})
+				},
+
+				get : function(id){
+					return this.list().then((r) => {
+						return _.find(r, (a) => {
+							return a.id == id
+						})
+					})
+				}
+			},
+
 			deviation: function (data, p = {}) {
 				if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
