@@ -129,7 +129,7 @@ export default {
                 if(!logotype){
                     var hc = ''
 
-                    if(window.location.pathname.indexOf('pctnew') > -1 ) hc + '/pctnew'
+                    if(window.location.pathname.indexOf('pctnew') > -1 ) hc = '/pctnew'
 
                     return f.srcToData(window.location.origin + hc + '/img/pdflogo.jfif')
                 }
