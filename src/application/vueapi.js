@@ -505,7 +505,7 @@ class Vueapi {
                 changed : function(){
                     success()
                 }
-            }
+            },
         })
     }
 

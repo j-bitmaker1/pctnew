@@ -10,12 +10,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -25,12 +19,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        rule: 'email',
-                    },
-                    {
-                        rule: 'min:5',
                     },
                 ],
                 input: 'input',
@@ -43,10 +31,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    {
-                        message: 'fields.strongpassword',
-                        rule: 'regex:^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$',
-                    },
                 ],
                 input: 'input',
             },
@@ -57,12 +41,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -79,12 +57,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -94,12 +66,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        rule: 'email',
-                    },
-                    {
-                        rule: 'min:5',
                     },
                 ],
                 input: 'input',
@@ -127,12 +93,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -142,12 +102,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        rule: 'email',
-                    },
-                    {
-                        rule: 'min:5',
                     },
                 ],
                 input: 'input',
@@ -159,10 +113,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        message: 'fields.strongpassword',
-                        rule: 'regex:^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$',
                     },
                 ],
                 input: 'input',
@@ -180,12 +130,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -195,12 +139,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        rule: 'email',
-                    },
-                    {
-                        rule: 'min:5',
                     },
                 ],
                 input: 'input',
@@ -212,10 +150,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        message: 'fields.strongpassword',
-                        rule: 'regex:^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$',
                     },
                 ],
                 input: 'input',
@@ -233,12 +167,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -248,12 +176,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        rule: 'email',
-                    },
-                    {
-                        rule: 'min:5',
                     },
                 ],
                 input: 'input',
@@ -266,10 +188,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    {
-                        message: 'fields.strongpassword',
-                        rule: 'regex:^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$',
-                    },
                 ],
                 input: 'input',
             },
@@ -280,12 +198,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -302,12 +214,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -317,12 +223,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        rule: 'email',
-                    },
-                    {
-                        rule: 'min:5',
                     },
                 ],
                 input: 'input',
@@ -334,10 +234,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        message: 'fields.strongpassword',
-                        rule: 'regex:^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$',
                     },
                 ],
                 input: 'input',
@@ -355,12 +251,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -370,12 +260,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        rule: 'email',
-                    },
-                    {
-                        rule: 'min:5',
                     },
                 ],
                 input: 'input',
@@ -388,10 +272,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    {
-                        message: 'fields.strongpassword',
-                        rule: 'regex:^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$',
-                    },
                 ],
                 input: 'input',
             },
@@ -402,12 +282,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -424,12 +298,6 @@ const STATIC_INTEGRATIONS = [
                     {
                         rule: 'required',
                     },
-                    // {
-                    //     rule: 'email',
-                    // },
-                    // {
-                    //     rule: 'min:5',
-                    // },
                 ],
                 input: 'input',
             },
@@ -439,12 +307,6 @@ const STATIC_INTEGRATIONS = [
                 rules: [
                     {
                         rule: 'required',
-                    },
-                    {
-                        rule: 'email',
-                    },
-                    {
-                        rule: 'min:5',
                     },
                 ],
                 input: 'input',
