@@ -1129,6 +1129,8 @@ var Tools = function(p, data){
 
     self.byEditorjs = function(data){
 
+        if(_.isEmpty(data)) return ''
+
         var edjs = new edjsPdfMake(self)
 
         return edjs.parse(data)
@@ -1165,6 +1167,7 @@ var PDFTools = function(p = {}, data = {}){
     var template = function(){
 
         return self.logotype.insert().then((_logo) => {
+
             var tpl = {
     
                 content : [],
@@ -1425,6 +1428,10 @@ var PDFTools = function(p = {}, data = {}){
                         image : logo
                     })
                 };
+
+                im.onerror = function(e){
+                    console.error('e', e)
+                }
             })  
             
         }

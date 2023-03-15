@@ -23,7 +23,8 @@
             <input :disabled="!ticker" :value="value ? value : ''" ref="valueinput" type="number" placeholder="0" @change="changevalue" @keyup.enter="enterOnSum"/>
         </div>
         <div class="pdicon">
-            $
+            <span v-if="mode == 'd'">$</span>
+            <span v-if="mode == 'p'">%</span>
         </div>
 
     </div>

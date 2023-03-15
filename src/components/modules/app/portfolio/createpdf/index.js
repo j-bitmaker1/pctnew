@@ -123,11 +123,11 @@ export default {
             var saveName = 'RiXtrema - Portfolio Crash Testing Report as of ' + moment().format('MMMM/DD/YYYY');
 
             this.core.settings.pdf.getall().then(settings => {
-                
+
                 var logotype = settings.logotype.value || settings.logotype.default
 
                 if(!logotype){
-                    return f.srcToData('./img/pdflogo.jfif')
+                    return f.srcToData(window.location.origin + '/img/pdflogo.jfif')
                 }
                 
                 return Promise.resolve(logotype)
@@ -168,7 +168,6 @@ export default {
 
                 return pdftools.prepare().then(tools => {
 
-
                     return this.core.pdfreports.make(keys, tools, {
 
                         progress: (percent) => {
@@ -186,6 +185,8 @@ export default {
                 return Promise.resolve(d)
 
             }).then(d => {
+
+                console.log("D", d)
 
                 return new Promise((resolve, reject) => {
 
