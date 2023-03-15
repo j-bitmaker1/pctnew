@@ -45,7 +45,7 @@ export default {
 
     methods: {
         input: function (v) {
-            this.values = v
+            this.values = v;
         },
 
         inputType: function (v) {
@@ -55,6 +55,8 @@ export default {
 
         save: function () {
             this.values = this.$refs.fields.get();
+
+            this.$emit('close');
         },
     },
 };
