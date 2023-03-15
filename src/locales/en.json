@@ -517,7 +517,8 @@
 				"GroupBy" : "Sequencing",
 				"INORDER" : "One after another",
 				"EMAIL" : "All at once",
-				"SignatureId" : "Signature"
+				"SignatureId" : "Signature",
+				"IntegrationId" : "Integration"
 			}
 		},
 
