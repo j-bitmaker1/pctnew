@@ -127,7 +127,11 @@ export default {
                 var logotype = settings.logotype.value || settings.logotype.default
 
                 if(!logotype){
-                    return f.srcToData(window.location.origin + '/img/pdflogo.jfif')
+                    var hc = ''
+
+                    if(window.location.pathname.indexOf('pctnew') > -1 ) hc + '/pctnew'
+
+                    return f.srcToData(window.location.origin + hc + '/img/pdflogo.jfif')
                 }
                 
                 return Promise.resolve(logotype)
