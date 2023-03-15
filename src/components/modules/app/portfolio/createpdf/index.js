@@ -190,8 +190,6 @@ export default {
 
             }).then(d => {
 
-                console.log("D", d)
-
                 return new Promise((resolve, reject) => {
 
                     if(f.isios()){

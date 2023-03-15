@@ -129,7 +129,6 @@ class Queries {
     simplesearch = function({search, type, products}){
         var groups = []
 
-        console.log('products', products)
 
         groups.push(
             this.t.group([

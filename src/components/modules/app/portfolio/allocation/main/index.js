@@ -76,8 +76,6 @@ export default {
 
 				if(!info) return "Not covered"
 
-				console.log("this.activegrouping", this.activegrouping)
-
 				return info[this.activegrouping] || 'Other'
 			})
 		},

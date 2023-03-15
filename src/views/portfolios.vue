@@ -56,7 +56,6 @@ export default {
 			this.currentroot = v
 		},
 		newportfolio : function(){
-			console.log('this.currentroot', this.currentroot)
 			this.$store.commit('OPEN_MODAL', {
 				id : 'modal_portfolios_edit',
 				module : "portfolio_edit",

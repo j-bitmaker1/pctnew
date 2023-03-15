@@ -109,13 +109,11 @@ export default {
 
             this.loading = true
 
-            this.core.pct.stresstestWithPosition(this.portfolio, this.assets, this.valuemode).then((r) => {
+            this.core.pct.stresstestWithPositionsSplit(this.portfolio, this.assets, this.valuemode).then((r) => {
 
                 this.cts = r.result
                 this.portfolios = r.portfolios
                 
-                console.log('this.cts', r)
-
             }).finally(() => {
                 this.loading = false
             })

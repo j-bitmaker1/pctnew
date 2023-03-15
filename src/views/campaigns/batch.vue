@@ -76,7 +76,6 @@ export default {
 			this.loading = true
 
             this.core.api.campaigns.batches.get(this.id).then(r => {
-				console.log("R", r)
 				this.batch = r
 			}).finally(() => {
 				this.loading = false

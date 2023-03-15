@@ -41,7 +41,6 @@ export default {
     },
 
     created() {
-        console.log('api', this.api, this.previewApi)
     },
 
     watch: {
@@ -76,12 +75,9 @@ export default {
 
             this.preview()
 
-            console.log("V", v)
         },
 
         preview : function(){
-
-            console.log('this.cpayload', this.cpayload)
 
             if(this.previewApi){
 
@@ -112,7 +108,6 @@ export default {
 					name : "Exporting"
 				})*/
 
-                console.log("R", r)
                 this.close()
             })
 

@@ -89,7 +89,6 @@ export default {
 				this.loading = true
 
 				this.core.campaigns.getSignatureWithData(this.id).then(r => {
-					console.log("R", r)
 					this.signature = r
 				}).catch(e => {
 					console.error(e)
@@ -100,8 +99,6 @@ export default {
 			}
 			else{
 				this.signature = this.core.campaigns.emptySignature() 
-
-                console.log('this.signature', this.signature)
 
 				this.loading = false
 			}

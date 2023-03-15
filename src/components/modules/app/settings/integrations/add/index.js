@@ -138,7 +138,6 @@ export default {
         inputType : function(v){
             this.type = v.type
             this.values = {}
-            console.log("V", v)
         },
 
         save : function(){

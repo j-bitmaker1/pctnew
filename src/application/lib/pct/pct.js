@@ -5,6 +5,8 @@ import Capacity from "./capacity";
 import Riskscore from "./riskscore";
 import ScoreConverter from "./scoreConverter";
 
+import { Portfolio } from '@/application/shared/kit.js'
+
 class PCT {
 
     defaults = {
@@ -28,13 +30,16 @@ class PCT {
         IncludeScenarios : []
     }
 
-    constructor({api, user, vxstorage, settings}){
+    constructor(core){
 
-        this.api = api
+
+        this.api = core.api
         this.capacity = Capacity
         this.riskscore = new Riskscore(this)
-        this.vxstorage = vxstorage
-        this.settings = settings.stress
+        this.vxstorage = core.vxstorage
+        this.settings = core.settings.stress
+        this.user = core.user
+        this.core = core
 
         this.scoreConverter = new ScoreConverter(this)
         
@@ -504,8 +509,6 @@ class PCT {
 
             var portfolio = portfolios[i]
 
-            console.log('total', total)
-
             common.cts[i] = this.ctRelative(c, portfolio && portfolio.isModel ? 100 : (mode == 'p' && portfolio ? portfolio.total() : total))
 
 
@@ -518,7 +521,6 @@ class PCT {
                     custom : scenario.custom ? true : false
                 }
 
-                console.log('scenario.loss', scenario.loss)
 
                 common.scenarios[scenario.id].loss[i] = scenario.loss
             })
@@ -558,7 +560,49 @@ class PCT {
       
     }
 
-    stresstestWithPosition = function(portfolio, assets, mode){
+    stresstestWithPositions = function(portfolio, assets, mode){
+        var cts = {}
+
+        var promises = []
+
+        var portfolios = {
+            [portfolio.id] : portfolio
+        }
+
+        var aportfolio = new Portfolio({
+            name : "Temp",
+            id : 'temp'
+        })
+
+        aportfolio.positions = _.clone(assets)
+
+        portfolios[aportfolio.id] = aportfolio
+
+        promises.push(this.stresstest(portfolio.id).then((r) => {
+            cts[portfolio.id] = r
+
+            return Promise.resolve()
+        }))
+
+        promises.push(this.stresstestPositions(aportfolio.positions).then((r) => {
+            cts[aportfolio.id] = r
+
+            return Promise.resolve()
+        }))
+
+        var max = _.max(portfolios, (p) => {return p.total()})
+
+        return Promise.all(promises).then(() => {
+
+            return Promise.resolve({
+                result : this.composeCTS(cts, max.total(), mode, portfolios),
+                portfolios
+            })
+
+        })
+    }
+
+    stresstestWithPositionsSplit = function(portfolio, assets, mode){
 
         var cts = {}
 
@@ -581,6 +625,14 @@ class PCT {
         aportfolio.originalid = aportfolio.id
         aportfolio.id = aportfolio.id + '_with_assets'
 
+        aportfolio.name = '+ ' + _.reduce(assets, (m, asset) => {
+
+            var v = f.values.format(this.core.user.locale, 'd', asset.value)
+
+            return asset.name + ' (' + v + ');' 
+
+        }, '')
+
         portfolios[aportfolio.id] = aportfolio
 
 
@@ -598,8 +650,6 @@ class PCT {
 
         var max = _.max(portfolios, (p) => {return p.total()})
 
-        console.log("max", max)
-
         return Promise.all(promises).then(() => {
 
             return Promise.resolve({
@@ -607,16 +657,6 @@ class PCT {
                 portfolios
             })
 
-        })
-
-        return Promise.all(_.map(ids, (id) => {
-            return this.stresstest(id).then(r => {
-                cts[id] = r
-    
-                return Promise.resolve()
-            })
-        })).then(r => {
-            return Promise.resolve(this.composeCTS(cts, total, mode, portfolios))
         })
       
     }
@@ -633,6 +673,7 @@ class PCT {
 
         var data = {
             portfolioId : portfolio.originalid || portfolio.id,
+
             positions : _.map(_.filter(portfolio.positions, (p) => {
                 return p.external
             }), asset => {
@@ -642,6 +683,23 @@ class PCT {
                     value : asset.value
                 }
             } )
+        }
+
+        return this.stresstestdt(data, p)
+    }
+
+    stresstestPositions = function(positions, p = {}){
+
+        var data = {
+            portfolioId : 0,
+            
+            positions : _.map(positions, asset => {
+                return {
+                    name : asset.name,
+                    ticker : asset.ticker,
+                    value : asset.value
+                }
+            })
         }
 
         return this.stresstestdt(data, p)

@@ -159,7 +159,6 @@ class CampaignsManager {
     }
 
     removeCampaignTemplate(data = {}){
-        console.log("D", data, this.api.templates.remove)
         return this.api.templates.remove(data, {
             preloader : true,
             showStatus : true
@@ -350,7 +349,6 @@ class CampaignsManager {
     getSignature(id){
         return this.getSignatures().then(r => {
 
-            console.log("R", r, id)
 
             if(!r[id]){
                 return Promise.reject('Empty')

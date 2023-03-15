@@ -28,7 +28,6 @@ export default {
         this.name = this.signature.Name || ""
         this.body = this.signature.Html || ""
 
-        console.log('this.signature', this.signature)
     },
 
     watch: {
@@ -61,7 +60,6 @@ export default {
             sig.Json = ""
             sig.Type = "html"
 
-            //console.log('sig', sig, sig.export(), new Signature(sig.export()))
 
             //return
 
@@ -71,8 +69,6 @@ export default {
             else{
 
                 sig.Id = f.makeid()
-
-                console.log("sig", sig)
 
                 promise = this.core.campaigns.createSignature(sig).then(r => {
                     this.$router.replace('/signature/' + r.Id).catch(e => {})

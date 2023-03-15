@@ -186,7 +186,6 @@ export default {
 				this.gotoportfolios(ids)
 
 			}, {one : true, filter : (portfolio) => {
-				console.log('portfolio', portfolio)
 				return portfolio.id != id
 			}})
 		},

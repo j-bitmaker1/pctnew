@@ -54,7 +54,6 @@ export default {
 	methods: {
 	
 		select : function(template){
-			console.log('template', template)
 			this.change(template.Id)
 		},
 		change : function(template){
@@ -62,7 +61,6 @@ export default {
 
 			clone.subcampaign = template
 
-			console.log("clone", clone)
 
 			this.$emit('change', clone)
 		}

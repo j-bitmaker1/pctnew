@@ -99,11 +99,6 @@ export default {
         save : function(){
             if(this.store){
                 
-                console.log({
-                    sortvalue : this.sortvalue,
-                    date : this.date,
-                    searchvalue : this.searchvalue
-                }, 'save')
 
                 setTimeout(() => {
                     this.core.settings.ui.set('listcontrols_' + this.store, {

@@ -28,8 +28,6 @@ class CampaignsTemplates {
             includeAfter : true
         })
 
-        console.log("steps", steps)
-
         return this.vueapi.customWindow(
             'campaigns_steps_edit', 
             "Add wait interval", 
@@ -83,8 +81,6 @@ class CampaignsTemplates {
 
     filterStepsCustom = function(step, p){
         var find = false
-
-        console.log("P", p, step)
 
         var steps = _.filter(p.steps || [], (s, i) => {
             if(s.id == (p.after || step).id) find = true

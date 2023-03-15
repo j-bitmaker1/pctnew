@@ -119,7 +119,6 @@ export default {
 			this.$router.push('/campaigns/emailtemplate/new').catch(e => {})
 		},
 		newCampaign : function(){
-			console.log("???")
 			this.core.campaigns.start()
 		}
 	},

@@ -53,7 +53,6 @@ export default {
 		},
 
 		calcheight : function(){
-			console.log('this.chartheight', this.chartheight, this.length)
 			return this.chartheight > 0 && this.length < 14
 		}
 	}),
@@ -85,8 +84,6 @@ export default {
 		},
 
 		num : function(index){
-
-			console.log('this.cts', this.cts)
 
 			var v = (index) * (this.cts.total * this.cts.max / this.intervals)
 			

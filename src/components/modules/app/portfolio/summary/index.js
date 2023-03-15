@@ -31,21 +31,20 @@ export default {
             selectedScenario : null,
             ct : null,
             profile : null,
-            portfolio : null
+            portfolio : null,
+            temp : null
         }
 
     },
 
     created : function() {
         this.load().catch(e => {})
-
-        console.log("HHH", this.height)
     },
 
     watch: {
         portfolioId : function(){
 
-            console.log("HERE", this.portfolioId)
+            this.temp = null
 
             this.load().catch(e => {})
         },
@@ -112,15 +111,12 @@ export default {
 
         editportfolio : function(){
 
-            console.log("HERE!")
+            this.temp = null
 
             this.load().then(() => {
-                console.log("HERE1")
+
                 return this.$nextTick();
             }).then(() => {
-
-                console.log("HERE2")
-
 
                 if (this.$refs.crashtest)
                     this.$refs.crashtest.load()
@@ -173,6 +169,12 @@ export default {
                     }
                 }
             })
+        },
+
+        tempassets : function(assets){
+            this.temp = assets
+
+            console.log('this.temp', this.temp)
         },
 
         gotolast : function(){

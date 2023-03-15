@@ -180,7 +180,6 @@ export default {
                 }
             })
 
-            console.log("S", s)
 
             return s
 

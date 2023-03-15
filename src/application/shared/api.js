@@ -457,7 +457,6 @@ var ApiWrapper = function (core = {}) {
 
 		if (p.bypages) _fr = (_fr * _count)
 
-		console.log('_count', _count)
 
 		var storage = liststorage[system][to][datahash]
 
@@ -481,7 +480,6 @@ var ApiWrapper = function (core = {}) {
 			first: _.isEmpty(storage.data) ? undefined : _.min(_.map(Object.keys(storage.data), v => Number(v)))
 		}
 
-		console.log('_count', flength, storage.count, _count , loaded.length)
 
 
 		if (flength == storage.count) return r
@@ -2032,12 +2030,6 @@ var ApiWrapper = function (core = {}) {
 
 					var prefix = 'https://rixtrema.net/pctnew/'
 
-					/*window.location.origin
-
-					if(window.cordova) prefix = 'https://rixtrema.net/pctnew/'
-					else prefix = prefix + process.env.publicPath
-
-					console.log('prefix', prefix)*/
 
 					return Promise.resolve(prefix + 'riskscore/' + r.token)
 
@@ -2923,7 +2915,6 @@ var ApiWrapper = function (core = {}) {
 
 				return request({campaignId}, 'campaigns', 'steps/list', p).then(r => {
 
-					console.log(core.vxstorage.getall('step'))
 
 					return Promise.resolve(r.Records)
 				})
@@ -2938,7 +2929,6 @@ var ApiWrapper = function (core = {}) {
 					campaignId, stepId
 				}, 'campaigns', 'steps/jsonemailpreview', p).then(r => {
 					var email = {}
-					console.log("R", r)
 					try{
 						email.body = f.Base64.decode(r.Body)
 						email.subject = f.Base64.decode(r.subject)

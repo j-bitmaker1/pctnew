@@ -34,7 +34,6 @@ export default {
 
         filtered : function(){
 
-            console.log('this.signatures', this.signatures)
             if(this.searchvalue){
 
                 return f.clientsearch(this.searchvalue, this.signatures, (template) => {

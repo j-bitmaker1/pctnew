@@ -83,8 +83,6 @@ export default {
 
             step[index] = steps
 
-            console.log('changeList', index, steps)
-
             this.$emit('change', step)
         }
     },

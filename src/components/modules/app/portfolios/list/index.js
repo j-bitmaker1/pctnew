@@ -67,7 +67,6 @@ export default {
 
 	created() {
 
-		console.log("SEL", this.select)
 	},
 
 	watch: {
@@ -154,7 +153,6 @@ export default {
 		},
 
 		changeClient : function(client){
-			console.log("changeClient", client)
 			this.$emit('changeClient', client)
 		},
 

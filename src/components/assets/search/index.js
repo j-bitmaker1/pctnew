@@ -52,7 +52,6 @@ export default {
 			handler : function(value){
 				this.searchTxt = value
 	
-				console.log('this.searchTxt', this.searchTxt)
 			}
 		}
 	},

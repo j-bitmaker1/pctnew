@@ -193,7 +193,6 @@ var WSS = function(core, url){
 
 
                 core.settings[type].update().catch(e => {
-                    console.log("update settings error", e)
                 })
             }
         }

@@ -21,7 +21,6 @@ export default {
 	},
 
 	created() {
-		console.log("this.contributor", this.contributor, this.mode)
 	},
 
 	watch: {

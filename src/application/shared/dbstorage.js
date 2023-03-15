@@ -193,7 +193,6 @@ const dbstorage = function(storageName, version, time) {
 
                 return this.clearItems(needToClear).then(() => {
 
-                    //console.log("CLEARED", storageName, needToClear.length)
 
                     return Promise.resolve()
                 })

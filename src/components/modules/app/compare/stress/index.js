@@ -116,8 +116,6 @@ export default {
 
                 this.cts = cts
                 
-                console.log('this.cts', this.cts)
-
             }).finally(() => {
                 this.loading = false
             })

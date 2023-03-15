@@ -17,8 +17,6 @@ class Settings {
             this.meta[k] = _.clone(s)
         })
 
-        console.log(_meta, this.type)
-
     }
 
     set(name, value) {

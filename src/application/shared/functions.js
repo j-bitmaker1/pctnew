@@ -1338,7 +1338,6 @@ f.removePopoverFromEvent = function(e){
 
 
     if (sel || e.usedByTooltip){
-        console.log("HERE")
         e.stopPropagation();
 		e.preventDefault();
     }

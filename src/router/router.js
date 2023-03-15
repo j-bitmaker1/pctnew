@@ -451,7 +451,6 @@ router.beforeEach((to, from, next) => {
 
 			return r.customRedirect(router.app.core, to).then((t) => {
 
-				console.log('r.features', r.features)
 
 				if (r.features){
 					return redirects.features(r.features, router.app.core, to)

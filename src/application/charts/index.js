@@ -566,7 +566,6 @@ class MonteCarlo {
 
         d.yAxis[0].plotLines = this.plotLines(simulation.terminalValue, dataoptions)
 
-        console.log('d.xAxis.plotLines', d.xAxis.plotLines)
         ///
 
         d.plotOptions.spline.marker = { enabled: false }

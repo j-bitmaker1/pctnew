@@ -150,7 +150,6 @@ export default {
         },
 
         changepip : function(p){
-            console.log('this.modalid', this.modalid)
             this.$store.commit('PIP_MODAL', {id : this.modalid, value : p ? true : false})
 
         },

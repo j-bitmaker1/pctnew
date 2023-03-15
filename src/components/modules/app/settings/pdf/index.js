@@ -52,8 +52,6 @@ export default {
 
         uploadError : function(e){
 
-            console.log("E", e)
-
             if (e.text){
 				this.$store.commit('icon', {
 					icon: 'error',

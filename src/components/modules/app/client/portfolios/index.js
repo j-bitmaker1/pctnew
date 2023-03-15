@@ -102,8 +102,6 @@ export default {
 
 		reload : function(){
 
-			console.log("RELOAD")
-
 			if (this.$refs['list'])
 				this.$refs['list'].reload()
 		},

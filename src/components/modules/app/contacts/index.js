@@ -138,8 +138,6 @@ export default {
 				p.type = this.type.toUpperCase()
 			}
 
-			console.log('this.type', this.type)
-
 			if(this.type == "lead" || !this.type){
 				p.products = ['pct', '']
 			}
@@ -271,8 +269,6 @@ export default {
 		},
 
 		open : function(profile){
-
-			console.log("THIS", this, profile)
 
 
 			if (this.select){

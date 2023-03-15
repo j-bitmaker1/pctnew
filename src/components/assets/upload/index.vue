@@ -129,8 +129,6 @@ export default {
 
             var ha = this
 
-            console.log('files', files)
-
 
             each(_.toArray(files), (file, next) => {
 

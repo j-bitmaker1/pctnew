@@ -112,9 +112,12 @@ export default {
 		},
 
 		updclbk : function(){
-			console.log("updclbkupdclbk")
 			this.editportfolio()
-		}
+		},
+
+		temp : function(assets){
+			this.$emit('temp', assets)
+        },
 
 	},
 }

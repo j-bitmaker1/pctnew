@@ -70,7 +70,6 @@ export default {
 
 		deletetemplate : function(){
 
-			//console.log('this.campaignTemplate', this.campaignTemplate)
 
 			this.$dialog.confirm(
 				this.$t('campaigns.labels.removeCampaignTemplate'), {
@@ -80,7 +79,6 @@ export default {
 	
 			.then((dialog) => {
 
-				console.log("REMOVE")
 
 				this.core.campaigns.removeCampaignTemplate(this.campaignTemplate).then(r => {
 					this.$emit('remove')

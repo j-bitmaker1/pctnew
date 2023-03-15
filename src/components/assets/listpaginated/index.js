@@ -117,10 +117,8 @@ export default {
             return f.deep(this.core.api, this.api)(this.payload, {
                 preloader : true
             }).then(data => {
-                console.log('data', data)
                 return Promise.resolve(data.data)
             }).catch(e => {
-                console.log("E", e)
                 return Promise.resolve([])
             })
         },

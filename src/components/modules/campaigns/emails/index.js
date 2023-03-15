@@ -45,12 +45,10 @@ export default {
         },
 
         sorted : function(){
-            console.log('this.filtered', this.filtered)
             return _.sortBy(this.filtered, (t) => {
 
                 var d = Number(t.Modified || t.Created || 0)
 
-                console.log("D", d)
 
                 if(t.Email) return -10 * d
 

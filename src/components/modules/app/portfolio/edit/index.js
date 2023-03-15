@@ -66,7 +66,6 @@ export default {
 		auth : state => state.auth,
 
 		total : function(){
-			console.log('this.assets', this.assets)
 			return Number((_.reduce(this.assets, (m, asset) => {
 				return m + asset.value
 			}, 0)).toFixed(2))
@@ -225,8 +224,6 @@ export default {
 		leaveAsset : function(index){
 			setTimeout(() => {
 
-				console.log('index', index, this.assets.length)
-
 				if (index < this.assets.length - 1){
 					document.activeElement.blur();
 					return
@@ -251,8 +248,9 @@ export default {
 			}
 			else{
 				old = _.extend(old, v)
-
 			}
+
+			this.$emit('temp', this.assets)
 		
 		},
 
@@ -260,6 +258,9 @@ export default {
 			if (this.assets[index]){
 				this.assets.splice(index, 1)
 			}
+
+			this.$emit('temp', this.assets)
+
 		},
 
 		autofocus : function(){

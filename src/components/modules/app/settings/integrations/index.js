@@ -27,7 +27,6 @@ export default {
 
     methods : {
         add : function(){
-            console.log("ADD")
             this.core.vueapi.integrationsAdd()
         }
     },

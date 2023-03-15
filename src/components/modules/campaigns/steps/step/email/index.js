@@ -58,13 +58,9 @@ export default {
                 preloader : true
             }).then(r => {
 
-                console.log("this", this.step, this.campaign)
-
                 this.core.api.crm.contacts.get(this.campaign.RecipientId, {
                     preloader : true
                 }).then(profile => {
-
-                    console.log('profile', profile)
 
                     this.core.campaigns.emailpreview({
                         ...r,
@@ -84,7 +80,6 @@ export default {
 
                 
 
-                console.log("R", r)
             })
         }
     },

@@ -7,7 +7,7 @@
 
 	<linepreloader v-if="loading" />
 
-	<component v-else @editportfolio="editportfolio" :updclbk="updclbk" :is="module" :edit="assetsedit" :assets="assets" :assetsinfo="assetsinfo" :portfolio="portfolio"/>
+	<component v-else @temp="temp" @editportfolio="editportfolio" :updclbk="updclbk" :is="module" :edit="assetsedit" :assets="assets" :assetsinfo="assetsinfo" :portfolio="portfolio"/>
 
 </div>
 </template>

@@ -135,7 +135,6 @@ class Step {
     hasstarted = function(){
         if(!this.started || this.status == "WAIT") return false
 
-        console.log((f.date.fromstring(this.started, true) / 1000) - f.date.nowUtc1000(), this.started)
 
         if((f.date.fromstring(this.started, true) / 1000) - f.date.nowUtc1000() > 0) return false
 
@@ -250,8 +249,6 @@ class EditStep extends Step {
 
         data.id = this.id
 
-        console.log("data", data, this)
-
         return data
     }
 }
@@ -352,7 +349,6 @@ class Template {
                 if (cjs.version == 2 || cjs.version == 3) {
                     this.content = JSON.parse(f.hexDecode(cjs.c))
 
-                    console.log('this.content',  JSON.parse(f.hexDecode(cjs.c)))
                 }
     
             } catch (e) { 
@@ -431,8 +427,6 @@ class Signature {
     }
 
     setData(r = {}){
-
-        console.log("R", r)
 
         if(r.html){
             try{

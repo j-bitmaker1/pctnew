@@ -112,8 +112,6 @@ export default {
                     value[i] = this.check(v)
                 })
 
-                console.log('value', value)
-
                 this.$emit('update:modelValue', value)
             }
         },
@@ -123,7 +121,6 @@ export default {
                 return this.modelValue[0]
             },
             set(value) {
-                console.log('value2', value) 
 
                 value = this.check(value)
 
@@ -149,12 +146,7 @@ export default {
     methods : {
         check : function(v){
 
-
-            console.log("VVV2", v)
-
             v = clearvalue(v)
-
-            console.log("VVV", v)
 
             if(this.options.min) v = Math.max(v, this.options.min)
             if(this.options.max) v = Math.min(v, this.options.max)

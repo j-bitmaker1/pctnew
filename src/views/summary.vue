@@ -62,8 +62,6 @@ export default {
 
 		this.last = this.core.activity.getlastByType('portfolio')
 
-		console.log('this.last', this.last)
-
 		//this.load()
 	},
 

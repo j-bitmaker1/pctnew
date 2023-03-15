@@ -335,8 +335,6 @@ var storeFactory = function (vxstorage) {
 				return m.save
 			})
 
-			console.log('saved', saved, state.modals)
-
 			localStorage['savedModals'] = JSON.stringify(saved)
 		},
 
@@ -358,8 +356,6 @@ var storeFactory = function (vxstorage) {
 		},
 
 		OPEN_MODAL(state, modal) {
-
-			console.log("STATE", this)
 
 			if(modal.one){
 				var last = _.find(state.modals, (m) => {

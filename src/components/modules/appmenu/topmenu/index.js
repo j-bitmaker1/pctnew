@@ -30,7 +30,6 @@ export default {
 		userinfo : state => state.userinfo,
 
         path : function(){
-            console.log('this.$router', this.$router.currentRoute.name)
             return this.$router.currentRoute.name
         },
         mobileview : state => state.mobileview

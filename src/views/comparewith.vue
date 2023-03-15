@@ -57,7 +57,7 @@
 		
 
 			<div class="structureInfoWrapper" v-if="structure">
-				<structureinfo :annuity="structure" :weight="weight"/>
+				<structureinfo :annuity="structure" :weight="Number(weight) || 100000"/>
 			</div>
 
 		
@@ -229,7 +229,6 @@ export default {
 					this.core.api.pctapi.portfolios.get(this.p).then(r => {
 						this.portfolio = r
 
-						console.log('this.portfolio', this.portfolio)
 
 					})
 				}
@@ -244,7 +243,6 @@ export default {
 					this.core.api.pctapi.stress.annuities.get(this.s).then(r => {
 						this.structure = r
 
-						console.log('this.structure', this.structure)
 					})
 				}
 			}

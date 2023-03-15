@@ -43,7 +43,7 @@
 
             <portfolioMenu :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
 
-            <shares :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+            <shares @temp="tempassets" :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
         </div>
         <div class="center part customscroll">
             <crashtest :height="height" v-if="portfolio" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>

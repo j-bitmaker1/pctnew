@@ -79,7 +79,6 @@ export default {
 		},
 
 		valid : function(){
-			console.log('this.step.type()', this.clone.type())
 			return this.clone.type()
 		}
 	}),

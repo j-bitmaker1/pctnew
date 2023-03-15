@@ -56,7 +56,6 @@ export default {
     computed: mapState({
         auth : state => state.auth,
         duration : function(){
-            console.log('this.step', this.step)
             return this.step.durationLabel()
         },
     }),

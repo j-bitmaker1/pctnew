@@ -73,7 +73,6 @@ export default {
 			this.loading = true
 
             this.core.api.campaigns.single.get(this.id).then(r => {
-				console.log("R", r)
 				this.campaign = r
 			}).finally(() => {
 				this.loading = false
