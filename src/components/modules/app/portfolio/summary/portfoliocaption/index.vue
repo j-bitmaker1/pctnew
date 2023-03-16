@@ -1,5 +1,5 @@
 <template>
-<div id="summary_portfoliomenu">
+<div id="summary_portfoliocaption">
     <div class="captionsl" v-if="portfolio">
 
         <div class="clientinfo" v-if="profile">
@@ -24,9 +24,9 @@
 
     </div>
 
-    <div class="portfolioMenu" v-if="portfolio">
-        <portfoliomenu buttonclass="diconbutton" @changeClient="changeClient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
-    </div>
+    <!--<div class="portfolioMenu" v-if="portfolio">
+        <portfoliomenu :ext="true" buttonclass="diconbutton" @changeClient="changeClient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
+    </div>-->
     
 </div>
 </template>

@@ -122,6 +122,30 @@
         overflow: hidden
         overflow-y: scroll
         height: 100%
+        
+        
+        .pcntwrapper
+            width: 100%
+            table-layout: fixed
+            display: table
+            >div
+                display: table-cell
+
+                &.pmenuwrapper
+                    background: srgb(--background-secondary-theme)
+                    height: 100%
+                    width: 44px
+
+        .pmenu
+            position: sticky
+            width: 44px
+            top : 0
+            height: 100%
+            padding-top: $r
+            z-index: 2
+
+        
+
 
     .left
         position: absolute
@@ -179,7 +203,30 @@
         span
             font-size: 0.9em
 
+.pmenu
+    ::v-deep
+        .menuitem
+            background: transparent
+            padding : 0
+            height: 33px
+            text-align: center
+            width: 33px
+            margin : 0 auto
+            margin-bottom: $r
+            border: 1px solid srgb(--neutral-grad-0)
+            i
+                color : srgb(--neutral-grad-2)
+                margin-right: 0
+                font-size: 0.7em
+            span
+                display: none
+
+
+            &[title="Summary"]
+                display: none
 ::v-deep
+    
+            
 
     .mobp
         padding-left: $r
@@ -194,6 +241,8 @@
             height: 2em
             line-height: 2em
 
+    
+
 
     .portfolios_shares
         padding-top : 0
@@ -207,6 +256,9 @@
             background: srgb(--background-total-theme)
             margin-top: 0
             padding-top: $r
+
+       
+
 
         #linenavigation
             .wrapper

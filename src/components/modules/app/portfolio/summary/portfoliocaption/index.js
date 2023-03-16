@@ -3,7 +3,7 @@ import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 import client from  '@/components/modules/app/portfolio/client/index.vue'
 
 export default {
-    name: 'summary_portfoliomenu',
+    name: 'summary_portfoliocaption',
     props: {
         portfolio : Object,
         profile : Object,

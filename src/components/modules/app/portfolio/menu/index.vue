@@ -1,6 +1,6 @@
 <template>
 <div class="portfolio_menu">
-	<tooltip>
+	<tooltip :ext="ext">
 		<template v-slot:item>
 			<div :class="buttonclass">
 				<i class="fas fa-ellipsis-v"></i>
@@ -31,7 +31,9 @@ export default {
 		buttonclass : {
 			type : String,
 			default : 'buttonpanel'
-		}
+		},
+
+		ext : Boolean
 	},
 	computed: mapState({
 		auth: state => state.auth,
@@ -53,6 +55,17 @@ export default {
 
             		features : ['PCT']
 				},
+
+				{
+					text : 'menu.comparewith',
+					icon : 'fas fa-list-ol',
+					action : 'comparewith',
+
+            		features : ['PCT']
+				},
+
+				
+
 				{
 					text : 'labels.editportfolio',
 					icon : 'fas fa-pen',
@@ -108,7 +121,7 @@ export default {
 				
 			}  
 			else{
-				menu.unshift({
+				menu.push({
 					text : 'labels.changeClient',
 					icon : 'fas fa-user-edit',
 					action : 'changeClient',
@@ -116,9 +129,9 @@ export default {
 					features : ["CRM"]
 				})
 
-				menu.unshift({
+				menu.push({
 					text : 'labels.unlinkClient',
-					icon : 'fas fa-user-edit',
+					icon : 'fas fa-user-times',
 					action : 'unlinkClient',
 
 					features : ["CRM"]
@@ -242,7 +255,9 @@ export default {
 		compare : function(){
 			this.$router.push('/compare?ids=' + this.portfolio.id).catch(e => {})
 		},
-
+		comparewith : function(){
+			this.$router.push('/comparewith?p=' + this.portfolio.id).catch(e => {})
+		},
 		moveportfoliotofolder : function(){
 			this.core.vueapi.selectFolder((folder) => {
 

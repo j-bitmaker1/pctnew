@@ -8,7 +8,8 @@ import scenariodetails from "@/components/modules/app/portfolio/crashtest/scenar
 
 import homeAdd from "@/components/modules/app/home/add/index.vue";
 
-import portfolioMenu from "./portfoliomenu/index.vue";
+import portfolioCaption from "./portfoliocaption/index.vue";
+import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 
 
 export default {
@@ -17,9 +18,10 @@ export default {
 		shares,
 		crashtest,
         scenariodetails,
-        portfolioMenu,
+        portfolioCaption,
         homeAdd,
-        crashtesttemp
+        crashtesttemp,
+        portfoliomenu
 	},
     props: {
         portfolioId : Number,

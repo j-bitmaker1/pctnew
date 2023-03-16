@@ -40,10 +40,21 @@
 
     <div class="bodyWrapper">
         <div class="left part customscroll">
+            <div class="pcntwrapper">
+                <div class="pcnt">
 
-            <portfolioMenu :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
+                    <portfolioCaption :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
 
-            <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+                    <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+
+                </div>
+                <div class="pmenuwrapper">    
+                    <div class="pmenu">
+                        <portfoliomenu v-if="portfolio" :ext="true" buttonclass="diconbutton" @changeClient="changeClient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
+
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="center part customscroll">
             <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>

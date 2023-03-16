@@ -7,7 +7,7 @@
 
     <div class="items">
 
-        <div class="item" v-for="item in items" :key="item.id" :class="{active : item.id == active}" @click="e => open(item)">
+        <div class="item unselectable" v-for="item in items" :key="item.id" :class="{active : item.id == active}" @click="e => open(item)">
             <i :class="item.icon" /> <span class="label">{{ $t(item.text) }}</span>
             <div class="notifications" v-if="notifications(item.id)">{{notifications(item.id)}}</div>
         </div>
