@@ -97,7 +97,7 @@ class Portfolio {
         return _.toArray(jg)
     }
 
-    clone = function(){
+    copy = function(){
         var data = {}
 
         _.each(this.fields, (i) => {

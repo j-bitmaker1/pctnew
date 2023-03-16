@@ -614,7 +614,7 @@ class PCT {
             [portfolio.id] : portfolio
         }
 
-        var aportfolio = portfolio.clone()
+        var aportfolio = portfolio.copy()
 
         _.each(assets, (asset) => {
             aportfolio.positions.push({
