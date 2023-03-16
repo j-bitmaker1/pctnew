@@ -19,7 +19,7 @@ export default {
 
 		return {
 			loading : false,
-
+			version : process.env.VUE_APP_VERSION,
 			allitems : [
 				{
 					route : '/',
@@ -132,6 +132,7 @@ export default {
 	computed: mapState({
 		auth : state => state.auth,
 		mobileview : state => state.mobileview,
+		
 		active : function(){
 
 			var path = this.$route.path

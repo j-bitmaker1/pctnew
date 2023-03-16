@@ -46,5 +46,9 @@ export default {
 			this.$emit('change', capacity)
 		}
 	},
+
+	created (){
+		console.log('this.initial', this.initial)
+	}
 }
 </script>

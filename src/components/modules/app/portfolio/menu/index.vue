@@ -100,15 +100,15 @@ export default {
 
 			if(!this.portfolio.crmContactId){
 
-				menu.unshift({
+				menu.push({
 					text : 'labels.setportfoliotolead',
-					icon : 'fas fa-user-plus', 
+					icon : 'fas fa-user-clock', 
 					action : 'linkToLead',
 
 					features : ["CRM"]
 				})
 				
-				menu.unshift({
+				menu.push({
 					text : 'labels.setportfoliotoclient',
 					icon : 'fas fa-user-plus', 
 					action : 'linkToClient',

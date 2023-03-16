@@ -13,7 +13,7 @@
 				<div class="divider" v-if="profile">
 					<span>/</span>
 				</div>
-				<div>
+				<div class="namewrapper">
 					<span>{{name}}</span>
 				</div>
 			</div>
@@ -54,6 +54,10 @@
 	white-space: nowrap
 	-webkit-mask-image: linear-gradient(to left, transparent 3%, black 10%)
 	mask-image: linear-gradient(to left, transparent 3%, black 10%)
+
+	.namewrapper
+		max-width: 150px
+
 
 @media only screen and (min-width: 768px)
 	.linenavigation

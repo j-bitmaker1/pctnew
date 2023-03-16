@@ -33,10 +33,12 @@
         <div class="exploreWrapper" @click="explore">
             <i class="fas fa-search"></i>
         </div>
-
-        
         
     </div>
+
+    <!--<div class="copyright">
+        <span>Larkspur-Rixtrema &middot; Portfolio Crash Test &middot; v{{version}}</span>
+    </div>-->
 
 </div>
 </template>

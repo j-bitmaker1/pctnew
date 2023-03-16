@@ -114,6 +114,12 @@
 			+transition(0.3s)
 			transition-delay: 0.3s
 
+			.copyright
+				+transition(0.3s)
+				transition-delay: 0.3s
+				display: block
+
+
 			.item
 				position: relative
 
@@ -140,6 +146,9 @@
 				transform: translate(0, 0)
 				background: srgb(--neutral-grad-0)
 				box-shadow: 0 0 5000px 3000px rgba(0,0,0,0.7)
+
+				.copyright
+					opacity: 1
 
 				.item
 
@@ -205,7 +214,6 @@
 		.page
 			background: srgb(--background-total-theme)
 			border-radius: 12px
-			overflow: hidden
 			padding-bottom: 0
 			margin : 0 auto
 
@@ -215,6 +223,16 @@
 			padding : 0
 			max-width: 100%
 			margin : 0
+
+@media only screen and (max-width: 1140px)
+	.rootapp
+		.page
+			max-width: 680px
+
+@media only screen and (max-width: 900px)
+	.rootapp
+		.page
+			max-width: 528px
 
 
 @media only screen and (max-width: 768px)

@@ -12,6 +12,28 @@
     &.portfolio
         background: transparent
 
+    .unsupportmobile
+        position: absolute
+        left : 0
+        top : 0
+        bottom : 0
+        right: 0
+        display: flex
+        align-items: center
+        justify-content: center
+
+        .wrapper
+            margin : 0 auto
+            max-width: 250px
+            text-align: center
+            padding : 2 * $r
+            border-radius: 12px
+            background: srgba(--neutral-grad-0, 0.5)
+
+            span
+                font-size: 0.9em
+
+
     .portfoliotip
         position: absolute
         z-index : 1
@@ -230,7 +252,16 @@
             margin : 0 auto
             margin-bottom: $r
             border: 1px solid srgb(--neutral-grad-0)
+            +transition(0.3s)
+
+            &:hover
+                border: 1px solid srgb(--color-bg-ac)
+                background: srgb(--color-bg-ac)
+                i
+                    color: srgb(--text-on-bg-shadow-color)
+
             i
+                +transition(0.3s)
                 color : srgb(--neutral-grad-2)
                 margin-right: 0
                 font-size: 0.7em

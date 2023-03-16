@@ -59,7 +59,8 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
-        height : state => state.dheight - 44 - 56 - 40
+        height : state => state.dheight - 44 - 56 - 40,
+        mobileview : state => state.mobileview
     }),
 
     methods : {
