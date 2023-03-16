@@ -184,7 +184,22 @@ export default {
 			return true
 		},
 
-	
+		changeTotalValue : function(e){
+			var newvalue = e.target.value
+
+			var p = this.total / newvalue
+
+			_.each(this.assets, (a) => {
+				a.value = Number((a.value / p).toFixed(this.isModel ? 2 : 0))
+			})
+
+			if (this.haschanges){
+				this.$emit('temp', this.assets)
+			}
+			else{
+				this.$emit('cancelTemp')
+			}
+		},
 		
 		multiple(items){
 
@@ -237,7 +252,6 @@ export default {
 
 			if(!old){
 
-
 				if (v.ticker && v.name)
 					this.assets.push({
 						ticker : v.ticker,
@@ -250,7 +264,7 @@ export default {
 				old = _.extend(old, v)
 			}
 
-			if(this.haschanges){
+			if (this.haschanges){
 				this.$emit('temp', this.assets)
 			}
 			else{
@@ -277,8 +291,6 @@ export default {
 
 		autofocus : function(){
 
-			
-
 			var assetindex = Math.max(this.assets.length - 1, 0)
 
 			if (this.assets[assetindex] && this.assets[assetindex].value){
@@ -287,6 +299,8 @@ export default {
 
 			if (this.$refs[assetindex])
 				this.$refs[assetindex].autofocus()
+
+			this.$refs.assetsList.scrollLeft = 44
 
 		},
 

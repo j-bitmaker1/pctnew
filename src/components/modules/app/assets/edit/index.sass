@@ -1,93 +1,98 @@
 .assets_inputs
-    display: flex
-    justify-content: space-between
-    align-items: center
-    border-bottom: 1px solid srgb(--neutral-grad-1)
-    font-size: 0.9em
+	display: flex
+	justify-content: space-between
+	align-items: center
+	border-bottom: 1px solid srgb(--neutral-grad-1)
+	font-size: 0.9em
+	
+	.ticker
+		max-width: 120px
 
-    &.focused
-        .tickerwrapper,
-        .ticker
-            display: none
-    /*position: relative*/
+
+	&.focused
+		.tickerwrapper,
+		.ticker
+			display: none
+	/*position: relative*/
 
 .assets_fromsearch
-    display: flex
-    justify-content: space-between
-    align-items: center
-    font-size: 0.9em
+	display: flex
+	justify-content: space-between
+	align-items: center
+	font-size: 0.9em
 
 .searchresult
-    position: fixed
-    left : $r
-    top: $r
-    margin-top: var(--app-margin-top)
-    right: $r
-    max-height: 380px
-    border-radius: 6px
-    background: srgb(--background-total-theme)
-    padding : 2 * $r
-    border : 1px solid srgb(--neutral-grad-0)
-    +shadowSmaller()
-    z-index: 200
-    overflow-x: hidden
+	position: fixed
+	left : $r
+	top: $r
+	margin-top: var(--app-margin-top)
+	right: $r
+	max-height: 380px
+	border-radius: 6px
+	background: srgb(--background-total-theme)
+	padding : 2 * $r
+	border : 1px solid srgb(--neutral-grad-0)
+	+shadowSmaller()
+	z-index: 200
+	overflow-x: hidden
 
-    ::v-deep
-        
-        .simplelist
-            display: flex
-            flex-direction: row
-            flex-wrap: nowrap
-            overflow-x: auto
-            scrollbar-width : none
-            &::-webkit-scrollbar
-                display: none
+	::v-deep
+		
+		.simplelist
+			display: flex
+			flex-direction: row
+			flex-wrap: nowrap
+			overflow-x: auto
+			scrollbar-width : none
+			&::-webkit-scrollbar
+				display: none
 
-            .item
-                margin-right: 3 * $r
+			.item
+				margin-right: 3 * $r
 
-    .twrapper
-        min-width: 120px
+	.twrapper
+		min-width: 90px
+		max-width: 120px
 
-    .ticker
-        display: block
-        margin: 0
-        margin-right: $r
+	.ticker
+		display: block
+		margin: 0
+		margin-right: $r
 
-    .name
-        text-overflow: ellipsis
-        white-space: nowrap
-        overflow: hidden
-        
+	.name
+		text-overflow: ellipsis
+		white-space: nowrap
+		overflow: hidden
+		
 
 .name
-    flex-grow: 2
-    margin-right : auto
-    input
-        width: 100%
+	flex-grow: 2
+	margin-right : auto
+	input
+		width: 100%
 
 .ticker
-    margin-top : 0.5 * $r
-    margin-left: $r
+	margin-top : 0.5 * $r
+	margin-left: $r
 
-    span
-        font-weight: 700
+	span
+		font-weight: 700
 
 .value
-    max-width: 90px
+	max-width: 90px
 
-    input
-        text-align: right
+	input
+		text-align: right
 
 input
-    padding : 0 2 * $r
-    padding-right: 0
-    height: 44px
-    width: 100%
+	padding : 0 2 * $r
+	padding-right: 0
+	height: 44px
+	width: 100%
 
 .pdicon
-    margin-right: 3 * $r
-    margin-left: 0.5 * $r
+	margin-right: 3 * $r
+	margin-left: 0.5 * $r
 
 .tickerwrapper
-    min-width: 120px
+	min-width: 120px

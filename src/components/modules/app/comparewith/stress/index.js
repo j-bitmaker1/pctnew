@@ -123,10 +123,10 @@ export default {
 
             this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed).then((r) => {
 
-                if (task == this.taskid){
+                //if (task == this.taskid){
                     this.cts = r.result
                     this.portfolios = r.portfolios
-                }
+                //}
                 
             }).finally(() => {
                 this.loading = false

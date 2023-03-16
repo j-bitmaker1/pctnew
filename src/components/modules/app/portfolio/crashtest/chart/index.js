@@ -85,6 +85,8 @@ export default {
 
 		num : function(index){
 
+			console.log('this.cts', this.cts, index, this.cts.total , this.cts.max , this.intervals)
+
 			var v = (index) * (this.cts.total * this.cts.max / this.intervals)
 			
 			if(this.mode == 'p'){

@@ -1,6 +1,10 @@
 .namewrapper
 	padding : $r
-	margin-top : 2 * $r
+	background: srgb(--background-total-theme)
+	position: sticky
+	top : 54px
+	left : 0
+	right: 0
 	input
 		padding : 0 $r
 		height: 44px
@@ -59,7 +63,10 @@
 		flex-grow: 0
 		flex-shrink: 0
 		color : srgb(--neutral-grad-1)
-	
+
+	/*&.last
+		*/
+
 
 .aggregatelist,
 .assetsList
@@ -79,6 +86,34 @@
 
 	&.focused
 		overflow: visible
+
+.totalPanel
+	position: sticky
+	padding: $r 2 * $r
+	padding-right: 2.5 * $r
+	background: srgb(--background-total-theme)
+	bottom: 0
+	left: 0
+	right: 0
+	display: flex
+	align-items: center
+	flex-wrap: nowrap
+	justify-content: space-between
+	z-index: 10
+
+	.pdicon
+		font-size: 0.9em
+
+	.forInput
+		font-size: 0.9em
+		margin-left: auto
+
+	input
+		text-align: right
+
+.haschanges
+	.totalPanel
+		bottom: 10 * $r
 
 .assetsList
 	margin-top: 0

@@ -138,7 +138,7 @@ export default {
 
 
 			var sorted = _.sortBy(this.items, (i) => {
-				return -i.route.length
+				return i.route ? -i.route.length : 0
 			})
 
 

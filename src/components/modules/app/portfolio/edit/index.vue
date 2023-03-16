@@ -47,7 +47,6 @@
 
 	<div v-if="!aggregation">
 
-
 		<div class="captionRow">
 			<div class="caption">
 				<span>Assets</span>
@@ -67,7 +66,7 @@
 			<div class="assetsListWrapper">
 				<list :items="extended">
 					<template v-slot:default="slotProps">
-						<div class="assetWrapper">
+						<div class="assetWrapper" :class="{last : slotProps.index == extended.length - 1}">
 							<div class="remove" @click="remove(slotProps.index)">
 								<i class="fas fa-times-circle"></i> 
 							</div>
@@ -82,6 +81,21 @@
 
 	<div class="aggregatelist" v-else>
 		<aggregationsEdit type="portfolio" :aggregation="aggregation"/>
+	</div>
+
+	<div class="totalPanel">
+		<div class="label">
+			<span>Total</span>
+		</div>
+
+		<div class="forInput">
+			<input type="number" @change="changeTotalValue" :placeholder="0" :disabled="isModel" :value="total">
+		</div>
+
+		<div class="pdicon">
+            <span v-if="!isModel">$</span>
+            <span v-if="isModel">%</span>
+        </div>
 	</div>
 
 	<div class="savePanel">
