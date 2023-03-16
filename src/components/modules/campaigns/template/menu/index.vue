@@ -38,11 +38,15 @@ export default {
 
 		menu : function(){
 
-			var menu = [{
+			var menu = []
+
+			if(this.campaignTemplate.canedit()){
+				menu.push({
 					text : 'campaigns.menu.deletetemplate',
 					icon : 'fas fa-trash',
 					action : 'deletetemplate'
-				}]
+				})
+			}
 
 			if(this.campaignTemplate.Id){
 				menu.push({

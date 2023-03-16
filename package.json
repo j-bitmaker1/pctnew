@@ -1,10 +1,11 @@
 {
   "name": "pct",
-  "version": "0.0.42",
+  "version": "0.0.44",
   "private": true,
   "scripts": {
     "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
     "build": "vue-cli-service build",
+    "buildlc": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "cordova": "node cordova.js",
     "cordova-build-android": "cross-env CORDOVA_PLATFORM=android vue-cli-service cordova-build-android --buildConfig build.json --emptypublicpath --packageType=bundle",

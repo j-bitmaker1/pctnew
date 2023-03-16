@@ -614,7 +614,7 @@ class PCT {
             [portfolio.id] : portfolio
         }
 
-        var aportfolio = portfolio.copy()
+        var aportfolio = portfolio.clone()
 
         _.each(assets, (asset) => {
             aportfolio.positions.push({
@@ -650,7 +650,14 @@ class PCT {
             return Promise.resolve()
         }))
 
-        var max = _.max(portfolios, (p) => {return p.total()})
+        console.log("portfolios", portfolios)
+
+        var max = _.max(portfolios, (p) => {
+            console.log(p.name, p.total())
+            return p.total()
+        })
+
+        console.log('max', max, max.total())
 
         return Promise.all(promises).then(() => {
 

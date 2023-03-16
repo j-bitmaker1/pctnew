@@ -3,7 +3,7 @@
 
 	<topheader :back="mobileview ? 'back' : ''">
 		<template v-slot:info>
-			<span>Compare with structured</span>
+			<span>Compare Structured</span>
 		</template>
 		<template v-slot:right>
 			
@@ -42,7 +42,7 @@
 								</div>
 							</template>
 							<template v-else>
-								Select structure
+								Select Structured Product
 							</template>
 						</div>
 
@@ -73,6 +73,12 @@
 
 			<div class="empty mobp" v-if="!portfolio || !structure">
 				<span>Please select a portfolio and structure to compare</span>
+			</div>
+
+			<div class="golast mobp" v-if="(!portfolio || !structure) && last">
+				<router-link :to="last.link">
+					<button class="button">Go to last comparison</button>
+				</router-link>
 			</div>
 
 			<!--<div class="golast mobp" v-if="!ids.length && last">
@@ -169,6 +175,7 @@
 		align-items: center
 		border-left: 1px solid srgb(--neutral-grad-1)
 		background: srgb(--neutral-grad-0)
+		z-index: 2
 
 		i
 			cursor: pointer
@@ -263,6 +270,8 @@ export default {
 				if(this.p){
 					this.core.api.pctapi.portfolios.get(this.p).then(r => {
 						this.portfolio = r
+
+						this.saveactivity()
 					})
 				}
 			}
@@ -276,6 +285,7 @@ export default {
 					this.core.api.pctapi.stress.annuities.get(this.s).then(r => {
 						this.structure = r
 
+						this.saveactivity()
 					})
 				}
 			}
@@ -306,12 +316,23 @@ export default {
 			navkey : 'c',
 
 			portfolio : null,
-			structure : null
+			structure : null,
+			last : null
 			
 		}
 	},
 
 	methods: {
+
+		saveactivity : function(){
+			if (this.portfolio && this.structure){
+				this.core.activity.template('comparewith', {
+					portfolio : this.portfolio,
+					annuityWeighted : this.annuityWeighted
+				})
+			}
+			
+		},
 
 		wchanged : function(e){
 			this.$router.replace({
@@ -357,7 +378,7 @@ export default {
 	},
 
 	created() {
-		//this.last = this.core.activity.getlastByType('compare')
+		this.last = this.core.activity.getlastByType('comparewith')
 		
 	}
 }

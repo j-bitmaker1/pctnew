@@ -49,15 +49,29 @@ class Contact {
 
 }
 
+
+
+
 class Portfolio {
-    fields = []
+    fields = [
+        'catalogId',
+        'crashRating',
+        'created',
+        'id',
+        'isModel',
+        'name',
+        'positions',
+        'positionsSum',
+        'readOnly',
+        'status',
+        'updated',
+        'userId'
+    ]
 
     constructor(data = {}) {
 
         _.each(data, (v, i) => {
             this[i] = v
-
-            this.fields.push(i)
         })
 
     }
@@ -70,7 +84,7 @@ class Portfolio {
 
         return _.reduce(this.positions, (m, p) => {
 
-            return p.isCovered ? m + p.value : m
+            return (p.isCovered || p.external) ? m + p.value : m
 
         }, 0)
 
@@ -97,7 +111,7 @@ class Portfolio {
         return _.toArray(jg)
     }
 
-    copy = function(){
+    clone = function(){
         var data = {}
 
         _.each(this.fields, (i) => {

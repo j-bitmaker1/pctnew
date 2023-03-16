@@ -58,6 +58,38 @@ class Templates {
         return a
     }
 
+    comparewith({portfolio, annuityWeighted}){
+        var a = {}
+
+        a.key = portfolio.id + ',' + annuityWeighted.ticker
+        
+        a.type = 'comparewith'
+
+        a.data = {
+
+            portfolio : {
+                name : portfolio.name,
+                id: portfolio.id,
+                total : portfolio.total(),
+                isModel : portfolio.isModel
+            },
+
+            annuityWeighted : {
+                ticker : annuityWeighted.ticker,
+                name : annuityWeighted.name,
+                value : annuityWeighted.value
+            },
+
+            ids : a.key
+        }
+
+        a.link = '/comparewith?p=' + portfolio.id + '&s=' + annuityWeighted.ticker + '&w=' + annuityWeighted.value
+        
+        a.search = portfolio.name + ", " + annuityWeighted.name + ', ' + annuityWeighted.value
+
+        return a
+    }
+
     portfolio(portfolio){
         
         var a = {}

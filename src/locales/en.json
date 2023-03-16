@@ -10,7 +10,7 @@
 		"add" : "Create",
 		"questionnaire" : "Questionnaire",
 		"compare" : "Compare",
-		"comparewith" : "Compare with",
+		"comparewith" : "Compare Structured",
 		"campaigns" : "Campaigns",
 		"help" : "Help",
 		"filemanager" : "File recognition",
@@ -393,6 +393,7 @@
 	"activity" : {
 		"portfolio" : "Portfolios",
 		"compare" : "Compare",
+		"comparewith" : "Compare Structured",
 		"client" : "Clients",
 		"lead" : "Leads",
 		"search" : "Recent Searches",

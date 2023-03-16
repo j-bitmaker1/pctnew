@@ -4,6 +4,7 @@ import { mapState } from 'vuex';
 import f from "@/application/shared/functions.js"
 
 import compare from "@/components/modules/app/activity/compare/index.vue"
+import comparewith from "@/components/modules/app/activity/comparewith/index.vue"
 import portfolio from "@/components/modules/app/activity/portfolio/index.vue"
 import portfoliopdf from "@/components/modules/app/activity/portfoliopdf/index.vue"
 import client from "@/components/modules/app/activity/client/index.vue"
@@ -20,7 +21,7 @@ export default {
     },
 
     components : {
-        portfolio, client, search, themeToggle, def
+        portfolio, client, search, themeToggle, def, comparewith
     },
 
     data : function(){
@@ -102,6 +103,7 @@ export default {
         getmodule : function(item){
             
             if(item.type == 'compare') return compare
+            if(item.type == 'comparewith') return comparewith
             if(item.type == 'portfolio') return portfolio
             if(item.type == 'portfoliopdf') return portfoliopdf
             if(item.type == 'client') return client
