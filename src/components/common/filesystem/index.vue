@@ -36,7 +36,7 @@
 
 		
 		<div class="cnt" v-if="purpose != 'selectFolder' && !moving && showback && !select.disableMenu">
-			<fsmenu :currentroot="current" @reload="load">
+			<fsmenu :currentroot="current" @reload="load" @removed="up">
 				<template v-slot:default>
 					<div class="icon">
 						<i class="fas small fa-ellipsis-h"></i>

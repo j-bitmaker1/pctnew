@@ -20,7 +20,6 @@
 </style>
 
 <script>
-import func from 'vue-editor-bridge';
 import {
 	mapState
 } from 'vuex';
@@ -36,13 +35,31 @@ export default {
 
 		menu : function(){
 
-			return [
-				{
+			var menu = []
+
+			if(!this.currentroot.attributes.readonly) { 
+
+				menu.push({
 					text : 'labels.moveportfoliostofolder',
 					icon : 'fas fa-suitcase',
 					action : 'moveportfoliostofolder'
-				},
-			]
+				})
+
+			}
+
+			if(!this.currentroot.attributes.nonremovable) { 
+
+				menu.push({
+					text : 'labels.remove',
+					icon : 'fas fa-times',
+					action : 'removeportfolio'
+				})
+
+			}
+
+			console.log('currentroot', this.currentroot)
+
+			return menu
 			
 		}
 
@@ -52,8 +69,30 @@ export default {
 
 		menuaction : function(action, item){
 			if (this[action]){
-				this[action]()
+				this[action](item)
 			}   
+		},
+
+		removeportfolio : function(item){
+
+			this.$store.commit('globalpreloader', true)
+
+			return this.core.api.filesystem.delete['folder']({
+				id : this.currentroot.id
+			}).then(() => {
+				this.$store.commit('icon', {
+					icon: 'success'
+				})
+
+				this.$emit('removed')
+			}).catch(e => {
+				this.$store.commit('icon', {
+					icon: 'error',
+					message: e.error
+				})
+			}).finally(() => {
+				this.$store.commit('globalpreloader', false)
+			})
 		},
 
 		moveportfoliostofolder : function(){

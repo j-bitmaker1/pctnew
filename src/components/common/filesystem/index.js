@@ -132,11 +132,13 @@ export default {
 			this.loading = true
 			this.selected = null
 
-			if(id) {
+			if (id) {
 				this.setcurrentroot(id)
 			}
 
 			return this.core.api.filesystem.get(this.root).then(r => {
+
+				console.log("R", r)
 
 				this.current = r
 
@@ -241,6 +243,7 @@ export default {
 
 			return Promise.all(_.map(items, (item) => {
 
+				if(item.attributes.nonremovable) return Promise.resolve()
 
 				return this.core.api.filesystem.delete[item.type]({
 					id : item.id,
@@ -301,67 +304,6 @@ export default {
 			})
 
 
-			return Promise.all(_.map(this.moving, (item) => {
-
-				var nameexist = _.find(this.current.content, (c) => {
-					return item.type == c.type && item.name == c.name
-				})
-
-				if (nameexist){
-
-					this.core.notifier.simplemessage({
-						icon : "fas fa-exclamation-triangle",
-						title : "Name exist",
-						message : item.name + " exist in this folder"
-					})
-
-					haserrors++
-					
-					return Promise.resolve()
-				}
-
-				return this.core.api.filesystem.move[item.type]({
-					id : item.id,
-					to : this.root,
-					from : this.current.id
-				})
-
-			})).then(r => {
-
-				this.moving = null
-
-				if(haserrors == l){
-					return Promise.reject({
-						error : "Operation failed"
-					})
-				}
-
-				if(!haserrors){
-					this.$store.commit('icon', {
-						icon: 'success'
-					})
-				}
-				else{
-					this.$store.commit('icon', {
-						icon: 'warning',
-						message : 'The operation was partially successful'
-					})
-				}
-				
-				return this.load()
-
-			}).catch(e => {
-
-				this.$store.commit('icon', {
-					icon: 'error',
-					message: e.error
-				})
-
-			}).finally(() => {
-				this.$store.commit('globalpreloader', false)
-			})
-
-			//this.moving
 
 			
 		},

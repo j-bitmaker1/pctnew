@@ -2224,10 +2224,16 @@ var ApiWrapper = function (core = {}) {
 				id: rootid || '0'
 			}, 'pctapi', 'Catalog/GetCatalogContent', p).then(r => {
 
+				console.log("RRR ", r)
+
 				var result = {
 					name: r.name,
 					content: [],
-					id: r.id
+					id: r.id,
+					attributes : {
+						readOnly : r.readOnly || false,
+						nonremovable : r.nonremovable || r.readOnly || r.name == 'Models' || false
+					}
 				}
 
 				_.each(r.catalogs, (c) => {
@@ -2236,7 +2242,11 @@ var ApiWrapper = function (core = {}) {
 						id: c.id,
 						name: c.name,
 						from: rootid || '0',
-						context: 'filesystem'
+						context: 'filesystem',
+						attributes : {
+							readOnly : c.readOnly || false,
+							nonremovable : c.nonremovable || c.readOnly || c.name == 'Models' || false
+						}
 					})
 				})
 
@@ -2246,7 +2256,11 @@ var ApiWrapper = function (core = {}) {
 						id: p.id,
 						name: p.name,
 						from: rootid || '0',
-						context: 'filesystem'
+						context: 'filesystem',
+						attributes : {
+							readOnly : p.readOnly || false,
+							nonremovable : p.nonremovable || p.readOnly || false
+						}
 					})
 				})
 
@@ -2288,6 +2302,7 @@ var ApiWrapper = function (core = {}) {
 					id,
 					destinationCatalogId: to
 				}
+				
 
 				core.vxstorage.invalidateMany(
 					[to, from],
@@ -2319,20 +2334,32 @@ var ApiWrapper = function (core = {}) {
 					id
 				}
 
-				core.vxstorage.invalidateMany(
-					[from],
-					['filesystem']
-				)
+				if(from){
+					core.vxstorage.invalidateMany(
+						[from],
+						['filesystem']
+					)
+				}
+				else{
+					self.invalidateStorageNow(['filesystem'])
+				}
+				
+				
 
 				return request(data, 'pctapi', 'Catalog/DeleteCatalog', p)
 			},
 
 			portfolio: function ({ id, from }, p) {
 
-				core.vxstorage.invalidateMany(
-					[from],
-					['filesystem']
-				)
+				if(from){
+					core.vxstorage.invalidateMany(
+						[from],
+						['filesystem']
+					)
+				}
+				else{
+					self.invalidateStorageNow(['filesystem'])
+				}
 
 				return self.pctapi.portfolios.delete([id], p)
 			}
@@ -2449,8 +2476,14 @@ var ApiWrapper = function (core = {}) {
 			return request({}, 'pctapi', 'User/Init', {
 				method: "POST"
 			}).then(r => {
-
+				return Promise.resolve()
 			})
+			
+			/*.catch(e => {
+				console.error(e)
+
+				return Promise.resolve()
+			})*/
 		},
 
 		updated: function (p = {}) {

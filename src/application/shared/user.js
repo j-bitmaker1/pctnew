@@ -827,6 +827,10 @@ var User = function ({
 
         }).then(() => {
 
+            return self.initlookup()
+
+        }).then(() => {
+
             updates.synk()
 
             wss.init()
@@ -843,6 +847,20 @@ var User = function ({
             state.value = 0
 
             return Promise.reject(e)
+        })
+    }
+
+    self.initlookup = function(){
+        var k = login.value + 'lookupInited'
+        
+        if (localStorage[k]){
+            return Promise.resolve()
+        }
+
+        return api.user.initlookup().then(() => {
+            localStorage[k] = true
+
+            return Promise.resolve()
         })
     }
 

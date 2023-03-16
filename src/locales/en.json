@@ -143,7 +143,10 @@
 		"nocontributors" : {
 			"loss" : "There are no loss contributors for the specified scenario",
 			"gain" : "There are no gain contributors for the specified scenario"
-		}
+		},
+
+		"remove" : "Remove"
+
 	},
 
 	"caption" : {
@@ -564,7 +567,9 @@
 			"deletecampaign" : "Would you like to remove campaign?",
 			"cancelcampaign" : "Would you like to cancel campaign?",
 			"pausecampaign" : "Would you like to pause campaign?",
-			"resumecampaign" : "Would you like to resume campaign?"
+			"resumecampaign" : "Would you like to resume campaign?",
+
+			"removefsitem" : "Would you like to remove current folder?"
 		},
 		"settings" : {
 			"signatures" : "Email signatures",
