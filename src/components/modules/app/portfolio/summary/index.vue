@@ -1,9 +1,9 @@
 <template>
 <div id="portfolio_summary" :class="{portfolio : portfolio}">
 
-    <div class="loading" v-if="loading">
+    <!--<div class="loading" v-if="loading">
         <linepreloader />
-    </div>
+    </div>-->
 
 
     <div class="headerWrapper mobp">
@@ -86,7 +86,7 @@
     </div>
 
     <div class="portfoliotip" v-if="!portfolio">
-        <div class="wrapper">
+        <div class="wrapper" v-if="!portfolioId">
             <span>Load or select a portfolio and get Stress test!</span>
             <div class="stickerWrapper">
                 <sticker src="goal.png" :width="128"/>
@@ -108,14 +108,13 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-
-            
         </div>
 
+        <div class="summaryPreloader" v-else>
+            <linepreloader />
+        </div>
         
     </div>
-
-    
 
 </div>
 </template>

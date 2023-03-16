@@ -27,6 +27,12 @@
             margin-top: 3 * $r
             padding-bottom: 3 * $r
 
+        .summaryPreloader
+            padding : 2 * $r
+            border-radius: 12px
+            background: srgba(--neutral-grad-0, 0.5)
+            margin : 0 auto
+
         .wrapper
             margin : 0 auto
             max-width: 250px
@@ -136,6 +142,9 @@
             >div
                 display: table-cell
 
+                &.pcnt
+                    overflow: hidden
+
                 &.pmenuwrapper
                     background: srgb(--background-secondary-theme)
                     height: 100%
@@ -148,7 +157,7 @@
             top : 0
             height: 100%
             padding-top: $r
-            z-index: 2
+            z-index: 20
 
         
 
