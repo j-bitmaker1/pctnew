@@ -1,8 +1,8 @@
 <template>
 <div class="campaigns_status" :class="status">
 	<div class="status">
-
-		<i :class="meta.icon"></i>
+		<img v-if="meta.img" :src="meta.img"/>
+		<i :class="meta.icon" v-else></i>
 		<span>{{$t('campaigns.status.' + meta.text)}}</span>
 
 	</div>
@@ -32,6 +32,12 @@
 .status
 	i
 		color : srgb(--neutral-grad-2)
+
+	img
+		width: 22px
+		overflow: hidden
+		border-radius: 50%
+		+shadowSmaller()
 
 .campaigns_status.COMPLETED
 	.status

@@ -47,7 +47,8 @@ class CampaignsManager {
         ACTIVE : {
             icon : "fas fa-spinner fa-spin",
             text : 'active',
-            statistic : 'ActiveCampaigns'
+            statistic : 'ActiveCampaigns',
+            img : require('@/assets/ezgif-6-46750ada6552.gif')
         },
 
         PROCESS : {
