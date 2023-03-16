@@ -25,33 +25,13 @@ export default {
 
 		return {
 			loading : false,
-			navigation : [
-				{
-					text : 'labels.assetslist',
-					id : 'assets',
-					icon : 'fas fa-list'
-				   
-				},
-
-				{
-					text : 'labels.allocation',
-					id : 'allocation',
-					icon : 'fas fa-chart-pie'
-				},
-				
-				{
-					text : 'labels.distribution',
-					id : 'distribution',
-					icon : 'fas fa-chart-area'
-				   
-				},
-			 
-			],
+			temp : null,
+			
 			navkey : 's',
 			navdefault : 'assets',
 
 			assets : [],
-			assetsinfo : {}
+			assetsinfo : {},
 		}
 
 	},
@@ -88,6 +68,33 @@ export default {
 				assets : this.assets,
 				id : this.portfolio.id
 			}
+		},
+
+		navigation : function(){
+
+			var menu = []
+
+			menu.push({
+				text : 'labels.assetslist',
+				id : 'assets',
+				icon : 'fas fa-list'
+			})
+
+			if(!this.temp){
+				menu.push({
+					text : 'labels.allocation',
+					id : 'allocation',
+					icon : 'fas fa-chart-pie'
+				})
+
+				menu.push({
+					text : 'labels.distribution',
+					id : 'distribution',
+					icon : 'fas fa-chart-area'
+				})
+			}
+
+			return menu
 		}
 	}),
 
@@ -115,12 +122,14 @@ export default {
 			this.editportfolio()
 		},
 
-		temp : function(assets){
+		tempassets : function(assets){
 			this.$emit('temp', assets)
+			this.temp = assets
         },
 
-		cancelTemp : function(assets){
+		cancelTemp : function(){
 			this.$emit('cancelTemp')
+			this.temp = null
         },
 
 	},
