@@ -1,4 +1,5 @@
 import { mapState } from 'vuex';
+import f from "@/application/shared/functions.js";
 
 import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'
 import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
@@ -39,7 +40,9 @@ export default {
 					index : 'ocr'
 				}
 				
-			]
+			],
+
+            taskid : null
         }
 
     },
@@ -110,17 +113,25 @@ export default {
 
             this.loading = true
 
+            var task = f.makeid()
+
+            this.taskid = task
+
             var sc = 'stresstestWithPositions'
 
             if(this.type == 'split') sc = 'stresstestWithPositionsSplit'
 
             this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed).then((r) => {
 
-                this.cts = r.result
-                this.portfolios = r.portfolios
+                if (task == this.taskid){
+                    this.cts = r.result
+                    this.portfolios = r.portfolios
+                }
                 
             }).finally(() => {
                 this.loading = false
+
+                this.taskid = null
             })
            
         }
