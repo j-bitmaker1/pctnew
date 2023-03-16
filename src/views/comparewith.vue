@@ -71,7 +71,7 @@
 				<component :is="module" :portfolio="portfolio" type="split" :mode="valuemode" :assets="[annuityWeighted]"/>
 			</div>
 
-			<div class="empty mobp" v-if="!portfolio">
+			<div class="empty mobp" v-if="!portfolio || !structure">
 				<span>Please select a portfolio and structure to compare</span>
 			</div>
 
