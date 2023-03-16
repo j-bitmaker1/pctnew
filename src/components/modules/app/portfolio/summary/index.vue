@@ -58,7 +58,7 @@
                 <div class="pcntwrapper">
                     <div class="pcnt">
 
-                        <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+                        <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" :profile="profile" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
                         <crashtesttemp :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
 
                     </div>

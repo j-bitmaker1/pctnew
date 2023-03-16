@@ -42,5 +42,13 @@ export default {
         deleteportfolio : function(){
             this.$emit('deleteportfolio')
         },
+
+        openclient : function(){
+            this.core.vueapi.openlead({
+				leadid : this.profile.ID
+			}, {
+
+			})
+        }
     },
 }

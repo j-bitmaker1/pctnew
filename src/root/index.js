@@ -19,8 +19,8 @@ export default {
 			blockTouch : false,
 			isRouterAlive : true,
 			refreshPosition : 0,
-
-			dropfile : false
+			dropfile : false,
+			anim : false
 		}
 
 	},
@@ -30,7 +30,14 @@ export default {
 	},
 
 	watch: {
-		//$route: 'getdata'
+		summaryview : {
+			immediate : true,
+			handler : function(){
+				window.requestAnimationFrame(() => {
+					this.anim = this.summaryview
+				})
+			}
+		}
 	},
 	computed: mapState({
 		

@@ -111,12 +111,8 @@
 			top : 0
 			bottom: 0
 			transform: translate(-205px, 0)
-			+transition(0.3s)
-			transition-delay: 0.3s
 
 			.copyright
-				+transition(0.3s)
-				transition-delay: 0.3s
 				display: block
 
 
@@ -127,19 +123,16 @@
 					position: absolute
 					right : 0%
 					top : 50%
-					+transition(0.3s)
-					transition-delay: 0.3s
+					
 					transform: scale(0.75)
 					
 
 				.label
-					+transition(0.3s)
-					transition-delay: 0.3s
+					
 					transform: translate(-55px, 0)
 
 				i
-					+transition(0.3s)
-					transition-delay: 0.3s
+					
 					transform: translate(205px, 0)
 
 			&:hover
@@ -169,8 +162,7 @@
 			flex-direction: column-reverse
 			left: 1.5 * $r
 			transform: translate(205px, 0)
-			+transition(0.3s)
-			transition-delay: 0.3s
+			
 
 			i
 				font-size: 0.8em
@@ -193,6 +185,18 @@
 				>div
 					display: flex
 					flex-direction: column
+
+		&.anim
+			
+			#appmenu .item .notifications,
+			#appmenu .item i,
+			#appmenu .item .label,
+			#appmenu .copyright,
+			.footer,
+			#appmenu
+				+transition(0.3s)
+				transition-delay: 0.3s
+				
 		
 .fade-enter-active, .fade-leave-active
 	transition: opacity .5s

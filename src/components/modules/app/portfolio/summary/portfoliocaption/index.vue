@@ -2,8 +2,8 @@
 <div id="summary_portfoliocaption">
     <div class="captionsl" v-if="portfolio">
 
-        <div class="clientinfo" v-if="profile">
-            <client :profile="profile" :small="true"/>
+        <div class="clientinfo" v-if="profile" @click="openclient">
+            <client :profile="profile"  :small="true"/>
         </div>
         
         <div class="divider" v-if="profile">

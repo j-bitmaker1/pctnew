@@ -30,6 +30,7 @@ export default {
 
     methods : {
         value : function(item){
+            console.log('this.th', this.th)
             return this.core.pct.ocr(item.index ? this.ct[item.index] : this.th[item.th])
         },
 
