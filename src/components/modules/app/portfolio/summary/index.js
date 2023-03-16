@@ -11,6 +11,7 @@ import homeAdd from "@/components/modules/app/home/add/index.vue";
 import portfolioCaption from "./portfoliocaption/index.vue";
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 
+import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
 
 export default {
     name: 'portfolio_summary',
@@ -21,7 +22,8 @@ export default {
         portfolioCaption,
         homeAdd,
         crashtesttemp,
-        portfoliomenu
+        portfoliomenu,
+        ctmenu
 	},
     props: {
         portfolioId : Number,
@@ -191,6 +193,15 @@ export default {
             this.$emit('changeData', {
                 portfolioId : this.last.data.portfolio.id
             })
+        },
+        
+        scenariosChanged : function(){
+
+        },
+
+        scoreConverterChanged : function(){
+
         }
+
     },
 }

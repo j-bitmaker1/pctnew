@@ -1,6 +1,6 @@
 <template>
 <div class="portfolio_crashtest_menu">
-    <tooltip>
+    <tooltip :ext="ext">
         <template v-slot:item>
             <div :class="buttonclass">
                 <i class="fas fa-cog"></i>
@@ -30,7 +30,9 @@ export default {
         buttonclass: {
             type: String,
             default: 'diconbutton'
-        }
+        },
+
+        ext : Boolean
     },
     computed: mapState({
         auth: state => state.auth,

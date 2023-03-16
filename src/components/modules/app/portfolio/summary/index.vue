@@ -57,9 +57,24 @@
             </div>
         </div>
         <div class="center part customscroll">
-            <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
 
-            <crashtesttemp :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+            <div class="pcntwrapper">
+                <div class="pcnt">
+
+                    <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+                    <crashtesttemp :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+
+                </div>
+                <div class="pmenuwrapper">    
+                    <div class="pmenu">
+                        
+                        <ctmenu v-if="portfolio" :ext="true" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
+
+                    </div>
+                </div>
+            </div>
+
+            
         </div>
         <div class="right part">
             <template  v-if="portfolio">
