@@ -2,6 +2,8 @@ import { mapState } from 'vuex';
 
 import shares from "@/components/modules/app/portfolio/shares/index.vue";
 import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
+import crashtesttemp from "@/components/modules/app/comparewith/stress/index.vue";
+
 import scenariodetails from "@/components/modules/app/portfolio/crashtest/scenariodetails/index.vue";
 
 import homeAdd from "@/components/modules/app/home/add/index.vue";
@@ -16,7 +18,8 @@ export default {
 		crashtest,
         scenariodetails,
         portfolioMenu,
-        homeAdd
+        homeAdd,
+        crashtesttemp
 	},
     props: {
         portfolioId : Number,
@@ -172,9 +175,14 @@ export default {
         },
 
         tempassets : function(assets){
+            
             this.temp = assets
 
             console.log('this.temp', this.temp)
+        },
+
+        cancelTempAssets : function(){
+			this.temp = null
         },
 
         gotolast : function(){

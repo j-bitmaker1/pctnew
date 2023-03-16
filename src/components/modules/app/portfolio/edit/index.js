@@ -157,7 +157,7 @@ export default {
 					this.ini()
 				}
 
-				
+				this.$emit('cancelTemp')
 
 			}
 
@@ -250,7 +250,14 @@ export default {
 				old = _.extend(old, v)
 			}
 
-			this.$emit('temp', this.assets)
+			if(this.haschanges){
+				this.$emit('temp', this.assets)
+			}
+			else{
+				this.$emit('cancelTemp')
+			}
+
+			
 		
 		},
 
@@ -259,7 +266,12 @@ export default {
 				this.assets.splice(index, 1)
 			}
 
-			this.$emit('temp', this.assets)
+			if(this.haschanges){
+				this.$emit('temp', this.assets)
+			}
+			else{
+				this.$emit('cancelTemp')
+			}
 
 		},
 

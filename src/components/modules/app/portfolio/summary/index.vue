@@ -43,18 +43,23 @@
 
             <portfolioMenu :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
 
-            <shares @temp="tempassets" :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+            <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
         </div>
         <div class="center part customscroll">
-            <crashtest :height="height" v-if="portfolio" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+            <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+
+            <crashtesttemp :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
         </div>
         <div class="right part">
             <template  v-if="portfolio">
 
                 <linepreloader v-if="!ct"/>
                 <template  v-else>
-                    <div class="emptyScenario" v-if="!selectedScenario || !ct">
-                        <div class="textWrapper"><span>Select scenario to see contributors</span></div>
+                    <div class="emptyScenario" v-if="!selectedScenario || !ct || temp">
+                        <div class="textWrapper">
+                            <span v-if="(!selectedScenario || !ct) && !temp">Select scenario to see contributors</span>
+                            <span v-if="temp">Risk contributors are not available in hot change mode</span>
+                        </div>
                     </div>
                     <div class="scenario" v-else>
                         <!--<div class="header mobp">

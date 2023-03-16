@@ -4,7 +4,8 @@ export default {
     name: 'comparewith_structureinfo',
     props: {
         annuity : Object,
-        weight : Number
+        weight : Number,
+        mode : String
     },
 
     data : function(){

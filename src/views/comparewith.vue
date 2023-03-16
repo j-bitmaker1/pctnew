@@ -48,6 +48,11 @@
 
 						<div class="inputwrapper" v-if="structure">
 							<input type="number" :value="weight" placeholder="100000" @change="wchanged"/>
+
+							<div class="vicon">
+								<span v-if="valuemode == 'd'">$</span>
+								<span v-if="valuemode != 'd'">%</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -57,13 +62,13 @@
 		
 
 			<div class="structureInfoWrapper" v-if="structure">
-				<structureinfo :annuity="structure" :weight="Number(weight) || 100000"/>
+				<structureinfo :annuity="structure" :weight="Number(weight) || 100000" :mode="valuemode"/>
 			</div>
 
 		
 
 			<div class="componentWrapper" v-if="portfolio && structure">
-				<component :is="module" :portfolio="portfolio" :assets="[annuityWeighted]"/>
+				<component :is="module" :portfolio="portfolio" type="split" :mode="valuemode" :assets="[annuityWeighted]"/>
 			</div>
 
 			<div class="empty mobp" v-if="!portfolio">
@@ -125,6 +130,17 @@
 
 		&.left
 			justify-content: left
+
+		.inputwrapper
+			position: relative
+			.vicon
+				position: absolute
+				top : 0
+				bottom : 0
+				right: 0
+				display: flex
+				align-items: center
+				padding : 0 $r
 
 		input
 			border-radius: 24px
@@ -206,15 +222,34 @@ export default {
 			return this.$route.query[this.navkey] || this.navdefault
 		},
 
+		valuemode : function(){
+			if(this.portfolio && this.portfolio.isModel){
+				return 'p100'
+			}
+
+			return 'd'
+		},
+
 		...mapState({
 			mobileview : state => state.mobileview,
 		}),
 
 		annuityWeighted : function(){
+
+			var w = Number(this.weight || 100000)
+
+			if (w < 0) w = 100000
+
+			if(this.valuemode == 'p100'){
+				if (w > 100){
+					w = 100
+				}
+			}
+
 			return {
 				...this.structure,
 				ticker : this.structure.id,
-				value : Number(this.weight || 100000)
+				value : w
 			}
 		}
 
@@ -228,8 +263,6 @@ export default {
 				if(this.p){
 					this.core.api.pctapi.portfolios.get(this.p).then(r => {
 						this.portfolio = r
-
-
 					})
 				}
 			}

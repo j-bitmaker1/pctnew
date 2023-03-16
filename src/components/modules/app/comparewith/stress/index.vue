@@ -17,6 +17,10 @@
 			</div>
 		</div>
 
+		<div class="crsliderWrapper mobp" v-if="portfolios && cts">
+            <crsliders :cts="cts" :portfolios="portfolios"/>
+        </div>
+
         <ctmain :cts="cts" :portfolios="portfolios" :mode="valuemodecomposed"/>
     </div>
 </div>

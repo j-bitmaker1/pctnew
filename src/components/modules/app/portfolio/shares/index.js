@@ -119,5 +119,9 @@ export default {
 			this.$emit('temp', assets)
         },
 
+		cancelTemp : function(assets){
+			this.$emit('cancelTemp')
+        },
+
 	},
 }

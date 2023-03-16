@@ -75,6 +75,14 @@ export default {
 				},
 
 				{
+					route : '/comparewith',
+					id : 'comparewith',
+					text : 'menu.comparewith',
+					icon : "fas fa-list-ol",
+					mobile : false
+				},
+
+				{
 					route : '/capacity',
 					id : 'capacity',
 					text : 'menu.capacity',
@@ -129,7 +137,12 @@ export default {
 			var path = this.$route.path
 
 
-			var r = _.find(this.items, function(i){
+			var sorted = _.sortBy(this.items, (i) => {
+				return -i.route.length
+			})
+
+
+			var r = _.find(sorted, function(i){
 				
 				if(i.route == '/') return path == i.route
 

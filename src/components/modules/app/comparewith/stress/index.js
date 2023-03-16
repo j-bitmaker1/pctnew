@@ -3,15 +3,16 @@ import { mapState } from 'vuex';
 import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'
 import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
-import crslider from '@/components/modules/app/portfolio/crashtest/crslider/index.vue'
+import crsliders from '../crsliders/index.vue'
 export default {
     name: 'comparewith_stress',
     props: {
         portfolio : Object,
-        assets : Array
+        assets : Array,
+        type : String
     },
 
-    components : {ctmain, ctmenu, summarybutton, crslider},
+    components : {ctmain, ctmenu, summarybutton, crsliders},
 
     data : function(){
 
@@ -109,7 +110,11 @@ export default {
 
             this.loading = true
 
-            this.core.pct.stresstestWithPositionsSplit(this.portfolio, this.assets, this.valuemode).then((r) => {
+            var sc = 'stresstestWithPositions'
+
+            if(this.type == 'split') sc = 'stresstestWithPositionsSplit'
+
+            this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed).then((r) => {
 
                 this.cts = r.result
                 this.portfolios = r.portfolios
@@ -117,23 +122,6 @@ export default {
             }).finally(() => {
                 this.loading = false
             })
-
-            return
-
-            this.core.api.pctapi.portfolios.gets(this.ids).then(r => {
-
-                var portfolios = {}
-
-                _.each(r, (p) => {portfolios[p.id] = p})
-
-                this.portfolios = portfolios
-
-                var max = _.max(this.portfolios, (p) => {return p.total()})
-
-                return this.core.pct.stresstests(_.map(r, (portfolio) => {return portfolio.id}), max.total(), this.valuemode, this.portfolios)
-                
-            })
-
            
         }
     },

@@ -570,8 +570,10 @@ class PCT {
         }
 
         var aportfolio = new Portfolio({
-            name : "Temp",
-            id : 'temp'
+            name : "Editing portfolio",
+            id : -1,
+
+            tempportfolio : true
         })
 
         aportfolio.positions = _.clone(assets)
@@ -627,9 +629,9 @@ class PCT {
 
         aportfolio.name = '+ ' + _.reduce(assets, (m, asset) => {
 
-            var v = f.values.format(this.core.user.locale, 'd', asset.value)
+            //var v = f.values.format(this.core.user.locale, 'd', asset.value)
 
-            return asset.name + ' (' + v + ');' 
+            return asset.name + ';' // + ' (' + v + ');' 
 
         }, '')
 
@@ -691,16 +693,21 @@ class PCT {
     stresstestPositions = function(positions, p = {}){
 
         var data = {
-            portfolioId : 0,
+            portfolioId : -1,
             
-            positions : _.map(positions, asset => {
+            positions : _.filter(_.map(positions, asset => {
+
                 return {
-                    name : asset.name,
+                    name : asset.name || asset.ticker,
                     ticker : asset.ticker,
                     value : asset.value
                 }
+            }), (a) => {
+                return a.name
             })
         }
+
+        console.log("data", data)
 
         return this.stresstestdt(data, p)
     }
@@ -733,11 +740,40 @@ class PCT {
 
     }
 
-    stressdetails = function(id, p = {}){
+    stressdetails = function(portfolio, p = {}){
 
         var data = {
-            portfolioId : id
+            portfolioId : portfolio.originalid || portfolio.id
         }
+
+        var extraPositions = _.map(_.filter(portfolio.positions, (p) => {
+            return p.external
+        }), asset => {
+            return {
+                name : asset.name,
+                ticker : asset.ticker,
+                value : asset.value
+            }
+        } )
+
+        if (extraPositions.length){
+            data.positions = extraPositions
+        }
+
+        if (portfolio.tempportfolio){
+            data.positions = _.filter(_.map(portfolio.positions, asset => {
+
+                return {
+                    name : asset.name || asset.ticker,
+                    ticker : asset.ticker,
+                    value : asset.value
+                }
+            }), (a) => {
+                return a.name
+            })
+        }
+
+        console.log('data', data)
 
         return this.getscenarios().then(scdata => {
             data = {

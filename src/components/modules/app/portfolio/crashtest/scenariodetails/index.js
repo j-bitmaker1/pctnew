@@ -145,7 +145,7 @@ export default {
 		loadcontributors: function () {
 			this.loading = true
 
-			this.core.pct.stressdetails(this.portfolio.id).then(R => {
+			this.core.pct.stressdetails(this.portfolio).then(R => {
 
 				this.dct = R
 				return Promise.resolve(R)

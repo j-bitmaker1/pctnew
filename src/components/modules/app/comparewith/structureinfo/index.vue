@@ -1,6 +1,6 @@
 <template>
 <div id="comparewith_structureinfo">
-    <div class="name mobp"><span>{{annuity.name}}</span><template v-if="weight"> &middot; </template><value v-if="weight" mode="d" :value="weight"/></div>
+    <div class="name mobp"><span>{{annuity.name}}</span><template v-if="weight"> &middot; </template><value v-if="weight" :mode="mode" :value="weight"/></div>
 
     <div class="infotable">
         <div class="line" v-for="field in fields">
