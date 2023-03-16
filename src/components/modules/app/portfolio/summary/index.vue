@@ -50,7 +50,7 @@
                 </div>
                 <div class="pmenuwrapper">    
                     <div class="pmenu">
-                        <portfoliomenu v-if="portfolio" :ext="true" buttonclass="diconbutton" @changeClient="changeClient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
+                        <portfoliomenu v-if="portfolio" :ext="true" buttonclass="diconbutton" @changeClient="changeclient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
 
                     </div>
                 </div>

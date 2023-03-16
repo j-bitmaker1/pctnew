@@ -26,18 +26,18 @@ export default {
                     id : 'guaranteed_principal',
                     type : 'p'
                 },
-                {
+                /*{
                     id : 'withdrawal_starting_date',
                     type : 'date'
-                },
+                },*/
                 {
                     id : 'guaranteed_income',
                     type : 'p'
                 },
-                {
+                /*{
                     id : 'start_date_principal_guarantee',
                     type : 'date'
-                },
+                },*/
                 /*{
                     id : 'annuity_type',
                     type : 'string'
