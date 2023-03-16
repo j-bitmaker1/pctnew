@@ -5,8 +5,8 @@
 
     <div class="assets_inputs" :class="{focused}">
 
-        <div class="tickerwrapper">
-            <div class="ticker" v-if="ticker" :uncovered="!isCovered">
+        <div class="tickerwrapper" v-if="ticker">
+            <div class="ticker" :uncovered="!isCovered">
                 <span>{{ticker}}</span>
             </div>
         </div>

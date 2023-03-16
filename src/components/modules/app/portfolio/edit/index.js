@@ -45,7 +45,7 @@ export default {
 	},
 
 	mounted : function(){
-		this.$refs.assetsList.scrollLeft = 100
+		this.$refs.assetsList.scrollLeft = 44
 
 		/*setTimeout(() => {
 			if(!this.name){

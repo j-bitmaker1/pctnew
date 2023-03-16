@@ -53,7 +53,9 @@
 	.remove
 		scroll-snap-align: start
 		text-align: center
-		flex-basis: 10%
+		width: 44px
+		min-width: 44px
+		max-width: 44px
 		flex-grow: 0
 		flex-shrink: 0
 		color : srgb(--neutral-grad-1)
@@ -66,12 +68,14 @@
 	overflow-x: scroll
 	scroll-snap-type: x mandatory
 	padding-top: 4 * $r
+
 	scrollbar-width : none
 	&::-webkit-scrollbar
 		display: none!important
+	
 
 	.assetsListWrapper
-		width: 110%
+		width: calc(100% + 44px)
 
 	&.focused
 		overflow: visible
