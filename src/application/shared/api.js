@@ -1013,16 +1013,43 @@ var ApiWrapper = function (core = {}) {
 	/////////
 
 	self.pct = {
-		tickers: {
-			search: function (d) {
+        tickers: {
+            search: function (d) {
+                if (!d.value) return Promise.resolve([]);
 
-				if (!d.value) return Promise.resolve([])
+                d.count || (d.count = 7);
 
-				d.count || (d.count = 7)
+                return request(
+                    { RowsToReturn: d.count, SearchStr: d.value },
+                    'pct',
+                    '?Action=GETINCREMENTALSEARCHONTICKERS',
+                    {
+                        method: 'POST',
+                    },
+                ).then((r) => {
+                    return Promise.resolve(
+                        f.deep(r, 'IncrementalSearch.c') || [],
+                    );
+                });
+            },
+        },
 
-				return request({ RowsToReturn: d.count, SearchStr: d.value }, 'pct', '?Action=GETINCREMENTALSEARCHONTICKERS', {
-					method: "POST"
-				}).then(r => {
+        portfolio: {
+            getassets: function () {
+                return request(
+                    {
+                        Portfolio:
+                            'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover',
+                    },
+                    'pct',
+                    '?Action=GETPORTFOLIOASSETS',
+                    {
+                        method: 'GET',
+                    },
+                ).then((r) => {
+                    return Promise.resolve(r.PortfolioAssets.c);
+                });
+            },
 
 					return Promise.resolve(f.deep(r, 'IncrementalSearch.c') || [])
 				})
@@ -1031,123 +1058,174 @@ var ApiWrapper = function (core = {}) {
 			
 		},
 
-		portfolio: {
-			getassets: function () {
-				return request({
-					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
-				}, 'pct', '?Action=GETPORTFOLIOASSETS', {
-					method: "GET"
-				}).then(r => {
-					return Promise.resolve(r.PortfolioAssets.c)
-				})
-			},
-
-			standartDeviation: function () {
-				return request({
-					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
-				}, 'pct', '?Action=GETPORTFOLIOSTANDARDDEVIATION', {
-					method: "GET"
-				}).then(r => {
-					return Promise.resolve(r.GetPortfolioStandardDeviation)
-				})
-			},
-
-
-
-			fromfile: function (data = {}, p = {}) {
-
-				/*
+            fromfile: function (data = {}, p = {}) {
+                /*
 
 				data.File
 				data.FileType
 
 				*/
 
-				data.JustParse = 1
-				data.Portfolio = 'uploadtemp'
+                data.JustParse = 1;
+                data.Portfolio = 'uploadtemp';
 
-				p.method = "GET"
+                p.method = 'GET';
 
-				return request(data, 'pct', '?Action=LOADPORTFOLIOFROMFILE', p).then(r => {
-					return Promise.resolve(r.LoadPortfolioFromFile.Position)
-				})
+                return request(
+                    data,
+                    'pct',
+                    '?Action=LOADPORTFOLIOFROMFILE',
+                    p,
+                ).then((r) => {
+                    return Promise.resolve(r.LoadPortfolioFromFile.Position);
+                });
+            },
+        },
 
-			}
-		},
+        settings: {
+            get: function () {
+                return request(
+                    { Type: 'UserSettings', ValStr: '' },
+                    'pct',
+                    '?Action=GETUSERDATA',
+                    {
+                        method: 'GET',
+                    },
+                ).then((r) => {
+                    var data = {};
 
-		settings: {
-			get: function () {
-				return request({ Type: 'UserSettings', ValStr: '' }, 'pct', '?Action=GETUSERDATA', {
-					method: "GET"
-				}).then(r => {
+                    try {
+                        data = JSON.parse(
+                            f.deep(r, 'GetUserData.ValObj') || '{}',
+                        );
+                    } catch (e) {}
 
-					var data = {}
+                    return Promise.resolve(data);
+                });
+            },
+        },
 
-					try {
-						data = JSON.parse(f.deep(r, 'GetUserData.ValObj') || "{}")
-					}
-					catch (e) { }
+        crashtest: {
+            get: function () {
+                ////temp
 
+                return request(
+                    {
+                        UseIntegration: 0,
+                        CalculateSW: 0,
+                        CountPlausibility: 0,
+                        Portfolio:
+                            'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover',
+                    },
+                    'pct',
+                    '?Action=GETPCT',
+                    {
+                        method: 'GET',
+                    },
+                ).then((r) => {
+                    return Promise.resolve(r.PCT);
+                });
+            },
 
-					return Promise.resolve(data)
-				})
-			}
-		},
+            gets: function (portfolios, p = {}) {
+                p.method = 'GET';
+                p.storageparameters = dbmeta.system();
 
-		crashtest: {
-			get: function () {
+                return request(
+                    {
+                        Portfolios: JSON.stringify(portfolios),
+                    },
+                    'pct',
+                    '?Action=GETOCRFORPORTFOLIOS',
+                    p,
+                ).then((r) => {
+                    return Promise.resolve(r.PCT.portfolios);
+                });
+            },
+        },
 
-				////temp
+        contributors: {
+            get: function (id) {
+                return request(
+                    {
+                        ScenarioID: id,
+                        ContributorsCnt: 10000,
+                        ModelType: 'RIXTREMA',
+                        WeightType: 'HBWPORTFOLIO',
+                        Portfolio:
+                            'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover',
+                    },
+                    'pct',
+                    '?Action=GETPCTCONTRIBUTORSWITHOPTIONS',
+                    {
+                        method: 'GET',
+                    },
+                ).then((r) => {
+                    return Promise.resolve(r.PCTContributors.c);
+                });
+            },
+        },
 
-				return request({
-					UseIntegration: 0,
-					CalculateSW: 0,
-					CountPlausibility: 0,
-					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
+        integrations: {
+            get() {
+                return request(
+                    {
+                        Action: 'GETINTEGRATIONCONNECTIONS',
+                    },
+                    'pct',
+					'',
+                    {
+                        method: 'POST',
+                    },
+                ).then((r) => {
+                    debugger;
 
-				}, 'pct', '?Action=GETPCT', {
-					method: "GET"
-				}).then(r => {
-					return Promise.resolve(r.PCT)
-				})
+                    return Promise.resolve(r);
+                });;
+            },
 
+            addOrEdit({ NewName, OldName, Type, ILogin, IPassword, Repcode }) {
+                return request(
+                    {
+                        Action: 'ADDINTEGRATIONCONNECTION',
+                        NewName,
+                        OldName,
+                        Type,
+                        ILogin,
+                        IPassword,
+                        Repcode,
+                    },
+                    'pct',
+                    '',
+                    {
+                        method: 'POST',
+                    },
+                ).then((r) => {
+                    debugger;
 
-			},
+                    return Promise.resolve(r);
+                });
+            },
 
-			gets: function (portfolios, p = {}) {
+            remove({ Name }) {
+                return request(
+                    {
+                        Action: 'REMOVEINTEGRATIONCONNECTION',
+                        Name,
+                    },
+                    'pct',
+                    '',
+                    {
+                        method: 'POST',
+                    },
+                ).then((r) => {
+                    debugger;
 
-				p.method = "GET"
-				p.storageparameters = dbmeta.system()
-
-				return request({
-					Portfolios: JSON.stringify(portfolios)
-				}, 'pct', '?Action=GETOCRFORPORTFOLIOS', p).then(r => {
-					return Promise.resolve(r.PCT.portfolios)
-				})
-
-
-			},
-		},
-
-		contributors: {
-			get: function (id) {
-				return request({
-					ScenarioID: id,
-					ContributorsCnt: 10000,
-					ModelType: 'RIXTREMA',
-					WeightType: 'HBWPORTFOLIO',
-					Portfolio: 'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover'
-
-				}, 'pct', '?Action=GETPCTCONTRIBUTORSWITHOPTIONS', {
-					method: "GET"
-				}).then(r => {
-					return Promise.resolve(r.PCTContributors.c)
-				})
-
-			}
-		}
-
-	}
+                    return Promise.resolve(r);
+                });
+            },
+        },
+    };
 
 	self.common = {
 		search: function (value) {
