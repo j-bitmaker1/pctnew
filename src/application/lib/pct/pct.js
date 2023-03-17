@@ -327,13 +327,16 @@ class PCT {
         return r
     }
 
-    parseStressTest = function(ct){
+    parseStressTest = function(ct, p = {}){
 
 
         var d = {
             scenarios : [],
-            ocr : 0
+            ocr : 0,
+            term : p.term
         }
+
+        console.log("CT", ct, p)
 
         _.each(ct.scenarioResults, (s) => {
 
@@ -474,7 +477,9 @@ class PCT {
                     loss : max ? s.loss / max : 0,
                     custom : s.custom ? true : false
                 }
-            })
+            }),
+
+            term : ct.term
         }
 
         return nct
@@ -659,8 +664,6 @@ class PCT {
             return p.total()
         })
 
-        console.log('max', max, max.total())
-
         return Promise.all(promises).then(() => {
 
             return Promise.resolve({
@@ -744,12 +747,13 @@ class PCT {
         }).then(() => {
             return this.api.pctapi.stress.test(data, p)
         }).then(r => {
-            return Promise.resolve(this.parseStressTest(r))
+            return Promise.resolve(this.parseStressTest(r, p))
         })
 
     }
 
     stressdetails = function(portfolio, p = {}){
+
 
         var data = {
             portfolioId : portfolio.originalid || portfolio.id
@@ -758,6 +762,7 @@ class PCT {
         var extraPositions = _.map(_.filter(portfolio.positions, (p) => {
             return p.external
         }), asset => {
+
             return {
                 name : asset.name,
                 ticker : asset.ticker,
@@ -782,9 +787,8 @@ class PCT {
             })
         }
 
-        console.log('data', data)
 
-        return this.getscenarios().then(scdata => {
+        return this.getscenarios({term : p.term}).then(scdata => {
             data = {
                 ...data,
                 ...scdata

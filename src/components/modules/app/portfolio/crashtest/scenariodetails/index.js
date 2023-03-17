@@ -11,7 +11,7 @@ export default {
 	props: {
 		portfolio: Object,
 		scenario: Object,
-
+		ct : Object,
 		lossgain : Boolean
 	},
 
@@ -145,7 +145,9 @@ export default {
 		loadcontributors: function () {
 			this.loading = true
 
-			this.core.pct.stressdetails(this.portfolio).then(R => {
+			this.core.pct.stressdetails(this.portfolio, {
+				term : this.ct ? this.ct.term : null
+			}).then(R => {
 
 				this.dct = R
 				return Promise.resolve(R)
