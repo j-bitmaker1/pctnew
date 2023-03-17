@@ -55,17 +55,35 @@ export default {
 
         save: function () {
             this.values = this.$refs.fields.get();
-
-            this.core.api.pct.integrations.addOrEdit({
-                NewName: this.values.IntegrationName || '',
-                OldName: '',
-                Type: this.type || '',
-                ILogin: this.values.Login || '',
-                IPassword: this.values.Password || '',
-                Repcode: this.values.RepCode || '',
-            });
-
-            this.$emit('close');
+            debugger;
+            this.core.api.pct.integrations
+                .addOrEdit({
+                    NewName: this.values.IntegrationName || '',
+                    OldName: '',
+                    Type: this.type || '',
+                    ILogin: this.values.Login || '',
+                    IPassword: this.values.Password || '',
+                    Repcode: this.values.RepCode || '',
+                })
+                .then(() => {
+                    this.$emit('changed', {
+                        Name: this.values.IntegrationName || '',
+                        OldName: '',
+                        Login: this.values.Login || '',
+                        Password: this.values.Password || '',
+                        Repcode: this.values.RepCode || '',
+                        Type: this.type || '',
+                    });
+                })
+                .catch((e) => {
+                    this.$store.commit('icon', {
+                        icon: 'error',
+                        message: e.text,
+                    });
+                })
+                .finally(() => {
+                    this.$emit('close');
+                });
         },
     },
 };

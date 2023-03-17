@@ -6,24 +6,36 @@
                 <span> Empty </span>
             </div>
 
-            <list v-else :items="integrations" @click="click">
+            <list v-else :items="integrations">
                 <template v-slot:default="slotProps">
                     <div class="integration">
                         <div class="header">
-                            <span>{{ slotProps.item.Type }}</span>
+                            <span>{{
+                                integrationTextByType(slotProps.item.Type)
+                            }}</span>
                         </div>
                         <div class="body">
-                            <div class="name">
-                                <span>{{ slotProps.item.Name }}</span>
+                            <div class="textcontent">
+                                <div class="textfield name">
+                                    <span>{{ slotProps.item.Name }}</span>
+                                </div>
+                                <div class="textfield login">
+                                    <span>{{ slotProps.item.Login }}</span>
+                                </div>
+                                <div class="textfield password">
+                                    <span>{{ slotProps.item.Password }}</span>
+                                </div>
+                                <div class="textfield repcode">
+                                    <span>{{ slotProps.item.Repcode }}</span>
+                                </div>
                             </div>
-                            <div class="login">
-                                <span>{{ slotProps.item.Login }}</span>
-                            </div>
-                            <div class="password">
-                                <span>{{ slotProps.item.Password }}</span>
-                            </div>
-                            <div class="repcode">
-                                <span>{{ slotProps.item.Repcode }}</span>
+                            <div class="removebutton">
+                                <button
+                                    class="button"
+                                    @click="() => remove(slotProps.item.Name)"
+                                >
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
                         </div>
                     </div>

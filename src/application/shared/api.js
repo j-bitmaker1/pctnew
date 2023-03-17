@@ -1220,8 +1220,6 @@ var ApiWrapper = function (core = {}) {
 						urldata: true,
                     },
                 ).then((r) => {
-                    debugger;
-
                     return Promise.resolve(r);
                 });
             },
