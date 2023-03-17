@@ -62,6 +62,9 @@ export default {
 		auth: state => state.auth,
 
 		meta : function(){
+
+			console.log('this.status', this.status)
+
 			return this.core.campaigns.statuses[this.status] || this.core.campaigns.statuses.default
 		}
 	}),

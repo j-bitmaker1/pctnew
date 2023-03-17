@@ -431,7 +431,7 @@
 			"completed" : "Completed",
 			"active" : "Active",
 			"process" : "Active",
-			"undefined" : "Undefined",
+			"undefined" : "Undefined error",
 			"wait" : "Waiting in queue",
 			"completedwitherrors" : "Completed with errors",
 			"processfailed" : "Process failed",
@@ -442,6 +442,7 @@
 			"unsubscribed" : "Unsubscribed",
 			"verification" : "Verification",
 			"verificationfailed" : "Verification Failed",
+			"bounced" : "Bounced",
 			"deleted" : "Deleted"
 		},
 		"menu" : {

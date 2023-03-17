@@ -32,6 +32,11 @@ class CampaignsManager {
             text : 'paused',
             statistic : 'PauseCampaigns'
         },
+        BOUNCED : {
+            icon : "fas fa-user-slash",
+            text : 'bounced',
+            statistic : 'BouncedCampaigns'
+        },
 
         VERIFICATIONFAILED: {
             icon : "fas fa-user-slash",

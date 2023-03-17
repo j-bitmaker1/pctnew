@@ -84,9 +84,12 @@ export default {
                 { index: 'PauseCampaigns', color: "#999999" }, 
                 { index: 'UnsubscribedCampaigns', color: "#ff033e" }, 
                 { index: 'ErrorCampaigns', color: "#ff033e" }, 
+                { index : 'BouncedCampaigns', color: "#ff033e"},
                 { index: 'CompletedCampaigns', color: '#228b22' }, 
                 { index: 'DeletedCampaigns', color: '#ff033e' }
             ]
+
+            console.log('this.batch', this.batch)
 
             var points = _.map(metrics, (m) => {
                 return {
