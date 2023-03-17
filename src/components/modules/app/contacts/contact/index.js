@@ -1,5 +1,7 @@
 import { mapState } from 'vuex';
 import profilemenu from "@/components/modules/app/client/menu/index.vue";
+import f from '@/application/shared/functions.js';
+
 export default {
 	name: 'contacts_contact',
 	props: {
@@ -42,7 +44,7 @@ export default {
 
 		open : function(e){
 
-			if(e.usedByTooltip) return
+			if(f.removePopoverFromEvent(e)) return
 			
 			this.$emit('open', this.profile)
 		},

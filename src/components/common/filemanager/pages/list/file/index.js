@@ -60,7 +60,7 @@ export default {
     methods : {
         open : function(e){
 
-			if(e.usedByTooltip) return
+			if(f.removePopoverFromEvent(e)) return
 
             this.$emit('open')
         },

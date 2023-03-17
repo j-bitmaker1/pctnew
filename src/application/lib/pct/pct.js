@@ -819,15 +819,17 @@ class PCT {
 
         }).then(settings => {
 
+            console.log("PPP", p)
+
             if (p.term){
-                if(p.term == '3y'){
+                if(p.term.toLowerCase() == '3y'){
 
                     data.scenarioIds = ["125", "126", "127", "128", "129"]
 
                     return Promise.resolve(data)
                 }
 
-                if(p.term == '6y'){
+                if(p.term.toLowerCase() == '6y'){
 
                     data.scenarioIds = ["130", "131", "132", "133", "134"]
 
