@@ -35,17 +35,15 @@
 		
 
 		
-		<div class="cnt" v-if="purpose != 'selectFolder' && !moving && showback && !select.disableMenu">
-			<fsmenu :currentroot="current" @reload="load" @removed="up">
-				<template v-slot:default>
-					<div class="icon">
-						<i class="fas small fa-ellipsis-h"></i>
-					</div>
-					<div class="name">
-						<span>Menu</span>
-					</div>
-				</template>
-			</fsmenu>
+		<div class="cnt" @click="openmenu" v-if="purpose != 'selectFolder' && !moving && showback && !select.disableMenu">
+			<div class="icon">
+				<i class="fas small fa-ellipsis-h"></i>
+			</div>
+			<div class="name">
+				<span>Menu</span>
+			</div>
+			
+		
 		</div>
 
 		<div class="preloaderWrapper" v-if="loading">

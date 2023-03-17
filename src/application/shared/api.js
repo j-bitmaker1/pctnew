@@ -2230,6 +2230,7 @@ var ApiWrapper = function (core = {}) {
 					name: r.name,
 					content: [],
 					id: r.id,
+					from : r.catalogId,
 					attributes : {
 						readOnly : r.readOnly || false,
 						nonremovable : r.nonremovable || r.readOnly || r.name == 'Models' || false

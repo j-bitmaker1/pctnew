@@ -1,6 +1,5 @@
 import _ from 'underscore';
 import { mapState } from 'vuex';
-import fsmenu from './menu/index.vue'
 export default {
 	name: 'filesystem',
 	props: {
@@ -28,7 +27,7 @@ export default {
 		purpose : String
 	},
 
-	components : {fsmenu},
+	components : {},
 
 	data : function(){
 
@@ -317,6 +316,98 @@ export default {
 
 		close : function(){
 			this.$emit('close')
+		},
+
+		removefolder : function(){
+
+			this.$store.commit('globalpreloader', true)
+
+			return this.core.api.filesystem.delete['folder']({
+				id : this.current.id,
+				from : this.current.from
+			}).then(() => {
+				this.$store.commit('icon', {
+					icon: 'success'
+				})
+
+				
+
+				this.up()
+			}).catch(e => {
+				this.$store.commit('icon', {
+					icon: 'error',
+					message: e.error
+				})
+			}).finally(() => {
+				this.$store.commit('globalpreloader', false)
+			})
+		},
+
+		moveportfoliostofolder : function(){
+			this.core.vueapi.selectPortfolios((portfolios) => {
+
+				return this.$dialog.confirm(
+					'Do you really want to move '+portfolios.length+' portfolio(s) to '+this.current.name+'?', {
+					okText: 'Yes',
+					cancelText : 'No'
+				})
+		
+				.then((dialog) => {
+
+					this.$store.commit('globalpreloader', true)
+
+					var fsportfolios = _.map(portfolios, (portfolio) => {
+						return this.core.filesystem.portfolioToFsObject(portfolio)
+					})
+					
+					return this.core.filesystem.move(fsportfolios, this.current).then(r => {
+
+						this.load()
+						
+					}).catch(e => {
+
+						this.$store.commit('icon', {
+							icon: 'error',
+							message: e.error
+						})
+
+					}).finally(() => {
+						this.$store.commit('globalpreloader', false)
+					})
+
+				}).catch( e => {
+					
+				})
+				
+			}, {
+				caption : "Select portfolios"
+			})
+		},
+
+		openmenu : function(){
+			var menu = []
+
+			if(!this.current.attributes.readonly) { 
+
+				menu.push({
+					text : 'labels.moveportfoliostofolder',
+					icon : 'fas fa-suitcase',
+					action : this.moveportfoliostofolder
+				})
+
+			}
+
+			if(!this.current.attributes.nonremovable) { 
+
+				menu.push({
+					text : 'labels.remove',
+					icon : 'fas fa-times',
+					action : this.removefolder
+				})
+
+			}
+
+			this.core.vueapi.listmenu(menu)
 		}
 	},
 }
