@@ -167,12 +167,14 @@
 
 	.selectionpanel
 		position: absolute
-		right : $r
+		right : 0
 		top : 0
 		bottom: 0
 		display: flex
 		border-radius: 24px
 		align-items: center
+		padding-right: $r
+		padding-left: $r
 		border-left: 1px solid srgb(--neutral-grad-1)
 		background: srgb(--neutral-grad-0)
 		z-index: 2
@@ -188,6 +190,13 @@
 
 			&:hover
 				color : srgb(--neutral-grad-2)
+
+@media only screen and (max-width: 768px)
+	.selectors
+		flex-wrap: wrap
+
+		.selector
+			flex-basis: 100%
 </style>
 
 <script>
@@ -326,10 +335,13 @@ export default {
 
 		saveactivity : function(){
 			if (this.portfolio && this.structure){
+
 				this.core.activity.template('comparewith', {
 					portfolio : this.portfolio,
 					annuityWeighted : this.annuityWeighted
 				})
+
+				this.last = this.core.activity.getlastByType('comparewith')
 			}
 			
 		},
@@ -379,7 +391,6 @@ export default {
 
 	created() {
 		this.last = this.core.activity.getlastByType('comparewith')
-		
 	}
 }
 </script>

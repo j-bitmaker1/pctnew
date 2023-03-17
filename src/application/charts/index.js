@@ -3,7 +3,7 @@ import options from './hc.js'
 import f from '@/application/shared/functions.js'
 import _ from 'underscore'
 
-import Highcharts from 'highcharts'
+import Highcharts from '@/application/assets/hc.js'
 
 class Distribution {
 

@@ -627,7 +627,11 @@ class PCT {
         aportfolio.originalid = aportfolio.id
         aportfolio.id = aportfolio.id + '_with_assets'
 
+        var term = null
+
         aportfolio.name = '+ ' + _.reduce(assets, (m, asset) => {
+
+            if(asset.term) term = asset.term
 
             //var v = f.values.format(this.core.user.locale, 'd', asset.value)
 
@@ -638,19 +642,17 @@ class PCT {
         portfolios[aportfolio.id] = aportfolio
 
 
-        promises.push(this.stresstest(portfolio.id).then((r) => {
+        promises.push(this.stresstest(portfolio.id, {term}).then((r) => {
             cts[portfolio.id] = r
 
             return Promise.resolve()
         }))
 
-        promises.push(this.stresstestPortfolio(aportfolio).then((r) => {
+        promises.push(this.stresstestPortfolio(aportfolio, {term}).then((r) => {
             cts[aportfolio.id] = r
 
             return Promise.resolve()
         }))
-
-        console.log("portfolios", portfolios)
 
         var max = _.max(portfolios, (p) => {
             console.log(p.name, p.total())
@@ -731,7 +733,7 @@ class PCT {
 
     stresstestdt = function(data, p = {}){
 
-        return this.getscenarios().then(scdata => {
+        return this.getscenarios(p).then(scdata => {
 
             data = {
                 ...data,
@@ -796,7 +798,7 @@ class PCT {
 
     }
 
-    getscenarios = function(){
+    getscenarios = function(p = {}){
 
         var data = {}
 
@@ -816,6 +818,22 @@ class PCT {
             return this.settings.getall()
 
         }).then(settings => {
+
+            if (p.term){
+                if(p.term == '3y'){
+
+                    data.scenarioIds = ["125", "126", "127", "128", "129"]
+
+                    return Promise.resolve(data)
+                }
+
+                if(p.term == '6y'){
+
+                    data.scenarioIds = ["130", "131", "132", "133", "134"]
+
+                    return Promise.resolve(data)
+                }
+            }
 
             if(!settings.scenarios.value.length){
                 data.onlyKeyScenarios = true

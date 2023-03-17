@@ -15,6 +15,10 @@ export default {
 
             fields : [
                 {
+                    id : 'term',
+                    type : 'string'
+                },
+                {
                     id : 'margin_spread',
                     type : 'p'
                 },
@@ -45,7 +49,7 @@ export default {
                 
                 {
                     id : 'stepup_rate',
-                    type : 'p'
+                    type : 'p100'
                 },
                 {
                     id : 'death_benefit',

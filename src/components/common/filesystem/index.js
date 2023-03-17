@@ -210,9 +210,6 @@ export default {
 
 				this.$emit('open', c)
 
-
-				//this.$router.push('portfolio/' + c.id).catch(e => {})
-
 			}
 		},
 

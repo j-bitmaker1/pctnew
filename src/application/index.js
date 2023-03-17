@@ -18,7 +18,7 @@ import Filemanager from './lib/common/filemanager'
 
 import {Settings, LSSettings} from "./shared/settings";
 
-import PDFReports from "./lib/pct/pdfreports";
+
 
 import Updates from "./updates";
 import Filesystem from "./lib/common/filesystem"
@@ -188,7 +188,7 @@ class Core {
 
         this.activity = new Activity(this)
 
-        this.pdfreports = new PDFReports(this)
+        //this.pdfreports = new PDFReports(this)
 
         this.api.prepare().then(() => {
             this.user.init()
@@ -196,7 +196,12 @@ class Core {
        
     }
 
-   
+    initpdfreports = function(PDFReports){
+
+        if (this.pdfreports) return
+            this.pdfreports = new PDFReports(this)
+
+    }
 
     on = function(event, key, f){
         if(!this.clbks[event]) this.clbks[event] = {}
@@ -229,6 +234,10 @@ class Core {
             });
 
         }
+    }
+
+    mobileview = function(){
+        return window.innerWidth <= 768
     }
 
     destroy = function(){

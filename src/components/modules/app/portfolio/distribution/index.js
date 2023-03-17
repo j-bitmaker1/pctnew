@@ -1,6 +1,5 @@
 import { mapState } from 'vuex';
 
-
 import _ from 'underscore';
 import distributionMain from './main/index.vue'
 

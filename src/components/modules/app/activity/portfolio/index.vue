@@ -105,23 +105,48 @@ export default {
 			}, 0)
 		},
 
+		mobileview : state => state.mobileview,
+
 		actions : function(){
-			return [
-				{
-					icon : 'fas fa-chart-pie',
-					route : '/portfolio/' + this.portfolio.id + '?p=shares&s=allocation'
-				},
 
-				{
-					icon : 'fas fa-chart-area',
-					route : '/portfolio/' + this.portfolio.id + '?p=shares&s=distribution'
-				},
-				{
-					icon : 'fas fa-chart-bar',
-					route : '/portfolio/' + this.portfolio.id + '?p=crashtest'
-				},
 
-			]
+			if(this.mobileview){
+
+				return [
+					{
+						icon : 'fas fa-chart-pie',
+						route : '/portfolio/' + this.portfolio.id + '?p=shares&s=allocation'
+					},
+
+					{
+						icon : 'fas fa-chart-area',
+						route : '/portfolio/' + this.portfolio.id + '?p=shares&s=distribution'
+					},
+					{
+						icon : 'fas fa-chart-bar',
+						route : '/portfolio/' + this.portfolio.id + '?p=crashtest'
+					},
+
+				]
+
+			}
+
+			else{
+				return [
+					{
+						icon : 'fas fa-chart-pie',
+						route : '/summary?id=' + this.portfolio.id + '&s=allocation'
+					},
+
+					{
+						icon : 'fas fa-chart-area',
+						route : '/summary?id=' + this.portfolio.id + '&s=distribution'
+					}
+
+				]
+			}
+
+			
 		}
 	}),
 

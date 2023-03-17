@@ -106,6 +106,7 @@ import gallery from "@/components/modules/gallery/index.vue";
 import root from "@/root/index.vue";
 import campaignsStepsList from "@/components/modules/campaigns/steps/list/index.vue";
 
+/*
 import Highcharts from 'highcharts'
 import drilldownInit from 'highcharts/modules/drilldown'
 import HighchartsMore from 'highcharts/highcharts-more'
@@ -118,7 +119,7 @@ drilldownInit(Highcharts)
 HighchartsMore(Highcharts)
 Exporting(Highcharts)
 OfflineExporting(Highcharts)
-SolidGaude(Highcharts)
+SolidGaude(Highcharts)*/
 
 /*
 import plugin, {Editor} from 'vue-editor-js/src/index'

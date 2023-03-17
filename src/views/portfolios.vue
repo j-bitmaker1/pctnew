@@ -26,6 +26,9 @@
 </style>
 
 <script>
+import {
+	mapState
+} from 'vuex';
 
 import portfoliosmainlist from "@/components/modules/app/portfolios/main/index.vue";
 
@@ -35,9 +38,9 @@ export default {
 		portfoliosmainlist
 	},
 
-	computed: {
-		
-	},
+	computed: mapState({
+		mobileview : state => state.mobileview,
+	}),
 
 	props : {
 		scroll : Number
@@ -74,7 +77,15 @@ export default {
 		},
 
 		open : function(portfolio){
-			this.$router.push('portfolio/' + portfolio.id).catch(e => {})
+
+
+			if(this.mobileview){
+				this.$router.push('/portfolio/' + portfolio.id).catch(e => {})
+			}
+			else{
+				this.$router.push('/summary?id=' + portfolio.id).catch(e => {})
+			}
+
 		}
 	},
 

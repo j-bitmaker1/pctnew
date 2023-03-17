@@ -54,6 +54,8 @@ export default {
             this.temp = null
 
             this.load().catch(e => {})
+
+            
         },
 
     },
@@ -86,14 +88,14 @@ export default {
 
         load : function(){
 
-            if(!this.portfolioId){
-                return Promise.reject('empty')
-            }
-
             this.loading = true
             this.ct = null
             this.selectedScenario = null
             this.portfolio = null
+
+            if(!this.portfolioId){
+                return Promise.reject('empty')
+            }
 
 			return this.core.api.pctapi.portfolios.get(this.portfolioId).then(r => {
 

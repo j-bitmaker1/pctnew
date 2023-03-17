@@ -89,14 +89,14 @@ export default {
 				}
 			]
 
-			if(!this.mobileview){
+			/*if(!this.mobileview){
 				menu.unshift({
 					text : 'labels.summary',
 					icon : 'far fa-compass',
 					action : 'portfolioSummary',
             		features : ['PCT']
 				},)
-			}
+			}*/
 
 			if(!this.portfolio.crmContactId){
 

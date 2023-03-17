@@ -1,13 +1,9 @@
 import { mapState } from 'vuex';
 import status from "../../status/index.vue"
-
 import summarybutton from '@/components/delements/summarybutton/index.vue'
-
 import campaignslist from '../../list/index.vue'
-
 import { Campaigns } from '@/application/charts/index';
 import { Chart } from 'highcharts-vue'
-import f from '@/application/shared/functions';
 
 var campaignsChart = new Campaigns()
 

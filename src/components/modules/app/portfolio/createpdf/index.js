@@ -1,5 +1,7 @@
 import { mapState } from 'vuex';
 import PDFTools from "@/application/shared/utils/pdftools";
+import PDFReports from "@/application/lib/pct/pdfreports";
+
 import moment from 'moment'
 import _ from 'underscore';
 import f from '@/application/shared/functions.js'
@@ -36,8 +38,6 @@ export default {
     created() {
         this.load()
         this.init()
-
-       
     },
 
     beforeDestroy(){
@@ -56,10 +56,11 @@ export default {
         changeReports: function (v) {
             this.values = v
 
-
             this.core.settings.lspdf.set('reports', this.values)
         },
         init: function () {
+
+            this.core.initpdfreports(PDFReports)
 
             this.values = {}
 
@@ -87,12 +88,15 @@ export default {
                 }
             })
 
-        },
-        load: function () {
 
+            
+
+        },
+
+        load: function () {
             this.loading = true
 
-            this.core.settings.pdf.getall().then(() => {
+            return this.core.settings.pdf.getall().then(() => {
                 return this.core.api.pctapi.portfolios.get(this.id)
             }).then(r => {
 

@@ -827,8 +827,6 @@ var User = function ({
 
         }).then(() => {
 
-            return Promise.resolve()
-
             return self.initlookup()
 
         }).then(() => {

@@ -4,7 +4,6 @@ import './registerServiceWorker'
 
 require('babel-polyfill')
 
-window.$ = window.jQuery = require('jquery');
 
 var deviceready = function(clbk){
 

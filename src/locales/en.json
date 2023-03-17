@@ -594,7 +594,8 @@
 		"downside_max" : "Downside max",
 		"barrier" : "Barrier",
 		"coupon" : "Coupon",
-		"enhancement" : "Enhancement"
+		"enhancement" : "Enhancement",
+		"term" : "Term"
 	}
 
 }

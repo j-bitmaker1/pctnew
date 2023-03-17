@@ -3,7 +3,7 @@
     <div class="name mobp"><span>{{annuity.name}}</span><template v-if="weight"> &middot; </template><value v-if="weight" :mode="mode" :value="weight"/></div>
 
     <div class="infotable">
-        <div class="line" v-for="field in fields">
+        <div class="line" :class="field.id" v-for="field in fields" v-if="annuity[field.id]">
             <div class="wrapper">
                 <div class="label">
                     <span>{{$t('annuity.' + field.id)}}</span> 

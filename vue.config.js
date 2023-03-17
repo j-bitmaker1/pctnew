@@ -8,6 +8,22 @@ var production = process.env.NODE_ENV === 'production' ? true : false
 
 process.env.VUE_APP_VERSION = process.env.npm_package_version
 
+
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+
+module.exports = {
+    plugins: [
+        // To strip all locales except “en”
+        new MomentLocalesPlugin(),
+
+        // Or: To strip all locales except “en”, “es-us” and “ru”
+        // (“en” is built into Moment and can’t be removed)
+        new MomentLocalesPlugin({
+            localesToKeep: ['es-us', 'ru'],
+        }),
+    ],
+};
+
 module.exports = {
 
 	publicPath: emptypublicpath ? '' : process.env.publicPath || '/',
@@ -34,11 +50,47 @@ module.exports = {
 
 	
 	configureWebpack: {
+		plugins : [
+			new MomentLocalesPlugin(),
+			new MomentLocalesPlugin({
+				localesToKeep: ['es-us'],
+			}),
+		],
 		optimization: {
-			splitChunks: {
-				minSize: 30000,
-				maxInitialRequests : 10
+			splitChunks : {
+
+				chunks: 'async',
+				minChunks: 4,
+				maxInitialRequests: 5,
+				minSize: 250000,
+				maxAsyncRequests: 8,
+				cacheGroups: {
+					default: false,
+					common: {
+						chunks: 'all',
+						test: /[\\/]src[\\/](.*)[\\/]/,
+						name: 'common',
+						minChunks: 1,
+						maxInitialRequests: 5,
+						minSize: 0,
+						priority: 60,
+						reuseExistingChunk: true
+					},
+					styles: {
+						name: 'styles',
+						test: /\.(sa|sc|c)ss$/,
+						chunks: 'all',
+						enforce: true,
+						reuseExistingChunk: true
+					},
+					runtimeChunk: {
+						name: 'manifest'
+					}
+				}
+
+			
 			},
+			
 			
 			concatenateModules: production,
 			flagIncludedChunks: production,

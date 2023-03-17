@@ -1,12 +1,11 @@
 import { mapState } from 'vuex';
-import {Chart} from 'highcharts-vue'
 
-import options from '@/application/charts/hc.js'
 import f from '@/application/shared/functions.js'
 import VueSlider from 'vue-slider-component'
 import _ from 'underscore';
 
 import { MonteCarlo } from '@/application/charts/index';
+import {Chart} from 'highcharts-vue'
 import slider from '@/components/assets/slider/index.vue'
 
 var monteCarlo = new MonteCarlo()

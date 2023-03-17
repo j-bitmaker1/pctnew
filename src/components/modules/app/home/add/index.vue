@@ -61,7 +61,7 @@ export default {
     computed: mapState({
         auth: state => state.auth,
 
-
+        mobileview : state => state.mobileview,
         menu: function () {
 
             var menu = [{
@@ -121,11 +121,18 @@ export default {
 
                 events: {
                     edit: (data) => {
-                        if(this.success){
+                        if (this.success){
                             this.success('portfolio', data.id)
                         }
                         else{
-                            this.$router.push('portfolio/' + data.id).catch(e => {})
+
+                            if (this.mobileview){
+                                this.$router.push('/portfolio/' + data.id).catch(e => {})
+                            }
+                            else{
+                                this.$router.push('/summary?id=' + data.id).catch(e => {})
+                            }
+
                         }
                         
                     }

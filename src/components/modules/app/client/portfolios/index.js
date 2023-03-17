@@ -76,6 +76,8 @@ export default {
 			}
 		},
 
+		mobileview : state => state.mobileview
+
 		
 	}),
 
@@ -115,7 +117,15 @@ export default {
 		},
 
 		open : function(portfolio){
-			this.$router.push('/portfolio/' + portfolio.id).catch(e => {})
+
+			if(this.mobileview){
+				this.$router.push('/portfolio/' + portfolio.id).catch(e => {})
+			}
+			else{
+				this.$router.push('/summary?id=' + portfolio.id).catch(e => {})
+			}
+
+			
 
 			this.$emit('close')
 		}

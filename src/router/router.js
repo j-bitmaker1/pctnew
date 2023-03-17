@@ -80,7 +80,6 @@ const redirects = {
 	redirect: function (core, to) {
 		return redirects.authorized(core, to).then(r => {
 
-
 			if (store.state.redirect) {
 
 				var redirect = f.hexDecode(store.state.redirect)
@@ -124,15 +123,58 @@ const redirects = {
 
 			return Promise.resolve(null)
 		})
+	},
+
+	mainpage : function(core, to){
+
+		return redirects.redirect(core, to).then((v) => {
+
+			if(v){
+				return Promise.resolve(v)
+			}
+
+			if (to.name == 'index' && core.mobileview()){
+
+				return Promise.reject({
+					to: '/home'
+				})
+
+			}
+
+			if (to.name == 'index' && !core.mobileview()){
+
+				return Promise.reject({
+					to: '/summary'
+				})
+
+			}
+
+		})
+
 	}
 }
 
 const routes = [
+
 	{
 		path: '/',
 		name: 'index',
+		customRedirect: redirects.mainpage
+	},
+
+	{
+		path: '/home',
+		name: 'home',
 		component: () => import('@/views/index'),
 		customRedirect: redirects.redirect
+	},
+
+	{
+		path: '/summary',
+		name: 'summary',
+		component: () => import('@/views/summary'),
+		customRedirect: redirects.authorized,
+		features : ['PCT']
 	},
 
 	{
@@ -208,14 +250,7 @@ const routes = [
 		features : ['PCT']
 	},*/
 
-	{
-		path: '/summary',
-		name: 'summary',
-		component: () => import('@/views/summary'),
-		customRedirect: redirects.authorized,
-
-		features : ['PCT']
-	},
+	
 
 	{
 		path: '/changepassword',

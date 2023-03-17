@@ -1333,19 +1333,43 @@ f.values = {
     }
 }
 
-f.removePopoverFromEvent = function(e){
-
-    var sel = _.find(e.path, function(p){
-        return p.classList.contains('v-popover');
-    })
-
-
-    if (sel || e.usedByTooltip){
-        e.stopPropagation();
-		e.preventDefault();
+f.findinparent = function(el, fu){
+    if(fu(el)){
+        return true
     }
 
-    return
+    if (el.parentElement || el.parentNode) {
+        return f.findinparent(el.parentElement || el.parentNode, fu)
+    }
+
+    return false
+}
+
+f.removePopoverFromEvent = function(e){
+
+    if(e.usedByTooltip) return true
+
+    //if(e.target.className == 'fas fa-ellipsis-v') return true
+
+    if (e.path){
+        var sel = _.find(e.path, function(p){
+            return p.classList && (p.classList.contains('v-popover') || p.classList.contains('tooltip'));
+        })
+    
+        if (sel){
+            return true
+        }
+    }
+
+    if(f.findinparent(e.target, (el) => {
+
+        console.log('el.classList', el.classList)
+
+        return el.classList && (el.classList.contains('v-popover') || el.classList.contains('tooltip'))
+    })) return true
+    
+
+    return false
 }
 
 var addZero = function (n) {

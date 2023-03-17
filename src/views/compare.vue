@@ -56,7 +56,7 @@
 ::v-deep
 	.selectionpanel
 		position: absolute
-		right : $r
+		right : 0
 		top : 0
 		bottom: 0
 		display: flex
@@ -64,6 +64,8 @@
 		align-items: center
 		border-left: 1px solid srgb(--neutral-grad-1)
 		background: srgb(--neutral-grad-0)
+		padding-right: $r
+		padding-left: $r
 
 		i
 			cursor: pointer

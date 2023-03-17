@@ -22,7 +22,7 @@ export default {
 			version : process.env.VUE_APP_VERSION,
 			allitems : [
 				{
-					route : '/',
+					route : '/home',
 					id : 'home',
 					text : 'menu.home',
 					icon : "fas fa-bell"
@@ -177,7 +177,7 @@ export default {
 		notifications : function(id){
 			var c = this.$store.state.updates[id] || 0
 
-			return Math.min(c, 99)
+			return c
 		},
 		/*signout : function(){
 			this.core.user.signout()

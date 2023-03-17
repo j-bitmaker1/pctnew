@@ -2,6 +2,8 @@ import { mapState } from 'vuex';
 import Trumbowyg from 'vue-trumbowyg';
 import 'trumbowyg/dist/ui/trumbowyg.css';
 
+window.$ = window.jQuery = require('jquery');
+
 (function ($) {
     'use strict';
 

@@ -450,7 +450,13 @@ class Vueapi {
     
             events : {
                 edit : (portfolio) => {
-                    this.router.push('portfolio/' + portfolio.id).catch(e => {})
+
+                    if (this.core.mobileview()){
+                        this.$router.push('/portfolio/' + portfolio.id).catch(e => {})
+                    }
+                    else{
+                        this.$router.push('/summary?id=' + portfolio.id).catch(e => {})
+                    }
                 }
             }
         })

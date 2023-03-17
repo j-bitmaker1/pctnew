@@ -54,7 +54,9 @@ export default {
 
 		click : function(e){
 
-			if(e.usedByTooltip) return
+			console.log("E", e)
+
+			if(f.removePopoverFromEvent(e)) return
 			
 			if(this.portfolio.status == 'DELETED') return
 
@@ -62,10 +64,7 @@ export default {
 		},
 
 		editportfolio : function(data){
-
-			
 			this.$emit('editportfolio', data)
-
 		},
 
 		deleteportfolio : function(){

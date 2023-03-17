@@ -1,8 +1,10 @@
 import { mapState } from 'vuex';
-import {Chart} from 'highcharts-vue'
+
 
 import summarybutton from '@/components/delements/summarybutton/index.vue'
 import { Distribution } from '@/application/charts/index';
+import {Chart} from 'highcharts-vue'
+
 
 var distribution = new Distribution()
 
