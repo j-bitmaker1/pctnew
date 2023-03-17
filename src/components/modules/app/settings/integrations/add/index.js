@@ -56,6 +56,15 @@ export default {
         save: function () {
             this.values = this.$refs.fields.get();
 
+            this.core.api.pct.integrations.addOrEdit({
+                NewName: this.values.IntegrationName || '',
+                OldName: '',
+                Type: this.type || '',
+                ILogin: this.values.Login || '',
+                IPassword: this.values.Password || '',
+                Repcode: this.values.RepCode || '',
+            });
+
             this.$emit('close');
         },
     },
