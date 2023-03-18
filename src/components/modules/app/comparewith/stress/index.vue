@@ -14,7 +14,7 @@
 			
 
 			<div class="forsettigns" v-if="hasdollarsvm">
-				<iconstoggle :icons="includemodes" @change="changeincludemode" :value="includemode"/>
+				<iconstoggle :icons="includemodes" @change="changeincludemode" :value="includemode" v-if="type == 'split'"/>
 
 				<iconstoggle :icons="valuemodes" @change="changevaluemode" :value="valuemode"/>
 			</div>
