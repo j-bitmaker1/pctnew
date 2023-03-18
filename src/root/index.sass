@@ -160,6 +160,14 @@
 						transform: translate(0, 0)
 
 
+			@media only screen and (max-height: 500px)
+				.item
+					display: none
+
+					&:nth-child(1)
+						display: block
+						
+
 		.footer
 			flex-direction: column-reverse
 			left: 1.5 * $r
