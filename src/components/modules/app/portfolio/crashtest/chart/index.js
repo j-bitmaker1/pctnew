@@ -32,6 +32,7 @@ export default {
 	computed: mapState({
 		auth : state => state.auth,
 		dwidth : state => state.dwidth,
+		dheight : state => state.dheight,
 		roundbase : function(){
 			return Math.pow(10, Math.max((this.cts.total.toFixed(0)).length - 3, 1))
 		},
@@ -53,7 +54,7 @@ export default {
 		},
 
 		calcheight : function(){
-			return this.chartheight > 0 && this.length < 14
+			return this.chartheight > 0 && this.length < 14 && this.dheight > 400
 		}
 	}),
 

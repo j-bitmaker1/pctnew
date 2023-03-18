@@ -169,8 +169,9 @@
     <template v-else>
         <div class="unsupportmobile">
             <div class="wrapper">
+
                 <span>
-                    This report is not displayed in this screen resolution
+                    This report is not displayed in this screen resolution. Rotate the screen
                 </span>
 
                 <router-link to="/">

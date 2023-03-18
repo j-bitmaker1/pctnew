@@ -25,6 +25,36 @@
 		margin-bottom: $r
 		white-space: nowrap
 
+.removedassets
+	padding-left: 44px
+
+	.ticker
+		position: relative
+		display: flex
+		align-items: center
+		justify-content: center
+
+		&:after
+			position: absolute
+			left : 0.5 * $r
+			right: 0.5 * $r
+			top : 50%
+			margin-top: -1px
+			height: 2px
+			background: srgb(--color-bad)
+			content: ''
+
+		
+		span
+			opacity: 0.8
+			font-size : 0.8em
+
+	::v-deep
+		.simplelist
+			flex-wrap: wrap
+			display: flex
+			grid-gap: 0.5 * $r
+
 .captionRow
 	display: flex
 	justify-content: space-between

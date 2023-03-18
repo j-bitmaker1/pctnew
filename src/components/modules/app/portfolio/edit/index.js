@@ -1,5 +1,6 @@
 import { mapState } from 'vuex';
 import assetsEdit from "@/components/modules/app/assets/edit/index.vue";
+import asset from "@/components/modules/app/assets/asset/index.vue";
 import f from '@/application/shared/functions.js'
 import _ from 'underscore';
 var sha1 = require('sha1');
@@ -13,12 +14,14 @@ export default {
 		currentroot : [String, Number],
 		from : Object,
 		wnd : Boolean,
-		updclbk : Function
+		updclbk : Function,
+		showdif : Boolean
 	},
 
 	components : {
 		assetsEdit,
-		aggregationsEdit
+		aggregationsEdit,
+		asset
 	},
 
 	data : function(){
@@ -96,6 +99,37 @@ export default {
 		validate : function(){
 			if(!this.total) return 'total'
 			if(!this.name) return 'name'
+		},
+
+		difference : function(){
+			var donorassets = (this.edit || this.from || {}).assets
+
+			var diff = {}
+			var rms = {}
+
+			_.each(this.assets, (a) => {
+				var da = _.find(donorassets, (as) => {
+					return as.ticker == a.ticker
+				})
+
+				if(!da){
+					diff[a.ticker]  = 0
+				}
+
+				else {
+					diff[a.ticker] = da.value
+				}
+			})
+
+			console.log('diff', diff)
+
+			_.each(donorassets, (da) => {
+				if(typeof diff[da.ticker] == 'undefined') rms[da.ticker] = da
+			})
+
+			return {
+				diff, rms
+			}
 		},
 
 		haschanges : function(){
@@ -622,8 +656,6 @@ export default {
 
 		ini : function(){
 			var donor = this.edit || this.from
-
-			console.log('donor', donor)
 
 			if (donor){
 				this.assets = []

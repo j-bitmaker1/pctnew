@@ -135,28 +135,29 @@
 					
 					transform: translate(205px, 0)
 
-			&:hover
+			&:not(.footerFocused)
+				&:hover
 
-				transform: translate(0, 0)
-				background: srgb(--background-total-theme)
-				box-shadow: 0 0 5000px 3000px rgba(0,0,0,0.7)
-
-				.copyright
-					opacity: 1
-
-				.item
-
-					.notifications
-						transform: translate(0, -50%)
-						
-					.label
-						transform: translate(0, 0)
-
-					i
-						transform: translate(0, 0)
-
-				.footer
 					transform: translate(0, 0)
+					background: srgb(--background-total-theme)
+					box-shadow: 0 0 5000px 3000px rgba(0,0,0,0.7)
+
+					.copyright
+						opacity: 1
+
+					.item
+
+						.notifications
+							transform: translate(0, -50%)
+							
+						.label
+							transform: translate(0, 0)
+
+						i
+							transform: translate(0, 0)
+
+					.footer
+						transform: translate(0, 0)
 
 
 		.footer

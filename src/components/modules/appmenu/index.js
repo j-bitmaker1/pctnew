@@ -20,6 +20,7 @@ export default {
 		return {
 			loading : false,
 			version : process.env.VUE_APP_VERSION,
+			footerFocused : false,
 			allitems : [
 				{
 					route : '/home',
@@ -194,6 +195,14 @@ export default {
 
 		menu : function(){
 			this.core.vueapi.fastmenu()
+		},
+
+		mouseoverFooter: function(){
+			this.footerFocused = true
+		},
+
+		mouseleaveFooter: function(){
+			this.footerFocused = false
 		}
 	},
 }
