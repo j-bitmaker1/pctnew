@@ -112,8 +112,7 @@
 
                         <div class="emptyScenario" v-if="!lastCustomFactors || !lastCustomResult">
                             <div class="textWrapper">
-                                <span v-if="!lastCustomFactors">Create custom scenario to see contributors</span>
-                                <span v-if="!lastCustomResult">Adjust the factors and get the result</span>
+                                <span v-if="!lastCustomFactors">Create custom scenario to see contributors</span> <span v-if="!lastCustomResult">Adjust the factors and get the result</span>
                             </div>
                         </div>
 
