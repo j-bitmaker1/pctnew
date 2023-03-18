@@ -11,8 +11,11 @@
 			<div class="forpanel">
 				<span>Crash test</span>
 			</div>	
+			
 
 			<div class="forsettigns" v-if="hasdollarsvm">
+				<iconstoggle :icons="includemodes" @change="changeincludemode" :value="includemode"/>
+
 				<iconstoggle :icons="valuemodes" @change="changevaluemode" :value="valuemode"/>
 			</div>
 		</div>

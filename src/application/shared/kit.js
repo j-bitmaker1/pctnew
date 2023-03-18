@@ -84,7 +84,7 @@ class Portfolio {
 
         return _.reduce(this.positions, (m, p) => {
 
-            return (p.isCovered || p.external) ? m + p.value : m
+            return (p.isCovered || p.external || p.annuity_type) ? m + p.value : m
 
         }, 0)
 

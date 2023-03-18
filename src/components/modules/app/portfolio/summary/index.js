@@ -3,15 +3,14 @@ import { mapState } from 'vuex';
 import shares from "@/components/modules/app/portfolio/shares/index.vue";
 import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
 import crashtesttemp from "@/components/modules/app/comparewith/stress/index.vue";
-
 import scenariodetails from "@/components/modules/app/portfolio/crashtest/scenariodetails/index.vue";
-
 import homeAdd from "@/components/modules/app/home/add/index.vue";
-
 import portfolioCaption from "./portfoliocaption/index.vue";
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
-
 import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
+
+import customstresstest from "@/components/modules/app/scenarios/custom2/index.vue";
+
 
 export default {
     name: 'portfolio_summary',
@@ -23,7 +22,8 @@ export default {
         homeAdd,
         crashtesttemp,
         portfoliomenu,
-        ctmenu
+        ctmenu,
+        customstresstest
 	},
     props: {
         portfolioId : Number,
@@ -39,7 +39,15 @@ export default {
             ct : null,
             profile : null,
             portfolio : null,
-            temp : null
+            temp : null,
+            error : null,
+
+            lastCustomFactors : null,
+            lastCustomResult : null,
+
+            view : 'stresstest',
+
+            views : ['stresstest', 'customstresstest']
         }
 
     },
@@ -92,6 +100,7 @@ export default {
             this.ct = null
             this.selectedScenario = null
             this.portfolio = null
+            this.error = null
 
             if(!this.portfolioId){
                 return Promise.reject('empty')
@@ -112,7 +121,14 @@ export default {
 				})
 
 			}).catch(e => {
+                this.error = e
                 console.error(e)
+
+                this.$store.commit('icon', {
+                    icon: 'error',
+                    message: e.text || e.error
+                })
+
             }).finally(() => {
 				this.loading = false
 			})
@@ -204,6 +220,46 @@ export default {
 
         scoreConverterChanged : function(){
 
+        },
+
+        changeView : function(v){
+            this.view = v
+            this.selectedScenario = null
+        },
+
+        customStressTestLoaded : function(dct){
+            this.lastCustomResult = dct
+            //this.ct = dct
+            //this.selectedScenario = dct.scenarios[0]
+        },
+
+        saveFactors : function(factors){
+            console.log('factors', factors)
+
+            this.lastCustomFactors = factors
+        },
+
+
+        customscenariosaved : function(result){
+
+            this.core.pct.scenariosAllIds().then(ids => {
+
+                console.log('ids', ids)
+
+                ids.push(result.id)
+
+                return this.core.settings.stress.set('scenarios', ids)
+
+            }).then(() => {
+
+                this.lastCustomResult = null
+                this.lastCustomFactors = null
+                this.changeView('stresstest')
+                
+            })
+            
+
+            
         }
 
     },

@@ -33,6 +33,18 @@ export default {
 				}
 			],
 
+            includemode : localStorage['comparewith_includemode'] || 'e',
+            includemodes : [
+				{
+					icon : "fas fa-chart-pie",
+					id : 'i'
+				},
+				{
+					icon : "fas fa-plus-circle",
+					id : 'e'
+				}
+			],
+
             summary : [
 
 				{
@@ -101,6 +113,14 @@ export default {
             this.load()
 		},
 
+        changeincludemode : function(v){
+			this.includemode = v
+
+            localStorage['comparewith_includemode'] = v
+
+            this.load()
+		},
+
         scoreConverterChanged : function(){
 			this.load()
 		},
@@ -109,30 +129,81 @@ export default {
             this.load()
         },  
 
+        getassetslistsIncludeMode : function(){
+            var list = [this.portfolio.positions]
+           
+            var total = this.portfolio.total()
+            var sum = _.reduce(this.assets, (m, v) => {return m + v.value}, 0)
+
+            if (total <= sum){
+                list.push(this.assets)
+                return list
+            }
+
+            var d = total - sum
+
+            var portfolioPositions = _.map(this.portfolio.positions, (asset) => {
+                var a = _.clone(asset)
+
+                a.value = a.value * (d / total)
+
+                return a
+            })
+
+            portfolioPositions = portfolioPositions.concat(this.assets)
+
+            console.log('portfolioPositions' , portfolioPositions)
+
+            list.push(portfolioPositions)
+
+            return list
+        },
+
         load : function(){
+
+            var promise = null
 
             this.loading = true
 
-            var task = f.makeid()
-
-            this.taskid = task
-
             var sc = 'stresstestWithPositions'
 
-            if(this.type == 'split') sc = 'stresstestWithPositionsSplit'
+            if(this.type == 'split') {
+                sc = 'stresstestWithPositionsSplit'
 
-            this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed).then((r) => {
+                if(this.includemode == 'i'){
+                    promise = this.core.pct.stresstestPositionsList(this.getassetslistsIncludeMode(), this.valuemodecomposed, {
+                        names : [this.portfolio.name]
+                    })
+                }
+            }   
 
-                //if (task == this.taskid){
+
+            if(!promise)
+                promise = this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed)
+
+            if (promise && promise.then){
+
+                this.loading = true
+
+                var task = f.makeid()
+
+                this.taskid = task
+
+                promise.then((r) => {
+
                     this.cts = r.result
                     this.portfolios = r.portfolios
-                //}
-                
-            }).finally(() => {
-                this.loading = false
+                    
+                }).finally(() => {
+                    this.loading = false
 
-                this.taskid = null
-            })
+                    this.taskid = null
+                })
+
+            }
+                
+
+            
            
         }
     },

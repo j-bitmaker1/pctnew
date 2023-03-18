@@ -16,10 +16,11 @@
             <div class="selectors">
 
 				<div class="selector">
-					<div class="namerow left">
-						<div class="nameB" @click="addportfolio">
+					<div class="namerow left" @click="addportfolio">
+						<div class="nameB" >
 							<template v-if="portfolio">
 								<span>{{portfolio.name}}</span>
+								<value :value="portfolio.total()" :mode="portfolio.isModel ? 'p100' : 'd'" />
 								<div class="selectionpanel">
 									<i class="fas fa-search"></i>
 								</div>
@@ -59,7 +60,10 @@
 				
             </div>
 
-		
+			<!--<div class="portfolioInfoWrapper" v-if="portfolio">
+				<span>{{portfolio.name}}</span>
+				<value :value="portfolio.total()" :mode="portfolio.isModel ? 'p100' : 'd'" />
+			</div>-->
 
 			<div class="structureInfoWrapper" v-if="structure">
 				<structureinfo :annuity="structure" :weight="Number(weight) || 100000" :mode="valuemode"/>
@@ -161,6 +165,8 @@
 		max-width: 80%
 		overflow: hidden
 		text-overflow: ellipsis
+		display: flex
+		grid-gap: $r
 
 		span
 			font-size: 0.9em

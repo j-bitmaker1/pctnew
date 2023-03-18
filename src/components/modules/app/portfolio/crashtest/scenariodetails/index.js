@@ -12,7 +12,10 @@ export default {
 		portfolio: Object,
 		scenario: Object,
 		ct : Object,
-		lossgain : Boolean
+		lossgain : Boolean,
+
+		dcti : Object,
+		infoi : Object
 	},
 
 	components: {
@@ -50,6 +53,12 @@ export default {
 	},
 
 	watch: {
+		dcti : function(){
+			this.dct = this.dcti
+		},
+		infoi: function(){
+			this.info = this.infoi
+		},
 		//$route: 'getdata'
 	},
 	computed: mapState({
@@ -143,11 +152,19 @@ export default {
 
 	methods: {
 		loadcontributors: function () {
+
+			if (this.dcti) {
+				this.dct = this.dcti
+				return
+			}
+
 			this.loading = true
 
 			this.core.pct.stressdetails(this.portfolio, {
 				term : this.ct ? this.ct.term : null
 			}).then(R => {
+
+				console.log("R", R)
 
 				this.dct = R
 				return Promise.resolve(R)
@@ -159,6 +176,12 @@ export default {
 		},
 
 		loadscenatioinfo: function () {
+
+			if (this.infoi){
+				this.info = this.infoi
+				return
+			}
+
 			this.core.pct.scenariosWithCustoms([this.scenario.id]).then(r => {
 				this.info = r[0]
 

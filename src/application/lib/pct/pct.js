@@ -336,8 +336,6 @@ class PCT {
             term : p.term
         }
 
-        console.log("CT", ct, p)
-
         _.each(ct.scenarioResults, (s) => {
 
             if(!s.id){ ///crash rating
@@ -507,14 +505,15 @@ class PCT {
 
         if(!total) total = maxAbs
 
-        if(total) maxAbs = maxAbs / total
+        if (total) maxAbs = maxAbs / total
+
         else maxAbs = 0
         
         _.each(cts, (c, i) => {
 
             var portfolio = portfolios[i]
 
-            common.cts[i] = this.ctRelative(c, portfolio && portfolio.isModel ? 100 : (mode == 'p' && portfolio ? portfolio.total() : total))
+            common.cts[i] = this.ctRelative(c, portfolio && portfolio.isModel ? portfolio.total() : (mode == 'p' && portfolio ? portfolio.total() : total))
 
 
             _.each(common.cts[i].scenarios, (scenario) => {
@@ -563,6 +562,56 @@ class PCT {
             return Promise.resolve(this.composeCTS(cts, total, mode, portfolios))
         })
       
+    }
+
+    stresstestPositionsList = function(assetsLists, mode, p = {}){
+
+        var cts = {}
+        var promises = []
+        var portfolios = {}
+        var term = null
+
+        if(!p.names) p.names = []
+
+        _.each(assetsLists, (assets, i) => {
+
+            var aportfolio = new Portfolio({
+                name : "temp",
+                id : -(i + 1),
+                tempportfolio : true
+            })
+    
+            aportfolio.positions = _.clone(assets)
+            aportfolio.name = p.names[i] || ('+ ' + _.reduce(assets, (m, asset) => {
+
+                if(asset.term) term = asset.term
+    
+                return asset.name + ';' // + ' (' + v + ');' 
+    
+            }, ''))
+
+            portfolios[aportfolio.id] = aportfolio
+
+            promises.push(this.stresstestPositions(aportfolio.positions, {term}).then((r) => {
+                cts[aportfolio.id] = r
+    
+                return Promise.resolve()
+            }))
+
+        })
+
+        var max = _.max(portfolios, (p) => {
+            return p.total()}
+            )
+
+        return Promise.all(promises).then(() => {
+
+            return Promise.resolve({
+                result : this.composeCTS(cts, max.total(), mode, portfolios),
+                portfolios
+            })
+
+        })
     }
 
     stresstestWithPositions = function(portfolio, assets, mode){
@@ -660,7 +709,6 @@ class PCT {
         }))
 
         var max = _.max(portfolios, (p) => {
-            console.log(p.name, p.total())
             return p.total()
         })
 
@@ -718,8 +766,6 @@ class PCT {
                 return a.name
             })
         }
-
-        console.log("data", data)
 
         return this.stresstestdt(data, p)
     }
@@ -823,8 +869,6 @@ class PCT {
 
         }).then(settings => {
 
-            console.log("PPP", p)
-
             if (p.term){
                 if(p.term.toLowerCase() == '3y'){
 
@@ -909,6 +953,33 @@ class PCT {
         })
     }
 
+    scenariosAllIds = function(){
+        var scenarios = null
+
+        return this.scenariosWithCustoms().then(s => {
+            scenarios = s
+
+            return Promise.resolve()
+        }).then(() => {
+            return this.core.settings.stress.getall()
+        })
+        .then(settings => {
+
+            if (!settings.scenarios.value.length){
+                
+                var u = []
+                _.each(scenarios, (s) => {
+                    if(s.key) u.push(s.id)
+                })
+
+                return Promise.resolve(u)
+
+            }
+            return Promise.resolve(settings.scenarios.value)
+
+        })
+    }
+
     assets = function(tickers){
 
         if(!_.isArray(tickers) && tickers.positions) tickers = tickers.positions
@@ -955,6 +1026,8 @@ class PCT {
 
         return assets
     }
+
+
 
 }
 

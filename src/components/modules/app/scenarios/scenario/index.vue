@@ -63,8 +63,10 @@
 		padding : $r 2 * $r
 		margin-right: $r
 		font-size: 0.8em
+		cursor: pointer
 
 		&.label
+			cursor: default
 			background: transparent
 
 		i

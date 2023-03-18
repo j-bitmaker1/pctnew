@@ -307,6 +307,20 @@ class Vueapi {
             events : events
         })
     }
+
+    savecustomscenario = function(data, success){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_scenarios_savecustoms',
+            module : "scenarios_savecustom",
+            caption : "Factors",
+    
+            data : data,
+    
+            events : {
+                success
+            }
+        })
+    }
     
 
     createContact = function(payload, success, p = {}){

@@ -42,7 +42,7 @@
 
                         <portfolioCaption :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
 
-                        <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+                        <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="view == 'stresstest'" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
 
                     </div>
                     <div class="pmenuwrapper">    
@@ -56,15 +56,29 @@
             <div class="center part customscroll">
 
                 <div class="pcntwrapper">
-                    <div class="pcnt">
+                    <div class="pcnt" v-if="view == 'stresstest'">
 
                         <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" :profile="profile" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
                         <crashtesttemp :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
 
                     </div>
+
+                    <div class="pcnt" v-if="view == 'customstresstest'" >
+                        <customstresstest v-if="portfolio" :portfolio="portfolio" :lastFactors="lastCustomFactors" @loaded="customStressTestLoaded" @scenarioMouseOver="scenarioMouseOver" @factors="saveFactors" @customscenariosaved="customscenariosaved"/>
+                    </div>
+
+
                     <div class="pmenuwrapper">    
                         <div class="pmenu">
-                            
+
+                            <div class="menuitem" v-if="view=='stresstest'" title="Custom stress test" @click="changeView('customstresstest')">
+                                <i class="fas fa-tools"></i>
+                            </div>
+
+                            <div class="menuitem active" v-if="view=='customstresstest'" title="Close custom stress test" @click="changeView('stresstest')">
+                                <i class="fas fa-times"></i>
+                            </div>
+
                             <ctmenu v-if="portfolio" :ext="true" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
 
                         </div>
@@ -76,29 +90,52 @@
             <div class="right part">
                 <template  v-if="portfolio">
 
-                    <linepreloader v-if="!ct"/>
-                    <template  v-else>
+                    <template v-if="view == 'stresstest'">
                         <div class="emptyScenario" v-if="!selectedScenario || !ct || temp">
+
                             <div class="textWrapper">
+                                
                                 <span v-if="(!selectedScenario || !ct) && !temp">Select scenario to see contributors</span>
                                 <span v-if="temp">Risk contributors are not available in hot change mode</span>
+                            
                             </div>
                         </div>
                         <div class="scenario" v-else>
-                            <!--<div class="header mobp">
-                                <span>{{selectedScenario.name}}</span>
-                            </div>-->
                             <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
-                            
                         </div>
                     </template>
+
+                    <template v-if="view == 'customstresstest'">
+
+                        <!--<linepreloader v-if="lastCustomFactors && !lastCustomResult"/>-->
+
+
+                        <div class="emptyScenario" v-if="!lastCustomFactors || !lastCustomResult">
+                            <div class="textWrapper">
+                                <span v-if="!lastCustomFactors">Create custom scenario to see contributors</span>
+                                <span v-if="!lastCustomResult">Adjust the factors and get the result</span>
+                            </div>
+                        </div>
+
+                        <div class="scenario" v-else>
+                            <scenariodetails :lossgain="true" :portfolio="portfolio" :dcti="lastCustomResult" :scenario="lastCustomResult.scenarios[0]" :infoi="{
+                                name : 'Custom scenario',
+                                factors : lastCustomFactors,
+                                description : ''
+                            }"/>
+                        </div>
+
+                    </template>
+
+                    
+                    
                 </template>
                 
             </div>
         </div>
 
         <div class="portfoliotip" v-if="!portfolio">
-            <div class="wrapper" v-if="!portfolioId">
+            <div class="wrapper" v-if="!portfolioId || error">
                 <span>Load or select a portfolio and get Stress test!</span>
                 <div class="stickerWrapper">
                     <sticker src="goal.png" :width="128"/>

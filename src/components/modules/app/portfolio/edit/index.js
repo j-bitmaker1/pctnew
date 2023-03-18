@@ -623,6 +623,8 @@ export default {
 		ini : function(){
 			var donor = this.edit || this.from
 
+			console.log('donor', donor)
+
 			if (donor){
 				this.assets = []
 				

@@ -87,6 +87,7 @@ export default {
         questionnaire_client: () => import("@/components/modules/app/client/questionnaire/index.vue"),
         scenario_custom: () => import("@/components/modules/app/scenarios/custom/index.vue"),
         scenario_allfactors: () => import("@/components/modules/app/scenarios/allfactors/index.vue"),
+        scenarios_savecustom: () => import("@/components/modules/app/scenarios/savecustom/index.vue"),
         export: () => import("@/components/common/export/index.vue"),
 
         //// campaigns
