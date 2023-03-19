@@ -12,7 +12,7 @@
         </div>
 
         <div class="name">
-            <input ref="nameinput" type="text" @focus="focus" @blur="blur" :value="focused ? namestring : (namestring || name)" @keyup="namechange" :placeholder="ticker && !isCovered ? 'Not covered' : 'Enter asset name or ticker'" />
+            <input ref="nameinput" type="text" @focus="focus" @blur="blur" :value="focused ? namestring : (namestring || name)" @keyup="namechange" :placeholder="name ? name : ticker && !isCovered ? 'Not covered' : 'Enter asset name or ticker'" />
         </div>
 
         
