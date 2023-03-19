@@ -3,25 +3,27 @@
 
     <div class="data">
         <div class="tickers">
-            <div class="ticker">
-                <span>{{asset.Ticker}}</span>
-            </div>
 
             <div class="searchticker">
                 <i class="fas fa-search" @click="searchAssets"></i>
             </div>
+
+            <div class="ticker">
+                <span>{{asset.Ticker}}</span>
+            </div>
+            
+        </div>
+
+        <div class="name" v-if="asset.Name">
+            <span>{{asset.Name}}</span>
+        </div>
+
+        <div class="oldname" v-else>
+            <span>{{asset.FullTextInOriginalFile}}</span>
         </div>
 
         <div class="value">
             <input type="text" :value="asset.Value" @change="e => changeValue(e.target.value)"/>
-        </div>
-
-        <div class="name">
-            <span>{{asset.Name}}</span>
-        </div>
-
-        <div class="oldname">
-            <span>{{asset.FullTextInOriginalFile}}</span>
         </div>
         
     </div>

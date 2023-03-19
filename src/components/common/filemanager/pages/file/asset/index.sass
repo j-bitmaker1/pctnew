@@ -1,16 +1,27 @@
 .filemanager_asset
     display: flex
-    align-content: space-between
+    align-items: center
 
     .panel
-        margin-left: auto
 
         i
             color : srgb(--neutral-grad-2)
             font-size: 0.9em
+
+    .data
+        flex-grow: 2
+        display: flex
+        align-items: center
+        justify-content: center
+
+    .value
+        margin-left: auto
+        padding-left: $r
+        
+
+            
 .oldname,
 .name
-    margin-top: $r
     padding-left: $r
 
     span
@@ -27,6 +38,10 @@
     display: flex
     align-items: center
     grid-gap: $r
+    position: relative
+    min-width: 150px
+
+
 .searchticker
     padding : $r
     i
@@ -35,9 +50,42 @@
 
 .value
     input
+        text-align: right
         padding : 0 $r
         height: 33px
         line-height: 33px
         background: srgb(--background-secondary-theme)
         border-radius: 12px
-        color : srgb(--color-txt-ac)
+        max-width: 100px
+
+.panel
+    display: flex
+    align-items: center
+
+    .buttonpanel i
+        margin-left: $r
+
+@media only screen and (max-width: 768px)
+    .filemanager_asset
+        justify-content: flex-start
+        align-items: start
+        .data
+            justify-content: flex-start
+            align-items: center
+            flex-wrap: wrap
+            
+            .tickers
+                order: 1
+
+            .oldname,
+            .name
+                flex-basis: 100%
+                order : 0
+                
+            .value
+                margin-left: auto
+                max-width: 30%
+                order: 2
+
+                input
+                    width : 100%
