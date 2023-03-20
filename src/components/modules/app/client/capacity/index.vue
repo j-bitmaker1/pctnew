@@ -3,12 +3,18 @@
 	<div v-if="!loading">
 		<capacity :initial="capacityValues" @change="change" ref="capacity"/>
 
-		<div class="savePanel">
+		<div class="savePanel" v-if="profile">
 			<button class="button black" v-if="haschanges" @click="cancel">
 				Cancel
 			</button>
 			<button class="button" :disabled="!haschanges" @click="save">
 				Save Changes
+			</button>
+		</div>
+
+		<div class="savePanel" v-else>
+			<button class="button" :disabled="!haschanges" @click="addclient">
+				<i class="fas fa-plus"></i> Create client
 			</button>
 		</div>
 	</div>
@@ -70,12 +76,11 @@ export default {
 
 		capacityValues : function(){
 
-
 			if (this.fromsettings) return this.fromsettings
 
 			if (this.questionnaire) return this.core.pct.riskscore.convertQrToCapacity(this.questionnaire.capacity)
 		
-			return null
+			return {"ages":[20,40],"savings":10000,"save":0,"salary":200000,"savemoreRange":[20,40],"withdrawRange":[20,40],"withdraw":0}
 		
 		},
 
@@ -95,6 +100,7 @@ export default {
 		profile : {
 			immediate : true,
 			handler : function(){
+				console.log("??")
 				this.load()
 			}
 		}
@@ -103,6 +109,28 @@ export default {
 	methods: {
 		change : function(v){
 			this.capacity = v
+		},
+
+		addclient : function(){
+			this.core.vueapi.newClient((client) => {
+
+				this.$emit('profilechanged', client)
+
+				//this.profile = client
+
+				/*setTimeout(() => {
+
+					this.getSettings().then(() => {
+						return this.save()
+					}).then(() => {
+						this.$router.push('client/' + this.profile.ID).catch(e => {})
+					})
+
+				}, 50)*/
+
+				
+
+			})
 		},
 
 		save : function(){
@@ -124,7 +152,10 @@ export default {
 
 		getSettings : function(){
 
-			//if(!this.settingsKey) return Promise.resolve()
+			if(!this.profile) {
+				this.fromsettings = null
+				return Promise.resolve()
+			}
 
 			if(!this.core.dynamicSettings[this.settingsKey]){
 				this.core.dynamicSettings[this.settingsKey] = new Settings(this.core, 'CAPACITYVALUES', {
@@ -147,13 +178,13 @@ export default {
 
 		getQuestionnaire : function(){
 
-			if (this.profile.questionnaire){
+			if (this.profile && this.profile.questionnaire){
 				return this.core.api.crm.questionnaire.getresult(this.profile.questionnaire).then(r => {
 					this.questionnaire = r
 				})
 			}
 			else{
-
+				this.questionnaire = null
 				return Promise.resolve()
 			}
 
@@ -162,11 +193,13 @@ export default {
 
 		load : function(){
 			this.loading = true
+
 			return Promise.all([this.getSettings(), this.getQuestionnaire()]).finally(() => {
 				this.loading = false
 			}).catch(e => {
 				console.error(e)
 			})
+
 		}
 	},
 }

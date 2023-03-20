@@ -10,16 +10,16 @@
 
 				<div class="forclient">
 					<div class="profileWrapper" v-if="profile">
-						<div id="clientprofile">
-							
-
-							<div class="data" v-if="profile">
-								<b>{{profile.FName}} {{profile.LName}},</b>&nbsp;<avalue :value="profile.Email"/>
+						<router-link :to="'client/' + profile.ID">
+							<div id="clientprofile">
+								<div class="data" v-if="profile">
+									<b>{{profile.FName}} {{profile.LName}},</b>&nbsp;<avalue :value="profile.Email"/>
+								</div>
+								<div class="userpicWrapper">
+									<userpic :userinfo="profile || {}" />
+								</div>
 							</div>
-							<div class="userpicWrapper">
-								<userpic :userinfo="profile || {}" />
-							</div>
-						</div>
+						</router-link>
 					</div>
 				</div>
 			</div>
@@ -37,18 +37,18 @@
 	<maincontent>
 		<template v-slot:content>
 
-			<div class="componentWrapper" v-if="id">
+			<div class="componentWrapper">
 				
-				<capacity :ids="ids" :profile="profile" v-if="profile"/>
+				<capacity @profilechanged="profilechanged" :profile="profile"/>
 
-				<div class="loading" v-else>
+				<!--<div class="loading" v-else>
 					<linepreloader />
-				</div>
+				</div>-->
 			</div>
 
-			<div class="empty mobp" v-if="!id">
+			<!--<div class="empty mobp" v-if="!id">
 				<span>Please select a client to view Capacity report</span>
-			</div>
+			</div>-->
 			
 		</template>
 	</maincontent>
@@ -187,6 +187,17 @@ export default {
 
 		sharequestionnaire : function(){
 			this.core.vueapi.sharequestionnaire()
+		},
+
+		profilechanged : function(client){
+			this.$router.replace({
+				query : {
+					... this.$route.query,
+					... {
+						id : client.ID
+					}
+				}
+			}).catch(e => {})
 		}
 	},
 

@@ -1,5 +1,5 @@
 <template>
-    <span class="value" @click="action">{{formatted}}</span>
+    <span class="value" @click.prevent.stop="action">{{formatted}}</span>
     <!--<a :href="link" v-else>{{formatted}}</a>-->
 </template>
 

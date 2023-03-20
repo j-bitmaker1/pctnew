@@ -16,7 +16,7 @@
             <div class="selectors">
 
 				<div class="selector">
-					<div class="namerow left" @click="addportfolio">
+					<div class="namerow" @click="addportfolio">
 						<div class="nameB" >
 							<template v-if="portfolio">
 								<span>{{portfolio.name}}</span>
@@ -43,12 +43,12 @@
 								</div>
 							</template>
 							<template v-else>
-								Select Structured Product
+								<span>Select Structured Product</span>
 							</template>
 						</div>
 
 						<div class="inputwrapper" v-if="structure">
-							<input type="number" :value="weight" placeholder="100000" @change="wchanged"/>
+							<input type="number" :value="weight" :placeholder="defaultAnnuityValue" @change="wchanged"/>
 
 							<div class="vicon">
 								<span v-if="valuemode == 'd'">$</span>
@@ -66,7 +66,7 @@
 			</div>-->
 
 			<div class="structureInfoWrapper" v-if="structure">
-				<structureinfo :annuity="structure" :weight="Number(weight) || 100000" :mode="valuemode"/>
+				<structureinfo :annuity="structure" :weight="Number(weight) || defaultAnnuityValue" :mode="valuemode"/>
 			</div>
 
 		
@@ -229,7 +229,17 @@ export default {
 		},
 
 		weight : function(){
-			return (this.$route.query.w || '').replace(/[^0-9]/g, '')
+			var w = Number((this.$route.query.w || '').replace(/[^0-9]/g, '')) || this.defaultAnnuityValue
+
+			if (w < 0) w = this.defaultAnnuityValue
+
+			if (this.valuemode == 'p100'){
+				if (w > 100){
+					w = 100
+				}
+			}
+
+			return w
 		},
 
         s : function(){
@@ -256,22 +266,22 @@ export default {
 			mobileview : state => state.mobileview,
 		}),
 
-		annuityWeighted : function(){
+		defaultAnnuityValue : function(){
 
-			var w = Number(this.weight || 100000)
-
-			if (w < 0) w = 100000
-
-			if(this.valuemode == 'p100'){
-				if (w > 100){
-					w = 100
-				}
+			if (this.portfolio){
+				return this.portfolio.total()
 			}
+
+			return 100000
+			//this.includemode == 'i'
+		},
+
+		annuityWeighted : function(){
 
 			return {
 				...this.structure,
 				ticker : this.structure.id,
-				value : w
+				value : this.weight
 			}
 		}
 

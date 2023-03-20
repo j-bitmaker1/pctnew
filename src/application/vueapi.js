@@ -501,8 +501,14 @@ class Vueapi {
         })
     }
 
-    newClient = function () {
+    newClient = function (success) {
         this.createContact({type : "CLIENT"}, (data) => {
+
+            if (success){
+                success(data)
+                return
+            }
+
             if (data.ID)
                 this.router.push('client/' + data.ID).catch(e => {})
         }, {

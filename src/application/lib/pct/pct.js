@@ -616,6 +616,32 @@ class PCT {
         })
     }
 
+    correctTermLTR = function(portfolio, ct = {}, term = ''){
+        
+
+        var rct = JSON.parse(JSON.stringify(ct));
+
+        var scenario = _.find(rct.scenarios, (scenario) => {
+            return scenario.id == -1
+        })
+
+        if (scenario && term){
+            var t = Number(term.replace("Y", ''))
+            var total = portfolio.total()
+
+            console.log(scenario.loss, total, t)
+
+            scenario.loss = total * (Math.pow(1 + scenario.loss / total, t) - 1)
+            scenario.term = 6
+            scenario.name = scenario.name + ' / Term: '+term+' years' 
+
+            return rct
+            
+        }
+
+        return ct
+    }
+
     stresstestWithPositions = function(portfolio, assets, mode, p = {}){
         var cts = {}
 
@@ -636,7 +662,7 @@ class PCT {
 
         var term = null
 
-        if(p.term)
+        if (p.term)
             _.each(assets, (asset) => {
                 if(asset.term) term = asset.term
             })
@@ -646,13 +672,14 @@ class PCT {
         portfolios[aportfolio.id] = aportfolio
 
         promises.push(this.stresstest(portfolio.id, {term}).then((r) => {
-            cts[portfolio.id] = r
+            
+            cts[portfolio.id] = p.term ? this.correctTermLTR(portfolio, r, term) : r
 
             return Promise.resolve()
         }))
 
         promises.push(this.stresstestPositions(aportfolio.positions, {term}).then((r) => {
-            cts[aportfolio.id] = r
+            cts[aportfolio.id] = p.term ? this.correctTermLTR(aportfolio, r, term) : r
 
             return Promise.resolve()
         }))
@@ -708,13 +735,15 @@ class PCT {
 
 
         promises.push(this.stresstest(portfolio.id, {term}).then((r) => {
-            cts[portfolio.id] = r
+            //cts[portfolio.id] = r
+
+            cts[portfolio.id] = p.term ? this.correctTermLTR(portfolio, r, term) : r
 
             return Promise.resolve()
         }))
 
         promises.push(this.stresstestPortfolio(aportfolio, {term}).then((r) => {
-            cts[aportfolio.id] = r
+            cts[aportfolio.id] =  p.term ? this.correctTermLTR(aportfolio, r, term) : r
 
             return Promise.resolve()
         }))
