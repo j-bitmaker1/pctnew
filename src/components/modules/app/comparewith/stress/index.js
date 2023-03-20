@@ -2,7 +2,6 @@ import { mapState } from 'vuex';
 import f from "@/application/shared/functions.js";
 
 import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'
-import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
 import crsliders from '../crsliders/index.vue'
 export default {
@@ -13,7 +12,7 @@ export default {
         type : String
     },
 
-    components : {ctmain, ctmenu, summarybutton, crsliders},
+    components : {ctmain, summarybutton, crsliders},
 
     data : function(){
 
@@ -37,11 +36,13 @@ export default {
             includemodes : [
 				{
 					icon : "fas fa-chart-pie",
-					id : 'i'
+					id : 'i',
+                    title : 'Structured Compared with Portfolio'
 				},
 				{
 					icon : "fas fa-plus-circle",
-					id : 'e'
+					id : 'e',
+                    title : 'Structured Added to the Portfolio'
 				}
 			],
 
@@ -171,15 +172,18 @@ export default {
                 sc = 'stresstestWithPositionsSplit'
 
                 if(this.includemode == 'i'){
-                    promise = this.core.pct.stresstestPositionsList(this.getassetslistsIncludeMode(), this.valuemodecomposed, {
+
+                    sc = 'stresstestWithPositions'
+
+                    /*promise = this.core.pct.stresstestPositionsList(this.getassetslistsIncludeMode(), this.valuemodecomposed, {
                         names : [this.portfolio.name]
-                    })
+                    })*/
                 }
             }   
 
 
             if(!promise)
-                promise = this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed)
+                promise = this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed, {term : true, name : this.assets[0]? this.assets[0].name : ''})
 
             if (promise && promise.then){
 

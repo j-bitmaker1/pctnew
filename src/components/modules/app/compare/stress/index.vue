@@ -17,7 +17,7 @@
 			</div>
 
 			<div class="settings">
-				<ctmenu  @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
+				<ctmenu :portfolios="portfolios" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
 			</div>
 
 			

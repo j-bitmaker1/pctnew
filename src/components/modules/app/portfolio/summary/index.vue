@@ -71,6 +71,8 @@
                     <div class="pmenuwrapper">    
                         <div class="pmenu">
 
+                            <template v-if="portfolio">
+
                             <div class="menuitem" v-if="view=='stresstest'" title="Custom stress test" @click="changeView('customstresstest')">
                                 <i class="fas fa-tools"></i>
                             </div>
@@ -79,7 +81,9 @@
                                 <i class="fas fa-times"></i>
                             </div>
 
-                            <ctmenu v-if="portfolio" :ext="true" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
+                            </template>
+
+                            <ctmenu :portfolios="{[portfolio.id] : portfolio}" v-if="portfolio" :ext="true" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
 
                         </div>
                     </div>

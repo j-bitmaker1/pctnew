@@ -321,6 +321,31 @@ class Vueapi {
             }
         })
     }
+
+    optimizationSettings = function(data, changed){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_optimization_settings',
+            module : "optimization_settings",
+            caption : "Optimization settings",
+    
+            data : data,
+    
+            events : {
+                changed
+            }
+        })
+    }
+
+    portfolioLtrdetails = function(data){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_ltrdetails',
+            module : "portfolio_ltrdetails",
+            caption : "Long Term Return Calculation Details",
+            data : data,
+            events : {
+            }
+        })
+    }
     
 
     createContact = function(payload, success, p = {}){

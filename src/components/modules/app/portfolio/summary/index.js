@@ -198,10 +198,7 @@ export default {
         },
 
         tempassets : function(assets){
-            
             this.temp = assets
-
-            console.log('this.temp', this.temp)
         },
 
         cancelTempAssets : function(){
@@ -257,8 +254,6 @@ export default {
                 this.changeView('stresstest')
                 
             })
-            
-
             
         }
 

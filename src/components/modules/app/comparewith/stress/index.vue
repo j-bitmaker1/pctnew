@@ -13,10 +13,9 @@
 			</div>	
 			
 
-			<div class="forsettigns" v-if="hasdollarsvm">
+			<div class="forsettigns" >
 				<iconstoggle :icons="includemodes" @change="changeincludemode" :value="includemode" v-if="type == 'split'"/>
-
-				<iconstoggle :icons="valuemodes" @change="changevaluemode" :value="valuemode"/>
+				<iconstoggle v-if="hasdollarsvm" :icons="valuemodes" @change="changevaluemode" :value="valuemode"/>
 			</div>
 		</div>
 

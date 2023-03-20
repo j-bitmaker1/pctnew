@@ -336,6 +336,8 @@ class PCT {
             term : p.term
         }
 
+        console.log('ct.scenarioResults', ct.scenarioResults)
+
         _.each(ct.scenarioResults, (s) => {
 
             if(!s.id){ ///crash rating
@@ -614,7 +616,7 @@ class PCT {
         })
     }
 
-    stresstestWithPositions = function(portfolio, assets, mode){
+    stresstestWithPositions = function(portfolio, assets, mode, p = {}){
         var cts = {}
 
         var promises = []
@@ -623,24 +625,33 @@ class PCT {
             [portfolio.id] : portfolio
         }
 
+        if(!p.name) p.name = "Editing portfolio"
+
         var aportfolio = new Portfolio({
-            name : "Editing portfolio",
+            name : p.name,
             id : -1,
 
             tempportfolio : true
         })
 
+        var term = null
+
+        if(p.term)
+            _.each(assets, (asset) => {
+                if(asset.term) term = asset.term
+            })
+
         aportfolio.positions = _.clone(assets)
 
         portfolios[aportfolio.id] = aportfolio
 
-        promises.push(this.stresstest(portfolio.id).then((r) => {
+        promises.push(this.stresstest(portfolio.id, {term}).then((r) => {
             cts[portfolio.id] = r
 
             return Promise.resolve()
         }))
 
-        promises.push(this.stresstestPositions(aportfolio.positions).then((r) => {
+        promises.push(this.stresstestPositions(aportfolio.positions, {term}).then((r) => {
             cts[aportfolio.id] = r
 
             return Promise.resolve()
@@ -658,7 +669,7 @@ class PCT {
         })
     }
 
-    stresstestWithPositionsSplit = function(portfolio, assets, mode){
+    stresstestWithPositionsSplit = function(portfolio, assets, mode, p = {}){
 
         var cts = {}
 
@@ -685,7 +696,7 @@ class PCT {
 
         aportfolio.name = '+ ' + _.reduce(assets, (m, asset) => {
 
-            if(asset.term) term = asset.term
+            if(asset.term && p.term) term = asset.term
 
             //var v = f.values.format(this.core.user.locale, 'd', asset.value)
 
@@ -751,6 +762,8 @@ class PCT {
     }
 
     stresstestPositions = function(positions, p = {}){
+
+        console.log('stresstestPositions', p)
 
         var data = {
             portfolioId : -1,

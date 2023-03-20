@@ -63,6 +63,8 @@ export default {
         lead_page : () => import("@/views/lead.vue"),
         portfolios_main : () => import("@/components/modules/app/portfolios/main/index.vue"),
         portfolio_summary : () => import("@/components/modules/app/portfolio/summary/index.vue"),
+        portfolio_ltrdetails: () => import("@/components/modules/app/portfolio/crashtest/ltrdetails/index.vue"),
+
         //clients : () => import("@/components/modules/app/clients/index.vue"),
         contacts : () => import("@/components/modules/app/contacts/index.vue"),
         filesystem_edit : () => import("@/components/common/filesystem/edit/index.vue"),
@@ -88,6 +90,8 @@ export default {
         scenario_custom: () => import("@/components/modules/app/scenarios/custom/index.vue"),
         scenario_allfactors: () => import("@/components/modules/app/scenarios/allfactors/index.vue"),
         scenarios_savecustom: () => import("@/components/modules/app/scenarios/savecustom/index.vue"),
+        optimization_settings: () => import("@/components/modules/app/portfolio/optimization/settings/index.vue"),
+
         export: () => import("@/components/common/export/index.vue"),
 
         //// campaigns

@@ -1,8 +1,8 @@
 <template>
 <div id="portfolio_crashtest_scenariodetails">
-	<div class="losswrapper">
+	<!--<div class="losswrapper">
 		<portfoliovalue :value="scenario.loss" :portfolio="portfolio" :p100="true" colored="true" />
-	</div>
+	</div>-->
 
 	<linepreloader v-if="!info" />
 	

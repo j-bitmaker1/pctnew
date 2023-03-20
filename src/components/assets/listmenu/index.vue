@@ -3,10 +3,12 @@
     <list :items="items" @click="click">
         <template v-slot:default="slotProps">
 
-            <div class="menuitem" :title="$t(slotProps.item.text)" :class="slotProps.item.class || ''">
+            <div class="menuitem"  :title="$t(slotProps.item.text)" :class="slotProps.item.class || ''">
                 <i :class="slotProps.item.icon" />
                 <span>{{$t(slotProps.item.text)}}</span>
             </div>
+
+            <!-- v-tooltip="$t(slotProps.item.text)" -->
 
         </template>
     </list>

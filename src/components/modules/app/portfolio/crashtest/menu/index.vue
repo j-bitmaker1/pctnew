@@ -32,7 +32,9 @@ export default {
             default: 'diconbutton'
         },
 
-        ext : Boolean
+        ext : Boolean,
+
+        portfolios : Object
     },
     computed: mapState({
         auth: state => state.auth,
@@ -51,6 +53,12 @@ export default {
                     icon: 'fas fa-star',
                     action: this.scoreConverter
                 },
+
+                /*{
+                    text: 'labels.ltrdetails',
+                    icon: 'fas fa-info',
+                    action: this.ltrdetails
+                },*/
             
             ]
         }
@@ -58,6 +66,11 @@ export default {
     }),
 
     methods: {
+
+        ltrdetails : function(){
+            this.core.vueapi.portfolioLtrdetails({portfolios : this.portfolios})
+        },
+
         scenarioManager: function () {
 
             this.core.activity.template('action', this.core.activity.actions.scenarioManager())
