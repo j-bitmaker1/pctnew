@@ -32,6 +32,7 @@ export default {
 			assets : [],
 			hash : '',
 			name : '',
+			advisorFee : 0,
 			aggregation : null,
 			focused : false,
 			isModel : false,
@@ -160,7 +161,7 @@ export default {
 
 		datahash : function(){
 
-			return sha1(this.name + JSON.stringify(_.map(this.assets, (asset) => {
+			return sha1(this.name + this.advisorFee + JSON.stringify(_.map(this.assets, (asset) => {
 				return {
 					ticker : asset.ticker,
 					value : asset.value
@@ -341,6 +342,9 @@ export default {
 		changename : function(e){
 			this.name = e.target.value
 		},
+		changefee : function(e){
+			this.advisorFee = e.target.value / 100
+		},
 		joinassets : function(assets){
 			var jg = {}
 
@@ -482,6 +486,7 @@ export default {
 			var data = {
 				name : this.name,
 				positions,
+				advisorFee : this.advisorFee,
 				isModel : this.isModel,
 				... this.payload || {}
 			}
@@ -657,6 +662,8 @@ export default {
 		ini : function(){
 			var donor = this.edit || this.from
 
+			console.log('donor', donor)
+
 			if (donor){
 				this.assets = []
 				
@@ -666,6 +673,7 @@ export default {
 
 				this.name = donor.name
 				this.isModel = donor.isModel
+				this.advisorFee = donor.advisorFee
 			}
 
 			this.hash = this.datahash()

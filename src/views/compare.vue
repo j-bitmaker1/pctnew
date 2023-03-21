@@ -86,12 +86,15 @@ import linenavigation from "@/components/assets/linenavigation/index.vue";
 import stress from '@/components/modules/app/compare/stress/index.vue'
 import allocation from '@/components/modules/app/compare/allocation/index.vue'
 import distribution from '@/components/modules/app/compare/distribution/index.vue'
+import retrospective from '@/components/modules/app/compare/retrospective/index.vue'
+
+
 
 import { mapState } from 'vuex';
 export default {
 	name: 'compare_page',
 	components: {
-		stress, linenavigation, distribution, allocation
+		stress, linenavigation, distribution, allocation, retrospective
 	},
 
 	computed: {
@@ -140,7 +143,12 @@ export default {
 				{
 					text : 'labels.distribution',
 					id : 'distribution'
-				}
+				},
+				/*{
+					text : 'labels.retrospective',
+					id : 'retrospective'
+				}*/
+				
 			],
 			navdefault : 'stress',
 			navkey : 'c',

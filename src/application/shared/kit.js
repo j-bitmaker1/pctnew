@@ -65,7 +65,8 @@ class Portfolio {
         'readOnly',
         'status',
         'updated',
-        'userId'
+        'userId',
+        'advisorFee'
     ]
 
     constructor(data = {}) {
@@ -73,6 +74,8 @@ class Portfolio {
         _.each(data, (v, i) => {
             this[i] = v
         })
+
+        if(!this.advisorFee) this.advisorFee = 0
 
     }
 
@@ -119,6 +122,12 @@ class Portfolio {
         })
 
         return new Portfolio(data)
+    }
+
+    has = function(ticker) {
+        return _.find(this.positions, (asset) => {
+            return asset.ticker == ticker
+        }) ? true : false
     }
 }
 

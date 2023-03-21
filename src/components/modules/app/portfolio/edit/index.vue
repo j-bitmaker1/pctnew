@@ -5,6 +5,11 @@
 		<input placeholder="Portfolio name" ref="inputname" @keyup="changename" :value="name"/>
 	</div>
 
+	<div class="advisorFeeWrapper">
+		<label>Advisor fee, %</label>
+		<input placeholder="0" ref="inputfee" type="number" @keyup="changefee" :value="advisorFee * 100"/>
+	</div>
+
 	<div class="addwrapper" v-if="!aggregation">
 
 		<button class="button" key="addasset" @click="addasset">

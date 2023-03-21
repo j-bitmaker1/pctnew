@@ -54,11 +54,11 @@ export default {
                     action: this.scoreConverter
                 },
 
-                /*{
+                {
                     text: 'labels.ltrdetails',
                     icon: 'fas fa-info',
                     action: this.ltrdetails
-                },*/
+                },
             
             ]
         }

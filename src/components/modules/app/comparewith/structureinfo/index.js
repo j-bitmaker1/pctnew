@@ -1,4 +1,5 @@
 import { mapState } from 'vuex';
+import infotable from '../infotable/index.vue'
 
 export default {
     name: 'comparewith_structureinfo',
@@ -6,6 +7,9 @@ export default {
         annuity : Object,
         weight : Number,
         mode : String
+    },
+    components : {
+        infotable
     },
 
     data : function(){

@@ -3,7 +3,7 @@ import App from '@/App.vue'
 import './registerServiceWorker'
 
 require('babel-polyfill')
-
+window.$ = window.jQuery = require('jquery');
 
 var deviceready = function(clbk){
 

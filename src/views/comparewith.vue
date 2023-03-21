@@ -19,15 +19,16 @@
 					<div class="namerow" @click="addportfolio">
 						<div class="nameB" >
 							<template v-if="portfolio">
-								<span>{{portfolio.name}}</span>
-								<value :value="portfolio.total()" :mode="portfolio.isModel ? 'p100' : 'd'" />
-								<div class="selectionpanel">
-									<i class="fas fa-search"></i>
-								</div>
+								<span>{{portfolio.name}}</span> &middot; <value :value="portfolio.total()" :mode="portfolio.isModel ? 'p100' : 'd'" />
+								
 							</template>
 							<template v-else>
 								<span>Select portfolio</span>
 							</template>
+
+							<div class="selectionpanel">
+								<i class="fas fa-search"></i>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -38,9 +39,7 @@
 							<template v-if="structure">
 								<span>{{structure.name}}</span>
 								
-								<div class="selectionpanel">
-									<i class="fas fa-search"></i>
-								</div>
+								
 							</template>
 							<template v-else>
 								<span>Select Structured Product</span>
@@ -55,21 +54,22 @@
 								<span v-if="valuemode != 'd'">%</span>
 							</div>
 						</div>
+
+						<div class="selectionpanel" @click="addannuity">
+							<i class="fas fa-search"></i>
+						</div>
 					</div>
 				</div>
 				
             </div>
 
-			<!--<div class="portfolioInfoWrapper" v-if="portfolio">
-				<span>{{portfolio.name}}</span>
-				<value :value="portfolio.total()" :mode="portfolio.isModel ? 'p100' : 'd'" />
-			</div>-->
+			<div class="portfolioInfoWrapper" v-if="portfolio">
+				<portfolioinfo :portfolio="portfolio"/>
+			</div>
 
 			<div class="structureInfoWrapper" v-if="structure">
 				<structureinfo :annuity="structure" :weight="Number(weight) || defaultAnnuityValue" :mode="valuemode"/>
 			</div>
-
-		
 
 			<div class="componentWrapper" v-if="portfolio && structure">
 				<component :is="module" :portfolio="portfolio" type="split" :mode="valuemode" :assets="[annuityWeighted]"/>
@@ -98,6 +98,7 @@
 </template>
 
 <style scoped lang="sass">
+.portfolioInfoWrapper,
 .structureInfoWrapper
 	padding-bottom: 2 * $r
 	margin-top: 2 * $r
@@ -142,12 +143,13 @@
 			justify-content: left
 
 		.inputwrapper
+			margin-right: 4 * $r
 			position: relative
 			.vicon
 				position: absolute
 				top : 0
 				bottom : 0
-				right: 0
+				left: $r
 				display: flex
 				align-items: center
 				padding : 0 $r
@@ -157,6 +159,8 @@
 			text-align: center
 			height: 38px
 			background: srgb(--neutral-grad-1)
+			width: 110px
+			font-size: 0.9em
 		
 
 	.nameB
@@ -165,7 +169,6 @@
 		max-width: 80%
 		overflow: hidden
 		text-overflow: ellipsis
-		display: flex
 		grid-gap: $r
 
 		span
@@ -197,6 +200,24 @@
 			&:hover
 				color : srgb(--neutral-grad-2)
 
+::v-deep
+	.panelWrapper
+		display: flex
+		align-items: center
+		padding : 2 * $r
+
+		.einfo
+			margin-left: $r
+
+		.value
+			margin-left: $r
+
+		span,
+		input
+			font-size: 1.2em
+			padding : 0
+
+
 @media only screen and (max-width: 768px)
 	.selectors
 		flex-wrap: wrap
@@ -210,6 +231,7 @@ import linenavigation from "@/components/assets/linenavigation/index.vue";
 //import distribution from '@/components/modules/app/compare/distribution/index.vue'
 
 import structureinfo from '@/components/modules/app/comparewith/structureinfo/index.vue'
+import portfolioinfo from '@/components/modules/app/comparewith/portfolioinfo/index.vue'
 import stress from '@/components/modules/app/comparewith/stress/index.vue'
 
 
@@ -219,8 +241,8 @@ export default {
 	components: {
 		stress, 
 		linenavigation, 
-		//distribution,
-		structureinfo
+		structureinfo,
+		portfolioinfo
 	},
 
 	computed: {
@@ -299,6 +321,9 @@ export default {
 						this.saveactivity()
 					})
 				}
+				else{
+					this.portfolio = null
+				}
 			}
 		},
 
@@ -313,6 +338,8 @@ export default {
 						this.saveactivity()
 					})
 				}
+				else
+					this.structure = null
 			}
 		},
 		w : {

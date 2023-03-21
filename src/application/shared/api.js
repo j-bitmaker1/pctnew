@@ -1299,10 +1299,12 @@ var ApiWrapper = function (core = {}) {
 				if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
 				p.storageparameters = dbmeta.stress()
-				p.storageparameters.invalidate = {
-					index: data.portfolioId,
-					type: 'portfolio'
-				}
+
+				if (data.portfolioId > 0)
+					p.storageparameters.invalidate = {
+						index: data.portfolioId,
+						type: 'portfolio'
+					}
 
 				return request(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
 
@@ -1314,13 +1316,43 @@ var ApiWrapper = function (core = {}) {
 				})
 			},
 
+			ltrdetails: function (data, p = {}) {
+
+				console.log('data', data)
+
+				//if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
+
+				p.storageparameters = dbmeta.stress()
+
+
+				if (data.portfolioId > 0)
+					p.storageparameters.invalidate = {
+						index: data.portfolioId,
+						type: 'portfolio'
+					}
+
+				return request(data, 'pctapi', 'Assets/GetLtrCalculation', p).then((r) => {
+
+					console.log("R", r)
+
+					r = f.deep(r, 'records')
+
+					if (!r) return Promise.reject({ error: 'empty result' })
+
+					return Promise.resolve(r)
+				})
+			},
+
 			customtestScenarios : function({portfolio, scenarios}, p = {}){
 
 				p.storageparameters = dbmeta.stress()
-				p.storageparameters.invalidate = {
-					index: portfolio.id,
-					type: 'portfolio'
-				}
+
+				if (portfolio.id > 0)
+
+					p.storageparameters.invalidate = {
+						index: portfolio.id,
+						type: 'portfolio'
+					}
 
 				return request({
 					portfolioId : portfolio.id,
@@ -1339,10 +1371,12 @@ var ApiWrapper = function (core = {}) {
 			customtest : function({portfolio, factors}, p = {}){
 
 				p.storageparameters = dbmeta.stress()
-				p.storageparameters.invalidate = {
-					index: portfolio.id,
-					type: 'portfolio'
-				}
+
+				if (portfolio.id > 0)
+					p.storageparameters.invalidate = {
+						index: portfolio.id,
+						type: 'portfolio'
+					}
 
 				return request({
 					portfolioId : portfolio.id,
@@ -1373,10 +1407,12 @@ var ApiWrapper = function (core = {}) {
 				//data.onlyKeyScenarios = true
 
 				p.storageparameters = dbmeta.stress()
-				p.storageparameters.invalidate = {
-					index: data.portfolioId,
-					type: 'portfolio'
-				}
+
+				if (data.portfolioId > 0)
+					p.storageparameters.invalidate = {
+						index: data.portfolioId,
+						type: 'portfolio'
+					}
 
 				return request(data, 'pctapi', 'StressTest/GetStressTest', p).then((r) => {
 

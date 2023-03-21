@@ -113,7 +113,9 @@ export default {
 
 			this.loading = true
 
-			this.core.pct.stresstest(this.portfolio.id).then(r => {
+			this.core.pct.stresstest(this.portfolio.id, { fee : asset => {
+				return this.portfolio.advisorFee || 0
+			}}).then(r => {
 				this.cts = this.core.pct.composeCTS({[this.portfolio.id] : r}, this.portfolio.total())
 
 				this.ct = this.cts.cts[this.portfolio.id]

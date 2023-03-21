@@ -327,6 +327,39 @@ class PCT {
         return r
     }
 
+    parseLtrDetails = function(r){
+        var d = {}
+
+        _.each(r, (a) => {
+
+            if (d[a.id]){
+                d[a.id].weight += parseFloat(a.weight.replace(/[,]/g,''))
+            }
+            else{
+                d[a.id] = {
+                    country : a.country,
+                    expRatio : parseFloat(a.expRatio) / 100,
+                    ticker : a.id,
+                    lclbeta : parseFloat(a.lclbeta) / 100,
+                    lclidx : parseFloat(a.lclidx) / 100,
+                    ltr : parseFloat(a.ltr) / 100,
+                    yield : parseFloat(a.yield) / 100,
+                    weight : parseFloat(a.weight.replace(/[,]/g,'')),
+
+                    margin_spread : parseFloat(a.margin_spread) / 100,
+                    stepup_rate : parseFloat(a.stepup_rate) / 100,
+                    upside_max : parseFloat(a.upside_max) / 100,
+                    enhancement : parseFloat(a.enhancement) / 100
+
+                }
+            }
+
+            
+        })
+
+        return d
+    }
+
     parseStressTest = function(ct, p = {}){
 
 
@@ -510,12 +543,20 @@ class PCT {
         if (total) maxAbs = maxAbs / total
 
         else maxAbs = 0
+
+        
         
         _.each(cts, (c, i) => {
 
             var portfolio = portfolios[i]
 
-            common.cts[i] = this.ctRelative(c, portfolio && portfolio.isModel ? portfolio.total() : (mode == 'p' && portfolio ? portfolio.total() : total))
+            var percentedValue = (portfolio && portfolio.isModel) || (mode == 'p' && portfolio)
+            
+            var value = percentedValue ? portfolio.total() : total
+
+            common.cts[i] = this.ctRelative(c, value)
+            
+            //this.ctRelative(c, portfolio && portfolio.isModel ? portfolio.total() : (mode == 'p' && portfolio ? portfolio.total() : total))
 
 
             _.each(common.cts[i].scenarios, (scenario) => {
@@ -574,6 +615,7 @@ class PCT {
         var term = null
 
         if(!p.names) p.names = []
+        if(!p.fee) p.fee = []
 
         _.each(assetsLists, (assets, i) => {
 
@@ -594,7 +636,7 @@ class PCT {
 
             portfolios[aportfolio.id] = aportfolio
 
-            promises.push(this.stresstestPositions(aportfolio.positions, {term}).then((r) => {
+            promises.push(this.stresstestPositions(aportfolio.positions, {term, fee : p.fee[i]}).then((r) => {
                 cts[aportfolio.id] = r
     
                 return Promise.resolve()
@@ -616,7 +658,50 @@ class PCT {
         })
     }
 
-    correctTermLTR = function(portfolio, ct = {}, term = ''){
+    totalPositions = function(positions){
+        return _.reduce(positions, (m, p) => {
+
+            return (p.isCovered || p.external || p.annuity_type) ? m + p.value : m
+
+        }, 0)
+    }
+
+    calculateLoss = function(ltr, term, fee = 0, serverAlternative, positions){
+
+        var total = this.totalPositions(positions)
+
+        //console.log('total', total, positions, ltr, fee)
+
+        //if (annuity.Margin_spread > 0) ttlLTR = ttlLTR - annuity.Margin_spread * 100;
+        //if (annuity.upside_max != 0 && ttlLTR > annuity.upside_max * 100) ttlLTR = annuity.upside_max * 100; // Upper limit
+        //if (annuity.enhancement != 0) ttlLTR = ttlLTR * annuity.enhancement;
+        //if (annuity.stepup_rate != 0 && ttlLTR > 0 && ttlLTR < annuity.stepup_rate) ttlLTR = annuity.stepup_rate; // Step Up  initially in %
+        
+        if (ltr){
+            return _.reduce(ltr, (m, asset) => {
+
+                console.log('fee(asset)', fee(asset), asset.ticker)
+
+                var p = (Math.pow(1 + (asset.ltr || asset.lclidx) + asset.yield - (fee ? fee(asset) || 0 : 0) - asset.expRatio, term) - 1)
+
+                if(asset.margin_spread) p = p - asset.margin_spread
+                if(asset.upside_max && p > asset.upside_max) p = asset.upside_max
+                if(asset.enhancement > 0) p = p * asset.enhancement
+                if(asset.stepup_rate > 0 && p > 0 && p < asset.stepup_rate) p = asset.stepup_rate
+                
+                return m + asset.weight * p
+    
+            }, 0)
+        }
+
+        if ((term && term > 1) || fee){
+            return total * (Math.pow(1 + serverAlternative / total - (fee ? fee() || 0 : 0), term) - 1)
+        }
+        
+        return serverAlternative
+    }
+
+    correctTermLTR = function(ct = {}, term = '', ltr = null, fee, positions){
         
 
         var rct = JSON.parse(JSON.stringify(ct));
@@ -625,15 +710,20 @@ class PCT {
             return scenario.id == -1
         })
 
-        if (scenario && term){
+        if(!term) term = '1Y'
+
+        if (scenario){
             var t = Number(term.replace("Y", ''))
-            var total = portfolio.total()
+            //var total = portfolio.total()
 
-            console.log(scenario.loss, total, t)
-
-            scenario.loss = total * (Math.pow(1 + scenario.loss / total, t) - 1)
+            //scenario.loss = total * (Math.pow(1 + scenario.loss / total, t) - 1)
             scenario.term = 6
-            scenario.name = scenario.name + ' / Term: '+term+' years' 
+            scenario.name = 'Long Term Return' + (t > 1 ? ' ('+t+' years)' : '') 
+
+            scenario.loss = this.calculateLoss(ltr, t, fee, scenario.loss, positions)
+            
+            //this.calculateLoss(ltr, t, fee)
+
 
             return rct
             
@@ -641,6 +731,9 @@ class PCT {
 
         return ct
     }
+
+
+    /* */
 
     stresstestWithPositions = function(portfolio, assets, mode, p = {}){
         var cts = {}
@@ -671,15 +764,25 @@ class PCT {
 
         portfolios[aportfolio.id] = aportfolio
 
-        promises.push(this.stresstest(portfolio.id, {term}).then((r) => {
+        promises.push(this.stresstest(portfolio.id, {
+
+            term,  
+            fee : p.fee || null
+
+        }).then((r) => {
             
-            cts[portfolio.id] = p.term ? this.correctTermLTR(portfolio, r, term) : r
+            cts[portfolio.id] = r
 
             return Promise.resolve()
         }))
 
-        promises.push(this.stresstestPositions(aportfolio.positions, {term}).then((r) => {
-            cts[aportfolio.id] = p.term ? this.correctTermLTR(aportfolio, r, term) : r
+        promises.push(this.stresstestPositions(aportfolio.positions, {
+
+            term,  
+            fee : p.fee || null
+
+        } ).then((r) => {
+            cts[aportfolio.id] = r
 
             return Promise.resolve()
         }))
@@ -734,16 +837,21 @@ class PCT {
         portfolios[aportfolio.id] = aportfolio
 
 
-        promises.push(this.stresstest(portfolio.id, {term}).then((r) => {
-            //cts[portfolio.id] = r
+        promises.push(this.stresstest(portfolio.id, {
+            term,  
+            fee : p.fee || null
+        }).then((r) => {
 
-            cts[portfolio.id] = p.term ? this.correctTermLTR(portfolio, r, term) : r
+            cts[portfolio.id] = r
 
             return Promise.resolve()
         }))
 
-        promises.push(this.stresstestPortfolio(aportfolio, {term}).then((r) => {
-            cts[aportfolio.id] =  p.term ? this.correctTermLTR(aportfolio, r, term) : r
+        promises.push(this.stresstestPortfolio(aportfolio, {
+            term, 
+            fee : p.fee || null
+        }).then((r) => {
+            cts[aportfolio.id] =  r
 
             return Promise.resolve()
         }))
@@ -763,13 +871,7 @@ class PCT {
       
     }
 
-    customstresstest = function(data, p = {}){
-
-        return this.api.pctapi.stress.customtest(data, p).then(r => {
-            return Promise.resolve(this.parseStressTest(r))
-        })
-
-    }
+    
 
     stresstestPortfolio = function(portfolio, p = {}){
 
@@ -782,7 +884,8 @@ class PCT {
                 return {
                     name : asset.name,
                     ticker : asset.ticker,
-                    value : asset.value
+                    value : asset.value,
+                    annuity_type : asset.annuity_type
                 }
             } )
         }
@@ -792,8 +895,6 @@ class PCT {
 
     stresstestPositions = function(positions, p = {}){
 
-        console.log('stresstestPositions', p)
-
         var data = {
             portfolioId : -1,
             
@@ -802,7 +903,9 @@ class PCT {
                 return {
                     name : asset.name || asset.ticker,
                     ticker : asset.ticker,
-                    value : asset.value
+                    value : asset.value,
+                    isCovered : asset.isCovered,
+                    annuity_type : asset.annuity_type
                 }
             }), (a) => {
                 return a.name
@@ -810,16 +913,6 @@ class PCT {
         }
 
         return this.stresstestdt(data, p)
-    }
-
-    stresstest = function(id, p = {}){
-
-        var data = {
-            portfolioId : id
-        }
-
-        return this.stresstestdt(data, p)
-
     }
 
     stresstestdt = function(data, p = {}){
@@ -836,6 +929,52 @@ class PCT {
             return this.api.pctapi.stress.test(data, p)
         }).then(r => {
             return Promise.resolve(this.parseStressTest(r, p))
+        }).then(r => {
+
+            if(p.term || p.fee){
+
+                return (p.term ? this.ltrdetails(data) : Promise.resolve(null)).then((ltr) => {
+
+                    return this.getpositions(data).then((positions) => {
+                        return Promise.resolve(this.correctTermLTR(r, p.term, ltr, p.fee, positions))
+                    })
+                    
+                })
+
+            }
+
+            return Promise.resolve(r)
+        })
+
+    }
+
+    stresstest = function(id, p = {}){
+
+        var data = {
+            portfolioId : id
+        }
+
+        return this.stresstestdt(data, p)
+
+    }
+
+    getpositions = function(data){
+
+        console.log('getp', data)
+
+        return data.portfolioId && data.portfolioId > 0 ? this.api.pctapi.portfolios.get(data.portfolioId).then((portfolio) => {
+
+            return portfolio.positions
+
+        }) : Promise.resolve([]).then((r) => {
+            return [].concat(data.positions || [], r)
+        })
+    }
+
+    customstresstest = function(data, p = {}){
+
+        return this.api.pctapi.stress.customtest(data, p).then(r => {
+            return Promise.resolve(this.parseStressTest(r))
         })
 
     }
@@ -953,6 +1092,16 @@ class PCT {
             return Promise.reject(e)
         })
 
+    }
+
+    ltrdetails = function(data = {}){
+        /*var data = {
+            portfolioId : id
+        }*/
+
+        return this.api.pctapi.stress.ltrdetails(data).then(r => {
+            return Promise.resolve(this.parseLtrDetails(r))
+        })
     }
 
     standartDeviation = function(id){

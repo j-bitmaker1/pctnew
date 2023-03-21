@@ -130,35 +130,6 @@ export default {
             this.load()
         },  
 
-        getassetslistsIncludeMode : function(){
-            var list = [this.portfolio.positions]
-           
-            var total = this.portfolio.total()
-            var sum = _.reduce(this.assets, (m, v) => {return m + v.value}, 0)
-
-            if (total <= sum){
-                list.push(this.assets)
-                return list
-            }
-
-            var d = total - sum
-
-            var portfolioPositions = _.map(this.portfolio.positions, (asset) => {
-                var a = _.clone(asset)
-
-                a.value = a.value * (d / total)
-
-                return a
-            })
-
-            portfolioPositions = portfolioPositions.concat(this.assets)
-
-            console.log('portfolioPositions' , portfolioPositions)
-
-            list.push(portfolioPositions)
-
-            return list
-        },
 
         load : function(){
 
@@ -168,22 +139,32 @@ export default {
 
             var sc = 'stresstestWithPositions'
 
-            if(this.type == 'split') {
+            if (this.type == 'split' && this.includemode != 'i') {
                 sc = 'stresstestWithPositionsSplit'
-
-                if(this.includemode == 'i'){
-
-                    sc = 'stresstestWithPositions'
-
-                    /*promise = this.core.pct.stresstestPositionsList(this.getassetslistsIncludeMode(), this.valuemodecomposed, {
-                        names : [this.portfolio.name]
-                    })*/
-                }
             }   
 
 
             if(!promise)
-                promise = this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed, {term : true, name : this.assets[0]? this.assets[0].name : ''})
+                promise = this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed, {
+                    term : true, 
+                    name : this.assets[0] ? this.assets[0].name : '',
+                    
+                    fee : (asset) => {
+
+                        if(!asset){
+                            return this.portfolio.advisorFee
+                        }
+
+                        if (this.portfolio.has(asset.ticker) || this.type != 'split'){
+                            return this.portfolio.advisorFee
+                        }
+                        
+                        return 0
+                    }
+                    
+                    //fee : true,
+                    //feeValue : this.type == 'split' ? 0 : this.portfolio.advisorFee
+                })
 
             if (promise && promise.then){
 

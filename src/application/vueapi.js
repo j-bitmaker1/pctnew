@@ -193,7 +193,8 @@ class Vueapi {
                 edit : {
                     name : portfolio.name,
                     assets : portfolio.positions,
-                    id : portfolio.id
+                    id : portfolio.id,
+                    advisorFee : portfolio.advisorFee
                 }
             },
     
@@ -342,6 +343,7 @@ class Vueapi {
             module : "portfolio_ltrdetails",
             caption : "Long Term Return Calculation Details",
             data : data,
+            mclass : 'big',
             events : {
             }
         })
