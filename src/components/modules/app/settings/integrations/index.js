@@ -6,7 +6,7 @@ export default {
 
     data: function () {
         return {
-            loading: false,
+            loading: true,
             integrations: [],
         };
     },
@@ -14,9 +14,14 @@ export default {
     created: () => {},
 
     mounted() {
-        this.core.api.pct.integrations.get().then((data) => {
-            this.integrations = [...data];
-        });
+        this.core.api.pct.integrations
+            .get()
+            .then((data = []) => {
+                this.integrations = [...data];
+            })
+            .finally(() => {
+                this.loading = false;
+            });
     },
 
     watch: {
@@ -27,21 +32,27 @@ export default {
     }),
 
     methods: {
-        add: function () {
-            this.core.vueapi.integrationsAdd((addedIntegration) => {
-                const existingIntegration = this.integrations.findIndex(
-                    (integration) => integration.Name === addedIntegration.Name,
-                );
+        add: function (oldName = '') {
+            this.core.vueapi.integrationsAdd(
+                (addedIntegration) => {
+                    const existingIntegration = this.integrations.findIndex(
+                        (integration) =>
+                            integration.Name === addedIntegration.Name,
+                    );
 
-                if (existingIntegration > -1) {
-                    this.integrations.splice(existingIntegration, 1, {
-                        ...addedIntegration,
-                    });
-                    return;
-                }
+                    if (existingIntegration > -1) {
+                        this.integrations.splice(existingIntegration, 1, {
+                            ...addedIntegration,
+                        });
+                        return;
+                    }
 
-                this.integrations.push({ ...addedIntegration });
-            });
+                    this.integrations.push({ ...addedIntegration });
+                },
+                {
+                    oldName,
+                },
+            );
         },
 
         integrationTextByType(type) {

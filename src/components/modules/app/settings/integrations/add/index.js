@@ -2,7 +2,9 @@ import { mapState } from 'vuex';
 
 export default {
     name: 'settings_integrations_add',
-    props: {},
+    // props: {
+    //     oldName: String,
+    // },
 
     data: function () {
         return {
@@ -12,7 +14,9 @@ export default {
         };
     },
 
-    created: () => {},
+    created: () => {
+        
+    },
 
     watch: {
         //$route: 'getdata'
@@ -45,16 +49,19 @@ export default {
 
     methods: {
         input: function (v) {
-            this.values = v;
+            this.values = { ...v };
         },
 
         inputType: function (v) {
+            debugger;
             this.type = v.type;
+            // this.$refs.fields.fields = [];
             this.values = {};
         },
 
         save: function () {
             this.values = this.$refs.fields.get();
+            // console.log(this.values, this.type, inputValues);
             debugger;
             this.core.api.pct.integrations
                 .addOrEdit({
