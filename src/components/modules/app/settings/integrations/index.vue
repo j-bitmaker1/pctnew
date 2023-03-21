@@ -42,7 +42,7 @@
         </div>
 
         <div class="savePanel left">
-            <button class="button" @click="add">
+            <button class="button" @click="() => add()">
                 New Connection <i class="fas fa-plus"></i>
             </button>
         </div>

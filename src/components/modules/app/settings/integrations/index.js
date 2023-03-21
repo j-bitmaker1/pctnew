@@ -33,8 +33,16 @@ export default {
 
     methods: {
         add: function (oldName = '') {
+            const editedIntegration = oldName
+                ? this.integrations.find((int) => int.Name === oldName)
+                : null;
+
             this.core.vueapi.integrationsAdd(
                 (addedIntegration) => {
+                    if (!addedIntegration.OldName) {
+                        return this.integrations.push({ ...addedIntegration });
+                    }
+
                     const existingIntegration = this.integrations.findIndex(
                         (integration) =>
                             integration.Name === addedIntegration.Name,
@@ -46,11 +54,10 @@ export default {
                         });
                         return;
                     }
-
-                    this.integrations.push({ ...addedIntegration });
                 },
                 {
                     oldName,
+                    editedIntegration,
                 },
             );
         },
@@ -66,7 +73,7 @@ export default {
                 {
                     text: 'integrations.editIntegration',
                     icon: 'fas fa-pen',
-                    action: () => {},
+                    action: () => this.add(name),
                 },
                 {
                     text: 'integrations.removeIntegration',
