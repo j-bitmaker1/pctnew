@@ -17,13 +17,12 @@
                         <!-- <div class="header"></div> -->
                         <div class="textcontent">
                             <div class="textfield type">
-                                <span
-                                    >{{
-                                        integrationTextByType(
-                                            slotProps.item.Type,
-                                        )
-                                    }}: {{ slotProps.item.Name }}</span
-                                >
+                                <span>{{
+                                    integrationTextByType(slotProps.item.Type)
+                                }}</span>
+                            </div>
+                            <div class="textfield customname">
+                                <span>{{ slotProps.item.Name }}</span>
                             </div>
                         </div>
                         <div class="listmenubutton">

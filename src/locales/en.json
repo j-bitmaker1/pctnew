@@ -156,8 +156,8 @@
 		"scenarioDefinitions" : "Scenario Definitions",
 		"optimizationSettings" : "Optimization settings",
 		"structured" : "Structured",
-		"assets" : "Assets"
-
+		"assets" : "Assets",
+		"refreshintegration" : "Refresh Integration Info"
 	},
 
 	"caption" : {

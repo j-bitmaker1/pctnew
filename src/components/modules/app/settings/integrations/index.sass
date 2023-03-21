@@ -8,7 +8,7 @@
 .listintegrations
     display: flex
     flex-direction: column
-    align-items: flex-start
+    align-items: stretch
 
 .panel
     display: flex
@@ -21,9 +21,22 @@
 
     display: flex
     justify-content: space-between
+    align-items: center
 
 .textcontent
     cursor: pointer
+
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    justify-content: space-evenly
+
+.customname 
+    font-size: 1.5 * $r
+    font-weight: normal
+
+.type
+    font-weight: bold
 
 .textfield
     text-overflow: ellipsis
@@ -31,7 +44,6 @@
     overflow: hidden
     white-space: nowrap
 
-    font-weight: bold
     color: whitesmoke
 
 .menubutton.button.ghost
@@ -39,6 +51,8 @@
     color: whitesmoke
 
     border: 0
+
+    min-width: 20px
 
 .AMERITRADE
     background-color: #04B229
@@ -63,7 +77,6 @@
 
 .SCHWAB
     background-color: #229DDC
-
 
 @media only screen and (max-width: 768px)
     .textfield

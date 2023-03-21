@@ -405,6 +405,14 @@ export default {
 
 			}
 
+			if (this.current.attributes.isIntegration) {
+				menu.push({
+					text : 'labels.refreshintegration',
+					icon : 'fas fa-redo-alt',
+					action : () => {},
+				})
+			}
+
 			this.core.vueapi.listmenu(menu)
 		}
 	},
