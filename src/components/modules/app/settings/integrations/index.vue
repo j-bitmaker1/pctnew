@@ -15,29 +15,26 @@
                         }"
                     >
                         <!-- <div class="header"></div> -->
-                        <div
-                            class="body"
-                            @click="() => add(slotProps.item.Name)"
-                        >
-                            <div class="textcontent">
-                                <div class="textfield type">
-                                    <span
-                                        >{{
-                                            integrationTextByType(
-                                                slotProps.item.Type,
-                                            )
-                                        }}: {{ slotProps.item.Name }}</span
-                                    >
-                                </div>
-                            </div>
-                            <!-- <div class="removebutton">
-                                <button
-                                    class="button"
-                                    @click="() => remove(slotProps.item.Name)"
+                        <div class="textcontent">
+                            <div class="textfield type">
+                                <span
+                                    >{{
+                                        integrationTextByType(
+                                            slotProps.item.Type,
+                                        )
+                                    }}: {{ slotProps.item.Name }}</span
                                 >
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div> -->
+                            </div>
+                        </div>
+                        <div class="listmenubutton">
+                            <button
+                                class="button ghost menubutton"
+                                @click="
+                                    () => editIntegration(slotProps.item.Name)
+                                "
+                            >
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
                         </div>
                     </div>
                 </template>

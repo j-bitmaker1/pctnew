@@ -61,7 +61,26 @@ export default {
             ).text;
         },
 
+        editIntegration(name) {
+            const items = [
+                {
+                    text: 'integrations.editIntegration',
+                    icon: 'fas fa-pen',
+                    action: () => {},
+                },
+                {
+                    text: 'integrations.removeIntegration',
+                    icon: 'fas fa-times-circle',
+                    action: () => this.remove(name),
+                },
+            ];
+
+            this.core.vueapi.listmenu(items);
+        },
+
         remove: function (Name) {
+            this.loading = true;
+
             this.core.api.pct.integrations
                 .remove({
                     Name,
@@ -78,6 +97,9 @@ export default {
                         icon: 'error',
                         message: e.text,
                     });
+                })
+                .finally(() => {
+                    this.loading = false;
                 });
         },
     },

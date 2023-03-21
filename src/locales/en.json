@@ -636,6 +636,11 @@
 		}
 	},
 
+	"integrations" : {
+		"editIntegration": "Edit Integration",
+		"removeIntegration": "Remove Integration"
+	},
+
 
 
 	"ltrdetails" : {
