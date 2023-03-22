@@ -21,6 +21,7 @@
         display: flex
         align-items: center
         grid-gap: $r
+        flex-wrap: wrap
 
     .item
         height: 7 * $r
@@ -45,7 +46,6 @@
     &.buttons
         
         .wrapper
-            border-radius: 24px
             grid-gap: 0
 
         .item

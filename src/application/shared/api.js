@@ -584,21 +584,28 @@ var ApiWrapper = function (core = {}) {
 
 				_.map(ids, (id) => {
 
+					try{
 
-					return storage.get(id).catch(e => {
+						return storage.get(id).catch(e => {
+							return Promise.resolve()
+						}).then(r => {
+
+
+							if (r) {
+								loaded[id] = r
+							}
+							else {
+								needtoload.push(id)
+							}
+
+							return Promise.resolve()
+						})
+
+					}
+
+					catch(e){
 						return Promise.resolve()
-					}).then(r => {
-
-
-						if (r) {
-							loaded[id] = r
-						}
-						else {
-							needtoload.push(id)
-						}
-
-						return Promise.resolve()
-					})
+					}
 				})
 
 			).then(() => {
@@ -656,12 +663,18 @@ var ApiWrapper = function (core = {}) {
 
 			_storage = storage
 
-		
+			try{
 
-			if (storage && !p.refreshDb) {
-				return storage.get(datahash).catch(e => {
-					return Promise.resolve()
-				})
+				if (storage && !p.refreshDb) {
+					return storage.get(datahash).catch(e => {
+						return Promise.resolve()
+					})
+				}
+
+			}
+
+			catch(e){
+				return Promise.resolve()
 			}
 
 
@@ -967,7 +980,15 @@ var ApiWrapper = function (core = {}) {
 		if (liststorage[key]) delete liststorage[key]
 
 		if (storages[key]) {
-			storages[key].clearall().catch(e => { console.error(e) })
+
+
+			try{
+				storages[key].clearall().catch(e => { console.error(e) })
+			}
+
+			catch(e){
+				
+			}
 			delete storages[key]
 		}
 	}

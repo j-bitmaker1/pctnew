@@ -93,6 +93,7 @@ import checkboxtoggle from "@/components/assets/checkboxtoggle/index.vue";
 
 import value from "@/components/assets/value/index.vue";
 import avalue from "@/components/assets/avalue/index.vue";
+import portfolioAdvisorFee from "@/components/assets/portfolioAdvisorFee/index.vue";
 import portfoliovalue from "@/components/assets/portfoliovalue/index.vue";
 
 
@@ -155,6 +156,8 @@ Vue.component("checkboxtoggle", checkboxtoggle);
 Vue.component("value", value);
 Vue.component("avalue", avalue);
 Vue.component("portfoliovalue", portfoliovalue);
+Vue.component("portfolioAdvisorFee", portfolioAdvisorFee);
+
 
 
 Vue.component("listmenu", listmenu);
