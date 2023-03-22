@@ -21,7 +21,7 @@ class Retrospective {
         this.factors = _.map(d, (y) => {
             return {
                 year : Number(y[0]),
-                value : parseFloat(y[2]),
+                value : parseFloat(y[2]) * 100,
                 name : this.factor
             }
         })
@@ -40,8 +40,8 @@ class Retrospective {
             var prevvalue = d.length ? d[d.length - 1].total : 1
 
             d.push({
-                value : v.value,
-                total : d.length ? prevvalue * (1 + v.value) : 1,
+                value : v.value / 100,
+                total : d.length ? prevvalue * (1 + v.value / 100) : 1,
                 year : v.year
             })
 
@@ -55,6 +55,8 @@ class Retrospective {
 
     prepareHistory(portfolios = {}, data = {}, range){
         var result = {}
+
+        console.log('data', data)
 
         _.each(portfolios, (portfolio) => {
 
@@ -72,7 +74,7 @@ class Retrospective {
                     if(range[0] > this.factors[i].year || this.factors[i].year > range[1]) return
                 }
 
-                var p = /*this.factors[i].value + */100 * v.loss / total
+                var p = /*this.factors[i].value + 100 **/ v.loss / total
                 var prevvalue = d.length ? d[d.length - 1].total : 1
 
                 d.push({

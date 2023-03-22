@@ -590,6 +590,10 @@ class RetrospectiveHistory {
     series = function(portfolios, history, factorsLine){
         var series = []
 
+        var maxportfolio = 0
+        var maxindex = 0
+
+
         _.each(portfolios, (portfolio) => {
             var serie = {
                 name: portfolio.name,
@@ -603,6 +607,8 @@ class RetrospectiveHistory {
                     x: yd.year,
                     y: yd.total * 100
                 })
+
+                if(yd.total > maxportfolio) maxportfolio = yd.total
             })
 
             series.push(serie)
@@ -615,7 +621,7 @@ class RetrospectiveHistory {
             data: [],
             type: 'areasplinerange',
             fillOpacity: 0.1,
-            yAxis : 1
+            
         }
 
         _.each(factorsLine.data, (yd) => {
@@ -625,9 +631,16 @@ class RetrospectiveHistory {
                 high : yd.total * 100,
                 x: yd.year,
             })
+
+            if(yd.total > maxindex) maxindex = yd.total
+
+
+            
         })
 
-        console.log('serie', serie, factorsLine)
+        //if(maxportfolio > maxindex * 10) serie.yAxis = 1
+
+        //serie.yAxis = 1
 
         series.push(serie)
 
@@ -647,9 +660,17 @@ class RetrospectiveHistory {
         factorsLine
     }, p = {}) {
 
-        console.log('')
+        var series = this.series(
+            portfolios,
+            history,
+            factorsLine
+        );
 
-        p.yAxisMultiple = true
+        p.yAxisMultiple = _.find(series, (serie) => {
+            return serie.yAxis
+        }) ? true : false
+
+        console.log('p.yAxisMultiple', p.yAxisMultiple, series)
 
         var d = options(p)
 
@@ -667,12 +688,14 @@ class RetrospectiveHistory {
         d.yAxis[0].gridLineWidth = 1
         d.yAxis[0].offset = 0
 
-        d.yAxis[1].endOnTick = false
-        d.yAxis[1].gridLineWidth = 0
-        d.yAxis[1].offset = 0
-        d.yAxis[1].opposite = false
+        if (p.yAxisMultiple){
+            d.yAxis[1].endOnTick = false
+            d.yAxis[1].gridLineWidth = 0
+            d.yAxis[1].offset = 0
+            d.yAxis[1].opposite = false
+        }
+        
 
-        console.log('d', d)
 
         d.xAxis.gridLineWidth = 1
 
@@ -682,12 +705,7 @@ class RetrospectiveHistory {
         },
 
 
-        d.series = this.series(
-            portfolios,
-            history,
-            factorsLine
-        );
-
+        d.series = series
 
         return d
     }
