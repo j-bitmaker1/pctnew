@@ -47,8 +47,6 @@ export default {
 
         composedPortfolios() {
 
-            console.log('this.portfolios ', this.portfolios )
-
             return [].concat((this.portfolio ? [this.portfolio] : []), (this.portfolios || []))
         },
 
@@ -101,16 +99,11 @@ export default {
         gettests : function(){
 
             this.loading = true
-            console.log('this.composedPortfolios', this.factors)
 
             return this.core.pct.customtestStressTestsScenariosFromFactors(this.composedPortfolios, this.factors).then((data) => {
                 this.historyRaw = data
 
                 //this.history = this.retrospective.prepareHistory(this.portfolios, data)
-
-                console.log('this.history', this.history, data)
-
-                
 
                 return Promise.resolve(data)
             }).finally(() => {

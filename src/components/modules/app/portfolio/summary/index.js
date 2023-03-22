@@ -10,6 +10,12 @@ import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
 
 import customstresstest from "@/components/modules/app/scenarios/custom2/index.vue";
+import retrospective from "@/components/modules/app/portfolio/retrospective/index.vue";
+
+
+import widget from "./widget/index.vue";
+
+
 
 
 export default {
@@ -23,7 +29,9 @@ export default {
         crashtesttemp,
         portfoliomenu,
         ctmenu,
-        customstresstest
+        customstresstest,
+        retrospective,
+        widget
 	},
     props: {
         portfolioId : Number,
@@ -41,13 +49,12 @@ export default {
             portfolio : null,
             temp : null,
             error : null,
-
             lastCustomFactors : null,
             lastCustomResult : null,
-
+            scroll : 0,
             view : 'stresstest',
-
-            views : ['stresstest', 'customstresstest']
+            views : ['stresstest', 'customstresstest'],
+            scrollWidth : 0
         }
 
     },
@@ -58,22 +65,137 @@ export default {
 
     watch: {
         portfolioId : function(){
-
             this.temp = null
-
             this.load().catch(e => {})
-
-            
         },
 
     },
     computed: mapState({
         auth : state => state.auth,
         height : state => state.dheight - 44 - 56 - 40,
-        mobileview : state => state.mobileview
+        dwidth : state => state.dwidth - 44,
+        mobileview : state => state.mobileview,
+
+        widgets(){
+
+            var correction = 44
+
+            var widgets = {
+                left : {
+                    width : 30
+                },
+                center : {
+                    width : 40
+                },
+                right : {
+                    width : 30
+                },
+                retrospective : {
+                    width : 60
+                }
+            }
+
+            var indexes = _.map(widgets, (w, i) => {
+                return i
+            })
+
+            if(this.dwidth + correction <= 900){
+                widgets.left.width = 40
+                widgets.center.width = 60
+                widgets.right.width = 40
+            }
+
+            if(this.dwidth + correction > 900 && this.dwidth + correction <= 1920){
+                widgets.left.sticky = true
+            }
+
+            if(this.dwidth + correction > 1920){
+                widgets.left.width = 25
+                widgets.center.width = 25
+                widgets.right.width = 25
+                widgets.retrospective.width = 25
+            }
+
+            var position = (this.scroll + this.dwidth / 2) / this.scrollWidthC * 100
+            var slides = []
+
+            for(let i = 0; i < indexes.length; i++){
+
+                var left = 0
+
+                for(let j = 0; j < i; j++){
+                    left += widgets[indexes[j]].width
+                }
+
+                var aw = 0
+                var lwidgets = []
+                var cwidget = indexes[i]
+
+             
+
+                for(let j = i; j < indexes.length; j++){
+                    if (aw < 100){
+                        aw += widgets[indexes[j]].width
+
+                        lwidgets.push(indexes[j])
+                    }
+                }
+
+                if (aw >= 100){
+                    slides.push({
+                        widget : cwidget,
+                        widgets : lwidgets,
+                        left,
+                        width : aw,
+                        leftWidget : i > 0 ? indexes[i - 1] : null
+                    })
+                }
+            }
+
+            if(this.scrollWidthC){
+                var totalWidth = 0 + slides[slides.length - 1].left + slides[slides.length - 1].width
+
+                var active = _.min(slides, (slide) => {
+
+                    var v = Math.abs(slide.left  - position * (totalWidth / 100))
+
+                    return v
+                })
+
+                if (active){
+                    active.active = true
+
+                    /*_.each(active.widgets, (i) => {
+                        widgets[i].active = true
+                    })
+        
+                    if (active.leftWidget)
+                        widgets[active.leftWidget].active = true*/
+                }
+            }
+
+            return {
+                widgets,
+                slides
+            }
+        },
+
+        scrollWidthC(){
+            return this.scrollWidth 
+        }
     }),
 
+    mounted (){
+        this.scrollWidth = this.$refs.bodyWrapper.scrollWidth
+    },
+
     methods : {
+        scrolling : function(e){
+            this.scroll = e.target.scrollLeft
+            this.scrollWidth = e.target.scrollWidth
+
+            console.log('e.target.scrollWidth ', e.target.scrollWidth )
+        },
         ctloaded : function({ct, cts}){
             this.ct = ct
 
@@ -231,7 +353,6 @@ export default {
         },
 
         saveFactors : function(factors){
-            console.log('factors', factors)
 
             this.lastCustomFactors = factors
         },
@@ -240,8 +361,6 @@ export default {
         customscenariosaved : function(result){
 
             this.core.pct.scenariosAllIds().then(ids => {
-
-                console.log('ids', ids)
 
                 ids.push(result.id)
 

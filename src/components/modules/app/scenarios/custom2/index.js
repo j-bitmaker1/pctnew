@@ -28,8 +28,6 @@ export default {
 
 	created : function(){
 
-		console.log('this.lastFactors', this.lastFactors)
-
 		if (this.lastFactors){
 			this.initEditing()
 		}
@@ -80,8 +78,6 @@ export default {
 				preloader : true,
 				showStatusFailed : true
 			}).then(r => {
-
-				console.log("this.lastFactorsthis.lastFactors", this.lastFactors)
 
 				var iff = _.filter(_.map(this.lastFactors, (f) => {
 
@@ -176,8 +172,6 @@ export default {
 		},
 
 		load : function(){
-
-			console.log('this.factors', this.factors)
 
 			this.$emit('factors', this.factors)
 

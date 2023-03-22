@@ -122,8 +122,6 @@ export default {
 				}
 			})
 
-			console.log('diff', diff)
-
 			_.each(donorassets, (da) => {
 				if(typeof diff[da.ticker] == 'undefined') rms[da.ticker] = da
 			})
@@ -662,7 +660,6 @@ export default {
 		ini : function(){
 			var donor = this.edit || this.from
 
-			console.log('donor', donor)
 
 			if (donor){
 				this.assets = []

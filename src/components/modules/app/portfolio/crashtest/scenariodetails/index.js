@@ -164,8 +164,6 @@ export default {
 				term : this.ct ? this.ct.term : null
 			}).then(R => {
 
-				console.log("R", R)
-
 				this.dct = R
 				return Promise.resolve(R)
 

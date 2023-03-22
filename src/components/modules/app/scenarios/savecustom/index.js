@@ -39,8 +39,6 @@ export default {
 
     created () {
 
-        console.log(this.factors)
-
         if (this.edit){
             this.description = this.edit.description || ''
             this.name = this.edit.name || ''

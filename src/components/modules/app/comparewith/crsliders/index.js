@@ -17,7 +17,6 @@ export default {
     },
 
     created () {
-        console.log(this.cts, this.portfolios)
     },
 
     watch: {

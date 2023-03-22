@@ -1,605 +1,614 @@
 #portfolio_summary
-    position: absolute
-    left : 0
-    top : 0
-    right : 0
-    bottom: 0
+	position: absolute
+	left : 0
+	top : 0
+	right : 0
+	bottom: 0
 
-    background-size: 40px 40px
-    background-position: center center
-    background-image: linear-gradient(90deg, transparent 9%,  srgba(--neutral-grad-2, 0.05) 10%, srgba(--neutral-grad-2, 0.05) 12%, transparent 13%, transparent 29%,  srgba(--neutral-grad-2, 0.05) 30%, srgba(--neutral-grad-2, 0.05) 31%, transparent 32%, transparent 49%,  srgba(--neutral-grad-2, 0.055) 50%, srgba(--neutral-grad-2, 0.055) 51%, transparent 52%, transparent 69%,  srgba(--neutral-grad-2, 0.05) 70%, srgba(--neutral-grad-2, 0.05) 71%, transparent 72%, transparent 89%, srgba(--neutral-grad-2, 0.05) 90%, srgba(--neutral-grad-2, 0.05) 91%, transparent 92%, transparent)
+	background-size: 40px 40px
+	background-position: center center
+	background-image: linear-gradient(90deg, transparent 9%,  srgba(--neutral-grad-2, 0.05) 10%, srgba(--neutral-grad-2, 0.05) 12%, transparent 13%, transparent 29%,  srgba(--neutral-grad-2, 0.05) 30%, srgba(--neutral-grad-2, 0.05) 31%, transparent 32%, transparent 49%,  srgba(--neutral-grad-2, 0.055) 50%, srgba(--neutral-grad-2, 0.055) 51%, transparent 52%, transparent 69%,  srgba(--neutral-grad-2, 0.05) 70%, srgba(--neutral-grad-2, 0.05) 71%, transparent 72%, transparent 89%, srgba(--neutral-grad-2, 0.05) 90%, srgba(--neutral-grad-2, 0.05) 91%, transparent 92%, transparent)
 
-    &.portfolio
-        background: transparent
+	&.portfolio
+		background: transparent
 
-    .unsupportmobile
-        position: absolute
-        left : 0
-        top : 0
-        bottom : 0
-        right: 0
-        display: flex
-        align-items: center
-        justify-content: center
+	.unsupportmobile
+		position: absolute
+		left : 0
+		top : 0
+		bottom : 0
+		right: 0
+		display: flex
+		align-items: center
+		justify-content: center
 
-        .wrapper
-            margin : 0 auto
-            max-width: 250px
-            text-align: center
-            padding : 2 * $r
-            border-radius: 12px
-            background: srgba(--neutral-grad-0, 0.5)
-            display: flex
-            flex-flow: column
-            grid-gap: $r
-
-
-            span
-                font-size: 0.9em
+		.wrapper
+			margin : 0 auto
+			max-width: 250px
+			text-align: center
+			padding : 2 * $r
+			border-radius: 12px
+			background: srgba(--neutral-grad-0, 0.5)
+			display: flex
+			flex-flow: column
+			grid-gap: $r
 
 
-    .portfoliotip
-        position: absolute
-        z-index : 1
-        left: 0
-        top : 44px
-        bottom: 0
-        right: 0
-        display: flex
-        align-content: center
-        align-items: center
-
-        .stickerWrapper
-            margin-top: 3 * $r
-            padding-bottom: 3 * $r
-
-        .summaryPreloader
-            padding : 2 * $r
-            border-radius: 12px
-            background: srgba(--neutral-grad-0, 0.5)
-            margin : 0 auto
-
-        .wrapper
-            margin : 0 auto
-            max-width: 250px
-            text-align: center
-            padding : 2 * $r
-            border-radius: 12px
-            background: srgba(--neutral-grad-0, 0.5)
-
-            span
-                font-size: 0.9em
-
-        .iflast
-            width: 80%
-            margin : 0 auto
-            margin-bottom: 2 * $r
-            cursor: pointer
-            color : srgb(--color-txt-ac)
-            text-align: left
-            +transition(0.3s)
-            &:hover
-                color : srgb(--neutral-grad-4)
-
-            .lpwrapper
-                display: flex
-                flex-direction: column
-
-                .lpname
-                    white-space: nowrap
-                    text-overflow: ellipsis
-                    overflow: hidden
-
-                span
-                    font-size: 0.8em
-                   
-
-        
+			span
+				font-size: 0.9em
 
 
-    .loading
-        position: absolute
-        left : 0
-        top : 0
-        right : 0
-        bottom: 0
-        display: flex
-        align-items: center
-        justify-content: center
+	.portfoliotip
+		position: absolute
+		z-index : 1
+		left: 0
+		top : 44px
+		bottom: 0
+		right: 0
+		display: flex
+		align-content: center
+		align-items: center
 
-    .headerWrapper
-        position: absolute
-        left : 0
-        top : 0
-        right : 0
-        height: 44px
-        align-items: center
-        display: flex
-        background: srgb(--background-secondary-theme)
-        border-left: 1px solid srgb(--background-total-theme)
+		.stickerWrapper
+			margin-top: 3 * $r
+			padding-bottom: 3 * $r
 
-        .firstmenu,
-        .portfolioPart
-            align-items: center
-            display: flex
+		.summaryPreloader
+			padding : 2 * $r
+			border-radius: 12px
+			background: srgba(--neutral-grad-0, 0.5)
+			margin : 0 auto
 
-        .portfolioPart
-            margin-left: auto
+		.wrapper
+			margin : 0 auto
+			max-width: 250px
+			text-align: center
+			padding : 2 * $r
+			border-radius: 12px
+			background: srgba(--neutral-grad-0, 0.5)
 
-        .firstmenu
-            button
-                margin-right: $r
+			span
+				font-size: 0.9em
 
-        .logowrapper
-            margin-left: auto
-            margin-right: 0.5 * $r
+		.iflast
+			width: 80%
+			margin : 0 auto
+			margin-bottom: 2 * $r
+			cursor: pointer
+			color : srgb(--color-txt-ac)
+			text-align: left
+			+transition(0.3s)
+			&:hover
+				color : srgb(--neutral-grad-4)
 
-            ::v-deep
-                img
-                    height: 20px
+			.lpwrapper
+				display: flex
+				flex-direction: column
 
-        .potfoliosHistory
-            margin-left: $r
-            padding : $r
-            cursor: pointer
-            display: flex
-            align-items: center
+				.lpname
+					white-space: nowrap
+					text-overflow: ellipsis
+					overflow: hidden
 
-            i
-                font-size: 0.8em
+				span
+					font-size: 0.8em
+				   
 
-    .bodyWrapper
-        position: absolute
-        left : 0
-        bottom : 0
-        right : 0
-        top: 44px
-
-    .part
-        overflow: hidden
-        overflow-y: scroll
-        height: 100%
-        
-        
-        .pcntwrapper
-            width: 100%
-            table-layout: fixed
-            display: table
-            min-height: 100%
-            >div
-                display: table-cell
-
-                &.pcnt
-
-                &.pmenuwrapper
-                    background: srgb(--background-secondary-theme)
-                    height: 100%
-                    width: 44px
-                    
-
-        .pmenu
-            position: sticky
-            width: 44px
-            top : $r
-            height: 100%
-            z-index: 20
-            transform-origin: top center
-          
-
-        
+		
 
 
-    .left
-        position: absolute
-        left : 0
-        top : 0
-        width: 30%
-        bottom: 0
-        overflow-y: auto
+	.loading
+		position: absolute
+		left : 0
+		top : 0
+		right : 0
+		bottom: 0
+		display: flex
+		align-items: center
+		justify-content: center
 
-    .center
-        position: absolute
-        left : 30%
-        top : 0
-        width: 40%
-        bottom: 0
-        overflow-y: auto
+	.headerWrapper
+		position: absolute
+		left : 0
+		top : 0
+		right : 0
+		height: 44px
+		align-items: center
+		display: flex
+		background: srgb(--background-secondary-theme)
+		border-left: 1px solid srgb(--background-total-theme)
 
-    .right
-        position: absolute
-        left : 70%
-        top : 0
-        width: 30%
-        bottom: 0
-        overflow: hidden
+		.firstmenu,
+		.portfolioPart
+			align-items: center
+			display: flex
+
+		.portfolioPart
+			margin-left: auto
+
+		.firstmenu
+			button
+				margin-right: $r
+
+		.logowrapper
+			margin-left: auto
+			margin-right: 0.5 * $r
+
+			::v-deep
+				img
+					height: 20px
+
+		.potfoliosHistory
+			margin-left: $r
+			padding : $r
+			cursor: pointer
+			display: flex
+			align-items: center
+
+			i
+				font-size: 0.8em
+
+		
+	.bodyWrapper
+		position: absolute
+		left : 0
+		bottom : 0
+		right : 0
+		top: 44px
+		scroll-snap-type: x mandatory
+		display: flex
+		
+		
+
+		>div
+			flex-grow: 2
+			height: 100%
+			flex-shrink: 0
+			scroll-snap-align: center
+
+	.part
+		overflow: hidden
+		overflow-y: auto
+		height: 100%
+		flex-basis: 30%
+		min-width: 30%
+		position: relative
+
+		.partcaption
+			padding: $r
+
+			span
+				font-size: 0.9em
+
+		.pcntwrapper
+			width: 100%
+			table-layout: fixed
+			display: table
+			min-height: 100%
+			>div
+				display: table-cell
+
+				&.pcnt
+
+				&.pmenuwrapper
+					background: srgb(--background-secondary-theme)
+					height: 100%
+					width: 44px
+
+		.pmenu
+			position: sticky
+			width: 44px
+			top : $r
+			height: 100%
+			z-index: 20
+			transform-origin: top center
+	
+	.left
+		position: relative
+		z-index: 21
+		left : 0
+		top : 0
+		bottom : 0
+		background: srgb(--background-total-theme)
+
+	.right
+		overflow: hidden
+
+
 
 .scenario
-    .header
-        display: flex
-        align-items: center
-        position: sticky
-        height: 56px
-        top: 0
-        left: 0
-        right: 0
-        z-index: 2
-        background: srgb(--background-total-theme)
+	.header
+		display: flex
+		align-items: center
+		position: sticky
+		height: 56px
+		top: 0
+		left: 0
+		right: 0
+		z-index: 2
+		background: srgb(--background-total-theme)
 
-        span
-            font-weight: 700
+		span
+			font-weight: 700
 
 .emptyScenario
-    position: absolute
-    left : 0
-    top : 0
-    bottom : 0
-    right: 0
-    display: flex
-    align-items: center
-    justify-content: center
+	position: absolute
+	left : 0
+	top : 0
+	bottom : 0
+	right: 0
+	display: flex
+	align-items: center
+	justify-content: center
 
-    .textWrapper
-        border-radius: 12px
-        background: srgb(--neutral-grad-0)
-        padding : 2 * $r
-        max-width: 70%
-        text-align: center
-        span
-            font-size: 0.9em
+	.textWrapper
+		border-radius: 12px
+		background: srgb(--neutral-grad-0)
+		padding : 2 * $r
+		max-width: 70%
+		text-align: center
+		span
+			font-size: 0.9em
 
 =menuitem()
-    background: transparent
-    padding : 0
-    height: 33px
-    text-align: center
-    width: 33px
-    margin : 0 auto
-    margin-bottom: $r
-    border-radius: 22px
-    border: 1px solid srgb(--neutral-grad-0)
-    +transition(0.3s)
-    display: flex
-    align-items: center
-    justify-content: center
-    cursor: pointer
+	background: transparent
+	padding : 0
+	height: 33px
+	text-align: center
+	width: 33px
+	margin : 0 auto
+	margin-bottom: $r
+	border-radius: 22px
+	border: 1px solid srgb(--neutral-grad-0)
+	+transition(0.3s)
+	display: flex
+	align-items: center
+	justify-content: center
+	cursor: pointer
 
-    &.active,
-    &:hover
-        border: 1px solid srgb(--color-bg-ac)
-        background: srgb(--color-bg-ac)
-        i
-            color: srgb(--text-on-bg-shadow-color)
+	&.active,
+	&:hover
+		border: 1px solid srgb(--color-bg-ac)
+		background: srgb(--color-bg-ac)
+		i
+			color: srgb(--text-on-bg-shadow-color)
 
-    &.active
-        &:hover
-            
-            background: transparent
+	&.active
+		&:hover
+			
+			background: transparent
 
-            i
-                color : srgb(--color-bg-ac)
+			i
+				color : srgb(--color-bg-ac)
 
-    i
-        +transition(0.3s)
-        color : srgb(--neutral-grad-2)
-        margin-right: 0
-        font-size: 0.7em
-    span
-        display: none
+	i
+		+transition(0.3s)
+		color : srgb(--neutral-grad-2)
+		margin-right: 0
+		font-size: 0.7em
+	span
+		display: none
 
 .pmenu
-    .menuitem
-        +menuitem()
-        
-    ::v-deep
-        .menuitem
-            +menuitem()
+	.menuitem
+		+menuitem()
+		
+	::v-deep
+		.menuitem
+			+menuitem()
 
-            &[title="Edit Portfolio"],
-            &[title="Delete Portfolio"],
-            &[title="Summary"]
-                display: none
+			&[title="Edit Portfolio"],
+			&[title="Delete Portfolio"],
+			&[title="Summary"]
+				display: none
 ::v-deep
-    
-            
-    .navwrapper
-        .wrapper
-            overflow: hidden
-    .mobp
-        padding-left: $r
-        padding-right: $r
+	
+			
+	.navwrapper
+		.wrapper
+			overflow: hidden
+	.mobp
+		padding-left: $r
+		padding-right: $r
 
-    .diconbutton
-        background: srgb(--background-secondary-theme)
-        +shadowSmaller()
-        
-    #linenavigation .wrapper
-        flex-wrap: nowrap
-    #linenavigation.buttons
-        .item
-            height: 2em
-            line-height: 2em
+	.diconbutton
+		background: srgb(--background-secondary-theme)
+		+shadowSmaller()
+		
+	#linenavigation .wrapper
+		flex-wrap: nowrap
+	#linenavigation.buttons
+		.item
+			height: 2em
+			line-height: 2em
 
-    .savePanel
-        height: 6 * $r
-        display: none
-        padding-right: $r
-        padding-left: $r
+	.savePanel
+		height: 6 * $r
+		display: none
+		padding-right: $r
+		padding-left: $r
 
-        button
-            min-width: 0
-            font-size: 0.8em
+		button
+			min-width: 0
+			font-size: 0.8em
 
-
-    .portfolios_shares
-        padding-top : 0
-
-        .navwrapper
-            position: sticky
-            z-index: 1
-            left : 0
-            top : 0
-            right: 0
-            background: srgb(--background-total-theme)
-            margin-top: 0
-            padding-top: $r
-
-       
-
-
-        #linenavigation
-            .wrapper
-                justify-content: flex-start
-
-        #portfolios_edit 
-            .captionRow,
-            .addwrapper
-                display: none
-            .advisorFeeWrapper,
-            .namewrapper
-                display: none
-
-            .assetsList
-                padding-top: 0
-
-                .value
-                    max-width: 70px
-
-                .tickerwrapper
-                    min-width: 0
-                    flex-shrink: 0
-                    max-width: 120px
-
-                .pdicon
-                    margin-right: $r
-
-                .ticker
-                    margin-left: 0.5 * $r
-
-                input
-                    padding-left: $r
-
-            &.haschanges
-                .savePanel
-                    display: flex
-
-                .totalPanel
-                    bottom: 6 * $r
-
-            .totalPanel
-                padding-left: $r
-                padding-right: $r
+	.customslider
+		.inputwrapper
+			padding-left: 0
+		.minmax,
+		.sheader
+			padding-left: 0
+			padding-right: 0
+			.name
+				span
+					font-size: 0.8em
+			.value
+				input
+					height: 28px
+					font-size: 0.8em
 
 
-            
+	.portfolios_shares
+		padding-top : 0
 
-        #portfolio_assets
+		.navwrapper
+			position: sticky
+			z-index: 1
+			left : 0
+			top : 0
+			right: 0
+			background: srgb(--background-total-theme)
+			margin-top: 0
+			padding-top: $r
 
-            padding-top: $r
-
-            .total
-                padding-left: $r
-                padding-right: 0.5 * $r
-
-                .forcaption
-                    padding-left: 0
-
-            .controls
-                display: none
-                position: absolute
-                right: 0
-                left : auto
-                top : 0
-                background: transparent
-                padding-right : 0
-
-                .forcaption
-                    display: none
-
-            .assetsWrapper
-                padding-top: 0
-                margin-top: 0
-                border-top : 0
-
-                .assetWrapper
-                    padding-left: 0.5 * $r
-                    padding-right: 0
-
-                    .ticker
-                        margin-left: 0
-
-                    .nameinv
-                        span
-                            font-size: 0.8em
-    #scenarios_custom2
-        .header
-            margin-top: 1.3 * $r
-
-        .panel
-            padding : $r
-            position: sticky
-            bottom : 0
-            left : 0
-            right : 0
-            background: srgb(--background-total-theme)
-            z-index: 20
-
-    #compare
-        .forsettigns
-            margin-right: 0
-
-        .crsliderWrapper
-            position: sticky
-            top : 0
-            left : 0
-            right: 0
-            z-index: 1
-            background: srgb(--background-total-theme)
-            padding-top: 0
-            padding-left: 2 * $r
-            padding-right: 2 * $r
+	   
 
 
-    #portfolios_crashtest
-        .ct
-            
-            .summary
-                display: none
+		#linenavigation
+			.wrapper
+				justify-content: flex-start
 
-            .subheader
-                display: none
+		#portfolios_edit 
+			.captionRow,
+			.addwrapper
+				display: none
+			.advisorFeeWrapper,
+			.namewrapper
+				display: none
 
-            .crsliderWrapper
-                position: sticky
-                top : 0
-                left : 0
-                right: 0
-                z-index: 1
-                background: srgb(--background-total-theme)
-                padding-top: 0
-                padding-left: 2 * $r
-                padding-right: 2 * $r
+			.assetsList
+				padding-top: 0
 
-            /*.header
-                position: sticky
-                height: 56px
-                top : 0
-                left : 0
-                right: 0
-                z-index: 2
-                background: srgb(--background-total-theme)
-                padding-left: $r
-                padding-right: $r*/
+				.value
+					max-width: 70px
 
-            .header
-                position: absolute
-                display: none
-                right: 0
-                left : auto
-                top : 0
-                padding-right : 0
-                z-index: 1
+				.tickerwrapper
+					min-width: 0
+					flex-shrink: 0
+					max-width: 120px
 
-                .forsettigns
-                    padding-right: $r
+				.pdicon
+					margin-right: $r
 
-                .forpanel
-                    display: none
+				.ticker
+					margin-left: 0.5 * $r
 
-            #crashtest_main
-              
-                bottom : 0
-                left : 0
-                right: 0
+				input
+					padding-left: $r
 
-                .chartWrapper
-                    margin-top: 0
-                    padding-left: 0
-                    padding-right: 0
+			&.haschanges
+				.savePanel
+					display: flex
 
-                .wrapperAll
-                    padding : $r
+				.totalPanel
+					bottom: 6 * $r
 
-    #portfolio_crashtest_scenariodetails
-        .scenario
-            display: none
-        .losswrapper
-            display: none
-            border-bottom : 7px solid srgba(--background-main-contrast, .05)
-        
-        .infoWrapper
-            display: none
-
-        .factors
-            display: none
-
-        .contributorWrapper
-            padding : 0
-
-        .topheader
-            display: flex
-            margin-bottom: 0
-            margin-top: $r
-
-        .lossgain
-            position: absolute
-            left : 0
-            top : 0
-            bottom : 0
-            right: 0
-            overflow: hidden
-
-            .lgpart
-                position: absolute
-                left : 0
-                top : 0
-                bottom : 0
-                right: 0
-                background: srgb(--background-total-theme)
-                overflow: hidden
-                overflow-y: scroll
-
-                .listempty
-                    padding : $r
-
-                .csubheader
-                    position: sticky
-                    top : 0
-                    left : 0
-                    height: 55px
-                    right: 0
-                    
-                    background: srgb(--background-total-theme)
-                    z-index: 1
-
-                    .label
-                        flex-grow: 2
-
-                &.loss
-                    top : auto
-                    height: 50%
-
-                &.gain
-                    bottom: auto
-                    height: 50%
-
-                .nameinv
-                    font-size: 0.8em
+			.totalPanel
+				padding-left: $r
+				padding-right: $r
 
 
-@media only screen and (max-width: 900px)
-    #portfolio_summary
-        .bodyWrapper
-            overflow-x: scroll
-        .left
-            width: 40%
+			
 
-        .center
-            left : 40%
-            width: 60%
+		#portfolio_assets
 
-        .right
-            left: 100%
-            width: 40%
-            
-            
+			padding-top: $r
+
+			.total
+				padding-left: $r
+				padding-right: 0.5 * $r
+
+				.forcaption
+					padding-left: 0
+
+			.controls
+				display: none
+				position: absolute
+				right: 0
+				left : auto
+				top : 0
+				background: transparent
+				padding-right : 0
+
+				.forcaption
+					display: none
+
+			.assetsWrapper
+				padding-top: 0
+				margin-top: 0
+				border-top : 0
+
+				.assetWrapper
+					padding-left: 0.5 * $r
+					padding-right: 0
+
+					.ticker
+						margin-left: 0
+
+					.nameinv
+						span
+							font-size: 0.8em
+	#scenarios_custom2
+		.header
+			margin-top: 1.3 * $r
+
+		.panel
+			padding : $r
+			position: sticky
+			bottom : 0
+			left : 0
+			right : 0
+			background: srgb(--background-total-theme)
+			z-index: 20
+
+	#portfolio_retrospective
+		.chartWrapper
+			padding-left: $r
+			padding-right: $r
+
+	#compare
+		.forsettigns
+			margin-right: 0
+
+		.crsliderWrapper
+			position: sticky
+			top : 0
+			left : 0
+			right: 0
+			z-index: 1
+			background: srgb(--background-total-theme)
+			padding-top: 0
+			padding-left: 2 * $r
+			padding-right: 2 * $r
+
+
+	#portfolios_crashtest
+		.ct
+			
+			.summary
+				display: none
+
+			.subheader
+				display: none
+
+			.crsliderWrapper
+				position: sticky
+				top : 0
+				left : 0
+				right: 0
+				z-index: 1
+				background: srgb(--background-total-theme)
+				padding-top: 0
+				padding-left: 2 * $r
+				padding-right: 2 * $r
+
+			/*.header
+				position: sticky
+				height: 56px
+				top : 0
+				left : 0
+				right: 0
+				z-index: 2
+				background: srgb(--background-total-theme)
+				padding-left: $r
+				padding-right: $r*/
+
+			.header
+				position: absolute
+				display: none
+				right: 0
+				left : auto
+				top : 0
+				padding-right : 0
+				z-index: 1
+
+				.forsettigns
+					padding-right: $r
+
+				.forpanel
+					display: none
+
+			#crashtest_main
+			  
+				bottom : 0
+				left : 0
+				right: 0
+
+				.chartWrapper
+					margin-top: 0
+					padding-left: 0
+					padding-right: 0
+
+				.wrapperAll
+					padding : $r
+
+	#portfolio_crashtest_scenariodetails
+		.scenario
+			display: none
+		.losswrapper
+			display: none
+			border-bottom : 7px solid srgba(--background-main-contrast, .05)
+		
+		.infoWrapper
+			display: none
+
+		.factors
+			display: none
+
+		.contributorWrapper
+			padding : 0
+
+		.topheader
+			display: flex
+			margin-bottom: 0
+			margin-top: $r
+
+		.lossgain
+			position: absolute
+			left : 0
+			top : 0
+			bottom : 0
+			right: 0
+			overflow: hidden
+
+			.lgpart
+				position: absolute
+				left : 0
+				top : 0
+				bottom : 0
+				right: 0
+				background: srgb(--background-total-theme)
+				overflow: hidden
+				overflow-y: scroll
+
+				.listempty
+					padding : $r
+
+				.csubheader
+					position: sticky
+					top : 0
+					left : 0
+					height: 55px
+					right: 0
+					
+					background: srgb(--background-total-theme)
+					z-index: 1
+
+					.label
+						flex-grow: 2
+
+				&.loss
+					top : auto
+					height: 50%
+
+				&.gain
+					bottom: auto
+					height: 50%
+
+				.nameinv
+					font-size: 0.8em
+
+
+
+		
 

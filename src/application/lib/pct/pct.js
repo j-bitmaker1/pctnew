@@ -406,9 +406,11 @@ class PCT {
 
         }
 
-        d.scenarios = _.sortBy(d.scenarios, (s) => {
-            return s.loss
-        })
+        if(!p.saveorder)
+
+            d.scenarios = _.sortBy(d.scenarios, (s) => {
+                return s.loss
+            })
 
         d.profit = (_.max(d.scenarios, (scenario) =>{
             return scenario.loss
@@ -1003,7 +1005,10 @@ class PCT {
     customstresstest = function(data, p = {}, method = 'customtest'){
 
         return this.api.pctapi.stress[method](data, p).then(r => {
-            return Promise.resolve(this.parseStressTest(r))
+            console.log("R23", r)
+            return Promise.resolve(this.parseStressTest(r, {
+                saveorder : true
+            }))
         })
 
     }
@@ -1019,7 +1024,7 @@ class PCT {
                 factors
             }, {}, 'customtestScenariosFromFactors').then((r) => {
 
-                console.log("RRR ", r)
+                console.log("R22", r)
 
                 result[portfolio.id] = r
             })

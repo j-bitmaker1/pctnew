@@ -19,7 +19,6 @@ export default {
     },
 
     beforeDestroy(){
-        console.log('beforeDestroy')
         this.rm()
        
     },
@@ -52,8 +51,6 @@ export default {
             if(this.drag.borders[0] < value && this.drag.borders[1] > value){
 
                 var valuepercent = Number((((value - this.drag.borders[0]) / (this.drag.borders[1] - this.drag.borders[0])) * 100).toFixed(0))
-
-                console.log('valuepercent', valuepercent)
 
                 this.$set(this.drag, 'value', valuepercent)
 
@@ -106,11 +103,8 @@ export default {
 
         mouseup : function(){
 
-            if(this.drag){
-                console.log({
-                    item : this.drag.item,
-                    value : this.drag.value
-                })
+            if (this.drag){
+                
             }
             this.rm()
         },

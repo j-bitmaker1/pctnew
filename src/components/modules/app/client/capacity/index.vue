@@ -100,7 +100,6 @@ export default {
 		profile : {
 			immediate : true,
 			handler : function(){
-				console.log("??")
 				this.load()
 			}
 		}

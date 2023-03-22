@@ -1339,7 +1339,6 @@ var ApiWrapper = function (core = {}) {
 
 			ltrdetails: function (data, p = {}) {
 
-				console.log('data', data)
 
 				//if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
@@ -1354,7 +1353,6 @@ var ApiWrapper = function (core = {}) {
 
 				return request(data, 'pctapi', 'Assets/GetLtrCalculation', p).then((r) => {
 
-					console.log("R", r)
 
 					r = f.deep(r, 'records')
 
@@ -2331,7 +2329,6 @@ var ApiWrapper = function (core = {}) {
 				id: rootid || '0'
 			}, 'pctapi', 'Catalog/GetCatalogContent', p).then(r => {
 
-				console.log("RRR ", r)
 
 				var result = {
 					name: r.name,

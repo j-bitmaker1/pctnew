@@ -392,8 +392,6 @@ export default {
                         })
                 })
 
-                console.log("I", i)
-
                 if(i.client){
                     this.values.FName = i.client.FName
                     this.values.LName = i.client.LName
@@ -596,8 +594,6 @@ export default {
 
                 ...(this.existlead ? {} : this.client)
             }
-
-            console.log('this.client', this.client)
 
             _.each(data, (v, i) => {
                 if(!v) delete data[i]

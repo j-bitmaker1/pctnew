@@ -10,7 +10,7 @@
                     <template v-if="!(field.type == 'date' && !data[field.id])">
                         <span v-if="field.type == 'string'">{{data[field.id]}}</span>
                         <date v-if="field.type == 'date'" :date="data[field.id]" />
-                        <value v-if="field.type == 'p' || field.type == 'd'" :mode="field.type" :value="data[field.id] || 0" />
+                        <value v-if="field.type == 'p' || field.type == 'd' || field.type == 'p100'" :mode="field.type" :value="data[field.id] || 0" />
                     </template>
 
                     <template v-else>

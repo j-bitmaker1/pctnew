@@ -137,8 +137,6 @@ export default {
 
 			return this.core.api.filesystem.get(this.root).then(r => {
 
-				console.log("R", r)
-
 				this.current = r
 
 				return Promise.resolve(r)

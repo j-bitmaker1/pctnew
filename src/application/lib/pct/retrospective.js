@@ -75,6 +75,8 @@ class Retrospective {
                 var p = /*this.factors[i].value + 100 **/ v.loss / total
                 var prevvalue = d.length ? d[d.length - 1].total : 1
 
+                console.log("P" , p)
+
                 d.push({
                     value : p,
                     total : d.length ? prevvalue * (1 + p) : 1,

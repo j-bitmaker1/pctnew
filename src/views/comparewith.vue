@@ -164,12 +164,12 @@
 		position: relative
 		justify-content: center
 		padding-left: 40px
+		padding-right: 40px
 
 		&.left
 			justify-content: left
 
 		.inputwrapper
-			margin-right: 4 * $r
 			position: relative
 			.vicon
 				position: absolute

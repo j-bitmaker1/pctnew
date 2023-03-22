@@ -54,8 +54,6 @@ export default {
 
 		click : function(e){
 
-			console.log("E", e)
-
 			if(f.removePopoverFromEvent(e)) return
 			
 			if(this.portfolio.status == 'DELETED') return

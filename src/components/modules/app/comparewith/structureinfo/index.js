@@ -53,7 +53,7 @@ export default {
                 
                 {
                     id : 'stepup_rate',
-                    type : 'p100'
+                    type : 'p'
                 },
                 {
                     id : 'death_benefit',

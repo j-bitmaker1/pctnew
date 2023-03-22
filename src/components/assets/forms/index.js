@@ -141,8 +141,6 @@ export default {
                     }
                 })
 
-                console.log('groupsext', groupsext)
-
                 return groupsext
             }
 

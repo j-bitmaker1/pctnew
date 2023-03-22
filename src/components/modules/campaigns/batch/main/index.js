@@ -89,8 +89,6 @@ export default {
                 { index: 'DeletedCampaigns', color: '#ff033e' }
             ]
 
-            console.log('this.batch', this.batch)
-
             var points = _.map(metrics, (m) => {
                 return {
                     value : this.batch[m.index],

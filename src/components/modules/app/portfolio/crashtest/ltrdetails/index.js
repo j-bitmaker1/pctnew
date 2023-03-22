@@ -98,7 +98,6 @@ export default {
     methods : {
         load : function(){
 
-            console.log("HERE", this.portfolios)
 
             this.details = {}
 
@@ -111,7 +110,6 @@ export default {
             Promise.all(_.map(this.portfolios, (portfolio) => {
 
                 return this.core.pct.ltrdetails({portfolioId : portfolio.id}).then((r) => {
-                    console.log('D', r)
                     this.$set(this.details, portfolio.id, r)
                     //this.details[portfolio.id] = r
 
