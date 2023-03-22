@@ -72,7 +72,7 @@ class Retrospective {
                     if(range[0] > this.factors[i].year || this.factors[i].year > range[1]) return
                 }
 
-                var p = this.factors[i].value + 100 * v.loss / total
+                var p = /*this.factors[i].value + */100 * v.loss / total
                 var prevvalue = d.length ? d[d.length - 1].total : 1
 
                 d.push({
