@@ -28,7 +28,7 @@
 			</div>
 
 			<div class="golast mobp" v-if="!ids.length && last">
-				<router-link :to="last.link">
+				<router-link :to="last.link + '&c=' + active">
 					<button class="button">Go to last comparison</button>
 				</router-link>
 			</div>
@@ -134,19 +134,23 @@ export default {
 			navigation : [
 				{
 					text : 'labels.crashtest',
-					id : 'stress'
+					id : 'stress',
+					icon : 'fas fa-chart-bar'
 				},
 				{
 					text : 'labels.allocation',
-					id : 'allocation'
+					id : 'allocation',
+					icon : 'fas fa-chart-pie'
 				},
 				{
 					text : 'labels.distribution',
-					id : 'distribution'
+					id : 'distribution',
+					icon : 'fas fa-chart-area'
 				},
 				{
 					text : 'labels.retrospective',
-					id : 'retrospective'
+					id : 'retrospective',
+					icon : 'fas fa-history'
 				}
 				
 			],

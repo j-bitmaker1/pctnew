@@ -624,13 +624,15 @@ class PCT {
             })
     
             aportfolio.positions = _.clone(assets)
-            aportfolio.name = p.names[i] || ('+ ' + _.reduce(assets, (m, asset) => {
+            aportfolio.name = ('+ ' + _.reduce(assets, (m, asset) => {
 
-                if(asset.term) term = asset.term
+                if(asset.term && p.term) term = asset.term
     
                 return asset.name + ';' // + ' (' + v + ');' 
     
             }, ''))
+
+            if(p.names[i]) aportfolio.name = p.names[i]
 
             portfolios[aportfolio.id] = aportfolio
 
@@ -642,9 +644,7 @@ class PCT {
 
         })
 
-        var max = _.max(portfolios, (p) => {
-            return p.total()}
-            )
+        var max = _.max(portfolios, (p) => { return p.total() })
 
         return Promise.all(promises).then(() => {
 
@@ -726,6 +726,45 @@ class PCT {
         return ct
     }
 
+    composePortfolio = function(assets, p = {}){
+
+        var aportfolio = p.portfolio ? p.portfolio.clone() : new Portfolio({
+            name : "temp",
+            id : -1,
+
+            tempportfolio : true
+        })
+
+
+        if(p.portfolio){
+            _.each(assets, (asset) => {
+                aportfolio.positions.push({
+                    ...asset,
+                    external : true
+                })
+            })
+
+            aportfolio.originalid = aportfolio.id
+            aportfolio.id = aportfolio.id + '_with_assets'
+            aportfolio.name = '+ ' + _.reduce(assets, (m, asset) => {
+                return asset.name + ';'
+            }, '')
+        }
+        else{
+            aportfolio.positions = _.clone(assets)
+
+            aportfolio.name = _.reduce(assets, (m, asset) => {
+                return asset.name + ';'
+            }, '')
+        }
+
+        if(p.name){
+            aportfolio.name = p.name
+        }
+
+        return aportfolio
+       
+    }
 
     /* */
 
@@ -865,8 +904,6 @@ class PCT {
       
     }
 
-    
-
     stresstestPortfolio = function(portfolio, p = {}){
 
         var data = {
@@ -981,6 +1018,9 @@ class PCT {
                 portfolio,
                 factors
             }, {}, 'customtestScenariosFromFactors').then((r) => {
+
+                console.log("RRR ", r)
+
                 result[portfolio.id] = r
             })
 

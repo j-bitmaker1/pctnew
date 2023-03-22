@@ -1366,17 +1366,48 @@ var ApiWrapper = function (core = {}) {
 
 			customtestScenarios : function({portfolio, scenarios}, p = {}){
 
+				var id = portfolio.originalid || portfolio.id
+				var positions = []
+
 				p.storageparameters = dbmeta.stress()
 
-				if (portfolio.id > 0)
-
+				if (id > 0){
 					p.storageparameters.invalidate = {
-						index: portfolio.id,
+						index: id,
 						type: 'portfolio'
 					}
+				}
+
+				if (portfolio.originalid){
+					positions = _.map(_.filter(portfolio.positions, (p) => {
+						return p.external
+					}), asset => {
+						return {
+							name : asset.name,
+							ticker : asset.ticker,
+							value : asset.value,
+							annuity_type : asset.annuity_type
+						}
+					})
+				}
+				else{
+					if(id <= 0){
+						positions = _.filter(portfolio.positions, asset => {
+							return {
+								name : asset.name,
+								ticker : asset.ticker,
+								value : asset.value,
+								annuity_type : asset.annuity_type
+							}
+						})
+					}
+				}
+
+
 
 				return request({
-					portfolioId : portfolio.id,
+					portfolioId : id,
+					positions : positions.length ? positions : null,
 					scenarios : scenarios
 					
 				}, 'pctapi', 'StressTest/GetCustomStressTestDetailed', p).then((r) => {
@@ -1402,6 +1433,7 @@ var ApiWrapper = function (core = {}) {
 					}
 
 				})
+
 
 				return this.customtestScenarios({portfolio, scenarios}, p)
 				

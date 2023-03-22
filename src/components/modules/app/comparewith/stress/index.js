@@ -1,5 +1,4 @@
 import { mapState } from 'vuex';
-import f from "@/application/shared/functions.js";
 
 import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
@@ -9,7 +8,11 @@ export default {
     props: {
         portfolio : Object,
         assets : Array,
-        type : String
+        type : String,
+        includemode : {
+            type : String,
+            default : 'e'
+        }
     },
 
     components : {ctmain, summarybutton, crsliders},
@@ -32,20 +35,6 @@ export default {
 				}
 			],
 
-            includemode : localStorage['comparewith_includemode'] || 'e',
-            includemodes : [
-				{
-					icon : "fas fa-chart-pie",
-					id : 'i',
-                    title : 'Structured Compared with Portfolio'
-				},
-				{
-					icon : "fas fa-plus-circle",
-					id : 'e',
-                    title : 'Structured Added to the Portfolio'
-				}
-			],
-
             summary : [
 
 				{
@@ -53,28 +42,25 @@ export default {
 					index : 'ocr'
 				}
 				
-			],
-
-            taskid : null
+			]
         }
 
     },
 
-    created : () => {
-
+    created () {
+        this.load()
     },
 
     watch: {
-        ids : {
-            immediate : true,
+
+        assets : {
+            deep : true,
             handler : function(){
                 this.load()
             }
         },
 
-        assets : {
-            deep : true,
-            immediate : true,
+        includemode : {
             handler : function(){
                 this.load()
             }
@@ -114,13 +100,7 @@ export default {
             this.load()
 		},
 
-        changeincludemode : function(v){
-			this.includemode = v
-
-            localStorage['comparewith_includemode'] = v
-
-            this.load()
-		},
+      
 
         scoreConverterChanged : function(){
 			this.load()
@@ -133,63 +113,37 @@ export default {
 
         load : function(){
 
-            var promise = null
 
+            var sc = (this.type == 'split' && this.includemode != 'i') ? 'stresstestWithPositionsSplit' : 'stresstestWithPositions'
+            
             this.loading = true
 
-            var sc = 'stresstestWithPositions'
+            this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed, {
+                term : this.type == 'split', 
+                name : this.assets[0] ? this.assets[0].name : '',
+                
+                fee : (asset) => {
 
-            if (this.type == 'split' && this.includemode != 'i') {
-                sc = 'stresstestWithPositionsSplit'
-            }   
+                    if(!asset){
+                        return this.portfolio.advisorFee
+                    }
 
-
-            if(!promise)
-                promise = this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed, {
-                    term : true, 
-                    name : this.assets[0] ? this.assets[0].name : '',
-                    
-                    fee : (asset) => {
-
-                        if(!asset){
-                            return this.portfolio.advisorFee
-                        }
-
-                        if (this.portfolio.has(asset.ticker) || this.type != 'split'){
-                            return this.portfolio.advisorFee
-                        }
-                        
-                        return 0
+                    if (this.portfolio.has(asset.ticker) || this.type != 'split'){
+                        return this.portfolio.advisorFee
                     }
                     
-                    //fee : true,
-                    //feeValue : this.type == 'split' ? 0 : this.portfolio.advisorFee
-                })
+                    return 0
+                }
+            }).then((r) => {
 
-            if (promise && promise.then){
-
-                this.loading = true
-
-                var task = f.makeid()
-
-                this.taskid = task
-
-                promise.then((r) => {
-
-                    this.cts = r.result
-                    this.portfolios = r.portfolios
-                    
-                }).finally(() => {
-                    this.loading = false
-
-                    this.taskid = null
-                })
-
-            }
+                this.cts = r.result
+                this.portfolios = r.portfolios
                 
+            }).finally(() => {
+                this.loading = false
 
-            
-           
+            })
+
         }
     },
 }

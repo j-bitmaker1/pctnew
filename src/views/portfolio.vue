@@ -78,6 +78,7 @@ import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
 import client from   '@/components/modules/app/portfolio/client/index.vue'
 
 import analysis from "@/components/modules/app/portfolio/analysis/index.vue";
+import retrospective from "@/components/modules/app/portfolio/retrospective/index.vue";
 
 
 export default {
@@ -88,7 +89,8 @@ export default {
 		crashtest,
 		portfoliomenu,
 		client,
-		analysis
+		analysis,
+		retrospective
 	},
 
 	computed: {
@@ -139,9 +141,14 @@ export default {
 					icon : 'fas fa-list'
 				},
 				{
-					text : 'labels.more',
+					text : 'labels.retrospective',
+					id : 'retrospective',
+					icon : 'fas fa-history'
+				},
+				{
+					text : 'labels.factoranalysis',
 					id : 'analysis',
-					icon : 'fas fa-caret-down'
+					icon : 'fas fa-th'
 				}
 			],
 

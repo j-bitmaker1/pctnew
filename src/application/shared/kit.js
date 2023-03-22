@@ -129,6 +129,12 @@ class Portfolio {
             return asset.ticker == ticker
         }) ? true : false
     }
+
+    term = function(){
+        return (_.find(this.positions, (asset) => {
+            return asset.term
+        }) || {}).term || null
+    }
 }
 
 class Task {

@@ -56,8 +56,6 @@ class Retrospective {
     prepareHistory(portfolios = {}, data = {}, range){
         var result = {}
 
-        console.log('data', data)
-
         _.each(portfolios, (portfolio) => {
 
             if(!data[portfolio.id]) return

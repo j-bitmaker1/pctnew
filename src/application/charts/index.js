@@ -670,7 +670,6 @@ class RetrospectiveHistory {
             return serie.yAxis
         }) ? true : false
 
-        console.log('p.yAxisMultiple', p.yAxisMultiple, series)
 
         var d = options(p)
 

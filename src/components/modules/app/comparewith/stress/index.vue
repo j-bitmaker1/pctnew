@@ -1,5 +1,5 @@
 <template>
-<div id="compare">
+<div id="comparewith_stress">
 
 
 
@@ -14,7 +14,6 @@
 			
 
 			<div class="forsettigns" >
-				<iconstoggle :icons="includemodes" @change="changeincludemode" :value="includemode" v-if="type == 'split'"/>
 				<iconstoggle v-if="hasdollarsvm" :icons="valuemodes" @change="changevaluemode" :value="valuemode"/>
 			</div>
 		</div>

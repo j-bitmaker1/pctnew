@@ -71,8 +71,22 @@
 				<structureinfo :annuity="structure" :weight="Number(weight) || defaultAnnuityValue" :mode="valuemode"/>
 			</div>
 
+			<div class="settings" v-if="portfolio && structure">
+
+				<div class="setting">
+
+					<iconstoggle :icons="includemodes" @change="changeincludemode" :value="includemode"/> 
+					<span>{{includemodeLabel}}</span>
+				</div>
+
+			</div>
+
+			<div class="linenavigation">
+				<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
+			</div>
+
 			<div class="componentWrapper" v-if="portfolio && structure">
-				<component :is="module" :portfolio="portfolio" type="split" :mode="valuemode" :assets="[annuityWeighted]"/>
+				<component :is="module" :includemode="includemode" :portfolio="portfolio" type="split" :mode="valuemode" :assets="[annuityWeighted]"/>
 			</div>
 
 			<div class="empty mobp" v-if="!portfolio || !structure">
@@ -80,7 +94,7 @@
 			</div>
 
 			<div class="golast mobp" v-if="(!portfolio || !structure) && last">
-				<router-link :to="last.link">
+				<router-link :to="last.link + '&c=' + active">
 					<button class="button">Go to last comparison</button>
 				</router-link>
 			</div>
@@ -103,8 +117,19 @@
 	padding-bottom: 2 * $r
 	margin-top: 2 * $r
 
-.componentWrapper
+.settings
+	padding: $r
+
+	.setting
+		display: flex
+		align-items : center
+
+		span
+			margin-left: $r
+.linenavigation
 	margin-top: 4 * $r
+
+.componentWrapper
 
 .golast
 	text-align: center
@@ -138,6 +163,7 @@
 		width: 100%
 		position: relative
 		justify-content: center
+		padding-left: 40px
 
 		&.left
 			justify-content: left
@@ -233,6 +259,7 @@ import linenavigation from "@/components/assets/linenavigation/index.vue";
 import structureinfo from '@/components/modules/app/comparewith/structureinfo/index.vue'
 import portfolioinfo from '@/components/modules/app/comparewith/portfolioinfo/index.vue'
 import stress from '@/components/modules/app/comparewith/stress/index.vue'
+import retrospective from '@/components/modules/app/comparewith/retrospective/index.vue'
 
 
 import { mapState } from 'vuex';
@@ -242,7 +269,8 @@ export default {
 		stress, 
 		linenavigation, 
 		structureinfo,
-		portfolioinfo
+		portfolioinfo,
+		retrospective
 	},
 
 	computed: {
@@ -305,6 +333,16 @@ export default {
 				ticker : this.structure.id,
 				value : this.weight
 			}
+		},
+
+		portfolioFromStructure : function(){
+
+		},
+
+		includemodeLabel : function(){
+			return (_.find(this.includemodes, (im) => {
+				return im.id == this.includemode
+			}) || {}).title
 		}
 
 	},
@@ -357,11 +395,13 @@ export default {
 			navigation : [
 				{
 					text : 'labels.crashtest',
-					id : 'stress'
+					id : 'stress',
+					icon : 'fas fa-chart-bar'
 				},
 				{
-					text : 'labels.distribution',
-					id : 'distribution'
+					text : 'labels.retrospective',
+					id : 'retrospective',
+					icon : 'fas fa-history'
 				}
 			],
 			navdefault : 'stress',
@@ -369,7 +409,22 @@ export default {
 
 			portfolio : null,
 			structure : null,
-			last : null
+			last : null,
+
+			includemode : localStorage['comparewith_includemode'] || 'e',
+			
+            includemodes : [
+				{
+					icon : "fas fa-chart-pie",
+					id : 'i',
+                    title : 'Structured Compared with Portfolio'
+				},
+				{
+					icon : "fas fa-plus-circle",
+					id : 'e',
+                    title : 'Structured Added to the Portfolio'
+				}
+			],
 			
 		}
 	},
@@ -429,6 +484,12 @@ export default {
                 }).catch(e => {})
 
 			})
+		},
+
+		changeincludemode : function(v){
+			this.includemode = v
+
+            localStorage['comparewith_includemode'] = v
 		}
 	},
 
