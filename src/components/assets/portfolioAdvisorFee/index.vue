@@ -20,7 +20,7 @@ import {
 } from 'vuex';
 
 export default {
-	name: '_emptySimple',
+	name: 'portfolioAdvisorFee',
 	props: {
 		portfolio: Object
 	},
