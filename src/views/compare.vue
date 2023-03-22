@@ -144,10 +144,10 @@ export default {
 					text : 'labels.distribution',
 					id : 'distribution'
 				},
-				/*{
+				{
 					text : 'labels.retrospective',
 					id : 'retrospective'
-				}*/
+				}
 				
 			],
 			navdefault : 'stress',

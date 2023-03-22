@@ -22,10 +22,71 @@ class Retrospective {
             return {
                 year : Number(y[0]),
                 value : parseFloat(y[2]),
-                factor : this.factor
+                name : this.factor
             }
         })
 
+    }
+
+    factorsLine(range){
+        var d = []
+
+        _.each(this.factors, (v, i) => {
+
+            if(range){
+                if(range[0] > v.year || v.year > range[1]) return
+            }
+
+            var prevvalue = d.length ? d[d.length - 1].total : 1
+
+            d.push({
+                value : v.value,
+                total : d.length ? prevvalue * (1 + v.value) : 1,
+                year : v.year
+            })
+
+        })
+
+        return {
+            name : this.factor,
+            data : d
+        }
+    }
+
+    prepareHistory(portfolios = {}, data = {}, range){
+        var result = {}
+
+        _.each(portfolios, (portfolio) => {
+
+            if(!data[portfolio.id]) return
+
+            var total = portfolio.total()
+
+            var hi = data[portfolio.id].scenarios
+
+            var d = []
+
+            _.each(hi, (v, i) => {
+
+                if(range){
+                    if(range[0] > this.factors[i].year || this.factors[i].year > range[1]) return
+                }
+
+                var p = this.factors[i].value + 100 * v.loss / total
+                var prevvalue = d.length ? d[d.length - 1].total : 1
+
+                d.push({
+                    value : p,
+                    total : d.length ? prevvalue * (1 + p) : 1,
+                    year : this.factors[i].year
+                })
+
+            })
+
+            result[portfolio.id] = d
+        })
+
+        return result
     }
 
 }

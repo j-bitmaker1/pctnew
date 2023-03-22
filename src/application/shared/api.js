@@ -1368,6 +1368,24 @@ var ApiWrapper = function (core = {}) {
 				})
 			},
 
+			customtestScenariosFromFactors : function({portfolio, factors}, p = {}){
+
+				var scenarios = _.map(factors, (factor) => {
+
+					return {
+						name : factor.name + ' ' + (factor.value || 0).toString(),
+						factors : [{
+							name : factor.name,
+							value : (factor.value || 0).toString()
+						}]
+					}
+
+				})
+
+				return this.customtestScenarios({portfolio, scenarios}, p)
+				
+			},
+
 			customtest : function({portfolio, factors}, p = {}){
 
 				p.storageparameters = dbmeta.stress()

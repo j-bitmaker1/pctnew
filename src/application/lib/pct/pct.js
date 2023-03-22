@@ -369,8 +369,6 @@ class PCT {
             term : p.term
         }
 
-        console.log('ct.scenarioResults', ct.scenarioResults)
-
         _.each(ct.scenarioResults, (s) => {
 
             if(!s.id){ ///crash rating
@@ -670,8 +668,6 @@ class PCT {
 
         var total = this.totalPositions(positions)
 
-        //console.log('total', total, positions, ltr, fee)
-
         //if (annuity.Margin_spread > 0) ttlLTR = ttlLTR - annuity.Margin_spread * 100;
         //if (annuity.upside_max != 0 && ttlLTR > annuity.upside_max * 100) ttlLTR = annuity.upside_max * 100; // Upper limit
         //if (annuity.enhancement != 0) ttlLTR = ttlLTR * annuity.enhancement;
@@ -679,8 +675,6 @@ class PCT {
         
         if (ltr){
             return _.reduce(ltr, (m, asset) => {
-
-                console.log('fee(asset)', fee(asset), asset.ticker)
 
                 var p = (Math.pow(1 + (asset.ltr || asset.lclidx) + asset.yield - (fee ? fee(asset) || 0 : 0) - asset.expRatio, term) - 1)
 
@@ -960,8 +954,6 @@ class PCT {
 
     getpositions = function(data){
 
-        console.log('getp', data)
-
         return data.portfolioId && data.portfolioId > 0 ? this.api.pctapi.portfolios.get(data.portfolioId).then((portfolio) => {
 
             return portfolio.positions
@@ -971,10 +963,29 @@ class PCT {
         })
     }
 
-    customstresstest = function(data, p = {}){
+    customstresstest = function(data, p = {}, method = 'customtest'){
 
-        return this.api.pctapi.stress.customtest(data, p).then(r => {
+        return this.api.pctapi.stress[method](data, p).then(r => {
             return Promise.resolve(this.parseStressTest(r))
+        })
+
+    }
+
+    customtestStressTestsScenariosFromFactors = function(portfolios, factors, p = {}){
+
+        var result = {}
+
+        return Promise.all(_.map(portfolios, (portfolio) => {
+
+            return this.customstresstest({
+                portfolio,
+                factors
+            }, {}, 'customtestScenariosFromFactors').then((r) => {
+                result[portfolio.id] = r
+            })
+
+        })).then(() => {
+            return Promise.resolve(result)
         })
 
     }

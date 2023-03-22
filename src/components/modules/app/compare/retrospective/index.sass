@@ -6,6 +6,7 @@
     display: flex
     grid-gap: $r
     justify-content: center
+    flex-wrap : wrap
     .name
         min-width: 200px
         display: flex
@@ -22,8 +23,16 @@
         overflow: hidden
         width : 100%
         position: relative
+        display: flex
+        align-items: center
+        justify-content: center
 
         span
             font-size: 0.9em
 
+.chartWrapper
+    padding-top: 4 * $r
+    padding-bottom: 4 * $r
+    padding-right: $r
+    padding-left: $r
 

@@ -110,7 +110,7 @@ export default {
 
             Promise.all(_.map(this.portfolios, (portfolio) => {
 
-                return this.core.pct.ltrdetails({id : portfolio.id}).then((r) => {
+                return this.core.pct.ltrdetails({portfolioId : portfolio.id}).then((r) => {
                     console.log('D', r)
                     this.$set(this.details, portfolio.id, r)
                     //this.details[portfolio.id] = r

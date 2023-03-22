@@ -44,8 +44,6 @@ export default {
 
 		sliderOptions : function(){
 
-			//[Number((0 - 3 * f.Volatility).toFixed(0)), Number((0 + 3 * f.Volatility).toFixed(0))]
-
 			return {
 				min : this.factor.min,
 				max : this.factor.max,

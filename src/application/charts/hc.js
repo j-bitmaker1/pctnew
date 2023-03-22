@@ -1,3 +1,46 @@
+var yAxe = function(p){
+	return {
+		minPadding: 0,
+		maxPadding: 0,
+		offset: 10,
+		//floor: true,
+		title: {
+			enabled: false,
+			text: '',
+			style: {
+				'fontSize': 10 * p.sizeRatio + 'px',
+				"color": "rgb(30, 35, 40)"
+			}
+		},
+		startOfWeek : 0,
+		lineWidth: 0,
+		lineColor: 'transparent',
+		minorTickLength: 0,
+		minorGridLineWidth: 1,
+		gridLineColor: "rgb(228, 221, 222)",
+		gridLineWidth: 1,
+		//tickInterval: 5,
+		tickLength: 0,
+		tickPixelInterval: 100 * p.sizeRatio,
+		opposite: true,
+
+		labels: {
+			enabled: true,
+			style: {
+				'fontSize': 11 * p.sizeRatio + 'px',
+				'color': "#27a9e6"
+			},
+
+			padding: 5 * p.sizeRatio,
+			distance: -25 * p.sizeRatio,
+			y: 3 * p.sizeRatio,
+
+		},
+							   
+		tickColor: 'rgb(228, 221, 222)',
+	}
+}
+
 var options = function(p){
 
 	if(!p) p = {};
@@ -5,6 +48,8 @@ var options = function(p){
 	if (p.print) p.sizeRatio = 4
 
 		p.sizeRatio || (p.sizeRatio = 1)
+
+	
 
 	var options = {
 		colors : [
@@ -72,46 +117,7 @@ var options = function(p){
 			tickPixelInterval: 100 * p.sizeRatio,
 			
 		},
-		yAxis: [{
-			minPadding: 0,
-			maxPadding: 0,
-			offset: 10,
-			//floor: true,
-			title: {
-				enabled: false,
-				text: '',
-				style: {
-					'fontSize': 10 * p.sizeRatio + 'px',
-					"color": "rgb(30, 35, 40)"
-				}
-			},
-			startOfWeek : 0,
-			lineWidth: 0,
-			lineColor: 'transparent',
-			minorTickLength: 0,
-			minorGridLineWidth: 1,
-			gridLineColor: "rgb(228, 221, 222)",
-			gridLineWidth: 1,
-			//tickInterval: 5,
-			tickLength: 0,
-			tickPixelInterval: 100 * p.sizeRatio,
-			opposite: true,
-
-			labels: {
-				enabled: true,
-				style: {
-					'fontSize': 11 * p.sizeRatio + 'px',
-					'color': "#27a9e6"
-				},
-
-				padding: 5 * p.sizeRatio,
-				distance: -25 * p.sizeRatio,
-				y: 3 * p.sizeRatio,
-
-			},
-								   
-			tickColor: 'rgb(228, 221, 222)',
-		}],
+		yAxis: [yAxe(p)],
 
 		tooltip: {
 			backgroundColor: "rgba(247,247,247,1)",
@@ -296,6 +302,10 @@ var options = function(p){
 		options.plotOptions.pie.size = '85%';
 		options.legend.enabled = true;
 		options.chart.backgroundColor = "#fff";
+	}
+
+	if(p.yAxisMultiple){
+		options.yAxis.push(yAxe(p))
 	}
 
 	return options;

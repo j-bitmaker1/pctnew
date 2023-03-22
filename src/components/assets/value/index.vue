@@ -35,6 +35,8 @@ export default {
 
         formatted : function(){
 
+            if(this.mode == 'string') return this.value
+
             return f.values.format(this.core.user.locale, this.valuemode, this.value)
             
         }
