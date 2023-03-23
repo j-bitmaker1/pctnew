@@ -409,7 +409,14 @@ export default {
 				menu.push({
 					text : 'labels.refreshintegration',
 					icon : 'fas fa-redo-alt',
-					action : () => {},
+					action : () => {
+						this.core.api.pctapi.integrations
+                            .update(this.current.name)
+                            .then(() => this.$store.commit('icon', {
+								icon: 'success',
+								message: 'Integration update started'
+							}));
+					},
 				})
 			}
 

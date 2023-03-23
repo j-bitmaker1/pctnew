@@ -1929,6 +1929,16 @@ var ApiWrapper = function (core = {}) {
 
 
 		},
+
+		integrations: {
+			update(name) {
+				return request({
+					name,
+				}, 'pctapi', 'Integration/Update', {
+					method: 'POST',
+				});
+			},
+		}
 	}
 
 	self.crm = {
