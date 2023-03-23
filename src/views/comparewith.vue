@@ -330,7 +330,7 @@ export default {
 
 			return {
 				...this.structure,
-				ticker : this.structure.id,
+				ticker : this.structure.ticker,
 				value : this.weight
 			}
 		},
@@ -370,7 +370,10 @@ export default {
 			handler : function(){
 
 				if (this.s){
-					this.core.api.pctapi.stress.annuities.get(this.s).then(r => {
+					this.core.pct.getasset(this.s).then(r => {
+
+						console.log("RRR ", r)
+
 						this.structure = r
 
 						this.saveactivity()
@@ -472,13 +475,13 @@ export default {
 		},
 
 		addannuity : function(){
-			this.core.vueapi.annuitiesLookup((result) => {
+			this.core.vueapi.assetsLookup((result) => {
 
 				this.$router.replace({
                     query : {
                         ... this.$route.query,
                         ... {
-							s : result.id
+							s : result.ticker
 						}
                     }
                 }).catch(e => {})

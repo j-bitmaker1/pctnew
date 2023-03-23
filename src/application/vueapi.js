@@ -449,6 +449,20 @@ class Vueapi {
         })
     }
 
+    assetsLookup = function(success, p = {}){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_assets_lookup',
+            module : "assets_lookup",
+            caption : "Select asset",
+    
+            events : {
+                selected : function(asset){
+                    success(asset)
+                }
+            }
+        })
+    }
+
     integrations = function(success, p = {}){
 
         this.store.commit('OPEN_MODAL', {

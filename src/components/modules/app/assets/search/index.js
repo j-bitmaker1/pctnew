@@ -3,7 +3,8 @@ import { mapState } from 'vuex';
 export default {
     name: 'assets_search',
     props: {
-        value : String
+        value : String,
+        nfb : Boolean
     },
 
     data : function(){
@@ -19,14 +20,18 @@ export default {
 
     mounted (){
 
+        this.searchvalue = this.value || ''
+
         setTimeout(() => {
 
             if (this.value){
                 this.search(this.value)
             }
 
-            if (this.$refs.search)
-                this.$refs.search.focus()
+            if(!this.nfb)
+
+                if (this.$refs.search)
+                    this.$refs.search.focus()
         }, 50)
         
     },
@@ -42,6 +47,8 @@ export default {
         search : function(v){
 
             this.searchvalue = v
+
+            this.$emit('search', v)
 
             if(!this.searchvalue) return this.setResult([])
 
@@ -138,8 +145,6 @@ export default {
 
 				return false
 			}
-
-
             
         }
     },

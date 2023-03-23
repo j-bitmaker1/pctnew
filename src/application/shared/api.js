@@ -1026,7 +1026,9 @@ var ApiWrapper = function (core = {}) {
 
 					return Promise.resolve(f.deep(r, 'IncrementalSearch.c') || [])
 				})
-			}
+			},
+
+			
 		},
 
 		portfolio: {
@@ -1302,7 +1304,7 @@ var ApiWrapper = function (core = {}) {
 						return Promise.resolve(r.records)
 					}).then((assets) => {
 						return _.map(assets, (asset) => {
-							return {...asset, name : asset.id.replace(/_/g, ' ') }
+							return {...asset, name : asset.id.replace(/_/g, ' '), ticker : asset.id }
 						})
 					})
 				},
@@ -1578,7 +1580,14 @@ var ApiWrapper = function (core = {}) {
 
 				return dbdividerequest(d, 'pctapi', 'Assets/GetAssetsInfo', p).then(r => {
 
-					return Promise.resolve(r.records)
+					var result = _.map(r.records, (r) => {
+						return {
+							...r,
+							isCovered : true
+						}
+					})
+
+					return Promise.resolve(result)
 				})
 			}
 		},

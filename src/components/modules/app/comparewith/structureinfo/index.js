@@ -82,7 +82,17 @@ export default {
                 {
                     id : 'enhancement',
                     type : 'p'
-                }
+                },
+
+                {
+                    id : 'yield',
+                    type : 'p100'
+                },
+                {
+                    id : 'expRatio',
+                    type : 'p100'
+                },
+                
 
 
 

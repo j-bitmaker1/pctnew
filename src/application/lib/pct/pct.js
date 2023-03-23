@@ -305,6 +305,22 @@ class PCT {
         })
     }
 
+    getasset = function(ticker){
+        return this.api.pctapi.stress.annuities.get(ticker).then(r => {
+            if(r) return Promise.resolve(r)
+
+            else {
+                return this.api.pctapi.assets.info([ticker]).then(r => {
+
+                    console.log("RE", r)
+
+                    return Promise.resolve(r[0])
+                })
+            }
+
+        })
+    }
+
     getStandartDeviation = function(id){
         return this.api.pct.portfolio.standartDeviation(id).then(r => {
             return Promise.resolve(this.parseStandartDeviationOld(r))

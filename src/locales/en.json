@@ -149,7 +149,9 @@
 		"remove" : "Remove",
 		"ltrdetails" : "Long Term Return Calculation Details",
 		"scenarioDefinitions" : "Scenario Definitions",
-		"optimizationSettings" : "Optimization settings"
+		"optimizationSettings" : "Optimization settings",
+		"structured" : "Structured",
+		"assets" : "Assets"
 
 	},
 
@@ -604,7 +606,10 @@
 		"barrier" : "Barrier",
 		"coupon" : "Coupon",
 		"enhancement" : "Enhancement",
-		"term" : "Term"
+		"term" : "Term",
+		"yield" : "Yield",
+		"expRatio" : "Expense Ratio"
+
 	},
 
 	"optimization" : {

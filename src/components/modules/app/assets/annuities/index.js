@@ -4,6 +4,7 @@ import f from "@/application/shared/functions.js"
 export default {
     name: 'assets_annuities',
     props: {
+        value : String
     },
 
     data : function(){
@@ -17,6 +18,9 @@ export default {
     },
 
     created () {
+
+        this.searchvalue = this.value || ''
+
         this.load()
     },
 
@@ -49,6 +53,10 @@ export default {
     methods : {
         search : function(v){
             this.searchvalue = v
+
+            console.log("AS")
+
+            this.$emit('search', v)
         },
         load : function(){
             this.loading = true

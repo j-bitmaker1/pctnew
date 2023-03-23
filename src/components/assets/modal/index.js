@@ -77,6 +77,7 @@ export default {
         pdfviewer : () => import("@/components/common/pdfviewer/index.vue"),
         assets_search : () => import("@/components/modules/app/assets/search/index.vue"),
         assets_annuities : () => import("@/components/modules/app/assets/annuities/index.vue"),
+        assets_lookup : () => import("@/components/modules/app/assets/lookup/index.vue"),
         pincode : () => import("@/components/assets/pincode/index.vue"),
         portfoliopdf :  () => import("@/components/modules/app/portfolio/createpdf/index.vue"),
         editorjs : () => import("@/components/common/editorjs/index.vue"),

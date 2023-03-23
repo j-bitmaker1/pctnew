@@ -1,5 +1,5 @@
 <template>
-<div id="linenavigation" class="mobp" :class="{buttons : true, second}">
+<div id="linenavigation" class="mobp unselectable" :class="{buttons : true, second}">
     <div class="wrapper">
         <div class="item" :class="{active : active == item.id}" :key="item.id" v-for="item in items">
 
@@ -16,6 +16,7 @@
 
 #linenavigation
     padding-bottom: $r
+
     .wrapper
         justify-content: center
         display: flex
