@@ -98,7 +98,7 @@ export default {
                     snap : 'none'
                 },
                 retrospective : {
-                    width : 60,
+                    width : 70,
                     snap : 'end'
                 },
                 /*factoranalysis : {
