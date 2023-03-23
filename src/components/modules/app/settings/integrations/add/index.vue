@@ -13,7 +13,7 @@
             <div class="formswrapper mobp" v-if="fields">
                 <forms
                     @input="input"
-                    :value="values || {}"
+                    :value="values"
                     ref="fields"
                     :fields="fields"
                 />

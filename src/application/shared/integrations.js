@@ -71,7 +71,7 @@ const STATIC_INTEGRATIONS = [
                 input: 'input',
             },
             {
-                id: 'AccessCode',
+                id: 'RepCode',
                 text: 'fields.AccessCode',
                 rules: [
                     {

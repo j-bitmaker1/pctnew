@@ -26,6 +26,12 @@ export default {
 
     watch: {
         //$route: 'getdata'
+        // integrations: {
+        //     deep: true,
+        //     handler(after, before) {
+        //         debugger;
+        //     },
+        // },
     },
     computed: mapState({
         auth: (state) => state.auth,
@@ -39,16 +45,18 @@ export default {
 
             this.core.vueapi.integrationsAdd(
                 (addedIntegration) => {
+
                     if (!addedIntegration.OldName) {
                         return this.integrations.push({ ...addedIntegration });
                     }
 
                     const existingIntegration = this.integrations.findIndex(
                         (integration) =>
-                            integration.Name === addedIntegration.Name,
+                            integration.Name === addedIntegration.OldName,
                     );
 
                     if (existingIntegration > -1) {
+                        
                         this.integrations.splice(existingIntegration, 1, {
                             ...addedIntegration,
                         });

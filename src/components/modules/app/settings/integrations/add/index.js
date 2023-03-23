@@ -40,6 +40,8 @@ export default {
                     text: 'campaigns.fields.start.IntegrationId',
                     input: 'select',
 
+                    disabled: this.oldName ? true : false,
+
                     values: this.core.integrations.staticIntegrations,
 
                     rules: [],
@@ -64,11 +66,16 @@ export default {
         inputType: function (v) {
             this.type = v.type;
             // this.$refs.fields.fields = [];
-            this.values = {};
+            this.values = {
+                reset: true,
+            };
         },
 
         save: function () {
             this.values = this.$refs.fields.get();
+
+            if (!this.values) return;
+
             // console.log(this.values, this.type, inputValues);
             this.core.api.pct.integrations
                 .addOrEdit({
