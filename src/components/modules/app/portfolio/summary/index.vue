@@ -59,15 +59,13 @@
                 </template>
             </widget>
 
-            
-
             <widget name="center" :customscroll="true" :widgets="widgets">
                 <template v-slot:content>
                     <div class="pcntwrapper">
                         <div class="pcnt" v-if="view == 'stresstest'">
 
                             <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" :profile="profile" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
-                            <crashtesttemp :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+                            <crashtesttemp name="Editing portfolio" :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
 
                         </div>
 
@@ -149,11 +147,30 @@
                             <span>Historical simulation</span>
                         </div>
                         <template  v-if="portfolio">
-                            <retrospective :portfolio="portfolio"/>
+
+                            <retrospective :height="height" v-if="portfolio && !temp" :portfolio="portfolio"/>
+
+                            <retrospectivetemp name="Editing portfolio" :height="height" v-if="portfolio && temp" :portfolio="portfolio" :assets="temp"/>
+
+                            <!--<retrospective :portfolio="portfolio"/>-->
                         </template>
                 </template>
             </widget>
 
+            <!--<widget name="factoranalysis" :customscroll="false" :widgets="widgets">
+                <template v-slot:content>
+                    <template  v-if="portfolio">
+                        <factoranalysis :portfolio="portfolio"/>
+                    </template>
+                </template>
+            </widget>-->
+
+        </div>
+
+        <div class="navcontrols">
+            <div class="navcontrol" v-for="slide in widgets.slides" :class="{active : slide.active}" @click="e => {toslide(slide)}">
+                <i class="fas fa-circle"></i>
+            </div>
         </div>
 
         <div class="portfoliotip" v-if="!portfolio">

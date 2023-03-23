@@ -11,10 +11,12 @@ import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
 
 import customstresstest from "@/components/modules/app/scenarios/custom2/index.vue";
 import retrospective from "@/components/modules/app/portfolio/retrospective/index.vue";
+import retrospectivetemp from "@/components/modules/app/comparewith/retrospective/index.vue";
+
+import factoranalysis from "@/components/modules/app/portfolio/factoranalysis/index.vue";
 
 
 import widget from "./widget/index.vue";
-
 
 
 
@@ -31,7 +33,9 @@ export default {
         ctmenu,
         customstresstest,
         retrospective,
-        widget
+        factoranalysis,
+        widget,
+        retrospectivetemp
 	},
     props: {
         portfolioId : Number,
@@ -88,25 +92,40 @@ export default {
                     width : 40
                 },
                 right : {
-                    width : 30
+                    width : 30,
+                    snap : 'none'
                 },
                 retrospective : {
-                    width : 60
-                }
+                    width : 60,
+                    snap : 'end'
+                },
+                /*factoranalysis : {
+                    width : 40,
+                    snap : 'end'
+                }*/
             }
+
+            var slideIndexes = []
 
             var indexes = _.map(widgets, (w, i) => {
                 return i
             })
 
+
             if(this.dwidth + correction <= 900){
                 widgets.left.width = 40
                 widgets.center.width = 60
                 widgets.right.width = 40
+                widgets.retrospective.width = 100
+                //widgets.factoranalysis.width = 100
+
+                slideIndexes = [['left', 'center'], ['center', 'right'], ['retrospective']/*, ['factoranalysis']*/]
             }
 
             if(this.dwidth + correction > 900 && this.dwidth + correction <= 1920){
                 widgets.left.sticky = true
+
+                slideIndexes = [['left', 'center', 'right'], ['right', 'retrospective']/*, ['factoranalysis']*/]
             }
 
             if(this.dwidth + correction > 1920){
@@ -114,64 +133,63 @@ export default {
                 widgets.center.width = 25
                 widgets.right.width = 25
                 widgets.retrospective.width = 25
+                //widgets.retrospective.width = 25
+
+                slideIndexes = [['left', 'center', 'right', 'retrospective']/*, ['retrospective', 'factoranalysis']*/]
+
             }
 
+            var totalwidth = _.reduce(widgets, (m, widget) => {
+                return m + widget.width
+            }, 0)
             var position = (this.scroll + this.dwidth / 2) / this.scrollWidthC * 100
-            var slides = []
+            var relativePosition = position * totalwidth / 100
 
-            for(let i = 0; i < indexes.length; i++){
+            var slides = _.map(slideIndexes, (sindexes) => {
 
                 var left = 0
+                var ln
 
-                for(let j = 0; j < i; j++){
-                    left += widgets[indexes[j]].width
-                }
+                for(let i = 0; i < indexes.length; i++){
 
-                var aw = 0
-                var lwidgets = []
-                var cwidget = indexes[i]
+                    if(indexes[i] == sindexes[0]){
+                        ln = true
+                    }
 
-             
-
-                for(let j = i; j < indexes.length; j++){
-                    if (aw < 100){
-                        aw += widgets[indexes[j]].width
-
-                        lwidgets.push(indexes[j])
+                    if(!ln){
+                        left += widgets[indexes[i]].width
                     }
                 }
 
-                if (aw >= 100){
-                    slides.push({
-                        widget : cwidget,
-                        widgets : lwidgets,
-                        left,
-                        width : aw,
-                        leftWidget : i > 0 ? indexes[i - 1] : null
-                    })
+                var width = _.reduce(sindexes, (m, si) => {
+                    return m + widgets[si].width
+                }, 0)
+                
+                var slide = {
+                    widgets : sindexes,
+                    left,
+                    width,
+                    rleft : left / (totalwidth / 100)
+                    //active : relativePosition >= left && relativePosition < left + width
                 }
-            }
 
-            if(this.scrollWidthC){
-                var totalWidth = 0 + slides[slides.length - 1].left + slides[slides.length - 1].width
+                return slide
 
-                var active = _.min(slides, (slide) => {
+            })
 
-                    var v = Math.abs(slide.left  - position * (totalWidth / 100))
+            var active = _.min(slides, (slide) => {
 
-                    return v
-                })
+                var v = Math.abs(((2 * slide.left + slide.width) / 2) - relativePosition)
 
-                if (active){
-                    active.active = true
+                return v
+            })
 
-                    /*_.each(active.widgets, (i) => {
-                        widgets[i].active = true
-                    })
-        
-                    if (active.leftWidget)
-                        widgets[active.leftWidget].active = true*/
-                }
+            if (active){
+                active.active = true
+
+                /*_.each(active.widgets, (i) => {
+                    delete widgets[i].sticky
+                })*/
             }
 
             return {
@@ -182,7 +200,10 @@ export default {
 
         scrollWidthC(){
             return this.scrollWidth 
-        }
+        },
+
+
+       
     }),
 
     mounted (){
@@ -190,6 +211,11 @@ export default {
     },
 
     methods : {
+        toslide(slide){
+            console.log('slide', slide, this.scrollWidth, this.scrollWidth * (slide.rleft) / 100)
+
+            this.$refs.bodyWrapper.scrollLeft = this.scrollWidth * (slide.rleft) / 100
+        },
         scrolling : function(e){
             this.scroll = e.target.scrollLeft
             this.scrollWidth = e.target.scrollWidth

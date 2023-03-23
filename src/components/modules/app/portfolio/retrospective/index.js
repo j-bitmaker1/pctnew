@@ -9,7 +9,8 @@ export default {
     name: 'portfolio_retrospective',
     props: {
         portfolio : Object,
-        portfolios : Array
+        portfolios : Array,
+        disable : Boolean
     },
 
     data : function(){
@@ -18,7 +19,8 @@ export default {
             loading : false,
             underlying : 'spy',
             historyRaw : {},
-            range : [2010, new Date().getFullYear()]
+            range : [2010, new Date().getFullYear()],
+            
         }
 
     },

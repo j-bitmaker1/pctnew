@@ -38,7 +38,7 @@
 		white-space: nowrap
 
 .removedassets
-	padding-left: 44px
+	padding-left: 33px
 
 	.ticker
 		position: relative
@@ -98,11 +98,12 @@
 		scroll-snap-align: start
 
 	.remove
+		cursor: pointer
 		scroll-snap-align: start
 		text-align: center
-		width: 44px
-		min-width: 44px
-		max-width: 44px
+		width: 33px
+		min-width: 33px
+		max-width: 33px
 		flex-grow: 0
 		flex-shrink: 0
 		color : srgb(--neutral-grad-1)
@@ -123,9 +124,9 @@
 	&::-webkit-scrollbar
 		display: none!important
 	
-
 	.assetsListWrapper
-		width: calc(100% + 44px)
+		width: 100%
+	
 
 	&.focused
 		overflow: visible
@@ -171,3 +172,18 @@
 		font-weight: 700
 
 
+@media only screen and (max-width: 768px)
+	.assetWrapper
+
+
+		.remove
+			width: 44px
+			min-width: 44px
+			max-width: 44px
+			
+	.removedassets
+		padding-left: 44px
+	.aggregatelist,
+	.assetsList
+		.assetsListWrapper
+			width: calc(100% + 44px)

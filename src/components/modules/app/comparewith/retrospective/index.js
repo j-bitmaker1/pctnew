@@ -8,6 +8,7 @@ export default {
         portfolio : Object,
         assets : Array,
         type : String,
+        name : String,
         includemode : {
             type : String,
             default : 'e'
@@ -46,7 +47,9 @@ export default {
     computed: mapState({
         auth : state => state.auth,
         composePortfolio() {
-            var composeParameters = {}
+            var composeParameters = {
+                name : this.name || ""
+            }
 
             if(this.type == 'split' && this.includemode != 'i') {composeParameters.portfolio = this.portfolio}
 

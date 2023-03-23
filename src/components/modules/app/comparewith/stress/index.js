@@ -9,6 +9,7 @@ export default {
         portfolio : Object,
         assets : Array,
         type : String,
+        name : String,
         includemode : {
             type : String,
             default : 'e'
@@ -120,7 +121,7 @@ export default {
 
             this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed, {
                 term : this.type == 'split', 
-                name : this.assets[0] ? this.assets[0].name : '',
+                name : this.name ? this.name : (this.assets[0] ? this.assets[0].name : ''),
                 
                 fee : (asset) => {
 
