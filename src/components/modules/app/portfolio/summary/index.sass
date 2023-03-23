@@ -253,6 +253,15 @@
 		border-right : $r solid srgb(--background-secondary-theme)
 		border-left : $r solid srgb(--background-secondary-theme)
 
+	&.shift
+		.customscroll,
+		.part
+			overflow: hidden!important
+
+		::v-deep
+			.customscroll
+				overflow: hidden!important
+
 .scenario
 	.header
 		display: flex

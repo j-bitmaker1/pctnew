@@ -1,5 +1,5 @@
 <template>
-<div id="portfolio_summary" :class="{portfolio : portfolio}">
+<div id="portfolio_summary" :class="{portfolio : portfolio, shift : shift}">
 
     <template v-if="!mobileview">
 
@@ -168,7 +168,7 @@
         </div>
 
         <div class="navcontrols">
-            <div class="navcontrol" v-for="slide in widgets.slides" :class="{active : slide.active}" @click="e => {toslide(slide)}">
+            <div class="navcontrol" :key="i" v-for="(slide, i) in widgets.slides" :class="{active : slide.active}" @click="e => {toslide(slide)}">
                 <i class="fas fa-circle"></i>
             </div>
         </div>

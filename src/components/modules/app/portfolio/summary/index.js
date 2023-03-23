@@ -57,6 +57,7 @@ export default {
             lastCustomFactors : null,
             lastCustomResult : null,
             scroll : 0,
+            shift : false,
             view : 'stresstest',
             views : ['stresstest', 'customstresstest'],
             scrollWidth : 0
@@ -187,10 +188,6 @@ export default {
 
             if (active){
                 active.active = true
-
-                /*_.each(active.widgets, (i) => {
-                    delete widgets[i].sticky
-                })*/
             }
 
             return {
@@ -207,8 +204,18 @@ export default {
        
     }),
 
+    beforeDestroy(){
+        document.removeEventListener('keydown', this.keydown)
+        document.removeEventListener('keyup', this.keyup)
+    },
+
     mounted (){
         this.scrollWidth = this.$refs.bodyWrapper.scrollWidth
+
+        document.addEventListener('keydown', this.keydown)
+        document.addEventListener('keyup', this.keyup)
+
+      
     },
 
     methods : {
@@ -402,6 +409,19 @@ export default {
                 
             })
             
+        },
+
+        keydown : function(event){
+            if (event.code == 'ShiftLeft') {
+                this.shift = true
+            }
+        },
+
+        keyup : function(event){
+
+            if (event.code == 'ShiftLeft') {
+                this.shift = false
+            }
         }
 
     },
