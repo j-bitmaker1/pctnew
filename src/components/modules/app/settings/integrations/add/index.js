@@ -65,10 +65,12 @@ export default {
 
         inputType: function (v) {
             this.type = v.type;
-            
-            this.values = {};
 
-            // this.$refs.fields ? this.$refs.fields.reset() : null;
+            this.values = {
+            };
+
+            if (this.$refs.fields)
+                this.$nextTick(() => this.$refs.fields.reset());
         },
 
         save: function () {
@@ -76,7 +78,6 @@ export default {
 
             if (!this.values) return;
 
-            // console.log(this.values, this.type, inputValues);
             this.core.api.pct.integrations
                 .addOrEdit({
                     NewName: this.values.IntegrationName || '',

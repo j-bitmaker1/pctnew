@@ -64,14 +64,6 @@ export default {
             },
         },
 
-        value: {
-            deep: true,
-            handler(now = {}, old = {}) {
-                if (!now.reset) return;
-
-                this.reset();
-            }
-        },
         //$route: 'getdata'
     },
     computed: mapState({
