@@ -21,6 +21,7 @@
         </div>
 
         <div class="savePanel">
+            <button class="button" @click="remove">Remove</button>
             <button class="button" @click="save">Save</button>
         </div>
     </div>

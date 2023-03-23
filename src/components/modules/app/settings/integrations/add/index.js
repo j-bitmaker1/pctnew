@@ -65,10 +65,10 @@ export default {
 
         inputType: function (v) {
             this.type = v.type;
-            // this.$refs.fields.fields = [];
-            this.values = {
-                reset: true,
-            };
+            
+            this.values = {};
+
+            // this.$refs.fields ? this.$refs.fields.reset() : null;
         },
 
         save: function () {
@@ -105,6 +105,22 @@ export default {
                 .finally(() => {
                     this.$emit('close');
                 });
+        },
+
+        remove: async function () {
+            await this.$dialog.confirm(
+                `Do you really want to delete ${this.oldName}?`,
+                {
+                    okText: this.$t('yes'),
+                    cancelText: this.$t('no'),
+                },
+            );
+
+            this.$emit('changed', {
+                nameToRemove: this.oldName,
+            });
+
+            this.$emit('close');
         },
     },
 };

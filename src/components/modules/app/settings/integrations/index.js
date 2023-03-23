@@ -26,12 +26,6 @@ export default {
 
     watch: {
         //$route: 'getdata'
-        // integrations: {
-        //     deep: true,
-        //     handler(after, before) {
-        //         debugger;
-        //     },
-        // },
     },
     computed: mapState({
         auth: (state) => state.auth,
@@ -45,6 +39,12 @@ export default {
 
             this.core.vueapi.integrationsAdd(
                 (addedIntegration) => {
+                    if (addedIntegration.nameToRemove) {
+                        return this.remove(
+                            addedIntegration.nameToRemove,
+                            false,
+                        );
+                    }
 
                     if (!addedIntegration.OldName) {
                         return this.integrations.push({ ...addedIntegration });
@@ -56,7 +56,6 @@ export default {
                     );
 
                     if (existingIntegration > -1) {
-                        
                         this.integrations.splice(existingIntegration, 1, {
                             ...addedIntegration,
                         });
@@ -86,14 +85,24 @@ export default {
                 {
                     text: 'integrations.removeIntegration',
                     icon: 'fas fa-times-circle',
-                    action: () => this.remove(name),
+                    action: () => this.remove(name, true),
                 },
             ];
 
             this.core.vueapi.listmenu(items);
         },
 
-        remove: function (Name) {
+        remove: async function (Name, dialogIsNeeded) {
+            if (dialogIsNeeded) {
+                await this.$dialog.confirm(
+                    `Do you really want to delete ${Name}?`,
+                    {
+                        okText: this.$t('yes'),
+                        cancelText: this.$t('no'),
+                    },
+                );
+            }
+
             this.loading = true;
 
             this.core.api.pct.integrations
