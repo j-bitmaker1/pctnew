@@ -1,0 +1,65 @@
+.info
+    padding : 0 2 * $r
+    max-width: 640px
+
+    .caption
+        margin-top: 3 * $r
+        margin-bottom: 2 * $r
+        span
+            font-size: 1.5em
+            font-weight: 700
+
+.tips
+    padding : 0 2 * $r
+    max-width: 640px
+    .tip
+        display: flex
+        margin-top: $r
+
+        span
+            color : srgb(--color-txt-ac)
+            font-size: 0.8em
+
+        .num
+            min-width: 30px
+
+.tableswrapper
+    padding-top: 0
+
+    sup
+        color : srgb(--color-txt-ac)
+
+    .fv
+        display: flex
+        flex-flow: column
+
+        .name
+            font-weight: 700
+            margin-bottom: $r
+
+    .vl
+        display: flex
+        align-items: center
+
+        i
+            margin-right: 0.5 * $r
+
+    .bad
+        color : srgb(--color-bad)
+
+    .good
+        color : srgb(--color-good)
+
+
+#portfolio_crashtest_scenariodefinitions
+    position: relative
+    padding-bottom: 4 * $r
+
+    .loader
+        position: absolute
+        z-index: 1
+        left : 0
+        top : 0
+        bottom : 0
+        right: 0
+        background: srgba(--background-total-theme, 0.5)

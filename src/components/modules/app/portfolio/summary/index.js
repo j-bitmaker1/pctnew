@@ -49,6 +49,7 @@ export default {
             loading : false,
             selectedScenario : null,
             ct : null,
+            cts : null,
             profile : null,
             portfolio : null,
             temp : null,
@@ -76,7 +77,7 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
-        height : state => state.dheight - 44 - 56 - 40,
+        height : state => state.dheight - 44 - 48 - 40,
         dwidth : state => state.dwidth - 44,
         mobileview : state => state.mobileview,
 
@@ -224,6 +225,7 @@ export default {
         },
         ctloaded : function({ct, cts}){
             this.ct = ct
+            this.cts = cts
 
             var scenario = this.ct.scenarios[this.ct.scenarios.length - 1]
 

@@ -64,6 +64,7 @@ export default {
         portfolios_main : () => import("@/components/modules/app/portfolios/main/index.vue"),
         portfolio_summary : () => import("@/components/modules/app/portfolio/summary/index.vue"),
         portfolio_ltrdetails: () => import("@/components/modules/app/portfolio/crashtest/ltrdetails/index.vue"),
+        portfolio_crashtest_scenariodefinitions: () => import("@/components/modules/app/portfolio/crashtest/scenariodefinitions/index.vue"),
 
         //clients : () => import("@/components/modules/app/clients/index.vue"),
         contacts : () => import("@/components/modules/app/contacts/index.vue"),

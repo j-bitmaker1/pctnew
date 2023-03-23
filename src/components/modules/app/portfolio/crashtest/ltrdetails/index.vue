@@ -5,7 +5,7 @@
         <linepreloader  />
     </div>
 
-    <div class="tableswrapper customscrollHorizontal">
+    <div class="tableswrapper">
 
         <div class="tablewrapper " v-for="portfolio in portfolios" :key="portfolio.id">
             <div class="header">

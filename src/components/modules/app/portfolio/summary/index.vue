@@ -89,7 +89,7 @@
 
                                 </template>
 
-                                <ctmenu :portfolios="{[portfolio.id] : portfolio}" v-if="portfolio" :ext="true" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
+                                <ctmenu :cts="cts" :portfolios="{[portfolio.id] : portfolio}" v-if="portfolio" :ext="true" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
 
                             </div>
                         </div>

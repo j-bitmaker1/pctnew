@@ -348,6 +348,18 @@ class Vueapi {
             }
         })
     }
+
+    scenarioDefinitions = function(data){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_crashtest_scenariodefinitions',
+            module : "portfolio_crashtest_scenariodefinitions",
+            caption : "Scenario Defenitions",
+            data : data,
+            mclass : 'big',
+            events : {
+            }
+        })
+    }
     
 
     createContact = function(payload, success, p = {}){

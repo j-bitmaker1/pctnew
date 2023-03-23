@@ -148,6 +148,7 @@
 
 		"remove" : "Remove",
 		"ltrdetails" : "Long Term Return Calculation Details",
+		"scenarioDefinitions" : "Scenario Definitions",
 		"optimizationSettings" : "Optimization settings"
 
 	},
