@@ -21,7 +21,7 @@
 		<div class="statsrow row" >
 			<div>
 				<span class="label">Crash Rating</span>
-				<coloredNumber :number="profile.riskscore"/>
+				<coloredNumber :reversed="true" :number="profile.riskscore"/>
 			</div>
 
 			<div>

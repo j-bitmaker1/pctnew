@@ -20,9 +20,6 @@ class Contact {
             if (data.__customfields__.$$PCT_CrashRating)
                 this.riskscore = Number(data.__customfields__.$$PCT_CrashRating)
 
-            /*if (data.__customfields__.$$PCT_Riskscore)
-                this.riskscore = Number(data.__customfields__.$$PCT_Riskscore)*/
-
             if (data.__customfields__.$$PCT_QuestionnaireId)
                 this.questionnaire = Number(data.__customfields__.$$PCT_QuestionnaireId)
 
@@ -34,7 +31,6 @@ class Contact {
         //data.Products = (data.Products || "").split(',')
 
     }
-
 
     get imageLink() {
         if (this.AvatarId) {

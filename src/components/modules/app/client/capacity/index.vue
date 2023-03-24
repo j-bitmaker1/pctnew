@@ -140,6 +140,10 @@ export default {
 				this.fromsettings = _.clone(this.capacity.values)
 
 				this.core.dynamicSettings[this.settingsKey].set('values_' + this.profile.ID, this.fromsettings)
+
+
+				//console.log('this.capacity', this.capacity.capacity)
+				this.core.api.crm.contacts.updateCapacity(this.profile.ID, this.capacity.capacity.toFixed(0))
 			}
 		},	
 

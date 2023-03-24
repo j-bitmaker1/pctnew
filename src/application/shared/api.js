@@ -1934,12 +1934,37 @@ var ApiWrapper = function (core = {}) {
 				}, 'api', 'crm/Contacts/GetCountsByType', p)
 			},
 
+			updateCapacity : function(ID, capacity){
+				var data = {
+					ID,
+					__customfields__ : {
+						$$PCT_Capacity : capacity
+					},
+					IsUpdateOnlyThisCustomFields : true
+				}
+
+				console.log('data', data)
+
+				return self.crm.contacts.update(data)
+			},
+
 			update: function (data = {}, p = {}) {
 				p.method = "POST"
 
 				data.Modified = f.date.toserverFormatDate()
 
-				var { updated, from } = core.vxstorage.update(data, 'client')
+				var edata = {...data}
+
+				if (edata.__customfields__){
+					if(edata.__customfields__.$$PCT_Capacity){
+						edata.capacity = Number(edata.__customfields__.$$PCT_Capacity)
+					}
+					
+				}
+
+				console.log('edata', edata)
+
+				var { updated, from } = core.vxstorage.update(edata, 'client')
 
 				//core.vxstorage.update(data, 'contact')
 
