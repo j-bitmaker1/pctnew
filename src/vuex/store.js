@@ -54,6 +54,7 @@ var storeFactory = function (vxstorage) {
 
 
 	var state = {
+		APPSTORE: false,
 		icon: null,
 		loading: false,
 		wssready: false,
@@ -128,6 +129,10 @@ var storeFactory = function (vxstorage) {
 	}
 
 	var mutations = {
+		
+		setAPPSTORE(state, boo){
+			state.APPSTORE = boo;
+		},
 
 		clearall(state) {
 
