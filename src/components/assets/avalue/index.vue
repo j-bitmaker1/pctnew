@@ -9,8 +9,8 @@ import {
 } from 'vuex';
 
 import f from '@/application/shared/functions.js'
-var PhoneValidator = require('rf-phone-validator');
 var EmailValidator = require("email-validator");
+import parsePhoneNumber from 'libphonenumber-js'
 
 export default {
     name: 'avalue',
@@ -19,9 +19,20 @@ export default {
         auth: state => state.auth,
 
         type : function(){
-            var pv = new PhoneValidator(this.value);
 
-            if (pv.valid()) return 'phone'
+            if(this.value){
+                try{
+                    const phoneNumber = parsePhoneNumber(this.value, 'US')
+            
+                    if (phoneNumber) return 'phone'
+                }
+                catch(e){
+
+                }
+            }
+
+            
+            
 
             if (EmailValidator.validate(this.value)) return 'email'
         },
@@ -29,9 +40,12 @@ export default {
         formatted : function(){
 
             if(this.type == 'phone'){
-                var pv = new PhoneValidator(this.value);
 
-                return pv.format()
+                const phoneNumber = parsePhoneNumber(this.value, 'US')
+
+                console.log('phoneNumber', phoneNumber)
+
+                return phoneNumber.formatInternational()
             }
 
             if (this.type == 'email'){
@@ -47,9 +61,9 @@ export default {
         clean : function(){
 
             if(this.type == 'phone'){
-                var pv = new PhoneValidator(this.value);
+                const phoneNumber = parsePhoneNumber(this.value, 'US')
 
-                return pv.clean()
+                return phoneNumber.number
             }
 
             return this.value
