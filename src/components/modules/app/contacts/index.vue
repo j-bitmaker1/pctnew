@@ -1,5 +1,10 @@
 <template>
 <div id="contacts">
+
+	<div class="controlPanel mobp" v-if="includeAdd">
+		<button class="button small" @click="newclient">Add client</button>
+	</div>
+
 	<div class="controls mobp">
 		<listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" :store="type || 'contacts'"/>
 	</div>

@@ -177,9 +177,14 @@ export default {
 
 		getQuestionnaire : function(){
 
+			console.log('this.profile', this.profile)
+
 			if (this.profile && this.profile.questionnaire){
 				return this.core.api.crm.questionnaire.getresult(this.profile.questionnaire).then(r => {
 					this.questionnaire = r
+
+					console.log('this.questionnaire', this.questionnaire)
+
 				})
 			}
 			else{

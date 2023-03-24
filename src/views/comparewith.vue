@@ -16,8 +16,12 @@
             <div class="selectors">
 
 				<div class="selector">
-					<div class="namerow" @click="addportfolio">
+					<div class="namerow" @click="addportfolio" >
 						<div class="nameB" >
+							<div class="detailspanel" v-if="portfolio" @click.stop="showassets">
+								<i class="fas fa-list-ul"></i>
+							</div>
+
 							<template v-if="portfolio">
 								<span>{{portfolio.name}}</span> &middot; <value :value="portfolio.total()" :mode="portfolio.isModel ? 'p100' : 'd'" />
 								
@@ -199,7 +203,7 @@
 
 		span
 			font-size: 0.9em
-
+	.detailspanel,
 	.selectionpanel
 		position: absolute
 		right : 0
@@ -225,6 +229,12 @@
 
 			&:hover
 				color : srgb(--neutral-grad-2)
+
+	.detailspanel
+		right: auto
+		left : $r
+		border-left: 0
+		border-right: 1px solid srgb(--neutral-grad-1)
 
 ::v-deep
 	.panelWrapper
@@ -292,8 +302,8 @@ export default {
 			return w
 		},
 
-        s : function(){
-			return this.$route.query.s || ''
+        st : function(){
+			return this.$route.query.st || ''
 		},
 
 		module : function(){
@@ -365,12 +375,12 @@ export default {
 			}
 		},
 
-		s: {
+		st: {
 			immediate : true,
 			handler : function(){
 
-				if (this.s){
-					this.core.pct.getasset(this.s).then(r => {
+				if (this.st){
+					this.core.pct.getasset(this.st).then(r => {
 
 						console.log("RRR ", r)
 
@@ -477,11 +487,13 @@ export default {
 		addannuity : function(){
 			this.core.vueapi.assetsLookup((result) => {
 
+				console.log('result', result)
+
 				this.$router.replace({
                     query : {
                         ... this.$route.query,
                         ... {
-							s : result.ticker
+							st : result.ticker
 						}
                     }
                 }).catch(e => {})
@@ -493,6 +505,10 @@ export default {
 			this.includemode = v
 
             localStorage['comparewith_includemode'] = v
+		},
+
+		showassets : function(){
+			this.core.vueapi.portfolioShares(this.portfolio)
 		}
 	},
 

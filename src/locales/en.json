@@ -129,7 +129,8 @@
 		},
 		"crslider" : {
 			"ocr" : "Crash rating",
-			"tolerance" : "Tolerance"
+			"tolerance" : "Tolerance",
+			"capacity" : "Capacity"
 		},
 		"confirmyourpassword" : "Confirm your assword",
 		"moveportfoliostofolder" : "Move portfolios to folder",

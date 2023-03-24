@@ -15,7 +15,9 @@ export default {
 			default : true
 		},
 
-		scroll : Number
+		scroll : Number,
+
+		includeAdd : Boolean
 	},
 
 	components : {contact},
@@ -283,6 +285,14 @@ export default {
 			}
 			
 		},
+
+		newclient : function(){
+
+			this.core.vueapi.newClient((client) => {
+				this.selected([client])
+			})
+			
+		}
 
 
 	},

@@ -50,7 +50,8 @@ class Vueapi {
                     selectall : p.selectall
                 },
                 type : p.type,
-                hasmenu : false
+                hasmenu : false,
+                includeAdd : true
             },
 
             events : {
@@ -784,6 +785,19 @@ class Vueapi {
                 events : events,
                 mclass : p.mclass,
             })
+        })
+
+    }
+
+    portfolioShares = function(portfolio){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_shares',
+            module : "portfolio_shares",
+            caption : portfolio.name,
+            data : {
+                portfolio
+            },
         })
 
     }

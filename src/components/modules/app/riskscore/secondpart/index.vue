@@ -134,8 +134,14 @@ export default {
 
 
 		change : function(value, page){
+
+				console.log("??", page.type)
+
+
 			if(page.type == 'risk') this.$emit('changecr', value)
 			if(page.type == 'capacity') {
+				
+				console.log('emit')
 
 				this.$emit('changecapacity', {
 					values : this.core.pct.riskscore.convertCapacityToQr(value.values),

@@ -20,7 +20,7 @@
 			</div>
 
 			<div class="componentWrapper" v-if="ids.length">
-				<component :is="module" :ids="ids" @selectone="selectone" @removeitem="removeitem"/>
+				<component :is="module" :ids="ids" @selectone="selectone" @removeitem="removeitem" @showassets="showassets"/>
 			</div>
 
 			<div class="empty mobp" v-if="!ids.length">
@@ -54,6 +54,7 @@
 		font-size: 0.9em
 
 ::v-deep
+	.detailspanel,
 	.selectionpanel
 		position: absolute
 		right : 0
@@ -78,6 +79,12 @@
 
 			&:hover
 				color : srgb(--neutral-grad-2)
+
+	.detailspanel
+		right: auto
+		left : 0
+		border-left: 0
+		border-right: 1px solid srgb(--neutral-grad-1)
 </style>
 
 <script>
@@ -185,6 +192,12 @@ export default {
 				}))
 
 			}, {selected})
+		},
+
+		showassets : function(id){
+			this.core.api.pctapi.portfolios.get(id).then(r => {
+				this.core.vueapi.portfolioShares(r)
+			})
 		},
 
 		selectone : function(id){

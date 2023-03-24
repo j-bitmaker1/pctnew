@@ -83,7 +83,7 @@ class Templates {
             ids : a.key
         }
 
-        a.link = '/comparewith?p=' + portfolio.id + '&s=' + annuityWeighted.ticker + '&w=' + annuityWeighted.value
+        a.link = '/comparewith?p=' + portfolio.id + '&st=' + annuityWeighted.ticker + '&w=' + annuityWeighted.value
         
         a.search = portfolio.name + ", " + annuityWeighted.name + ', ' + annuityWeighted.value
 
@@ -382,8 +382,9 @@ class Activity {
 
         this.templates = new Templates()
         this.actions = new Actions()
+        this.v = '1'
 
-        this.key = 'activity'
+        this.key = 'activity.' + this.v + '.'
     }
 
     clear(){

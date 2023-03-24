@@ -63,6 +63,7 @@ export default {
         lead_page : () => import("@/views/lead.vue"),
         portfolios_main : () => import("@/components/modules/app/portfolios/main/index.vue"),
         portfolio_summary : () => import("@/components/modules/app/portfolio/summary/index.vue"),
+        portfolio_shares : () => import("@/components/modules/app/portfolio/shares/index.vue"),
         portfolio_ltrdetails: () => import("@/components/modules/app/portfolio/crashtest/ltrdetails/index.vue"),
         portfolio_crashtest_scenariodefinitions: () => import("@/components/modules/app/portfolio/crashtest/scenariodefinitions/index.vue"),
 

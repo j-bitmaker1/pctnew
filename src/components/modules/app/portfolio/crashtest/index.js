@@ -54,6 +54,13 @@ export default {
 							this.core.vueapi.questionnaireResult(this.profile.questionnaire)
 						
 					}
+				},
+
+				{
+					text : 'labels.capacity',
+					th : 'capacity',
+
+					
 				}
 				
 			]
@@ -101,6 +108,7 @@ export default {
 		valuemode: state => state.valuemode,
 		th : function(){
 			return {
+				capacity : this.profile ? this.profile.capacity : null,
 				tolerance : this.profile ? this.profile.tolerance : null
 			}
 		

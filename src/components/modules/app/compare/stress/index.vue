@@ -26,6 +26,9 @@
 		<div class="summary mobp" v-if="cts">
 			<div class="crsliderWrapper" v-for="(ct, id) in cts.cts">
 				<div class="label">
+					<div class="detailspanel" @click="e => showassets(id)">
+						<i class="fas fa-list-ul"></i>
+					</div>
 					<span>{{summatytext(id)}}</span>
 					<div class="selectionpanel">
 						<i class="fas fa-search" @click="e => selectone(id)"></i>
