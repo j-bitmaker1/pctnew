@@ -1051,12 +1051,21 @@ var ApiWrapper = function (core = {}) {
                 });
             },
 
-					return Promise.resolve(f.deep(r, 'IncrementalSearch.c') || [])
-				})
-			},
-
-			
-		},
+            standartDeviation: function () {
+                return request(
+                    {
+                        Portfolio:
+                            'IRAFO!ALM MEDIA, LLC 401(K) PLAN Proposed Rollover',
+                    },
+                    'pct',
+                    '?Action=GETPORTFOLIOSTANDARDDEVIATION',
+                    {
+                        method: 'GET',
+                    },
+                ).then((r) => {
+                    return Promise.resolve(r.GetPortfolioStandardDeviation);
+                });
+            },
 
             fromfile: function (data = {}, p = {}) {
                 /*
@@ -1173,15 +1182,14 @@ var ApiWrapper = function (core = {}) {
                         Action: 'GETINTEGRATIONCONNECTIONS',
                     },
                     'pct',
-					'GETINTEGRATIONCONNECTIONS',
+					'',
                     {
                         method: 'POST',
-						urldata: true,
                     },
-                ).then((r = {}) => {
-					if (!r.PCT) return Promise.reject(r);
+                ).then((r) => {
+                    debugger;
 
-                    return Promise.resolve(r.PCT.Connections);
+                    return Promise.resolve(r);
                 });;
             },
 
@@ -1197,12 +1205,13 @@ var ApiWrapper = function (core = {}) {
                         Repcode,
                     },
                     'pct',
-                    'ADDINTEGRATIONCONNECTION',
+                    '',
                     {
                         method: 'POST',
-						urldata: true,
                     },
                 ).then((r) => {
+                    debugger;
+
                     return Promise.resolve(r);
                 });
             },
@@ -1214,12 +1223,13 @@ var ApiWrapper = function (core = {}) {
                         Name,
                     },
                     'pct',
-                    'REMOVEINTEGRATIONCONNECTION',
+                    '',
                     {
                         method: 'POST',
-						urldata: true,
                     },
                 ).then((r) => {
+                    debugger;
+
                     return Promise.resolve(r);
                 });
             },
@@ -1928,16 +1938,6 @@ var ApiWrapper = function (core = {}) {
 			},
 
 
-		},
-
-		integrations: {
-			update(name) {
-				return request({
-					name,
-				}, 'pctapi', 'Integration/Update', {
-					method: 'POST',
-				});
-			},
 		}
 	}
 
@@ -2442,7 +2442,7 @@ var ApiWrapper = function (core = {}) {
 
 			p.vxstorage = {
 				type: 'filesystem',
-				getloaded: p.reload ? false : rootid,
+				getloaded: rootid,
 				one: true
 			}
 
@@ -2451,8 +2451,6 @@ var ApiWrapper = function (core = {}) {
 			}, 'pctapi', 'Catalog/GetCatalogContent', p).then(r => {
 
 
-				const isIntegration = r.nonremovable || r.readOnly || r.name.includes('integration_') || false;
-
 				var result = {
 					name: r.name,
 					content: [],
@@ -2460,8 +2458,7 @@ var ApiWrapper = function (core = {}) {
 					from : r.catalogId,
 					attributes : {
 						readOnly : r.readOnly || false,
-						nonremovable : r.nonremovable || r.readOnly || r.name == 'Models' || false,
-						isIntegration,
+						nonremovable : r.nonremovable || r.readOnly || r.name == 'Models' || false
 					}
 				}
 
@@ -2474,8 +2471,7 @@ var ApiWrapper = function (core = {}) {
 						context: 'filesystem',
 						attributes : {
 							readOnly : c.readOnly || false,
-							nonremovable : c.nonremovable || c.readOnly || c.name == 'Models' || false,
-							isIntegration,
+							nonremovable : c.nonremovable || c.readOnly || c.name == 'Models' || false
 						}
 					})
 				})
@@ -2489,8 +2485,7 @@ var ApiWrapper = function (core = {}) {
 						context: 'filesystem',
 						attributes : {
 							readOnly : p.readOnly || false,
-							nonremovable : p.nonremovable || p.readOnly || false,
-							isIntegration,
+							nonremovable : p.nonremovable || p.readOnly || false
 						}
 					})
 				})
