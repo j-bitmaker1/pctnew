@@ -484,6 +484,10 @@ class Core {
         
     }
 
+    updateIntegrationsByWs() {
+        this.emit('updateintegrations', {});
+    }
+
     createByWs(data, type, invalidate = []){
 
         if(!this.ignoring[type]) 

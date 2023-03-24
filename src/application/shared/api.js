@@ -2442,7 +2442,7 @@ var ApiWrapper = function (core = {}) {
 
 			p.vxstorage = {
 				type: 'filesystem',
-				getloaded: rootid,
+				getloaded: p.reload ? false : rootid,
 				one: true
 			}
 
