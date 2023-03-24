@@ -426,8 +426,6 @@ export default {
 								icon: 'success',
 								message: 'Integration update started'
 							}));
-
-						this.core.updateIntegrationsByWs();
 					},
 				})
 			}
