@@ -92,6 +92,12 @@ export default {
 					text : 'labels.deleteportfolio',
 					icon : 'fas fa-trash',
 					action : 'delete'
+				},
+
+				{
+					text : 'labels.exportXLSX',
+					icon : 'far fa-file-excel',
+					action : 'exportXLS'
 				}
 			]
 
@@ -252,6 +258,10 @@ export default {
 				this.$emit('changeClient', null)
 			})
 			
+		},
+
+		exportXLS : function(){
+			this.portfolio.exportXLS(true)
 		},
 
 		changeClient : function(){

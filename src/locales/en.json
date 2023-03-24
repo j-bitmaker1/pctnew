@@ -50,6 +50,7 @@
 	},
 
 	"labels" : {
+		"exportXLSX" : "Export to excel",
 		"retrospective" : "Historical Simulation",
 		"editIntegrations" : "Set Integrations",
 		"crashtest" : "Crashtest",

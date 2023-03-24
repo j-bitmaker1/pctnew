@@ -1,4 +1,5 @@
 import _ from "underscore"
+import XLS from "../lib/pct/xls"
 
 class Contact {
     constructor(data = {}) {
@@ -130,6 +131,15 @@ class Portfolio {
         return (_.find(this.positions, (asset) => {
             return asset.term
         }) || {}).term || null
+    }
+
+    exportXLS = function(save){
+        var xls = new XLS()
+
+        return xls.make('exportPortfolio', this, {
+            name : (this.name).replace(/[^a-zA-Z0-9]/g, '') + '.xlsx',
+            save
+        })
     }
 }
 
