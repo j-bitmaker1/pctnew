@@ -167,7 +167,7 @@
 
         </div>
 
-        <div class="navcontrols">
+        <div class="navcontrols" v-if="portfolio">
             <div class="navcontrol" :key="i" v-for="(slide, i) in widgets.slides" :class="{active : slide.active}" @click="e => {toslide(slide)}">
                 <i class="fas fa-circle"></i>
             </div>
