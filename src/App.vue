@@ -23,7 +23,10 @@ import "@/editedplugins/vue-m-message/dist/index.css";
 
 import VuejsDialog from "vuejs-dialog";
 import VTooltip from 'v-tooltip'
-import VueIframe from 'vue-iframes'
+import VueIframe from 'vue-iframes';
+
+import { mapState } from 'vuex';
+
 ////////
 
 Vue.use(Vue2TouchEvents, {
@@ -338,6 +341,10 @@ export default {
         root
     },
 
+    watch: {
+        $route: 'postMessage'
+    },
+
     computed: {
 
         theme: function () {
@@ -347,9 +354,41 @@ export default {
         share: function () {
             if (!this.unauthorized) return this.$store.state.share;
         },
+
+        ...mapState(['APPSTORE']),
+
     },
 
     methods: {
+
+        postMessage(){
+
+            console.log('fullpath', this.$route.fullPath, this.APPSTORE)
+            if (this.APPSTORE){
+
+                const path = this.$route.fullPath;
+                window.parent.postMessage({href: path, product: 'pctnew'}, '*');
+
+            }
+        },
+        
+        receiveMessage(message){
+
+            const {data} = message;
+
+            if (data.href){
+                
+            const newMessage = data.href.replace(/pctnew\//, '');
+
+            if ('/' + message?.data?.href !== this.$route.fullPath){
+
+                this.$router.push({ path: newMessage})
+
+            }
+            
+            }
+
+        },
 
 		tscroll : _.throttle(function(){
 			this.$store.commit('tscrolly', window.scrollY)
@@ -388,10 +427,32 @@ export default {
 		window.removeEventListener('resize', this.dresize)
 		window.removeEventListener('resize', this.tresize)
 
+        if (this.APPSTORE){
+
+            window.removeEventListener('message', this.receiveMessage);
+
+        }
+  
+
         vxstorage.destroy()
 	},
 
     created() {
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const APPSTORE = urlParams.has("appstore");
+
+        this.$store.commit("setAPPSTORE", APPSTORE)
+
+        console.log('APPSTORE PCTPRO2?', APPSTORE);
+
+        if (APPSTORE){
+
+            window.addEventListener('message', this.receiveMessage);
+
+        }
+
         this.$store.commit("clearall");
 
         core = new Core(this, {vxstorage, i18n});
