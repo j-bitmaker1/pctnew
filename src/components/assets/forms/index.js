@@ -4,6 +4,7 @@ import _ from 'underscore';
 import f from '@/application/shared/functions.js'
 import datepicker from '../datepicker/index.vue'
 import timezonepicker from '../timezonepicker/index.vue'
+import slider from '@/components/assets/slider/index.vue'
 
 
 export default {
@@ -24,11 +25,13 @@ export default {
         },
 
         ignoreerrors : Boolean,
+
+        grouping : Object
         
     },
 
     components : {
-        datepicker, timezonepicker
+        datepicker, timezonepicker, slider
     },
 
     data : function(){
@@ -119,6 +122,34 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+
+        groups() {
+            if (this.grouping){
+                var groups = f.group(this.fields, (f) => {
+                    return f.group || 'ungroupped'
+                })
+
+                var groupsext = {}
+
+                _.each(groups, (g, i) => {
+
+                    var d = this.grouping[i] || {}
+
+                    groupsext[i] = {
+                        name : d.name,
+                        fields : g
+                    }
+                })
+
+                return groupsext
+            }
+
+            return {
+                ungroupped : {
+                    fields : this.fields
+                }
+            }
+        }
     }),
 
     methods : {
@@ -159,6 +190,26 @@ export default {
 
         focus : function(){
             this.$refs[i][0].focus()
+        },
+
+        sliderOptions : function(field){
+
+            var max = Number(((_.find(field.rules, (r) => {
+                return r.rule && r.rule.indexOf('less_than') > -1
+            }) || {}).rule || "").replace('less_than:', '') || "0") 
+
+            var min = Number(((_.find(field.rules, (r) => {
+                return r.rule && r.rule.indexOf('greater_than') > -1
+            }) || {}).rule || "").replace('greater_than:', '') || "100")
+
+
+            return {
+				min,
+				max,
+				interval : ((max - min) / 100) || 0.1,
+				type : Number,
+			}
+
         }
     },
 }

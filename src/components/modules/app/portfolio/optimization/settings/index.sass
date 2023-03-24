@@ -1,0 +1,35 @@
+.formswrapper
+    padding : 0 0.5 * $r
+
+::v-deep
+    .field
+        margin-bottom: 0
+
+    .fields
+        display: flex
+        flex-wrap: wrap
+
+        >div
+            padding : $r
+            flex-basis: 50%
+            max-width: 50%
+
+    .general,
+    .assetsBoundaries
+        .fields
+
+            >div
+                padding : 0
+                flex-basis: 100%
+                max-width: 100%
+
+
+@media only screen and (max-width: 768px)
+    ::v-deep
+
+        .fields
+
+            >div
+                padding : 0
+                flex-basis: 100%
+                max-width: 100%

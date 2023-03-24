@@ -1,0 +1,130 @@
+.info
+	.form
+		padding : 0 2 * $r
+	
+.factors
+
+	.panel
+		margin-top: 2 * $r
+		margin-bottom: 2 * $r
+		text-align: center
+		display: flex
+		align-items: center
+		justify-content: center
+		grid-gap: $r
+
+	.factorWrapper
+		border : 1px solid srgb(--neutral-grad-1)
+		padding : 2 * $r $r
+		padding-top: $r
+		border-radius: 12px
+		margin-top: $r
+		margin-left: $r
+		margin-right: $r
+
+.header
+	display: flex
+	justify-content: space-between
+	align-items: center
+	margin-bottom : 2 * $r
+	margin-top : 2 * $r
+
+	.caption
+		span
+			font-weight: 700
+			color : srgb(--color-txt-ac)
+
+
+.empty
+	padding : 6 * $r
+	text-align: center
+	border-radius: 12px
+	border : 1px dashed srgb(--neutral-grad-2)
+	margin-left: 2 * $r
+	margin-right: 2 * $r
+	margin-top: 2 * $r
+	cursor: pointer
+
+	span
+		font-size: 0.8em
+
+.header
+	padding-left: 2 * $r
+	padding-right: 2 * $r
+
+.portfolioPart
+	padding : 2 * $r 0
+
+	.preview
+		padding : 2 * $r 0
+		padding-left: $r
+		background: srgb(--background-secondary-theme)
+
+	
+
+.losswrapper
+	padding : $r
+	text-align: center
+	margin-top: 2 * $r
+	margin-left: 2 * $r
+	margin-right: 2 * $r
+	height: 60px
+
+	#linepreloader
+		height: 38px
+
+	.txt
+		line-height: 38px
+
+	span
+		font-size: 0.8em
+		font-weight: 700
+
+
+.contributors
+	padding-top: 4 * $r
+	position: relative
+
+	.preloaderWrapper
+		position: absolute
+		left : 0
+		right: 0
+		top : 0
+		bottom : 0
+		padding : 2 * $r
+		background: srgba(--background-total-theme, 0.95)
+
+	.header
+		padding-bottom: 2 * $r
+		border-bottom: 1px solid srgb(--neutral-grad-0)
+		.lossicons
+			margin-left : auto
+			display: flex
+			align-items: center
+
+			div
+				margin-left: 2 * $r
+				display: flex
+				align-items: center
+
+			span
+				font-weight: 700
+
+			i
+				font-size: 0.8em
+
+		.positive
+			color : srgb(--color-good)
+
+		.negative
+			color : srgb(--color-bad)
+
+	.contributorWrapper
+		padding : 2 * $r $r
+
+	.contributorsList
+		margin-top : 2 * $r
+
+::v-deep
+	.customslider
+		margin-top: 2 * $r

@@ -19,7 +19,7 @@
                 <span>Stress test</span>
             </div>
             <div class="forsettigns">
-                <ctmenu @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged" />
+                <ctmenu :cts="cts" :portfolios="{[portfolio.id] : portfolio}" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged" />
             </div>
         </div>
 

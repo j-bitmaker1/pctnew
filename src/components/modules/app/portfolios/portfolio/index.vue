@@ -5,9 +5,13 @@
 
 	<div class="namerow">
 		<div class="namewrapper">
-			<div class="name"><span>{{portfolio.name}}</span></div> 
+			<div class="name">
+				<span>{{portfolio.name}}</span> <portfolioAdvisorFee :portfolio="portfolio" v-if="portfolio.advisorFee"/>
+			</div> 
 			<div class="date"><date :date="portfolio.created" /></div>
 		</div>
+
+		
 
 		<div class="forsettings" v-if="hasmenu">
 			<portfoliomenu @changeClient="changeClient" @gotofolder="gotofolder" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" buttonclass="diconbutton"/>

@@ -16,17 +16,23 @@
             <div class="selectors">
 
 				<div class="selector">
-					<div class="namerow left">
-						<div class="nameB" @click="addportfolio">
+					<div class="namerow" @click="addportfolio" >
+						<div class="nameB" >
+							<div class="detailspanel" v-if="portfolio" @click.stop="showassets">
+								<i class="fas fa-list-ul"></i>
+							</div>
+
 							<template v-if="portfolio">
-								<span>{{portfolio.name}}</span>
-								<div class="selectionpanel">
-									<i class="fas fa-search"></i>
-								</div>
+								<span>{{portfolio.name}}</span> &middot; <value :value="portfolio.total()" :mode="portfolio.isModel ? 'p100' : 'd'" />
+								
 							</template>
 							<template v-else>
 								<span>Select portfolio</span>
 							</template>
+
+							<div class="selectionpanel">
+								<i class="fas fa-search"></i>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -37,38 +43,54 @@
 							<template v-if="structure">
 								<span>{{structure.name}}</span>
 								
-								<div class="selectionpanel">
-									<i class="fas fa-search"></i>
-								</div>
+								
 							</template>
 							<template v-else>
-								Select Structured Product
+								<span>Select Structured Product</span>
 							</template>
 						</div>
 
 						<div class="inputwrapper" v-if="structure">
-							<input type="number" :value="weight" placeholder="100000" @change="wchanged"/>
+							<input type="number" :value="weight" :placeholder="defaultAnnuityValue" @change="wchanged"/>
 
 							<div class="vicon">
 								<span v-if="valuemode == 'd'">$</span>
 								<span v-if="valuemode != 'd'">%</span>
 							</div>
 						</div>
+
+						<div class="selectionpanel" @click="addannuity">
+							<i class="fas fa-search"></i>
+						</div>
 					</div>
 				</div>
 				
             </div>
 
-		
-
-			<div class="structureInfoWrapper" v-if="structure">
-				<structureinfo :annuity="structure" :weight="Number(weight) || 100000" :mode="valuemode"/>
+			<div class="portfolioInfoWrapper" v-if="portfolio">
+				<portfolioinfo :portfolio="portfolio"/>
 			</div>
 
-		
+			<div class="structureInfoWrapper" v-if="structure">
+				<structureinfo :annuity="structure" :weight="Number(weight) || defaultAnnuityValue" :mode="valuemode"/>
+			</div>
+
+			<div class="settings" v-if="portfolio && structure">
+
+				<div class="setting">
+
+					<iconstoggle :icons="includemodes" @change="changeincludemode" :value="includemode"/> 
+					<span>{{includemodeLabel}}</span>
+				</div>
+
+			</div>
+
+			<div class="linenavigation">
+				<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
+			</div>
 
 			<div class="componentWrapper" v-if="portfolio && structure">
-				<component :is="module" :portfolio="portfolio" type="split" :mode="valuemode" :assets="[annuityWeighted]"/>
+				<component :is="module" :includemode="includemode" :portfolio="portfolio" type="split" :mode="valuemode" :assets="[annuityWeighted]"/>
 			</div>
 
 			<div class="empty mobp" v-if="!portfolio || !structure">
@@ -76,7 +98,7 @@
 			</div>
 
 			<div class="golast mobp" v-if="(!portfolio || !structure) && last">
-				<router-link :to="last.link">
+				<router-link :to="last.link + '&c=' + active">
 					<button class="button">Go to last comparison</button>
 				</router-link>
 			</div>
@@ -94,12 +116,24 @@
 </template>
 
 <style scoped lang="sass">
+.portfolioInfoWrapper,
 .structureInfoWrapper
 	padding-bottom: 2 * $r
 	margin-top: 2 * $r
 
-.componentWrapper
+.settings
+	padding: $r
+
+	.setting
+		display: flex
+		align-items : center
+
+		span
+			margin-left: $r
+.linenavigation
 	margin-top: 4 * $r
+
+.componentWrapper
 
 .golast
 	text-align: center
@@ -133,6 +167,8 @@
 		width: 100%
 		position: relative
 		justify-content: center
+		padding-left: 40px
+		padding-right: 40px
 
 		&.left
 			justify-content: left
@@ -143,7 +179,7 @@
 				position: absolute
 				top : 0
 				bottom : 0
-				right: 0
+				left: $r
 				display: flex
 				align-items: center
 				padding : 0 $r
@@ -153,6 +189,8 @@
 			text-align: center
 			height: 38px
 			background: srgb(--neutral-grad-1)
+			width: 110px
+			font-size: 0.9em
 		
 
 	.nameB
@@ -161,10 +199,11 @@
 		max-width: 80%
 		overflow: hidden
 		text-overflow: ellipsis
+		grid-gap: $r
 
 		span
 			font-size: 0.9em
-
+	.detailspanel,
 	.selectionpanel
 		position: absolute
 		right : 0
@@ -191,6 +230,30 @@
 			&:hover
 				color : srgb(--neutral-grad-2)
 
+	.detailspanel
+		right: auto
+		left : $r
+		border-left: 0
+		border-right: 1px solid srgb(--neutral-grad-1)
+
+::v-deep
+	.panelWrapper
+		display: flex
+		align-items: center
+		padding : 2 * $r
+
+		.einfo
+			margin-left: $r
+
+		.value
+			margin-left: $r
+
+		span,
+		input
+			font-size: 1.2em
+			padding : 0
+
+
 @media only screen and (max-width: 768px)
 	.selectors
 		flex-wrap: wrap
@@ -204,7 +267,9 @@ import linenavigation from "@/components/assets/linenavigation/index.vue";
 //import distribution from '@/components/modules/app/compare/distribution/index.vue'
 
 import structureinfo from '@/components/modules/app/comparewith/structureinfo/index.vue'
+import portfolioinfo from '@/components/modules/app/comparewith/portfolioinfo/index.vue'
 import stress from '@/components/modules/app/comparewith/stress/index.vue'
+import retrospective from '@/components/modules/app/comparewith/retrospective/index.vue'
 
 
 import { mapState } from 'vuex';
@@ -213,8 +278,9 @@ export default {
 	components: {
 		stress, 
 		linenavigation, 
-		//distribution,
-		structureinfo
+		structureinfo,
+		portfolioinfo,
+		retrospective
 	},
 
 	computed: {
@@ -223,11 +289,21 @@ export default {
 		},
 
 		weight : function(){
-			return (this.$route.query.w || '').replace(/[^0-9]/g, '')
+			var w = Number((this.$route.query.w || '').replace(/[^0-9]/g, '')) || this.defaultAnnuityValue
+
+			if (w < 0) w = this.defaultAnnuityValue
+
+			if (this.valuemode == 'p100'){
+				if (w > 100){
+					w = 100
+				}
+			}
+
+			return w
 		},
 
-        s : function(){
-			return this.$route.query.s || ''
+        st : function(){
+			return this.$route.query.st || ''
 		},
 
 		module : function(){
@@ -250,23 +326,33 @@ export default {
 			mobileview : state => state.mobileview,
 		}),
 
-		annuityWeighted : function(){
+		defaultAnnuityValue : function(){
 
-			var w = Number(this.weight || 100000)
-
-			if (w < 0) w = 100000
-
-			if(this.valuemode == 'p100'){
-				if (w > 100){
-					w = 100
-				}
+			if (this.portfolio){
+				return this.portfolio.total()
 			}
+
+			return 100000
+			//this.includemode == 'i'
+		},
+
+		annuityWeighted : function(){
 
 			return {
 				...this.structure,
-				ticker : this.structure.id,
-				value : w
+				ticker : this.structure.ticker,
+				value : this.weight
 			}
+		},
+
+		portfolioFromStructure : function(){
+
+		},
+
+		includemodeLabel : function(){
+			return (_.find(this.includemodes, (im) => {
+				return im.id == this.includemode
+			}) || {}).title
 		}
 
 	},
@@ -283,20 +369,28 @@ export default {
 						this.saveactivity()
 					})
 				}
+				else{
+					this.portfolio = null
+				}
 			}
 		},
 
-		s: {
+		st: {
 			immediate : true,
 			handler : function(){
 
-				if (this.s){
-					this.core.api.pctapi.stress.annuities.get(this.s).then(r => {
+				if (this.st){
+					this.core.pct.getasset(this.st).then(r => {
+
+						console.log("RRR ", r)
+
 						this.structure = r
 
 						this.saveactivity()
 					})
 				}
+				else
+					this.structure = null
 			}
 		},
 		w : {
@@ -314,11 +408,13 @@ export default {
 			navigation : [
 				{
 					text : 'labels.crashtest',
-					id : 'stress'
+					id : 'stress',
+					icon : 'fas fa-chart-bar'
 				},
 				{
-					text : 'labels.distribution',
-					id : 'distribution'
+					text : 'labels.retrospective',
+					id : 'retrospective',
+					icon : 'fas fa-history'
 				}
 			],
 			navdefault : 'stress',
@@ -326,7 +422,22 @@ export default {
 
 			portfolio : null,
 			structure : null,
-			last : null
+			last : null,
+
+			includemode : localStorage['comparewith_includemode'] || 'e',
+			
+            includemodes : [
+				{
+					icon : "fas fa-chart-pie",
+					id : 'i',
+                    title : 'Structured Compared with Portfolio'
+				},
+				{
+					icon : "fas fa-plus-circle",
+					id : 'e',
+                    title : 'Structured Added to the Portfolio'
+				}
+			],
 			
 		}
 	},
@@ -374,18 +485,30 @@ export default {
 		},
 
 		addannuity : function(){
-			this.core.vueapi.annuitiesLookup((result) => {
+			this.core.vueapi.assetsLookup((result) => {
+
+				console.log('result', result)
 
 				this.$router.replace({
                     query : {
                         ... this.$route.query,
                         ... {
-							s : result.id
+							st : result.ticker
 						}
                     }
                 }).catch(e => {})
 
 			})
+		},
+
+		changeincludemode : function(v){
+			this.includemode = v
+
+            localStorage['comparewith_includemode'] = v
+		},
+
+		showassets : function(){
+			this.core.vueapi.portfolioShares(this.portfolio)
 		}
 	},
 

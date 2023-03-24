@@ -32,14 +32,18 @@ export default {
             default: 'diconbutton'
         },
 
-        ext : Boolean
+        cts : Object,
+
+        ext : Boolean,
+
+        portfolios : Object
     },
     computed: mapState({
         auth: state => state.auth,
 
         menu: function() {
 
-            return [
+            return _.filter([
                 {
                     text: 'labels.scenarioManager',
                     icon: 'fas fa-tasks',
@@ -51,13 +55,34 @@ export default {
                     icon: 'fas fa-star',
                     action: this.scoreConverter
                 },
+
+                {
+                    text: 'labels.ltrdetails',
+                    icon: 'fas fa-info',
+                    action: this.ltrdetails
+                },
+
+                this.cts ? {
+                    text: 'labels.scenarioDefinitions',
+                    icon: 'fas fa-receipt',
+                    action: this.scenarioDefinitions
+                } : null,
             
-            ]
+            ], e => e)
         }
 
     }),
 
     methods: {
+
+        ltrdetails : function(){
+            this.core.vueapi.portfolioLtrdetails({portfolios : this.portfolios})
+        },
+
+        scenarioDefinitions : function(){
+            this.core.vueapi.scenarioDefinitions({portfolios : this.portfolios, cts : this.cts})
+        },
+
         scenarioManager: function () {
 
             this.core.activity.template('action', this.core.activity.actions.scenarioManager())

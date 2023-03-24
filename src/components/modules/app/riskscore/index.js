@@ -392,8 +392,6 @@ export default {
                         })
                 })
 
-                console.log("I", i)
-
                 if(i.client){
                     this.values.FName = i.client.FName
                     this.values.LName = i.client.LName
@@ -485,6 +483,8 @@ export default {
 
         changecr : function(v){
             this.$set(this.values, 'customCr', v)
+
+            this.sendSecond()
         },
 
        
@@ -511,6 +511,15 @@ export default {
             var data = this.getalldata()
 
             this.$emit('save', data)
+        },
+
+        sendsnext : function(){
+
+            console.log("sendsnextsendsnext")
+
+            this.next()
+
+            this.sendSecond()
         },
 
         getalldata : function(){
@@ -596,8 +605,6 @@ export default {
 
                 ...(this.existlead ? {} : this.client)
             }
-
-            console.log('this.client', this.client)
 
             _.each(data, (v, i) => {
                 if(!v) delete data[i]

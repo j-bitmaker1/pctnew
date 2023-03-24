@@ -12,7 +12,7 @@
         </div>
 
         <div class="name">
-            <input ref="nameinput" type="text" @focus="focus" @blur="blur" :value="focused ? namestring : (namestring || name)" @keyup="namechange" :placeholder="ticker && !isCovered ? 'Not covered' : 'Enter asset name or ticker'" />
+            <input ref="nameinput" type="text" @focus="focus" @blur="blur" :value="focused ? namestring : (namestring || name)" @keyup="namechange" :placeholder="name ? name : ticker && !isCovered ? 'Not covered' : 'Enter asset name or ticker'" />
         </div>
 
         
@@ -22,6 +22,11 @@
 
             <input :disabled="!ticker" :value="value ? value : ''" ref="valueinput" type="number" placeholder="0" @change="changevalue" @keyup.enter="enterOnSum"/>
         </div>
+
+        <div class="difference liketicker" v-if="showdif">
+            <value :value='difference || 0'/>
+        </div>
+
         <div class="pdicon">
             <span v-if="mode == 'd'">$</span>
             <span v-if="mode == 'p'">%</span>

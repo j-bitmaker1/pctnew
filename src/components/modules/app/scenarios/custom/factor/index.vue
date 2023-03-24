@@ -6,7 +6,7 @@
 		</div>
 		<div class="tv">
 			<div class="type">
-				<span>{{factor.type}}</span> <i v-if="factor.key" class="fas fa-certificate"></i>
+				<span>{{factor.type}}</span> <i v-if="factor.key" title="Key Factor" class="fas fa-certificate"></i>
 			</div>
 
 			<div class="volatility">
@@ -43,8 +43,6 @@ export default {
 	computed: {
 
 		sliderOptions : function(){
-
-			//[Number((0 - 3 * f.Volatility).toFixed(0)), Number((0 + 3 * f.Volatility).toFixed(0))]
 
 			return {
 				min : this.factor.min,

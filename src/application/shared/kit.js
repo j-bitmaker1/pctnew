@@ -65,7 +65,8 @@ class Portfolio {
         'readOnly',
         'status',
         'updated',
-        'userId'
+        'userId',
+        'advisorFee'
     ]
 
     constructor(data = {}) {
@@ -73,6 +74,8 @@ class Portfolio {
         _.each(data, (v, i) => {
             this[i] = v
         })
+
+        if(!this.advisorFee) this.advisorFee = 0
 
     }
 
@@ -84,7 +87,7 @@ class Portfolio {
 
         return _.reduce(this.positions, (m, p) => {
 
-            return (p.isCovered || p.external) ? m + p.value : m
+            return (p.isCovered || p.external || p.annuity_type) ? m + p.value : m
 
         }, 0)
 
@@ -119,6 +122,18 @@ class Portfolio {
         })
 
         return new Portfolio(data)
+    }
+
+    has = function(ticker) {
+        return _.find(this.positions, (asset) => {
+            return asset.ticker == ticker
+        }) ? true : false
+    }
+
+    term = function(){
+        return (_.find(this.positions, (asset) => {
+            return asset.term
+        }) || {}).term || null
     }
 }
 

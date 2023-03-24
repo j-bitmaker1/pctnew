@@ -1,5 +1,5 @@
 <template>
-<div id="appmenu">
+<div id="appmenu" :class="{footerFocused}">
 
     <!--<div class="logowrapper">
         <logotype />
@@ -17,7 +17,7 @@
 
     </div>
 
-    <div class="footer">
+    <div class="footer" @mouseover="mouseoverFooter" @mouseleave="mouseleaveFooter">
 
         <!--<div class="help">
             <router-link to="/faq">

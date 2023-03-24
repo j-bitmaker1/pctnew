@@ -13,7 +13,6 @@
         <div class="portfolioname">
             <span>{{portfolio.name}}</span>
         </div>
-
         <div class="divider">
             <span>&middot;</span>
         </div>
@@ -21,6 +20,8 @@
         <div class="forvalue">
             <value :value="portfolio.total() + portfolio.uncovered()" :mode="portfolio.isModel ? 'p100' : 'd'" />
         </div>
+
+        <portfolioAdvisorFee :portfolio="portfolio" v-if="portfolio.advisorFee"/>
 
     </div>
 

@@ -1,5 +1,5 @@
 <template>
-<div id="portfolio_summary" :class="{portfolio : portfolio}">
+<div id="portfolio_summary" :class="{portfolio : portfolio, shift : shift}">
 
     <template v-if="!mobileview">
 
@@ -35,70 +35,146 @@
             
         </div>
 
-        <div class="bodyWrapper">
-            <div class="left part customscroll">
-                <div class="pcntwrapper">
-                    <div class="pcnt">
+        <div class="bodyWrapper customscrollHorizontal" v-scroll="scrolling" ref="bodyWrapper">
 
-                        <portfolioCaption :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
+            <widget name="left" :customscroll="true" :widgets="widgets">
+                <template v-slot:content>
 
-                        <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="true" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+                    <div class="pcntwrapper">
+                        <div class="pcnt">
 
-                    </div>
-                    <div class="pmenuwrapper">    
-                        <div class="pmenu">
-                            <portfoliomenu v-if="portfolio" :ext="true" buttonclass="diconbutton" @changeClient="changeclient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
+                            <portfolioCaption :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
+
+                            <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="view == 'stresstest'" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
 
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="center part customscroll">
+                        <div class="pmenuwrapper">    
+                            <div class="pmenu">
+                                <portfoliomenu v-if="portfolio" :ext="true" buttonclass="diconbutton" @changeClient="changeclient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
 
-                <div class="pcntwrapper">
-                    <div class="pcnt">
-
-                        <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" :profile="profile" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
-                        <crashtesttemp :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
-
-                    </div>
-                    <div class="pmenuwrapper">    
-                        <div class="pmenu">
-                            
-                            <ctmenu v-if="portfolio" :ext="true" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
-
-                        </div>
-                    </div>
-                </div>
-
-                
-            </div>
-            <div class="right part">
-                <template  v-if="portfolio">
-
-                    <linepreloader v-if="!ct"/>
-                    <template  v-else>
-                        <div class="emptyScenario" v-if="!selectedScenario || !ct || temp">
-                            <div class="textWrapper">
-                                <span v-if="(!selectedScenario || !ct) && !temp">Select scenario to see contributors</span>
-                                <span v-if="temp">Risk contributors are not available in hot change mode</span>
                             </div>
                         </div>
-                        <div class="scenario" v-else>
-                            <!--<div class="header mobp">
-                                <span>{{selectedScenario.name}}</span>
-                            </div>-->
-                            <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
-                            
+                    </div>
+                    
+                </template>
+            </widget>
+
+            <widget name="center" :customscroll="true" :widgets="widgets">
+                <template v-slot:content>
+                    <div class="pcntwrapper">
+                        <div class="pcnt" v-if="view == 'stresstest'">
+
+                            <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" :profile="profile" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+                            <crashtesttemp name="Editing portfolio" :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+
                         </div>
+
+                        <div class="pcnt" v-if="view == 'customstresstest'" >
+                            <customstresstest v-if="portfolio" :portfolio="portfolio" :lastFactors="lastCustomFactors" @loaded="customStressTestLoaded" @scenarioMouseOver="scenarioMouseOver" @factors="saveFactors" @customscenariosaved="customscenariosaved"/>
+                        </div>
+
+
+                        <div class="pmenuwrapper">    
+                            <div class="pmenu">
+
+                                <template v-if="portfolio">
+
+                                <div class="menuitem" v-if="view=='stresstest'" title="Custom stress test" @click="changeView('customstresstest')">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+
+                                <div class="menuitem active" v-if="view=='customstresstest'" title="Close custom stress test" @click="changeView('stresstest')">
+                                    <i class="fas fa-times"></i>
+                                </div>
+
+                                </template>
+
+                                <ctmenu :cts="cts" :portfolios="{[portfolio.id] : portfolio}" v-if="portfolio" :ext="true" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
+
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </widget>
+
+            <widget name="right" :customscroll="false" :widgets="widgets">
+                <template v-slot:content>
+                    <template  v-if="portfolio">
+
+                        <template v-if="view == 'stresstest'">
+                            <div class="emptyScenario" v-if="!selectedScenario || !ct || temp">
+
+                                <div class="textWrapper">
+                                    
+                                    <span v-if="(!selectedScenario || !ct) && !temp">Select scenario to see contributors</span>
+                                    <span v-if="temp">Risk contributors are not available in hot change mode</span>
+                                
+                                </div>
+                            </div>
+                            <div class="scenario" v-else>
+                                <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
+                            </div>
+                        </template>
+
+                        <template v-if="view == 'customstresstest'">
+
+                            <!--<linepreloader v-if="lastCustomFactors && !lastCustomResult"/>-->
+
+
+                            <div class="emptyScenario" v-if="!lastCustomFactors || !lastCustomResult">
+                                <div class="textWrapper">
+                                    <span v-if="!lastCustomFactors">Create custom scenario to see contributors</span> <span v-if="!lastCustomResult">Adjust the factors and get the result</span>
+                                </div>
+                            </div>
+
+                            <div class="scenario" v-else>
+                                <scenariodetails :lossgain="true" :portfolio="portfolio" :dcti="lastCustomResult" :scenario="lastCustomResult.scenarios[0]" :infoi="{
+                                    name : 'Custom scenario',
+                                    factors : lastCustomFactors,
+                                    description : ''
+                                }"/>
+                            </div>
+
+                        </template>
+                        
                     </template>
                 </template>
-                
+            </widget>
+
+            <widget name="retrospective" :customscroll="false" :widgets="widgets">
+                <template v-slot:content>
+                    <div class="partcaption">
+                            <span>Historical simulation</span>
+                        </div>
+                        <template  v-if="portfolio">
+
+                            <retrospective :height="height" v-if="portfolio && !temp" :portfolio="portfolio"/>
+
+                            <retrospectivetemp name="Editing portfolio" :height="height" v-if="portfolio && temp" :portfolio="portfolio" :assets="temp"/>
+
+                            <!--<retrospective :portfolio="portfolio"/>-->
+                        </template>
+                </template>
+            </widget>
+
+            <!--<widget name="factoranalysis" :customscroll="false" :widgets="widgets">
+                <template v-slot:content>
+                    <template  v-if="portfolio">
+                        <factoranalysis :portfolio="portfolio"/>
+                    </template>
+                </template>
+            </widget>-->
+
+        </div>
+
+        <div class="navcontrols">
+            <div class="navcontrol" :key="i" v-for="(slide, i) in widgets.slides" :class="{active : slide.active}" @click="e => {toslide(slide)}">
+                <i class="fas fa-circle"></i>
             </div>
         </div>
 
         <div class="portfoliotip" v-if="!portfolio">
-            <div class="wrapper" v-if="!portfolioId">
+            <div class="wrapper" v-if="!portfolioId || error">
                 <span>Load or select a portfolio and get Stress test!</span>
                 <div class="stickerWrapper">
                     <sticker src="goal.png" :width="128"/>
@@ -132,8 +208,9 @@
     <template v-else>
         <div class="unsupportmobile">
             <div class="wrapper">
+
                 <span>
-                    This report is not displayed in this screen resolution
+                    This report is not displayed in this screen resolution. Rotate the screen
                 </span>
 
                 <router-link to="/">

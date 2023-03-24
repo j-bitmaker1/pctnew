@@ -161,6 +161,7 @@ const dbstorage = function(storageName, version, time) {
          * @return {IDBTransaction}
          */
         function openTransaction(name, writeMode = false) {
+
             const transaction = db.transaction('items', 'readwrite');
 
             transaction.onsuccess = function (data) {

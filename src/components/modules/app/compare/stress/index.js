@@ -129,6 +129,10 @@ export default {
 
         removeitem : function(id){
             this.$emit('removeitem', id)
-        }
+        },
+
+        showassets: function(id){
+            this.$emit('showassets', id)
+        },
     },
 }

@@ -48,7 +48,6 @@ export default {
 	},
 
 	created (){
-		console.log('this.initial', this.initial)
 	}
 }
 </script>

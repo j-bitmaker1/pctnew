@@ -1,8 +1,6 @@
 import { mapState } from 'vuex';
-import f from "@/application/shared/functions.js";
 
 import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'
-import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
 import summarybutton from '@/components/delements/summarybutton/index.vue'
 import crsliders from '../crsliders/index.vue'
 export default {
@@ -10,10 +8,15 @@ export default {
     props: {
         portfolio : Object,
         assets : Array,
-        type : String
+        type : String,
+        name : String,
+        includemode : {
+            type : String,
+            default : 'e'
+        }
     },
 
-    components : {ctmain, ctmenu, summarybutton, crsliders},
+    components : {ctmain, summarybutton, crsliders},
 
     data : function(){
 
@@ -40,28 +43,25 @@ export default {
 					index : 'ocr'
 				}
 				
-			],
-
-            taskid : null
+			]
         }
 
     },
 
-    created : () => {
-
+    created () {
+        this.load()
     },
 
     watch: {
-        ids : {
-            immediate : true,
+
+        assets : {
+            deep : true,
             handler : function(){
                 this.load()
             }
         },
 
-        assets : {
-            deep : true,
-            immediate : true,
+        includemode : {
             handler : function(){
                 this.load()
             }
@@ -101,6 +101,8 @@ export default {
             this.load()
 		},
 
+      
+
         scoreConverterChanged : function(){
 			this.load()
 		},
@@ -109,31 +111,40 @@ export default {
             this.load()
         },  
 
+
         load : function(){
 
+
+            var sc = (this.type == 'split' && this.includemode != 'i') ? 'stresstestWithPositionsSplit' : 'stresstestWithPositions'
+            
             this.loading = true
 
-            var task = f.makeid()
+            this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed, {
+                term : this.type == 'split', 
+                name : this.name ? this.name : (this.assets[0] ? this.assets[0].name : ''),
+                
+                fee : (asset) => {
 
-            this.taskid = task
+                    if(!asset){
+                        return this.portfolio.advisorFee
+                    }
 
-            var sc = 'stresstestWithPositions'
+                    if (this.portfolio.has(asset.ticker) || this.type != 'split'){
+                        return this.portfolio.advisorFee
+                    }
+                    
+                    return 0
+                }
+            }).then((r) => {
 
-            if(this.type == 'split') sc = 'stresstestWithPositionsSplit'
-
-            this.core.pct[sc](this.portfolio, this.assets, this.valuemodecomposed).then((r) => {
-
-                //if (task == this.taskid){
-                    this.cts = r.result
-                    this.portfolios = r.portfolios
-                //}
+                this.cts = r.result
+                this.portfolios = r.portfolios
                 
             }).finally(() => {
                 this.loading = false
 
-                this.taskid = null
             })
-           
+
         }
     },
 }

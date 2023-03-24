@@ -35,6 +35,10 @@ export default {
 
         formatted : function(){
 
+            if(this.mode == 'string') return this.value
+
+            if(this.mode == 'bps') return (100 * this.value).toFixed(0) + 'bps'
+
             return f.values.format(this.core.user.locale, this.valuemode, this.value)
             
         }

@@ -54,6 +54,13 @@ export default {
 							this.core.vueapi.questionnaireResult(this.profile.questionnaire)
 						
 					}
+				},
+
+				{
+					text : 'labels.capacity',
+					th : 'capacity',
+
+					
 				}
 				
 			]
@@ -101,6 +108,7 @@ export default {
 		valuemode: state => state.valuemode,
 		th : function(){
 			return {
+				capacity : this.profile ? this.profile.capacity : null,
 				tolerance : this.profile ? this.profile.tolerance : null
 			}
 		
@@ -113,7 +121,9 @@ export default {
 
 			this.loading = true
 
-			this.core.pct.stresstest(this.portfolio.id).then(r => {
+			this.core.pct.stresstest(this.portfolio.id, { fee : asset => {
+				return this.portfolio.advisorFee || 0
+			}}).then(r => {
 				this.cts = this.core.pct.composeCTS({[this.portfolio.id] : r}, this.portfolio.total())
 
 				this.ct = this.cts.cts[this.portfolio.id]

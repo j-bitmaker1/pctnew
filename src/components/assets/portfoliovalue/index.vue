@@ -9,19 +9,20 @@ import {
 
 export default {
     name: 'portfoliovalue',
-    props: ['value', 'colored', 'portfolio', 'mode', 'includeuncovered'],
+    props: ['value', 'colored', 'portfolio', 'mode', 'includeuncovered', 'p100'],
     computed: mapState({
         auth: state => state.auth,
         dollars : state => state.dollars,
         resvalue : function(){
 
+
             if(!this.portfolio) return this.value
 
             if (this.dollars == 'p' && !this.portfolio.isModel && this.mode != 'p') {
-                return this.value / (this.portfolio.total() + (this.includeuncovered ? this.portfolio.uncovered() : 0)) * 100
+                return (this.p100 ? 100 : 1) * this.value / (this.portfolio.total() + (this.includeuncovered ? this.portfolio.uncovered() : 0)) * 100
             }
 
-            return this.value
+            return (this.p100 ? 100 : 1) * this.value
         },
 
         modecomposed : function(){

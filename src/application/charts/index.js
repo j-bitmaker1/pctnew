@@ -580,6 +580,137 @@ class MonteCarlo {
 
 }
 
+class RetrospectiveHistory {
+    constructor() {
+
+    }
+
+    chartcolors = ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757']
+
+    series = function(portfolios, history, factorsLine){
+        var series = []
+
+        var maxportfolio = 0
+        var maxindex = 0
+
+
+        _.each(portfolios, (portfolio) => {
+            var serie = {
+                name: portfolio.name,
+                color: this.colorbyindex(series.length),
+                data: [],
+                type: 'spline',
+            }
+
+            _.each(history[portfolio.id], (yd) => {
+                serie.data.push({
+                    x: yd.year,
+                    y: yd.total * 100
+                })
+
+                if(yd.total > maxportfolio) maxportfolio = yd.total
+            })
+
+            series.push(serie)
+           
+        })
+
+        var serie = {
+            name: factorsLine.name,
+            color: 'rgb(33, 150, 83)',
+            data: [],
+            type: 'areasplinerange',
+            fillOpacity: 0.1,
+            
+        }
+
+        _.each(factorsLine.data, (yd) => {
+
+            serie.data.push({
+                low : 0,
+                high : yd.total * 100,
+                x: yd.year,
+            })
+
+            if(yd.total > maxindex) maxindex = yd.total
+
+
+            
+        })
+
+        //if(maxportfolio > maxindex * 10) serie.yAxis = 1
+
+        //serie.yAxis = 1
+
+        series.push(serie)
+
+        return series
+    }
+
+
+ 
+    colorbyindex = function (i) {
+        return this.chartcolors[i % this.chartcolors.length]
+    }
+
+
+    chartOptions = function ({
+        portfolios,
+        history,
+        factorsLine
+    }, p = {}) {
+
+        var series = this.series(
+            portfolios,
+            history,
+            factorsLine
+        );
+
+        p.yAxisMultiple = _.find(series, (serie) => {
+            return serie.yAxis
+        }) ? true : false
+
+
+        var d = options(p)
+
+        d.chart.spacing = [0, 0, 0, 0]
+        d.chart.height = p.height || 400
+
+        if (p.width) d.chart.width = p.width
+
+        d.tooltip.enabled = false
+
+        d.xAxis.min = factorsLine.data[0].year// history[0].year;
+        d.xAxis.max = factorsLine.data[factorsLine.data.length - 1].year //history[history.length - 1].year;
+
+        d.yAxis[0].endOnTick = false
+        d.yAxis[0].gridLineWidth = 1
+        d.yAxis[0].offset = 0
+
+        if (p.yAxisMultiple){
+            d.yAxis[1].endOnTick = false
+            d.yAxis[1].gridLineWidth = 0
+            d.yAxis[1].offset = 0
+            d.yAxis[1].opposite = false
+        }
+        
+
+
+        d.xAxis.gridLineWidth = 1
+
+        d.chart.rangeSelector = {
+            floating: true,
+            y: 10
+        },
+
+
+        d.series = series
+
+        return d
+    }
+
+}
+
 class CampaignsOld {
 
     chartcolors = ['#F2994A', '#9B51E0']
@@ -838,5 +969,6 @@ export {
     Allocation,
     Distribution,
     MonteCarlo,
-    Campaigns
+    Campaigns,
+    RetrospectiveHistory
 }

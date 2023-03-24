@@ -50,6 +50,7 @@
 	},
 
 	"labels" : {
+		"retrospective" : "Historical Simulation",
 		"editIntegrations" : "Set Integrations",
 		"crashtest" : "Crashtest",
 		"shares" : "Shares",
@@ -128,7 +129,8 @@
 		},
 		"crslider" : {
 			"ocr" : "Crash rating",
-			"tolerance" : "Tolerance"
+			"tolerance" : "Tolerance",
+			"capacity" : "Capacity"
 		},
 		"confirmyourpassword" : "Confirm your assword",
 		"moveportfoliostofolder" : "Move portfolios to folder",
@@ -145,7 +147,12 @@
 			"gain" : "There are no gain contributors for the specified scenario"
 		},
 
-		"remove" : "Remove"
+		"remove" : "Remove",
+		"ltrdetails" : "Long Term Return Calculation Details",
+		"scenarioDefinitions" : "Scenario Definitions",
+		"optimizationSettings" : "Optimization settings",
+		"structured" : "Structured",
+		"assets" : "Assets"
 
 	},
 
@@ -580,6 +587,10 @@
 		}
 	},
 
+	"portfolio" : {
+		"advisorFee" : "Advisor fee"
+	},
+
 	"annuity" : {
 		"margin_spread" : "Margin spread",
 		"participation_guarantee" : "Participation guarantee",
@@ -596,7 +607,53 @@
 		"barrier" : "Barrier",
 		"coupon" : "Coupon",
 		"enhancement" : "Enhancement",
-		"term" : "Term"
+		"term" : "Term",
+		"yield" : "Yield",
+		"expRatio" : "Expense Ratio"
+
+	},
+
+	"optimization" : {
+		"totalturnover" : "Total turnover",
+		"maxPositionSize" : "Max position size",
+		"assetClass" : "By assets class",
+		"equity" : "Equity",
+		"general" : "General",
+		"fixedIncome" : "Fixed Income",
+		"currency" : "Currency",
+		"commodity" : "Commodity",
+		"alternatives" : "Alternatives",
+		"assetsBoundaries" : "Assets Boundaries",
+
+		"optimizationMode" : {
+			"shortest" : "Shortest Path Optimization",
+			"gradual" : "Gradual Optimization"
+		}
+	},
+
+
+
+	"ltrdetails" : {
+		"header" : {
+			"value" : "Weight",
+			"yield" : "Yield",
+			"ltr" : "Security LT Price Appreciation",
+			"expRatio" : "Expense Ratio",
+			"lclbeta" : "Local Index Beta",
+			"lclidx" : "LT Asset Class Appreciation",
+			"name" : "Name",
+			"ticker" : "Ticker"
+		
+		},
+
+		"tip" : {
+
+			"yield" : "Dividend Yield for equities and funds. Yield-to-Maturity for individual bonds.",
+			"expRatio" : "The amount investors pay for expenses incurred in operating a mutual fund (after any waivers).",
+			"lclbeta" : "The result of regressing the returns of a given security on its local country equity index. This field is zero for bonds.",
+			"lclidx" : "This is the long term return of the equity market. To calculate LT Security Price Appreciation we multiply this field by the security beta. For more on how this field is estimated go to FAQ."
+			
+		}
 	}
 
 }

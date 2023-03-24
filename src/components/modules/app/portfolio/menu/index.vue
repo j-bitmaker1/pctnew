@@ -66,6 +66,14 @@ export default {
 
 				
 
+				/*{
+					text : 'labels.optimizationSettings',
+					icon : 'fas fa-cogs', 
+					action : 'optimizationSettings',
+
+            		features : ['PCT']
+				},*/
+
 				{
 					text : 'labels.editportfolio',
 					icon : 'fas fa-pen',
@@ -73,8 +81,6 @@ export default {
 
             		features : ['PCT']
 				},
-
-				
 
 				
 				{
@@ -291,6 +297,12 @@ export default {
 				})
 			})
 			
+		},
+
+		optimizationSettings : function(){
+            this.core.vueapi.optimizationSettings({portfolio : this.portfolio}, () => {
+
+			})
 		}
 
 		

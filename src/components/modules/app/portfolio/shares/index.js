@@ -66,7 +66,9 @@ export default {
 			return {
 				name : this.portfolio.name,
 				assets : this.assets,
-				id : this.portfolio.id
+				id : this.portfolio.id,
+				isModel : this.portfolio.isModel,
+				advisorFee : this.portfolio.advisorFee
 			}
 		},
 

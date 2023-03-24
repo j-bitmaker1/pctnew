@@ -3,15 +3,22 @@ import { mapState } from 'vuex';
 import shares from "@/components/modules/app/portfolio/shares/index.vue";
 import crashtest from "@/components/modules/app/portfolio/crashtest/index.vue";
 import crashtesttemp from "@/components/modules/app/comparewith/stress/index.vue";
-
 import scenariodetails from "@/components/modules/app/portfolio/crashtest/scenariodetails/index.vue";
-
 import homeAdd from "@/components/modules/app/home/add/index.vue";
-
 import portfolioCaption from "./portfoliocaption/index.vue";
 import portfoliomenu from '@/components/modules/app/portfolio/menu/index.vue'
-
 import ctmenu from '@/components/modules/app/portfolio/crashtest/menu/index.vue'
+
+import customstresstest from "@/components/modules/app/scenarios/custom2/index.vue";
+import retrospective from "@/components/modules/app/portfolio/retrospective/index.vue";
+import retrospectivetemp from "@/components/modules/app/comparewith/retrospective/index.vue";
+
+import factoranalysis from "@/components/modules/app/portfolio/factoranalysis/index.vue";
+
+
+import widget from "./widget/index.vue";
+
+
 
 export default {
     name: 'portfolio_summary',
@@ -23,7 +30,12 @@ export default {
         homeAdd,
         crashtesttemp,
         portfoliomenu,
-        ctmenu
+        ctmenu,
+        customstresstest,
+        retrospective,
+        factoranalysis,
+        widget,
+        retrospectivetemp
 	},
     props: {
         portfolioId : Number,
@@ -37,9 +49,18 @@ export default {
             loading : false,
             selectedScenario : null,
             ct : null,
+            cts : null,
             profile : null,
             portfolio : null,
-            temp : null
+            temp : null,
+            error : null,
+            lastCustomFactors : null,
+            lastCustomResult : null,
+            scroll : 0,
+            shift : false,
+            view : 'stresstest',
+            views : ['stresstest', 'customstresstest'],
+            scrollWidth : 0
         }
 
     },
@@ -50,24 +71,168 @@ export default {
 
     watch: {
         portfolioId : function(){
-
             this.temp = null
-
             this.load().catch(e => {})
-
-            
         },
 
     },
     computed: mapState({
         auth : state => state.auth,
-        height : state => state.dheight - 44 - 56 - 40,
-        mobileview : state => state.mobileview
+        height : state => state.dheight - 44 - 48 - 40,
+        dwidth : state => state.dwidth - 44,
+        mobileview : state => state.mobileview,
+
+        widgets(){
+
+            var correction = 44
+
+            var widgets = {
+                left : {
+                    width : 30
+                },
+                center : {
+                    width : 40
+                },
+                right : {
+                    width : 30,
+                    snap : 'none'
+                },
+                retrospective : {
+                    width : 70,
+                    snap : 'end'
+                },
+                /*factoranalysis : {
+                    width : 40,
+                    snap : 'end'
+                }*/
+            }
+
+            var slideIndexes = []
+
+            var indexes = _.map(widgets, (w, i) => {
+                return i
+            })
+
+
+            if(this.dwidth + correction <= 900){
+                widgets.left.width = 40
+                widgets.center.width = 60
+                widgets.right.width = 40
+                widgets.retrospective.width = 100
+                //widgets.factoranalysis.width = 100
+
+                slideIndexes = [['left', 'center'], ['center', 'right'], ['retrospective']/*, ['factoranalysis']*/]
+            }
+
+            if(this.dwidth + correction > 900 && this.dwidth + correction <= 1920){
+                widgets.left.sticky = true
+
+                slideIndexes = [['left', 'center', 'right'], ['right', 'retrospective']/*, ['factoranalysis']*/]
+            }
+
+            if(this.dwidth + correction > 1920){
+                widgets.left.width = 25
+                widgets.center.width = 25
+                widgets.right.width = 25
+                widgets.retrospective.width = 25
+                //widgets.retrospective.width = 25
+
+                slideIndexes = [['left', 'center', 'right', 'retrospective']/*, ['retrospective', 'factoranalysis']*/]
+
+            }
+
+            var totalwidth = _.reduce(widgets, (m, widget) => {
+                return m + widget.width
+            }, 0)
+            var position = (this.scroll + this.dwidth / 2) / this.scrollWidthC * 100
+            var relativePosition = position * totalwidth / 100
+
+            var slides = _.map(slideIndexes, (sindexes) => {
+
+                var left = 0
+                var ln
+
+                for(let i = 0; i < indexes.length; i++){
+
+                    if(indexes[i] == sindexes[0]){
+                        ln = true
+                    }
+
+                    if(!ln){
+                        left += widgets[indexes[i]].width
+                    }
+                }
+
+                var width = _.reduce(sindexes, (m, si) => {
+                    return m + widgets[si].width
+                }, 0)
+                
+                var slide = {
+                    widgets : sindexes,
+                    left,
+                    width,
+                    rleft : left / (totalwidth / 100)
+                    //active : relativePosition >= left && relativePosition < left + width
+                }
+
+                return slide
+
+            })
+
+            var active = _.min(slides, (slide) => {
+
+                var v = Math.abs(((2 * slide.left + slide.width) / 2) - relativePosition)
+
+                return v
+            })
+
+            if (active){
+                active.active = true
+            }
+
+            return {
+                widgets,
+                slides
+            }
+        },
+
+        scrollWidthC(){
+            return this.scrollWidth 
+        },
+
+
+       
     }),
 
+    beforeDestroy(){
+        document.removeEventListener('keydown', this.keydown)
+        document.removeEventListener('keyup', this.keyup)
+    },
+
+    mounted (){
+        this.scrollWidth = this.$refs.bodyWrapper.scrollWidth
+
+        document.addEventListener('keydown', this.keydown)
+        document.addEventListener('keyup', this.keyup)
+
+      
+    },
+
     methods : {
+        toslide(slide){
+            console.log('slide', slide, this.scrollWidth, this.scrollWidth * (slide.rleft) / 100)
+
+            this.$refs.bodyWrapper.scrollLeft = this.scrollWidth * (slide.rleft) / 100
+        },
+        scrolling : function(e){
+            this.scroll = e.target.scrollLeft
+            this.scrollWidth = e.target.scrollWidth
+
+            console.log('e.target.scrollWidth ', e.target.scrollWidth )
+        },
         ctloaded : function({ct, cts}){
             this.ct = ct
+            this.cts = cts
 
             var scenario = this.ct.scenarios[this.ct.scenarios.length - 1]
 
@@ -92,6 +257,7 @@ export default {
             this.ct = null
             this.selectedScenario = null
             this.portfolio = null
+            this.error = null
 
             if(!this.portfolioId){
                 return Promise.reject('empty')
@@ -112,7 +278,14 @@ export default {
 				})
 
 			}).catch(e => {
+                this.error = e
                 console.error(e)
+
+                this.$store.commit('icon', {
+                    icon: 'error',
+                    message: e.text || e.error
+                })
+
             }).finally(() => {
 				this.loading = false
 			})
@@ -182,10 +355,7 @@ export default {
         },
 
         tempassets : function(assets){
-            
             this.temp = assets
-
-            console.log('this.temp', this.temp)
         },
 
         cancelTempAssets : function(){
@@ -204,6 +374,54 @@ export default {
 
         scoreConverterChanged : function(){
 
+        },
+
+        changeView : function(v){
+            this.view = v
+            this.selectedScenario = null
+        },
+
+        customStressTestLoaded : function(dct){
+            this.lastCustomResult = dct
+            //this.ct = dct
+            //this.selectedScenario = dct.scenarios[0]
+        },
+
+        saveFactors : function(factors){
+
+            this.lastCustomFactors = factors
+        },
+
+
+        customscenariosaved : function(result){
+
+            this.core.pct.scenariosAllIds().then(ids => {
+
+                ids.push(result.id)
+
+                return this.core.settings.stress.set('scenarios', ids)
+
+            }).then(() => {
+
+                this.lastCustomResult = null
+                this.lastCustomFactors = null
+                this.changeView('stresstest')
+                
+            })
+            
+        },
+
+        keydown : function(event){
+            if (event.code == 'ShiftLeft') {
+                this.shift = true
+            }
+        },
+
+        keyup : function(event){
+
+            if (event.code == 'ShiftLeft') {
+                this.shift = false
+            }
         }
 
     },

@@ -20,7 +20,7 @@
 			</div>
 
 			<div class="componentWrapper" v-if="ids.length">
-				<component :is="module" :ids="ids" @selectone="selectone" @removeitem="removeitem"/>
+				<component :is="module" :ids="ids" @selectone="selectone" @removeitem="removeitem" @showassets="showassets"/>
 			</div>
 
 			<div class="empty mobp" v-if="!ids.length">
@@ -28,7 +28,7 @@
 			</div>
 
 			<div class="golast mobp" v-if="!ids.length && last">
-				<router-link :to="last.link">
+				<router-link :to="last.link + '&c=' + active">
 					<button class="button">Go to last comparison</button>
 				</router-link>
 			</div>
@@ -54,6 +54,7 @@
 		font-size: 0.9em
 
 ::v-deep
+	.detailspanel,
 	.selectionpanel
 		position: absolute
 		right : 0
@@ -78,6 +79,12 @@
 
 			&:hover
 				color : srgb(--neutral-grad-2)
+
+	.detailspanel
+		right: auto
+		left : 0
+		border-left: 0
+		border-right: 1px solid srgb(--neutral-grad-1)
 </style>
 
 <script>
@@ -86,12 +93,15 @@ import linenavigation from "@/components/assets/linenavigation/index.vue";
 import stress from '@/components/modules/app/compare/stress/index.vue'
 import allocation from '@/components/modules/app/compare/allocation/index.vue'
 import distribution from '@/components/modules/app/compare/distribution/index.vue'
+import retrospective from '@/components/modules/app/compare/retrospective/index.vue'
+
+
 
 import { mapState } from 'vuex';
 export default {
 	name: 'compare_page',
 	components: {
-		stress, linenavigation, distribution, allocation
+		stress, linenavigation, distribution, allocation, retrospective
 	},
 
 	computed: {
@@ -131,16 +141,25 @@ export default {
 			navigation : [
 				{
 					text : 'labels.crashtest',
-					id : 'stress'
+					id : 'stress',
+					icon : 'fas fa-chart-bar'
 				},
 				{
 					text : 'labels.allocation',
-					id : 'allocation'
+					id : 'allocation',
+					icon : 'fas fa-chart-pie'
 				},
 				{
 					text : 'labels.distribution',
-					id : 'distribution'
+					id : 'distribution',
+					icon : 'fas fa-chart-area'
+				},
+				{
+					text : 'labels.retrospective',
+					id : 'retrospective',
+					icon : 'fas fa-history'
 				}
+				
 			],
 			navdefault : 'stress',
 			navkey : 'c',
@@ -173,6 +192,12 @@ export default {
 				}))
 
 			}, {selected})
+		},
+
+		showassets : function(id){
+			this.core.api.pctapi.portfolios.get(id).then(r => {
+				this.core.vueapi.portfolioShares(r)
+			})
 		},
 
 		selectone : function(id){

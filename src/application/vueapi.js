@@ -50,7 +50,8 @@ class Vueapi {
                     selectall : p.selectall
                 },
                 type : p.type,
-                hasmenu : false
+                hasmenu : false,
+                includeAdd : true
             },
 
             events : {
@@ -193,7 +194,8 @@ class Vueapi {
                 edit : {
                     name : portfolio.name,
                     assets : portfolio.positions,
-                    id : portfolio.id
+                    id : portfolio.id,
+                    advisorFee : portfolio.advisorFee
                 }
             },
     
@@ -307,6 +309,58 @@ class Vueapi {
             events : events
         })
     }
+
+    savecustomscenario = function(data, success){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_scenarios_savecustoms',
+            module : "scenarios_savecustom",
+            caption : "Factors",
+    
+            data : data,
+    
+            events : {
+                success
+            }
+        })
+    }
+
+    optimizationSettings = function(data, changed){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_optimization_settings',
+            module : "optimization_settings",
+            caption : "Optimization settings",
+    
+            data : data,
+    
+            events : {
+                changed
+            }
+        })
+    }
+
+    portfolioLtrdetails = function(data){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_ltrdetails',
+            module : "portfolio_ltrdetails",
+            caption : "Long Term Return Calculation Details",
+            data : data,
+            mclass : 'big',
+            events : {
+            }
+        })
+    }
+
+    scenarioDefinitions = function(data){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_crashtest_scenariodefinitions',
+            module : "portfolio_crashtest_scenariodefinitions",
+            caption : "Scenario Defenitions",
+            data : data,
+            mclass : 'big',
+            events : {
+            }
+        })
+    }
     
 
     createContact = function(payload, success, p = {}){
@@ -396,6 +450,20 @@ class Vueapi {
         })
     }
 
+    assetsLookup = function(success, p = {}){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_assets_lookup',
+            module : "assets_lookup",
+            caption : "Select asset",
+    
+            events : {
+                selected : function(asset){
+                    success(asset)
+                }
+            }
+        })
+    }
+
     integrations = function(success, p = {}){
 
         this.store.commit('OPEN_MODAL', {
@@ -462,8 +530,14 @@ class Vueapi {
         })
     }
 
-    newClient = function () {
+    newClient = function (success) {
         this.createContact({type : "CLIENT"}, (data) => {
+
+            if (success){
+                success(data)
+                return
+            }
+
             if (data.ID)
                 this.router.push('client/' + data.ID).catch(e => {})
         }, {
@@ -711,6 +785,19 @@ class Vueapi {
                 events : events,
                 mclass : p.mclass,
             })
+        })
+
+    }
+
+    portfolioShares = function(portfolio){
+
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_shares',
+            module : "portfolio_shares",
+            caption : portfolio.name,
+            data : {
+                portfolio
+            },
         })
 
     }

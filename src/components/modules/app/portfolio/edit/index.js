@@ -1,5 +1,6 @@
 import { mapState } from 'vuex';
 import assetsEdit from "@/components/modules/app/assets/edit/index.vue";
+import asset from "@/components/modules/app/assets/asset/index.vue";
 import f from '@/application/shared/functions.js'
 import _ from 'underscore';
 var sha1 = require('sha1');
@@ -13,12 +14,14 @@ export default {
 		currentroot : [String, Number],
 		from : Object,
 		wnd : Boolean,
-		updclbk : Function
+		updclbk : Function,
+		showdif : Boolean
 	},
 
 	components : {
 		assetsEdit,
-		aggregationsEdit
+		aggregationsEdit,
+		asset
 	},
 
 	data : function(){
@@ -29,6 +32,7 @@ export default {
 			assets : [],
 			hash : '',
 			name : '',
+			advisorFee : 0,
 			aggregation : null,
 			focused : false,
 			isModel : false,
@@ -98,6 +102,35 @@ export default {
 			if(!this.name) return 'name'
 		},
 
+		difference : function(){
+			var donorassets = (this.edit || this.from || {}).assets
+
+			var diff = {}
+			var rms = {}
+
+			_.each(this.assets, (a) => {
+				var da = _.find(donorassets, (as) => {
+					return as.ticker == a.ticker
+				})
+
+				if(!da){
+					diff[a.ticker]  = 0
+				}
+
+				else {
+					diff[a.ticker] = da.value
+				}
+			})
+
+			_.each(donorassets, (da) => {
+				if(typeof diff[da.ticker] == 'undefined') rms[da.ticker] = da
+			})
+
+			return {
+				diff, rms
+			}
+		},
+
 		haschanges : function(){
 			return this.datahash() != this.hash
 		},
@@ -126,7 +159,7 @@ export default {
 
 		datahash : function(){
 
-			return sha1(this.name + JSON.stringify(_.map(this.assets, (asset) => {
+			return sha1(this.name + this.advisorFee + JSON.stringify(_.map(this.assets, (asset) => {
 				return {
 					ticker : asset.ticker,
 					value : asset.value
@@ -307,6 +340,9 @@ export default {
 		changename : function(e){
 			this.name = e.target.value
 		},
+		changefee : function(e){
+			this.advisorFee = e.target.value / 100
+		},
 		joinassets : function(assets){
 			var jg = {}
 
@@ -448,6 +484,7 @@ export default {
 			var data = {
 				name : this.name,
 				positions,
+				advisorFee : this.advisorFee,
 				isModel : this.isModel,
 				... this.payload || {}
 			}
@@ -623,6 +660,7 @@ export default {
 		ini : function(){
 			var donor = this.edit || this.from
 
+
 			if (donor){
 				this.assets = []
 				
@@ -632,6 +670,7 @@ export default {
 
 				this.name = donor.name
 				this.isModel = donor.isModel
+				this.advisorFee = donor.advisorFee
 			}
 
 			this.hash = this.datahash()

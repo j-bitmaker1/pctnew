@@ -63,6 +63,10 @@ export default {
         lead_page : () => import("@/views/lead.vue"),
         portfolios_main : () => import("@/components/modules/app/portfolios/main/index.vue"),
         portfolio_summary : () => import("@/components/modules/app/portfolio/summary/index.vue"),
+        portfolio_shares : () => import("@/components/modules/app/portfolio/shares/index.vue"),
+        portfolio_ltrdetails: () => import("@/components/modules/app/portfolio/crashtest/ltrdetails/index.vue"),
+        portfolio_crashtest_scenariodefinitions: () => import("@/components/modules/app/portfolio/crashtest/scenariodefinitions/index.vue"),
+
         //clients : () => import("@/components/modules/app/clients/index.vue"),
         contacts : () => import("@/components/modules/app/contacts/index.vue"),
         filesystem_edit : () => import("@/components/common/filesystem/edit/index.vue"),
@@ -74,6 +78,7 @@ export default {
         pdfviewer : () => import("@/components/common/pdfviewer/index.vue"),
         assets_search : () => import("@/components/modules/app/assets/search/index.vue"),
         assets_annuities : () => import("@/components/modules/app/assets/annuities/index.vue"),
+        assets_lookup : () => import("@/components/modules/app/assets/lookup/index.vue"),
         pincode : () => import("@/components/assets/pincode/index.vue"),
         portfoliopdf :  () => import("@/components/modules/app/portfolio/createpdf/index.vue"),
         editorjs : () => import("@/components/common/editorjs/index.vue"),
@@ -87,6 +92,9 @@ export default {
         questionnaire_client: () => import("@/components/modules/app/client/questionnaire/index.vue"),
         scenario_custom: () => import("@/components/modules/app/scenarios/custom/index.vue"),
         scenario_allfactors: () => import("@/components/modules/app/scenarios/allfactors/index.vue"),
+        scenarios_savecustom: () => import("@/components/modules/app/scenarios/savecustom/index.vue"),
+        optimization_settings: () => import("@/components/modules/app/portfolio/optimization/settings/index.vue"),
+
         export: () => import("@/components/common/export/index.vue"),
 
         //// campaigns

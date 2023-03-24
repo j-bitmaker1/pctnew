@@ -110,7 +110,6 @@ f.clientsearch = function (value, arr, exe) {
 
         var ctext = stext.toLowerCase().replace(/[^\p{L}\p{N}\p{Z}]/gu, '')
 
-		console.log('ctext && ctext.indexOf(ctxt)', ctext && ctext.indexOf(ctxt))
 		
         if ((ctext && ctext.indexOf(ctxt) > -1) || f.stringComparison(txt, stext, 0.9)) return true
     })
@@ -1362,8 +1361,6 @@ f.removePopoverFromEvent = function(e){
     }
 
     if(f.findinparent(e.target, (el) => {
-
-        console.log('el.classList', el.classList)
 
         return el.classList && (el.classList.contains('v-popover') || el.classList.contains('tooltip'))
     })) return true

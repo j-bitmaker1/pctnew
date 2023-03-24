@@ -1,5 +1,5 @@
 <template>
-<div id="compare">
+<div id="comparewith_stress">
 
 
 
@@ -11,9 +11,10 @@
 			<div class="forpanel">
 				<span>Crash test</span>
 			</div>	
+			
 
-			<div class="forsettigns" v-if="hasdollarsvm">
-				<iconstoggle :icons="valuemodes" @change="changevaluemode" :value="valuemode"/>
+			<div class="forsettigns" >
+				<iconstoggle v-if="hasdollarsvm" :icons="valuemodes" @change="changevaluemode" :value="valuemode"/>
 			</div>
 		</div>
 

@@ -1,17 +1,29 @@
+.advisorFeeWrapper,
 .namewrapper
 	padding : $r
 	background: srgb(--background-total-theme)
+	
+	input
+		padding : 0 $r
+		height: 44px
+		
+		border-radius: 12px
+		background: srgb(--background-secondary-theme)
+
+
+	label
+		padding : 0 $r
+		
+
+.namewrapper
 	position: sticky
 	top : 54px
 	left : 0
 	right: 0
 	z-index: 2
+
 	input
-		padding : 0 $r
-		height: 44px
 		width: 100%
-		border-radius: 12px
-		background: srgb(--background-secondary-theme)
 
 .addwrapper
 	padding : $r
@@ -24,6 +36,36 @@
 		margin-right: $r
 		margin-bottom: $r
 		white-space: nowrap
+
+.removedassets
+	padding-left: 33px
+
+	.ticker
+		position: relative
+		display: flex
+		align-items: center
+		justify-content: center
+
+		&:after
+			position: absolute
+			left : 0.5 * $r
+			right: 0.5 * $r
+			top : 50%
+			margin-top: -1px
+			height: 2px
+			background: srgb(--color-bad)
+			content: ''
+
+		
+		span
+			opacity: 0.8
+			font-size : 0.8em
+
+	::v-deep
+		.simplelist
+			flex-wrap: wrap
+			display: flex
+			grid-gap: 0.5 * $r
 
 .captionRow
 	display: flex
@@ -56,11 +98,12 @@
 		scroll-snap-align: start
 
 	.remove
+		cursor: pointer
 		scroll-snap-align: start
 		text-align: center
-		width: 44px
-		min-width: 44px
-		max-width: 44px
+		width: 33px
+		min-width: 33px
+		max-width: 33px
 		flex-grow: 0
 		flex-shrink: 0
 		color : srgb(--neutral-grad-1)
@@ -81,9 +124,9 @@
 	&::-webkit-scrollbar
 		display: none!important
 	
-
 	.assetsListWrapper
-		width: calc(100% + 44px)
+		width: 100%
+	
 
 	&.focused
 		overflow: visible
@@ -129,3 +172,18 @@
 		font-weight: 700
 
 
+@media only screen and (max-width: 768px)
+	.assetWrapper
+
+
+		.remove
+			width: 44px
+			min-width: 44px
+			max-width: 44px
+			
+	.removedassets
+		padding-left: 44px
+	.aggregatelist,
+	.assetsList
+		.assetsListWrapper
+			width: calc(100% + 44px)

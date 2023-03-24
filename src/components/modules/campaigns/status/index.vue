@@ -63,8 +63,6 @@ export default {
 
 		meta : function(){
 
-			console.log('this.status', this.status)
-
 			return this.core.campaigns.statuses[this.status] || this.core.campaigns.statuses.default
 		}
 	}),

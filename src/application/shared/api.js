@@ -584,21 +584,28 @@ var ApiWrapper = function (core = {}) {
 
 				_.map(ids, (id) => {
 
+					try{
 
-					return storage.get(id).catch(e => {
+						return storage.get(id).catch(e => {
+							return Promise.resolve()
+						}).then(r => {
+
+
+							if (r) {
+								loaded[id] = r
+							}
+							else {
+								needtoload.push(id)
+							}
+
+							return Promise.resolve()
+						})
+
+					}
+
+					catch(e){
 						return Promise.resolve()
-					}).then(r => {
-
-
-						if (r) {
-							loaded[id] = r
-						}
-						else {
-							needtoload.push(id)
-						}
-
-						return Promise.resolve()
-					})
+					}
 				})
 
 			).then(() => {
@@ -656,12 +663,18 @@ var ApiWrapper = function (core = {}) {
 
 			_storage = storage
 
-		
+			try{
 
-			if (storage && !p.refreshDb) {
-				return storage.get(datahash).catch(e => {
-					return Promise.resolve()
-				})
+				if (storage && !p.refreshDb) {
+					return storage.get(datahash).catch(e => {
+						return Promise.resolve()
+					})
+				}
+
+			}
+
+			catch(e){
+				return Promise.resolve()
 			}
 
 
@@ -967,7 +980,15 @@ var ApiWrapper = function (core = {}) {
 		if (liststorage[key]) delete liststorage[key]
 
 		if (storages[key]) {
-			storages[key].clearall().catch(e => { console.error(e) })
+
+
+			try{
+				storages[key].clearall().catch(e => { console.error(e) })
+			}
+
+			catch(e){
+				
+			}
 			delete storages[key]
 		}
 	}
@@ -1005,7 +1026,9 @@ var ApiWrapper = function (core = {}) {
 
 					return Promise.resolve(f.deep(r, 'IncrementalSearch.c') || [])
 				})
-			}
+			},
+
+			
 		},
 
 		portfolio: {
@@ -1281,7 +1304,7 @@ var ApiWrapper = function (core = {}) {
 						return Promise.resolve(r.records)
 					}).then((assets) => {
 						return _.map(assets, (asset) => {
-							return {...asset, name : asset.id.replace(/_/g, ' ') }
+							return {...asset, name : asset.id.replace(/_/g, ' '), ticker : asset.id }
 						})
 					})
 				},
@@ -1299,10 +1322,12 @@ var ApiWrapper = function (core = {}) {
 				if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
 				p.storageparameters = dbmeta.stress()
-				p.storageparameters.invalidate = {
-					index: data.portfolioId,
-					type: 'portfolio'
-				}
+
+				if (data.portfolioId > 0)
+					p.storageparameters.invalidate = {
+						index: data.portfolioId,
+						type: 'portfolio'
+					}
 
 				return request(data, 'pctapi', 'StressTest/GetStandardDeviation', p).then((r) => {
 
@@ -1314,16 +1339,75 @@ var ApiWrapper = function (core = {}) {
 				})
 			},
 
-			customtestScenarios : function({portfolio, scenarios}, p = {}){
+			ltrdetails: function (data, p = {}) {
+
+
+				//if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
 				p.storageparameters = dbmeta.stress()
-				p.storageparameters.invalidate = {
-					index: portfolio.id,
-					type: 'portfolio'
+
+
+				if (data.portfolioId > 0)
+					p.storageparameters.invalidate = {
+						index: data.portfolioId,
+						type: 'portfolio'
+					}
+
+				return request(data, 'pctapi', 'Assets/GetLtrCalculation', p).then((r) => {
+
+
+					r = f.deep(r, 'records')
+
+					if (!r) return Promise.reject({ error: 'empty result' })
+
+					return Promise.resolve(r)
+				})
+			},
+
+			customtestScenarios : function({portfolio, scenarios}, p = {}){
+
+				var id = portfolio.originalid || portfolio.id
+				var positions = []
+
+				p.storageparameters = dbmeta.stress()
+
+				if (id > 0){
+					p.storageparameters.invalidate = {
+						index: id,
+						type: 'portfolio'
+					}
 				}
 
+				if (portfolio.originalid){
+					positions = _.map(_.filter(portfolio.positions, (p) => {
+						return p.external
+					}), asset => {
+						return {
+							name : asset.name,
+							ticker : asset.ticker,
+							value : asset.value,
+							annuity_type : asset.annuity_type
+						}
+					})
+				}
+				else{
+					if(id <= 0){
+						positions = _.filter(portfolio.positions, asset => {
+							return {
+								name : asset.name,
+								ticker : asset.ticker,
+								value : asset.value,
+								annuity_type : asset.annuity_type
+							}
+						})
+					}
+				}
+
+
+
 				return request({
-					portfolioId : portfolio.id,
+					portfolioId : id,
+					positions : positions.length ? positions : null,
 					scenarios : scenarios
 					
 				}, 'pctapi', 'StressTest/GetCustomStressTestDetailed', p).then((r) => {
@@ -1336,13 +1420,34 @@ var ApiWrapper = function (core = {}) {
 				})
 			},
 
+			customtestScenariosFromFactors : function({portfolio, factors}, p = {}){
+
+				var scenarios = _.map(factors, (factor) => {
+
+					return {
+						name : factor.name + ' ' + (factor.value || 0).toString(),
+						factors : [{
+							name : factor.name,
+							value : (factor.value || 0).toString()
+						}]
+					}
+
+				})
+
+
+				return this.customtestScenarios({portfolio, scenarios}, p)
+				
+			},
+
 			customtest : function({portfolio, factors}, p = {}){
 
 				p.storageparameters = dbmeta.stress()
-				p.storageparameters.invalidate = {
-					index: portfolio.id,
-					type: 'portfolio'
-				}
+
+				if (portfolio.id > 0)
+					p.storageparameters.invalidate = {
+						index: portfolio.id,
+						type: 'portfolio'
+					}
 
 				return request({
 					portfolioId : portfolio.id,
@@ -1373,10 +1478,12 @@ var ApiWrapper = function (core = {}) {
 				//data.onlyKeyScenarios = true
 
 				p.storageparameters = dbmeta.stress()
-				p.storageparameters.invalidate = {
-					index: data.portfolioId,
-					type: 'portfolio'
-				}
+
+				if (data.portfolioId > 0)
+					p.storageparameters.invalidate = {
+						index: data.portfolioId,
+						type: 'portfolio'
+					}
 
 				return request(data, 'pctapi', 'StressTest/GetStressTest', p).then((r) => {
 
@@ -1473,7 +1580,14 @@ var ApiWrapper = function (core = {}) {
 
 				return dbdividerequest(d, 'pctapi', 'Assets/GetAssetsInfo', p).then(r => {
 
-					return Promise.resolve(r.records)
+					var result = _.map(r.records, (r) => {
+						return {
+							...r,
+							isCovered : true
+						}
+					})
+
+					return Promise.resolve(result)
 				})
 			}
 		},
@@ -2224,7 +2338,6 @@ var ApiWrapper = function (core = {}) {
 				id: rootid || '0'
 			}, 'pctapi', 'Catalog/GetCatalogContent', p).then(r => {
 
-				console.log("RRR ", r)
 
 				var result = {
 					name: r.name,

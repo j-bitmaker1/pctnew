@@ -10,6 +10,9 @@ export default {
         name : String,
         value : Number,
         isCovered : Boolean,
+        showdif : Boolean,
+        difference : Number,
+
         mode : {
             type : String,
             default : 'd'
