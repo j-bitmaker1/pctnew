@@ -1182,15 +1182,16 @@ var ApiWrapper = function (core = {}) {
                         Action: 'GETINTEGRATIONCONNECTIONS',
                     },
                     'pct',
-					'',
+					'GETINTEGRATIONCONNECTIONS',
                     {
                         method: 'POST',
+						urldata: true,
                     },
-                ).then((r) => {
-                    debugger;
+                ).then((r = {}) => {
+					if (!r.PCT) return Promise.reject(r);
 
-                    return Promise.resolve(r);
-                });;
+                    return Promise.resolve(r.PCT.Connections);
+                });
             },
 
             addOrEdit({ NewName, OldName, Type, ILogin, IPassword, Repcode }) {
@@ -1205,31 +1206,29 @@ var ApiWrapper = function (core = {}) {
                         Repcode,
                     },
                     'pct',
-                    '',
+                    'ADDINTEGRATIONCONNECTION',
                     {
                         method: 'POST',
+						urldata: true,
                     },
                 ).then((r) => {
-                    debugger;
-
                     return Promise.resolve(r);
                 });
             },
 
-            remove({ Name }) {
+			remove({ Name }) {
                 return request(
                     {
                         Action: 'REMOVEINTEGRATIONCONNECTION',
                         Name,
                     },
                     'pct',
-                    '',
+                    'REMOVEINTEGRATIONCONNECTION',
                     {
                         method: 'POST',
+						urldata: true,
                     },
                 ).then((r) => {
-                    debugger;
-
                     return Promise.resolve(r);
                 });
             },
@@ -1937,7 +1936,15 @@ var ApiWrapper = function (core = {}) {
 				})
 			},
 
-
+			integrations: {
+				update(name) {
+					return request({
+						name,
+					}, 'pctapi', 'Integration/Update', {
+						method: 'POST',
+					});
+				},
+			}
 		}
 	}
 
