@@ -2442,14 +2442,14 @@ var ApiWrapper = function (core = {}) {
 
 			p.vxstorage = {
 				type: 'filesystem',
-				getloaded: rootid,
+				getloaded: p.reload ? false : rootid,
 				one: true
 			}
 
 			return request({
 				id: rootid || '0'
 			}, 'pctapi', 'Catalog/GetCatalogContent', p).then(r => {
-
+				const isIntegration = r.nonremovable || r.readOnly || r.name.includes('integration_') || false;
 
 				var result = {
 					name: r.name,
@@ -2458,7 +2458,8 @@ var ApiWrapper = function (core = {}) {
 					from : r.catalogId,
 					attributes : {
 						readOnly : r.readOnly || false,
-						nonremovable : r.nonremovable || r.readOnly || r.name == 'Models' || false
+						nonremovable : r.nonremovable || r.readOnly || r.name == 'Models' || false,
+						isIntegration,
 					}
 				}
 
@@ -2471,7 +2472,8 @@ var ApiWrapper = function (core = {}) {
 						context: 'filesystem',
 						attributes : {
 							readOnly : c.readOnly || false,
-							nonremovable : c.nonremovable || c.readOnly || c.name == 'Models' || false
+							nonremovable : c.nonremovable || c.readOnly || c.name == 'Models' || false,
+							isIntegration,
 						}
 					})
 				})
@@ -2485,7 +2487,8 @@ var ApiWrapper = function (core = {}) {
 						context: 'filesystem',
 						attributes : {
 							readOnly : p.readOnly || false,
-							nonremovable : p.nonremovable || p.readOnly || false
+							nonremovable : p.nonremovable || p.readOnly || false,
+							isIntegration,
 						}
 					})
 				})
