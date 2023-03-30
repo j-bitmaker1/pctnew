@@ -26,6 +26,7 @@ build_main:
 deploy_main:
     stage: deploy
     script:
+        - rm -Recurse -Force ${DEPLOY_MAIN_FOLDER}/*
         - cp -Recurse -Force ./dist/* ${DEPLOY_MAIN_FOLDER}/
     dependencies:
         - build_main
