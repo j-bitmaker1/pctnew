@@ -8,7 +8,7 @@
 
     <ctmain v-if="portfolios && cts" :cts="cts" :portfolios="portfolios" :mode="mode" :height="height" @scenarioMouseOver="scenarioMouseOver" @optimization="optimization"/>
 
-    <template v-if="doingoptimization">
+    <template v-if="doingoptimization || _.isEmpty(portfolios) || _.isEmpty(cts)">
         <div class="loaderWrapper">
             <linepreloader />
         </div>

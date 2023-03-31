@@ -1,8 +1,7 @@
 <template>
 <div id="portfolios_crashtest">
 
-
-    <div class="ct" >
+    <div class="ct">
 
         <div class="header mobp">
             <div class="forpanel">

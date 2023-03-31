@@ -315,6 +315,7 @@ export default {
             this.selectedScenario = null
             this.portfolio = null
             this.error = null
+            this.optimizedPortfolio = null
 
             if(!this.portfolioId){
                 return Promise.reject('empty')

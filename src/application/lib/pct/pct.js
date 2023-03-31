@@ -1324,6 +1324,7 @@ class PCT {
 
         var newpositions = []
 
+
         _.each(positions, (asset) => {
 
             var ca = _.clone(asset)
@@ -1333,7 +1334,7 @@ class PCT {
             })
 
             if (lp){
-                ca.value = parseFloat(lp.cWo)
+                ca.value = parseFloat(lp.cWo.replace(/[,]/g,''))
                 ca.optimized = true
             }
             
@@ -1352,7 +1353,7 @@ class PCT {
         _.each(add, (ta) => {
             newpositions.push({
                 isCovered : true,
-                value : parseFloat(ta.cWo),
+                value : parseFloat(ta.cWo.replace(/[,]/g,'')),
                 name : ta.cName,
                 ticker : (ta.cTicker || "").replace(" EQUITY", "")
             })

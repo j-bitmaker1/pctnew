@@ -134,6 +134,9 @@ export default {
 
 			this.loading = true
 
+			this.cts = {}
+			this.ct = {}
+
 			this.core.pct.stresstestskt([this.portfolio, this.optimizedPortfolio], this.valuemode, { fee : asset => {
 				return this.portfolio.advisorFee || 0
 			}}).then(cts => {
