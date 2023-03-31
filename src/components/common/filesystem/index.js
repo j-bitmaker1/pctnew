@@ -43,10 +43,20 @@ export default {
 	},
 
 	created : function() {
-		this.history.push(this.root)
+		this.history.push(this.root);
 
-		this.load()
+		this.core.on('updateintegrations', 'filesystem', () => {
+			this.load('', {
+				reload: true,
+			});
+		});
 
+		this.load();
+
+	},
+
+	destroyed() {
+		this.core.off('updateintegrations', 'filesystem');
 	},
 
 	watch: {
@@ -127,7 +137,7 @@ export default {
 	}),
 
 	methods : {
-		load : function(id){
+		load : function(id, p = {}){
 			this.loading = true
 			this.selected = null
 
@@ -135,7 +145,7 @@ export default {
 				this.setcurrentroot(id)
 			}
 
-			return this.core.api.filesystem.get(this.root).then(r => {
+			return this.core.api.filesystem.get(this.root, p).then(r => {
 
 				this.current = r
 
@@ -403,6 +413,21 @@ export default {
 					action : this.removefolder
 				})
 
+			}
+
+			if (this.current.attributes.isIntegration) {
+				menu.push({
+					text : 'labels.refreshintegration',
+					icon : 'fas fa-redo-alt',
+					action : () => {
+						this.core.api.pctapi.integrations
+                            .update(this.current.name)
+                            .then(() => this.$store.commit('icon', {
+								icon: 'success',
+								message: 'Integration update started'
+							}));
+					},
+				})
 			}
 
 			this.core.vueapi.listmenu(menu)

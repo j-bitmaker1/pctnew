@@ -487,8 +487,8 @@ class Vueapi {
             caption : "Add connection",
             data : p,
             events : {
-                changed : function(){
-                    success()
+                changed : function(addedIntegration){
+                    success(addedIntegration)
                 }
             }
         })
@@ -505,7 +505,7 @@ class Vueapi {
                 changed : function(){
                     success()
                 }
-            }
+            },
         })
     }
 

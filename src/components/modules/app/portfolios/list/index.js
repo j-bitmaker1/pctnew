@@ -66,7 +66,14 @@ export default {
 	},
 
 	created() {
+		this.core.on('updateintegrations', 'list', () => {
+			this.reload();
+		});
 
+	},
+
+	destroyed() {
+		this.core.off('updateintegrations', 'list');
 	},
 
 	watch: {

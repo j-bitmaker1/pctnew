@@ -45,8 +45,11 @@
 		"confirmpassword" : "Confirm password",
 		"password" : "Password",
 		"daterange" : "Date range",
-		"strongpassword" : "The password must be more than 8 symbols and must contain an uppercase and lowercase letters, numbers, special characters"
-
+		"strongpassword" : "The password must be more than 8 symbols and must contain an uppercase and lowercase letters, numbers, special characters",
+		"Login": "Login",
+		"RepCode": "RepCode",
+		"IntegrationName": "Integration Name",
+		"AccessCode": "Access Code"
 	},
 
 	"labels" : {
@@ -153,8 +156,8 @@
 		"scenarioDefinitions" : "Scenario Definitions",
 		"optimizationSettings" : "Optimization settings",
 		"structured" : "Structured",
-		"assets" : "Assets"
-
+		"assets" : "Assets",
+		"refreshintegration" : "Refresh Integration Info"
 	},
 
 	"caption" : {
@@ -517,7 +520,8 @@
 				"GroupBy" : "Sequencing",
 				"INORDER" : "One after another",
 				"EMAIL" : "All at once",
-				"SignatureId" : "Signature"
+				"SignatureId" : "Signature",
+				"IntegrationId" : "Integration"
 			}
 		},
 
@@ -630,6 +634,11 @@
 			"shortest" : "Shortest Path Optimization",
 			"gradual" : "Gradual Optimization"
 		}
+	},
+
+	"integrations" : {
+		"editIntegration": "Edit Integration",
+		"removeIntegration": "Remove Integration"
 	},
 
 
