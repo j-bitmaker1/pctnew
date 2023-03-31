@@ -181,6 +181,13 @@ export default {
 			this.$emit('optimized', this.optimizedPortfolio)
 		},
 
+		showoptimizedpositions : function(){
+            this.core.vueapi.assetsDifference({
+                portfolio : this.portfolio,
+                optimized : this.optimizedPortfolio
+            })
+        },
+
 		cancelOptimization : function(){
 			this.optimized(null)
 		},

@@ -6,10 +6,7 @@
         <crslider :cts="cts" :portfolios="portfolios" :cpmdata="cpmdata" :optimize="optimize" @optimization="optimization" :currentOptimization="currentOptimization" />
     </div>
 
-    <div class="mobbutton mobp" v-if="optimizedPortfolio">
-        <button class="button" @click="showoptimizedpositions">Show optimized positions</button>
-    </div>
-
+   
     <ctmain v-if="portfolios && cts" :cts="cts" :portfolios="portfolios" :currentOptimization="currentOptimization" :optimize="optimize" :mode="mode" :height="height" @scenarioMouseOver="scenarioMouseOver" @optimization="optimization"/>
 
     <template v-if="doingoptimization || _.isEmpty(portfolios) || _.isEmpty(cts)">

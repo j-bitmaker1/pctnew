@@ -40,6 +40,7 @@
 
         <div class="optimizedPortfolioPanel" v-if="optimizedPortfolio">
             <button class="button small black" @click="cancelOptimization">Cancel optimization</button>
+            <button class="button small black assets" @click="showoptimizedpositions">Assets</button>
             <button class="button small" @click="saveOptimization">Save</button>
         </div>
 
