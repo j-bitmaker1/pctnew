@@ -213,7 +213,13 @@
 		position: relative
 
 		.partcaption
+			position: sticky
+			left : 0
+			top : 0
+			right: 0
+			background: srgb(--background-total-theme)
 			padding: $r
+			z-index: 14
 
 			span
 				font-size: 0.9em
@@ -253,7 +259,7 @@
 		.left
 			background: srgb(--background-total-theme)
 
-	.right
+	.scrollhidden
 		overflow: hidden
 
 	.retrospective
@@ -383,6 +389,21 @@
 		button
 			min-width: 0
 			font-size: 0.8em
+
+	.vueapiwrapper
+		button
+			min-width: 0
+			font-size: 0.8em
+		label
+			font-size: 0.8em
+
+
+	.radio .radioWrapper
+		margin-bottom: 0
+
+		label
+			font-size: 0.8em
+
 
 	.customslider
 		.inputwrapper
@@ -603,6 +624,14 @@
 
 				.wrapperAll
 					padding : $r
+
+	#optimization_settings
+		padding-bottom: 8 * $r
+		.fields 
+			>div
+				padding : 0
+				flex-basis: 100%
+				min-width: 100%
 
 	#portfolio_crashtest_scenariodetails
 		.scenario

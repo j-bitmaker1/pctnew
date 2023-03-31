@@ -1929,7 +1929,7 @@ f.colorFromGradient = function(p){
 
         if (p.mode == 'equal'){
             _.each(color, function(cc, i){
-                color[i] = (left.color[i] * (1 - proportion) + right.color[i] * proportion).toFixed(0);
+                color[i] = (left.color[i] * (1 - proportion) + right.color[i] * proportion).toFixed(i == 3 ? 3 : 0);
             })
 
             left.opacity = 1 - proportion;

@@ -15,10 +15,11 @@ import retrospectivetemp from "@/components/modules/app/comparewith/retrospectiv
 
 import factoranalysis from "@/components/modules/app/portfolio/factoranalysis/index.vue";
 
+import assetsdifference from "@/components/modules/app/portfolio/assetsdifference/index.vue";
 
 import widget from "./widget/index.vue";
 
-
+import optimizationSettings from "@/components/modules/app/portfolio/optimization/settings/index.vue";
 
 export default {
     name: 'portfolio_summary',
@@ -35,7 +36,9 @@ export default {
         retrospective,
         factoranalysis,
         widget,
-        retrospectivetemp
+        retrospectivetemp,
+        assetsdifference,
+        optimizationSettings
 	},
     props: {
         portfolioId : Number,
@@ -60,7 +63,13 @@ export default {
             shift : false,
             view : 'stresstest',
             views : ['stresstest', 'customstresstest'],
-            scrollWidth : 0
+            scrollWidth : 0,
+
+            tourclbks: {
+                onFinish: this.onFinishTour,
+            },
+
+            optimizedPortfolio: null
         }
 
     },
@@ -200,7 +209,48 @@ export default {
             return this.scrollWidth 
         },
 
+        summarytoursteps(){
 
+            var tour = [
+
+            ]
+
+            tour.push({
+                target: '#portfoliomenu',  // We're using document.querySelector() under the hood
+                header: {
+                    title: 'Portfolio menu',
+                },
+                content: `This is the portfolio menu. Portfolio report export to PDF, export to Excel and other functions are available here!`,
+
+                before: (type) => new Promise((resolve, reject) => {
+
+                    if(!localStorage['summaryTourFinished']) return resolve()
+
+                    reject()
+
+                    // Time-consuming UI/async operation here
+                    
+                })
+            })
+
+            tour.push({
+                target: '#crashtestmenu',  // We're using document.querySelector() under the hood
+                header: {
+                    title: 'Stress test menu',
+                },
+                content: `This is the stress test menu. Here you can find data about scenarios, assets and create a custom stress test!`
+            })
+
+            tour.push({
+                target: '.navcontrols',  // We're using document.querySelector() under the hood
+                header: {
+                    title: 'More information!',
+                },
+                content: `A small navigation bar will help you navigate between other reports for this portfolio. A new historical simulation report is now available!`
+            })
+
+            return tour
+        }
        
     }),
 
@@ -219,9 +269,11 @@ export default {
     },
 
     methods : {
-        toslide(slide){
-            console.log('slide', slide, this.scrollWidth, this.scrollWidth * (slide.rleft) / 100)
 
+        onFinishTour(){
+            localStorage['summaryTourFinished'] = true
+        },
+        toslide(slide){
             this.$refs.bodyWrapper.scrollLeft = this.scrollWidth * (slide.rleft) / 100
         },
         scrolling : function(e){
@@ -242,13 +294,18 @@ export default {
                 loss : scenario.loss * cts.total
             }
 
-            this.selectedScenario = _scenario
+            if(!this.optimizedPortfolio)
+                this.selectedScenario = _scenario
 
         },
 
         scenarioMouseOver : function({ct, scenario}){
-            this.ct = ct
-            this.selectedScenario = scenario
+
+            if(!this.optimizedPortfolio){
+                this.ct = ct
+                this.selectedScenario = scenario
+            }
+            
         },
 
         load : function(){
@@ -266,6 +323,12 @@ export default {
 			return this.core.api.pctapi.portfolios.get(this.portfolioId).then(r => {
 
 				this.portfolio = r
+
+                console.log("HERE", this.portfolio)
+
+                if (this.summarytoursteps.length){
+                    this.$tours['summarytour'].start()
+                }
 
 				this.core.activity.template('portfolio', this.portfolio)
 
@@ -288,6 +351,9 @@ export default {
 
             }).finally(() => {
 				this.loading = false
+
+                
+
 			})
 
         },
@@ -422,6 +488,13 @@ export default {
             if (event.code == 'ShiftLeft') {
                 this.shift = false
             }
+        },
+
+        optimized : function(optimizedPortfolio){
+            console.log("this.optimizedPortfolio ", optimizedPortfolio)
+            this.optimizedPortfolio = optimizedPortfolio
+
+            this.selectedScenario = null
         }
 
     },

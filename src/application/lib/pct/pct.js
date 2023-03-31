@@ -607,6 +607,33 @@ class PCT {
         return common
     }
 
+    stresstestskt = function(portfolios, mode, p){
+
+        portfolios = _.filter(portfolios, (p) => {return p})
+
+        var cts = {}
+        var max = _.max(portfolios, (p) => {return p.total()})
+        var total = max.total()
+        console.log('max', total)
+
+        return Promise.all(_.map(portfolios, (portfolio) => {
+
+            var promise = portfolio.id < 0 ? this.stresstestPositions(portfolio.positions, p) : this.stresstest(portfolio.id, p)
+
+            return promise.then(r => {
+                cts[portfolio.id] = r
+    
+                return Promise.resolve()
+            })
+        })).then(r => {
+
+            console.log("this.composeCTS(cts, total, mode, portfolios)", this.composeCTS(cts, total, mode, portfolios))
+
+            return Promise.resolve(this.composeCTS(cts, total, mode, portfolios))
+        })
+      
+    }
+
     stresstests = function(ids, total, mode, portfolios){
 
         var cts = {}
@@ -934,6 +961,7 @@ class PCT {
                     name : asset.name,
                     ticker : asset.ticker,
                     value : asset.value,
+                    isCovered : asset.isCovered,
                     annuity_type : asset.annuity_type
                 }
             } )
@@ -1290,7 +1318,204 @@ class PCT {
         return assets
     }
 
+    getPortfolioFromOptimization(portfolio, traded){
 
+        var positions = portfolio.positions
+
+        var newpositions = []
+
+        _.each(positions, (asset) => {
+
+            var ca = _.clone(asset)
+
+            var lp = _.find(traded, (ta) => {
+                return asset.ticker == ta.cTicker || asset.name == ta.cName
+            })
+
+            if (lp){
+                ca.value = parseFloat(lp.cWo)
+                ca.optimized = true
+            }
+            
+            newpositions.push(ca)
+          
+        })
+
+        var add = _.filter(traded, (ta) => {
+            var f = _.find(newpositions, (asset) => {
+                return asset.ticker == ta.cTicker || asset.name == ta.cName
+            })
+
+            if(!f) return true
+        })
+
+        _.each(add, (ta) => {
+            newpositions.push({
+                isCovered : true,
+                value : parseFloat(ta.cWo),
+                name : ta.cName,
+                ticker : (ta.cTicker || "").replace(" EQUITY", "")
+            })
+        })
+
+        var aportfolio = portfolio.clone()
+            aportfolio.name = "Optimized portfolio"
+            aportfolio.id = -1
+            aportfolio.tempportfolio = true
+            aportfolio.positions = newpositions
+
+        return aportfolio
+    }   
+
+    optimization = function(portfolio, data, p = {}){
+
+        return this.optimizationParameters(portfolio, data).then((data) => {
+
+            return this.api.pctapi.stress.optimization.get(data, p)
+
+        }).then((r) => {
+
+            return Promise.resolve(this.getPortfolioFromOptimization(portfolio, r.tradedAsset))
+        })
+    }
+
+    optimizationParameters = function(portfolio, data, p = {}){
+
+        var types = {
+            "modelType": "string",
+            "optimizeOcr": "string",
+            "targetOcr": "string",
+            "targetLoss": "string",
+            "scenarioId": "string",
+            "turnover": "string",
+            "maxPosition": "string",
+            "equityMin": "string",
+            "equityMax": "string",
+            "fixedIncomeMin": "string",
+            "fixedIncomeMax": "string",
+            "currencyMin": "string",
+            "currencyMax": "string",
+            "commodityMin": "string",
+            "commodityMax": "string",
+            "alternativesMin": "string",
+            "alternativesMax": "string",
+            "optimizerStep": "string",
+            "optimizeRp": "string",
+            "targetRp": "string",
+            "sumWeights": "string",
+            "crashLoss": "string",
+            "ltr": "string",
+            "horizon": "string",
+            "crash1": "string",
+            "crash2": "string",
+            "saveMore": "string",
+            "saveMoreFrom": "string",
+            "saveMoreTo": "string",
+            "withDraw": "string",
+            "withDrawFrom": "string",
+            "withDrawTo": "string",
+            "useBuyList": "string",
+            "useOnlyBuyList": "string",
+            "gradualOptimization": "string"
+        }
+
+        var result = {
+            buyListId : 0,
+            optimizeOcr : data.ocr ? 1 : 0,
+            targetOcr : data.ocr || 0,
+
+            targetLoss: data.scenario ? data.scenario.loss : 0,
+            scenarioId: data.scenario ? data.scenario.id : 0,
+
+            turnover : 'maxpositions',
+            maxPosition : 'maxpositions',
+
+            equityMin : 0,
+            equityMax : 'maxpositions',
+
+            fixedIncomeMin: 0,
+            fixedIncomeMax: "maxpositions",
+            currencyMin: 0,
+            currencyMax: "maxpositions",
+            commodityMin: 0,
+            commodityMax: "maxpositions",
+            alternativesMin: 0,
+            alternativesMax: "maxpositions",
+
+            useBuyList: 0,
+            useOnlyBuyList: 0,
+            gradualOptimization: 0,
+
+            portfolioId : -1,
+        }
+        
+        return this.core.getsettings("OPTIMIZATION", portfolio.id).then(s => {
+
+            console.log('settings', s, portfolio.id)
+            var total = portfolio.total()
+
+            if (s){
+                result.turnover = total * (s.totalturnover || 100) / 100
+                result.maxPosition = total * (s.maxPositionSize || 100) / 100
+
+                if (s.alternatives){
+                    result.alternativesMin = total * (s.alternatives[0] || 0) / 100
+                    result.alternativesMax = total * (s.alternatives[1] || 0) / 100
+                }
+
+                if (s.commodity){
+                    result.commodityMin = total * (s.commodity[0] || 0) / 100
+                    result.commodityMax = total * (s.commodity[1] || 0) / 100
+                }
+
+                if (s.currency){
+                    result.currencyMin = total * (s.currency[0] || 0) / 100
+                    result.currencyMax = total * (s.currency[1] || 0) / 100
+                }
+
+                if (s.equity){
+                    result.equityMin = total * (s.equity[0] || 0) / 100
+                    result.equityMax = total * (s.equity[1] || 0) / 100
+                }
+
+                if (s.fixedIncome){
+                    result.fixedIncomeMin = total * (s.fixedIncome[0] || 0) / 100
+                    result.fixedIncomeMax = total * (s.fixedIncome[1] || 0) / 100
+                }
+
+                if(s.optimizationMode == 1){
+                    result.gradualOptimization = 1
+                }
+
+            }
+
+            console.log("S", s)
+
+            _.each(result, (v, i) => {
+                if(v == 'maxpositions') result[i] = total
+            })
+
+            result.positions = _.map(portfolio.positions, (asset) => {
+                return {
+                    name : asset.name,
+                    ticker : asset.ticker,
+                    value : asset.value
+                }
+            })
+
+            _.each(types, (t, i) => {
+                if (typeof result[i] != 'undefined' && result[i].toString){
+                    result[i] = result[i].toString()
+                }
+            })
+
+            return result
+        })
+
+        
+
+
+    }
 
 }
 

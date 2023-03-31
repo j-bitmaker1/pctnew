@@ -1,5 +1,5 @@
 <template>
-<div class="part" :class="name + (customscroll ? ' customscroll' : '')" :style="style">
+<div class="part" :class="name + (customscroll ? ' customscroll' : '') + ' ' + (cls || '')" :style="style">
 	<slot name="content" v-if="active">
     </slot>
 </div>
@@ -19,7 +19,8 @@ export default {
 	props: {
 		name : String,
 		customscroll : Boolean,
-		widgets : Object
+		widgets : Object,
+		cls : String
 	},
 	computed: mapState({
 		auth: state => state.auth,

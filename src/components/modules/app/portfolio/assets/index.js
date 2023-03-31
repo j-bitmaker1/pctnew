@@ -6,7 +6,7 @@ export default {
 	props: {
 		assets : Array,
 		assetsinfo : Object,
-		portfolio : Object
+		portfolio : Object,
 	},
 
 	components : {

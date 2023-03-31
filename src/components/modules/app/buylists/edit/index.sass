@@ -1,0 +1,189 @@
+.advisorFeeWrapper,
+.namewrapper
+	padding : $r
+	background: srgb(--background-total-theme)
+	
+	input
+		padding : 0 $r
+		height: 44px
+		
+		border-radius: 12px
+		background: srgb(--background-secondary-theme)
+
+
+	label
+		padding : 0 $r
+		
+
+.namewrapper
+	position: sticky
+	top : 54px
+	left : 0
+	right: 0
+	z-index: 2
+
+	input
+		width: 100%
+
+.addwrapper
+	padding : $r
+	display: flex
+	margin-top : 2 * $r
+	flex-wrap: wrap
+
+	.button
+		min-width: 0
+		margin-right: $r
+		margin-bottom: $r
+		white-space: nowrap
+
+.removedassets
+	padding-left: 33px
+
+	.ticker
+		position: relative
+		display: flex
+		align-items: center
+		justify-content: center
+
+		&:after
+			position: absolute
+			left : 0.5 * $r
+			right: 0.5 * $r
+			top : 50%
+			margin-top: -1px
+			height: 2px
+			background: srgb(--color-bad)
+			content: ''
+
+		
+		span
+			opacity: 0.8
+			font-size : 0.8em
+
+	::v-deep
+		.simplelist
+			flex-wrap: wrap
+			display: flex
+			grid-gap: 0.5 * $r
+
+.captionRow
+	display: flex
+	justify-content: space-between
+	align-items: center
+
+	.uncoveredwrapper,
+	.totalwrapper
+		margin-left: auto
+		padding-right: 2 * $r
+
+	.totalwrapper
+		span
+			font-size: 1.2em
+			font-weight: 100
+
+	.uncoveredwrapper
+		opacity: 0.6
+		span
+			font-size: 0.8em
+			
+
+.assetWrapper
+
+	display: flex
+	align-items: center
+
+	.assets_edit
+		flex-grow: 2
+		scroll-snap-align: start
+
+	.remove
+		cursor: pointer
+		scroll-snap-align: start
+		text-align: center
+		width: 33px
+		min-width: 33px
+		max-width: 33px
+		flex-grow: 0
+		flex-shrink: 0
+		color : srgb(--neutral-grad-1)
+
+	/*&.last
+		*/
+
+
+.aggregatelist,
+.assetsList
+	margin-top: 3 * $r
+	margin-bottom: 3 * $r
+	overflow-x: scroll
+	scroll-snap-type: x mandatory
+	padding-top: 4 * $r
+
+	scrollbar-width : none
+	&::-webkit-scrollbar
+		display: none!important
+	
+	.assetsListWrapper
+		width: 100%
+	
+
+	&.focused
+		overflow: visible
+
+.totalPanel
+	position: sticky
+	padding: $r 2 * $r
+	padding-right: 2.5 * $r
+	background: srgb(--background-total-theme)
+	bottom: 0
+	left: 0
+	right: 0
+	display: flex
+	align-items: center
+	flex-wrap: nowrap
+	justify-content: space-between
+	z-index: 1
+
+	.pdicon
+		font-size: 0.9em
+
+	.forInput
+		font-size: 0.9em
+		margin-left: auto
+
+	input
+		text-align: right
+
+.haschanges
+	.totalPanel
+		bottom: 10 * $r
+
+.assetsList
+	margin-top: 0
+
+.aggregatelist
+	margin-top: 0
+	
+.caption
+	padding : 0 2 * $r
+
+	span
+		font-weight: 700
+
+
+@media only screen and (max-width: 768px)
+	.assetWrapper
+
+
+		.remove
+			width: 44px
+			min-width: 44px
+			max-width: 44px
+			
+	.removedassets
+		padding-left: 44px
+	.aggregatelist,
+	.assetsList
+		.assetsListWrapper
+			width: calc(100% + 44px)

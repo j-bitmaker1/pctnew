@@ -34,6 +34,7 @@ export default {
 		dwidth : state => state.dwidth,
 		dheight : state => state.dheight,
 		roundbase : function(){
+			if(!this.cts.total) return 0
 			return Math.pow(10, Math.max((this.cts.total.toFixed(0)).length - 3, 1))
 		},
 		dollars : state => state.dollars,

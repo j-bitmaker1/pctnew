@@ -18,11 +18,8 @@
 			</div>
 		</div>
 
-		<div class="crsliderWrapper mobp" v-if="portfolios && cts">
-            <crsliders :cts="cts" :portfolios="portfolios"/>
-        </div>
+		<totalchart v-if="portfolios && cts" :cts="cts" :portfolios="portfolios" :mode="valuemodecomposed"/>
 
-        <ctmain :cts="cts" :portfolios="portfolios" :mode="valuemodecomposed"/>
     </div>
 </div>
 </template>

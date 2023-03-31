@@ -109,7 +109,8 @@ import gallery from "@/components/modules/gallery/index.vue";
 
 import root from "@/root/index.vue";
 import campaignsStepsList from "@/components/modules/campaigns/steps/list/index.vue";
-
+import VueTour from 'vue-tour'
+require('vue-tour/dist/vue-tour.css')
 /*
 import Highcharts from 'highcharts'
 import drilldownInit from 'highcharts/modules/drilldown'
@@ -161,7 +162,7 @@ Vue.component("avalue", avalue);
 Vue.component("portfoliovalue", portfoliovalue);
 Vue.component("portfolioAdvisorFee", portfolioAdvisorFee);
 
-
+Vue.use(VueTour)
 
 Vue.component("listmenu", listmenu);
 Vue.component("list", list);

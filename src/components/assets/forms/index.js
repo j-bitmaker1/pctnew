@@ -210,6 +210,12 @@ export default {
 				type : Number,
 			}
 
+        },
+
+        vueapi : function(field){
+            this.core.vueapi[field.settings.api]((r) => {
+                this.$set(this.form, field.id, r)
+            })
         }
     },
 }

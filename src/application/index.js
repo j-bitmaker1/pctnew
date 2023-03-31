@@ -579,6 +579,52 @@ class Core {
 
     }
 
+
+
+    getsettings (type, id) {
+
+        var sk = type + '_' + id
+
+        if(!this.dynamicSettings[sk]){
+            this.dynamicSettings[sk] = new Settings(this, type, {
+                [type] : {
+                    ['values_' + id] : {
+                        name: 'values_' + id,
+                        default: function() {
+                            return null
+                        }
+                    }
+                }
+            })
+        }
+
+        return this.dynamicSettings[sk].getall().then(d => {
+
+            if (d['values_' + id]) return d['values_' + id].value
+
+        })
+    }
+
+    setsettings(type, id, value){
+
+        var sk = type + '_' + id
+
+        if(!this.dynamicSettings[sk]){
+            this.dynamicSettings[sk] = new Settings(this, type, {
+                [type] : {
+                    ['values_' + id] : {
+                        name: 'values_' + id,
+                        default: function() {
+                            return null
+                        }
+                    }
+                }
+            })
+        }
+
+        return this.dynamicSettings[sk].set('values_' + id, value)
+    }
+
 }
 
 export default Core

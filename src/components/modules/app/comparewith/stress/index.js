@@ -1,8 +1,6 @@
 import { mapState } from 'vuex';
 
-import ctmain from '@/components/modules/app/portfolio/crashtest/main/index.vue'
-import summarybutton from '@/components/delements/summarybutton/index.vue'
-import crsliders from '../crsliders/index.vue'
+import totalchart from '@/components/modules/app/portfolio/crashtest/totalchart/index.vue';
 export default {
     name: 'comparewith_stress',
     props: {
@@ -16,7 +14,7 @@ export default {
         }
     },
 
-    components : {ctmain, summarybutton, crsliders},
+    components : {totalchart},
 
     data : function(){
 

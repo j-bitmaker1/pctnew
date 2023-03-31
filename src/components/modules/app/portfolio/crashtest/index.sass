@@ -13,8 +13,30 @@
 	.forsettigns
 		margin-left : auto
 
-.crsliderWrapper
-	padding-top: $r
+#portfolios_crashtest
+
+
+	.optimizedPortfolioPanel
+		position: sticky
+		bottom : 0
+		padding-bottom: 4 * $r
+		padding-top: 4 * $r
+		left : 0
+		right: 0
+		z-index: 2
+		text-align: center
+		display: flex
+		justify-content: center
+		align-items: center
+		grid-gap: $r
+
+		button
+			+shadowSmaller()
+
+			&:hover
+				background: srgb(--color-txt-ac)
+				border : 1px solid srgb(--color-txt-ac)
+				color : srgb(--text-on-bg-shadow-color)
 
 .subheader
 	display: flex

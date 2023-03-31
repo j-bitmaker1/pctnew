@@ -1,29 +1,19 @@
 <template>
 <div id="portfolios_crashtest">
 
-    <linepreloader v-if="loading" />
 
-    <div class="ct" v-else>
-
-        <!--<div class="summary mobp">
-            <summarybutton :reversed="true" :colored="true" v-for="item in summary" :key="item.index" :text="item.text" :number="core.pct.ocr(item.index ? ct[item.index] : th[item.th])" @click="e => {item.click ? item.click() : null}" />
-        </div>-->
-
-        <div class="crsliderWrapper mobp">
-            <crslider :ct="ct" :items="summary" :th="th"/>
-        </div>
-
+    <div class="ct" >
 
         <div class="header mobp">
             <div class="forpanel">
                 <span>Stress test</span>
             </div>
             <div class="forsettigns">
-                <ctmenu :cts="cts" :portfolios="{[portfolio.id] : portfolio}" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged" />
+                <ctmenu :cts="cts" :portfolios="portfolios" @scenariosChanged="scenariosChanged" @scoreConverterChanged="scoreConverterChanged"/>
             </div>
         </div>
 
-        <div class="subheader mobp">
+        <div class="subheader mobp" v-if="portfolio">
             <div class="forvalue">
                 <portfoliovalue :portfolio="portfolio" :value="portfolio.total() + portfolio.uncovered()" />
             </div>
@@ -37,7 +27,21 @@
             </div>
         </div>
 
-        <ctmain :height="height" @scenarioMouseOver="scenarioMouseOver" :cts="cts" :mode="portfolio.isModel ? 'p100' : 'd'" :portfolios="{[portfolio.id] : portfolio}" />
+        <totalchart 
+            @scenarioMouseOver="scenarioMouseOver" 
+            :height="optimizedPortfolio ? 0 : height" 
+            :mode="portfolio.isModel ? 'p100' : 'd'" 
+            :portfolios="portfolios"
+            :cts="cts"
+            :cpmdata="cpmdata"
+            :optimize="portfolio.id"
+            @optimized="optimized"
+        />
+
+        <div class="optimizedPortfolioPanel" v-if="optimizedPortfolio">
+            <button class="button small black" @click="cancelOptimization">Cancel optimization</button>
+            <button class="button small" @click="saveOptimization">Save</button>
+        </div>
 
     </div>
 </div>

@@ -1,0 +1,48 @@
+.groupcaption
+    padding: $r
+
+    span
+        font-size: 0.8em
+        color : srgb(--neutral-grad-3)
+    
+    
+.asset
+    display: flex
+    justify-content: space-between
+    align-items: center
+    position: relative
+    padding : $r 0 
+
+    .nameinv
+        flex-grow: 2
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+        margin-left: $r
+        span
+            font-size: 0.9em
+            color : srgb(--neutral-grad-3)
+
+.name
+    padding : 0 2 * $r
+    flex-grow: 2
+    margin-right : auto
+
+    span
+        font-size: 0.9em
+        color : srgb(--neutral-grad-3)
+
+.valueWrapper
+    max-width: 60px
+    padding-right: $r
+    margin-left: $r
+
+    &.prev
+        opacity: 0.5
+
+    span
+        font-size: 0.8em
+
+.ticker
+    margin-left: $r
+

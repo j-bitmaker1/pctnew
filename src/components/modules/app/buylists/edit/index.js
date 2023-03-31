@@ -493,9 +493,9 @@ export default {
 				data.catalogId = catalogId
 			}
 
-			if(this.edit && this.edit.id > 0) data.id = this.edit.id
+			if(this.edit) data.id = this.edit.id
 
-			if(data.id){
+			if(this.edit){
 
 				action = this.core.api.pctapi.portfolios.update({
 					
@@ -660,6 +660,7 @@ export default {
 		ini : function(){
 			var donor = this.edit || this.from
 
+
 			if (donor){
 				this.assets = []
 				
@@ -672,9 +673,7 @@ export default {
 				this.advisorFee = donor.advisorFee
 			}
 
-
-			this.hash = this.from ? '' : this.datahash()
-
+			this.hash = this.datahash()
 		},
 
 		model : function(){

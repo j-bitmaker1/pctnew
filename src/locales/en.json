@@ -53,7 +53,7 @@
 		"exportXLSX" : "Export to excel",
 		"retrospective" : "Historical Simulation",
 		"editIntegrations" : "Set Integrations",
-		"crashtest" : "Crashtest",
+		"crashtest" : "Stress test",
 		"shares" : "Shares",
 		"capacity" : "Capacity",
 		"allocation" : "Allocation",
@@ -629,6 +629,16 @@
 		"optimizationMode" : {
 			"shortest" : "Shortest Path Optimization",
 			"gradual" : "Gradual Optimization"
+		},
+
+		"selectbuylist" : "Select buy list",
+		"buylist" : "Buy list",
+
+		"gr" : {
+			"changed" : "Changed",
+			"notchanged" : "Not changed",
+			"added" : "Added",
+			"removed" : "Removed"
 		}
 	},
 

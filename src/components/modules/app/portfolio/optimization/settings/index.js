@@ -3,13 +3,17 @@ import { mapState } from 'vuex';
 export default {
     name: 'optimization_settings',
     props: {
-        portfolio : Object
+        portfolio : Object,
+        wnd : Boolean,
+        saveonchange : Boolean
     },
 
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            fromsettings : {},
+            cur : null
         }
 
     },
@@ -19,7 +23,12 @@ export default {
     },
 
     watch: {
-        //$route: 'getdata'
+        portfolio : {
+            immediate : true,
+            handler : function(){
+                this.get()
+            }
+        }
     },
     computed: mapState({
         auth : state => state.auth,
@@ -35,7 +44,7 @@ export default {
                 currency : [0, 100],
                 commodity : [0, 100],
                 alternatives : [0, 100],
-                optimizationMode : 1
+                optimizationMode : 0
 
             }
 
@@ -47,13 +56,16 @@ export default {
 
             }
 
-            return values
+            return {...values, ...this.fromsettings}
         },
 
         general : function(){
 
             var fields = {
                 grouping : {
+                    buylist : {
+                        name : "optimization.buylist"
+                    },
                     general : {
                         name : "optimization.general"
                     },
@@ -64,6 +76,18 @@ export default {
 
                 },
                 schema : [
+
+                    /*{
+                        id : 'buylist',
+                        input : 'vueapi',
+                        group : 'buylist',
+                        settings : {
+                            api : 'buylistsforforms',
+                            label : "optimization.selectbuylist"
+                        }
+                        
+                    },*/
+
                     {
                         id : 'optimizationMode',
                         input : 'radio',
@@ -211,8 +235,42 @@ export default {
         },
 
         save : function(){
-            this.$emit('changed')
-            this.close()
+
+            if(!this.cur){
+                this.$emit('close')
+                return
+            }
+
+			this.$store.commit('globalpreloader', true)
+
+            this.core.setsettings("OPTIMIZATION", this.portfolio.id, this.cur).then(s => {
+                this.$emit('changed')
+                this.$emit('close')
+
+            }).finally(() => {
+			    this.$store.commit('globalpreloader', false)
+            })
+            
+        },
+
+        get () {
+            this.loading = true
+
+            this.core.getsettings("OPTIMIZATION", this.portfolio.id).then(s => {
+
+                this.fromsettings = s || {}
+
+            }).finally(() => {
+                this.loading = false
+            })
+        },
+
+        change : function(v){
+            this.cur = v
+
+            if (this.saveonchange){
+                this.core.setsettings("OPTIMIZATION", this.portfolio.id, this.cur)
+            }
         }
     },
 }

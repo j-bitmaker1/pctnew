@@ -15,6 +15,12 @@
             height: 6px
             border-radius: 50%
 
+            &.capacity
+                background: srgb(--neutral-grad-4)
+
+            &.tolerance
+                background: srgb(--color-bg-ac-bright)
+
         .litem
             margin-left: $r
             margin-right: $r
@@ -25,6 +31,8 @@
         .label
             font-size: 0.7em
             margin-left: $r
+            white-space: nowrap
+            overflow: hidden
     
     
     .crslider
@@ -45,14 +53,23 @@
         border-radius: 50%
         z-index: 1
         margin-left: -15px
-        cursor: move
-
         cursor: pointer
+
+        &.canoptimize
+            cursor: move
+            z-index: 2
+
+        
         +shadowSmaller()
 
-        &.tolerance
-            background: srgb(--color-bg-ac-bright)
+        &.capacity
+            background: srgb(--neutral-grad-4)!important
             color : srgb(--text-on-bg-shadow-color)
+
+        &.tolerance
+            background: srgb(--color-bg-ac-bright)!important
+            color : srgb(--text-on-bg-shadow-color)
+
 
     .crline
         flex-grow: 2

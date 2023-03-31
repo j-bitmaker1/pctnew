@@ -1548,6 +1548,38 @@ var ApiWrapper = function (core = {}) {
 					return Promise.resolve(factors)
 				})
 			},
+
+			optimization : {
+				get : function(data, p = {}){
+
+					if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
+
+					p.storageparameters = dbmeta.stress()
+	
+					if (data.portfolioId > 0)
+						p.storageparameters.invalidate = {
+							index: data.portfolioId,
+							type: 'portfolio'
+						}
+	
+					return request(data, 'pctapi', 'Optimization/GetPctOptimizer', p).then((r) => {
+
+						if(!r){
+							return Promise.reject({ error: 'empty result' })
+						}
+
+						if(r && r.msg == "Objective could not be reached"){
+							return Promise.reject({ error: "Optimize the portfolio according to the given parameters is impossible" })
+						}
+
+						return Promise.resolve(r)
+					})
+				},
+
+				correctloss : function(data, p = {}){
+
+				}
+			}
 		},
 		assets: {
 			search: function (d, p = {}) {

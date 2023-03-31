@@ -195,7 +195,8 @@ class Vueapi {
                     name : portfolio.name,
                     assets : portfolio.positions,
                     id : portfolio.id,
-                    advisorFee : portfolio.advisorFee
+                    advisorFee : portfolio.advisorFee,
+                    isModel : portfolio.isModel
                 }
             },
     
@@ -206,6 +207,32 @@ class Vueapi {
             }
         })
     }
+
+    copyPortfolio = function (portfolio, success) {
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_edit',
+            module : "portfolio_edit",
+            caption : "Edit Portfolio",
+            data : {
+                from : {
+                    name : portfolio.name,
+                    assets : portfolio.positions,
+                    id : portfolio.id,
+                    advisorFee : portfolio.advisorFee,
+                    isModel : portfolio.isModel
+                }
+            },
+    
+            events : {
+                edit : (portfolio) => {
+                    if(success) success(portfolio)
+                }
+            }
+        })
+    }
+
+
+    
 
     selectFolder = function(success){
         this.store.commit('OPEN_MODAL', {
@@ -1038,7 +1065,52 @@ class Vueapi {
         })
     }
 
+    editBuylist = function (buylist, success) {
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_buylist_edit',
+            module : "buylist_edit",
+            caption : "Edit Buylist",
+            data : {
+                edit : {
+                    name : buylist.name,
+                    positions : buylist.positions,
+                    id : buylist.id
+                }
+            },
+    
+            events : {
+                edit : (b) => {
+                    if(success) success(b)
+                }
+            }
+        })
+    }
 
+    buylists = function (selected) {
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_buylists',
+            module : "buylists",
+            caption : "Buylists",
+            data : {
+                
+            },
+    
+            events : {
+                selected : (b) => {
+                    if(selected) selected(b)
+                }
+            }
+        })
+    }
+
+    buylistsforforms = function(selected){
+        this.buylists((b) => {
+            selected({
+                value : b.id,
+                label : b.name
+            })
+        })
+    }
 }
 
 export default Vueapi

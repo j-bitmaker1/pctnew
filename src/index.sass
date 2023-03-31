@@ -767,6 +767,59 @@ button.button
 
 	.medium
 		height: 60px
+.v-tour
+	.v-step__header
+		background: srgb(--color-bg-ac)
+		margin : 0
+		padding : 0
+
+		div
+			font-size: 1.2em
+			font-weight: 100
+	.v-step
+		background: srgb(--color-bg-ac)
+		text-align: left
+		padding : 2 * $r
+		border-radius: 12px
+		+shadowSmaller()
+
+	.v-step__content
+		div
+			font-size: 0.9em
+
+	.v-step__arrow
+		&:before
+			background: srgb(--color-bg-ac)
+
+	.v-step__buttons
+		display: flex
+		flex-flow: row-reverse
+		justify-content: flex-end
+		flex-wrap: wrap
+		button
+			margin: 0
+			margin-right: $r
+			background: transparent
+			color : srgb(--background-total-theme) 
+			border : 1px solid srgb(--background-total-theme)
+			padding : $r
+			min-width: 120px
+			border-radius: 24px
+
+			&.v-step__button-previous
+				display: none
+
+			&.v-step__button-next
+				background: srgb(--background-total-theme)
+				color : srgb(--color-bg-ac)
+
+			&.v-step__button-skip
+				border : 0
+				min-width: 40px
+
+	.v-step__content
+		margin-top: 2 * $r
+		margin-bottom: 2 * $r
 
 @media only screen and (min-width: 1024px)
 	.rootapp

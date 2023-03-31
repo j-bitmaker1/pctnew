@@ -49,6 +49,11 @@ export default {
             		features : ['PCT']
 				},
 				{
+					text : 'labels.exportXLSX',
+					icon : 'far fa-file-excel',
+					action : 'exportXLS'
+				},
+				{
 					text : 'menu.compare',
 					icon : 'fas fa-list-ul',
 					action : 'compare',
@@ -64,15 +69,6 @@ export default {
             		features : ['PCT']
 				},
 
-				
-
-				/*{
-					text : 'labels.optimizationSettings',
-					icon : 'fas fa-cogs', 
-					action : 'optimizationSettings',
-
-            		features : ['PCT']
-				},*/
 
 				{
 					text : 'labels.editportfolio',
@@ -94,11 +90,7 @@ export default {
 					action : 'delete'
 				},
 
-				{
-					text : 'labels.exportXLSX',
-					icon : 'far fa-file-excel',
-					action : 'exportXLS'
-				}
+				
 			]
 
 			/*if(!this.mobileview){
@@ -308,12 +300,6 @@ export default {
 			})
 			
 		},
-
-		optimizationSettings : function(){
-            this.core.vueapi.optimizationSettings({portfolio : this.portfolio}, () => {
-
-			})
-		}
 
 		
 	},

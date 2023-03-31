@@ -107,6 +107,10 @@ export default {
         campaigns_template: () => import("@/components/modules/campaigns/template/main/index.vue"),
         campaigns_emailpreview: () => import("@/components/modules/campaigns/emailpreview/index.vue"),
         campaigns_selectsignature: () => import("@/components/modules/campaigns/signatures/index.vue"),
+
+
+        buylist_edit : () => import("@/components/modules/app/buylists/edit/index.vue"),
+        buylists : () => import("@/components/modules/app/buylists/list/index.vue"),
         
     },
  

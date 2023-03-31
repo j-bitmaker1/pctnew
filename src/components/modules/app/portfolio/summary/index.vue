@@ -45,13 +45,15 @@
 
                             <portfolioCaption :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
 
-                            <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="view == 'stresstest'" v-if="portfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+                            <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="view == 'stresstest'" v-if="portfolio && !optimizedPortfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
+
+
+                            <assetsdifference v-if="portfolio && optimizedPortfolio" :portfolio="portfolio" :optimized="optimizedPortfolio"/>
 
                         </div>
                         <div class="pmenuwrapper">    
-                            <div class="pmenu">
+                            <div class="pmenu" id="portfoliomenu">
                                 <portfoliomenu v-if="portfolio" :ext="true" buttonclass="diconbutton" @changeClient="changeclient" @edit="editportfolio" @delete="deleteportfolio" :portfolio="portfolio" />
-
                             </div>
                         </div>
                     </div>
@@ -64,7 +66,7 @@
                     <div class="pcntwrapper">
                         <div class="pcnt" v-if="view == 'stresstest'">
 
-                            <crashtest :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" :profile="profile" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
+                            <crashtest @optimized="optimized" :height="height" v-if="portfolio && !temp" ref="crashtest" :portfolio="portfolio" :profile="profile" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
                             <crashtesttemp name="Editing portfolio" :height="height" v-if="portfolio && temp" ref="crashtest" :portfolio="portfolio" :assets="temp" @loaded="ctloaded" @scenarioMouseOver="scenarioMouseOver"/>
 
                         </div>
@@ -74,18 +76,18 @@
                         </div>
 
 
-                        <div class="pmenuwrapper">    
-                            <div class="pmenu">
+                        <div class="pmenuwrapper" >    
+                            <div class="pmenu" id="crashtestmenu">
 
-                                <template v-if="portfolio">
+                                <template v-if="portfolio && !optimizedPortfolio">
 
-                                <div class="menuitem" v-if="view=='stresstest'" title="Custom stress test" @click="changeView('customstresstest')">
-                                    <i class="fas fa-tools"></i>
-                                </div>
+                                    <div class="menuitem" v-if="view=='stresstest'" title="Custom stress test" @click="changeView('customstresstest')">
+                                        <i class="fas fa-tools"></i>
+                                    </div>
 
-                                <div class="menuitem active" v-if="view=='customstresstest'" title="Close custom stress test" @click="changeView('stresstest')">
-                                    <i class="fas fa-times"></i>
-                                </div>
+                                    <div class="menuitem active" v-if="view=='customstresstest'" title="Close custom stress test" @click="changeView('stresstest')">
+                                        <i class="fas fa-times"></i>
+                                    </div>
 
                                 </template>
 
@@ -97,23 +99,35 @@
                 </template>
             </widget>
 
-            <widget name="right" :customscroll="false" :widgets="widgets">
+            <widget name="right" :cls="!optimizedPortfolio ? 'scrollhidden' : ''" :customscroll="optimizedPortfolio ? true : false" :widgets="widgets">
                 <template v-slot:content>
                     <template  v-if="portfolio">
 
                         <template v-if="view == 'stresstest'">
-                            <div class="emptyScenario" v-if="!selectedScenario || !ct || temp">
 
-                                <div class="textWrapper">
+                            <template v-if="!optimizedPortfolio">
+                                <div class="emptyScenario" v-if="!selectedScenario || !ct || temp">
+
+                                    <div class="textWrapper">
+                                        
+                                        <span v-if="(!selectedScenario || !ct) && !temp">Select scenario to see contributors</span>
+                                        <span v-if="temp">Risk contributors are not available in hot change mode</span>
                                     
-                                    <span v-if="(!selectedScenario || !ct) && !temp">Select scenario to see contributors</span>
-                                    <span v-if="temp">Risk contributors are not available in hot change mode</span>
-                                
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="scenario" v-else>
-                                <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
-                            </div>
+                                <div class="scenario" v-else>
+                                    <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
+                                </div>
+                            </template>
+
+                            <template v-else>
+                                <div class="partcaption">
+                                    <span>Optimization settings</span>
+                                </div>
+                                <optimizationSettings :portfolio="portfolio" :saveonchange="true"/>
+                            </template>
+
+                            
                         </template>
 
                         <template v-if="view == 'customstresstest'">
@@ -144,16 +158,18 @@
             <widget name="retrospective" :customscroll="false" :widgets="widgets">
                 <template v-slot:content>
                     <div class="partcaption">
-                            <span>Historical simulation</span>
-                        </div>
-                        <template  v-if="portfolio">
+                        <span>Historical simulation</span>
+                    </div>
+                    <template  v-if="portfolio">
 
-                            <retrospective :height="height" v-if="portfolio && !temp" :portfolio="portfolio"/>
+                        <retrospective :height="height" v-if="portfolio && !temp && !optimizedPortfolio" :portfolio="portfolio"/>
 
-                            <retrospectivetemp name="Editing portfolio" :height="height" v-if="portfolio && temp" :portfolio="portfolio" :assets="temp"/>
+                        <retrospectivetemp name="Editing portfolio" :height="height" v-if="portfolio && temp" :portfolio="portfolio" :assets="temp"/>
 
-                            <!--<retrospective :portfolio="portfolio"/>-->
-                        </template>
+                        <retrospectivetemp name="Optimized portfolio" :height="height" v-if="portfolio && optimizedPortfolio" :portfolio="portfolio" :assets="optimizedPortfolio.positions"/>
+
+                        <!--<retrospective :portfolio="portfolio"/>-->
+                    </template>
                 </template>
             </widget>
 
@@ -203,6 +219,8 @@
             </div>
             
         </div>
+
+        <v-tour name="summarytour" :steps="summarytoursteps" :callbacks="tourclbks"></v-tour>
     </template>
 
     <template v-else>

@@ -10,6 +10,7 @@ export default {
 	name: 'portfolios_shares',
 	props: {
 		portfolio : Object,
+		optimized : Object,
 		editInsteadList : Boolean
 	},
 
@@ -82,7 +83,7 @@ export default {
 				icon : 'fas fa-list'
 			})
 
-			if(!this.temp){
+			if(!this.temp && !this.optimized){
 				menu.push({
 					text : 'labels.allocation',
 					id : 'allocation',

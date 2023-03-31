@@ -1,9 +1,7 @@
 import { mapState } from 'vuex';
 
 import ctmenu from './menu/index.vue'
-import ctmain from './main/index.vue'
-import summarybutton from '@/components/delements/summarybutton/index.vue'
-import crslider from './crslider/index.vue'
+import totalchart from './totalchart/index.vue';
 
 export default {
 	name: 'portfolios_crashtest',
@@ -14,10 +12,8 @@ export default {
 	},
 
 	components : {
-		ctmain,
-		summarybutton,
 		ctmenu,
-		crslider
+		totalchart
 	},
 
 	data : function(){
@@ -39,31 +35,9 @@ export default {
 				}
 			],
 
-			summary : [
+			optimizedPortfolio : null
 
-				{
-					text : 'labels.crashrating',
-					index : 'ocr'
-				},
-				{
-					text : 'labels.tolerance',
-					th : 'tolerance',
-
-					click : () => {
-						if (this.profile && this.profile.questionnaire)
-							this.core.vueapi.questionnaireResult(this.profile.questionnaire)
-						
-					}
-				},
-
-				{
-					text : 'labels.capacity',
-					th : 'capacity',
-
-					
-				}
-				
-			]
+			
 
 		}
 
@@ -81,6 +55,7 @@ export default {
 			if(type == 'STRESS'){
 				this.get()
 			}
+
 		})
 
 		this.get()
@@ -93,6 +68,10 @@ export default {
 
 	watch: {
 		portfolio : function(){
+			this.get()
+		},
+
+		optimizedPortfolio : function(){
 			this.get()
 		}
 		/*portfolio : {
@@ -112,6 +91,40 @@ export default {
 				tolerance : this.profile ? this.profile.tolerance : null
 			}
 		
+		},
+
+		cpmdata : function(){
+			return [
+			
+				{
+					text : this.$t('labels.tolerance'),
+					index : 'tolerance',
+					click : () => {
+						if (this.profile && this.profile.questionnaire) this.core.vueapi.questionnaireResult(this.profile.questionnaire)
+					},
+					value : this.profile ? this.profile.tolerance : null
+				},
+
+				{
+					index : 'capacity',
+					text : this.$t('labels.capacity'),
+					click : () => {
+						if (this.profile && this.profile.questionnaire) this.core.vueapi.questionnaireResult(this.profile.questionnaire)
+					},
+					value : this.profile ? this.profile.capacity : null,
+				}
+				
+			]
+		},
+
+		portfolios(){
+			var result = {[this.portfolio.id] : this.portfolio}
+
+			if(this.optimizedPortfolio){
+				result[-1] = this.optimizedPortfolio
+			}
+
+			return result
 		}
 	}),
 
@@ -121,10 +134,11 @@ export default {
 
 			this.loading = true
 
-			this.core.pct.stresstest(this.portfolio.id, { fee : asset => {
+			this.core.pct.stresstestskt([this.portfolio, this.optimizedPortfolio], this.valuemode, { fee : asset => {
 				return this.portfolio.advisorFee || 0
-			}}).then(r => {
-				this.cts = this.core.pct.composeCTS({[this.portfolio.id] : r}, this.portfolio.total())
+			}}).then(cts => {
+
+				this.cts = cts
 
 				this.ct = this.cts.cts[this.portfolio.id]
 
@@ -133,7 +147,7 @@ export default {
 					cts : this.cts
 				})
 
-				return Promise.resolve(r)
+				return Promise.resolve()
 
 			}).catch(e => {
 				console.error(e)
@@ -156,6 +170,47 @@ export default {
 
 		scenarioMouseOver : function(e){
 			this.$emit('scenarioMouseOver', e)
+		},
+
+		optimized : function(optimizedPortfolio){
+			this.optimizedPortfolio = optimizedPortfolio || null
+
+			this.$emit('optimized', this.optimizedPortfolio)
+		},
+
+		cancelOptimization : function(){
+			this.optimized(null)
+		},
+
+		saveOptimization : function(){
+
+			this.core.vueapi.copyPortfolio(this.optimizedPortfolio, (portfolio) => {
+				this.optimized(null)
+
+				this.$dialog.confirm(
+                	"Do you want to go to the new portfolio?", {
+                    okText: "Yes",
+                    cancelText : 'No'
+                })
+        
+                .then((dialog) => {
+
+					if(this.mobileview){
+						this.$router.push('/portfolio/' + portfolio.id).catch(e => {})
+					}
+					else{
+						this.$router.push('/summary?id=' + portfolio.id).catch(e => {})
+					}
+
+                }).catch( e => {
+                    
+                })
+
+				
+			})
+			//this.editPortfolio
+			
 		}
+
 	},
 }

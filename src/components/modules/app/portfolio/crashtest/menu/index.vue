@@ -49,6 +49,14 @@ export default {
                     icon: 'fas fa-tasks',
                     action: this.scenarioManager
                 },
+
+                {
+					text : 'labels.optimizationSettings',
+					icon : 'fas fa-cogs', 
+					action : this.optimizationSettings,
+
+            		features : ['PCT']
+				},
             
                 {
                     text: 'labels.scoreConverter',
@@ -91,6 +99,12 @@ export default {
                 this.$emit('scenariosChanged')
 			})
         },
+
+        optimizationSettings : function(){
+            this.core.vueapi.optimizationSettings({portfolio : _.toArray(this.portfolios)[0]}, () => {
+                this.$emit('optimizationSettingsChanged')
+			})
+		},
 
         scoreConverter: function () {
 
