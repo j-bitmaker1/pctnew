@@ -20,7 +20,7 @@
 			</div>
 
 			<div class="componentWrapper" v-if="ids.length">
-				<component :is="module" :ids="ids" @selectone="selectone" @removeitem="removeitem" @showassets="showassets"/>
+				<component :is="module" :key="key" :ids="ids" @selectone="selectone" @removeitem="removeitem" @showassets="showassets"/>
 			</div>
 
 			<div class="empty mobp" v-if="!ids.length">
@@ -95,6 +95,7 @@ import allocation from '@/components/modules/app/compare/allocation/index.vue'
 import distribution from '@/components/modules/app/compare/distribution/index.vue'
 import retrospective from '@/components/modules/app/compare/retrospective/index.vue'
 
+import f from '@/application/shared/functions.js'
 
 
 import { mapState } from 'vuex';
@@ -163,6 +164,7 @@ export default {
 			],
 			navdefault : 'stress',
 			navkey : 'c',
+			key : 'str'
 		}
 	},
 
@@ -196,7 +198,11 @@ export default {
 
 		showassets : function(id){
 			this.core.api.pctapi.portfolios.get(id).then(r => {
-				this.core.vueapi.portfolioShares(r)
+
+				this.core.vueapi.editPortfolio(r, () => {
+					this.key = f.makeid()
+				})
+
 			})
 		},
 

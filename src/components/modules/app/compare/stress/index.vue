@@ -35,11 +35,16 @@
 						<i class="fas fa-times" @click="e => removeitem(id)"></i>
 					</div>
 				</div>
-				<crslider :ct="ct" :items="summary"/>
+				
 			</div>
+
 			<!--<summarybutton :reversed="true" :colored="true" v-for="(item, id) in cts.cts" :key="id" :text="summatytext(id)" :number="core.pct.ocr(item.ocr)"/>-->
 		</div>
 
+		<div class="crsliderWrapperWR" v-if="cts">
+			<crslider :cts="cts" :portfolios="portfolios"/>
+		</div>
+		
         <ctmain :cts="cts" :portfolios="portfolios" :mode="valuemodecomposed"/>
     </div>
 </div>

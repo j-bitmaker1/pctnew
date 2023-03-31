@@ -90,7 +90,7 @@
 			</div>
 
 			<div class="componentWrapper" v-if="portfolio && structure">
-				<component :is="module" :includemode="includemode" :portfolio="portfolio" type="split" :mode="valuemode" :assets="[annuityWeighted]"/>
+				<component :key="key" :is="module" :includemode="includemode" :portfolio="portfolio" type="split" :mode="valuemode" :assets="[annuityWeighted]"/>
 			</div>
 
 			<div class="empty mobp" v-if="!portfolio || !structure">
@@ -271,6 +271,7 @@ import portfolioinfo from '@/components/modules/app/comparewith/portfolioinfo/in
 import stress from '@/components/modules/app/comparewith/stress/index.vue'
 import retrospective from '@/components/modules/app/comparewith/retrospective/index.vue'
 
+import f from '@/application/shared/functions.js'
 
 import { mapState } from 'vuex';
 export default {
@@ -423,6 +424,7 @@ export default {
 			portfolio : null,
 			structure : null,
 			last : null,
+			key : 'str',
 
 			includemode : localStorage['comparewith_includemode'] || 'e',
 			
@@ -508,7 +510,11 @@ export default {
 		},
 
 		showassets : function(){
-			this.core.vueapi.portfolioShares(this.portfolio)
+
+			this.core.vueapi.editPortfolio(this.portfolio, () => {
+				this.key = f.makeid()
+			})
+
 		}
 	},
 
