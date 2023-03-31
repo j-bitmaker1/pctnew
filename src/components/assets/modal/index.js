@@ -111,6 +111,9 @@ export default {
 
         buylist_edit : () => import("@/components/modules/app/buylists/edit/index.vue"),
         buylists : () => import("@/components/modules/app/buylists/list/index.vue"),
+
+
+        portfolio_assets_difference : () => import("@/components/modules/app/portfolio/assetsdifference/index.vue"),
         
     },
  

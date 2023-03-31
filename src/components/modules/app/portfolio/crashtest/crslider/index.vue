@@ -4,7 +4,7 @@
         <div class="crline">
         </div>
         
-        <div :ref="item.index" @mousedown="e => mousedown(e, item)" v-if="value(item)" 
+        <div :ref="item.index" v-touch:start="e => mousedown(e, item)" @mousedown="e => mousedown(e, item)" v-if="value(item)" 
             
             :class="'item unselectable ' + item.index + (item.canoptimize? ' canoptimize' : '') + (item.temp ? ' temp' : '')" :style="'left:' + value(item) + '%;background:' + color(item) + ';'" v-for="item in markers" :title="item.text">
 

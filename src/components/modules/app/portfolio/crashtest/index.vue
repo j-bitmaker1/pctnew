@@ -35,6 +35,7 @@
             :cpmdata="cpmdata"
             :optimize="portfolio.id"
             @optimized="optimized"
+            :optimizedPortfolio="optimizedPortfolio"
         />
 
         <div class="optimizedPortfolioPanel" v-if="optimizedPortfolio">

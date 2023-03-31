@@ -1654,9 +1654,9 @@ var ApiWrapper = function (core = {}) {
 							return Promise.reject({ error: 'empty result' })
 						}
 
-						if(r && r.msg == "Objective could not be reached"){
+						/*if(r && r.msg == "Objective could not be reached"){
 							return Promise.reject({ error: "Optimize the portfolio according to the given parameters is impossible" })
-						}
+						}*/
 
 						return Promise.resolve(r)
 					})

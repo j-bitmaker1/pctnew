@@ -40,11 +40,17 @@
 									<div class="icon" :style="'background:' + rcolor(core.pct.ocr(cts.cts[i].ocr))">
 										<span>{{core.pct.ocr(cts.cts[i].ocr)}}</span>
 									</div>
-									<div class="label">
+									<div class="label" v-if="!currentOptimization || currentOptimization.portfolio.id != i">
 										<span>{{portfolios[i].name}}</span>
 									</div>
 								</div>
+
+								<div class="optimizationSlider" @click.stop="function(e){}" v-if="optimize && optimize == i" :style="{left : invheight(scenario, loss) + '%'}">
+									<vue-slider :lazy="true" @change="e => changeSliderOptimization(e, i, scenario)" v-bind="{}"/>
+								</div>
 							</div>
+
+							
 							
 						</div>
 

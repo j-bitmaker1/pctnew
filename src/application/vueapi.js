@@ -185,6 +185,19 @@ class Vueapi {
        
     }
 
+    assetsDifference= function (d) {
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_portfolio_assets_difference',
+            module : "portfolio_assets_difference",
+            caption : "Optimization results",
+            data : d,
+    
+            events : {
+                
+            }
+        })
+    }
+
     editPortfolio = function (portfolio, success) {
         this.store.commit('OPEN_MODAL', {
             id : 'modal_portfolio_edit',

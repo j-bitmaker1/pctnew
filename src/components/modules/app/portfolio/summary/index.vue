@@ -47,7 +47,6 @@
 
                             <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="view == 'stresstest'" v-if="portfolio && !optimizedPortfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
 
-
                             <assetsdifference v-if="portfolio && optimizedPortfolio" :portfolio="portfolio" :optimized="optimizedPortfolio"/>
 
                         </div>

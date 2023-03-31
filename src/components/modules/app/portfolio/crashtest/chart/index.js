@@ -1,5 +1,7 @@
 import { mapState } from 'vuex';
 import f from '@/application/shared/functions.js'
+import VueSlider from 'vue-slider-component'
+
 export default {
 	name: 'portfolio_crashtest_chart',
 	props: {
@@ -10,7 +12,13 @@ export default {
         },
 		mobileview : Boolean,
 		portfolios : Object,
-		chartheight : Number
+		chartheight : Number,
+		currentOptimization : Object,
+		optimize : Number
+	},
+
+	components : {
+		VueSlider
 	},
 
 	data : function(){
@@ -71,6 +79,18 @@ export default {
 
 		},
 
+		invheight: function(scenario, loss){
+
+			if(!this.cts.max) return 0
+
+			var v = 100 * Math.abs(loss) / this.cts.max
+
+			if(loss < 0) return 100 - v
+
+			return v
+
+		},
+
 		color : function(scenario, loss){
 
 			if (scenario.id < 0){
@@ -120,6 +140,26 @@ export default {
 
 		scenarioMouseOverDirectOne: function(scenario){
 			this.$emit('scenarioMouseOverDirectOne', scenario)
+		},
+
+		changeSliderOptimization : function(v, i, scenario){
+
+
+			var portfolio = this.portfolios[i]
+			var lossvalue = scenario.loss[i]
+			var nextloss = lossvalue + (v / 100 * (lossvalue < 0 ? 0 - lossvalue : this.cts.max - lossvalue))
+			var nextlossprtf = portfolio.total() * nextloss
+
+			this.$emit('optimization', {
+				portfolio : portfolio,
+				scenario : {
+					id : scenario.id,
+					loss : nextlossprtf
+				}
+			})
+
+
+			console.log('lossvalue, nextloss', lossvalue, nextloss, scenario)
 		},
 
 		zoom : function(id){

@@ -10,7 +10,9 @@ export default {
         mode : {
             type : String,
             default : 'd'
-        }
+        },
+        currentOptimization : Object,
+        optimize : Number
     },
 
     components : {
@@ -103,7 +105,10 @@ export default {
                 this.toScenarioDirect({scenario, key})
             }
         },
-
+        
+        optimization : function(d){
+            this.$emit('optimization', d)
+        },
         toScenarioDirect: function({scenario, key}){
 
             var i = key

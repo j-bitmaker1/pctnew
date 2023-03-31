@@ -9,7 +9,8 @@ export default {
         cts : Object,
         height : Number,
         cpmdata : Array,
-        optimize : Number
+        optimize : Number,
+        optimizedPortfolio : Object
     },
 
     components : {
@@ -53,6 +54,13 @@ export default {
     }),
 
     methods : {
+
+        showoptimizedpositions : function(){
+            this.core.vueapi.assetsDifference({
+                portfolio : this.portfolios[this.optimize],
+                optimized : this.optimizedPortfolio
+            })
+        },
         scenarioMouseOver : function(e){
 			this.$emit('scenarioMouseOver', e)
 		},

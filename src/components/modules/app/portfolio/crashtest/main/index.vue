@@ -7,11 +7,11 @@
 
 
         <div class="chartWrapper mobp">
-            <chart :chartheight="height" :mobileview="mobileview" :mode="mode" :portfolios="portfolios" :info="info" :cts="cts" @scenarioClick="toScenario" @scenarioClickDirect="toScenarioDirectMany" @scenarioClickDirectOne="toScenarioDirectOne" @scenarioMouseOverDirectOne="scenarioMouseOverDirectOne"/>
+            <chart :optimize="optimize" :currentOptimization="currentOptimization" :chartheight="height" :mobileview="mobileview" :mode="mode" :portfolios="portfolios" :info="info" :cts="cts" @scenarioClick="toScenario" @scenarioClickDirect="toScenarioDirectMany" @scenarioClickDirectOne="toScenarioDirectOne" @scenarioMouseOverDirectOne="scenarioMouseOverDirectOne" @optimization="optimization"/>
         </div>
 
         <div class="detailsWrapper" v-if="mobileview">
-            <ctdetails :mode="mode" ref="ctdetails" :info="info" :cts="cts" :portfolios="portfolios" />
+            <ctdetails  :mode="mode" ref="ctdetails" :info="info" :cts="cts" :portfolios="portfolios" />
         </div>
 
 

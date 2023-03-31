@@ -145,6 +145,32 @@
 					&:hover
 						opacity: 0.8
 
+				.optimizationSlider
+					position: absolute
+					left : 0
+					top : 0
+					bottom : 0
+					right: 0
+					display: flex
+					align-items: center
+					z-index: 0
+					>div
+						min-width: 100%
+
+					::v-deep
+						.vue-slider-dot
+							z-index: 5
+						.vue-slider-dot-handle
+							border-color: srgb(--color-bg-ac)
+							background: srgb(--background-hidden-layer)
+						.vue-slider-process
+							border-radius: 0
+							background-color: srgb(--color-bg-ac)
+						.vue-slider-dot-tooltip
+							display: none!important
+						.vue-slider-rail
+							background: transparent
+
 				.portfolioname
 					
 					position: absolute

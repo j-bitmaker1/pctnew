@@ -39,8 +39,6 @@ export default {
 
                 if(!this.cts.cts || !this.cts.cts[i]) return null
 
-                console.log('portfolio', portfolio)
-
                 return {
                     index : i,
                     value : this.cts.cts[i].ocr,
@@ -50,8 +48,6 @@ export default {
                 }
                 
             }), (p) => {return p})
-
-            console.log('result', this.cpmdata)
 
             return result.concat(this.cpmdata || [])
         }
@@ -71,14 +67,29 @@ export default {
             this.drag = null
 
             window.removeEventListener('mousemove', this.mousemove)
+            window.removeEventListener('mouseup', this.mouseup)
             delete document.onmouseleave
+
+
+            window.removeEventListener('touchmove', this.mousemove)
+            window.removeEventListener('touchend', this.mouseup)
         },
+
+        clientX : function(e){
+
+            if(e.changedTouches){
+                return e.changedTouches[0].clientX
+            }
+
+            return e.clientX 
+        },
+
         mousemove : function(e){
 
             if(!this.drag) return
 
             var index = this.drag.item.index
-            var value = e.clientX - this.drag.x
+            var value = this.clientX(e) - this.drag.x
 
             if(this.drag.borders[0] < value && this.drag.borders[1] > value){
 
@@ -115,13 +126,18 @@ export default {
 
             this.drag = {
                 item,
-                x : e.clientX - lx,
+                x : this.clientX(e) - lx,
                 borders,
                 left
             }
 
+            console.log('this.drag', this.drag, e)
+
             window.addEventListener('mousemove', this.mousemove)
             window.addEventListener('mouseup', this.mouseup)
+
+            window.addEventListener('touchmove', this.mousemove)
+            window.addEventListener('touchend', this.mouseup)
 
             document.onmouseleave = () => {
                 this.rm()
@@ -177,8 +193,6 @@ export default {
 
             var alpha = item.temp ? 0.5 : 1
 
-            console.log('item', item)
-
             var ratingGradient = [
                 {
                     color : [0, 108, 40, alpha],
@@ -196,11 +210,7 @@ export default {
             /*---------------------------------------------------------------------------------------*/
             // Crash ratings
 
-            console.log('as', f.colorFromGradient({
-                gradient : ratingGradient,
-                value : value,
-            }))
-    
+         
             return f.colorFromGradient({
                 gradient : ratingGradient,
                 value : value,
