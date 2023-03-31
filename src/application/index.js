@@ -26,6 +26,8 @@ import Activity from "./lib/common/activity"
 
 import Images from "./shared/utils/images";
 
+import Integrations from "./shared/integrations";
+
 var settings = {
     server : {
         PDF: {
@@ -189,6 +191,8 @@ class Core {
         this.activity = new Activity(this)
 
         //this.pdfreports = new PDFReports(this)
+
+        this.integrations = new Integrations(this)
 
         this.api.prepare().then(() => {
             this.user.init()
@@ -478,6 +482,10 @@ class Core {
 
         this.api.invalidateStorageNow(invalidate)
         
+    }
+
+    updateIntegrationsByWs() {
+        this.emit('updateintegrations', {});
     }
 
     createByWs(data, type, invalidate = []){
