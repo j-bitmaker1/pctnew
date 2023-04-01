@@ -1,27 +1,27 @@
 <template>
 <div id="buylists_lists">
 
-    
-
-    <div class="controls mobp">
-        <listcontrols @search="search" :searchvalue="searchvalue"/>
-    </div>
-
     <div class="panel mobp">
-        <button class="button small" @click="createbuylist">
-            <i class="fas fa-plus"></i> Create buy list
+        <button class="button" @click="createbuylist">
+            <i class="fas fa-plus"></i> New buy list
         </button>
     </div>
 
-    <list :items="filtered" :count="10" ref="list">
+    <div class="controls mobp">
+        <listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" store="buylists"/>
+    </div>
 
-        <template v-slot:list="slotProps">
-            <div class="wrapper mobp" @click="e => select(slotProps.item)">
-                <buylist :buylist="slotProps.item" />
+    <listpaginated placeholder="No Buylists found" :api="api" :payload="payload" @count="setcount" :start="0" from="pageNumber" to="pageSize" ref="list" :bypages="true">
+		<template v-slot:default="slotProps">
+
+			<div class="wrapper mobp" @click="e => click(e, slotProps.item)">
+                <buylist :buylist="slotProps.item" @deleted="e => deletebl(slotProps.item)"/>
             </div>
-            
-        </template>
-    </list>
+
+		</template>
+	</listpaginated>
+
+    
 </div>
 </template>
 

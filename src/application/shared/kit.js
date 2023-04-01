@@ -143,6 +143,69 @@ class Portfolio {
     }
 }
 
+
+class Buylist {
+    fields = [
+        'created',
+        'id',
+        'name',
+        'positions',
+        'status',
+        'updated',
+        'userId',
+    ]
+
+    constructor(data = {}) {
+
+        console.log("data", data)
+
+        _.each(data, (v, i) => {
+            this[i] = v
+        })
+
+    }
+
+    joined = function () {
+        var jg = {}
+
+        _.each(this.positions, (a) => {
+            if (!jg[a.ticker]) {
+                jg[a.ticker] = a
+            }
+            else {
+               
+            }
+        })
+
+        return _.toArray(jg)
+    }
+
+    clone = function(){
+        var data = {}
+
+        _.each(this.fields, (i) => {
+            data[i] = _.clone(this[i])
+        })
+
+        return new Buylist(data)
+    }
+
+    has = function(ticker) {
+        return _.find(this.positions, (asset) => {
+            return asset.ticker == ticker
+        }) ? true : false
+    }
+
+    exportXLS = function(save){
+        var xls = new XLS()
+
+        return xls.make('exportBuylist', this, {
+            name : (this.name).replace(/[^a-zA-Z0-9]/g, '') + '.xlsx',
+            save
+        })
+    }
+}
+
 class Task {
     constructor(data = {}) {
 
@@ -206,5 +269,5 @@ class Scenario {
 }
 
 export {
-    Contact, Portfolio, Task, Scenario
+    Contact, Portfolio, Task, Scenario, Buylist
 }

@@ -63,11 +63,13 @@ export default {
 
             var fields = {
                 grouping : {
-                    buylist : {
-                        name : "optimization.buylist"
-                    },
+                    
                     general : {
                         name : "optimization.general"
+                    },
+
+                    buylist : {
+                        name : "optimization.buylist"
                     },
 
                     assetClass : {
@@ -76,17 +78,6 @@ export default {
 
                 },
                 schema : [
-
-                    /*{
-                        id : 'buylist',
-                        input : 'vueapi',
-                        group : 'buylist',
-                        settings : {
-                            api : 'buylistsforforms',
-                            label : "optimization.selectbuylist"
-                        }
-                        
-                    },*/
 
                     {
                         id : 'optimizationMode',
@@ -128,6 +119,25 @@ export default {
 
                         group : 'general'
                     },
+
+                    {
+                        id : 'buylist',
+                        input : 'vueapi',
+                        group : 'buylist',
+                        settings : {
+                            api : 'buylistsforforms',
+                            label : "optimization.selectbuylist"
+                        }
+                        
+                    },
+
+                    this.gvalues.buylist || (this.cur && this.cur.buylist) ? {
+                        id : 'useOnlyBuyList',
+                        input : 'checkbox',
+                        text : 'optimization.useOnlyBuyList',
+                        group : 'buylist'
+                        
+                    } : null,
 
                     {
                         id : 'equity',
@@ -194,10 +204,6 @@ export default {
 
                         group : 'assetClass'
                     },
-
-
-                    
-
                     
                 ]
             }
@@ -224,6 +230,8 @@ export default {
                     
                 })
             }
+
+            fields.schema = _.filter(fields.schema, (s) => {return s})
 
             return fields
         }

@@ -1,5 +1,5 @@
 import f from './functions'
-import { Contact, Portfolio, Task, Scenario } from './kit.js'
+import { Contact, Portfolio, Task, Scenario, Buylist } from './kit.js'
 import { Campaign, Batch, ViewStep, Template, EmailTemplate, Signature } from '@/application/campaigns/kit.js'
 
 var Axios = require('axios');
@@ -369,6 +369,13 @@ var ApiWrapper = function (core = {}) {
 			}
 		},
 
+		buylists: function () {
+			return {
+				storage: 'buylists',
+				time: 60 * 60 * 12
+			}
+		},
+
 		tasks: function () {
 			return {
 				storage: 'tasks',
@@ -512,6 +519,8 @@ var ApiWrapper = function (core = {}) {
 
 		var loaded = getloaded(datahash, data, system, to, p)
 
+		console.log('loaded', loaded)
+
 		if (loaded) return Promise.resolve(loaded)
 
 		if (!liststorage[system][to][datahash].count && !p.countLater) data[p.includeCount] = true
@@ -549,6 +558,10 @@ var ApiWrapper = function (core = {}) {
 			if (!loaded) return Promise.reject('notloaded')
 
 			return Promise.resolve(loaded)
+		}).catch(e => {
+			console.error(e)
+
+			return Promise.reject(e)
 		})
 
 	}
@@ -1977,6 +1990,196 @@ var ApiWrapper = function (core = {}) {
 					});
 				},
 			}
+		},
+
+		buylists: {
+
+			search: function (value, data = {}, p = {}) {
+				data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
+				data.searchStrFilter = value
+				data.includePositions = true
+				p.method = "POST"
+
+				return request(data, 'pctapi', 'BuyLists/List', p).then(r => {
+					return r.records
+				})
+			},
+
+			list: function (data = {}, p = {}) {
+
+				p.method = "POST"
+				p.count = 'pageSize'
+				p.from = 'pageNumber'
+				p.bypages = true
+				p.includeCount = "includeCount"
+
+				p.kit = {
+					class: Buylist,
+					path: 'records'
+				}
+
+				p.vxstorage = {
+					type: 'buylist',
+					path: 'records'
+				}
+
+				p.storageparameters = dbmeta.buylists()
+
+				data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
+
+				return paginatedrequest(data, 'pctapi', 'BuyLists/List', p)
+
+			},
+
+
+			add: function (data, p = {}) {
+
+				p.method = "POST"
+
+				self.invalidateStorageNow(['buylists'])
+
+				return request(data, 'pctapi', 'BuyLists/Add', p).then(r => {
+
+					core.ignore('buylist', {
+						id: r.id
+					})
+
+					return Promise.resolve({
+						id: r.id
+					})
+
+				})
+			},
+			update: function (data, p = {}) {
+				p.method = "POST"
+
+				self.invalidateStorageNow(['buylists'])
+
+				data.updated = f.date.toserverFormatDate()
+
+				var { updated, from = {} } = core.vxstorage.update(data, 'buylist')
+
+				return request(data, 'pctapi', 'BuyLists/Update', p).then(r => {
+
+					core.ignore('buylist', {
+						id: data.id
+					})
+
+					return Promise.resolve(updated)
+				})
+			},
+
+			get: function (id, p = {}) {
+
+				p.method = "POST"
+
+				var data = {
+					id,
+					includePositions: true
+				}
+
+				p.kit = {
+					class: Buylist,
+					one: true
+				}
+
+				p.vxstorage = {
+					type: 'buylist',
+					index: id
+				}
+
+				p.storageparameters = dbmeta.buylists()
+
+				return request(data, 'pctapi', 'BuyLists/GetById', p)
+			},
+
+			gets: function (ids = [], p = {}) {
+
+
+				if (!ids.length) return Promise.resolve([])
+
+				var data = {
+					pageSize: ids.length,
+					idsFilter: ids,
+					includePositions: true
+				}
+
+				p.method = "POST"
+
+				p.kit = {
+					class: Buylist,
+					path: 'records',
+				}
+
+				p.vxstorage = {
+					type: 'buylist',
+					path: 'records',
+					getloaded: 'idsFilter'
+				}
+
+				p.storageparameters = dbmeta.buylists()
+
+				return request(data, 'pctapi', 'BuyLists/List', p).then(r => {
+					return Promise.resolve(r.records)
+				})
+
+			},
+
+			delete: function (ids, p = {}) {
+
+				if (!_.isArray(ids)) ids = [ids]
+
+				p.method = "POST"
+
+				var data = {
+					ids
+				}
+
+				_.each(ids, (id) => {
+
+					var { updated } = core.vxstorage.update({
+						status: "DELETED",
+						id
+					}, 'buylist')
+					
+				})
+
+				self.invalidateStorageNow(['buylists'])
+
+				return request(data, 'pctapi', 'BuyLists/DeleteByIds', p).then(r => {
+
+					return Promise.resolve(r)
+
+				})
+			},
+
+			recover: function (ids, p = {}) {
+
+				if (!_.isArray(ids)) ids = [ids]
+
+				p.method = "POST"
+
+				var data = {
+					ids
+				}
+
+				return request(data, 'pctapi', 'BuyLists/RecoverByIds', p).then(r => {
+					_.each(ids, (id) => {
+
+						var { updated } = core.vxstorage.update({
+							status: "ACTIVE",
+							id
+						}, 'buylist')
+
+					})
+
+					self.invalidateStorageNow(['buylists'])
+
+					return Promise.resolve(r)
+
+				})
+			},
+
 		}
 	}
 
@@ -2778,6 +2981,13 @@ var ApiWrapper = function (core = {}) {
 						updated: f.date.fromstring(r.lastPortfolioUpdate, true) / 1000,
 						type: ['portfolios']
 					})
+
+				if (r.lastBuyListUpdate)
+					invalidateStorage.push({
+						updated: f.date.fromstring(r.lastBuyListUpdate, true) / 1000,
+						type: ['buylists']
+					})
+					
 
 				if (r.LastModelUpdate)
 					invalidateStorage.push({

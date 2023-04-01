@@ -269,11 +269,7 @@ var vxstorage = new VXStorage([{
     type : "client",
     index : "ID",
     reload : 'api.crm.contacts.getbyids'
-}, /*{
-    type : "lead",
-    index : "ID",
-    reload : 'api.crm.contacts.getbyids'
-},*/ {
+},{
     type : "batch",
     index : "Id",
     reload : 'api.campaigns.getbyids'
@@ -294,7 +290,13 @@ var vxstorage = new VXStorage([{
     type : "campaign",
     index : "Id",
     reload : 'api.campaigns.getbyids'
-},{
+},
+{
+    type : "buylist",
+    index : "id",
+    reload : 'api.pctapi.buylists.gets',
+    invalidateDb : ['stress']
+}, {
     type : "portfolio",
     index : "id",
     reload : 'api.pctapi.portfolios.gets',

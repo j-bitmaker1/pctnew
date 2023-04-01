@@ -53,8 +53,8 @@ label
 
         input
             flex-grow: 0
-            max-width : 33px
-            min-width: 33px
+            max-width : 22px
+            min-width: 22px
             height: 22px
 
         label
@@ -103,14 +103,23 @@ label
 .vueapiwrapper
     display: flex
     align-items: center
+    margin-bottom:  2* $r
+    margin-top: $r
 
     i
         font-size: 0.9em
+        margin-left: $r
+        cursor: pointer
+        opacity: 0.6
+        
     label
-        font-size: 0.9em
         margin-bottom: 0
-    button
+    .bs
         margin-right: $r
+        text-decoration: underline
+        cursor: pointer
+        font-weight: 700
+
 .fgroup
     .groupcaption
         margin-top: 2*  $r

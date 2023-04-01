@@ -1,12 +1,12 @@
 <template>
 <div id="portfolio_assets_difference">
-    <div class="group" v-for="i in indexes" :key="i" v-if="cgroupped[i].length">
+    <div class="group" :class="i" v-for="i in indexes" :key="i" v-if="cgroupped[i].length">
         <div class="groupcaption">
             <span>{{$t('optimization.gr.' + i)}}</span>
         </div>
 
         <div class="content">
-            <div class="asset" v-for="asset in cgroupped[i]">
+            <div class="asset" :class="{positive : asset.prevvalue < asset.curvalue, negative : asset.prevvalue > asset.curvalue}" v-for="asset in cgroupped[i]">
                 <div class="ticker" :uncovered="!asset.isCovered">
                     <span>{{asset.ticker}}</span>
                 </div>

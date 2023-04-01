@@ -76,6 +76,10 @@
 		"68std" : "68%",
 		"95std" : "95%",
 		"997std" : "99.7%",
+
+		"editbuylist" : "Edit Buy list",
+		"deletebuylist" : "Delete Buy list",
+
 		"editportfolio" : "Edit Portfolio",
 		"deleteportfolio" : "Delete Portfolio",
 		"editlead" : "Edit Lead",
@@ -628,8 +632,8 @@
 		"currency" : "Currency",
 		"commodity" : "Commodity",
 		"alternatives" : "Alternatives",
-		"assetsBoundaries" : "Assets Boundaries",
-
+		"assetsBoundaries" : "Assets Boundaries",	
+		"useOnlyBuyList" : "Buy Only From Buy List",
 		"optimizationMode" : {
 			"shortest" : "Shortest Path Optimization",
 			"gradual" : "Gradual Optimization"

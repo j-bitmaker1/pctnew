@@ -10,7 +10,7 @@
 		</div>
 
 		<div class="forsettings">
-			<bmenu :buylist="buylist" buttonclass="diconbutton"/>
+			<bmenu :buylist="buylist" buttonclass="diconbutton" @deleted="deleted"/>
 		</div>
 	</div>
     

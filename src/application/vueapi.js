@@ -1079,18 +1079,23 @@ class Vueapi {
     }
 
     editBuylist = function (buylist, success) {
+        var data = {}
+
+        console.log('buylist', buylist)
+
+        if (buylist){
+            data.edit = {
+                name : buylist.name,
+                assets : buylist.positions,
+                id : buylist.id
+            }
+        }
+
         this.store.commit('OPEN_MODAL', {
             id : 'modal_buylist_edit',
             module : "buylist_edit",
             caption : "Edit Buylist",
-            data : {
-                edit : {
-                    name : buylist.name,
-                    positions : buylist.positions,
-                    id : buylist.id
-                }
-            },
-    
+            data : data,
             events : {
                 edit : (b) => {
                     if(success) success(b)
@@ -1118,6 +1123,9 @@ class Vueapi {
 
     buylistsforforms = function(selected){
         this.buylists((b) => {
+
+            console.log('B', b)
+
             selected({
                 value : b.id,
                 label : b.name

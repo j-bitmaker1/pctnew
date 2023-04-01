@@ -31,6 +31,8 @@ export default {
     }),
 
     methods : {
-        
+        deleted : function(){
+            this.$emit('deleted')
+        }
     },
 }

@@ -4,7 +4,6 @@ import asset from "@/components/modules/app/assets/asset/index.vue";
 import f from '@/application/shared/functions.js'
 import _ from 'underscore';
 var sha1 = require('sha1');
-import aggregationsEdit from "@/components/modules/app/aggregations/edit/index.vue";
 
 export default {
 	name: 'portfolios_edit',
@@ -20,7 +19,6 @@ export default {
 
 	components : {
 		assetsEdit,
-		aggregationsEdit,
 		asset
 	},
 
@@ -33,7 +31,6 @@ export default {
 			hash : '',
 			name : '',
 			advisorFee : 0,
-			aggregation : null,
 			focused : false,
 			isModel : false,
 
@@ -62,7 +59,6 @@ export default {
         assets : {
             immediate : true,
             handler : function() {
-                this.getassetsinfo()
             }
         }
     },
@@ -98,7 +94,6 @@ export default {
 		},
 
 		validate : function(){
-			if(!this.total) return 'total'
 			if(!this.name) return 'name'
 		},
 
@@ -150,13 +145,7 @@ export default {
 			this.focused = false
 		},
 
-		getassetsinfo : function(){
-			/*this.core.pct.assets(this.assets).then(r => {
-				this.assetsinfo = r
-				return Promise.resolve(r)
-			})*/
-		},
-
+	
 		datahash : function(){
 
 			return sha1(this.name + this.advisorFee + JSON.stringify(_.map(this.assets, (asset) => {
@@ -217,58 +206,21 @@ export default {
 			return true
 		},
 
-		changeTotalValue : function(e){
-			var newvalue = e.target.value
-
-			var p = this.total / newvalue
-
-			_.each(this.assets, (a) => {
-				a.value = Number((a.value / p).toFixed(this.isModel ? 2 : 0))
-			})
-
-			if (this.haschanges){
-				this.$emit('temp', this.assets)
-			}
-			else{
-				this.$emit('cancelTemp')
-			}
-		},
 		
 		multiple(items){
 
-			if (this.isModel){
-				var d = (Math.max(100 - this.total, 0) || 100) / 100
-				var multiple = 1
-
-				var totalAssets = _.reduce(items, (m, i) => {
-					return m + i.value
-				}, 0)
-
-				if (totalAssets <= 1.1){
-					multiple = 100
-				}
-
-				if (totalAssets <= 1.1 || totalAssets > 100){
-					items = _.map(items, (i) => {
-						return {
-							...i,
-							value : d * multiple * i.value / totalAssets
-						}
-					})
-				}
-			}
 
 			_.each(items, (item) =>{
 				var asset = {
 					ticker : item.ticker,
 					name : item.name,
-					value : item.value,
 					isCovered : true
 				}
 
 				this.assets.push(asset)
 			})
 		},
+
 		leaveAsset : function(index){
 			setTimeout(() => {
 
@@ -289,7 +241,6 @@ export default {
 					this.assets.push({
 						ticker : v.ticker,
 						name : v.name,
-						value : v.value && this.isModel ? v.value : v.value || 0,
 						isCovered : v.isCovered
 					})
 			}
@@ -326,7 +277,7 @@ export default {
 
 			var assetindex = Math.max(this.assets.length - 1, 0)
 
-			if (this.assets[assetindex] && this.assets[assetindex].value){
+			if (this.assets[assetindex]){
 				assetindex++
 			}
 
@@ -340,9 +291,7 @@ export default {
 		changename : function(e){
 			this.name = e.target.value
 		},
-		changefee : function(e){
-			this.advisorFee = e.target.value / 100
-		},
+
 		joinassets : function(assets){
 			var jg = {}
 
@@ -351,131 +300,18 @@ export default {
 					jg[a.ticker] = a 
 				}
 				else{
-					jg[a.ticker].value += a.value
 				}
 			})
 			
 			return _.toArray(jg)
 		},
 
-		pdfparser : function(){
-
-			this.$store.commit('OPEN_MODAL', {
-				id : 'modal_pdfparser',
-				module : "pdfparser",
-				caption : "Parse portfolio from PDF",
-				data : {},
-				events : {
-					assets : (assets) => {
-						this.multiple(assets)
-						//this.assets = this.assets.concat(assets)
-
-					}
-				},
-				mclass : 'absoluteContent'
-			})
-
-		},
-
-		uploadFromFileStart : function(){
-			//this.$store.commit('globalpreloader', true)
-		},
-
-		uploadFromFileUploadedAll : function(){
-			//this.$store.commit('globalpreloader', false)
-		},
-
-		uploadFromFileUploaded: function(file){
-
-			this.core.pct.loadFromfile({
-				File : file.base64,
-				FileType : (file.extension || "").toUpperCase()
-			}, {
-				preloader : true,
-				showStatus : true
-			}).then(assets => {
-				this.multiple(assets)
-			})
-		},
-
-		uploadFromFileError : function(e){
-
-			if (e.text){
-				this.$store.commit('icon', {
-					icon: 'error',
-					message: e.text
-				})
-			}
-
-		},
-
-		savedefault : function(){
-			var r = null
-
-			if(this.currentroot && this.currentroot != '0' && this.currentroot) r = this.currentroot
-
-			this.save(r).catch(e => {
-
-				if(e){
-					this.$store.commit('icon', {
-						icon: 'error',
-						message: e.text
-					})
-				}
-				
-			})
-		},
-
-		checkModel : function(){
-
-			if (this.isModel && this.total.toFixed(0) != 100){
-
-				this.$dialog.confirm(
-					'The total amount of the model portfolio must be exactly equal to 100%. Do You want to automatically adjust position weights to a portfolio total of 100%?', {
-					okText: "Yes",
-					cancelText : 'No'
-				})
 		
-				.then((dialog) => {
 
-					this.autoCorrectAssets()
-
-				}).catch( e => {
-					console.error(e)
-				})
-
-				return false
-
-			}
-
-			return true
-		},
-
-		autoCorrectAssets : function(){
-			if (this.isModel){
-
-				var items = this.assets
-
-				var d = 100 / this.total
-
-				items = _.map(items, (i) => {
-					return {
-						...i,
-						value : Number((d * i.value).toFixed(2))
-					}
-				})
-
-				this.assets = items
-
-			}
-		},
-
-		save : function(catalogId){
+		save : function(){
 			if (!this.cansave()){
 				return Promise.reject()
 			}
-
-			if (!this.checkModel()) return Promise.reject() 
 
 			var action = null
 			var positions = this.joinassets(this.assets)
@@ -484,20 +320,15 @@ export default {
 			var data = {
 				name : this.name,
 				positions,
-				advisorFee : this.advisorFee,
-				isModel : this.isModel,
 				... this.payload || {}
 			}
 
-			if (catalogId){
-				data.catalogId = catalogId
-			}
 
 			if(this.edit) data.id = this.edit.id
 
 			if(this.edit){
 
-				action = this.core.api.pctapi.portfolios.update({
+				action = this.core.api.pctapi.buylists.update({
 					
 					... data
 					
@@ -508,7 +339,7 @@ export default {
 			}
 			else{
 
-				action = this.core.api.pctapi.portfolios.add({
+				action = this.core.api.pctapi.buylists.add({
 					... data
 				}, {
 					preloader : true,
@@ -533,66 +364,6 @@ export default {
 
 			})
 			
-		},
-
-		saveas : function(){
-
-			if (!this.cansave()){
-				return
-			}
-
-			//this.selected, 
-
-			this.core.vueapi.selectFolder((folder) => {
-
-
-				this.save(folder.id).catch(e => {
-					this.$store.commit('icon', {
-						icon: 'error',
-						message: e.text
-					})
-				})
-			})
-
-		},
-
-		cancelAggregation : function(){
-			this.aggregation = null
-		},
-
-		aggregate : function(){
-
-			var selected = null
-
-			if (this.aggregation){
-				selected = {}
-
-				_.each(this.aggregation.items, (item) => {
-					selected[item.item.id] = item.item
-				})
-
-			}
-				
-			this.core.vueapi.selectPortfolios( (portfolios) => {
-				var selected = {}
-
-				_.each(portfolios, (p, i) => {
-
-					selected[p.id] = {
-						item : p,
-						weight : 0
-					}
-
-				})
-
-				this.aggregation || (this.aggregation = {
-					items : {}
-				})
-
-				this.aggregation.items = selected
-
-			}, {selected})
-		
 		},
 
 		scan : function(){
@@ -669,48 +440,11 @@ export default {
 				})
 
 				this.name = donor.name
-				this.isModel = donor.isModel
-				this.advisorFee = donor.advisorFee
 			}
 
 			this.hash = this.datahash()
 		},
 
-		model : function(){
-
-			var assets = this.assets
-
-			var total = this.total
-
-			if(!this.isModel) this.lastTotalAssets = total
-			else this.lastModelTotalAssets = total
-
-			this.isModel = !this.isModel
-
-			if(this.isModel){
-				assets = _.map(assets, (a) => {
-					return {
-						...a,
-						value : Number(((this.lastModelTotalAssets || 100) * (this.total ? a.value / this.total : 0)).toFixed(2))
-					}
-				}) 
-			}
-
-			else{
-				if (this.lastTotalAssets){
-
-					assets = _.map(assets, (a) => {
-
-						return {
-							...a,
-							value : Number((a.value * this.lastTotalAssets / 100).toFixed(2))
-						}
-					}) 
-
-				}
-			}
-
-			this.assets = assets
-		}
+		
 	},
 }

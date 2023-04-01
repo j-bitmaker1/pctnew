@@ -33,7 +33,7 @@
 			Save
 		</button>
 		<button class="button" @click="e => createPortfolio()" v-if="!haschanges" :disabled="!hasassets">
-			Create Portfolio
+			Next
 		</button>
 	</div>
 </div>

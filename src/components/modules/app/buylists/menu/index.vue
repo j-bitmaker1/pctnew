@@ -8,7 +8,7 @@
 		</template>
 
 		<template v-slot:content="i">
-			<listmenu :items="menu" @action="menuaction" :close="i.close"/>
+			<listmenu :items="menu" :close="i.close"/>
 		</template>
 
 	</tooltip>
@@ -27,7 +27,7 @@ import {
 export default {
 	name: 'buylist_menu',
 	props: {
-		portfolio: Object,
+		buylist: Object,
 		buttonclass : {
 			type : String,
 			default : 'buttonpanel'
@@ -42,7 +42,7 @@ export default {
 
 			var menu = [
 				{
-					text : 'labels.edit',
+					text : 'labels.editbuylist',
 					icon : 'fas fa-pen',
 					action : this.edit,
 
@@ -50,7 +50,7 @@ export default {
 				},
 
 				{
-					text : 'labels.delete',
+					text : 'labels.deletebuylist',
 					icon : 'fas fa-trash',
 					action : this.delete,
 
@@ -69,7 +69,9 @@ export default {
 
 		edit : function(){
 
-			
+			this.core.vueapi.editBuylist(this.buylist, (l) => {
+                
+            })
 
 		},
 
@@ -84,11 +86,10 @@ export default {
 	
 			.then((dialog) => {
 
-			
+				this.$emit('deleted')
 
 			})
 
-			
 		}
 
 		

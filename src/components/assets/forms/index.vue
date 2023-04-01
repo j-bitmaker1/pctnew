@@ -49,10 +49,9 @@
                     </div>
 
                     <div class="vueapiwrapper" v-if="field.input == 'vueapi'" :ref="i">
-                        <button class="button" @click="e => vueapi(field)">{{$t(field.settings.label)}}</button>
+                        <label class="bs" @click="e => vueapi(field)">{{$t(field.settings.label)}}</label>
                         <label v-if="form[field.id] && form[field.id].label">{{form[field.id].label}}</label>
-                        <i v-if="form[field.id]" class="fas fa-times-circle"></i>
-
+                        <i v-if="form[field.id]" class="fas fa-times-circle" @click="e => release(field)"></i>
                         <label v-else>Nothing selected</label>
                     </div>
 

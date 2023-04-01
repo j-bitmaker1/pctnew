@@ -24,6 +24,30 @@
             font-size: 0.9em
             color : srgb(--neutral-grad-3)
 
+    &.negative
+        .ticker,
+        .nameinv
+            span
+                color : srgb(--color-bad)
+
+    &.positive
+        .ticker,
+        .nameinv
+            span
+                color : srgb(--color-good)
+
+.removed
+    .asset
+        &:after
+            content: ""
+            position: absolute
+            left : $r
+            top : 50%
+            right : $r
+            height: 2px
+            margin-top: -1px
+            background: srgb(--color-bad)
+
 .name
     padding : 0 2 * $r
     flex-grow: 2

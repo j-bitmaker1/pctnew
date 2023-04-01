@@ -1478,6 +1478,19 @@ class PCT {
                     result.gradualOptimization = 1
                 }
 
+                if(s.buylist){
+
+                    result.buyListId = s.buylist.value
+                    result.useBuyList = 1
+
+                    if(s.useOnlyBuyList){
+                        result.useOnlyBuyList = 1
+                    }
+
+                }
+
+                
+
             }
 
             _.each(result, (v, i) => {

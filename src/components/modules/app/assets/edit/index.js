@@ -12,7 +12,7 @@ export default {
         isCovered : Boolean,
         showdif : Boolean,
         difference : Number,
-
+        withoutvalue : Boolean,
         mode : {
             type : String,
             default : 'd'

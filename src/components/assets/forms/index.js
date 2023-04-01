@@ -54,6 +54,7 @@ export default {
             deep: true,
             immediate: false,
             handler: function (now, old) {
+                console.log("HANDLER")
                 if (this.created /*|| !this.form.validate().errors().any()*/) {
                     this.$emit('change', this.form.all());
                     this.$emit('input', this.getinternal());
@@ -221,8 +222,15 @@ export default {
 
         vueapi : function(field){
             this.core.vueapi[field.settings.api]((r) => {
+                console.log("RRR", r)
+                
                 this.$set(this.form, field.id, r)
             })
+        },
+
+        release : function(field){
+            console.log("ASDSADD222", this.form)
+            this.$set(this.form, field.id, null)
         }
     },
 };

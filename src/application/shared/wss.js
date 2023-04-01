@@ -265,13 +265,16 @@ var WSS = function(core, url){
                 if(message.x_eventType == 'LEADUPDATE') {types = ['client']; invalidate = ['contacts']; data = new Contact(data)}
 
                 if(message.x_eventType == 'CLIENTUPDATE') {types = ['client']; invalidate = ['contacts']; data = new Contact(data)}
-                if(message.x_eventType == 'CATALOGUPDATE') types = ['filesystem']
+                
+                if(message.x_eventType == 'CATALOGUPDATE') {types = ['filesystem']}
 
                 if(message.x_eventType == 'INTEGRATIONTASKCOMPLETE') {
                     return core.updateIntegrationsByWs();
                 }
                 
                 if(message.x_eventType == 'PORTFOLIOUPDATE') {types = ['portfolio']; invalidate = ['portfolios']; data = new Portfolio(data)}
+
+                if(message.x_eventType == 'BUYLISTUPDATE') {types = ['buylist']; invalidate = ['buylists']; data = new Portfolio(data)}
 
                 if(message.x_eventType == 'CUSTOMSCENARIOUPDATE') {types = ['customscenario']; invalidate = ['customscenarios', 'stress']; data = new Scenario(data)}
 
@@ -295,7 +298,8 @@ var WSS = function(core, url){
 
                 if(message.x_eventType == 'CLIENTUPDATE') {type = 'client'; invalidate = ['contacts']; data = new Contact(data)}
 
-                if(message.x_eventType == 'PORTFOLIOUPDATE') {types = 'portfolio'; invalidate = ['portfolios']; data = new Portfolio(data)}
+                if(message.x_eventType == 'PORTFOLIOUPDATE') {type = 'portfolio'; invalidate = ['portfolios']; data = new Portfolio(data)}
+                if(message.x_eventType == 'BUYLISTUPDATE') {types = 'buylist'; invalidate = ['buylists']; data = new Portfolio(data)}
 
                 if(message.x_eventType == 'CUSTOMSCENARIOUPDATE') {type = 'customscenario'; invalidate = ['customscenarios']; data = new Scenario(data)}
 

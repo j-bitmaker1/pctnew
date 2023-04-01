@@ -4,6 +4,21 @@ class XLS {
         this.JS_XLSX = require('js-xlsx');
     }
 
+    exportBuylist(workbook, portfolio) {
+        let worksheetData = {};
+
+        _.each(portfolio.positions, (asset, i) => {
+            var j = i + 1
+
+            worksheetData['A' + j] = {t: 's', v : asset.ticker}
+            worksheetData['B' + j] = {t: 's', v : asset.name}
+        })
+
+        worksheetData['!ref'] = "A1:B" + portfolio.positions.length
+
+        this.XLSX.utils.book_append_sheet(workbook, worksheetData, portfolio.name);
+    }
+
     exportPortfolio (workbook, portfolio) {
         let worksheetData = {};
 
@@ -16,8 +31,6 @@ class XLS {
         })
 
         worksheetData['!ref'] = "A1:C" + portfolio.positions.length
-
-        console.log('worksheetData', worksheetData)
 
         this.XLSX.utils.book_append_sheet(workbook, worksheetData, portfolio.name);
     }
