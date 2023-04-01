@@ -312,8 +312,6 @@ class PCT {
             else {
                 return this.api.pctapi.assets.info([ticker]).then(r => {
 
-                    console.log("RE", r)
-
                     return Promise.resolve(r[0])
                 })
             }
@@ -614,7 +612,6 @@ class PCT {
         var cts = {}
         var max = _.max(portfolios, (p) => {return p.total()})
         var total = max.total()
-        console.log('max', total)
 
         return Promise.all(_.map(portfolios, (portfolio) => {
 
@@ -626,8 +623,6 @@ class PCT {
                 return Promise.resolve()
             })
         })).then(r => {
-
-            console.log("this.composeCTS(cts, total, mode, portfolios)", this.composeCTS(cts, total, mode, portfolios))
 
             return Promise.resolve(this.composeCTS(cts, total, mode, portfolios))
         })
@@ -1049,7 +1044,6 @@ class PCT {
     customstresstest = function(data, p = {}, method = 'customtest'){
 
         return this.api.pctapi.stress[method](data, p).then(r => {
-            console.log("R23", r)
             return Promise.resolve(this.parseStressTest(r, {
                 saveorder : true
             }))
@@ -1067,8 +1061,6 @@ class PCT {
                 portfolio,
                 factors
             }, {}, 'customtestScenariosFromFactors').then((r) => {
-
-                console.log("R22", r)
 
                 result[portfolio.id] = r
             })
@@ -1187,7 +1179,6 @@ class PCT {
             
             return Promise.resolve(data)
         }).catch(e => {
-            console.error(e)
 
             return Promise.reject(e)
         })
@@ -1452,7 +1443,6 @@ class PCT {
         
         return this.core.getsettings("OPTIMIZATION", portfolio.id).then(s => {
 
-            console.log('settings', s, portfolio.id)
             var total = portfolio.total()
 
             if (s){
@@ -1489,8 +1479,6 @@ class PCT {
                 }
 
             }
-
-            console.log("S", s)
 
             _.each(result, (v, i) => {
                 if(v == 'maxpositions') result[i] = total

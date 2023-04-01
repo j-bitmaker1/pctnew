@@ -100,75 +100,84 @@
 
             <widget name="right" :cls="!optimizedPortfolio ? 'scrollhidden' : ''" :customscroll="optimizedPortfolio ? true : false" :widgets="widgets">
                 <template v-slot:content>
-                    <template  v-if="portfolio">
+                    <div class="pcntwrapper">
+                        <div class="pcnt">
+                            <template  v-if="portfolio">
 
-                        <template v-if="view == 'stresstest'">
+                                <template v-if="view == 'stresstest'">
 
-                            <template v-if="!optimizedPortfolio">
-                                <div class="emptyScenario" v-if="!selectedScenario || !ct || temp">
+                                    <template v-if="!optimizedPortfolio">
+                                        <div class="emptyScenario" v-if="!selectedScenario || !ct || temp">
 
-                                    <div class="textWrapper">
-                                        
-                                        <span v-if="(!selectedScenario || !ct) && !temp">Select scenario to see contributors</span>
-                                        <span v-if="temp">Risk contributors are not available in hot change mode</span>
+                                            <div class="textWrapper">
+                                                
+                                                <span v-if="(!selectedScenario || !ct) && !temp">Select scenario to see contributors</span>
+                                                <span v-if="temp">Risk contributors are not available in hot change mode</span>
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="scenario" v-else>
+                                            <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
+                                        </div>
+                                    </template>
+
+                                    <template v-else>
+                                        <div class="partcaption">
+                                            <span>Optimization settings</span>
+                                        </div>
+                                        <optimizationSettings :portfolio="portfolio" :saveonchange="true"/>
+                                    </template>
+
                                     
+                                </template>
+
+                                <template v-if="view == 'customstresstest'">
+
+                                    <!--<linepreloader v-if="lastCustomFactors && !lastCustomResult"/>-->
+
+
+                                    <div class="emptyScenario" v-if="!lastCustomFactors || !lastCustomResult">
+                                        <div class="textWrapper">
+                                            <span v-if="!lastCustomFactors">Create custom scenario to see contributors</span> <span v-if="!lastCustomResult">Adjust the factors and get the result</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="scenario" v-else>
-                                    <scenariodetails :lossgain="true" :portfolio="portfolio" :scenario="selectedScenario" :ct="ct"/>
-                                </div>
+
+                                    <div class="scenario" v-else>
+                                        <scenariodetails :lossgain="true" :portfolio="portfolio" :dcti="lastCustomResult" :scenario="lastCustomResult.scenarios[0]" :infoi="{
+                                            name : 'Custom scenario',
+                                            factors : lastCustomFactors,
+                                            description : ''
+                                        }"/>
+                                    </div>
+
+                                </template>
+                                
                             </template>
 
-                            <template v-else>
-                                <div class="partcaption">
-                                    <span>Optimization settings</span>
-                                </div>
-                                <optimizationSettings :portfolio="portfolio" :saveonchange="true"/>
-                            </template>
-
-                            
-                        </template>
-
-                        <template v-if="view == 'customstresstest'">
-
-                            <!--<linepreloader v-if="lastCustomFactors && !lastCustomResult"/>-->
-
-
-                            <div class="emptyScenario" v-if="!lastCustomFactors || !lastCustomResult">
-                                <div class="textWrapper">
-                                    <span v-if="!lastCustomFactors">Create custom scenario to see contributors</span> <span v-if="!lastCustomResult">Adjust the factors and get the result</span>
-                                </div>
-                            </div>
-
-                            <div class="scenario" v-else>
-                                <scenariodetails :lossgain="true" :portfolio="portfolio" :dcti="lastCustomResult" :scenario="lastCustomResult.scenarios[0]" :infoi="{
-                                    name : 'Custom scenario',
-                                    factors : lastCustomFactors,
-                                    description : ''
-                                }"/>
-                            </div>
-
-                        </template>
-                        
-                    </template>
+                        </div>
+                    </div>
                 </template>
             </widget>
 
             <widget name="retrospective" :customscroll="false" :widgets="widgets">
                 <template v-slot:content>
-                    <div class="partcaption">
-                        <span>Historical simulation</span>
+                    <div class="pcntwrapper">
+                        <div class="pcnt">
+                            <div class="partcaption">
+                                <span>Historical simulation</span>
+                            </div>
+                            <template  v-if="portfolio">
+
+                                <retrospective :height="height" v-if="portfolio && !temp && !optimizedPortfolio" :portfolio="portfolio"/>
+
+                                <retrospectivetemp name="Editing portfolio" :height="height" v-if="portfolio && temp" :portfolio="portfolio" :assets="temp"/>
+
+                                <retrospectivetemp name="Optimized portfolio" :height="height" v-if="portfolio && optimizedPortfolio" :portfolio="portfolio" :assets="optimizedPortfolio.positions"/>
+
+                                <!--<retrospective :portfolio="portfolio"/>-->
+                            </template>
+                        </div>
                     </div>
-                    <template  v-if="portfolio">
-
-                        <retrospective :height="height" v-if="portfolio && !temp && !optimizedPortfolio" :portfolio="portfolio"/>
-
-                        <retrospectivetemp name="Editing portfolio" :height="height" v-if="portfolio && temp" :portfolio="portfolio" :assets="temp"/>
-
-                        <retrospectivetemp name="Optimized portfolio" :height="height" v-if="portfolio && optimizedPortfolio" :portfolio="portfolio" :assets="optimizedPortfolio.positions"/>
-
-                        <!--<retrospective :portfolio="portfolio"/>-->
-                    </template>
                 </template>
             </widget>
 

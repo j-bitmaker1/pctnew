@@ -1,12 +1,18 @@
 <template>
 <div class="part" :class="name + (customscroll ? ' customscroll' : '') + ' ' + (cls || '')" :style="style">
-	<slot name="content" v-if="active">
-    </slot>
+	<transition name="fade">
+		<slot name="content" v-if="active">
+		</slot>
+	</transition>
 </div>
 </template>
 
 <style scoped lang="sass">
+.fade-enter-active, .fade-leave-active
+	transition: opacity .3s
 
+.fade-enter, .fade-leave-to
+	opacity: 0
 </style>
 
 <script>
@@ -25,7 +31,6 @@ export default {
 	computed: mapState({
 		auth: state => state.auth,
 		widget(){
-
 			return this.widgets.widgets[this.name]
 		},
 		style(){
@@ -43,8 +48,8 @@ export default {
 		},
 
 		active(){
-			return true
-			return this.widget.active || this.widget.sticky
+			console.log('this.widget', this.widget)
+			return this.widget.active || this.widget.sticky || false
 		}
 	}),
 

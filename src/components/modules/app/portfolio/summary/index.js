@@ -97,14 +97,17 @@ export default {
 
             var widgets = {
                 left : {
-                    width : 30
+                    width : 30,
+                    active : true
                 },
                 center : {
-                    width : 40
+                    width : 40,
+                    active : true
                 },
                 right : {
                     width : 30,
-                    snap : 'none'
+                    snap : 'none',
+                    active : true
                 },
                 retrospective : {
                     width : 70,
@@ -197,7 +200,13 @@ export default {
 
             if (active){
                 active.active = true
+
+                _.each(active.widgets, (i) => {
+                    widgets[i].active = true
+                })
             }
+
+            console.log('widgets', widgets)
 
             return {
                 widgets,
