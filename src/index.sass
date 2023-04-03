@@ -24,6 +24,8 @@ a
 	-webkit-tap-highlight-color: rgba(0,0,0,0)
 	-webkit-tap-highlight-color: transparent
 
+
+
 select.custom
 	-moz-appearance: none!important
 	-webkit-appearance: none!important
@@ -788,6 +790,7 @@ button.button
 			font-size: 0.9em
 
 	.v-step__arrow
+		margin-left: 5px
 		&:before
 			background: srgb(--color-bg-ac)
 
@@ -820,6 +823,16 @@ button.button
 	.v-step__content
 		margin-top: 2 * $r
 		margin-bottom: 2 * $r
+
+.v-tour__target--highlighted
+	background: srgb(--color-bg-ac-bright)!important
+	color : srgb(--text-on-bg-shadow-color)!important
+	box-shadow: none
+	border-radius: 44px
+	i
+		color : srgb(--text-on-bg-shadow-color)!important
+
+
 
 @media only screen and (min-width: 1024px)
 	.rootapp
