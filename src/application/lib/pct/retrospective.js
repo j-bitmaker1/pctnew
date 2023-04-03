@@ -111,7 +111,7 @@ class Retrospective {
                                 expweighed = exp * (asset.value / total)
                             }
     
-                            console.log("FEES pv, expweighed, exp", pv, expweighed, exp)
+                            console.log("FEES pv, expweighed, exp", contributor.ticker, pv, expweighed, exp)
 
 
                             pByPositions[contributor.ticker] += pv - expweighed
