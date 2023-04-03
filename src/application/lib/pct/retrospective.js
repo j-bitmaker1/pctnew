@@ -53,36 +53,23 @@ class Retrospective {
         }
     }
 
-    prepareHistory(portfolios = {}, data = {}, range, ltrdata = {}, term = 1, fee = () => {return 0}){
+    prepareHistory(portfolios = {}, data = {}, range, ltrdata = {}, terms = {}, fee = () => {return 0}){
         var result = {}
 
-        if(term < 1) term = 1
-
-        console.log("VVV@", data)
-
+        
         _.each(portfolios, (portfolio) => {
 
-            console.log('portfolio', portfolio)
+            var term = terms[portfolio.id] || 0
+
+            if(term < 1) term = 1
 
             if(!data[portfolio.id]) return
 
             var total = portfolio.total()
 
             var hi = data[portfolio.id].scenarios
-            var ci = data[portfolio.id].contributors
 
             var d = []
-
-            console.log("res, term", term)
-
-            /*var commonterms = term
-
-            _.each(portfolio.positions, (asset) => {
-                var ldata = ltrdata[asset.ticker] || {}
-
-                if(ldata.terms && ldata.terms > commonterms) commonterms = ldata.terms
-            })*/
-
 
             var fhi = _.filter(hi, (v, i) => {
 
@@ -109,13 +96,25 @@ class Retrospective {
 
                     if(v){
 
-                        _.each(v.contributors, (asset) => {
-                            pByPositions[asset.ticker] || (pByPositions[asset.ticker] = 0)
+                        _.each(v.contributors, (contributor) => {
+                            pByPositions[contributor.ticker] || (pByPositions[contributor.ticker] = 0)
 
-                            var pv = asset.value / total
-                            var ldata = ltrdata[asset.ticker] || {}
+                            var pv = contributor.value / total
+                            var ldata = ltrdata[contributor.ticker] || {}
+                            var asset = portfolio.get(contributor.ticker)
+
+
+                            var exp = (fee(contributor, portfolio) || 0) + (ldata.expRatio || 0)
+                            var expweighed = 0
+
+                            if (asset){
+                                expweighed = exp * (asset.value / total)
+                            }
     
-                            pByPositions[asset.ticker] += pv - (fee(asset, portfolio) || 0) - (ldata.expRatio || 0)
+                            console.log("FEES pv, expweighed, exp", pv, expweighed, exp)
+
+
+                            pByPositions[contributor.ticker] += pv - expweighed
                             
                         })
                         

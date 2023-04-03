@@ -587,7 +587,7 @@ class RetrospectiveHistory {
 
     chartcolors = ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757']
 
-    series = function(portfolios, history, factorsLine){
+    series = function(portfolios, history, factorsLine, terms = {}){
         var series = []
 
         var maxportfolio = 0
@@ -600,6 +600,10 @@ class RetrospectiveHistory {
                 color: this.colorbyindex(series.length),
                 data: [],
                 type: 'spline',
+            }
+
+            if(terms[portfolio.id] && terms[portfolio.id] > 1){
+                serie.name += " (Term: "+terms[portfolio.id]+"Y)"
             }
 
             _.each(history[portfolio.id], (yd) => {
@@ -657,13 +661,15 @@ class RetrospectiveHistory {
     chartOptions = function ({
         portfolios,
         history,
-        factorsLine
+        factorsLine,
+        terms
     }, p = {}) {
 
         var series = this.series(
             portfolios,
             history,
-            factorsLine
+            factorsLine,
+            terms
         );
 
         p.yAxisMultiple = _.find(series, (serie) => {

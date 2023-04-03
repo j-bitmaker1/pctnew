@@ -127,6 +127,12 @@ class Portfolio {
         }) ? true : false
     }
 
+    get = function(ticker) {
+        return _.find(this.joined(), (asset) => {
+            return asset.ticker == ticker
+        })
+    }
+
     term = function(){
         return (_.find(this.positions, (asset) => {
             return asset.term

@@ -20,7 +20,7 @@ export default {
             underlying : 'spy',
             historyRaw : {},
             ltrdata : [],
-            term : 1,
+            terms : {},
             range : [2010, new Date().getFullYear()],
             
         }
@@ -76,7 +76,7 @@ export default {
 
         history : function(){
 
-            return this.retrospective.prepareHistory(this.composedPortfolios, this.historyRaw, this.range, this.ltrdata, this.term, (asset, portfolio) => {
+            return this.retrospective.prepareHistory(this.composedPortfolios, this.historyRaw, this.range, this.ltrdata, this.terms, (asset, portfolio) => {
                 return portfolio.advisorFee || 0
             })
         },
@@ -98,7 +98,8 @@ export default {
 			var d = chartRetrospectiveHistory.chartOptions({
                 portfolios : this.composedPortfolios,
                 history : this.history,
-                factorsLine : this.retrospective.factorsLine(this.range)
+                factorsLine : this.retrospective.factorsLine(this.range),
+                terms : this.terms
             }, {
 				...this.options
 			})
@@ -108,6 +109,25 @@ export default {
     }),
 
     methods : {
+        getterms : function(){
+            var result = {}
+            return Promise.all(_.map(this.composedPortfolios, (p) => {
+
+                console.log("PPP", p)
+                
+                return this.core.pct.calcterm(p.positions).then((t) => {
+                    result[p.id] = t
+
+                    return Promise.resolve()
+                })
+
+            })).then(() => {
+
+                console.log("TEPMMP", result)
+
+                return Promise.resolve(result)
+            })
+        },
         gettests : function(){
 
             this.loading = true
@@ -120,13 +140,13 @@ export default {
 
                 return this.core.pct.ltrdetailsByAssets(this.composedPortfolios).then((ltrdata) => {
 
-                    return this.core.pct.calcterm(this.composedPositions).then((term) => {
+                    return this.getterms().then((terms) => {
 
                         console.log('ltrdata', ltrdata)
 
                         this.historyRaw = data
                         this.ltrdata = ltrdata
-                        this.term = term
+                        this.terms = terms
 
                         return Promise.resolve(data)
 
