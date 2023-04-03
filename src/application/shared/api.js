@@ -1452,6 +1452,8 @@ var ApiWrapper = function (core = {}) {
 						type: 'portfolio'
 					}
 
+				console.log('data', data)
+
 				return request(data, 'pctapi', 'Assets/GetLtrCalculation', p).then((r) => {
 
 

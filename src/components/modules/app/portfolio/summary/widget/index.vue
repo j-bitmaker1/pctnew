@@ -48,7 +48,6 @@ export default {
 		},
 
 		active(){
-			console.log('this.widget', this.widget)
 			return this.widget.active || this.widget.sticky || false
 		}
 	}),

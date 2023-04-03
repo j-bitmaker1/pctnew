@@ -138,7 +138,7 @@ export default {
 			this.cts = {}
 			this.ct = {}
 
-			this.core.pct.stresstestskt([this.portfolio, this.optimizedPortfolio], this.valuemode, { fee : asset => {
+			this.core.pct.stresstestskt([this.portfolio, this.optimizedPortfolio], this.valuemode, { term: true, fee : asset => {
 				return this.portfolio.advisorFee || 0
 			}}).then(cts => {
 

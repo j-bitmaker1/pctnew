@@ -206,8 +206,6 @@ export default {
                 })
             }
 
-            console.log('widgets', widgets)
-
             return {
                 widgets,
                 slides
@@ -289,7 +287,6 @@ export default {
             this.scroll = e.target.scrollLeft
             this.scrollWidth = e.target.scrollWidth
 
-            console.log('e.target.scrollWidth ', e.target.scrollWidth )
         },
         ctloaded : function({ct, cts}){
             this.ct = ct
@@ -334,8 +331,6 @@ export default {
 
 				this.portfolio = r
 
-                console.log("HERE", this.portfolio)
-
                 if (this.summarytoursteps.length){
                     this.$tours['summarytour'].start()
                 }
@@ -352,7 +347,6 @@ export default {
 
 			}).catch(e => {
                 this.error = e
-                console.error(e)
 
                 this.$store.commit('icon', {
                     icon: 'error',
@@ -501,7 +495,6 @@ export default {
         },
 
         optimized : function(optimizedPortfolio){
-            console.log("this.optimizedPortfolio ", optimizedPortfolio)
             this.optimizedPortfolio = optimizedPortfolio
 
             this.selectedScenario = null

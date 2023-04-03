@@ -19,6 +19,8 @@ export default {
             loading : false,
             underlying : 'spy',
             historyRaw : {},
+            ltrdata : [],
+            term : 1,
             range : [2010, new Date().getFullYear()],
             
         }
@@ -52,6 +54,12 @@ export default {
             return [].concat((this.portfolio ? [this.portfolio] : []), (this.portfolios || []))
         },
 
+        composedPositions(){
+            return _.reduce(this.composedPortfolios, (m, p) => {
+                return m.concat(p.positions)
+            }, [])
+        },
+
         options : function(){
             var o = {height : 500}
 
@@ -68,7 +76,9 @@ export default {
 
         history : function(){
 
-            return this.retrospective.prepareHistory(this.composedPortfolios, this.historyRaw, this.range)
+            return this.retrospective.prepareHistory(this.composedPortfolios, this.historyRaw, this.range, this.ltrdata, this.term, (asset, portfolio) => {
+                return portfolio.advisorFee || 0
+            })
         },
 
         
@@ -102,12 +112,30 @@ export default {
 
             this.loading = true
 
+            
+                
+            
+
             return this.core.pct.customtestStressTestsScenariosFromFactors(this.composedPortfolios, this.factors).then((data) => {
-                this.historyRaw = data
 
-                //this.history = this.retrospective.prepareHistory(this.portfolios, data)
+                return this.core.pct.ltrdetailsByAssets(this.composedPortfolios).then((ltrdata) => {
 
-                return Promise.resolve(data)
+                    return this.core.pct.calcterm(this.composedPositions).then((term) => {
+
+                        console.log('ltrdata', ltrdata)
+
+                        this.historyRaw = data
+                        this.ltrdata = ltrdata
+                        this.term = term
+
+                        return Promise.resolve(data)
+
+                    })
+
+
+                })
+
+
             }).finally(() => {
                 this.loading = false
             })

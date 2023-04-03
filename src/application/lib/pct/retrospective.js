@@ -53,20 +53,107 @@ class Retrospective {
         }
     }
 
-    prepareHistory(portfolios = {}, data = {}, range){
+    prepareHistory(portfolios = {}, data = {}, range, ltrdata = {}, term = 1, fee = () => {return 0}){
         var result = {}
 
+        if(term < 1) term = 1
+
+        console.log("VVV@", data)
+
         _.each(portfolios, (portfolio) => {
+
+            console.log('portfolio', portfolio)
 
             if(!data[portfolio.id]) return
 
             var total = portfolio.total()
 
             var hi = data[portfolio.id].scenarios
+            var ci = data[portfolio.id].contributors
 
             var d = []
 
-            _.each(hi, (v, i) => {
+            console.log("res, term", term)
+
+            /*var commonterms = term
+
+            _.each(portfolio.positions, (asset) => {
+                var ldata = ltrdata[asset.ticker] || {}
+
+                if(ldata.terms && ldata.terms > commonterms) commonterms = ldata.terms
+            })*/
+
+
+            var fhi = _.filter(hi, (v, i) => {
+
+                v.year = this.factors[i].year
+
+                if (range){
+                    if(range[0] > this.factors[i].year || this.factors[i].year > range[1]) return
+                }
+                
+                return true
+            })
+
+            for(var i = 0; i < fhi.length; i = i + term){
+
+                var p = 0
+                var pByPositions = {}
+
+                console.log("I", i)
+
+                for(var j = i; j < i + term; j++){
+                    var v = fhi[j]
+
+                    console.log("VVV", v)
+
+                    if(v){
+
+                        _.each(v.contributors, (asset) => {
+                            pByPositions[asset.ticker] || (pByPositions[asset.ticker] = 0)
+
+                            var pv = asset.value / total
+                            var ldata = ltrdata[asset.ticker] || {}
+    
+                            pByPositions[asset.ticker] += pv - (fee(asset, portfolio) || 0) - (ldata.expRatio || 0)
+                            
+                        })
+                        
+                        p += v.loss / total
+                    }
+
+                    
+                }
+
+                _.each(pByPositions, (p, ticker) => {
+                    var ldata = ltrdata[ticker] || {}
+
+                    if(ldata.margin_spread) p = p - ldata.margin_spread
+                    if(ldata.upside_max && p > ldata.upside_max) p = ldata.upside_max
+                    if(ldata.enhancement > 0) p = p * ldata.enhancement
+                    if(ldata.stepup_rate > 0 && p > 0 && p < ldata.stepup_rate) p = ldata.stepup_rate
+
+                    pByPositions[ticker] = p
+                })
+
+                var value = _.reduce(pByPositions, (m, p) => {
+                    return m + p
+                }, 0)
+                console.log('P', p)
+
+                var prevvalue = d.length ? d[d.length - 1].total : 1
+
+                var hp = {
+                    value : value,
+                    total : d.length ? prevvalue * (1 + value) : 1,
+
+                    year : fhi[i].year
+                }
+
+                d.push(hp)
+            }
+
+            /*_.each(hi, (v, i) => {
 
                 if(range){
                     if(range[0] > this.factors[i].year || this.factors[i].year > range[1]) return
@@ -81,7 +168,7 @@ class Retrospective {
                     year : this.factors[i].year
                 })
 
-            })
+            })*/
 
             result[portfolio.id] = d
         })
