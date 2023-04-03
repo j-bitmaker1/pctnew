@@ -1472,6 +1472,7 @@ class PCT {
 
     optimizationParameters = function(portfolio, data, p = {}){
 
+
         var types = {
             "modelType": "string",
             "optimizeOcr": "string",
@@ -1544,6 +1545,9 @@ class PCT {
 
             var total = portfolio.total()
 
+        console.log('portfolio s', portfolio, s)
+
+
             if (s){
                 result.turnover = total * (s.totalturnover || 100) / 100
                 result.maxPosition = total * (s.maxPositionSize || 100) / 100
@@ -1588,7 +1592,25 @@ class PCT {
 
                 }
 
-                
+                var assets = []
+
+                _.each(portfolio.positions, (asset) => {
+
+                    if (s[asset.ticker]){
+                        var asc = {
+                            ticker : asset.originalTicker || asset.ticker,
+                            isTradable : true,
+                            minValue : total * (s[asset.ticker][0] || 0) / 100,
+                            maxValue : total * (s[asset.ticker][1] || 1) / 100
+                        }
+
+                        assets.push(asc)
+                    }
+                })
+
+                if (assets.length){
+                    result.optimizerConstraints = assets
+                }
 
             }
 
