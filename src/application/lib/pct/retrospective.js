@@ -63,6 +63,8 @@ class Retrospective {
 
             if(term < 1) term = 1
 
+            term = 1
+
             if(!data[portfolio.id]) return
 
             var total = portfolio.total()
@@ -124,7 +126,7 @@ class Retrospective {
                     
                 }
 
-                _.each(pByPositions, (p, ticker) => {
+                /*_.each(pByPositions, (p, ticker) => {
                     var ldata = ltrdata[ticker] || {}
 
                     if(ldata.margin_spread) p = p - ldata.margin_spread
@@ -133,13 +135,12 @@ class Retrospective {
                     if(ldata.stepup_rate > 0 && p > 0 && p < ldata.stepup_rate) p = ldata.stepup_rate
 
                     pByPositions[ticker] = p
-                })
+                })*/
 
                 var value = _.reduce(pByPositions, (m, p) => {
                     return m + p
                 }, 0)
-                console.log('P', p)
-
+    
                 var prevvalue = d.length ? d[d.length - 1].total : 1
 
                 var hp = {

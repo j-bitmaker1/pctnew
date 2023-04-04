@@ -58,7 +58,7 @@ export default {
                 searchStr : this.searchvalue
             }).then(r => {
                 this.loading = false
-                return this.setResult(_.first(r || [], 5))
+                return this.setResult(_.first(r || [], 11))
 
             }).catch(e => {
                 console.error(e)

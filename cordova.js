@@ -48,6 +48,13 @@ async function start() {
 }
 
 async function doStuff(mode) {
+
+    console.log('DO NPM INSTALL');
+
+
+    await exec('npm i', {cwd: `./${SRC_CORDOVA_FOLDER}`});
+
+
     if(platform() == "MacOS"){
         doIos(mode)
     }
@@ -64,7 +71,7 @@ async function doAndroid(mode) {
     copyFolders(MODE_CONTENT_FOLDER[mode]);
 
     console.log('ADD PLATFORM');
-    const { stdout: outRes, stderr: errRes } = await exec('cordova platform add android', {cwd: `./${SRC_CORDOVA_FOLDER}`});
+    const { stdout: outRes, stderr: errRes } = await exec('cordova platform add android@11.0.0', {cwd: `./${SRC_CORDOVA_FOLDER}`});
     console.log('stdout:', outRes);
     console.log('stderr:', errRes);
 

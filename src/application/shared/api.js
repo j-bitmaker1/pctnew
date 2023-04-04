@@ -1685,7 +1685,7 @@ var ApiWrapper = function (core = {}) {
 		assets: {
 			search: function (d, p = {}) {
 
-				d.count || (d.count = 7)
+				d.count || (d.count = 11)
 
 				p.storageparameters = dbmeta.financial()
 				p.method = "POST"

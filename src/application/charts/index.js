@@ -602,9 +602,9 @@ class RetrospectiveHistory {
                 type: 'spline',
             }
 
-            if(terms[portfolio.id] && terms[portfolio.id] > 1){
+            /*if(terms[portfolio.id] && terms[portfolio.id] > 1){
                 serie.name += " (Term: "+terms[portfolio.id]+"Y)"
-            }
+            }*/
 
             _.each(history[portfolio.id], (yd) => {
                 serie.data.push({
