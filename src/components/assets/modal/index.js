@@ -97,6 +97,8 @@ export default {
 
         export: () => import("@/components/common/export/index.vue"),
 
+        common_editcustom: () => import("@/components/common/editcustom/index.vue"),
+
         //// campaigns
 
         campaigns_steps_edit: () => import("@/components/modules/campaigns/steps/edit/index.vue"),

@@ -117,11 +117,11 @@
 			Cancel
 		</button>
 
-		<button class="button black" @click="saveas" :disabled="!haschanges">
+		<button class="button black" @click="savecopyas" v-if="!firstsave">
 			Save As
 		</button>
 
-		<button class="button" @click="e => savedefault()" :disabled="!haschanges">
+		<button class="button" @click="e => firstsave ? saveas() : savedefault()" :disabled="!haschanges">
 			Save
 		</button>
 	</div>

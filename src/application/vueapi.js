@@ -1132,6 +1132,27 @@ class Vueapi {
             })
         })
     }
+
+    editcustom = function({schema, values, caption},  success){
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_common_editcustom',
+            module : "common_editcustom",
+            caption : caption,
+            data : {
+                schema, values
+            },
+    
+            events : {
+                save : (b) => {
+
+                    console.log("BBB", b)
+
+                    if(success) success(b)
+                }
+            }
+        })
+    }
+    
 }
 
 export default Vueapi

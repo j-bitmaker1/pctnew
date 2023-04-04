@@ -137,6 +137,14 @@ export default {
 
 		cordova : function(){
 			return window.cordova
+		},
+
+		firstsave : function(){
+			if(this.edit && this.edit.id > 0) {
+				return false
+			}
+
+			return true
 		}
 	}),
 
@@ -470,7 +478,7 @@ export default {
 			}
 		},
 
-		save : function(catalogId){
+		save : function(catalogId, copy){
 			if (!this.cansave()){
 				return Promise.reject()
 			}
@@ -493,7 +501,7 @@ export default {
 				data.catalogId = catalogId
 			}
 
-			if(this.edit && this.edit.id > 0) data.id = this.edit.id
+			if(this.edit && this.edit.id > 0 && !copy) data.id = this.edit.id
 
 			if(data.id){
 
@@ -535,7 +543,57 @@ export default {
 			
 		},
 
-		saveas : function(){
+		savecopyas: function(){
+
+
+
+			
+			if (this.name == this.edit.name)
+			{
+
+				this.core.vueapi.editcustom({
+					schema : {
+						fields : [
+							{
+								id : 'name',
+								text : 'fields.portfolioname',
+								rules : [{
+									rule : 'required'
+								}]
+							}
+						]
+					},
+					values : {
+						name : this.name,
+					},
+
+					caption : "Enter portfolio name"
+				}, ({name}) => {
+
+					if(name == this.name){
+
+						this.$store.commit('icon', {
+							icon: 'error',
+							message : 'You must enter a different name'
+						})
+
+						return
+					}
+
+					this.name = name
+
+					this.saveas(true)
+				})
+
+			}
+			else{
+				this.saveas(true)
+			}
+			
+
+		},
+
+		saveas : function(copy){
 
 			if (!this.cansave()){
 				return
@@ -546,7 +604,7 @@ export default {
 			this.core.vueapi.selectFolder((folder) => {
 
 
-				this.save(folder.id).catch(e => {
+				this.save(folder.id, copy).catch(e => {
 					this.$store.commit('icon', {
 						icon: 'error',
 						message: e.text

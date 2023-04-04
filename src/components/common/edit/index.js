@@ -49,10 +49,13 @@ export default {
 			var r = this.$refs['fields'].get()
 			var action = null
 
-			var request = f.deep(this.core.api, this.create)
+			var request = this.create ? f.deep(this.core.api, this.create) : null
 
 			if(!request){
 				console.error('request')
+
+				this.$emit("save", r || {})
+
 				return
 			}
 

@@ -49,7 +49,8 @@
 		"Login": "Login",
 		"RepCode": "RepCode",
 		"IntegrationName": "Integration Name",
-		"AccessCode": "Access Code"
+		"AccessCode": "Access Code",
+		"portfolioname" : "Portfolio name"
 	},
 
 	"labels" : {
