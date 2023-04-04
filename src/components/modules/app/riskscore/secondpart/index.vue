@@ -93,13 +93,13 @@ export default {
 		resultPages: function () {
 			var pages = []
 
-			pages.push({
+			/*pages.push({
 				id: 'risklevel',
 				type: 'risk',
 				data: {
 
 				}
-			})
+			})*/
 
 			pages.push({
 				id: 'capacity',

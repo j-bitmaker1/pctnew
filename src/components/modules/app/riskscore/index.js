@@ -117,7 +117,9 @@ export default {
         },
 
         questions : function(){
-            return this.core.pct.riskscore.questions()
+            return []
+            
+            this.core.pct.riskscore.questions()
         },
 
         commonQuestions : function(){
@@ -460,6 +462,8 @@ export default {
 
         intermediate: function(values){
 
+            console.log('values', values)
+
             _.each(values, (v, i) => {
                 this.$set(this.values, i, v)
             })
@@ -541,6 +545,7 @@ export default {
                 
             }
 
+            console.log('questionnaire', questionnaire)
 
             _.each(questionnaire.data, (v, i) => {
                 if(typeof v == 'undefined') delete questionnaire.data[i]
@@ -577,6 +582,8 @@ export default {
         },
 
         sendSecond : function(){
+
+            console.log('sendSecond', this.capacityValues)
 
             if(!this.id) return Promise.reject('id')
 

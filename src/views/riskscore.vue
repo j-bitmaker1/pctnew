@@ -96,7 +96,7 @@ export default {
 			info : null,
 			previous : null,
 			finished : false,
-			key : "questionnaire_v1_"
+			key : "questionnaire_v2_"
 		}
 	},
 

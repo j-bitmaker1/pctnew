@@ -82,6 +82,9 @@ export default {
             this.values = {}
 
 
+            console.log('this.questions', this.questions)
+
+
             _.each(this.questions, (f) => {
 
                 if (f.form){
