@@ -143,7 +143,7 @@ export default {
 
 					options : {
 						min : 0,
-						max : f.round(this.values.salary ? this.values.salary / 12 : 1000000, 1000),
+						max : f.round(this.values.salary ? this.values.salary/* / 12 */: 1000000, 1000),
 						interval : 1000,
 						type : Number,
 					}
@@ -167,7 +167,7 @@ export default {
 
 					options : {
 						min : 0,
-						max : f.round(this.values.salary ? this.values.salary / 12 : 100000, 1000),
+						max : f.round(this.values.salary ? this.values.salary/* / 12 */: 100000, 1000),
 						interval : 1000,
 						type : Number,
 					}
