@@ -184,18 +184,12 @@ class PDFReports {
         }) ? valuemode = 'p' : '';
 
 
-        console.log('valuemode', valuemode)
-
-
         return this.pct.stresstestskt(portfolios, valuemode, { term: true, fee : asset => {
             return portfolio.advisorFee || 0
         }}).then(cts => {
 
             var svgmainchart = new SVGMainChart()
 
-        console.log('portfolio, rollover, valuemode',portfolios, valuemode)
-
-    
             var xml = svgmainchart.createSvgs(cts, "Test Name", portfolios, valuemode);
    
             return Promise.all(_.map(xml, (xml, i) => {
@@ -657,9 +651,214 @@ class PDFReports {
         return result;
     }
 
+    positionSummaryRollover = function(tools){
+
+        var {portfolio, rollover} = tools.data
+
+        var results = []
+        var portfolios = [portfolio, rollover]
+
+        var caption = tools.helpers.caption({
+            text : this.i18n.t("pdfreports.reports.positionSummary"),
+            style: 'h3',
+            pageBreak : 'before'
+        })
+
+        var mode = 'p100'
+
+        _.find(portfolios, (portfolio) => {
+            return !portfolio.isModel
+        }) ? mode = 'd' : ''
+
+
+        var positions = {}
+
+        _.each(portfolio.positions, (asset) => {
+
+            var multiple = 1
+            var multipleTraded = 1
+
+            if (portfolio.isModel && !rollover.isModel) multiple = rollover.total()
+
+            var position = {ticker : asset.ticker, name : asset.name}
+
+            console.log('multiple', multiple, position.value)
+
+                position.value = f.values.format(null, mode, asset.value * multiple) 
+                position._value = asset.value * multiple
+
+                position.traded = f.values.format(null, mode, 0)
+                position._traded = 0
+
+            var rolloverAsset = rollover.get(asset.ticker)
+
+            if (rolloverAsset){
+
+                if (!portfolio.isModel && rollover.isModel) multipleTraded = 1 / portfolio.total()
+
+                position.traded = f.values.format(null, mode, rolloverAsset.value * multipleTraded) 
+                position._traded = rolloverAsset.value * multipleTraded
+            }
+
+
+            positions[asset.ticker] = position
+        })
+
+        _.each(rollover.positions, (asset) => {
+
+            if(positions[asset.ticker]) {return}
+
+            var multipleTraded = 1
+
+            var position = {ticker : asset.ticker, name : asset.name}
+
+            position.value = f.values.format(null, mode, 0)
+            position._value = 0
+
+            if (!portfolio.isModel && rollover.isModel) multipleTraded = 1 / portfolio.total()
+
+            position.traded = f.values.format(null, mode, asset.value * multipleTraded) 
+            position._traded = asset.value * multipleTraded
+
+            positions[asset.ticker] = position
+        })
+
+
+        positions = _.sortBy(_.toArray(positions), (position) => {
+            return - Math.max(position._value, position._traded) 
+        })
+
+
+        return this.pct.assetsPortfolios(portfolios).then(assetsInfo => {
+
+            results.push(caption)
+
+            return tools.helpers.tables({
+                rowsInTable : 14,   //строк в таблице
+                pageOffset : 0, 
+                array : positions,
+    
+                body : function(index){
+
+                    var result = [[{
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Ticker ID'
+                    }, {
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Ticker Name'
+                    }, {
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Ticker Weight'
+                    }, {
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Traded'
+                    }, {
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Security Yield'
+                    }, {
+                        margin: [ 2, 4, 2, 4 ],
+                        style : 'hScenarioDescription',
+                        bold : true,
+                        alignment : 'left',
+                        text : 'Expense Ratio'
+                    }]];
+
+                    return result;
+                },
+    
+                table : function(body, index){
+                    return tools.tables.scenarioDescription({
+                        margin: [ 0, 10, 0, 0 ],
+                        body : body,
+                        widths : [80, 120, 60, 60, 60, 60],
+                        style : 'table'
+                    })
+                },
+    
+                row : function(_p, clbk){
+                    var position = _p.item;
+                    
+                    var row = [{
+                        margin: [ 2, 3, 2, 3 ],
+                        text : position.ticker + '\n',
+                        style : 'table'
+                    },{
+                        margin: [ 2, 3, 2, 3 ],
+                        text : position.name,
+                        style : 'table'
+                    },{
+                        margin: [ 2, 3, 2, 3 ],
+                        text : position.value,
+                        style : 'table'
+                    },{
+                        margin: [ 2, 3, 2, 3 ],
+                        text : position.traded,
+                        style : 'table'
+                    },{
+                        margin: [ 2, 3, 2, 3 ],
+                        text : assetsInfo[position.ticker] ? assetsInfo[position.ticker].yield : '-',
+                        style : 'table'
+                    },{
+                        margin: [ 2, 3, 2, 3 ],
+                        text : assetsInfo[position.ticker] ? assetsInfo[position.ticker].expRatio : '-',
+                        style : 'table'
+                    }];
+    
+                    clbk(row);
+    
+                }
+    
+            })
+        })
+
+        .then(r => {
+            
+            
+            _.each(r.tables, function(t){
+                results.push(t);
+
+                var tt = {
+                    text: '\n\nSecurity Yield - Dividend Yield for equities and funds. Yield-to-Maturity for individual bonds.',
+                    style: 'note'
+                };
+                results.push(tt);
+                var tt = {
+                    text: 'Expense Ratio - The amount investors pay for expenses incurred in operating a mutual fund (after any waivers).',
+                    style: 'note'
+                };
+                results.push(tt);
+            })
+    
+            return Promise.resolve(results)
+          
+        })
+
+       
+    }
+
+
     positionSummary = function(tools){
 
-        var {portfolio, profile} = tools.data
+        var {portfolio, profile, rollover} = tools.data
+
+        if (rollover){
+            return this.positionSummaryRollover(tools)
+        }
 
         var results = []
 
@@ -670,7 +869,6 @@ class PDFReports {
         })
 
         var mode = portfolio.isModel ? 'p100' : 'd'
-
 
         return this.pct.assets(portfolio).then(assetsInfo => {
 

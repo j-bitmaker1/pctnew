@@ -268,7 +268,15 @@ export default {
                 one : true
             })
         },
-        rolloverFromOptimized : function(){},
+        rolloverFromOptimized : function(){
+
+            this.core.pct.optimization(this.portfolio, {
+                ocr : this.optimized.ocr,
+                scenario : this.optimized.scenario
+            }).then(optimizedPorftolio => {
+                this.rollover = optimizedPorftolio
+            })
+        },
         rolloverRemove : function(){
             this.rollover = null
         }

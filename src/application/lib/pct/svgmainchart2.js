@@ -13,6 +13,9 @@ class SVGMainChart {
     mode = 'd'
 
     createSvgs = function (cts, name, portfolios, mode) {
+
+        console.log('cts', cts)
+
         var result = [];
         //var dataN = _.sortBy(data.scenarios, (scenario) => { return -scenario.loss });
         var ints = this.getFirstGraphCount(cts.scenarios.length);

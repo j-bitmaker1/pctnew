@@ -1361,11 +1361,21 @@ class PCT {
         })
     }
 
+    assetsPortfolios = function(portfolios){
+        var positions = []
+
+        _.each(portfolios, (portfolio) => {
+            positions = positions.concat(portfolio.positions)
+        })
+
+        return this.assets(positions)
+    }
+
     assets = function(tickers){
 
         if(!_.isArray(tickers) && tickers.positions) tickers = tickers.positions
 
-        var t = _.filter(_.map(tickers, (t) => {
+        var t = _.uniq(_.filter(_.map(tickers, (t) => {
             if(isObject(t)) {
 
                 if(!t.isCovered) return null 
@@ -1374,7 +1384,7 @@ class PCT {
             }
 
             return t
-        }), (t) => {return t})
+        }), (t) => {return t}), (t) => {return t})
 
         return this.api.pctapi.assets.info(t).then(r => {
 

@@ -1238,13 +1238,14 @@ var PDFTools = function(p = {}, data = {}){
                         fontSize: 8,
                     },
                     table : {
-                        fontSize: 9,
+                        fontSize: 8,
+                        margin: [0, 4, 0, 4],
                     },
                     small : {
                         fontSize: 6,
                     },
                     hScenarioDescription: {
-                        fontSize: 11,
+                        fontSize: 9,
                         bold: true,
                         alignment : "left",
                         margin: [0, 4, 0, 4],
