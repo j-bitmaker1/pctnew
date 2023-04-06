@@ -5,7 +5,7 @@
 
     <div v-if="!loading">
 
-         <div class="settings">
+        <div class="settings">
             <div class="caption mobp">
                 <span>Settings</span>
             </div>
@@ -22,6 +22,40 @@
 
             <div class="form">
                 <forms :fields="reports" :value="values" @change="changeReports"/>
+            </div>
+        </div>
+
+        <div class="settings">
+            <div class="caption mobp">
+                <span>Rollover</span>
+            </div>
+
+            <div class="form">
+
+                <div class="rollover">
+                    <template v-if="!rollover">
+                        <span>Not selected</span>
+                    </template>
+
+                    <template v-else>
+                        <span>{{rollover.label}}</span>
+                    </template>
+                </div>
+
+                <div class="panel">
+
+                    <button class="button small black" v-if="rollover" @click="rolloverRemove">
+                        Remove
+                    </button>
+
+                    <button class="button small" v-if="optimized" @click="rolloverFromOptimized">
+                        To optimized portfolio
+                    </button>
+
+                    <button class="button small black" @click="rolloverFromLookup">
+                        Select portfolio
+                    </button>
+                </div>
             </div>
         </div>
 

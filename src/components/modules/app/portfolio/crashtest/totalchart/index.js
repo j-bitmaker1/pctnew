@@ -29,9 +29,8 @@ export default {
     },
 
     created(){
+        this.loadOptimization()
         this.core.on('settingsUpdated', this.name, (type) => {
-
-            console.log("settingsUpdated", type, this.currentOptimization)
 
 			if(type == 'OPTIMIZATION'){
 				if(this.currentOptimization) {
@@ -60,11 +59,49 @@ export default {
 			this.$emit('scenarioMouseOver', e)
 		},
 
+        savecurrentOptimization : function(){
+
+            var savedata = null
+
+            if(this.currentOptimization){
+                savedata = {
+                    ...this.currentOptimization,
+                    portfolio : this.optimize
+                }
+            }
+
+            this.core.setsettings("OPTIMIZATION_RESULT", this.optimize, savedata).then(s => {
+                console.log('saved')
+            })
+
+        },  
+
+        loadOptimization: function(){
+
+            console.log('loadOptimization')
+
+            this.core.getsettings("OPTIMIZATION_RESULT", this.optimize).then(s => {
+
+                if(s){
+
+                    /*var portfolio = this.portfolios[s.portfolio]
+                 
+                    this.optimization({
+                        ...s,
+                        portfolio
+                    })*/
+                }
+
+            })
+
+        },  
+
         optimization : function(d){
 
             if(!d){
 
                 this.currentOptimization = null
+                this.savecurrentOptimization()
                 this.$emit('optimized', null)
 
                 return
@@ -78,6 +115,8 @@ export default {
             }).then(optimizedPorftolio => {
 
                 this.currentOptimization = d
+
+                this.savecurrentOptimization()
 
                 this.$emit('optimized', optimizedPorftolio)
 

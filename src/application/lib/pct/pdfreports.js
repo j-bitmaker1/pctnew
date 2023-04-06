@@ -1,7 +1,7 @@
 import f from '@/application/shared/functions.js'
 import _ from 'underscore'
 import moment from 'moment'
-import SVGMainChart from './svgmainchart.js'
+import SVGMainChart from './svgmainchart2.js'
 
 import {
     Allocation,
@@ -167,7 +167,7 @@ class PDFReports {
     
 
     stressTest = function(tools){
-        var {portfolio, profile} = tools.data
+        var {portfolio, profile, rollover, valuemode} = tools.data
 
         
 
@@ -178,11 +178,25 @@ class PDFReports {
 
         var images = []
 
-        return this.pct.stresstest(portfolio.id).then(ct => {
+        var portfolios = _.filter([portfolio, rollover], (p) => {return p}) 
+        _.find(portfolios, (portfolio) => {
+            return portfolio.isModel
+        }) ? valuemode = 'p' : '';
+
+
+        console.log('valuemode', valuemode)
+
+
+        return this.pct.stresstestskt(portfolios, valuemode, { term: true, fee : asset => {
+            return portfolio.advisorFee || 0
+        }}).then(cts => {
 
             var svgmainchart = new SVGMainChart()
+
+        console.log('portfolio, rollover, valuemode',portfolios, valuemode)
+
     
-            var xml = svgmainchart.createSvgs(ct, "Test Name", portfolio);
+            var xml = svgmainchart.createSvgs(cts, "Test Name", portfolios, valuemode);
    
             return Promise.all(_.map(xml, (xml, i) => {
                 return tools.svgTools.topng(xml, size).then(img => {

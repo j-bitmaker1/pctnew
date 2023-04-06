@@ -30,7 +30,9 @@ export default {
             values: {},
             reports: [],
             progress: 0,
-            making: false
+            making: false,
+            optimized : null,
+            rollover : null
         }
 
     },
@@ -49,6 +51,7 @@ export default {
     },
     computed: mapState({
         auth: state => state.auth,
+        valuemode : state => state.valuemode
     }),
 
 
@@ -89,7 +92,9 @@ export default {
             })
 
 
-            
+            this.core.getsettings("OPTIMIZATION_RESULT", this.id).then(s => {
+                this.optimized = s
+            })
 
         },
 
@@ -115,6 +120,10 @@ export default {
             }).finally(() => {
                 this.loading = false
             })
+        },
+
+        getrollover : function(){
+            
         },
 
         make: function () {
@@ -145,11 +154,12 @@ export default {
                 var pdftools = new PDFTools({
                     logo: logotype
                 }, {
-
+                    rollover : this.rollover ? this.rollover.portfolio : null,
                     portfolio: this.portfolio,
                     profile: this.profile,
                     locale: this.$i18n.locale,
                     disclosure: this.core.settings.pdf.get('disclosure').value,
+                    valuemode : this.valuemode,
                     meta: {
                         pageSize: 'A4',
                         sizeOfLogo: 1,
@@ -243,6 +253,24 @@ export default {
 
         cancel: function () {
             this.$emit('close')
+        },
+
+
+        rolloverFromLookup : function(){
+            this.core.vueapi.selectPortfolios((portfolios) => {
+
+                this.rollover = {
+                    portfolio : portfolios[0],
+                    label : portfolios[0].name
+                }
+
+            }, {
+                one : true
+            })
+        },
+        rolloverFromOptimized : function(){},
+        rolloverRemove : function(){
+            this.rollover = null
         }
     },
 }
