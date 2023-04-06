@@ -1516,7 +1516,7 @@ class PDFReports {
     }
 
     allocation = function(tools){
-        var {portfolio, profile} = tools.data
+        var {portfolio, profile, rollover} = tools.data
 
         var result = []
 
@@ -1526,6 +1526,145 @@ class PDFReports {
             pageBreak : 'before'
         })
        
+        var portfolios = _.filter([portfolio, rollover], (p) => {return p})
+        var assetsInfoBp = {}
+        var widths = _.map(portfolios, (p) => {return "*"})
+
+        return Promise.all(_.map(portfolios, (p) => {
+            return this.pct.assets(portfolio).then((assetsinfo) => {
+                assetsInfoBp[p.id] = assetsinfo
+
+                return Promise.resolve()
+            })
+        })).then(() => {
+
+            result.push(caption)
+
+            var allocation = new Allocation()
+
+            var groups = allocation.groups()
+            var portfolioResults = {}
+            var body = []
+
+            console.log('assetsInfoBp', assetsInfoBp)
+
+            return Promise.all(_.map(portfolios, (portfolio) => {
+                var groupresults = {}
+
+                var positions = portfolio.joined()
+
+                var assetsinfo = assetsInfoBp[portfolio.id]
+
+                return Promise.all(_.map(groups, (group) => {
+
+                    //var result = []
+    
+                    var g = f.group(positions, (a) => {
+    
+                        var info = assetsinfo[a.ticker]
+        
+                        if(!info) return "Not covered"
+        
+                        return info[group.id] || 'Other'
+                    })
+    
+                    var image = tools.size({width : 1 / portfolios.length, height : portfolios.length == 1 ? 0.4 : 0.3})
+            
+                    var size = {
+                        width : image.width * 6,
+                        height : image.height * 6
+                    }
+
+                    console.log('size', size)
+    
+                    var chartData = allocation.chartData(g)
+    
+                    var chartOptions = allocation.chartOptions(chartData, {
+                        print : true,
+                        ...size
+                    })
+    
+    
+                    return tools.chart(chartOptions, size).then(img => {
+                        image.image = img
+    
+                        //result.push(subcaption)
+                        //result.push(image)
+            
+                        groupresults[group.id] = image
+                    })
+    
+                })).then(r => {
+
+                    portfolioResults[portfolio.id] = groupresults
+
+                    return Promise.resolve()
+
+                    _.each(groups, (group) => {
+                        result = result.concat(groupresults[group.id]) 
+                    })
+    
+                    return Promise.resolve(result)
+                })
+
+
+            })).then(() => {
+
+                _.each(groups, (group) => {
+
+                    var crow = [{
+                        ...tools.helpers.caption({
+                            text : this.i18n.t(group.text),
+                            style: 'h4'
+                        }),
+
+                        colSpan : portfolios.length
+                    }]
+
+                    for(var i = 1; i < portfolios.length; i++){
+                        crow.push({})
+                    }
+
+                    body.push(crow)
+
+                    var prow = []
+
+                    _.each(portfolios, (portfolio) => {
+
+                        var itable = tools.tables.nobp({
+                            widths : ["*"],
+                            body : [[{
+                                text : portfolio.name,
+                                style : 'table',
+                                alignment : 'center'
+                            }],
+                            [portfolioResults[portfolio.id][group.id]]]
+                        })
+
+                        prow.push(itable)
+
+                    })
+
+                    body.push(prow)
+                })
+
+
+
+                result.push(tools.tables.nobp({
+                    widths,
+                    body
+                }))
+
+                console.log('result', result)
+
+
+                return Promise.resolve(result)
+            })
+        }).catch(() => {
+            return Promise.resolve(result)
+        })
+
+        
 
         return this.pct.assets(portfolio).then(assetsinfo => {
             result.push(caption)

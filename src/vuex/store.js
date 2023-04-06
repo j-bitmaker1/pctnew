@@ -65,6 +65,7 @@ var storeFactory = function (vxstorage) {
 		globalpreloader: false,
 		allnotifications: 0,
 		gallery: null,
+		optimizationOnScreen : null,
 		share: null,
 		menu: null,
 		redirect: '',
@@ -383,6 +384,10 @@ var storeFactory = function (vxstorage) {
 			})
 
 			this.commit('OVF_HA')
+		},
+
+		optimizationOnScreen(state, d){
+			state.optimizationOnScreen = d
 		},
 
 		/// temp

@@ -27,7 +27,7 @@
 
         <div class="settings">
             <div class="caption mobp">
-                <span>Rollover</span>
+                <span>Compare with</span>
             </div>
 
             <div class="form">

@@ -42,6 +42,9 @@ export default {
     },
 
     beforeDestroy(){
+
+        this.$store.commit('optimizationOnScreen', null)
+
 		this.core.off('settingsUpdated', this.name)
 	},
 
@@ -68,6 +71,8 @@ export default {
                     ...this.currentOptimization,
                     portfolio : this.optimize
                 }
+
+                this.$store.commit('optimizationOnScreen', savedata)
             }
 
             this.core.setsettings("OPTIMIZATION_RESULT", this.optimize, savedata).then(s => {

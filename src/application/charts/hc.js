@@ -170,11 +170,12 @@ var options = function(p){
 				size : '65%',
 				dataLabels : {
 					connectorWidth : 1 * p.sizeRatio,	
-					distance :  10 * p.sizeRatio,	
-					connectorPadding : 10 * p.sizeRatio,	
-					padding : 10 * p.sizeRatio,
+					distance :  4 * p.sizeRatio,	
+					connectorPadding : 4 * p.sizeRatio,	
+					padding : 4 * p.sizeRatio,
+					enabled: true,
 					style : {
-						fontSize : 8 * p.sizeRatio + 'px'
+						fontSize : 9 * p.sizeRatio + 'px'
 					}
 				}
 			},

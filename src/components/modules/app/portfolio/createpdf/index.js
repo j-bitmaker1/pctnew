@@ -47,11 +47,30 @@ export default {
 	},
 
     watch: {
+        portfolio : function(){
+            if(this.optimizationOnScreen){
+
+                if(this.optimizationOnScreen.portfolio == this.id){
+                    this.optimized = this.optimizationOnScreen
+
+                    this.rolloverFromOptimized()
+                }
+
+                
+
+            }
+            else{
+                this.core.getsettings("OPTIMIZATION_RESULT", this.id).then(s => {
+                    this.optimized = s
+                })
+            }
+        }
         //$route: 'getdata'
     },
     computed: mapState({
         auth: state => state.auth,
-        valuemode : state => state.valuemode
+        valuemode : state => state.valuemode,
+        optimizationOnScreen : state => state.optimizationOnScreen
     }),
 
 
@@ -92,9 +111,12 @@ export default {
             })
 
 
-            this.core.getsettings("OPTIMIZATION_RESULT", this.id).then(s => {
-                this.optimized = s
-            })
+            
+
+
+            
+
+
 
         },
 
