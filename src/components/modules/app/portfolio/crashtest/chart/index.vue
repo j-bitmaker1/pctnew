@@ -10,7 +10,7 @@
 	}">
 
 	<div class="wrapperAll">
-		<div class="scale">
+		<div class="scale" v-if="cts">
 			<div class="num" v-for="index in intervals" :key="-index">
 				<div><value :value="num(index - 1 - intervals)" :mode="modecomposed"/></div>
 			</div>

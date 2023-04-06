@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <div class="settings">
+        <div class="settings comparewithsettings">
             <div class="caption mobp">
                 <span>Compare with</span>
             </div>
