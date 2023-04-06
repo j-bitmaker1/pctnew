@@ -178,7 +178,15 @@ class PDFReports {
 
         var images = []
 
-        var portfolios = _.filter([portfolio, rollover], (p) => {return p}) 
+        var portfolios = {}
+
+        _.each([portfolio, rollover], (p) => {
+            if(p){
+                portfolios[p.id] = p
+            }
+        }) 
+
+
         _.find(portfolios, (portfolio) => {
             return portfolio.isModel
         }) ? valuemode = 'p' : '';

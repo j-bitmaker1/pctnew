@@ -270,11 +270,25 @@ export default {
         },
         rolloverFromOptimized : function(){
 
+            console.log("HERE", this.optimized)
+            this.$store.commit('globalpreloader', true)
+
+
             this.core.pct.optimization(this.portfolio, {
                 ocr : this.optimized.ocr,
                 scenario : this.optimized.scenario
             }).then(optimizedPorftolio => {
-                this.rollover = optimizedPorftolio
+                this.rollover = {
+                    portfolio : optimizedPorftolio,
+                    label : this.portfolio.name + " / " + optimizedPorftolio.name
+                }
+
+                console.log('this.rollover', this.rollover)
+
+            }).finally(() => {
+
+                this.$store.commit('globalpreloader', false)
+
             })
         },
         rolloverRemove : function(){

@@ -14,7 +14,9 @@ class SVGMainChart {
 
     createSvgs = function (cts, name, portfolios, mode) {
 
-        console.log('cts', cts)
+        console.log('cts', cts, portfolios)
+
+        
 
         var result = [];
         //var dataN = _.sortBy(data.scenarios, (scenario) => { return -scenario.loss });
