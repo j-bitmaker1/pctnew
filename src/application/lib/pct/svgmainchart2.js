@@ -557,13 +557,7 @@ class SVGMainChart {
         var xw = new XMLWriter;
 
         var _name = name;
-        console.log(portfolios);
-        console.log(_.toArray(portfolios).length);
         
-        console.log(_.toArray(portfolios)[0]);
-        console.log(_.toArray(portfolios)[1]);
-        console.log(portfolios[_.toArray(portfolios)[0]]);
-        console.log(portfolios[_.toArray(portfolios)[1]]);
 
 
         xw.startDocument();
@@ -1080,15 +1074,14 @@ class SVGMainChart {
 
         var labelInjected = false
 
+        
         _.each(data, (dobj, index) => {
             var v = dobj.loss
 
             var y = 3 * (k +  index / l) * 2800 / ((count * 3) - 1 )
             var h = 2 * 2800 / (l * count * 3)
 
-
             if (v >= 0) {
-
                 xw.startElement("g");
     
                 xw.startElement("rect");
@@ -1107,6 +1100,19 @@ class SVGMainChart {
                 xw.writeAttribute("fill-opacity", "0.98");
                 xw.endElement();
     
+                
+                if(data.length != 1){    
+                    xw.startElement("text");
+                    xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:rgba(0, 0, 0, 0.5);");
+                    xw.writeAttribute("x", (1435 + (1215 * (v / this._maxV))).toString().replace(',', '.'));
+                    xw.writeAttribute("y", (460 + y).toString().replace(',', '.'));
+                    xw.writeAttribute("text-anchor", "start");
+                    xw.text(data[index].name);
+                    xw.endElement();
+                }
+
+
+
                 xw.startElement("rect");
                 xw.writeAttribute("x", "927");
                 xw.writeAttribute("y", ((h - 120) / 2 + (400 + y)).toString().replace(',', '.'));
@@ -1149,6 +1155,18 @@ class SVGMainChart {
                 xw.writeAttribute("fill-opacity", "0.98");
                 xw.endElement();
     
+
+                if(data.length != 1){
+                    xw.startElement("text");
+                    xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:rgba(0, 0, 0, 0.5);");
+                    xw.writeAttribute("x", (1355 - (1215 * (-v / this._maxV))).toString().replace(',', '.'));
+                    xw.writeAttribute("y", (460 + y).toString().replace(',', '.'));
+                    xw.writeAttribute("text-anchor", "end");
+                    xw.text(data[index].name);
+                    xw.endElement();
+                }
+
+
                 xw.startElement("rect");
                 xw.writeAttribute("x", "1413");
                 xw.writeAttribute("y", ((h - 120) / 2 + (400 + y)).toString().replace(',', '.'));
