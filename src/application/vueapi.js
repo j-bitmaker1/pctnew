@@ -729,7 +729,7 @@ class Vueapi {
             id : 'modal_portfoliopdf',
             module : "portfoliopdf",
             caption : "Create PDF report",
-    
+            mclass : 'portfoliopdf',
             data : data,
             events : {
                 success : function(a){
