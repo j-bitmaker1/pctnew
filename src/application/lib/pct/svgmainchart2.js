@@ -144,144 +144,7 @@ class SVGMainChart {
         
 
         if(createRating == 1){
-
-            xw.startElement("svg", "http://www.w3.org/2000/svg");       //<<line rating
-
-            xw.writeAttribute("xmlns", "http://www.w3.org/2000/svg");
-            xw.writeAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
-
-            xw.startElement("image");
-
-            xw.writeAttribute("x", "140"); 
-            xw.writeAttribute("y", "160");
-            xw.writeAttribute("width", "2500");
-            xw.writeAttribute("height", "30");
-            xw.writeAttribute("xlink:href", this._png);
-            
-            xw.endElement();
-
-            
-            if(_.toArray(portfolios).length == 2){
-        
-                xw.startElement("circle");
-                xw.writeAttribute("cx", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("cy", "175");
-                xw.writeAttribute("r", "60");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("y", "195");
-                xw.writeAttribute("font-family", "Segoe UI");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "middle");
-                xw.text(_.toArray(portfolios)[0].crashRating);
-                xw.endElement();
-
-                xw.startElement("circle");
-                xw.writeAttribute("cx", (140 + (25 *_.toArray(portfolios)[1].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("cy", "175");
-                xw.writeAttribute("r", "60");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", (140 + (25 *_.toArray(portfolios)[1].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("y", "195");
-                xw.writeAttribute("font-family", "Segoe UI");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "middle");
-                xw.text(_.toArray(portfolios)[1].crashRating);
-                xw.endElement();
-
-
-
-                xw.startElement("circle");
-                xw.writeAttribute("cx", "500");
-                xw.writeAttribute("cy", "282");
-                xw.writeAttribute("r", "10");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", "540");
-                xw.writeAttribute("y", "300");
-                xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "start");
-                xw.text("Crash rating: " + _.toArray(portfolios)[0].name);
-                xw.endElement();
-
-
-                xw.startElement("circle");
-                xw.writeAttribute("cx", "1460");
-                xw.writeAttribute("cy", "282");
-                xw.writeAttribute("r", "10");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", "1500");
-                xw.writeAttribute("y", "300");
-                xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "start");
-                xw.text("Crash rating: " + _.toArray(portfolios)[1].name);
-                xw.endElement();
-            }   
-
-            else{
-                xw.startElement("circle");
-                xw.writeAttribute("cx", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("cy", "175");
-                xw.writeAttribute("r", "60");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("y", "195");
-                xw.writeAttribute("font-family", "Segoe UI");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "middle");
-                xw.text(_.toArray(portfolios)[0].crashRating);
-                xw.endElement();
-
-
-
-                xw.startElement("circle");
-                xw.writeAttribute("cx", "1300");
-                xw.writeAttribute("cy", "282");
-                xw.writeAttribute("r", "10");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", "1360");
-                xw.writeAttribute("y", "300");
-                xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "start");
-                xw.text("Crash rating: " + _.toArray(portfolios)[0].name);
-                xw.endElement();
-
-            }
-            xw.endElement();
-
-
+            this.createRating(xw, portfolios)
         }
 
 
@@ -600,147 +463,8 @@ class SVGMainChart {
 
 
         if(createRating == 1){
-
-            xw.startElement("svg", "http://www.w3.org/2000/svg");       //<<line rating
-
-            xw.writeAttribute("xmlns", "http://www.w3.org/2000/svg");
-            xw.writeAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
-
-            xw.startElement("image");
-
-            xw.writeAttribute("x", "140"); 
-            xw.writeAttribute("y", "160");
-            xw.writeAttribute("width", "2500");
-            xw.writeAttribute("height", "30");
-            xw.writeAttribute("xlink:href", this._png);
-            
-            xw.endElement();
-
-            
-            if(_.toArray(portfolios).length == 2){
-        
-                xw.startElement("circle");
-                xw.writeAttribute("cx", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("cy", "175");
-                xw.writeAttribute("r", "60");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("y", "195");
-                xw.writeAttribute("font-family", "Segoe UI");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "middle");
-                xw.text(_.toArray(portfolios)[0].crashRating);
-                xw.endElement();
-
-                xw.startElement("circle");
-                xw.writeAttribute("cx", (140 + (25 *_.toArray(portfolios)[1].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("cy", "175");
-                xw.writeAttribute("r", "60");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", (140 + (25 *_.toArray(portfolios)[1].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("y", "195");
-                xw.writeAttribute("font-family", "Segoe UI");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "middle");
-                xw.text(_.toArray(portfolios)[1].crashRating);
-                xw.endElement();
-
-
-
-                xw.startElement("circle");
-                xw.writeAttribute("cx", "500");
-                xw.writeAttribute("cy", "282");
-                xw.writeAttribute("r", "10");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", "540");
-                xw.writeAttribute("y", "300");
-                xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "start");
-                xw.text("Crash rating: " + _.toArray(portfolios)[0].name);
-                xw.endElement();
-
-
-                xw.startElement("circle");
-                xw.writeAttribute("cx", "1460");
-                xw.writeAttribute("cy", "282");
-                xw.writeAttribute("r", "10");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", "1500");
-                xw.writeAttribute("y", "300");
-                xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "start");
-                xw.text("Crash rating: " + _.toArray(portfolios)[1].name);
-                xw.endElement();
-            }   
-
-            else{
-                xw.startElement("circle");
-                xw.writeAttribute("cx", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("cy", "175");
-                xw.writeAttribute("r", "60");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
-                xw.writeAttribute("y", "195");
-                xw.writeAttribute("font-family", "Segoe UI");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "middle");
-                xw.text(_.toArray(portfolios)[0].crashRating);
-                xw.endElement();
-
-
-
-                xw.startElement("circle");
-                xw.writeAttribute("cx", "1300");
-                xw.writeAttribute("cy", "282");
-                xw.writeAttribute("r", "10");
-                //xw.writeAttribute("stroke", "black");
-                //xw.writeAttribute("stroke-width", "3");
-                xw.writeAttribute("fill", "red");
-                xw.endElement();
-
-                xw.startElement("text");
-                xw.writeAttribute("x", "1360");
-                xw.writeAttribute("y", "300");
-                xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
-                xw.writeAttribute("font-size", "60");
-                xw.writeAttribute("text-anchor", "start");
-                xw.text("Crash rating: " + _.toArray(portfolios)[0].name);
-                xw.endElement();
-
-            }
-            xw.endElement();
-
-
+            this.createRating(xw, portfolios)
         }
-
-
 
 
 
@@ -1007,6 +731,145 @@ class SVGMainChart {
 
         return xw.toString()
 
+    }
+
+    createRating(xw, portfolios){
+
+        xw.startElement("svg", "http://www.w3.org/2000/svg");       //<<line rating
+
+        xw.writeAttribute("xmlns", "http://www.w3.org/2000/svg");
+        xw.writeAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+
+        xw.startElement("image");
+
+        xw.writeAttribute("x", "140"); 
+        xw.writeAttribute("y", "160");
+        xw.writeAttribute("width", "2500");
+        xw.writeAttribute("height", "30");
+        xw.writeAttribute("xlink:href", this._png);
+        
+        xw.endElement();
+
+        
+        if(_.toArray(portfolios).length == 2){
+    
+            xw.startElement("circle");
+            xw.writeAttribute("cx", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
+            xw.writeAttribute("cy", "175");
+            xw.writeAttribute("r", "60");
+            //xw.writeAttribute("stroke", "black");
+            //xw.writeAttribute("stroke-width", "3");
+            xw.writeAttribute("fill", "red");
+            xw.endElement();
+
+            xw.startElement("text");
+            xw.writeAttribute("x", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
+            xw.writeAttribute("y", "195");
+            xw.writeAttribute("font-family", "Segoe UI");
+            xw.writeAttribute("font-size", "60");
+            xw.writeAttribute("text-anchor", "middle");
+            xw.text(_.toArray(portfolios)[0].crashRating);
+            xw.endElement();
+
+            xw.startElement("circle");
+            xw.writeAttribute("cx", (140 + (25 *_.toArray(portfolios)[1].crashRating)).toString().replace(',', '.'));        //<< cx
+            xw.writeAttribute("cy", "175");
+            xw.writeAttribute("r", "60");
+            //xw.writeAttribute("stroke", "black");
+            //xw.writeAttribute("stroke-width", "3");
+            xw.writeAttribute("fill", "red");
+            xw.endElement();
+
+            xw.startElement("text");
+            xw.writeAttribute("x", (140 + (25 *_.toArray(portfolios)[1].crashRating)).toString().replace(',', '.'));        //<< cx
+            xw.writeAttribute("y", "195");
+            xw.writeAttribute("font-family", "Segoe UI");
+            xw.writeAttribute("font-size", "60");
+            xw.writeAttribute("text-anchor", "middle");
+            xw.text(_.toArray(portfolios)[1].crashRating);
+            xw.endElement();
+
+
+
+            xw.startElement("circle");
+            xw.writeAttribute("cx", "500");
+            xw.writeAttribute("cy", "282");
+            xw.writeAttribute("r", "10");
+            //xw.writeAttribute("stroke", "black");
+            //xw.writeAttribute("stroke-width", "3");
+            xw.writeAttribute("fill", "red");
+            xw.endElement();
+
+            xw.startElement("text");
+            xw.writeAttribute("x", "540");
+            xw.writeAttribute("y", "300");
+            xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
+            xw.writeAttribute("font-size", "60");
+            xw.writeAttribute("text-anchor", "start");
+            xw.text("Crash rating: " + _.toArray(portfolios)[0].name);
+            xw.endElement();
+
+
+            xw.startElement("circle");
+            xw.writeAttribute("cx", "1460");
+            xw.writeAttribute("cy", "282");
+            xw.writeAttribute("r", "10");
+            //xw.writeAttribute("stroke", "black");
+            //xw.writeAttribute("stroke-width", "3");
+            xw.writeAttribute("fill", "red");
+            xw.endElement();
+
+            xw.startElement("text");
+            xw.writeAttribute("x", "1500");
+            xw.writeAttribute("y", "300");
+            xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
+            xw.writeAttribute("font-size", "60");
+            xw.writeAttribute("text-anchor", "start");
+            xw.text("Crash rating: " + _.toArray(portfolios)[1].name);
+            xw.endElement();
+        }   
+
+        else{
+            xw.startElement("circle");
+            xw.writeAttribute("cx", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
+            xw.writeAttribute("cy", "175");
+            xw.writeAttribute("r", "60");
+            //xw.writeAttribute("stroke", "black");
+            //xw.writeAttribute("stroke-width", "3");
+            xw.writeAttribute("fill", "red");
+            xw.endElement();
+
+            xw.startElement("text");
+            xw.writeAttribute("x", (140 + (25 *_.toArray(portfolios)[0].crashRating)).toString().replace(',', '.'));        //<< cx
+            xw.writeAttribute("y", "195");
+            xw.writeAttribute("font-family", "Segoe UI");
+            xw.writeAttribute("font-size", "60");
+            xw.writeAttribute("text-anchor", "middle");
+            xw.text(_.toArray(portfolios)[0].crashRating);
+            xw.endElement();
+
+
+
+            xw.startElement("circle");
+            xw.writeAttribute("cx", "1300");
+            xw.writeAttribute("cy", "282");
+            xw.writeAttribute("r", "10");
+            //xw.writeAttribute("stroke", "black");
+            //xw.writeAttribute("stroke-width", "3");
+            xw.writeAttribute("fill", "red");
+            xw.endElement();
+
+            xw.startElement("text");
+            xw.writeAttribute("x", "1360");
+            xw.writeAttribute("y", "300");
+            xw.writeAttribute("style", "font-size: 4.50em;font-weight: 400;fill:#000;");
+            xw.writeAttribute("font-size", "60");
+            xw.writeAttribute("text-anchor", "start");
+            xw.text("Crash rating: " + _.toArray(portfolios)[0].name);
+            xw.endElement();
+
+        }
+        xw.endElement();
     }
 
 
