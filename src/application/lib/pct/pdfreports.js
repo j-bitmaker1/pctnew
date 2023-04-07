@@ -198,7 +198,7 @@ class PDFReports {
 
             var svgmainchart = new SVGMainChart()
 
-            var xml = svgmainchart.createSvgs(cts, "Test Name", portfolios, valuemode);
+            var xml = svgmainchart.createSvgs(cts, portfolio.name, portfolios, valuemode);
    
             return Promise.all(_.map(xml, (xml, i) => {
                 return tools.svgTools.topng(xml, size).then(img => {
