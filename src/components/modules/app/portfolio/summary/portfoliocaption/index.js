@@ -49,6 +49,10 @@ export default {
 			}, {
 
 			})
+        },
+
+        clickPortfolio : function(){
+            this.$emit('clickPortfolio')
         }
     },
 }

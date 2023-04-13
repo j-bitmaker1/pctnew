@@ -43,7 +43,7 @@
                     <div class="pcntwrapper">
                         <div class="pcnt">
 
-                            <portfolioCaption :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" />
+                            <portfolioCaption :portfolio="portfolio" :profile="profile" @changeclient="changeclient" @edit="editportfolio" @deleteportfolio="deleteportfolio" @clickPortfolio="selectPortfolio"/>
 
                             <shares @temp="tempassets" @cancelTemp="cancelTempAssets" :editInsteadList="view == 'stresstest'" v-if="portfolio && !optimizedPortfolio" :portfolio="portfolio" @editportfolio="editportfolio"/>
 

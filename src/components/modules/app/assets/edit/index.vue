@@ -5,7 +5,7 @@
 
     <div class="assets_inputs" :class="{focused}">
 
-        <div class="tickerwrapper" v-if="ticker">
+        <div class="tickerwrapper" v-if="ticker" :title="name ? name : ticker && !isCovered ? 'Not covered' : 'Enter asset name or ticker'">
             <div class="ticker" :uncovered="!isCovered">
                 <span>{{ticker}}</span>
             </div>

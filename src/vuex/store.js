@@ -103,7 +103,9 @@ var storeFactory = function (vxstorage) {
 		features : {},
 
 		uploading : [],
-		mobileview : false
+		mobileview : false,
+
+		currentportfolio : null
 	}
 
 
@@ -388,6 +390,10 @@ var storeFactory = function (vxstorage) {
 
 		optimizationOnScreen(state, d){
 			state.optimizationOnScreen = d
+		},
+
+		currentportfolio(state, v) {
+			state.currentportfolio = v;
 		},
 
 		/// temp

@@ -324,10 +324,14 @@ export default {
             this.optimizedPortfolio = null
 
             if(!this.portfolioId){
+                
                 return Promise.reject('empty')
             }
 
 			return this.core.api.pctapi.portfolios.get(this.portfolioId).then(r => {
+
+
+                this.$store.commit('currentportfolio', this.portfolioId)
 
 				this.portfolio = r
 

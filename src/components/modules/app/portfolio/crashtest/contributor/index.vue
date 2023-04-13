@@ -4,7 +4,7 @@
 	
 
 	<div class="header topheader">
-		<div class="ticker">
+		<div class="ticker" :title="contributor.asset.name">
 			{{contributor.asset.ticker}}
 		</div>
 		<div class="nameinv" :title="contributor.asset.name">

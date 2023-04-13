@@ -7,7 +7,8 @@ export default {
         cts : Object,
         cpmdata : Array,
         portfolios : Object,
-        optimize : Number
+        optimize : Number,
+        doingoptimization : Object
     },
 
     data : function(){
@@ -176,11 +177,26 @@ export default {
                     return this.core.pct.ocr(this.drag.value)
                 }
             }
+
+            if(this.doingoptimization && this.doingoptimization.ocr){
+
+                if(item.index == this.doingoptimization.portfolio.id){
+                    return this.core.pct.ocr(this.doingoptimization.ocr)
+                }
+            }
   
             return this.core.pct.ocr(item.value)
         },
 
         value : function(item){
+
+            if(this.doingoptimization && this.doingoptimization.ocr){
+
+                if(item.index == this.doingoptimization.portfolio.id){
+                    return this.core.pct.ocr(this.doingoptimization.ocr)
+                }
+
+            }
 
             return this.core.pct.ocr(item.value)
         },

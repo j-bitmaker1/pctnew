@@ -23,7 +23,7 @@ export default {
         return {
             loading : false,
             currentOptimization : null,
-            doingoptimization : false
+            doingoptimization : null
         }
 
     },
@@ -135,7 +135,7 @@ export default {
                 console.error(e)
 
             }).finally(() => {
-                this.doingoptimization = false
+                this.doingoptimization = null
             })
         }
     },
