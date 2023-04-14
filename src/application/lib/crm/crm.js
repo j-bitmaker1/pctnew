@@ -1,4 +1,5 @@
 import Queries from "./queries";
+import {Settings} from "@/application/shared/settings";
 
 
 class CRM {
@@ -6,6 +7,7 @@ class CRM {
         this.queries = new Queries(core)
         this.api = core.api
         this.store = core.store
+        this.core = core
 
         this.schemas = {
             contact : {}
@@ -187,6 +189,71 @@ class CRM {
         return this.api.crm.upload.avatarId(data, p).then((id) => {
             return this.api.crm.upload.avatar(formData, ContactId, id, p)
         })
+    }
+
+
+    getCapacitySettings = function(profile){
+
+        if(!profile) {
+            return Promise.resolve(null)
+        }
+
+        var settingsKey = 'capacity_' + profile.ID
+
+        if(!this.core.dynamicSettings[settingsKey]){
+            this.core.dynamicSettings[settingsKey] = new Settings(this.core, 'CAPACITYVALUES', {
+                ['CAPACITYVALUES'] : {
+                    ['values_' + profile.ID] : {
+                        name: 'values_' + profile.ID,
+                        default: function() {
+                            return null
+                        }
+                    }
+                }
+            })
+        }
+
+        return this.core.dynamicSettings[settingsKey].getall().then(d => {
+
+            return Promise.resolve(d['values_' + profile.ID] ? d['values_' + profile.ID].value : null)
+        })
+    }
+
+    getQuestionnaire = function(profile){
+
+        if (profile && profile.questionnaire){
+
+            return this.core.api.crm.questionnaire.getresult(profile.questionnaire).then(r => {
+                return Promise.resolve(r)
+            })
+        }
+        else{
+            return Promise.resolve(null)
+        }
+
+
+    }
+
+    loadQuestionnaireWithSettings = function(profile){
+
+        var result = {}
+
+        return Promise.all([
+
+            this.getCapacitySettings(profile).then(r => {
+                result.fromsettings = r
+            }), 
+            this.getQuestionnaire(profile).then(r => {
+                result.questionnaire = r
+            })
+
+        ]).catch(e => {
+            console.error(e)
+
+        }).then(() => {
+            return Promise.resolve(result)
+        })
+
     }
 }
 

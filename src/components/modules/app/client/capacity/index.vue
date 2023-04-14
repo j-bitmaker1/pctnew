@@ -153,60 +153,24 @@ export default {
 			if(this.$refs['capacity']) this.$refs['capacity'].init()
 		},
 
-		getSettings : function(){
-
-			if(!this.profile) {
-				this.fromsettings = null
-				return Promise.resolve()
-			}
-
-			if(!this.core.dynamicSettings[this.settingsKey]){
-				this.core.dynamicSettings[this.settingsKey] = new Settings(this.core, 'CAPACITYVALUES', {
-					['CAPACITYVALUES'] : {
-						['values_' + this.profile.ID] : {
-							name: 'values_' + this.profile.ID,
-							default: function() {
-								return null
-							}
-						}
-					}
-				})
-			}
-
-			return this.core.dynamicSettings[this.settingsKey].getall().then(d => {
-				if (d['values_' + this.profile.ID])
-					this.fromsettings = d['values_' + this.profile.ID].value
-			})
-		},
-
-		getQuestionnaire : function(){
-
-			console.log('this.profile', this.profile)
-
-			if (this.profile && this.profile.questionnaire){
-				return this.core.api.crm.questionnaire.getresult(this.profile.questionnaire).then(r => {
-					this.questionnaire = r
-
-					console.log('this.questionnaire', this.questionnaire)
-
-				})
-			}
-			else{
-				this.questionnaire = null
-				return Promise.resolve()
-			}
-
-
-		},
 
 		load : function(){
 			this.loading = true
+			
+			return this.core.crm.loadQuestionnaireWithSettings(this.profile).then((r) => {
 
-			return Promise.all([this.getSettings(), this.getQuestionnaire()]).finally(() => {
+				console.log("R", r)
+
+				this.questionnaire = r.questionnaire
+				this.fromsettings = r.fromsettings
+
+			}).finally(() => {
 				this.loading = false
 			}).catch(e => {
 				console.error(e)
 			})
+
+			
 
 		}
 	},

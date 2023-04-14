@@ -656,7 +656,9 @@
 		"removeIntegration": "Remove Integration"
 	},
 
-
+	"sharequestionnaire" : {
+		"includetolerance" : "Include tolerance questionnaire"
+	},
 
 	"ltrdetails" : {
 		"header" : {

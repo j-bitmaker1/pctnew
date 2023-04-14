@@ -7,19 +7,30 @@ export default {
 		message : String,
 		subject : String,
 		images : Array,
-		files : Array
+		files : Array,
+		settings : Object
 	},
 
 	data : function(){
 
 		return {
-			loading : false
+			loading : false,
+			values : {}
 		}
 
 	},
 
-	created : () => {
+	created() {
+		if (this.settings.savels){
 
+			try{
+				this.values = JSON.parse(localStorage[this.settings.savels] || "{}")
+			}
+			catch(e){
+				console.log(e)
+			}
+
+		}
 	},
 
 	watch: {
@@ -28,12 +39,32 @@ export default {
 	computed: mapState({
 		auth : state => state.auth,
 
-		cordova : function(){return window.cordova}
+		cordova : function(){return window.cordova},
+
+		composedUrl : function(){
+			return this.url + this.parameters
+		},
+
+		parameters : function(){
+			var v = _.reduce(this.values, (m, v, i) => {
+				return v ? (m + '&' + i + '=1') : ''
+			}, '')
+
+			return v ? '?' + v : ''
+		}
 	}),
 
 	methods : {
 		sharelink : function(e){
 			this.nativeshare(e)
+		},
+
+		changesettings : function(v){
+			this.values = v
+
+			if (this.settings.savels){
+				localStorage[this.settings.savels] = JSON.stringify(this.values)
+			}
 		},
 
 		nativeshare : function(e){
@@ -58,7 +89,7 @@ export default {
 				subject: this.subject || '',
 				images : this.images || [],
 				files : _.map(this.files || [], (f) => {return f.base64}),
-				url: this.url
+				url: this.composedUrl
 
 			}, () => {
 
@@ -70,7 +101,7 @@ export default {
 		},
 
 		copylink : function(){
-			f.copytext(this.url || '')
+			f.copytext(this.composedUrl || '')
 
 			this.$store.commit('icon', {
 				icon : 'success',

@@ -1,5 +1,5 @@
 import f from '@/application/shared/functions.js'
-import _ from 'underscore'
+import _, { initial } from 'underscore'
 import moment from 'moment'
 import SVGMainChart from './svgmainchart2.js'
 
@@ -158,11 +158,12 @@ class PDFReports {
 
     
 
-    constructor({api, settings, pct, i18n}){
+    constructor({api, settings, pct, i18n, crm}){
         this.api = api
         this.settings = settings
         this.i18n = i18n
         this.pct = pct
+        this.crm = crm
     }
     
 
@@ -1024,6 +1025,25 @@ class PDFReports {
                 }
             })
 
+
+            if(profile && profile.FName){
+
+                {{profile.FName}} {{profile.LName}}
+
+                result.push({
+                    cnt : {
+                        text : "For " + _.filter([profile.FName, profile.LName], (n) => {
+                            return n
+                        }).join(" "),
+                        fontSize: 10,
+                        bold: true,
+                        margin : [0, 10, paddingRight, 0],
+                        alignment : 'right',
+                    }
+                })
+
+            }
+
             result.push({
                 cnt : {
                     text: 'Date of creation: ' + moment(new Date()).local().format("LL"),
@@ -1349,19 +1369,27 @@ class PDFReports {
     capacity = function(tools){
         var {portfolio, profile} = tools.data
 
+        console.log('tools' ,tools)
+
         var result = []
 
-        if (profile && profile.questionnaire){
+        console.log('profile', profile)
+
+        if (profile){
 
             var monteCarlo = new MonteCarlo()
 
-            return this.api.crm.questionnaire.getresult(profile.questionnaire).then(questionnaire => {
-                var initial = this.pct.riskscore.convertQrToCapacity(questionnaire.capacity)
+            return this.crm.loadQuestionnaireWithSettings(profile).then(({questionnaire, fromsettings}) => {
+
+                var initial = fromsettings ? fromsettings : (questionnaire ? this.pct.riskscore.convertQrToCapacity(questionnaire.capacity) : {})
 
                 var values = {
                     ... monteCarlo.defaultValues(),
                     ... initial
                 }
+
+
+                console.log('initial', initial, questionnaire, fromsettings)
 
                 var options = {
                     age : values.ages[0],
@@ -1415,14 +1443,150 @@ class PDFReports {
                     result.push(caption)
                     result.push(image)
         
-                    return Promise.resolve(result)
+                    return Promise.resolve({simulation, initial})
                 })
             
+            }).then(({simulation, initial}) => {
+
+                var fields = {
+                    ages : {
+                        text : "Age Horizon",
+                        type : 'number'
+                    },
+                    salary : {
+                        text : "Yearly Savings",
+                        type : 'd',
+                        format : true
+                    },
+                    save : {
+                        text : "Terminal Value",
+                        type : 'd',
+                        format : true
+                    },
+                    savemoreRange : {
+                        text : "Saving Horizon",
+                        type : 'number'
+                    },
+                    savings : {
+                        text : "Initial Investment",
+                        type : 'd',
+                        format : true
+                    },
+                    withdraw : {
+                        text : "Withdrawal",
+                        type : 'd',
+                        format : true
+                    },
+
+                    withdrawRange : {
+                        text : "Withdrawal Horizon",
+                        type : 'number'
+                    },
+
+                }
+
+                var tbl = this.createFields(fields, initial)
+
+                var caption = tools.helpers.caption({
+                    text : "Capacity score:" + simulation.capacity.toFixed(0),
+                    style: 'h4',
+                    margin: [0, 40, 0, 40],
+                })
+
+                result.push(caption)
+
+                result.push(tbl)
+
+                return Promise.resolve(result)
             })
         }
         else{
             return Promise.resolve(result)
         }
+    }
+
+    createFields = function(fields, values){
+
+        var	gsTable = {
+            margin: [0, 0, 0, 0],
+            layout: {
+                hLineWidth: function (i, node) {
+
+
+                    if (i === 0 || i === node.table.body.length)
+                        return 0;
+                    else
+                        return 1;
+
+                },
+                hLineColor: function (i) {
+                    return "#2E69F7";
+                },
+                vLineWidth: function (i) {
+                    return 0;
+                },
+                paddingLeft: function (i) {
+                    return i && 6 || 0;
+                },
+                paddingRight: function (i, node) {
+                    return (i < node.table.widths.length - 1) ? 6 : 0;
+                },
+            },
+            table : {
+                widths: [130, "*"],
+                body: []
+            }
+        };
+
+        _.each(fields, function(field, i){
+
+            var value = typeof values[i] == 'undefined' ? "-" : values[i]
+
+            if(_.isArray(value)){
+
+                if (field.format && typeof values[i] != 'undefined'){
+                    value = _.map(value, (value) => {return f.values.format(null, field.type, value)})
+
+                    value = value[0] + ' - ' + value[1]
+                }
+                else{
+                    value = value[0] + ' - ' + value[1]
+                    
+                    //_.map(value, (value) => {return value.toString()}).join("-")
+                }
+
+            }   
+            else{
+
+                if(field.format && typeof values[i] != 'undefined' ){
+                    value = f.values.format(null, field.type, value)
+                }
+
+            }
+
+            console.log("value", value)
+
+            var row = [
+                {
+                    text : field.text,
+                    bold : true,
+                    margin: [ 0, 4, 0, 4 ],
+                    style : "table"
+                },
+                {
+                    text : value,
+                    margin: [ 0, 4, 0, 4 ],
+                    style : "table",
+                }
+            ];
+
+           
+            gsTable.table.body.push(row);
+
+        })
+
+        return gsTable
+
     }
 
     distribution = function(tools){

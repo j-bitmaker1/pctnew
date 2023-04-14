@@ -427,7 +427,26 @@ class Vueapi {
             preloader : true
         }).then(url => {
 
-            this.share({url}, {
+            this.share({
+
+                url, 
+                settings : {
+                    savels : 'sharequestionnaire',
+                    schema : [
+                        {
+                            input: 'checkbox',
+                            id : 'tolerance',
+                            text: 'sharequestionnaire.includetolerance',
+
+                            rules: [{
+                                rule: 'required'
+                            }]
+                        }
+                    ]
+
+                }
+
+            }, {
                 caption: "Share Questionnaire"
             })
 

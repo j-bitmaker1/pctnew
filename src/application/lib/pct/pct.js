@@ -1560,8 +1560,6 @@ class PCT {
 
             var total = portfolio.total()
 
-        console.log('portfolio s', portfolio, s)
-
 
             if (s){
                 result.turnover = total * (s.totalturnover || 100) / 100
@@ -1654,6 +1652,9 @@ class PCT {
 
 
     }
+
+
+    
 
 }
 

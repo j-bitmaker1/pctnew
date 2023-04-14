@@ -66,7 +66,8 @@ export default {
                 return {}
             }
         },
-        token : String
+        token : String,
+        includeTolerance : Boolean
     },
 
     components : {
@@ -116,10 +117,13 @@ export default {
             return this.core.pct.riskscore.capacityQuestions()
         },
 
+      
+
         questions : function(){
-            return []
-            
-            this.core.pct.riskscore.questions()
+
+            console.log('this.includeTolerance', this.includeTolerance)
+
+            return this.includeTolerance ? this.core.pct.riskscore.questions() : []
         },
 
         commonQuestions : function(){
