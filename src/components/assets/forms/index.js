@@ -150,6 +150,7 @@ export default {
             setTimeout(() => {
                 this.created = true;
             }, 10);
+
         },
 
         focusOnIntput: function () {

@@ -32,8 +32,8 @@ export default {
         slider
     },
 
-    created : () => {
-
+    created (){
+        this.getsettings()
     },
 
     watch: {
@@ -43,6 +43,10 @@ export default {
             },
             deep : true,
             immediate : true
+        },
+
+        range : function(){
+            this.savesettings()
         }
         //$route: 'getdata'
     },
@@ -67,12 +71,10 @@ export default {
         },
 
         retrospective : function(){
-            return new Retrospective(this.underlying)
+            return new Retrospective(this.underlying, this.core)
         },
 
-        factors : function(){
-            return this.retrospective.factors
-        },
+        
 
         history : function(){
 
@@ -109,56 +111,32 @@ export default {
     }),
 
     methods : {
-        getterms : function(){
-            var result = {}
-            return Promise.all(_.map(this.composedPortfolios, (p) => {
+        getsettings : function(){
+            return this.core.getsettings("RETROSPECTIVE", 'common').then(s => {
 
-                console.log("PPP", p)
-                
-                return this.core.pct.calcterm(p.positions).then((t) => {
-                    result[p.id] = t
-
-                    return Promise.resolve()
-                })
-
-            })).then(() => {
-
-                console.log("TEPMMP", result)
-
-                return Promise.resolve(result)
+                if(s) this.range = s
             })
         },
+        savesettings : function(){
+            this.core.setsettings("RETROSPECTIVE", 'common', this.range).then(s => {
+
+            })
+        },
+      
         gettests : function(){
 
             this.loading = true
 
-            
-                
-            
+            return this.retrospective.get(this.composedPortfolios).then(({historyRaw, ltrdata, terms}) => {
 
-            return this.core.pct.customtestStressTestsScenariosFromFactors(this.composedPortfolios, this.factors).then((data) => {
-
-                return this.core.pct.ltrdetailsByAssets(this.composedPortfolios).then((ltrdata) => {
-
-                    return this.getterms().then((terms) => {
-
-                        console.log('ltrdata', ltrdata)
-
-                        this.historyRaw = data
-                        this.ltrdata = ltrdata
-                        this.terms = terms
-
-                        return Promise.resolve(data)
-
-                    })
-
-
-                })
-
+                this.historyRaw = historyRaw
+                this.ltrdata = ltrdata
+                this.terms = terms
 
             }).finally(() => {
                 this.loading = false
             })
+
         },
     },
 }

@@ -21,7 +21,7 @@
             </div>
 
             <div class="form">
-                <forms :fields="reports" :value="values" @change="changeReports"/>
+                <forms :fields="reports" :value="values" @change="changeReports" ref="reports"/>
             </div>
         </div>
 

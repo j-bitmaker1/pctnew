@@ -405,7 +405,8 @@
 			"capacity" : "Capacity report",
 			"allocation" : "Allocation report",
 			"distribution" : "Distribution report",
-			"scenarioDefinitions" : "Scenario definitions"
+			"scenarioDefinitions" : "Scenario definitions",
+			"retrospective" : "Historical Simulation"
 		}
 	},
 

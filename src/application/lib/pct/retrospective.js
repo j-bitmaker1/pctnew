@@ -12,7 +12,9 @@ class Retrospective {
     factors = []
     factor = ''
 
-    constructor(underlying = 'spy'){
+    constructor(underlying = 'spy', core){
+
+        this.core = core
 
         var d = underlyings[underlying] || underlyings['spy']
 
@@ -89,12 +91,8 @@ class Retrospective {
                 var p = 0
                 var pByPositions = {}
 
-                console.log("I", i)
-
                 for(var j = i; j < i + term; j++){
                     var v = fhi[j]
-
-                    console.log("VVV", v)
 
                     if(v){
 
@@ -113,9 +111,6 @@ class Retrospective {
                                 expweighed = exp * (asset.value / total)
                             }
     
-                            console.log("FEES pv, expweighed, exp", contributor.ticker, pv, expweighed, exp)
-
-
                             pByPositions[contributor.ticker] += pv - expweighed
                             
                         })
@@ -125,17 +120,6 @@ class Retrospective {
 
                     
                 }
-
-                /*_.each(pByPositions, (p, ticker) => {
-                    var ldata = ltrdata[ticker] || {}
-
-                    if(ldata.margin_spread) p = p - ldata.margin_spread
-                    if(ldata.upside_max && p > ldata.upside_max) p = ldata.upside_max
-                    if(ldata.enhancement > 0) p = p * ldata.enhancement
-                    if(ldata.stepup_rate > 0 && p > 0 && p < ldata.stepup_rate) p = ldata.stepup_rate
-
-                    pByPositions[ticker] = p
-                })*/
 
                 var value = _.reduce(pByPositions, (m, p) => {
                     return m + p
@@ -153,27 +137,51 @@ class Retrospective {
                 d.push(hp)
             }
 
-            /*_.each(hi, (v, i) => {
-
-                if(range){
-                    if(range[0] > this.factors[i].year || this.factors[i].year > range[1]) return
-                }
-
-                var p = v.loss / total
-                var prevvalue = d.length ? d[d.length - 1].total : 1
-
-                d.push({
-                    value : p,
-                    total : d.length ? prevvalue * (1 + p) : 1,
-                    year : this.factors[i].year
-                })
-
-            })*/
-
             result[portfolio.id] = d
         })
 
         return result
+    }
+
+    getterms(portfolios){
+        var result = {}
+        return Promise.all(_.map(portfolios, (p) => {
+            
+            return this.core.pct.calcterm(p.positions).then((t) => {
+                result[p.id] = t
+
+                return Promise.resolve()
+            })
+
+        })).then(() => {
+
+            return Promise.resolve(result)
+        })
+    }
+
+    get(portfolios){
+
+        return this.core.pct.customtestStressTestsScenariosFromFactors(portfolios, this.factors).then((data) => {
+
+            return this.core.pct.ltrdetailsByAssets(portfolios).then((ltrdata) => {
+
+                return this.getterms(portfolios).then((terms) => {
+
+                    this.historyRaw = data
+                    this.ltrdata = ltrdata
+                    this.terms = terms
+
+                    return Promise.resolve({
+                        historyRaw : data,
+                        ltrdata : ltrdata,
+                        terms
+                    })
+
+                })
+
+            })
+
+        })
     }
 
 }

@@ -64,13 +64,24 @@ export default {
                     this.optimized = s
                 })
             }
+        },
+
+        comparePortfolios : function(){
+            this.initreports()
+
+            setTimeout(() => {
+                this.$refs['reports'].reset()
+            }, 30)
         }
         //$route: 'getdata'
     },
     computed: mapState({
         auth: state => state.auth,
         valuemode : state => state.valuemode,
-        optimizationOnScreen : state => state.optimizationOnScreen
+        optimizationOnScreen : state => state.optimizationOnScreen,
+        comparePortfolios : function(){
+            return _.toArray(this.rollover ? this.rollover.portfolios : {})
+        } 
     }),
 
 
@@ -78,13 +89,20 @@ export default {
         changeReports: function (v) {
             this.values = v
 
+
             this.core.settings.lspdf.set('reports', this.values)
         },
         init: function () {
 
             this.core.initpdfreports(PDFReports)
 
-            this.values = {}
+            this.initreports()
+
+        },
+
+        initreports : function(){
+            
+            var values = {}
 
             var f = _.filter(this.core.pdfreports.meta, (r) => {
                 return !r.require
@@ -96,12 +114,18 @@ export default {
 
             this.reports = _.map(f, (report) => {
 
-                this.values[report.key] = typeof sreports[report.key] != 'undefined' ? sreports[report.key] : report.default
+                var disabled = false
+
+                if(report.disableCompare && this.comparePortfolios.length) {
+                    disabled = true
+                }
+
+                values[report.key] = disabled ? false : (typeof sreports[report.key] != 'undefined' ? sreports[report.key] : report.default)
 
                 return {
                     id: report.key,
                     input: 'checkbox',
-
+                    disabled,
                     text: 'pdfreports.reports.' + report.key,
 
                     rules: [{
@@ -110,14 +134,9 @@ export default {
                 }
             })
 
+            this.values = values
 
-            
-
-
-            
-
-
-
+            console.log("this.values", this.values)
         },
 
         load: function () {
@@ -154,7 +173,7 @@ export default {
 
             this.making = true
 
-            var comparePortfolios = _.toArray(this.rollover ? this.rollover.portfolios : {})
+            var comparePortfolios = this.comparePortfolios
 
             var nameOfReport = "Portfolio Crash Testing Report" + (comparePortfolios.length ? "" : (": " + this.portfolio.name))
             var saveName = 'RiXtrema - Portfolio Crash Testing Report as of ' + moment().format('MMMM/DD/YYYY');
