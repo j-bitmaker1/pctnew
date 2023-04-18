@@ -111,7 +111,7 @@ export default {
 		},
 
 		idswithcurrent : function(){
-			if(!this.ids.length) return [this.currentportfolio]
+			if(!this.ids.length && this.currentportfolio) return [this.currentportfolio]
 
 			return this.ids
 		},

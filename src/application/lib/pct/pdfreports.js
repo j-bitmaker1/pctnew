@@ -168,7 +168,7 @@ class PDFReports {
     
 
     stressTest = function(tools){
-        var {portfolio, profile, rollover, valuemode} = tools.data
+        var {portfolio, profile, rollover, comparePortfolios, valuemode} = tools.data
 
         
 
@@ -181,7 +181,9 @@ class PDFReports {
 
         var portfolios = {}
 
-        _.each([portfolio, rollover], (p) => {
+        console.log('portfolio, rollover, ...comparePortfolios', portfolio, rollover, comparePortfolios)
+
+        _.each([portfolio, rollover, ...comparePortfolios], (p) => {
             if(p){
                 portfolios[p.id] = p
             }
@@ -860,19 +862,11 @@ class PDFReports {
        
     }
 
-
-    positionSummary = function(tools){
-
-        var {portfolio, profile, rollover} = tools.data
-
-        if (rollover){
-            return this.positionSummaryRollover(tools)
-        }
-
+    positionPortfolio = function(portfolio, tools, showname){
         var results = []
 
         var caption = tools.helpers.caption({
-            text : this.i18n.t("pdfreports.reports.positionSummary"),
+            text : this.i18n.t("pdfreports.reports.positionSummary") + (showname ? " " + portfolio.name : ""),
             style: 'h3',
             pageBreak : 'before'
         })
@@ -987,13 +981,31 @@ class PDFReports {
             return Promise.resolve(results)
           
         })
+    }
 
+    positionSummary = function(tools){
+
+        var {portfolio, profile, rollover, comparePortfolios} = tools.data
+
+        if (rollover){
+            return this.positionSummaryRollover(tools)
+        }
+
+        var portfolios = [portfolio, ...comparePortfolios]
+
+        return f.processArrayRs(portfolios, (portfolio) => {
+            return this.positionPortfolio(portfolio, tools, portfolios.length > 1)
+        }).then(results => {
+            return Promise.resolve(_.flatten(results, true))
+        })
+        
+       
        
     }
 
     intro = function(tools){
 
-        var {portfolio, profile} = tools.data
+        var {portfolio, profile, comparePortfolios} = tools.data
 
         moment.locale(tools.data.locale)
 
@@ -1026,9 +1038,7 @@ class PDFReports {
             })
 
 
-            if(profile && profile.FName){
-
-                {{profile.FName}} {{profile.LName}}
+            if(profile && profile.FName && !comparePortfolios.length){
 
                 result.push({
                     cnt : {
@@ -1042,6 +1052,21 @@ class PDFReports {
                     }
                 })
 
+            }
+
+            if(comparePortfolios.length){
+                var portfolios = [portfolio, ...comparePortfolios]
+                result.push({
+                    cnt : {
+                        text : "Compare portfolios: " + _.map(portfolios, (p) => {
+                            return p.name
+                        }).join("; "),
+                        fontSize: 10,
+                        bold: true,
+                        margin : [0, 10, paddingRight, 0],
+                        alignment : 'right',
+                    }
+                })
             }
 
             result.push({
@@ -1829,71 +1854,6 @@ class PDFReports {
         })
 
         
-
-        return this.pct.assets(portfolio).then(assetsinfo => {
-            result.push(caption)
-
-            var allocation = new Allocation()
-
-            var groups = allocation.groups()
-
-            var groupresults = {}
-
-            var positions = portfolio.joined()
-
-            return Promise.all(_.map(groups, (group) => {
-
-                var result = []
-
-                var g = f.group(positions, (a) => {
-
-                    var info = assetsinfo[a.ticker]
-    
-                    if(!info) return "Not covered"
-    
-                    return info[group.id] || 'Other'
-                })
-
-                var image = tools.size({width : 1, height : 0.4})
-        
-                var size = {
-                    width : image.width * 6,
-                    height : image.height * 6
-                }
-
-                var chartData = allocation.chartData(g)
-
-                var chartOptions = allocation.chartOptions(chartData, {
-                    print : true,
-                    ...size
-                })
-
-                var subcaption = tools.helpers.caption({
-                    text : this.i18n.t(group.text),
-                    style: 'h4'
-                })
-
-                return tools.chart(chartOptions, size).then(img => {
-                    image.image = img
-
-                    result.push(subcaption)
-                    result.push(image)
-        
-                    groupresults[group.id] = result
-                })
-
-            })).then(r => {
-                _.each(groups, (group) => {
-                    result = result.concat(groupresults[group.id]) 
-                })
-
-                return Promise.resolve(result)
-            })
-
-
-        }).catch(e => {
-            return Promise.resolve(result)
-        })
 
         
     }

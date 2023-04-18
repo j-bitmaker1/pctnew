@@ -154,7 +154,9 @@ export default {
 
             this.making = true
 
-            var nameOfReport = "Portfolio Crash Testing Report: " + this.portfolio.name
+            var comparePortfolios = _.toArray(this.rollover ? this.rollover.portfolios : {})
+
+            var nameOfReport = "Portfolio Crash Testing Report" + (comparePortfolios.length ? "" : (": " + this.portfolio.name))
             var saveName = 'RiXtrema - Portfolio Crash Testing Report as of ' + moment().format('MMMM/DD/YYYY');
 
             this.core.settings.pdf.getall().then(settings => {
@@ -177,6 +179,7 @@ export default {
                     logo: logotype
                 }, {
                     rollover : this.rollover ? this.rollover.portfolio : null,
+                    comparePortfolios : comparePortfolios,
                     portfolio: this.portfolio,
                     profile: this.profile,
                     locale: this.$i18n.locale,
@@ -279,16 +282,23 @@ export default {
 
 
         rolloverFromLookup : function(){
+
+            var selected = {}
+
+            if (this.rollover)
+                _.each(this.rollover.portfolios, (id) => {
+                    selected[id] = {id}
+                })
+
+
             this.core.vueapi.selectPortfolios((portfolios) => {
 
                 this.rollover = {
-                    portfolio : portfolios[0],
-                    label : portfolios[0].name
+                    portfolios : portfolios,
+                    label : _.map(portfolios, (p) => {return p.name}).join("; ")
                 }
 
-            }, {
-                one : true
-            })
+            }, {selected})
         },
         rolloverFromOptimized : function(){
 

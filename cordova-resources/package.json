@@ -1,7 +1,7 @@
 {
   "name": "com.rixtrema.pct",
   "displayName": "Portfolio Crash Test",
-  "version": "0.0.9",
+  "version": "0.0.70",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -48,7 +48,6 @@
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-camera-preview": "^0.12.1",
-    "cordova-plugin-file-opener2": "^3.0.5",
     
     "cordova-plugin-file-transfer": "file:cordova-plugin-file-transfer",
     "cordova-support-android-plugin": "1.0.1",
@@ -82,9 +81,7 @@
       "cordova-plugin-inappbrowser": {},
       "@globules-io/cordova-plugin-ios-xhr": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-file-opener2": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      },
+
       "cordova-plugin-ionic-keyboard": {},
       "cordova-universal-links-plugin": {},
       "cc.fovea.cordova.openwith": {

@@ -927,6 +927,8 @@ class PCT {
 
         return this.annuities().then((list) => {
 
+            console.log('positions', positions)
+
             _.each(positions, (p) => {
 
                 var inl = _.find(list, (a) => {

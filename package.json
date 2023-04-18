@@ -30,6 +30,7 @@
     "crypto-js": "^4.1.1",
     "distributions-lognormal-cdf": "^0.0.0",
     "each": "^1.2.2",
+    "each-promise": "^1.0.5",
     "electron": "^18.2.0",
     "email-validator": "^2.0.4",
     "exif-js": "^2.3.0",
