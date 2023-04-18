@@ -6,9 +6,15 @@
 			<span>Compare</span>
 		</template>
 		<template v-slot:right>
+
+			<div class="buttonpanel" :disabled="idswithcurrent.length < 2">
+				<i class="fas fa-file-pdf" @click="createpdf"></i>
+			</div>
+
 			<div class="buttonpanel">
 				 <i class="fas fa-search" @click="addportfolio"></i>
 			</div>
+			
 		</template>
 	</topheader>
 
@@ -178,6 +184,20 @@ export default {
 	},
 
 	methods: {
+		createpdf(){
+
+			if(this.idswithcurrent.length < 2) return
+
+			var id = Number(this.idswithcurrent[0])
+
+			this.core.vueapi.portfoliopdf({
+				id,
+				compare : _.map(_.filter(this.idswithcurrent, (_id) => {
+					return id != _id
+				}), v => Number(v))
+			}, (pdf) => {
+			})
+		},
 		gotoportfolios : function(ids){
 			this.$router.replace({
 				query : {
@@ -243,6 +263,8 @@ export default {
 	created() {
 		this.last = this.core.activity.getlastByType('compare')
 		
-	}
+	},
+
+	
 }
 </script>

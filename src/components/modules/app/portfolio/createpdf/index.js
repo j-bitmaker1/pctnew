@@ -16,7 +16,8 @@ import settingsPdf from '@/components/modules/app/settings/pdf/index.vue'
 export default {
     name: 'portfolio_createpdf',
     props: {
-        id: Number
+        id: Number,
+        compare : Array
     },
     components: {
         settingsPdf
@@ -70,7 +71,8 @@ export default {
             this.initreports()
 
             setTimeout(() => {
-                this.$refs['reports'].reset()
+                if (this.$refs['reports'])
+                    this.$refs['reports'].reset()
             }, 30)
         }
         //$route: 'getdata'
@@ -97,6 +99,21 @@ export default {
             this.core.initpdfreports(PDFReports)
 
             this.initreports()
+
+            if (this.compare && this.compare.length){
+
+                this.core.api.pctapi.portfolios.gets(this.compare).then(portfolios => {
+
+                    console.log('portfolios', portfolios)
+
+					this.rollover = {
+                        portfolios : portfolios,
+                        label : _.map(portfolios, (p) => {return p.name}).join("; ")
+                    }	
+
+				})
+
+            }
 
         },
 
@@ -136,7 +153,6 @@ export default {
 
             this.values = values
 
-            console.log("this.values", this.values)
         },
 
         load: function () {
