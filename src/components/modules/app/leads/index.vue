@@ -1,7 +1,7 @@
 <template>
 <div id="leads">
 	<div class="controls mobp">
-		<listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" />
+		<listcontrols :searchvalue="searchvalue" :count="count" :sortvalue="sort" @filtering="filtering" :filters="filters" :filterValues="filterValues" :sorting="sorting" @search="search" @sort="sortchange" />
 	</div>
 
 	<div class="added mobp" v-if="added">

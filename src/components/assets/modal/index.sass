@@ -143,6 +143,14 @@
             background: transparent
             color: srgba(--text-on-bg-shadow-color, 0.7)
 
+    &.filters
+        .modal-wrapper
+            max-width: 440px
+            margin-left: -220px
+            bottom : 10%
+            border-bottom-left-radius: 10px
+            border-bottom-right-radius: 10px
+
     &.allscreen
         .modal
             border-radius: 0
@@ -462,6 +470,14 @@
             .modal-wrapper
                 margin-left: 0
                 width: 100%
+
+        &.filters
+            .modal-wrapper
+                max-width: none
+                margin-left: 0
+                bottom : 0
+                border-bottom-left-radius: 0
+                border-bottom-right-radius: 0
 
 .separator
     width: 5px

@@ -682,6 +682,17 @@
 			"lclidx" : "This is the long term return of the equity market. To calculate LT Security Price Appreciation we multiply this field by the security beta. For more on how this field is estimated go to FAQ."
 			
 		}
+	},
+
+
+	"filters" : {
+		"leads" : {
+			"pct" : "Show contacts only from Portfolio Crash Test",
+			"crm" : "Show all contacts",
+			"capacity" : "Capacity score",
+			"tolerance" : "Tolerance",
+			"crashrating" : "Crash Rating"
+		}
 	}
 
 }

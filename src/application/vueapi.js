@@ -1152,14 +1152,16 @@ class Vueapi {
         })
     }
 
-    editcustom = function({schema, values, caption},  success){
+    editcustom = function({schema, values, caption, mclass, ignoreerrors},  success){
         this.store.commit('OPEN_MODAL', {
             id : 'modal_common_editcustom',
             module : "common_editcustom",
             caption : caption,
             data : {
-                schema, values
+                schema, values, ignoreerrors
             },
+
+            mclass,
     
             events : {
                 save : (b) => {

@@ -13,9 +13,25 @@
             white-space: nowrap
             font-weight: 700
             color : srgb(--neutral-grad-2)
+            margin-right: auto
 
         .sortWrapper
-            margin-left: auto
+
+    .filters
+        width : 50px
+        text-align: center
+        cursor: pointer
+        
+
+        &:hover,
+        &.active
+            i
+                color : srgb(--color-txt-ac)
+        i
+            +transition(0.3s)
+            color : srgb(--neutral-grad-2)
+            font-size: 0.8em
+            
 
     .dateWrapper
         width: 100%
@@ -35,3 +51,7 @@
                     color: srgb(--neutral-grad-3)
                     padding : 0 2 * $r
                     border : 1px solid srgb(--neutral-grad-1)
+@media only screen and (max-width: 768px)
+    .listcontrols
+        .filters
+            width: 4 * $r

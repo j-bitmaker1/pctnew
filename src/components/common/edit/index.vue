@@ -1,7 +1,7 @@
 <template>
 <div id="clientsedit">
 	<div class="fields">
-		<forms :value="values" ref="fields" :fields="schema.fields"/>
+		<forms :value="values" ref="fields" :fields="schema.fields" :ignoreerrors="ignoreerrors"/>
 	</div>
 
 	<div class="savePanel">

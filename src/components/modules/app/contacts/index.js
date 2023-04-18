@@ -64,6 +64,13 @@ export default {
 				},
 
 			},
+			filterValues : {
+				products : '1',
+				'PCT_Capacity' : [0, 100],
+				'PCT_Tolerance' : [0, 100],
+				'PCT_CrashRating' : [0, 100]
+			}
+
 
 		}
 
@@ -141,17 +148,103 @@ export default {
 			}
 
 			if(this.type == "lead" || !this.type){
-				p.products = ['pct', '']
+				p.products = ['']
 			}
+
+			console.log('this.filterValues', this.filterValues)
+
+			var productFilter = this.filterValues['products']
+			
+			p.products = productFilter == '1' ? [''] : ['pct']
+
+			/*p.customfields = [{
+				id : '$$PCT_Capacity',
+				value : this.filterValues['PCT_Capacity']
+			},
+			{
+				id : '$$PCT_Tolerance',
+				value : this.filterValues['PCT_Tolerance']
+			},
+
+			{
+				id : '$$PCT_CrashRating',
+				value : this.filterValues['PCT_CrashRating']
+			}]*/
 
 			return {
 				orderBy,
-				query : this.core.crm.query('simplesearch', p)
+				query : this.core.crm.query('simplesearch', p),
+				
 			}
 		},
 
 		label : function(){
 			return this.type ? this.type : 'contact'
+		},
+
+		
+
+		filters : function(){
+
+
+			return {
+				fields : [
+
+					{
+						id : 'products',
+						input : 'radio',
+						values : [
+							{
+								text : 'filters.leads.pct',
+							},
+							{
+								text : 'filters.leads.crm',
+							},
+						]
+						
+					}/*,
+
+					{
+                        id : 'PCT_Capacity',
+                        text : 'filters.leads.capacity',
+                        input : 'slider',
+                        rules : [{
+							rule : 'array'
+						}, {
+                            rule : 'less_than:100',
+                        }, {
+                            rule : 'greater_than:0',
+                        }]
+                    },
+
+					{
+                        id : 'PCT_Tolerance',
+                        text : 'filters.leads.tolerance',
+                        input : 'slider',
+                        rules : [{
+							rule : 'array'
+						},{
+                            rule : 'less_than:100',
+                        }, {
+                            rule : 'greater_than:0',
+                        }]
+                    },
+
+					{
+                        id : 'PCT_CrashRating',
+                        text : 'filters.leads.crashrating',
+                        input : 'slider',
+                        rules : [{
+							rule : 'array'
+						},{
+                            rule : 'less_than:100',
+                        }, {
+                            rule : 'greater_than:0',
+                        }]
+                    },*/
+	
+				]
+			}
 		},
 
 	}),
@@ -270,6 +363,8 @@ export default {
 			})
 		},
 
+		
+
 		open : function(profile){
 
 
@@ -292,6 +387,21 @@ export default {
 				this.selected([client])
 			})
 			
+		},
+
+		filtering : function(v){
+
+			var vs = {}
+
+			_.each(this.filterValues, (a, i) => {
+
+				vs[i] = a
+				
+				if(typeof v[i] != 'undefined') vs[i] = v[i]
+			})
+
+
+			this.filterValues = vs
 		}
 
 

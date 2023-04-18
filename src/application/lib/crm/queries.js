@@ -10,7 +10,8 @@ const conditions = {
     notinlist : 'notinlist',
     inlist : 'inlist',
     eq : 'eq',
-    contain : 'contain'
+    contain : 'contain',
+    between : 'between'
 }
 
 const join = {and, or}
@@ -39,6 +40,19 @@ class Templates {
 
         return this.condition(conditions.eq, "Type", type)
 
+    }
+
+    customfields = function(customfield){
+
+    
+
+        return {
+            ...this.condition(customfield.condition || 'between', customfield.id, customfield.value),
+            model : "Contacts",
+            custom : true,
+            type : "int",
+            default : 0
+        }
     }
 
     ids_inlist = function(ids){
@@ -112,6 +126,8 @@ class Templates {
             operands
         }
     }
+
+    
 }
 
 class Queries {
@@ -126,7 +142,7 @@ class Queries {
         return {}
     }
 
-    simplesearch = function({search, type, products}){
+    simplesearch = function({search, type, products, customfields = []}){
         var groups = []
 
 
@@ -135,7 +151,12 @@ class Queries {
                 this.t.status_product(products),
                 this.t.status_active(),
                 this.t.userid(this.core.user.info.ID),
-                this.t.type_eq(type)
+                this.t.type_eq(type),
+
+                ... _.map(customfields, (cf) => {
+                    return this.t.customfields(cf)
+                })
+
             ], join.and)
         )
 
