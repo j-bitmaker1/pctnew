@@ -23,10 +23,15 @@
         cursor: pointer
         
 
-        &:hover,
-        &.active
+        &:hover
             i
                 color : srgb(--color-txt-ac)
+
+        
+        &.active
+            i
+                color : srgb(--color-txt-orange)
+
         i
             +transition(0.3s)
             color : srgb(--neutral-grad-2)

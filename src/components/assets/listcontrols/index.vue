@@ -21,7 +21,7 @@
             </select>
         </div>
 
-        <div class="filters" v-if="filters" @click="showfilters">
+        <div class="filters" :class="{active : filtersApplyied}" v-if="filters" @click="showfilters">
             <i class="fas fa-filter"></i>
         </div>
 

@@ -16,7 +16,8 @@ export default {
         datepicker : Object,
         store : String,
         filters : Object,
-        filterValues : Object
+        filterValues : Object,
+        dfilterValues : Object
     },
 
 
@@ -57,6 +58,11 @@ export default {
                 this.$emit('date', value)
 
             }
+        },
+
+        filtersApplyied : function(){
+            console.log(JSON.stringify(this.filterValues), JSON.stringify(this.dfilterValues))
+            return JSON.stringify(this.filterValues) != JSON.stringify(this.dfilterValues)
         },
 
         ...mapState({

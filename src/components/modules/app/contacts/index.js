@@ -64,13 +64,15 @@ export default {
 				},
 
 			},
+
 			filterValues : {
 				products : '1',
-				'PCT_Capacity' : [0, 100],
-				'PCT_Tolerance' : [0, 100],
-				'PCT_CrashRating' : [0, 100]
-			}
+				PCT_Capacity : [0, 100],
+				PCT_Tolerance : [0, 100],
+				PCT_CrashRating : [0, 100]
+			},
 
+			dfilterValues : {}
 
 		}
 
@@ -82,6 +84,8 @@ export default {
 				this.added ++
 			}
 		})
+
+		this.dfilterValues = this.filterValues
 	},
 
 	beforeDestroy(){
@@ -151,25 +155,26 @@ export default {
 				p.products = ['']
 			}
 
-			console.log('this.filterValues', this.filterValues)
-
 			var productFilter = this.filterValues['products']
 			
 			p.products = productFilter == '1' ? [''] : ['pct']
 
-			/*p.customfields = [{
+			p.customfields = [{
 				id : '$$PCT_Capacity',
-				value : this.filterValues['PCT_Capacity']
+				value : this.filterValues['PCT_Capacity'],
+				type : 'int'
 			},
 			{
 				id : '$$PCT_Tolerance',
-				value : this.filterValues['PCT_Tolerance']
+				value : this.filterValues['PCT_Tolerance'],
+				type : 'int'
 			},
 
 			{
 				id : '$$PCT_CrashRating',
-				value : this.filterValues['PCT_CrashRating']
-			}]*/
+				value : this.filterValues['PCT_CrashRating'],
+				type : 'int'
+			}]
 
 			return {
 				orderBy,
@@ -202,7 +207,7 @@ export default {
 							},
 						]
 						
-					}/*,
+					},
 
 					{
                         id : 'PCT_Capacity',
@@ -241,7 +246,7 @@ export default {
                         }, {
                             rule : 'greater_than:0',
                         }]
-                    },*/
+                    }
 	
 				]
 			}

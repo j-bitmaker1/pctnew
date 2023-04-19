@@ -6,7 +6,7 @@
 	</div>
 
 	<div class="controls mobp">
-		<listcontrols @filtering="filtering" :filters="filters" :filterValues="filterValues" :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" :store="type || 'contacts'"/>
+		<listcontrols @filtering="filtering" :filters="filters" :filterValues="filterValues" :dfilterValues="dfilterValues" :searchvalue="searchvalue" :count="count" :sortvalue="sort" :sorting="sorting" @search="search" @sort="sortchange" :store="type || 'contacts'"/>
 	</div>
 
 	<div class="added mobp" v-if="added">
