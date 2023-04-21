@@ -1982,18 +1982,16 @@ var ApiWrapper = function (core = {}) {
 
 				})
 			},
-
-			integrations: {
-				update(name) {
-					return request({
-						name,
-					}, 'pctapi', 'Integration/Update', {
-						method: 'POST',
-					});
-				},
-			}
 		},
-
+		integrations: {
+			update(name) {
+				return request({
+					name,
+				}, 'pctapi', 'Integration/Update', {
+					method: 'POST',
+				});
+			},
+		},
 		buylists: {
 
 			search: function (value, data = {}, p = {}) {
