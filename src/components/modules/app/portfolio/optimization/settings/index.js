@@ -38,7 +38,6 @@ export default {
             var values = {
                 totalturnover : 100,
                 maxPositionSize : 100,
-
                 equity : [0, 100],
                 fixedIncome : [0, 100],
                 currency : [0, 100],

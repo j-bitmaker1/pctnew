@@ -427,7 +427,26 @@ class Vueapi {
             preloader : true
         }).then(url => {
 
-            this.share({url}, {
+            this.share({
+
+                url, 
+                settings : {
+                    savels : 'sharequestionnaire',
+                    schema : [
+                        {
+                            input: 'checkbox',
+                            id : 'tolerance',
+                            text: 'sharequestionnaire.includetolerance',
+
+                            rules: [{
+                                rule: 'required'
+                            }]
+                        }
+                    ]
+
+                }
+
+            }, {
                 caption: "Share Questionnaire"
             })
 
@@ -729,7 +748,7 @@ class Vueapi {
             id : 'modal_portfoliopdf',
             module : "portfoliopdf",
             caption : "Create PDF report",
-    
+            mclass : 'portfoliopdf',
             data : data,
             events : {
                 success : function(a){
@@ -1133,14 +1152,16 @@ class Vueapi {
         })
     }
 
-    editcustom = function({schema, values, caption},  success){
+    editcustom = function({schema, values, caption, mclass, ignoreerrors},  success){
         this.store.commit('OPEN_MODAL', {
             id : 'modal_common_editcustom',
             module : "common_editcustom",
             caption : caption,
             data : {
-                schema, values
+                schema, values, ignoreerrors
             },
+
+            mclass,
     
             events : {
                 save : (b) => {

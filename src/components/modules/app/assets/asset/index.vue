@@ -7,7 +7,7 @@
 
         <slot name="extra"></slot>
 
-        <div class="ticker" :uncovered="!asset.isCovered">
+        <div class="ticker" :uncovered="!asset.isCovered" :title="asset.isCovered || !info.name? 'Not covered' : info.name">
             <span>{{asset.ticker}}</span>
         </div>
 

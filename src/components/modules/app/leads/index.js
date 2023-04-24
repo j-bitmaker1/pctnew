@@ -27,6 +27,7 @@ export default {
 			count : 0,
 			added : 0,
 			sort : 'Created_desc',
+
 			sorting : {
 				FName_asc : {
 					text : 'fname_asc',
@@ -55,7 +56,7 @@ export default {
 				}
 			},
 
-
+			filterValues : {}
 
 		}
 
@@ -64,9 +65,7 @@ export default {
 	created : function(){
 		this.core.on('created', this.name, (d) => {
 			if (d.type == 'lead'){
-
 				this.added ++
-
 			}
 		})
 	},
@@ -113,8 +112,31 @@ export default {
 				query : this.core.crm.query('simplesearch', {
 					search : this.searchvalue, 
 					type : "LEAD", 
-					products : ['pct','crm']})
+					products : ['pct','crm']
+				})
 			}
+		},
+
+		filters : function(){
+			return [
+
+				{
+					id : 'products',
+					input : 'multiseelct',
+					values : [
+						{
+							text : 'filters.leads.pct',
+							id : 'pct'
+						},
+						{
+							text : 'filters.leads.crm',
+							id : 'crm'
+						},
+					]
+					
+				},
+
+			]
 		},
 
 		elheight : function(){
@@ -258,6 +280,10 @@ export default {
 
 		leadtocontactClbk : function(profile){
 			this.deletelead(profile) /// from list
+		},
+
+		filtering : function(v){
+
 		}
 
 	},

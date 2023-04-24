@@ -169,6 +169,8 @@ export default {
 
 				this.portfolio = r
 
+				this.$store.commit('currentportfolio', this.id)
+
 				this.core.activity.template('portfolio', this.portfolio)
 
 				if(!r.crmContactId){

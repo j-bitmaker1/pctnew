@@ -104,6 +104,8 @@ export default {
             var r1 = {};
             var m1 = {};
 
+            console.log('this.value', this.value, this.fields, this.ignoreerrors)
+
             _.each(this.fields, (f) => {
                 var v = '';
 
@@ -150,6 +152,7 @@ export default {
             setTimeout(() => {
                 this.created = true;
             }, 10);
+
         },
 
         focusOnIntput: function () {
@@ -158,6 +161,9 @@ export default {
         },
 
         getinternal: function () {
+
+            console.log('this.form.validate().errors().any()', this.form.validate().errors())
+
             if (this.form.validate().errors().any() && !this.ignoreerrors)
                 return null;
 
@@ -222,14 +228,11 @@ export default {
 
         vueapi : function(field){
             this.core.vueapi[field.settings.api]((r) => {
-                console.log("RRR", r)
-                
                 this.$set(this.form, field.id, r)
             })
         },
 
         release : function(field){
-            console.log("ASDSADD222", this.form)
             this.$set(this.form, field.id, null)
         }
     },

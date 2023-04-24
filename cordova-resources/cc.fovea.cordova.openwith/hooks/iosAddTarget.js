@@ -105,6 +105,8 @@ function getCordovaParameter(configXml, variableName) {
 // Get the bundle id from config.xml
 function getBundleId(context, configXml) {
 
+  return 'app.pocketnet'
+
   var elementTree = require('elementtree');
   var etree = elementTree.parse(configXml);
   return etree.getroot().get('id');

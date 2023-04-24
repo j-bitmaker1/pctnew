@@ -16,7 +16,8 @@ import settingsPdf from '@/components/modules/app/settings/pdf/index.vue'
 export default {
     name: 'portfolio_createpdf',
     props: {
-        id: Number
+        id: Number,
+        compare : Array
     },
     components: {
         settingsPdf
@@ -30,7 +31,9 @@ export default {
             values: {},
             reports: [],
             progress: 0,
-            making: false
+            making: false,
+            optimized : null,
+            rollover : null
         }
 
     },
@@ -45,10 +48,42 @@ export default {
 	},
 
     watch: {
+        portfolio : function(){
+            if(this.optimizationOnScreen){
+
+                if(this.optimizationOnScreen.portfolio == this.id){
+                    this.optimized = this.optimizationOnScreen
+
+                    this.rolloverFromOptimized()
+                }
+
+                
+
+            }
+            else{
+                this.core.getsettings("OPTIMIZATION_RESULT", this.id).then(s => {
+                    this.optimized = s
+                })
+            }
+        },
+
+        comparePortfolios : function(){
+            this.initreports()
+
+            setTimeout(() => {
+                if (this.$refs['reports'])
+                    this.$refs['reports'].reset()
+            }, 30)
+        }
         //$route: 'getdata'
     },
     computed: mapState({
         auth: state => state.auth,
+        valuemode : state => state.valuemode,
+        optimizationOnScreen : state => state.optimizationOnScreen,
+        comparePortfolios : function(){
+            return _.toArray(this.rollover ? this.rollover.portfolios : {})
+        } 
     }),
 
 
@@ -56,13 +91,35 @@ export default {
         changeReports: function (v) {
             this.values = v
 
+
             this.core.settings.lspdf.set('reports', this.values)
         },
         init: function () {
 
             this.core.initpdfreports(PDFReports)
 
-            this.values = {}
+            this.initreports()
+
+            if (this.compare && this.compare.length){
+
+                this.core.api.pctapi.portfolios.gets(this.compare).then(portfolios => {
+
+                    console.log('portfolios', portfolios)
+
+					this.rollover = {
+                        portfolios : portfolios,
+                        label : _.map(portfolios, (p) => {return p.name}).join("; ")
+                    }	
+
+				})
+
+            }
+
+        },
+
+        initreports : function(){
+            
+            var values = {}
 
             var f = _.filter(this.core.pdfreports.meta, (r) => {
                 return !r.require
@@ -74,12 +131,18 @@ export default {
 
             this.reports = _.map(f, (report) => {
 
-                this.values[report.key] = typeof sreports[report.key] != 'undefined' ? sreports[report.key] : report.default
+                var disabled = false
+
+                if(report.disableCompare && this.comparePortfolios.length) {
+                    disabled = true
+                }
+
+                values[report.key] = disabled ? false : (typeof sreports[report.key] != 'undefined' ? sreports[report.key] : report.default)
 
                 return {
                     id: report.key,
                     input: 'checkbox',
-
+                    disabled,
                     text: 'pdfreports.reports.' + report.key,
 
                     rules: [{
@@ -88,8 +151,7 @@ export default {
                 }
             })
 
-
-            
+            this.values = values
 
         },
 
@@ -117,13 +179,19 @@ export default {
             })
         },
 
+        getrollover : function(){
+            
+        },
+
         make: function () {
 
             moment.locale(this.$i18n.locale)
 
             this.making = true
 
-            var nameOfReport = "Portfolio Crash Testing Report: " + this.portfolio.name
+            var comparePortfolios = this.comparePortfolios
+
+            var nameOfReport = "Portfolio Crash Testing Report" + (comparePortfolios.length ? "" : (": " + this.portfolio.name))
             var saveName = 'RiXtrema - Portfolio Crash Testing Report as of ' + moment().format('MMMM/DD/YYYY');
 
             this.core.settings.pdf.getall().then(settings => {
@@ -145,11 +213,13 @@ export default {
                 var pdftools = new PDFTools({
                     logo: logotype
                 }, {
-
+                    rollover : this.rollover ? this.rollover.portfolio : null,
+                    comparePortfolios : comparePortfolios,
                     portfolio: this.portfolio,
                     profile: this.profile,
                     locale: this.$i18n.locale,
                     disclosure: this.core.settings.pdf.get('disclosure').value,
+                    valuemode : this.valuemode,
                     meta: {
                         pageSize: 'A4',
                         sizeOfLogo: 1,
@@ -243,6 +313,53 @@ export default {
 
         cancel: function () {
             this.$emit('close')
+        },
+
+
+        rolloverFromLookup : function(){
+
+            var selected = {}
+
+            if (this.rollover)
+                _.each(this.rollover.portfolios, (id) => {
+                    selected[id] = {id}
+                })
+
+
+            this.core.vueapi.selectPortfolios((portfolios) => {
+
+                this.rollover = {
+                    portfolios : portfolios,
+                    label : _.map(portfolios, (p) => {return p.name}).join("; ")
+                }
+
+            }, {selected})
+        },
+        rolloverFromOptimized : function(){
+
+            console.log("HERE", this.optimized)
+            this.$store.commit('globalpreloader', true)
+
+
+            this.core.pct.optimization(this.portfolio, {
+                ocr : this.optimized.ocr,
+                scenario : this.optimized.scenario
+            }).then(optimizedPorftolio => {
+                this.rollover = {
+                    portfolio : optimizedPorftolio,
+                    label : this.portfolio.name + " / " + optimizedPorftolio.name
+                }
+
+                console.log('this.rollover', this.rollover)
+
+            }).finally(() => {
+
+                this.$store.commit('globalpreloader', false)
+
+            })
+        },
+        rolloverRemove : function(){
+            this.rollover = null
         }
     },
 }

@@ -14,7 +14,10 @@ export default {
         sortvalue : String,
         activity : String,
         datepicker : Object,
-        store : String
+        store : String,
+        filters : Object,
+        filterValues : Object,
+        dfilterValues : Object
     },
 
 
@@ -39,7 +42,10 @@ export default {
         },
         searchvalue : function(){
             this.save()
-        }
+        },
+        filterValues : function(){
+            this.save()
+        }, 
 
 
     },
@@ -52,6 +58,11 @@ export default {
                 this.$emit('date', value)
 
             }
+        },
+
+        filtersApplyied : function(){
+            console.log(JSON.stringify(this.filterValues), JSON.stringify(this.dfilterValues))
+            return JSON.stringify(this.filterValues) != JSON.stringify(this.dfilterValues)
         },
 
         ...mapState({
@@ -69,6 +80,7 @@ export default {
             this.$emit('sort', e.target.value)
 
         },
+
 
         load : function(){
 
@@ -89,8 +101,11 @@ export default {
 
                 var values = this.core.settings.ui.get('listcontrols_' + this.store).value
 
+                console.log('values', values)
+
                 if (values.sortvalue) this.$emit('sort', values.sortvalue)
                 if (values.searchvalue) this.$emit('search', values.searchvalue)
+                if (values.filters) this.$emit('filtering', values.filters)
                 if (_.isEmpty(values.date)) this.$emit('date', values.date)
             }
 
@@ -104,12 +119,32 @@ export default {
                     this.core.settings.ui.set('listcontrols_' + this.store, {
                         sortvalue : this.sortvalue,
                         date : this.date,
-                        searchvalue : this.searchvalue
+                        searchvalue : this.searchvalue,
+                        filters : this.filterValues
                     })
                 }, 100)
 
                 
             }
+        },
+
+        showfilters : function(){
+
+            this.core.vueapi.editcustom(
+                
+                {
+                    schema : this.filters, 
+                    values: this.filterValues, 
+                    caption : "Filter", 
+                    mclass : "filters",
+                    ignoreerrors : true
+
+                }, (values) => {
+                
+                console.log("EMIT", values)
+                this.$emit('filtering', values)
+            })
+
         }
     },
 }

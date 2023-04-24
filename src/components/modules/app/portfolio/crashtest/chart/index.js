@@ -32,6 +32,7 @@ export default {
 	},
 
 	created : function() {
+		console.log("cts", this.cts)
 	},
 
 	watch: {

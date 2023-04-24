@@ -1013,6 +1013,8 @@ var Tools = function(p, data){
     
                     all : {
                         success : function(){
+
+                            console.log("bodies", bodies)
     
                             _.each(bodies, function(body,i){
     
@@ -1048,6 +1050,37 @@ var Tools = function(p, data){
                 })
             })
             
+        },
+
+        divideTable : function(table, p){
+
+            console.log('divide', table, table.table.body)
+
+            return this.tables({
+                rowsInTable : p.rowsInTable,   
+                pageOffset : p.pageOffset || 0, 
+                array : table.table.body,
+                
+                body : function(index){
+                    return []
+                },
+    
+                table : function(body, index){
+                    var clone = _.clone(table)
+                        clone.table = _.clone(clone.table)
+                        clone.table.body = body
+
+                    return clone
+                },
+    
+                row : (_p, clbk)=>{
+                    var row = _p.item;
+                    console.log('row', row)
+                    clbk(row);
+                },
+            }).then((tt) => {
+                return Promise.resolve(tt.tables)
+            })
         },
 
         caption : function(obj){
@@ -1238,13 +1271,14 @@ var PDFTools = function(p = {}, data = {}){
                         fontSize: 8,
                     },
                     table : {
-                        fontSize: 9,
+                        fontSize: 8,
+                        margin: [0, 4, 0, 4],
                     },
                     small : {
                         fontSize: 6,
                     },
                     hScenarioDescription: {
-                        fontSize: 11,
+                        fontSize: 9,
                         bold: true,
                         alignment : "left",
                         margin: [0, 4, 0, 4],

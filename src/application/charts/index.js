@@ -238,7 +238,7 @@ class Distribution {
 
 class Allocation {
 
-    chartcolors = ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757']
+    chartcolors = ['#F2994A', '#9B51E0', '#219653', '#2F80ED', '#56CCF2', '#BB6BD9', '#EB5757', '#9b2f1f', '#cf3476', '#943391', '#1e213d', '#343e40']
 
     groups = function () {
         return [
@@ -277,6 +277,8 @@ class Allocation {
 
         _.each(grouped, (g, i) => {
             var point = {}
+
+            console.log("NAME", i)
 
             point.name = i
             point.drilldown = i
@@ -342,8 +344,17 @@ class Allocation {
 
         d.series = [chartdata.serie]
 
+        console.log('d', d)
+
         if (!p.print)
             d.drilldown = chartdata.drilldown
+
+        else{
+            d.legend.enabled = false
+            d.plotOptions.pie.showInLegend = true
+            d.plotOptions.pie.animation = false
+        }
+
 
         /*d.chart.events = {}
         d.chart.events.drilldown = this.drilldownevent

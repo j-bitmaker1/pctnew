@@ -205,6 +205,13 @@ html[camera="true"]
 		line-height: 44px
 		margin-left: 2 * $r
 		text-align: center
+
+	
+	&[disabled]
+		
+
+		i
+			color : srgb(--neutral-grad-2)!important
 		
 
 @media (pointer:fine)
@@ -213,6 +220,11 @@ html[camera="true"]
 		cursor: pointer
 		&:hover
 			opacity: 0.8
+
+		&[disabled]
+			cursor: default
+			&:hover
+				opacity: 1
 //// tootltips
 
 .tooltip

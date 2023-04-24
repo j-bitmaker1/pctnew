@@ -13,7 +13,7 @@
 			
 			<div class="wrapper" v-if="info && !finished">
 
-				<riskscore v-if="!previous" :info="info" :token="token" @save="savelocal" @finish="finish"/>
+				<riskscore v-if="!previous" :includeTolerance="includeTolerance" :info="info" :token="token" @save="savelocal" @finish="finish"/>
 				<div v-if="previous" class="previous mobp">
 					<div class="question">
 						<span>Do you want to proceed previous questionnaire?</span>
@@ -110,6 +110,12 @@ export default {
 
 		token : function(){
 			return this.$route.params.token
+		},
+
+		includeTolerance : function(){
+
+
+			return this.$route.query.tolerance ? true : false
 		}
 	}),
 

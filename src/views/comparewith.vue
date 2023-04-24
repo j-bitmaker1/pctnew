@@ -97,18 +97,13 @@
 				<span>Please select a portfolio and structure to compare</span>
 			</div>
 
-			<div class="golast mobp" v-if="(!portfolio || !structure) && last">
+			<div class="golast mobp" v-if="(!portfolio && !structure) && last">
 				<router-link :to="last.link + '&c=' + active">
 					<button class="button">Go to last comparison</button>
 				</router-link>
 			</div>
 
-			<!--<div class="golast mobp" v-if="!ids.length && last">
-				<router-link :to="last.link">
-					<button class="button">Go to last comparison</button>
-				</router-link>
-			</div>-->
-			
+
 		</template>
 	</maincontent>
 
@@ -286,8 +281,9 @@ export default {
 
 	computed: {
 		p : function(){
-			return this.$route.query.p || ''
+			return this.$route.query.p || this.currentportfolio ||''
 		},
+
 
 		weight : function(){
 			var w = Number((this.$route.query.w || '').replace(/[^0-9]/g, '')) || this.defaultAnnuityValue
@@ -324,6 +320,7 @@ export default {
 		},
 
 		...mapState({
+			currentportfolio : state => state.currentportfolio,
 			mobileview : state => state.mobileview,
 		}),
 

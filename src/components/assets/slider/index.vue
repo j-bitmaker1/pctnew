@@ -53,7 +53,7 @@
 import VueSlider from 'vue-slider-component'
 
 var clearvalue = function(v){
-    return v.replace ? (v.replace(/[^0-9]/g,"") || 0) : v
+    return v.replace ? (v.replace(/[^0-9\-]/g,"") || 0) : v
 }
 
 

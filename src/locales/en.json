@@ -405,7 +405,8 @@
 			"capacity" : "Capacity report",
 			"allocation" : "Allocation report",
 			"distribution" : "Distribution report",
-			"scenarioDefinitions" : "Scenario definitions"
+			"scenarioDefinitions" : "Scenario definitions",
+			"retrospective" : "Historical Simulation"
 		}
 	},
 
@@ -656,7 +657,9 @@
 		"removeIntegration": "Remove Integration"
 	},
 
-
+	"sharequestionnaire" : {
+		"includetolerance" : "Include tolerance questionnaire"
+	},
 
 	"ltrdetails" : {
 		"header" : {
@@ -678,6 +681,17 @@
 			"lclbeta" : "The result of regressing the returns of a given security on its local country equity index. This field is zero for bonds.",
 			"lclidx" : "This is the long term return of the equity market. To calculate LT Security Price Appreciation we multiply this field by the security beta. For more on how this field is estimated go to FAQ."
 			
+		}
+	},
+
+
+	"filters" : {
+		"leads" : {
+			"pct" : "Show contacts only from Portfolio Crash Test",
+			"crm" : "Show all contacts",
+			"capacity" : "Capacity score",
+			"tolerance" : "Tolerance",
+			"crashrating" : "Crash Rating"
 		}
 	}
 

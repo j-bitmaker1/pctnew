@@ -572,6 +572,8 @@ class PCT {
             var portfolio = portfolios[i]
 
             var percentedValue = (portfolio && portfolio.isModel) || (mode == 'p' && portfolio)
+
+            console.log("percentedValue", percentedValue, portfolio)
             
             var value = percentedValue ? portfolio.total() : total
 
@@ -614,25 +616,28 @@ class PCT {
 
     stresstestskt = function(portfolios, mode, p){
 
-        portfolios = _.filter(portfolios, (p) => {return p})
+        var filtered = {}
+
+        _.each(portfolios, (p) => {
+            if(p) filtered[p.id] = p
+        })
 
         var positions = []
 
-        _.each(portfolios, (p) => {
+        _.each(filtered, (p) => {
             positions = positions.concat(p.positions)
         })
 
         return (p.term ? this.calcterm(positions) : Promise.resolve(0)).then(term => {
 
-            console.log('///', term)
 
             p.term = term
 
             var cts = {}
-            var max = _.max(portfolios, (p) => {return p.total()})
+            var max = _.max(filtered, (p) => {return p.total()})
             var total = max.total()
 
-            return Promise.all(_.map(portfolios, (portfolio) => {
+            return Promise.all(_.map(filtered, (portfolio) => {
 
                 var promise = portfolio.id < 0 ? this.stresstestPositions(portfolio.positions, p) : this.stresstest(portfolio.id, p)
 
@@ -643,7 +648,7 @@ class PCT {
                 })
             })).then(r => {
 
-                return Promise.resolve(this.composeCTS(cts, total, mode, portfolios))
+                return Promise.resolve(this.composeCTS(cts, total, mode, filtered))
             })
         })
 
@@ -921,6 +926,8 @@ class PCT {
         var term = 0
 
         return this.annuities().then((list) => {
+
+            console.log('positions', positions)
 
             _.each(positions, (p) => {
 
@@ -1361,11 +1368,21 @@ class PCT {
         })
     }
 
+    assetsPortfolios = function(portfolios){
+        var positions = []
+
+        _.each(portfolios, (portfolio) => {
+            positions = positions.concat(portfolio.positions)
+        })
+
+        return this.assets(positions)
+    }
+
     assets = function(tickers){
 
         if(!_.isArray(tickers) && tickers.positions) tickers = tickers.positions
 
-        var t = _.filter(_.map(tickers, (t) => {
+        var t = _.uniq(_.filter(_.map(tickers, (t) => {
             if(isObject(t)) {
 
                 if(!t.isCovered) return null 
@@ -1374,7 +1391,7 @@ class PCT {
             }
 
             return t
-        }), (t) => {return t})
+        }), (t) => {return t}), (t) => {return t})
 
         return this.api.pctapi.assets.info(t).then(r => {
 
@@ -1545,8 +1562,6 @@ class PCT {
 
             var total = portfolio.total()
 
-        console.log('portfolio s', portfolio, s)
-
 
             if (s){
                 result.turnover = total * (s.totalturnover || 100) / 100
@@ -1639,6 +1654,9 @@ class PCT {
 
 
     }
+
+
+    
 
 }
 

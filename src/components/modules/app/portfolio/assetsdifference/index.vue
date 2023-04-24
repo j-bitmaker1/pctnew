@@ -7,7 +7,7 @@
 
         <div class="content">
             <div class="asset" :class="{positive : asset.prevvalue < asset.curvalue, negative : asset.prevvalue > asset.curvalue}" v-for="asset in cgroupped[i]">
-                <div class="ticker" :uncovered="!asset.isCovered">
+                <div class="ticker" :uncovered="!asset.isCovered" :title="asset.isCovered ? asset.name : 'Not covered'">
                     <span>{{asset.ticker}}</span>
                 </div>
 

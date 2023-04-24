@@ -6,9 +6,15 @@
 			<span>Compare</span>
 		</template>
 		<template v-slot:right>
+
+			<div class="buttonpanel" :disabled="idswithcurrent.length < 2">
+				<i class="fas fa-file-pdf" @click="createpdf"></i>
+			</div>
+
 			<div class="buttonpanel">
 				 <i class="fas fa-search" @click="addportfolio"></i>
 			</div>
+			
 		</template>
 	</topheader>
 
@@ -19,15 +25,15 @@
 				<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
 			</div>
 
-			<div class="componentWrapper" v-if="ids.length">
-				<component :is="module" :key="key" :ids="ids" @selectone="selectone" @removeitem="removeitem" @showassets="showassets"/>
+			<div class="componentWrapper" v-if="idswithcurrent.length">
+				<component :is="module" :key="key" :ids="idswithcurrent" @selectone="selectone" @removeitem="removeitem" @showassets="showassets"/>
 			</div>
 
-			<div class="empty mobp" v-if="!ids.length">
+			<div class="empty mobp" v-if="!idswithcurrent.length">
 				<span>Please select a portfolios to compare</span>
 			</div>
 
-			<div class="golast mobp" v-if="!ids.length && last">
+			<div class="golast mobp" v-if="!idswithcurrent.length && last">
 				<router-link :to="last.link + '&c=' + active">
 					<button class="button">Go to last comparison</button>
 				</router-link>
@@ -110,6 +116,12 @@ export default {
 			return _.filter((this.$route.query.ids || "").split(','), (f) => {return f})
 		},
 
+		idswithcurrent : function(){
+			if(!this.ids.length && this.currentportfolio) return [this.currentportfolio]
+
+			return this.ids
+		},
+
 		module : function(){
 			return this.active
 		},
@@ -119,15 +131,18 @@ export default {
 		},
 		...mapState({
 			mobileview : state => state.mobileview,
+			currentportfolio : state => state.currentportfolio,
 		})
 	},
 
 	watch : {
-		ids : function(){
+		idswithcurrent : function(){
 
-			if(this.ids.length > 1){
+			console.log('this.idswithcurrent', this.idswithcurrent, this.currentportfolio)
 
-				this.core.api.pctapi.portfolios.gets(this.ids).then(r => {
+			if(this.idswithcurrent.length > 1){
+
+				this.core.api.pctapi.portfolios.gets(this.idswithcurrent).then(r => {
 					this.core.activity.template('compare', r)		
 					this.last = this.core.activity.getlastByType('compare')				
 				})
@@ -169,6 +184,20 @@ export default {
 	},
 
 	methods: {
+		createpdf(){
+
+			if(this.idswithcurrent.length < 2) return
+
+			var id = Number(this.idswithcurrent[0])
+
+			this.core.vueapi.portfoliopdf({
+				id,
+				compare : _.map(_.filter(this.idswithcurrent, (_id) => {
+					return id != _id
+				}), v => Number(v))
+			}, (pdf) => {
+			})
+		},
 		gotoportfolios : function(ids){
 			this.$router.replace({
 				query : {
@@ -183,7 +212,7 @@ export default {
 
 			var selected = {}
 
-			_.each(this.ids, (id) => {
+			_.each(this.idswithcurrent, (id) => {
 				selected[id] = {id}
 			})
 
@@ -208,7 +237,7 @@ export default {
 
 		selectone : function(id){
 
-			var ids = _.filter(this.ids, (i) => {return i != id})
+			var ids = _.filter(this.idswithcurrent, (i) => {return i != id})
 
 			this.core.vueapi.selectPortfolios((portfolios) => {
 
@@ -225,7 +254,7 @@ export default {
 
 		removeitem : function(id){
 
-			var ids = _.filter(this.ids, (i) => {return i != id})
+			var ids = _.filter(this.idswithcurrent, (i) => {return i != id})
 			this.gotoportfolios(ids)
 
 		}
@@ -234,6 +263,8 @@ export default {
 	created() {
 		this.last = this.core.activity.getlastByType('compare')
 		
-	}
+	},
+
+	
 }
 </script>

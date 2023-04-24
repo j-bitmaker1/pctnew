@@ -1,6 +1,6 @@
 <template>
 <div id="filesystem_edit">
-	<edit @save="save" @close="close" :schema="schema" :edit="values"/>
+	<edit @save="save" @close="close" :schema="schema" :edit="values" :ignoreerrors="ignoreerrors"/>
 </div>
 </template>
 
@@ -19,7 +19,8 @@ export default {
 	name: 'filesystem_edit',
 	props: {
 		values: Object,
-		schema : Object
+		schema : Object,
+		ignoreerrors : Boolean
 	},
 	components : {
 		edit
@@ -27,6 +28,10 @@ export default {
 	computed: mapState({
 		auth: state => state.auth,
 	}),
+
+	created(){
+		console.log('schema', this.schema)
+	},
 
 	methods: {
 		
@@ -39,6 +44,9 @@ export default {
 		},
 
 		save: function(data){
+
+			console.log('data', data)
+
 			this.$emit('save', data)
 			this.close()
 		},

@@ -10,7 +10,7 @@
             <span>/</span>
         </div>
 
-        <div class="portfolioname">
+        <div class="portfolioname" @click="clickPortfolio">
             <span>{{portfolio.name}}</span>
         </div>
         <div class="divider">

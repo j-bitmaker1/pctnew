@@ -3,7 +3,7 @@
 
 
     <div class="crsliderWrapper mobp" v-if="portfolios && cts">
-        <crslider :cts="cts" :portfolios="portfolios" :cpmdata="cpmdata" :optimize="optimize" @optimization="optimization" :currentOptimization="currentOptimization" />
+        <crslider :cts="cts" :portfolios="portfolios" :cpmdata="cpmdata" :optimize="optimize" @optimization="optimization" :currentOptimization="currentOptimization" :doingoptimization="doingoptimization"/>
     </div>
 
    

@@ -1955,7 +1955,32 @@ f.colorFromGradient = function(p){
     return c;
 }
 
+f.processArray = function(array, fn) {
+    var index = 0;
+    
+    function next() {
+        if (index < array.length) {
+            return fn(array[index++]).then(next);
+        }
 
+        return Promise.resolve()
+    }
+    return next();
+}
+
+f.processArrayRs = function(array, fn, catcherr) {
+    var results = []
+
+    return f.processArray(array, (item) => {
+        return fn(item).then(r => {
+            results.push(r)
+        }).catch(e => {
+            if(catcherr) results.push({error : e})
+        })
+    }).then(() => {
+        return Promise.resolve(results)
+    })
+}
 
 f.ObjDiff = ObjDiff
 f._arrayBufferToBase64 = _arrayBufferToBase64

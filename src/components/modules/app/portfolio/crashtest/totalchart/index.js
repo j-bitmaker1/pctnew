@@ -23,15 +23,14 @@ export default {
         return {
             loading : false,
             currentOptimization : null,
-            doingoptimization : false
+            doingoptimization : null
         }
 
     },
 
     created(){
+        this.loadOptimization()
         this.core.on('settingsUpdated', this.name, (type) => {
-
-            console.log("settingsUpdated", type, this.currentOptimization)
 
 			if(type == 'OPTIMIZATION'){
 				if(this.currentOptimization) {
@@ -43,6 +42,9 @@ export default {
     },
 
     beforeDestroy(){
+
+        this.$store.commit('optimizationOnScreen', null)
+
 		this.core.off('settingsUpdated', this.name)
 	},
 
@@ -60,11 +62,51 @@ export default {
 			this.$emit('scenarioMouseOver', e)
 		},
 
+        savecurrentOptimization : function(){
+
+            var savedata = null
+
+            if(this.currentOptimization){
+                savedata = {
+                    ...this.currentOptimization,
+                    portfolio : this.optimize
+                }
+
+                this.$store.commit('optimizationOnScreen', savedata)
+            }
+
+            this.core.setsettings("OPTIMIZATION_RESULT", this.optimize, savedata).then(s => {
+                console.log('saved')
+            })
+
+        },  
+
+        loadOptimization: function(){
+
+            console.log('loadOptimization')
+
+            this.core.getsettings("OPTIMIZATION_RESULT", this.optimize).then(s => {
+
+                if(s){
+
+                    /*var portfolio = this.portfolios[s.portfolio]
+                 
+                    this.optimization({
+                        ...s,
+                        portfolio
+                    })*/
+                }
+
+            })
+
+        },  
+
         optimization : function(d){
 
             if(!d){
 
                 this.currentOptimization = null
+                this.savecurrentOptimization()
                 this.$emit('optimized', null)
 
                 return
@@ -79,6 +121,8 @@ export default {
 
                 this.currentOptimization = d
 
+                this.savecurrentOptimization()
+
                 this.$emit('optimized', optimizedPorftolio)
 
             }).catch(e => {
@@ -91,7 +135,7 @@ export default {
                 console.error(e)
 
             }).finally(() => {
-                this.doingoptimization = false
+                this.doingoptimization = null
             })
         }
     },

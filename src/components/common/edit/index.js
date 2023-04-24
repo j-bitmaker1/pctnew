@@ -16,7 +16,8 @@ export default {
 
 		update : String,
 		create : String,
-		schema : Object
+		schema : Object,
+		ignoreerrors : Boolean
 	},
 
 	data : function(){
@@ -48,6 +49,8 @@ export default {
 		save : function(){
 			var r = this.$refs['fields'].get()
 			var action = null
+
+			console.log("FIELDS", r)
 
 			var request = this.create ? f.deep(this.core.api, this.create) : null
 

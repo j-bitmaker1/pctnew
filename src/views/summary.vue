@@ -13,6 +13,7 @@
 <script>
 
 import psummary from '@/components/modules/app/portfolio/summary/index.vue'
+import { mapState } from 'vuex';
 
 
 export default {
@@ -21,13 +22,17 @@ export default {
 		psummary
 	},
 
-	computed: {
+	computed: mapState({
+
+		currentportfolio : state => state.currentportfolio,
 
 		id : function(){
-			return this.$route.query.id ? Number(this.$route.query.id) : 0
+
+			return this.$route.query.id ? Number(this.$route.query.id) : (this.currentportfolio ? this.currentportfolio : 0)
+			
 		},
 		
-	},
+	}),
 
 	watch : {
 		id : function(){}
