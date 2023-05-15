@@ -1,6 +1,6 @@
 {
   "name": "pct",
-  "version": "0.0.73",
+  "version": "0.0.74",
   "private": true,
   "scripts": {
     "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",

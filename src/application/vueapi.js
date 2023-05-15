@@ -451,6 +451,8 @@ class Vueapi {
             })
 
         }).catch(e => {
+
+            console.e(e)
             
             this.store.commit('icon', {
                 icon: 'error',

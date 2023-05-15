@@ -149,18 +149,31 @@ export default {
 		sharequestionnaire : function(){
 			this.core.api.crm.questionnaire.getlink(this.profile.ID).then(url => {
 
-				this.$store.commit('OPEN_MODAL', {
-					id: 'modal_share',
-					module: "share",
-					caption: "Share Questionnaire",
-					mclass : 'small',
-					data : {
-						url
+				this.core.vueapi.share({
+
+					url, 
+					settings : {
+						savels : 'sharequestionnaire',
+						schema : [
+							{
+								input: 'checkbox',
+								id : 'tolerance',
+								text: 'sharequestionnaire.includetolerance',
+
+								rules: [{
+									rule: 'required'
+								}]
+							}
+						]
+
 					}
+
+				}, {
+					caption: "Share Questionnaire"
 				})
 
 			}).catch(e => {
-				
+				console.error(e)
 				this.$store.commit('icon', {
 					icon: 'error',
 					message: e.error
