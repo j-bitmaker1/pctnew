@@ -55,6 +55,7 @@ var storeFactory = function (vxstorage) {
 
 	var state = {
 		APPSTORE: false,
+		testsettings: false,
 		icon: null,
 		loading: false,
 		wssready: false,
@@ -135,6 +136,10 @@ var storeFactory = function (vxstorage) {
 		
 		setAPPSTORE(state, boo){
 			state.APPSTORE = boo;
+		},
+
+		setTestsettings(state, boo){
+			state.testsettings = boo;
 		},
 
 		clearall(state) {

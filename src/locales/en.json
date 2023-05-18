@@ -527,7 +527,8 @@
 				"INORDER" : "One after another",
 				"EMAIL" : "All at once",
 				"SignatureId" : "Signature",
-				"IntegrationId" : "Integration"
+				"IntegrationId" : "Integration",
+				"IgnoreIntervals" : "Skip waiting intervals" 
 			}
 		},
 

@@ -50,6 +50,7 @@ export default {
 
     computed: mapState({
         auth : state => state.auth,
+        testsettings : state => state.testsettings,
         valid : function(){
             return false
         },
@@ -102,6 +103,15 @@ export default {
                 rules : []
             }
 
+            var ignoreIntervals = {
+                id : 'ignoreIntervals',
+                text : 'campaigns.fields.start.IgnoreIntervals',
+                input : 'checkbox',
+                type : 'checkbox',
+               
+                rules : []
+            }
+
             var m = [{
                 id : 'Name',
                 text : 'campaigns.fields.start.Name',
@@ -145,6 +155,10 @@ export default {
                 m.push(signatureSelect)
             }
 
+            if (this.testsettings){
+                m.push(ignoreIntervals)
+            }
+
             return m
         },
 
@@ -164,7 +178,7 @@ export default {
             s.settings.TimeZone = ((zr - zl) / 60)
             s.settings.Platform = this.core.campaigns.mailsystem
             s.settings.GroupBy = this.settings.GroupBy
-
+            s.settings.SkipIntervalCheck = this.settings.ignoreIntervals && this.contacts.length === 1            
             s.Name = this.settings.Name
             s.TemplateId = this.template.Id
 
