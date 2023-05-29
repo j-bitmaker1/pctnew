@@ -1,0 +1,95 @@
+.closemenu
+    display: none
+    i
+        color: srgb(--neutral-grad-1)
+
+.contentsHeader
+    position: absolute
+    left: 0
+    top: 0
+    right: 0
+    height: 44px
+    z-index: 1
+    padding: $r 2 * $r
+    padding-right: $r
+    display: flex
+    align-items: center
+
+    .icon
+        margin-right: $r
+        display: flex
+        align-items: center
+
+        img
+            height: 24px
+
+    .logotext
+        padding-top: 2px
+
+    .panel
+        margin-left: auto
+        display: flex
+        justify-content: flex-end
+        align-items: center
+
+        .item
+            padding: $r
+            color: srgb(--color-txt-ac)
+            cursor: pointer
+            +transition(0.3s)
+
+            i
+                font-size: 0.8em
+
+            &:hover
+                color: srgb(--neutral-grad-1)
+
+.disclaimer
+    position: absolute
+    left: 0
+    bottom: 0
+    right: 0
+    height: 44px
+    z-index: 1
+    padding: $r 2 * $r
+    display: flex
+    flex-flow: column
+    flex-direction: column-reverse
+
+    i,span
+        font-size: 0.8em
+        color: srgb(--neutral-grad-0)
+
+.historyOfrequests
+    position: absolute
+    left: 0
+    bottom: 44px
+    right: 0
+    top: 44px
+    scrollbar-width: none
+    overflow-y: scroll
+    scroll-behavior: smooth
+    padding: $r 2 * $r
+
+    &::-webkit-scrollbar
+        width: 0 !important
+
+@media only screen and (max-width: 768px)
+    .closemenu
+        display: block
+
+    .contentsHeader
+        .panel
+
+            .item
+                margin-left: $r
+
+                i
+                    font-size: 1em
+
+    .disclaimer
+        height: 90px
+        flex-direction: column
+
+    .historyOfrequests
+        bottom: 90px

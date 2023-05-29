@@ -6,16 +6,13 @@ body
 
 @media only screen and (max-width: 768px)
 	html
-		
+
 		&.snap
 			scroll-snap-type: y proximity
 			scroll-snap-stop: always
 	body
 		background: srgb(--background-total-theme)
 
-/*@media only screen and (min-width: 1024px)
-	body
-		background: srgb(--background-secondary-theme)*/
 
 a
 	text-decoration: none
@@ -23,8 +20,6 @@ a
 *
 	-webkit-tap-highlight-color: rgba(0,0,0,0)
 	-webkit-tap-highlight-color: transparent
-
-
 
 select.custom
 	-moz-appearance: none!important
@@ -115,8 +110,6 @@ html[camera="true"]
 		-webkit-transform: translateY(100%)
 		transform: translateY(100%)
 
-
-
 .loadinggradient
 	background: linear-gradient(-45deg, srgb(--background-secondary-theme), srgb(--background-total-theme), srgb(--background-main))
 	background-size: 400% 400%
@@ -206,13 +199,10 @@ html[camera="true"]
 		margin-left: 2 * $r
 		text-align: center
 
-	
 	&[disabled]
-		
 
 		i
-			color : srgb(--neutral-grad-2)!important
-		
+			color: srgb(--neutral-grad-2)!important
 
 @media (pointer:fine)
 	.buttonpanel
@@ -231,7 +221,6 @@ html[camera="true"]
 	&.popover
 		z-index: 5000
 		$color: srgb(--background-total-theme)
-		
 
 		.wrapper
 			box-shadow: 0 0 5000px 3000px rgba(0,0,0,0.7)
@@ -282,6 +271,26 @@ button.button
 	text-decoration: none
 	font-size: 0.9em
 	border-radius: 24px
+
+	&.leloading
+		position: relative
+
+		&:before
+			content: "\f110"
+			font-size: 0.8em
+			color: srgb(--neutral-grad-2)
+			-webkit-font-smoothing: antialiased
+			display: inline-block
+			font-style: normal
+			font-variant: normal
+			text-rendering: auto
+			line-height: 1
+			font-family: "Font Awesome 5 Free"
+			animation: fa-spin 2s linear infinite
+			position: absolute
+			top: $r
+			right: $r
+			font-weight: 900
 
 	&.small
 		min-width: 100px
@@ -386,7 +395,7 @@ button.button
 	text-overflow: ellipsis
 
 	i
-		color: srgb(--color-txt-ac) 
+		color: srgb(--color-txt-ac)
 
 	&[uncovered]
 		opacity: 0.2
@@ -564,6 +573,7 @@ button.button
 		display: block
 		vertical-align: top
 		text-align: center
+		height: auto
 
 	.m-message--button.m-message--arrow-down
 		display: none
@@ -617,7 +627,6 @@ button.button
 			margin-right: $r
 			margin-left: 0
 
-
 	.button
 		min-width: 100px
 		margin-left: $r
@@ -630,13 +639,9 @@ button.button
 	justify-content: space-between
 	min-height: 100vh
 
-
-
 .customslider
 	padding: $r
 	border-bottom: 1px solid srgb(--neutral-grad-0)
-
-	
 
 	.inputwrapper
 		padding-left: $r
@@ -656,7 +661,7 @@ button.button
 			input
 				height: 33px
 				max-width: 80px
-				padding : 0 $r
+				padding: 0 $r
 				border-radius: 12px
 				background: srgb(--neutral-grad-0)
 				text-align: center
@@ -677,7 +682,7 @@ button.button
 				font-weight: 700
 
 	.minmax
-		padding-top : 0
+		padding-top: 0
 		padding-bottom: 0
 		line-height: 14px
 		span
@@ -688,16 +693,16 @@ button.button
 	padding-right: 2 * $r
 
 .tableswrapper
-	padding : 2 * $r $r
+	padding: 2 * $r $r
 
 	.header
-		padding : $r
+		padding: $r
 	table
 		width: 100%
 	td,
 	th
-		padding : $r
-	
+		padding: $r
+
 	span
 		font-size: 0.8em
 
@@ -719,7 +724,7 @@ button.button
 			td
 				vertical-align: top
 				border-bottom: 1px solid srgb(--neutral-grad-0)
-				
+
 .closecsscross
 	position: relative
 	width: 64px
@@ -757,16 +762,15 @@ button.button
 		font-family: 'Segoe UI Variable', 'Segoe UI', SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif
 		font-size: 1em
 		position: fixed!important
-		left : $r!important
-		top : var(--app-margin-top)!important
-		bottom : var(--keyboardheight)!important
-		right : $r!important
+		left: $r!important
+		top: var(--app-margin-top)!important
+		bottom: var(--keyboardheight)!important
+		right: $r!important
 		width: auto!important
-		padding : 2 * $r
+		padding: 2 * $r
 
 		.mx-calendar
 			width: auto!important
-
 
 .dummy
 	.block
@@ -784,8 +788,8 @@ button.button
 .v-tour
 	.v-step__header
 		background: srgb(--color-bg-ac)
-		margin : 0
-		padding : 0
+		margin: 0
+		padding: 0
 
 		div
 			font-size: 1.2em
@@ -793,7 +797,7 @@ button.button
 	.v-step
 		background: srgb(--color-bg-ac)
 		text-align: left
-		padding : 2 * $r
+		padding: 2 * $r
 		border-radius: 12px
 		+shadowSmaller()
 
@@ -815,9 +819,9 @@ button.button
 			margin: 0
 			margin-right: $r
 			background: transparent
-			color : srgb(--background-total-theme) 
-			border : 1px solid srgb(--background-total-theme)
-			padding : $r
+			color: srgb(--background-total-theme)
+			border: 1px solid srgb(--background-total-theme)
+			padding: $r
 			min-width: 120px
 			border-radius: 24px
 
@@ -826,10 +830,10 @@ button.button
 
 			&.v-step__button-next
 				background: srgb(--background-total-theme)
-				color : srgb(--color-bg-ac)
+				color: srgb(--color-bg-ac)
 
 			&.v-step__button-skip
-				border : 0
+				border: 0
 				min-width: 40px
 
 	.v-step__content
@@ -838,13 +842,11 @@ button.button
 
 .v-tour__target--highlighted
 	background: srgb(--color-bg-ac-bright)!important
-	color : srgb(--text-on-bg-shadow-color)!important
+	color: srgb(--text-on-bg-shadow-color)!important
 	box-shadow: none
 	border-radius: 44px
 	i
-		color : srgb(--text-on-bg-shadow-color)!important
-
-
+		color: srgb(--text-on-bg-shadow-color)!important
 
 @media only screen and (min-width: 1024px)
 	.rootapp
@@ -857,10 +859,10 @@ button.button
 				align-items: center
 
 			.first
-				order : 1
+				order: 1
 
 			.second
-				order : 2
+				order: 2
 
 			.layouthide
 				display: none

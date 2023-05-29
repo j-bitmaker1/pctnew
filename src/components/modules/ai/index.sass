@@ -1,0 +1,355 @@
+#ai
+	position: absolute
+	left: 0
+	top: 0
+	bottom: 0
+	right: 0
+
+	.contents
+		position: absolute
+		left: 0
+		top: 0
+		bottom: 0
+		width: 270px
+		background: srgb(--background-secondary-theme)
+
+		
+
+	.report
+		position: absolute
+		right: 0
+		top: 0
+		bottom: 0
+		left: 270px
+
+		.reportCenter
+			position: relative
+			height: 100%
+			max-width: 700px
+			margin: 0 auto
+
+		.stopped
+			display: none
+			text-align: center
+			padding: 2 * $r
+			margin-top: 4 * $r
+			+transition(0.3s)
+
+			span
+				font-size: 0.9em
+				color: srgb(--neutral-grad-3)
+
+			.btnwrapper
+				margin-top: 2 * $r
+
+	&.chatstopped
+		.report
+			.stopped
+				display: block
+		.input
+			display: none
+
+		::v-deep
+			.masterpanel	
+				.item
+					cursor: default
+					&:hover
+						color: srgb(--neutral-grad-3)
+
+	.assistantheader
+		position: absolute
+		left: 0
+		top: 0
+		right: 44px
+		height: 44px
+		z-index: 3
+		padding: $r
+		display: flex
+		align-items: center
+
+		.showmenu,
+		.loadingWrapper
+			height: 24px
+			width: 24px
+			border-radius: 20px
+			text-align: center
+			+transition(0.3s)
+
+			i
+				font-size: 0.8em
+				color: srgb(--neutral-grad-3)
+			.wrp
+
+		.loadingWrapper
+			opacity: 0
+
+		.showmenu
+			padding: 1.5 * $r
+			display: none
+			position: absolute
+			left: 0
+			top: 0
+			left: 0
+			z-index: 2
+			opacity: 1
+			height: auto
+			width: auto
+
+			i
+				color: srgb(--neutral-grad-1)
+				font-size: 1em
+
+		.masterpanelWrapper
+			overflow: hidden
+			max-width: 90%
+			scrollbar-width: none
+			overflow-x: scroll
+			scroll-behavior: smooth
+			display: flex
+			align-items: center
+			margin-top: 1.2em
+			-webkit-mask-image: linear-gradient(to right, transparent 3%, black 10%)
+			mask-image: linear-gradient(to right, transparent 3%, black 10%)
+
+			&::-webkit-scrollbar
+				width: 0 !important
+
+		
+
+	&.loading
+		.assistantheader
+			.loadingWrapper
+				opacity: 1
+
+		.microphone
+			opacity: 0.1
+
+		.masterpanel
+
+			.item
+				cursor: default
+
+				&:hover
+					color: srgb(--neutral-grad-3)
+
+	.input
+		position: absolute
+		left: 0
+		bottom: 0
+		right: 0
+		height: auto
+		z-index: 1
+		padding: $r
+		padding-bottom: 2 * $r
+		padding-top: 0
+		backdrop-filter: blur(14px)
+		-webkit-backdrop-filter: blur(14px)
+
+		.inputPaneCenter
+			max-width: 700px
+			margin: 0 auto
+			display: flex
+			align-items: flex-start
+
+		.inputPane
+			flex-grow: 2
+			display: flex
+			background: srgba(--neutral-grad-0, 0.5)
+			border-radius: 33px
+			align-items: center
+			margin-right: 50px
+			margin-left: 50px
+			justify-content: space-between
+
+			.inputWrapper
+				flex-grow: 2
+				display: flex
+				align-items: center
+
+				input
+					width: 100%
+					color: srgb(--neutral-grad-3)
+					background: transparent
+					border: 0
+					padding: 0 2 * $r
+					line-height: 33px
+
+				textarea
+					width: 100%
+					color: srgb(--neutral-grad-3)
+					background: transparent
+					border: 0
+					padding: $r 2 * $r
+					padding-top: 0.35em
+					resize: none
+					height: 34px
+					overflow-y: auto
+					scrollbar-width: none
+					max-height: 180px
+
+					&::-webkit-scrollbar
+						width: 0 !important
+
+			.panel
+				margin-left: auto
+				margin-right: $r
+
+				.iconbt
+					border-radius: 22px
+					cursor: pointer
+					position: relative
+					height: 44px
+					width: 44px
+					line-height: 44px
+					text-align: center
+					color: srgb(--neutral-grad-3)
+
+					i
+						font-size: 0.8em
+		.send
+			display: none
+
+	&.nospeechrecognition,
+	&.inputactive
+		.input
+			.send
+				display: block
+			.microphone
+				display: none
+
+	&.speech
+		.input
+			.send
+				display: none
+
+			.microphone
+				color: srgb(--color-txt-ac)
+				animation-duration: 1.6s
+				animation-fill-mode: both
+				animation-iteration-count: infinite
+				-webkit-animation-iteration-count: infinite
+				animation-name: changecolor
+				-webkit-animation-name: changecolor
+				+transition(0.3s)
+
+				i
+					&::before
+						content: '\f04d'
+
+	.events
+		padding: $r $r
+		position: absolute
+		left: 0
+		bottom: 0
+		right: 0
+		top: 0
+		padding-top: 44px
+		padding-bottom: 76px
+		scrollbar-width: none
+		overflow-y: scroll
+		scroll-behavior: smooth
+		+transition(0.3s)
+		-webkit-mask-image: linear-gradient(to bottom, transparent 1%, black 8%)
+		mask-image: linear-gradient(to bottom, transparent 1%, black 8%)
+
+		&.fadeout
+			overflow: hidden
+			transform: translateY(-100%)
+			opacity: 0
+
+		&.fadeoutttend
+			.stopped
+				opacity: 0
+
+		&::-webkit-scrollbar
+			width: 0 !important
+
+		.eventsflex
+			min-height: 100%
+			display: flex
+			flex-flow: column-reverse
+
+	&.pip
+		position: static
+		.assistantheader
+			display: none
+
+		.contents
+			display: none
+
+		.report
+			position: static
+			width: 300px
+
+		.events
+			position: static
+			max-height: 70vh
+			padding-bottom : $r
+			padding-top: 0
+			
+
+			::v-deep
+				.ai_event
+					.avatar
+						display: none
+
+					.parameter
+						margin-left: 0
+						padding-left: 0
+
+					.message
+						font-size: 0.9em
+
+					button
+						font-size: 0.9em
+
+					
+
+		.input
+			position: static
+
+			.inputPane
+				margin-left: 0
+				margin-right: 0
+		
+
+#ai.mobileview
+	top : 0
+	.contents
+		width: 100%
+		transform: translateX(-100%)
+		z-index: 6
+		background: srgb(--background-hidden-layer)
+		+transition(0.3s)
+
+		
+
+	&.showedmenu
+		.contents
+			transform: translateX(0)
+
+	.report
+		left: 0
+
+
+
+	.input
+		.inputPane
+			margin-left: 0
+			margin-right: 0
+
+	.assistantheader
+		.loadingWrapper
+			margin-left: 33px
+
+		.showmenu
+			display: block
+			padding: 1.5 * $r
+
+	.events
+		+transition(0.3s)
+		padding-bottom: calc(92px + var(--keyboardheight, 0))
+
+	.input
+		+transition(0.3s)
+		padding-bottom: calc(42px + var(--keyboardheight, 0))

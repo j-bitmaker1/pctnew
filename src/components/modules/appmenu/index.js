@@ -168,6 +168,11 @@ export default {
 				}))
 			})
 
+		},
+
+		aifeature : function(state){
+			return false
+			return state.features['AI'] ? true : false
 		}
 	}),
 
@@ -203,6 +208,10 @@ export default {
 
 		mouseleaveFooter: function(){
 			this.footerFocused = false
+		},
+
+		openai : function(){
+			this.core.vueapi.openai()
 		}
 	},
 }

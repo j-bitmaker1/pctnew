@@ -127,6 +127,8 @@ class Vueapi {
                     this.store.commit('unselect', {
                         context : 'portfolio'
                     })
+
+                    if(p.close) p.close()
                 }
             }
         })
@@ -1173,6 +1175,45 @@ class Vueapi {
                     if(success) success(b)
                 }
             }
+        })
+    }
+
+
+    openai = function (data, events) {
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_ai',
+            module : "ai",
+            data : data,
+            mclass : 'absoluteContent aiwindow ' + (!this.core.mobileview() ? 'allscreen' : ''),
+            canpip : !this.core.mobileview(),
+            events : events,
+            one : true,
+            save : true,
+            customscroll : true,
+            reversedCustomScroll : true
+        })
+    }
+
+    openaimenu = function (data = {}, events = {}) {
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_ai_menu',
+            module : "ai_menu",
+            data : data,
+            mclass : 'absoluteContent aiwindow',
+            canpip : false,
+            events : events,
+            one : true,
+            customscroll : true
+        })
+    }
+
+    htmlpage = function (srcdoc, events = {}) {
+        this.store.commit('OPEN_MODAL', {
+            id : 'modal_htmlpage',
+            module : "htmlpage",
+            data : {srcdoc},
+            mclass : 'absoluteContent allscreen aiwindow',
+            customscroll : true
         })
     }
     

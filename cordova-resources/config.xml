@@ -28,6 +28,7 @@
     <preference name="AndroidExtraFilesystems" value="files-external,documents,sdcard,cache,cache-external,assets,root" />
     <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/android/splash/splash-screen-logo.xml" />
     <platform name="android">
+        <resource-file src="resources/android/colors.xml" target="app/src/main/res/values/colors.xml" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />

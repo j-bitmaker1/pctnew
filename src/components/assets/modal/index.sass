@@ -161,10 +161,24 @@
             bottom: 0
             margin-left: 0
             max-width: none
+            border-radius: 0
         .modal-header
             position: absolute
             left: auto
             background: transparent
+
+        .modal-body
+            top : 0
+
+    &.aiwindow
+        transition: 0s!important
+
+        .modal-backdrop
+            +transition(0s)
+        .modal-pip,
+        .modal-close
+            font-size: 0.8em
+            
 
     &.big
         .modal-wrapper
@@ -332,12 +346,14 @@
     top : auto
     left : auto
     right: 2 * $r
-    width: 146px
-    height: 200px
-    border-radius: 12px
+    width: auto
+    height: auto
     +transition(0.3s)
-    +shadowSmaller()
     overflow: hidden
+    +shadowSmaller()
+    border-radius: 12px
+    border : 1px solid srgba(--color-shadow-base, 0.05)
+    background: srgba((--background-total-theme), 1)
 
     .modal-wrapper
         box-shadow: none
@@ -345,7 +361,18 @@
         top : 0
         bottom : 0
         right : 0
+        position: static
 
+    .swipable
+        position: static
+
+    .modal
+        background: transparent
+        position: static
+        
+
+    .modal-body
+        position: static
 
     .modal-backdrop
         display: none
@@ -354,21 +381,17 @@
 
     .modal-pip
         position: absolute
-        left : 0
-        top : 0
-        bottom : 0
-        right: 0
+        right : $r
+        top : $r
         display: flex
         align-items: center
         justify-content: center
         margin : 0
         width : auto
         z-index: 3
-        padding : 0
+        padding : $r
         +transition(0.3s)
 
-        i
-            display: none
 
         &:hover
             background: srgba(--color-shadow-base, 0.05)
@@ -478,6 +501,19 @@
                 bottom : 0
                 border-bottom-left-radius: 0
                 border-bottom-right-radius: 0
+
+        &.aiwindow
+            transition: 0.3s!important
+
+            .modal-header
+                left: auto
+                .headerWrapper
+                    display: none
+
+            .modal-body
+                top : 0
+
+   
 
 .separator
     width: 5px

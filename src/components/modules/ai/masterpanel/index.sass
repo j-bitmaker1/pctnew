@@ -1,0 +1,31 @@
+#masterpanel
+    display: flex
+    align-items: center
+    margin-left: 2 * $r
+    +transition(0.3s)
+
+    .item
+        margin-left: 2 * $r
+        flex-shrink: 2
+        display: flex
+        align-items: center
+        color: srgb(--neutral-grad-3)
+        cursor: pointer
+        padding: 0.5 * $r $r
+        border-radius: 50px
+        background: srgb(--background-hidden-layer)
+        +transition(0.3s)
+
+        span
+            white-space: nowrap
+            text-overflow: ellipsis
+            overflow: hidden
+            font-size: 0.9em
+            max-width: 170px
+
+        i
+            font-size: 0.6em
+            margin-left: $r
+
+        &:hover
+            color: fade(srgb(--neutral-grad-3), 50)

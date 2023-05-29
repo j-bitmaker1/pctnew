@@ -14,7 +14,7 @@
 
                 <template v-slot:default>
 
-                    <div :class="'modal ' + (mclass == 'absoluteContent' ? '' : 'customscroll')" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription" v-scroll="scrolling">
+                    <div :class="'modal ' + (mclass == 'absoluteContent' ? '' : 'customscroll')" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription" v-scroll="wndscrolling">
 
                         <div class="modal-header">
                             <div class="headerWrapper">
@@ -34,7 +34,7 @@
                         <div class="modal-body" id="modalDescription">
                             <slot v-if="!module && !path" name="body" :scroll="scroll">
                             </slot>
-                            <component @changeData="changeData" @blockclose="setblockclose" v-if="module" :is="module" @close="close" :wnd="true" v-bind="data || {}" v-on="events" :scroll="scroll" />
+                            <component @changeData="changeData" @blockclose="setblockclose" v-if="module" :is="module" @close="close" :wnd="true" v-bind="data || {}" v-on="events" @componentscrolling="componentscrolling" :scroll="scroll" :pip="pip"/>
                             <!--<component v-if="path" :is="bypath()" @close="close" :wnd="true" v-bind="data || {}" v-on="events" :scroll="scroll" />-->
                         </div>
 

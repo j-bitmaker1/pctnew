@@ -1,0 +1,279 @@
+.ai_event
+    padding-top: $r
+    display: flex
+    padding-bottom: $r
+    border-bottom: 1px solid transparent
+    border-top: 1px solid transparent
+    +transition(0.2s)
+
+    &.willremoving
+        opacity: 0
+
+    &.removing
+        padding-top: 0
+        padding-bottom: 0
+        border: 0
+        overflow: hidden
+        height: 0px!important
+
+    &:nth-child(1)
+        border-bottom: 1px solid srgb(--neutral-grad-0)
+        border-top: 1px solid srgb(--neutral-grad-0)
+
+    span
+        +transition(0.1s)
+
+    button
+        +transition(0.1s)
+
+        i
+            &.good
+                color: srgb(--color-good)
+
+    &.notrendered
+        .message
+            background: transparent
+
+        button
+            opacity: 0
+        .intro
+            opacity: 0
+
+.intro
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-flow: column
+    min-height: 370px
+    margin-left: auto
+    margin-right: auto
+    +transition(0.1s)
+
+    span
+        font-size: 0.8em
+        color: srgb(--neutral-grad-3)
+
+.html
+    margin-left: 36px
+    padding-left: 1em
+
+    iframe
+        border: 1px solid srgb(--neutral-grad-0)
+        outline: none
+        border-radius: 12px
+        +shadowSmaller()
+
+.message
+    border-radius: 20px
+    max-width: 80%
+    position: relative
+    +transition(0.3s)
+
+    .messagepanel
+        position: sticky
+        bottom: 0
+        right: 0
+        left: 0
+        display: flex
+        justify-content: flex-end
+        padding-bottom: 1em
+
+        .messagepanelitem
+            margin-right: $r
+            color: srgb(--neutral-grad-1)
+            background: srgba(--background-hidden-layer, 0.5)
+            width: 33px
+            height: 33px
+            line-height: 33px
+            border-radius: 50%
+            text-align: center
+            +transition(0.3s)
+            cursor: pointer
+
+            i
+                font-size: 0.9em
+
+            &:hover
+                color: srgb(--color-txt-ac)
+    .msg
+        padding: $r 2 * $r
+
+    .icons
+        padding: 0 2 * $r
+        padding-bottom: $r
+
+        i
+            font-size: 0.8em
+
+        .good
+            color: srgb(--color-good)
+
+    .unvisiblemessage
+        opacity: 0
+
+    .visiblemessage
+        position: absolute
+        left: 0
+        top: 0
+        bottom: 0
+        right: 0
+        z-index: 1
+
+    span
+        font-size: 1em
+
+    &.assi
+        background: srgb(--neutral-grad-0)
+        color: srgb(--text-color)
+        border-top-left-radius: 0
+
+    &.you
+        background: srgb(--color-txt-ac)
+        color: srgb(--text-on-bg-shadow-color)
+        border-top-left-radius: 0
+
+.messagestatuspanel
+    margin-left: $r
+    padding-top: 0.35em
+    .messagestatuspanelitem
+        width: 22px
+        height: 22px
+        text-align: center
+        line-height: 22px
+        cursor: pointer
+        color: srgb(--neutral-grad-1)
+        +transition(0.3s)
+
+        &:hover
+            color: srgb(--color-txt-ac)
+
+        i
+            font-size: 0.7em
+
+    .saved
+        display: none
+
+    .panelitems
+        position: sticky
+        display: flex
+        left: 0
+        top: 0
+
+.ai_event
+    &.saved
+        .messagestatuspanel
+            .saved
+                display: block
+
+.avatar
+    width: 36px
+    margin-right: 2 * $r
+
+    .userpicch
+        background: srgb(--neutral-grad-0)
+        color: srgb(--neutral-grad-4)
+        width: 36px
+        height: 36px
+        text-align: center
+        display: flex
+        align-items: center
+        justify-content: center
+        border-radius: 6px
+        border-top-right-radius: 0
+        span
+            font-size: 0.8em
+
+            &.lbl
+                font-size: 0.7em
+
+    &.you
+        .userpicch
+            background: srgb(--color-txt-ac)
+            color: srgb(--text-on-bg-shadow-color)
+
+.parameter
+    max-width: 80%
+    margin-left: 36px
+    padding-left: 2 * $r
+
+    .answers
+        display: flex
+        justify-content: flex-start
+        grid-gap: $r
+        flex-flow: column
+
+        .answer
+            max-width: 100%
+            min-width: 10%
+            display: none
+
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(6),
+            &:nth-last-child(1)
+                display: block
+
+        .answerShowMore
+            padding-left: 2 * $r
+            margin-top: 2 * $r
+            margin-bottom: 2 * $r
+            cursor: pointer
+
+            span
+                font-size: 0.9em
+                text-decoration: underline
+                color: srgb(--neutral-grad-3)
+                +transition(0.3s)
+
+            &:hover
+                span
+                    color: srgb(--color-txt-ac)
+
+        &.showedallanswers
+            .answer
+                display: block!important
+
+            .answerShowMore
+                display: none
+
+    button
+        text-align: left
+        padding-left: 2 * $r
+        padding-right: 2 * $r
+        border-radius: 20px
+        text-overflow: ellipsis
+        overflow: hidden
+        background: srgb(--neutral-grad-0)
+        border-color: srgb(--neutral-grad-0)
+        color: srgb(--text-color)
+        font-size: 1em
+        min-width: 0
+        +transition(0.3s)
+
+        &:hover
+            background: srgb(--color-txt-ac)
+            border-color: srgb(--color-txt-ac)
+            color: srgb(--text-on-bg-shadow-color)
+
+    .main
+        button
+            background: srgb(--color-txt-ac)
+            border-color: srgb(--color-txt-ac)
+            color: srgb(--text-on-bg-shadow-color)
+
+            &:hover
+                background: transparent
+                color: srgb(--color-txt-ac)
+
+@media only screen and (max-width: 768px)
+
+    .answer
+        button
+            max-width: 100%
+            text-align: left
+    .html
+        margin-left: 0
+        padding-left: 0

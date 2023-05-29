@@ -24,7 +24,9 @@ export default {
         mclass : String,
         fromtop : Boolean,
         canpip : Boolean,
-        modalid : String
+        modalid : String,
+        customscroll : Boolean,
+        reversedCustomScroll : Boolean
     },
 
     data : function(){
@@ -116,7 +118,9 @@ export default {
 
 
         portfolio_assets_difference : () => import("@/components/modules/app/portfolio/assetsdifference/index.vue"),
-        
+        ai : () => import("@/components/modules/ai/index.vue"),
+        ai_menu : () => import("@/components/modules/ai/contents/index.vue"),
+        htmlpage: () => import("@/components/common/htmlpage/index.vue"),
     },
  
     computed: mapState({
@@ -202,9 +206,12 @@ export default {
         },
 
         scrolling : function(e){
+            
             this.scroll = e.target.scrollTop
 
-            if (this.scroll > 0){
+            console.log('this.scroll', this.scroll)
+
+            if((this.scroll > 0 && !this.reversedCustomScroll) || (this.reversedCustomScroll && this.scroll < 0)){
                 this.blockTouch = true
 
                 setTimeout(() => {
@@ -212,6 +219,19 @@ export default {
                 }, 500)
             }
             
+        },
+
+        wndscrolling : function(e){
+            if(!this.customscroll){
+                this.scrolling(e)
+            }
+        },
+
+        componentscrolling : function(e){
+            console.log('componentscrolling', this.customscroll)
+            if (this.customscroll){
+                this.scrolling(e)
+            }
         },
 
         setblockclose : function(text){

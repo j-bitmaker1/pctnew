@@ -468,9 +468,26 @@ class Activity {
 
     getlastByType(type){
 
-
         return _.find(this.history, (h) => {
             return h.type == type
+        })
+    }
+
+    getlastsByType(type, count = 5){
+
+        var f = 0
+
+        return _.filter(this.history, (h) => {
+
+            if(f > count){
+                return false
+            }
+
+            if(h.type == type ){
+                f++
+
+                return true
+            }
         })
     }
 

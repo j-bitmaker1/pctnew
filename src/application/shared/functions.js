@@ -110,7 +110,7 @@ f.clientsearch = function (value, arr, exe) {
 
         var ctext = stext.toLowerCase().replace(/[^\p{L}\p{N}\p{Z}]/gu, '')
 
-		
+
         if ((ctext && ctext.indexOf(ctxt) > -1) || f.stringComparison(txt, stext, 0.9)) return true
     })
 }
@@ -262,6 +262,18 @@ var copytext = function (text) {
             document.body.removeChild(textarea);
         }
     }
+}
+
+var copyTextToClipboard = function (text) {
+    if (!navigator.clipboard) {
+        copytext(text);
+        return;
+    }
+    navigator.clipboard.writeText(text).then(function () {
+        console.log('Async: Copying to clipboard was successful!');
+    }, function (err) {
+        console.error('Async: Could not copy text: ', err);
+    });
 }
 
 var makeid = function (valid) {
@@ -892,23 +904,23 @@ var Base64 = {
     // private property
     _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
-    encodeUnicode : function(str) {
-		// first we use encodeURIComponent to get percent-encoded UTF-8,
-		// then we convert the percent encodings into raw bytes which
-		// can be fed into btoa.
-		return window.btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-			function toSolidBytes(match, p1) {
-				return String.fromCharCode('0x' + p1);
-		}));
-	},
+    encodeUnicode: function (str) {
+        // first we use encodeURIComponent to get percent-encoded UTF-8,
+        // then we convert the percent encodings into raw bytes which
+        // can be fed into btoa.
+        return window.btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            function toSolidBytes(match, p1) {
+                return String.fromCharCode('0x' + p1);
+            }));
+    },
 
-	decodeUnicode : function(str) {
+    decodeUnicode: function (str) {
         if (!str) return '';
 
         var str = decodeURIComponent(str)
         // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(window.atob(str).split('').map(function(c) {
-			return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        return decodeURIComponent(window.atob(str).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
 
     },
@@ -1120,7 +1132,7 @@ f.readFile = function (file) {
     })
 }
 
-f.urltoFile = function(url, name){
+f.urltoFile = function (url, name) {
     var type = ''
 
     return fetch(url).then((res) => {
@@ -1129,13 +1141,13 @@ f.urltoFile = function(url, name){
 
         return res.arrayBuffer();
     })
-    .then(function(buf){
+        .then(function (buf) {
 
-        name = name + (f.files.extensions[type] ? ('.' + f.files.extensions[type]) : '')
+            name = name + (f.files.extensions[type] ? ('.' + f.files.extensions[type]) : '')
 
-        return Promise.resolve(new (window.wFile || window.File)([buf], name, {type}));
+            return Promise.resolve(new (window.wFile || window.File)([buf], name, { type }));
 
-    })
+        })
 }
 
 f.fetchLocal = function (url, name = 'file') {
@@ -1332,8 +1344,8 @@ f.values = {
     }
 }
 
-f.findinparent = function(el, fu){
-    if(fu(el)){
+f.findinparent = function (el, fu) {
+    if (fu(el)) {
         return true
     }
 
@@ -1344,27 +1356,27 @@ f.findinparent = function(el, fu){
     return false
 }
 
-f.removePopoverFromEvent = function(e){
+f.removePopoverFromEvent = function (e) {
 
-    if(e.usedByTooltip) return true
+    if (e.usedByTooltip) return true
 
     //if(e.target.className == 'fas fa-ellipsis-v') return true
 
-    if (e.path){
-        var sel = _.find(e.path, function(p){
+    if (e.path) {
+        var sel = _.find(e.path, function (p) {
             return p.classList && (p.classList.contains('v-popover') || p.classList.contains('tooltip'));
         })
-    
-        if (sel){
+
+        if (sel) {
             return true
         }
     }
 
-    if(f.findinparent(e.target, (el) => {
+    if (f.findinparent(e.target, (el) => {
 
         return el.classList && (el.classList.contains('v-popover') || el.classList.contains('tooltip'))
     })) return true
-    
+
 
     return false
 }
@@ -1398,10 +1410,10 @@ f.date = {
     addMinutes: function (now, minutes) {
         return f.date.addseconds(now, minutes * 60)
     },
-   
+
     toserverFormatDate: function (date = new Date(), short) {
 
-        if(short){
+        if (short) {
             return date.getUTCFullYear() + '' + addZero(date.getUTCMonth() + 1) + '' + addZero(date.getUTCDate())
         }
 
@@ -1454,12 +1466,12 @@ f.date = {
 
         var delta = (targetDay * 1440 + targetTimeMinutes) - (date.getDay() * 1440 + date.getHours() * 60 + date.getMinutes());
 
-        if (delta >= 0) { targetDate =  f.date.addMinutes(targetDate, delta) }
+        if (delta >= 0) { targetDate = f.date.addMinutes(targetDate, delta) }
 
         else {
 
             targetDate = f.date.addMinutes(targetDate, delta)
-            targetDate = f.date.addMinutes(targetDate, 10080) 
+            targetDate = f.date.addMinutes(targetDate, 10080)
         }
 
         return targetDate
@@ -1467,13 +1479,13 @@ f.date = {
     }
 }
 
-f.reqstepsSync = function(steps, action){
+f.reqstepsSync = function (steps, action) {
     _.each(steps, (step, i) => {
         action(step, i, steps)
 
         var type = step.type()
 
-        if (type == 'ifstep'){
+        if (type == 'ifstep') {
             f.reqstepsSync(step.success, action)
             f.reqstepsSync(step.fail, action)
         }
@@ -1803,12 +1815,12 @@ f.insertTextAtCursor = function (el, text, offset) {
 }
 
 f.files = {
-    extensions : {
-        'image/png' : 'png',
-        'image/jpeg' : 'jpg',
-        'image/jpg' : 'jpg',
-        'image/webp' : 'webp',
-        'image/jfif' : 'jfif'
+    extensions: {
+        'image/png': 'png',
+        'image/jpeg': 'jpg',
+        'image/jpg': 'jpg',
+        'image/webp': 'webp',
+        'image/jfif': 'jfif'
     },
     getExtension: function (file) {
         var name = file.name.split('.');
@@ -1818,7 +1830,7 @@ f.files = {
     },
     getName: function (file) {
         var name = file.name.split('.');
-            name.pop()
+        name.pop()
 
         return name.join('.');
     },
@@ -1833,102 +1845,98 @@ f.files = {
 }
 
 
-f.rgb2hex = function(rgb){
+f.rgb2hex = function (rgb) {
     rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
     return (rgb && rgb.length === 4) ? "#" +
-        ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-        ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-        ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+        ("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) : '';
 }
 
-f.colorFromRatingGradient = function(value){
+f.colorFromRatingGradient = function (value) {
     var ratingGradient = [
         {
-            color : [0,108,40,1],
-            position : 0
+            color: [0, 108, 40, 1],
+            position: 0
         },
         {
-            color :  [228,255,0,1],
-            position : 50
+            color: [228, 255, 0, 1],
+            position: 50
         },
         {
-            color : [255,0,69,1],
-            position : 100
+            color: [255, 0, 69, 1],
+            position: 100
         },
     ];
     /*---------------------------------------------------------------------------------------*/
     // Crash ratings
 
     return f.colorFromGradient({
-        gradient : ratingGradient,
-        value : value,
-        toHex : true
+        gradient: ratingGradient,
+        value: value,
+        toHex: true
     });
 }
 
-f.colorFromGradient = function(p){
+f.colorFromGradient = function (p) {
 
     p.mode || (p.mode = 'equal')
 
     p.gradient || (p.gradient = [{
-        color : [0,0,0,0],
-        image : "red",
-        position : 0
-    },{
-        color : [255,255,255,255],
-        image : "green",
-        position : 100
+        color: [0, 0, 0, 0],
+        image: "red",
+        position: 0
+    }, {
+        color: [255, 255, 255, 255],
+        image: "green",
+        position: 100
     }])
 
-    if(typeof p.value == 'undefined')
-    {
+    if (typeof p.value == 'undefined') {
         p.value = 50;
     }
 
-    var left = _.find(p.gradient, function(cp, i){
-        if(cp.position <= p.value && (!p.gradient[i + 1] || p.gradient[i + 1].position > p.value)) return true;
+    var left = _.find(p.gradient, function (cp, i) {
+        if (cp.position <= p.value && (!p.gradient[i + 1] || p.gradient[i + 1].position > p.value)) return true;
     })
 
-    var right = _.find(p.gradient, function(cp, i){
-        if(cp.position >= p.value  && (!p.gradient[i - 1] || p.gradient[i - 1].position < p.value)) return true;
+    var right = _.find(p.gradient, function (cp, i) {
+        if (cp.position >= p.value && (!p.gradient[i - 1] || p.gradient[i - 1].position < p.value)) return true;
     })
 
-    var color = [0,0,0,0],
+    var color = [0, 0, 0, 0],
         image = "red";
 
-    if(!right) right 	= p.gradient[p.gradient.length - 1];
-    if(!left) left 		= p.gradient[0];
+    if (!right) right = p.gradient[p.gradient.length - 1];
+    if (!left) left = p.gradient[0];
 
-    if(right.position == left.position) 
-    {
+    if (right.position == left.position) {
         color = left.color;
         image = left.image;
         left.opacity = 255;
         right.opacity = 255;
     }
-    else
-    {
+    else {
         var proportion = (p.value - left.position) / (right.position - left.position);
 
-        if (p.mode == 'like')
-        {
+        if (p.mode == 'like') {
 
             var using = left;
-                left.opacity = 255;
-                right.opacity = 0;
+            left.opacity = 255;
+            right.opacity = 0;
             if (proportion > 0.5) {
                 using = right;
                 left.opacity = 0;
                 right.opacity = 255;
             }
 
-            _.each(color, function(cc, i){
+            _.each(color, function (cc, i) {
                 color[i] = using.color[i]
             })
         }
 
-        if (p.mode == 'equal'){
-            _.each(color, function(cc, i){
+        if (p.mode == 'equal') {
+            _.each(color, function (cc, i) {
                 color[i] = (left.color[i] * (1 - proportion) + right.color[i] * proportion).toFixed(i == 3 ? 3 : 0);
             })
 
@@ -1937,27 +1945,26 @@ f.colorFromGradient = function(p){
         }
     }
 
-    if(p.mode && p.mode == "pdf") 
+    if (p.mode && p.mode == "pdf")
         return {
-            left : left,
-            right : right
+            left: left,
+            right: right
         };
 
 
 
-        var c = "rgba(" + color[0] + "," + color[1] + "," + color[2] + "," + color[3] + ")"
+    var c = "rgba(" + color[0] + "," + color[1] + "," + color[2] + "," + color[3] + ")"
 
-    if(p.toHex)
-    {
+    if (p.toHex) {
         return f.rgb2hex(c);
     }
 
     return c;
 }
 
-f.processArray = function(array, fn) {
+f.processArray = function (array, fn) {
     var index = 0;
-    
+
     function next() {
         if (index < array.length) {
             return fn(array[index++]).then(next);
@@ -1968,18 +1975,199 @@ f.processArray = function(array, fn) {
     return next();
 }
 
-f.processArrayRs = function(array, fn, catcherr) {
+f.processArrayRs = function (array, fn, catcherr) {
     var results = []
 
     return f.processArray(array, (item) => {
         return fn(item).then(r => {
             results.push(r)
         }).catch(e => {
-            if(catcherr) results.push({error : e})
+            if (catcherr) results.push({ error: e })
         })
     }).then(() => {
         return Promise.resolve(results)
     })
+}
+
+f.lazyEach = function (p) {
+
+    var progressMap = {
+        "after": ["success", "fail", "after"]
+    }
+
+    var failbool = false;
+
+    var progressIncrease = function (name) {
+
+        if (name == "fail") failbool = true;
+
+        var newName;
+
+        _.find(progressMap, function (item, _name) {
+            if (_.indexOf(item, name) > -1) {
+                newName = _name;
+                return true;
+            }
+        })
+
+        if (newName) {
+            if (!i[newName]) i[newName] = 0;
+
+            i[newName]++;
+        }
+    }
+
+    var calcProgress = function (i) {
+        return _.reduce(i, function (sum, value) {
+            return sum + value;
+        }, 0)
+    }
+
+    var go = function (index) {
+        var each = extendFunctions(p.array[index], p.each, index);
+
+        each.item = p.array[index];
+
+        p.action(each, index);
+    }
+
+    var extendFunctions = function (item, each, index) {
+        var newEach = {};
+
+
+        _.each(each, function (_each, name) {
+
+            if (typeof _each === 'function' && (name == "success" || name == "fail" || name == "after")) {
+                newEach[name] = function () {
+
+                    var _arguments = arguments;
+
+                    var callback = function () {
+
+                        var proggressend = function () {
+
+                            if (p.all.success && !failbool) p.all.success(p);
+                            if (p.all.fail && failbool) p.all.fail(p);
+
+                            //else
+                            if (p.all.after) p.all.after(p);
+                        }
+
+                        progressIncrease(name);
+                        progress = calcProgress(i);
+
+                        _each(item, progress, l, _arguments, index);
+
+                        if (p.sync) {
+
+                            if (p.array[index + 1]) {
+                                go(index + 1);
+                            }
+                            else {
+                                proggressend();
+                            }
+                        }
+                        else
+                            if (progress == l) proggressend();
+                    }
+
+                    if (!p.syncCallbacks || progress >= index || p.sync) {
+
+                        callback();
+                    }
+                    else {
+                        var interval = setInterval(function () {
+
+                            if (progress >= index) {
+                                callback();
+                                clearInterval(interval);
+                            }
+
+                        }, 10)
+                    }
+                }
+            }
+            else {
+                newEach[name] = _each;
+            }
+        })
+
+        return newEach;
+    }
+
+    if (!p) p = {};
+
+    p.array || (p.array = []);
+    p.each || (p.each = {});
+    p.all || (p.all = {});
+
+    p.each.success || (p.each.success = function () { });
+    p.each.fail || (p.each.fail = function () { });
+
+    if (!p.array || p.array.length == 0) {
+        if (p.all.success) {
+            p.all.success();
+        }
+
+        return;
+    }
+
+    var l = p.array.length,
+        i = {};
+
+    var progress = 0;
+
+    if (p.all.before)
+        p.all.before(p);
+
+    if (!p.sync) {
+        _.each(p.array, function (item, index) {
+            go(index)
+        })
+    }
+    else {
+        go(0);
+    }
+}
+
+f.convertNewLinesToBr = function (str = "") {
+    str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    return str;
+}
+
+f.clearstring = function (str = '') {
+
+    function unEscape(htmlStr) {
+        htmlStr = htmlStr.replace(/&lt;/g, "<");
+        htmlStr = htmlStr.replace(/&gt;/g, ">");
+        htmlStr = htmlStr.replace(/&quot;/g, "\"");
+        htmlStr = htmlStr.replace(/&#39;/g, "\'");
+        htmlStr = htmlStr.replace(/&amp;/g, "&");
+        htmlStr = htmlStr.replace(/\\n/g, "\n");
+        htmlStr = htmlStr.replace(/\"\\\"/g, "");
+        htmlStr = htmlStr.replace(/\\\"/g, "");
+        htmlStr = htmlStr.replace(/\\\"/g, "");
+
+        htmlStr = htmlStr.replace(/^AI: /g, "");
+
+        return htmlStr;
+    }
+
+    try {
+        str = decodeURIComponent(str)
+    }
+    catch (e) {
+        console.error(e)
+    }
+
+    try {
+        str = unEscape(str)
+    }
+    catch (e) {
+        console.error(e)
+    }
+
+    return str.replace(/ +/g, ' ').replace(/\n\n+/g, "\n\n").replace(/\t+/g, '')
 }
 
 f.ObjDiff = ObjDiff
@@ -2024,4 +2212,5 @@ f.stringify = stringify
 f.numberParse = numberParse
 f.round = round
 f.addZero = addZero
+f.copyTextToClipboard = copyTextToClipboard
 export default f

@@ -51,7 +51,23 @@ export default {
 					text : 'menu.filemanager',
 					icon : "fas fa-eye",
 					action : this.filemanager
-				}
+				},
+
+                {
+					id : 'questionnaire',
+					text : 'menu.questionnaire',
+					icon : "fas fa-link",
+					action : this.sharequestionnaire
+
+				},
+                /*{
+					id : 'ai',
+					text : 'menu.ai',
+					icon : "fas fa-brain",
+					action : this.openai,
+					features : ['AI'],
+
+				}*/
 
                 /*{
                     route : '/help',
@@ -60,13 +76,7 @@ export default {
 					icon : "fas fa-info",
 				},*/
 
-                /*{
-					id : 'questionnaire',
-					text : 'menu.questionnaire',
-					icon : "fas fa-link",
-					action : this.sharequestionnaire
-
-				}*/
+                /**/
 
             ]
         }
@@ -101,6 +111,13 @@ export default {
 
 			this.core.activity.template('action', this.core.activity.actions.sharequestionnaire())
 			this.core.vueapi.sharequestionnaire()
+			
+		},
+
+
+        openai: function () {
+
+			this.core.vueapi.openai()
 			
 		},
 

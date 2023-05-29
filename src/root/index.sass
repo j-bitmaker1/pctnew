@@ -72,141 +72,144 @@
 
 	.preabs
 		position: absolute
-
-#root
-	&.summaryview
-		.topheader.mn
-			display: none
-		.refresher
-			display: none!important
-		.rootapp
-			position: absolute
-			left: 0
-			top : 0
-			bottom: 0
-			right: 0
-			height: auto
-			padding : 0
-			max-width: 100%
-			margin : 0
-
-			>div
-				height: 100%
-				min-height: 0
-
-			>div:not(#appmenu)
+@media only screen and (min-width: 768px)
+	#root
+		&.summaryview
+			.topheader.mn
+				display: none
+			.refresher
+				display: none!important
+			.rootapp
 				position: absolute
-				left: 55px
-				right: 0
+				left: 0
 				top : 0
 				bottom: 0
-				width: auto
+				right: 0
+				height: auto
+				padding : 0
+				max-width: 100%
+				margin : 0
 
-		#appmenu
-			padding : 0 0.5 * $r
-			//width: 55px
-			z-index: 30
-			position: absolute
-			left : 0
-			top : 0
-			bottom: 0
-			transform: translate(-205px, 0)
+				>div
+					height: 100%
+					min-height: 0
 
-			.copyright
-				display: block
-
-
-			.item
-				position: relative
-
-				.notifications
+				>div:not(#appmenu)
 					position: absolute
-					right : 0%
-					top : 50%
-					
-					transform: scale(0.75)
-					
+					left: 55px
+					right: 0
+					top : 0
+					bottom: 0
+					width: auto
 
-				.label
-					
-					transform: translate(-55px, 0)
+			#appmenu
+				padding : 0 0.5 * $r
+				//width: 55px
+				z-index: 30
+				position: absolute
+				left : 0
+				top : 0
+				bottom: 0
+				transform: translate(-205px, 0)
 
-				i
-					
-					transform: translate(205px, 0)
-
-			&:not(.footerFocused)
-				&:hover
-
-					transform: translate(0, 0)
-					background: srgb(--background-total-theme)
-					box-shadow: 0 0 5000px 3000px rgba(0,0,0,0.7)
-
-					.copyright
-						opacity: 1
-
-					.item
-
-						.notifications
-							transform: translate(0, -50%)
-							
-						.label
-							transform: translate(0, 0)
-
-						i
-							transform: translate(0, 0)
-
-					.footer
-						transform: translate(0, 0)
+				.copyright
+					display: block
 
 
-			@media only screen and (max-height: 500px)
 				.item
-					display: none
+					position: relative
 
-					&:nth-child(1)
-						display: block
+					.notifications
+						position: absolute
+						right : 0%
+						top : 50%
+						
+						transform: scale(0.75)
 						
 
-		.footer
-			flex-direction: column-reverse
-			left: 1.5 * $r
-			transform: translate(205px, 0)
-			
+					.label
+						
+						transform: translate(-55px, 0)
 
-			i
-				font-size: 0.8em
+					i
+						
+						transform: translate(205px, 0)
 
-			>div
-				margin-top: 2 * $r
+				&:not(.footerFocused)
+					&:hover
 
-			.themeToggleWrapper
-				margin-left: 0
+						transform: translate(0, 0)
+						background: srgb(--background-total-theme)
+						box-shadow: 0 0 5000px 3000px rgba(0,0,0,0.7)
 
-			.exploreWrapper
-				margin-left: 0
+						.copyright
+							opacity: 1
 
-			.help
-				margin-bottom: 0
-				padding-left: 0
+						.item
 
-			.tgl
-				width: auto
-				>div
-					display: flex
-					flex-direction: column
+							.notifications
+								transform: translate(0, -50%)
+								
+							.label
+								transform: translate(0, 0)
 
-		&.anim
-			
-			#appmenu .item .notifications,
-			#appmenu .item i,
-			#appmenu .item .label,
-			#appmenu .copyright,
-			.footer,
-			#appmenu
-				+transition(0.3s)
-				transition-delay: 0.3s
+							i
+								transform: translate(0, 0)
+
+						.footer
+							transform: translate(0, 0)
+
+
+				@media only screen and (max-height: 500px)
+					.item
+						display: none
+
+						&:nth-child(1)
+							display: block
+							
+
+			.footer
+				flex-direction: column-reverse
+				left: 1.5 * $r
+				transform: translate(205px, 0)
 				
+
+				i
+					font-size: 0.8em
+
+				>div
+					margin-top: 2 * $r
+
+				.aiWrapper
+					margin-left: 0
+
+				.themeToggleWrapper
+					margin-left: 0
+
+				.exploreWrapper
+					margin-left: 0
+
+				.help
+					margin-bottom: 0
+					padding-left: 0
+
+				.tgl
+					width: auto
+					>div
+						display: flex
+						flex-direction: column
+
+			&.anim
+				
+				#appmenu .item .notifications,
+				#appmenu .item i,
+				#appmenu .item .label,
+				#appmenu .copyright,
+				.footer,
+				#appmenu
+					+transition(0.3s)
+					transition-delay: 0.3s
+					
 		
 .fade-enter-active, .fade-leave-active
 	transition: opacity .5s

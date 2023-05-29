@@ -14,7 +14,8 @@
 		"campaigns" : "Campaigns",
 		"help" : "Help",
 		"filemanager" : "File recognition",
-		"capacity" : "Capacity"
+		"capacity" : "Capacity",
+		"ai" : "AI"
 	},
 
 	"fields" : {
@@ -482,6 +483,7 @@
 			"resumecampaign" : "Resume campaign",
 
 			"deletesignature" : "Delete signature"
+			
 		},
 		"summary" : {
 			"CompletedCampaigns" : "Completed campaigns",

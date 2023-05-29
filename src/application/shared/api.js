@@ -347,6 +347,14 @@ var ApiWrapper = function (core = {}) {
 			}
 		},
 
+		ai: function () {
+			return {
+				storage: 'ai',
+				time: 60 * 10,
+				version: 2
+			}
+		},
+
 		system: function () {
 			return {
 				storage: 'system',
@@ -411,6 +419,9 @@ var ApiWrapper = function (core = {}) {
 		pctapi: new Request(core, "https://rixtrema.net/api/pct", 'pctapi'),
 		api: new Request(core, "https://rixtrema.net/api", 'api'),
 		campaigns: new Request(core, "https://rixtrema.net/api/campaigns", 'campaigns'),
+		chat_ai: new Request(core, "https://rixtrema.net/api/chat_ai", 'chat_ai'),
+
+		
 
 		apiFD: new FormDataRequest(core, "https://rixtrema.net/api", 'api'),
 		apiFDH: new FormDataRequestAu_Headers(core, "https://rixtrema.net/api", 'api'),
@@ -880,6 +891,8 @@ var ApiWrapper = function (core = {}) {
 				return Promise.resolve(r)
 
 			}).catch(e => {
+
+				console.error(e)
 
 				if (attempt < 3 && e && e.code == 20) {
 
@@ -3752,6 +3765,403 @@ var ApiWrapper = function (core = {}) {
 					return Promise.resolve(r.Records)
 				})
 			}
+		}
+	}
+
+	self.ai = {
+
+		extra : {
+			ainfo : {
+				value : undefined,
+				set : function(text, clbk){
+
+					
+				},
+				get : function(clbk){
+
+					return Promise.resolve('')
+				}
+			}
+		},
+
+		pdf : function(parameters = {}, context = {}, extra = {}, p = {}){
+
+			p.timeout = 600000
+
+			var data = {}
+
+			if (context.plan){
+				data.AckId = context.plan.ACK_ID
+			}
+
+			data.Query = context.query || ''
+			data.SessionId = extra.session || ''
+			data.History = true
+
+			return request(data, 'chat_ai', 'ai/pdfchat', p).then(function(result){
+
+				return Promise.resolve({
+					text : f.clearstring(result.Body || result.answer || ""),
+					caption : f.clearstring(result.Subject || ""),
+
+					fullrequest : f.clearstring(result.fullBody || ''),
+					shortrequest : f.clearstring(result.shortBody || '')
+				})
+			}).catch(e => {
+				console.error(e)
+				return Promise.reject((((e || {}).responseJSON || {}).Message || e) || "Undefined Error")
+			})
+		},
+
+		generate : function(id, parameters = {}, context = {}, extra = {}, p = {}){
+
+			p.timeout = 600000
+
+			var data = {
+				ModelTarget: "LANGCHAIN",
+				makeprompt : context.test ? true : false,
+				AiEmailTemplateId : id,
+				Parameters : _.map(parameters, function(value, id){
+					return {
+						Id : id,
+						Value : value
+					}
+				}),
+				RecipientInfo : {}
+			}
+
+
+			if (extra.refinetext){
+				data.Parameters.push({
+					Id : "refinetext__",
+					Value : extra.refinetext
+				})
+			}
+
+			if (typeof extra.temperature != 'undefined'){
+				data.Temperature = extra.temperature
+			}
+
+			if (extra.history){
+
+				var history = _.map(extra.history, function(hst){
+					return hst.speaker + ": " + hst.text
+				}).join("\n\n")
+
+				var historyUser = _.map(_.filter(extra.history, function(h){
+					return h.userask
+				}), function(hst){
+					return hst.text
+				}).join("\n\n")
+
+				data.Parameters.push({
+					Id : "gpthistoryOfChat__",
+					Value : history
+				})
+
+				data.Parameters.push({
+					Id : "gpthistoryOfChatFromUser__",
+					Value : historyUser
+				})
+
+			}
+
+			if (context.plan){
+				data.RecipientInfo.PlanEin = context.plan.SPONS_DFE_EIN
+				data.RecipientInfo.PlanPn = context.plan.SPONS_DFE_PN
+				data.RecipientInfo.PlanAckId = context.plan.ACK_ID
+				data.RecipientInfo.PlanName = context.plan.SPONSOR_DFE_NAME
+			}
+
+			if (context.executive){
+				data.RecipientInfo.RecipientEmail = context.executive.Email
+				data.RecipientInfo.RecipientName = context.executive.Name
+				//data.RecipientInfo.RecipientId = context.executive.ID
+			}
+
+			//data.RecipientInfo = JSON.stringify(data.RecipientInfo)
+			//data.Parameters = JSON.stringify(data.Parameters)
+
+
+
+			return self.ai.extra.ainfo.get().then(function(info){
+
+				data.Parameters.push({
+					Id : "advisorInfo__",
+					Value : info
+				})
+				
+				return request(data, 'chat_ai', 'ai/aimail', p)
+
+			})
+
+			.then(function(result){
+
+				return Promise.resolve({
+					text : f.clearstring(result.Body || result.body || ""),
+					caption : f.clearstring(result.Subject || result.sody || ""),
+
+					fullrequest : f.clearstring(result.fullBody || ''),
+					shortrequest : f.clearstring(result.shortBody || ''),
+					completion : f.clearstring(result.completion || ''),
+					html : f.clearstring(result.html || '')
+				})
+
+			}).catch(e => {
+
+				console.error(e)
+
+				var textoferror = (
+
+					((e || {}).responseJSON || {}).Message ||
+					((e || {}).responseJSON || {}).error ||
+					((e || {}).error)
+
+				) || e || "Undefined Error"
+
+				return Promise.reject(textoferror)
+			})
+
+		},
+
+		template : {
+			loadedlist : null,
+			list : function(p = {}){
+
+				if(this.loadedlist) return Promise.resolve(this.loadedlist)
+
+				var d = {
+					Parameters : {
+
+					}
+				}
+
+				d.Parameters.StatusFilter = 'ACTIVE'
+
+				return request(d, 'campaigns', 'AiEmailTemplates/list', p).then(function(data){
+
+					data.Records = _.filter(data.Records, function(r){
+						return r.Status != 'DELETED' && r.Platform == "PCT"
+					})
+
+					return Promise.resolve(_.map(data.Records, function(record){
+
+
+						try{
+							record.Parameters = JSON.parse(record.Parameters)
+							record.Body = decodeURIComponent(record.Body)
+
+						}
+						catch(e){
+							console.error(e)
+							record.Parameters = {}
+							record.Body = ''
+						}
+						
+
+						return record
+
+					}))
+
+				}).then((result) => {
+
+					this.loadedlist = result
+					 
+					return Promise.resolve(result)
+				})
+			}
+		}
+	}
+
+	self.ai_messages = {
+		lists : {},
+		request : function(path, data, p = {}){
+
+			return request(data, 'chat_ai', 'Messages/' + path, p)
+
+		},
+
+		add : function(data){
+
+			return self.ai_messages.request('Add', data).then(function(r){
+
+				data.id = r.id
+
+				if(self.ai_messages.lists[data.chatId]) self.ai_messages.lists[data.chatId].push(data)
+
+				if (data.chatId)
+					self.ai_chats.quickupdate(data.chatId, '', data)
+
+				return Promise.resolve(r.id)
+			})
+
+		},
+
+		list : function(id, reload){
+
+			if (self.ai_messages.lists[id] && !reload){
+				return Promise.resolve(self.ai_messages.lists[id])
+			}
+
+			var d = {
+				chatIdFilter : id,
+				"sortFields": [
+					{
+					  "field": "id",
+					  "order": "Asc"
+					}
+				]
+			}
+
+			return self.ai_messages.request('List', d).then(function(data){
+
+				data.records = _.filter(data.records, function(r){
+					return r.Status != 'DELETED'
+				})
+
+				return Promise.resolve(_.map(data.records, function(record){
+
+					return record
+
+				}))
+
+			}).then(function(result) {
+
+				self.ai_messages.lists[id] = result
+				console.log("???")
+
+				return Promise.resolve(result)
+			})
+
+		}
+	}
+
+	self.ai_chats = {
+
+		allchats : null,
+
+		request : function(path, data, p = {}){
+
+			return request(data, 'chat_ai', 'Chats/' + path, p)
+
+		},
+
+		add : function(title, state){
+
+
+			return self.ai_chats.request('Add', {
+				title : title,
+				currentState : JSON.stringify(state),
+				platform : "PCT"
+			}).then(function(r){
+
+				self.ai_messages.lists[r.id] = []
+
+				return Promise.resolve(r.id)
+			})
+
+		},
+
+		update : function(data = {}){
+
+			data = _.clone(data)
+
+			if(data.currentState) data.currentState = JSON.stringify(data.currentState)
+
+			return self.ai_chats.request('Update', data).then(function(r){
+
+				self.ai_chats.quickupdate(data.id, data.title)
+
+				return Promise.resolve(r)
+			})
+
+		},
+
+		delete : function(id){
+
+			return self.ai_chats.update({status : "DELETED", id : id}).then(function(data){
+				return Promise.resolve(data)
+			})
+
+		},
+
+		quickupdate : function(id, title, lastmessage){
+			
+			var upd = _.find(self.ai_chats.allchats || [], function(chat){
+				return chat.id == id
+			})
+
+			if (upd){
+
+				if(title) upd.title = title
+				if(lastmessage) upd.lastMessage = lastmessage
+
+			}
+		},
+
+		list : function(reload){
+
+			if (self.ai_chats.allchats && !reload){
+				return Promise.resolve(self.ai_chats.allchats)
+			}
+
+			var d = {
+				pageNumber : 0,
+				pageSize : 50,
+				StatusFilter : "ACTIVE",
+				sortFields : [
+					{
+						"field": "updated",
+						"order": "DESC"
+					}
+				]
+			}
+
+			return self.ai_chats.request('list', d).then(function(data){
+
+				return Promise.resolve(_.map(data.records, function(record){
+
+					try{
+						record.currentState = JSON.parse(record.currentState)
+					}
+					catch(e){
+						console.error(e)
+						record.currentState = {}
+					}
+
+					record.date = (record.updated || record.created)
+
+					return record
+
+				}))
+
+			}).then(function(result){
+				self.ai_chats.allchats = result
+
+				return Promise.resolve(result)
+			})
+
+		},
+
+		get : function(id){
+			return self.ai_chats.list().then(function(result){
+				var upd = _.find(result, function(r){
+					return r.id == id
+				})
+
+				if	(upd){
+
+					return self.ai_messages.list(upd.id).then(function(messages){
+						return Promise.resolve({
+							chat : upd,
+							messages : messages
+						})
+					})
+
+				}
+
+				return Promise.reject('notfound')
+			})
 		}
 	}
 

@@ -16,7 +16,7 @@ import Cordovakit from './shared/cordovakit'
 import Filemanager from './lib/common/filemanager'
 //import FX from './shared/utils/fx.js'
 
-import {Settings, LSSettings} from "./shared/settings";
+import { Settings, LSSettings } from "./shared/settings";
 
 
 
@@ -29,68 +29,68 @@ import Images from "./shared/utils/images";
 import Integrations from "./shared/integrations";
 
 var settings = {
-    server : {
+    server: {
         PDF: {
             logotype: {
                 name: 'logotype',
-                default: function() {
+                default: function () {
                     return ''
                 },
             },
-    
+
             disclosure: {
                 name: 'disclosure',
-                default: function() {
+                default: function () {
                     return {}
                 },
             }
         },
         STRESS: {
             scenarios: {
-    
+
                 name: 'scenarios',
-                default: function() {
+                default: function () {
                     return []
                 },
-    
+
             },
-    
-            definedRiskScore : {
-    
+
+            definedRiskScore: {
+
                 name: 'scenarios',
-                default: function() {
-    
+                default: function () {
+
                     return {
-                        use : 'no',
-                        scores : {}
+                        use: 'no',
+                        scores: {}
                     }
-                    
+
                 },
-    
+
             },
         },
 
-        CAMPAIGNS : {
-            signature : {
+        CAMPAIGNS: {
+            signature: {
                 name: 'signature',
-                default: function() {
+                default: function () {
                     return null
                 },
             }
         }
     },
 
-    local : {
+    local: {
         PDF: {
             reports: {
                 name: 'reports',
-                default: function() {
+                default: function () {
                     return {}
                 },
             }
         },
 
-        UI : {
+        UI: {
 
         }
     }
@@ -103,15 +103,15 @@ class Core {
 
     appid = 'net.rixtrema.pct'
 
-    constructor(vm, p){
-        if(!p) p = {}
+    constructor(vm, p) {
+        if (!p) p = {}
 
         this.vxstorage = p.vxstorage
         this.i18n = p.i18n
 
         this.apiHandlers = {
-            error : function(){},
-            success : function(){}
+            error: function () { },
+            success: function () { }
         }
 
         this.domain = p.domain
@@ -132,15 +132,15 @@ class Core {
 
         this.external = {}
         this.hiddenInParent = false
-        
+
 
         this.settings = {
-            stress : new Settings(this, "STRESS", settings.server), 
-            campaigns : new Settings(this, "CAMPAIGNS", settings.server), 
-            user : new Settings(this, "USER", settings.server),
-            pdf : new Settings(this, "PDF", settings.server),
-            lspdf : new LSSettings(this, "PDF", settings.local),
-            ui : new LSSettings(this, "UI", settings.local)
+            stress: new Settings(this, "STRESS", settings.server),
+            campaigns: new Settings(this, "CAMPAIGNS", settings.server),
+            user: new Settings(this, "USER", settings.server),
+            pdf: new Settings(this, "PDF", settings.server),
+            lspdf: new LSSettings(this, "PDF", settings.local),
+            ui: new LSSettings(this, "UI", settings.local)
         }
 
         this.dynamicSettings = {}
@@ -148,7 +148,7 @@ class Core {
         this.filemanager = new Filemanager(this)
         this.crm = new CRM(this)
         this.pct = new PCT(this)
-       
+
         //this.fx = new FX(this)
         this.filesystem = new Filesystem(this)
 
@@ -158,11 +158,11 @@ class Core {
 
         this.campaigns = new CAMPAIGNS(this, this.settings.campaigns)
 
-        
+
 
         this.user = new user(this, {
 
-            prepare : () => {
+            prepare: () => {
 
                 return Promise.all([this.api.checkUpdates(), this.activity.load(), this.pct.prepare(), this.crm.prepare()]).catch(e => {
                     return Promise.reject(e)
@@ -170,7 +170,7 @@ class Core {
 
             },
 
-            clearing : () => {
+            clearing: () => {
 
                 _.each(this.settings, (settings) => {
                     settings.clear()
@@ -179,7 +179,7 @@ class Core {
                 this.api.clearCache()
 
                 this.vxstorage.clear()
-        
+
                 this.updates.clearall()
 
                 this.store.commit('clearall')
@@ -197,39 +197,39 @@ class Core {
         this.api.prepare().then(() => {
             this.user.init()
         })
-       
+
     }
 
-    initpdfreports = function(PDFReports){
+    initpdfreports = function (PDFReports) {
 
         if (this.pdfreports) return
-            this.pdfreports = new PDFReports(this)
+        this.pdfreports = new PDFReports(this)
 
     }
 
-    on = function(event, key, f){
-        if(!this.clbks[event]) this.clbks[event] = {}
+    on = function (event, key, f) {
+        if (!this.clbks[event]) this.clbks[event] = {}
 
         this.clbks[event][key] = f
     }
 
-    off = function(event, key){
-        if(!this.clbks[event]) this.clbks[event] = {}
+    off = function (event, key) {
+        if (!this.clbks[event]) this.clbks[event] = {}
 
         delete this.clbks[event][key]
     }
 
-    emit = function(event, data){
-        if(!this.clbks[event]) this.clbks[event] = {}
+    emit = function (event, data) {
+        if (!this.clbks[event]) this.clbks[event] = {}
 
         _.each(this.clbks[event], (c) => {
             c(data)
         })
     }
 
-    logerror = function(type, data){
+    logerror = function (type, data) {
 
-        if (window.Logger){
+        if (window.Logger) {
 
             window.Logger.error({
                 err: type,
@@ -240,11 +240,11 @@ class Core {
         }
     }
 
-    mobileview = function(){
+    mobileview = function () {
         return window.innerWidth <= 768
     }
 
-    destroy = function(){
+    destroy = function () {
         this.store.commit('clearall')
 
         this.user.unlinkwss(this.wss)
@@ -257,36 +257,36 @@ class Core {
 
     }
 
-    init = function(){
-        
+    init = function () {
+
         this.focusListener.init()
         this.onlineListener.init()
 
         this.initEvents()
 
     }
-    
 
-    setUnauthorized = function(v){
+
+    setUnauthorized = function (v) {
         this.unauthorized = v
         this.store.commit('SET_UNAUTHORIZED', v)
     }
 
-    initWithUserBase = function(){
+    initWithUserBase = function () {
 
         return Promise.resolve()
 
     }
 
-    initWithUser = function(credentials){
+    initWithUser = function (credentials) {
 
         return this.initWithUserBase()
 
     }
 
-    waitonline = function(){
+    waitonline = function () {
 
-        if(this.online) return Promise.resolve()
+        if (this.online) return Promise.resolve()
 
         return new Promise((resolve, reject) => {
 
@@ -304,7 +304,7 @@ class Core {
     }
 
 
-    removeEvents = function(){
+    removeEvents = function () {
         delete this.focusListener.clbks.resume.core
         delete this.focusListener.clbks.pause.core
         delete this.onlineListener.clbks.online.core
@@ -313,12 +313,12 @@ class Core {
         document.removeEventListener("drop", this.dropFiles)
     }
 
-    initEvents = function(){
+    initEvents = function () {
         this.focusListener.clbks.resume.core = (time) => {
 
             this.focus = this.focusListener.focus
 
-            if(time > 60){
+            if (time > 60) {
             }
         }
 
@@ -340,12 +340,12 @@ class Core {
         })
     }
 
-    dropFiles = function(event){
+    dropFiles = function (event) {
         event.preventDefault()
 
         var files = []
 
-        
+
         _.each(event.dataTransfer.files, (F) => {
             files.push(F)
         })
@@ -365,94 +365,97 @@ class Core {
         return created;
     }
 
-    wait = function(){
+    wait = function () {
         return f.pretry(() => {
-			return !this.loading
-		}).then(() => {
+            return !this.loading
+        }).then(() => {
 
-			return Promise.resolve()
+            return Promise.resolve()
 
-		})
+        })
     }
 
-    gotoRoute(route){
+    gotoRoute(route) {
 
         this.cancelDefaultRoute = true;
 
-        this.vm.$router.push(route).catch(e => {})
+        this.vm.$router.push(route).catch(e => { })
     }
 
-    updateUser(){
-        
+    updateUser() {
+
     }
 
-    sitemessage(title){
+    sitemessage(title) {
 
         var position = "bottom-right";
 
-        if (this.vm.$store.state.mobile){
+        if (this.vm.$store.state.mobile) {
             position = 'top-left'
         }
-            
+
+        console.log('title', title)
+
         this.vm.$message({
-            title: title,
-            zIndex: 999,
+            message: title,
+            zIndex: 9999,
             supportHTML: true,
             wrapperClassName: "notificationWrapper",
             position: position,
+            icon : 'fas fa-info-circle',
             type: 'info',
-            duration : 2000
-          })
+            duration: 2000
+        })
     }
 
-    menu(v){
+    menu(v) {
 
         this.store.commit('SET_MENU', v ? {
-			items : v.items,
-			item : v.item,
-            handler : v.handler
-		} : null)
+            items: v.items,
+            item: v.item,
+            handler: v.handler
+        } : null)
 
     }
 
-    action(path, data){
+    action(path, data) {
         var action = f.deep(this, path)
 
-        if(!action){
+        if (!action) {
             return Promise.reject({
-                error : 'Action: ' + path
+                error: 'Action: ' + path
             })
         }
-        else{
+        else {
             return action(data)
         }
     }
 
-    invalidateDb(dbIndex, updated, data){
+    invalidateDb(dbIndex, updated, data) {
         return this.api.invalidateDb(dbIndex, updated, data).then((itemsId) => {
 
             _.each(itemsId, (id) => {
                 this.emit('invalidate', {
-                    [data.type] : id,
-                    key : dbIndex
+                    [data.type]: id,
+                    key: dbIndex
                 })
             })
         })
     }
 
-    ignore(type, key){
+    ignore(type, key) {
 
-        if(!this.ignoring[type]) 
+        if (!this.ignoring[type])
             this.ignoring[type] = []
 
         this.ignoring[type].push(key)
     }
 
-    updateByWs(data, types, invalidate = []){
+    updateByWs(data, types, invalidate = []) {
 
         _.each(types, (type) => {
 
-            if(!this.ignoring[type]) this.ignoring[type] = []
+            if (!this.ignoring[type]) this.ignoring[type] = []
 
             var index = _.findIndex(this.ignoring[type], (v) => {
 
@@ -462,7 +465,7 @@ class Core {
 
             })
 
-            if (index > -1){
+            if (index > -1) {
 
 
                 this.ignoring[type].splice(index, 1)
@@ -470,27 +473,27 @@ class Core {
                 return
             }
 
-            try{
+            try {
 
 
                 var { updated, from = {} } = this.vxstorage.update(data, type)
 
-            }catch(e){
+            } catch (e) {
                 console.error(e)
             }
         })
 
         this.api.invalidateStorageNow(invalidate)
-        
+
     }
 
     updateIntegrationsByWs() {
         this.emit('updateintegrations', {});
     }
 
-    createByWs(data, type, invalidate = []){
+    createByWs(data, type, invalidate = []) {
 
-        if(!this.ignoring[type]) 
+        if (!this.ignoring[type])
             this.ignoring[type] = []
 
         var index = _.findIndex(this.ignoring[type], (v) => {
@@ -499,7 +502,7 @@ class Core {
             })
         })
 
-        if (index > -1){
+        if (index > -1) {
 
             this.ignoring[type].splice(index, 1)
 
@@ -510,25 +513,25 @@ class Core {
 
 
         this.emit('created', {
-            data, 
+            data,
             type
         })
 
-        if (type == 'lead' && data.Status == "LEAD_NEW"){
+        if (type == 'lead' && data.Status == "LEAD_NEW") {
             this.updates.increase('leads')
         }
 
-        if (type == 'lead' && (data.Status == "LEAD_NEW" || data.Type == "LEAD")){
+        if (type == 'lead' && (data.Status == "LEAD_NEW" || data.Type == "LEAD")) {
             this.updates.increase('totalLeads')
         }
 
-        if (type == 'client' && (data.Type == "CLIENT")){
+        if (type == 'client' && (data.Type == "CLIENT")) {
             this.updates.increase('totalClients')
         }
-        
+
     }
 
-    readNotification(ids){
+    readNotification(ids) {
 
         _.each(ids, () => {
             this.updates.decrease('home')
@@ -538,28 +541,28 @@ class Core {
 
     }
 
-    readAllNotifications(){
+    readAllNotifications() {
         this.updates.clear('home')
 
         this.emit('readAllNotifications', ids)
     }
 
-    notification(notification){
+    notification(notification) {
 
         this.updates.increase('home')
 
         if (this.vm.$route.name != 'index')
-            this.store.commit('addNotification', notification) 
+            this.store.commit('addNotification', notification)
 
         this.emit('notification', notification)
     }
 
-    filehandler(blob, p = {}){
+    filehandler(blob, p = {}) {
 
-        if (!p.forcedownload){
+        if (!p.forcedownload) {
             if (blob.type == 'application/pdf') return this.vueapi.pdfviewer({
                 blob,
-                name : p.name
+                name: p.name
             })
 
             if (blob.type.indexOf('image') > -1) {
@@ -571,14 +574,14 @@ class Core {
                     return images.wh(b64).then(i => {
 
                         return this.vueapi.gallery([{
-                            src : b64,
-                            ... i
+                            src: b64,
+                            ...i
                         }])
 
                     })
-                    
+
                 })
-                
+
             }
         }
 
@@ -589,16 +592,16 @@ class Core {
 
 
 
-    getsettings (type, id) {
+    getsettings(type, id) {
 
         var sk = type + '_' + id
 
-        if(!this.dynamicSettings[sk]){
+        if (!this.dynamicSettings[sk]) {
             this.dynamicSettings[sk] = new Settings(this, type, {
-                [type] : {
-                    ['values_' + id] : {
+                [type]: {
+                    ['values_' + id]: {
                         name: 'values_' + id,
-                        default: function() {
+                        default: function () {
                             return null
                         }
                     }
@@ -613,16 +616,16 @@ class Core {
         })
     }
 
-    setsettings(type, id, value){
+    setsettings(type, id, value) {
 
         var sk = type + '_' + id
 
-        if(!this.dynamicSettings[sk]){
+        if (!this.dynamicSettings[sk]) {
             this.dynamicSettings[sk] = new Settings(this, type, {
-                [type] : {
-                    ['values_' + id] : {
+                [type]: {
+                    ['values_' + id]: {
                         name: 'values_' + id,
-                        default: function() {
+                        default: function () {
                             return null
                         }
                     }
