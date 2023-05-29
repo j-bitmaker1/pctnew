@@ -448,8 +448,10 @@ export default {
         const urlParams = new URLSearchParams(window.location.search);
 
         const APPSTORE = urlParams.has("appstore");
+        const settings = urlParams.has("testsettings");
 
         this.$store.commit("setAPPSTORE", APPSTORE)
+        this.$store.commit("setTestsettings", settings)
 
         console.log('APPSTORE PCTPRO2?', APPSTORE);
 
