@@ -134,6 +134,64 @@ export default {
 		},
 
         open : function(batch){
+
+            console.log('batch', batch)
+
+            if(batch.TemplateId == 'single-mail-by-template'){
+
+                var campaign = null
+
+                this.$store.commit('globalpreloader', true)
+
+                return this.core.api.campaigns.single.listall(batch.Id).then(r => {
+
+                    campaign = r[0]
+
+                    console.log("R", r)
+
+                    return this.core.api.campaigns.single.steps(campaign.Id)
+                }).then((steps) => {
+
+                    var step = steps[0]
+
+
+                    this.core.api.campaigns.single.email(campaign.Id, step.id, {
+                    }).then(r => {
+        
+                        return this.core.api.crm.contacts.get(campaign.RecipientId, {
+                        }).then(profile => {
+
+                            this.core.campaigns.emailpreview({
+                                ...r,
+                                ... {
+                                    date : step.started,
+            
+                                },
+                                ...{
+                                    email : campaign.RecipientEmail,
+                                    name : campaign.RecipientName,
+                                    profile : profile,
+                                    read : step.track
+                                }
+                            })
+        
+                        })
+        
+                        
+        
+                    })
+
+                }).catch(e => {
+
+                    console.error(e)
+
+                }).finally(() => {
+                    this.$store.commit('globalpreloader', false)
+                })
+
+                return
+            }
+
             this.$router.push('/campaigns/batch/' + batch.Id).catch(e => {})
         },
 

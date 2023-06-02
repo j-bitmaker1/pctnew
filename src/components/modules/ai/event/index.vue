@@ -44,9 +44,16 @@
                     <i class="fas fa-copy"></i>
                 </div>
 
-                <div class="messagestatuspanelitem saved">
-                    <i class="fas fa-check"></i>
+                <div class="messagestatuspanelitem thumbsup" v-if="event.data.requestId" :class="{active : thumbs > 0}" @click="thumbsup">
+                    <i class="fas fa-thumbs-up"></i>
                 </div>
+
+                <div class="messagestatuspanelitem thumbsdown" v-if="event.data.requestId" :class="{active : thumbs < 0}" @click="thumbsdown">
+                    <i class="fas fa-thumbs-down"></i>
+                </div>
+
+
+            
             </div>
         </div>
 

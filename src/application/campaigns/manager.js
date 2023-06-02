@@ -432,6 +432,15 @@ class CampaignsManager {
         ).catch(e => {})
     }
 
+    sendSingle(data = {}, events = {}){
+
+        return this.vueapi.customWindow(
+            'campaigns_start_single_email', 
+            "Send email", data, events
+        )
+
+    }
+
     edittemplate(data){
         return this.vueapi.customWindow(
             'campaigns_template', 

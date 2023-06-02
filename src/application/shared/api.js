@@ -3409,6 +3409,29 @@ var ApiWrapper = function (core = {}) {
 				return paginatedrequest(data, 'campaigns', 'campaigns/list', p)
 			},
 
+			listall : function(batchId, p = {}){
+
+				p.method = "POST"
+
+				p.kit = {
+					class: Campaign,
+					path: 'Records'
+				}
+
+				p.vxstorage = {
+					type: 'campaign',
+					path: 'Records'
+				}
+
+				var data = {
+					BatchId : batchId
+				}
+
+				return request(data, 'campaigns', 'campaigns/list', p).then(r => {
+					return Promise.resolve(r.Records)
+				})
+			},
+
 			steps : function(campaignId, p = {}){
 
 				p.method = "GET"
@@ -3866,22 +3889,13 @@ var ApiWrapper = function (core = {}) {
 
 			}
 
-			if (context.plan){
-				data.RecipientInfo.PlanEin = context.plan.SPONS_DFE_EIN
-				data.RecipientInfo.PlanPn = context.plan.SPONS_DFE_PN
-				data.RecipientInfo.PlanAckId = context.plan.ACK_ID
-				data.RecipientInfo.PlanName = context.plan.SPONSOR_DFE_NAME
+			if (context.portfolio){
+				data.RecipientInfo.PortfolioId = context.portfolio
 			}
 
-			if (context.executive){
-				data.RecipientInfo.RecipientEmail = context.executive.Email
-				data.RecipientInfo.RecipientName = context.executive.Name
-				//data.RecipientInfo.RecipientId = context.executive.ID
+			if (context.client){
+				data.RecipientInfo.RecipientId = context.client
 			}
-
-			//data.RecipientInfo = JSON.stringify(data.RecipientInfo)
-			//data.Parameters = JSON.stringify(data.Parameters)
-
 
 
 			return self.ai.extra.ainfo.get().then(function(info){
@@ -3899,12 +3913,14 @@ var ApiWrapper = function (core = {}) {
 
 				return Promise.resolve({
 					text : f.clearstring(result.Body || result.body || ""),
-					caption : f.clearstring(result.Subject || result.sody || ""),
+					caption : f.clearstring(result.Subject || result.subject || ""),
 
 					fullrequest : f.clearstring(result.fullBody || ''),
 					shortrequest : f.clearstring(result.shortBody || ''),
 					completion : f.clearstring(result.completion || ''),
-					html : f.clearstring(result.html || '')
+					html : f.clearstring(result.html || ''),
+
+					requestId : (result.service || {}).requestId
 				})
 
 			}).catch(e => {
@@ -3970,7 +3986,9 @@ var ApiWrapper = function (core = {}) {
 					return Promise.resolve(result)
 				})
 			}
-		}
+		},
+
+		
 	}
 
 	self.ai_messages = {
@@ -4046,13 +4064,22 @@ var ApiWrapper = function (core = {}) {
 
 		},
 
+		rate : function(requestId, Score, p = {}){
+			var data = {
+				"RequestId": requestId,
+				"Score": Score || 1
+			}
+
+			return request(data, 'chat_ai', 'OpenAiHistory/Rate', p)
+		},
+
 		add : function(title, state){
 
 
 			return self.ai_chats.request('Add', {
 				title : title,
 				currentState : JSON.stringify(state),
-				platform : "PCT"
+				system : "PCT"
 			}).then(function(r){
 
 				self.ai_messages.lists[r.id] = []

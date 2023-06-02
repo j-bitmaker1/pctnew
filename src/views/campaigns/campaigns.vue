@@ -71,6 +71,9 @@ export default {
 					id : 'campaigns',
 					icon : "fas fa-list"
 				},
+
+				
+
 				{
 					text : 'campaigns.labels.templates',
 					id : 'alltemplates',
@@ -92,10 +95,17 @@ export default {
 		newcampaigns : function(){
 
 			var items = []
+
 				items.push({
 					text: 'campaigns.labels.newCampaign',
 					icon: 'fas fa-play',
 					action: this.newCampaign
+				})
+
+				items.push({
+					text: 'campaigns.labels.sendSingle',
+					icon: 'fas fa-envelope',
+					action: this.sendSingle
 				})
 
 				items.push({
@@ -120,6 +130,10 @@ export default {
 		},
 		newCampaign : function(){
 			this.core.campaigns.start()
+		},
+
+		sendSingle : function(){
+			this.core.campaigns.sendSingle().catch(e => {})
 		}
 	},
 

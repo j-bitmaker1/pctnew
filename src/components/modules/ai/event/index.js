@@ -21,7 +21,8 @@ export default {
 
         return {
             loading : false,
-            showedallanswers : false
+            showedallanswers : false,
+            thumbs : 0
         }
 
     },
@@ -31,7 +32,14 @@ export default {
     },
 
     watch: {
-        //$route: 'getdata'
+        thumbs : function(){
+            if (this.event.data.requestId){
+                this.core.api.ai_chats.rate(this.event.data.requestId, this.thumbs).then(() => {}).catch(e => {
+                    console.error(e)
+                })
+            }
+            
+        }
     },
     computed: mapState({
         auth : state => state.auth,
@@ -67,6 +75,20 @@ export default {
 
         expandhtmlresult : function(){
             this.core.vueapi.htmlpage(this.event.data.html)
-        }
+        },
+
+        thumbsup : function(){
+            this.thumbs = 1
+
+            
+            //if(!this.event.data.requestId) return
+        },
+
+        thumbsdown : function(){
+            this.thumbs = -1
+
+            //if(!this.event.data.requestId) return
+
+        },
     },
 }

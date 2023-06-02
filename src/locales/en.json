@@ -507,7 +507,8 @@
 			"templateCancel" : "Are you sure you want to cancel the changes?",
 			"removeCampaignTemplate" : "Would you like to remove campaign template?",
 			"settings" : "Settings",
-			"newsignature" : "New signature"
+			"newsignature" : "New signature",
+			"sendSingle" : "Send email"
 		},
 
 		"add" : {
@@ -524,6 +525,7 @@
 			"start" : {
 				"RecipientTimeZone" : "Recipients time zone",
 				"Started" : "Start time (local)",
+				"Send" : "Send time (local)",
 				"Name" : "Campaign name",
 				"GroupBy" : "Sequencing",
 				"INORDER" : "One after another",
@@ -561,9 +563,12 @@
 		"errors" : {
 			"start" : {
 				"templateFail" : "Selected campaign template is not valid",
+				"emailFail" : "Please fill email caption and email body",
+				"email" : "Please fill email caption and email body",
 				"template" : "Please select campaign template",
 				"name" : "Please input campaign name",
-				"contacts" : "Please select campaign recipients"
+				"contacts" : "Please select campaign recipients",
+				"contact" : "Please select campaign recipient"
 			}
 		},
 

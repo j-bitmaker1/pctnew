@@ -249,7 +249,7 @@ var Master = function(settings = {}, /*app, */context){
 		},
 
 		generateemail : {
-			text : "Create email file",
+			text : "Send email",
 			/// TODO CHECK
 			donotcontinue : true,
 			clbk : function(){
@@ -263,7 +263,7 @@ var Master = function(settings = {}, /*app, */context){
 
 						var result = {
 							caption : (self.result.caption),
-							text : convertNewLinesToBr(self.result.text),
+							text : f.convertNewLinesToBr(self.result.text),
 							title : "Email created by artificial intelligence"
 						}
 
@@ -754,8 +754,8 @@ Success! Your email was forwarded to complicance departement for review.
 
 									return settings.ai.generate(self.type.id, self.parameters, {
 										test : self.context.test || false,
-										portfolio,
-										client
+										portfolio : portfolio.id,
+										client : client.ID
 									}, {
 										//refinetext : self.data.text,
 										history : self.history.data,
@@ -824,6 +824,8 @@ Success! Your email was forwarded to complicance departement for review.
 							message : self.result.html ? 'Here is the landing page:' : (
 								self.result.caption ? (self.result.caption + '\n\n') : "") + (self.result.text ? self.result.text : ("Request: \n" + (self.result.fullrequest || "Empty") + "\n\nShort request:\n" + (self.result.shortrequest || "Empty") + "\n\nCompletion request:\n" + (self.result.completion || "Empty")
 							)),
+
+							requestId : (self.result.html ? null : self.result.requestId) || null
 						}
 					}, 
 					
@@ -833,6 +835,7 @@ Success! Your email was forwarded to complicance departement for review.
 						type : 'html',
 						event : {
 							html : self.result.html,
+							requestId : self.result.requestId || null
 						}
 					} : null,
 				
@@ -867,13 +870,13 @@ Success! Your email was forwarded to complicance departement for review.
 						answers : _.map(
 							_.filter(self.type.type == 'chat' ? 
 							
-							[app.user.data.aiadmin && !self.context.test && !self.type.pdf ? actions.makePromt : null, /*actions.copyresult,*/ actions.stop] : 
+							[settings.user.aiadmin && !self.context.test && !self.type.pdf ? actions.makePromt : null, /*actions.copyresult,*/ actions.stop] : 
 							
 							[
-								app.user.data.aiadmin && !self.context.test && !self.type.pdf ? actions.makePromt : null, 
+								settings.user.aiadmin && !self.context.test && !self.type.pdf ? actions.makePromt : null, 
 								actions.refine,
 
-								self.type.type == 'email' && !self.result.html && self.result.text && !self.context.test && !app.user.limitedversion ? actions.generateemail : null, 
+								self.type.type == 'email' && !self.result.html && self.result.text && !self.context.test && !settings.user.limitedversion ? actions.generateemail : null, 
 
 								self.result.text && !self.context.test && !self.result.html ? actions.complianceReview : null, 
 								

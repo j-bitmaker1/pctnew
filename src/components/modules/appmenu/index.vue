@@ -34,7 +34,7 @@
         </div>
 
         <div class="aiWrapper" @click="openai" v-if="aifeature">
-            <span>AI</span>
+            <img :src="require('@/assets/logoai.svg')" />
         </div>
         
     </div>

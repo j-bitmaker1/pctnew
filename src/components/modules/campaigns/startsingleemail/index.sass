@@ -1,0 +1,94 @@
+.contacts,
+.settings,
+.campaignTemplate
+    padding : 2 * $r
+    margin-left: $r
+    margin-right: $r
+    background: srgb(--background-secondary-theme)
+    margin-top: 4 * $r
+    border-radius: 12px
+    border : 1px solid srgb(--neutral-grad-0)
+    
+    .selected
+        margin-bottom: 2 * $r
+
+.stickerWrapper
+    padding : 4 * $r
+    text-align: center
+
+.caption
+    margin-bottom: 2 * $r
+    display: flex
+    grid-gap: $r
+    align-items: center
+
+    .num
+        text-align: center
+        height: 44px
+        line-height: 42px
+        width: 42px
+        border-radius: 22px
+        border : 1px solid srgb(--neutral-grad-1)
+        color : 1px solid srgb(--neutral-grad-2)
+        background: srgb(--background-total-theme)
+        +shadowSmaller()
+
+    .sz
+        color : 1px solid srgb(--neutral-grad-3)
+        span
+            font-size: 1.5em
+            font-weight: 700
+
+    .cr
+        color : srgb(--color-txt-ac)
+
+.contacts
+    .clients
+        display: flex
+        align-items: center
+        grid-gap: $r
+        flex-wrap: wrap
+        padding-left: 1.25 * $r
+
+    .lineClientPreviewWrapper
+        margin-bottom: 0.5 * $r
+
+    .groupCaption
+        margin-bottom: $r
+        margin-top: 2 * $r
+
+        span
+            font-weight: 700
+
+    ::v-deep
+        .showmore
+            padding : 0
+            margin-top: $r
+            margin-bottom: 2 * $r
+
+            span
+                color : srgb(--color-txt-ac)
+                text-decoration: underline
+   
+
+.templates_single_preview
+    background: srgb(--background-total-theme)
+    +shadowSmaller()
+
+.campaignTemplate
+    ::v-deep
+        .trumbowyg-button-pane
+            padding : 0
+        .trumbowyg-editor
+            margin-left: 0
+            margin-right: 0
+        
+    .templateCaption
+        margin-bottom: $r
+        input
+            padding-left: $r
+            padding-right: $r
+            height: 55px
+            width: 100%
+            border-radius: 12px
+            border: 1px solid srgb(--neutral-grad-1)

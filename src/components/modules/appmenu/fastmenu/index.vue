@@ -4,7 +4,10 @@
 
         <transition-group name="menu" tag="div">
             <div class="item" v-for="item in items" :key="item.id" @click="e => open(item)">
-                <div><i :class="item.icon" /></div>
+                <div>
+                    <i v-if="item.icon" :class="item.icon"/>
+                    <img :src="require('@/assets/' + item.svg)" v-if="item.svg"/>
+                </div>
                 <div class="label"><span>{{ $t(item.text) }}</span></div>
             </div>
         </transition-group>

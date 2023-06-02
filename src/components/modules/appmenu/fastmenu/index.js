@@ -63,7 +63,7 @@ export default {
                 /*{
 					id : 'ai',
 					text : 'menu.ai',
-					icon : "fas fa-brain",
+					svg : "logoai.svg",
 					action : this.openai,
 					features : ['AI'],
 

@@ -118,11 +118,12 @@ export default {
         },
 
         masterSettings : function(){
+            console.log('this.core.user.info', this.core.user.info)
             return {
 
                 user : {
-                    name : "Max",
-                    aiadmin : true
+                    name : this.core.user.info.FName,
+                    aiadmin : false
                 },
 
                 template : {
@@ -148,8 +149,19 @@ export default {
                         clbk('error')
                     },
 
-                    sendEmail : function(portfolio, client, result, clbk){
-                        clbk('')
+                    sendEmail : (portfolio, client, result, clbk) => {
+
+                        this.core.campaigns.sendSingle({
+
+                            caption : result.caption,
+                            body : result.text,
+                            profile : client
+
+                        }).catch(e => {}).finally(() => {
+                            clbk('')
+                        })
+
+                        
                     },
 
                     close : () => {
