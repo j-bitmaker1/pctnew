@@ -15,7 +15,6 @@
     "cordova-serve-android": "cross-env CORDOVA_PLATFORM=android vue-cli-service cordova-serve-android --emptypublicpath"
   },
   "dependencies": {
-    
     "@editorjs/header": "^2.6.2",
     "@editorjs/list": "^1.7.0",
     "@editorjs/paragraph": "^2.8.0",
@@ -96,6 +95,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-async-generator-functions": "^7.20.7",
     "@babel/plugin-transform-async-to-generator": "^7.22.5",
+    "@babel/plugin-transform-nullish-coalescing-operator": "^7.22.5",
     "@babel/plugin-transform-runtime": "^7.22.5",
     "@babel/plugin-transform-typescript": "^7.22.5",
     "@babel/preset-env": "^7.16.11",
@@ -116,6 +116,7 @@
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-mjs": "^0.0.4",
     "babel-preset-stage-0": "^6.24.1",
     "expose-loader": "^1.0.3",
     "gitignore-parser": "0.0.2",
