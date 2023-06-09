@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="76" id="com.rixtrema.pct" version="0.0.76" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:tools="http://schemas.android.com/tools">
+<widget android-versionCode="76" id="com.rixtrema.pct" version="0.0.76" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Portfolio crash test</name>
     <description>
         Portfolio crash test
@@ -121,6 +121,7 @@
         <allow-intent href="market:*" />
     </platform>
     <platform name="android">
+        <custom-preference name="android-manifest/@xmlns:tools" value="http://schemas.android.com/tools" />
         <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true" />
         </edit-config>

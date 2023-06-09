@@ -48,7 +48,7 @@
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-camera-preview": "^0.12.1",
-    
+    "cordova-custom-config": "^5.1.1",
     "cordova-plugin-file-transfer": "file:cordova-plugin-file-transfer",
     "cordova-support-android-plugin": "1.0.1",
     "cordova-plugin-firebasex": "=14.2.1",
@@ -134,7 +134,8 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-photo-library" : {},
-      "cordova-plugin-keychain-touch-id" : {}
+      "cordova-plugin-keychain-touch-id" : {},
+      "cordova-custom-config": {}
     },
     "platforms": [
       "android"
