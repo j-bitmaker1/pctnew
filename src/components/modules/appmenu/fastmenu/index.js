@@ -60,14 +60,14 @@ export default {
 					action : this.sharequestionnaire
 
 				},
-                /*{
+                {
 					id : 'ai',
 					text : 'menu.ai',
 					svg : "logoai.svg",
 					action : this.openai,
 					features : ['AI'],
 
-				}*/
+				}
 
                 /*{
                     route : '/help',

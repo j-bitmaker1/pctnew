@@ -210,8 +210,6 @@ export default {
             
             this.scroll = e.target.scrollTop
 
-            console.log('this.scroll', this.scroll)
-
             if((this.scroll > 0 && !this.reversedCustomScroll) || (this.reversedCustomScroll && this.scroll < 0)){
                 this.blockTouch = true
 
@@ -229,7 +227,6 @@ export default {
         },
 
         componentscrolling : function(e){
-            console.log('componentscrolling', this.customscroll)
             if (this.customscroll){
                 this.scrolling(e)
             }

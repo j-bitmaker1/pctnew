@@ -38,6 +38,9 @@ export default {
 	computed: mapState({
 		auth: state => state.auth,
 		mobileview : state => state.mobileview,
+		summaryview : function(){
+			return this.$route.name == 'summary'
+		},
 		menu : function(){
 
 			var menu = [
@@ -65,10 +68,8 @@ export default {
 					text : 'menu.comparewith',
 					icon : 'fas fa-list-ol',
 					action : 'comparewith',
-
             		features : ['PCT']
 				},
-
 
 				{
 					text : 'labels.editportfolio',
@@ -77,7 +78,6 @@ export default {
 
             		features : ['PCT']
 				},
-
 				
 				{
 					text : 'labels.moveportfoliotofolder',
@@ -90,6 +90,12 @@ export default {
 					action : 'delete'
 				},
 
+				{
+					text : 'menu.openai',
+					svg : 'logoai.svg',
+					action : 'openai',
+            		features : ['AI']
+				}
 				
 			]
 
@@ -300,6 +306,16 @@ export default {
 			})
 			
 		},
+
+		openai : function(){
+			console.log('this.summaryview', this.summaryview, this.mobileview)
+			this.core.vueapi.openai({
+				initialcontext : {
+					portfolio : this.portfolio.id,
+					client : this.portfolio.crmContactId
+				}
+			}, {}, this.summaryview && !this.mobileview)
+		}
 
 		
 	},

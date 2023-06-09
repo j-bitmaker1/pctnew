@@ -1,7 +1,7 @@
 <template>
 	<div id="ai" :class="{loading : loading, inputactive, nospeechrecognition, speech, pip, mobileview, chatstopped}">
 		<div class="contents" v-if="!mobileview">
-            <contents @startnewchat="startnewchat"/>
+            <contents @startnewchat="startnewchat" @selectchat="selectchat"/>
         </div>
 
         <div class="report">
@@ -25,7 +25,7 @@
 
             <div class="reportCenter">
                 
-                <div class="events customscroll2" ref="events" v-scroll="componentscrolling">
+                <div class="events customscroll2" :class="{fadeoutend, fadeout}" ref="events" v-scroll="componentscrolling">
                     
                     <div class="eventsflex">
 						<aievent 
@@ -70,11 +70,11 @@
                             <!--<input type="text" placeholder="Enter text"/>-->
                         </div>
                         <div class="panel">
-                            <div class="iconbt microphone">
+                            <div class="iconbt microphone" @click="microphoneClick">
                                 <i class="fas fa-microphone"></i>
                             </div>
             
-                            <div class="iconbt send">
+                            <div class="iconbt send" @click="sendClick">
                                 <i class="fas fa-paper-plane"></i>
                             </div>
                         </div>

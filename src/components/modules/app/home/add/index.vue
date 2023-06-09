@@ -99,7 +99,8 @@ export default {
                     action: this.sharequestionnaire,
 
                     features : ['PCT']
-                }
+                },
+                
             ]
             
 
@@ -179,7 +180,11 @@ export default {
             }, {
                 caption: "New lead"
             })
-        }
+        },
+
+        openai : function(){
+			this.core.vueapi.openai()
+		}
 
     },
 }

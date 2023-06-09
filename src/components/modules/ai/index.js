@@ -4,11 +4,14 @@ import f from "@/application/shared/functions.js"
 import aievent from './event/index.vue'
 import masterpanel from './masterpanel/index.vue'
 import contents from './contents/index.vue'
-
+import {
+    MonteCarlo,
+} from "@/application/charts/index.js"
 export default {
     name: 'ai',
     props: {
-        pip : Boolean
+        pip : Boolean,
+        initialcontext : Object
     },
 
     components : {
@@ -31,11 +34,8 @@ export default {
 
             eventsToRender : [],
             rendered : {},
-
             eventsinaction : {},
-
             textareavalue : '',
-
 
             events_heights : {},
             events_willremoving : {},
@@ -44,17 +44,31 @@ export default {
 
             nospeechrecognition : false,
             speech : false,
+            currentStatus : null,
 
-            currentStatus : null
+            fadeout : false,
+            fadeoutend : false
 
         }
 
     },
 
     created () {
+
+        if(this.initialcontext) this.context = this.initialcontext
+
         this.initmaster(() => {
 
         })
+
+        /*this.getextradata({
+            client : 414380,
+            portfolio : 15
+        }).then(data => {
+            console.log("EXTRADATA", data)
+        })*/
+
+
     },
 
     watch: {
@@ -117,13 +131,16 @@ export default {
             return this.master ? this.master.stopped || false : false
         },
 
+        
+
         masterSettings : function(){
-            console.log('this.core.user.info', this.core.user.info)
             return {
 
                 user : {
                     name : this.core.user.info.FName,
-                    aiadmin : false
+                    aiadmin : this.core.user.info.Email == 'maximgrishkov@yandex.ru' || 
+                        this.core.user.info.Email == 'dsatchkov@rixtrema.com' || 
+                        this.core.user.info.Email == 'yperullo@rixtrema.com'
                 },
 
                 template : {
@@ -135,7 +152,18 @@ export default {
                 ai : {
                     generate : (templateId, parameters = {}, context = {}, extra = {}) => {
 
-                        return this.core.api.ai.generate(templateId, parameters, context, extra)
+
+                        return this.getextradata(context).then((data) => {
+
+                            extra = {...extra, ...data}
+
+                            console.log("EXTRADATA2", extra, data)
+
+                            return this.core.api.ai.generate(templateId, parameters, context, extra)
+                        }).catch(e => {
+
+                            return Promise.reject(e)
+                        })
 
                     },
                     pdf : (parameters = {}, context = {}, extra = {}) => {
@@ -304,8 +332,236 @@ export default {
     }),
 
     methods : {
+
+        getextradata : function(context){
+            var promises = []
+            var ct = null
+            var dct = null
+            var capacity = null
+
+            var extra = { }
+            var benchmarks = null
+
+            console.log('context', context)
+
+            if (context.portfolio){
+
+                promises.push( 
+
+                    this.core.api.pctapi.portfolios.get(context.portfolio).then(r => {
+
+                        console.log(r)
+
+                        return this.core.pct.stresstestskt([r], 'd', { term: true, fee : asset => {
+                            return r.advisorFee || 0
+                        }}).then(cts => {
+
+                            ct = cts.cts[r.id]
+
+                            return this.core.pct.stressdetails(r, {
+                                term : ct.term || null
+                            }).then(R => {
+
+                                dct = R
+                                ct.contributors = dct.contributors
+                                dct.ocr = ct.ocr
+
+                            })
+            
+                        }).then(() => {
+                            return this.core.pct.assets(r).then(assetsInfo => {
+                                var positions = []
+
+                                console.log('assetsInfo', assetsInfo)
+
+                                _.each(r.positions, (p) => {
+
+                                    var ai = assetsInfo[p.ticker] || {}
+
+                                    positions.push({
+                                        ticker : p.ticker,
+                                        value : p.value,
+                                        name : ai.name || "",
+                                        expRatio : ai.expRatio || 0
+                                    })
+                                })
+
+                                extra.positions = _.sortBy(positions, (p) => {
+                                    return - p.value
+                                })
+                            })
+                        }).then(() => {
+
+                            return this.core.pct.benchmarks(r.total() / 100).then(r => {
+                                benchmarks = r
+                            })
+
+                        }).then(() => {
+
+                            var getbenchmarkscenario = function(index, id){
+                                return (_.find(benchmarks[index].scenarios, (scenario) => {
+                                    return scenario.id == id
+                                }) || {}).loss || 0
+                            }
+
+                            console.log('dct', dct)
+
+                            var worstScenarios = _.map(_.first(_.sortBy(dct.scenarios, (scenario) => {
+                                return scenario.loss
+                            }), 3), (scenario) => {
+
+                                return {
+                                    ...scenario,
+                                    contributors : _.first(_.sortBy(scenario.contributors, (contributor) => {
+                                        return contributor.loss
+                                    }), 3),
+
+                                    benchmarks : {
+                                        spy : getbenchmarkscenario('spy', scenario.id),
+                                        spyagg : getbenchmarkscenario('spyagg', scenario.id)
+                                    }
+                                }
+
+                            })
+
+                            var positiveScenarios = _.map(_.first(
+                                _.filter(
+                                    _.sortBy(dct.scenarios, (scenario) => {
+                                        return -scenario.loss
+                                    }), 
+                                    (scenario) => {
+                                        return scenario.loss > 0
+                                    }
+                                ),
+
+                            2), (scenario) => {
+
+                                return {
+                                    ...scenario,
+                                    contributors : _.first(_.sortBy(scenario.contributors, (contributor) => {
+                                        return -contributor.loss
+                                    }), 3),
+
+                                    benchmarks : {
+                                        spy : getbenchmarkscenario('spy', scenario.id),
+                                        spyagg : getbenchmarkscenario('spyagg', scenario.id)
+                                    }
+                                }
+                                
+                            })
+
+                            extra.crashtest = {
+                                ocr : dct.ocr,
+                                loss : dct.loss,
+                                ltr : dct.ltr,
+                                profit : dct.profit,
+                                term : dct.term,
+                                yield : dct.yield,
+                                worstScenarios,
+                                positiveScenarios
+                            }
+
+                            
+
+                            console.log('worstScenarios', worstScenarios)
+                            console.log('positiveScenarios', positiveScenarios)
+                            console.log('benchmarks', benchmarks)
+
+                            extra.benchmarks = {
+                                spy : _.clone(benchmarks.spy || {}),
+                                spyagg : _.clone(benchmarks.spyagg || {})
+                            }
+
+                            delete extra.benchmarks.spy.scenarios
+                            delete extra.benchmarks.spyagg.scenarios
+
+                        })
+
+                    }).catch(e => {
+                        console.error(e)
+                    })
+                    
+                )
+            }
+
+            console.log('context.client', context.client)
+
+            if (context.client){
+
+                promises.push(
+                    this.core.api.crm.contacts.gets({Ids : [context.client]}).then(c => {
+                        var profile = c[0]
+
+                        extra.clientName = profile.FName
+
+                        var monteCarlo = new MonteCarlo()
+
+                        return this.core.crm.loadQuestionnaireWithSettings(profile).then(({questionnaire, fromsettings}) => {
+
+                            var initial = fromsettings ? fromsettings : (questionnaire ? this.core.pct.riskscore.convertQrToCapacity(questionnaire.capacity) : {})
+
+                            var values = {
+                                ... monteCarlo.defaultValues(),
+                                ... initial
+                            }
+
+                            var options = {
+                                age : values.ages[0],
+                                retire : values.ages[1],
+                                savings : values.savings,
+                                save : values.save,
+                                withdraw : values.withdraw,
+                                salary : values.salary //terminal value
+                            }
+                    
+                            var extradata = {
+                                savemoreRange1 : values.savemoreRange[0],
+                                savemoreRange2 : values.savemoreRange[1],
+                                withdrawRange1 : values.withdrawRange[0],
+                                withdrawRange2 : values.withdrawRange[1],
+                                withdraw : values.withdraw
+                            }
+                            
+                            var capacityR = new this.core.pct.capacity({
+                                options : options,
+                                extra : extradata
+                            })
+
+                            var simulation = capacityR.simulation()
+
+                            capacity = {
+                                values : {...options, ...extradata},
+
+                                simulation : {
+                                    max : simulation.max,
+                                    top : simulation.topp,
+                                    under : simulation.underp,
+                                },
+
+                                result : simulation.capacity || 0,
+                                hasquestionnaire : questionnaire ? true : false
+                            }
+
+                            extra.capacity = capacity
+
+                            console.log("HERE")
+
+                        })
+
+                    }).catch(e => {
+                        console.error(e)
+                    })
+                )
+                
+            }
+
+
+            return Promise.all(promises).then(() => {
+                return Promise.resolve(extra)
+            })
+        },
+       
         componentscrolling : function(e){
-            console.log('componentscrolling', e)
             this.$emit('componentscrolling', e)
         },  
         startnewchat : function(){
@@ -313,7 +569,6 @@ export default {
 
                 this.renders_clearpane(() => {
                     this.initmaster(() => {
-                        console.log("INITED")
                     })
                 })
 
@@ -321,6 +576,9 @@ export default {
         },
 
         selectchat : function(chat){
+
+            console.log('chat', chat)
+
             this.helpers_clearpaneQuestion(() => {
 
                 var data = null
@@ -337,10 +595,14 @@ export default {
 
                 ]
 
+
                 Promise.all(promises).then(() => {
 
                     this.initmaster(() => {
                         console.log("INITED")
+                        setTimeout(() => {
+                            this.helpers_scrolltofinish()
+                        }, 300)
                     }, data)
 
                 })
@@ -410,6 +672,18 @@ export default {
                 eventsel.scrollTop = eventsel.scrollHeight - d
 
             //el.eventsContainer.scrollTop(el.eventsContainer.prop('scrollHeight') - d)
+        },
+
+        helpers_scrolltofinish : function(){
+
+            var eventsel = this.$refs['events'] 
+            var events = eventsel?.children[0]?.children || []
+            var d = 0
+
+
+            if (eventsel)
+                eventsel.scrollTop = eventsel.scrollHeight
+
         },
 
         helpers_textareasize : function(){
@@ -503,36 +777,30 @@ export default {
 
         renders_clearpane : function(clbk){
 
-            this.currentSession = null
-            this.currentStatus = null
 
-            if(clbk) clbk()
-
-            return
-
-            var element = el.c.find('.events')
-
-            element.height(element.height())
-
-            window.requestAnimationFrame(function(){
-                element.addClass('fadeout')
-                element.addClass('fadeoutttend')
+            window.requestAnimationFrame(() => {
+                this.fadeout = true
+                this.fadeoutend = true
             })
 
-            setTimeout(function(){
+            setTimeout(() => {
 
-                window.requestAnimationFrame(function(){
+                window.requestAnimationFrame(() => {
                     
-                    element.removeClass('fadeout')
-                    el.events.html('')
+                    
+                    this.currentSession = null
+                    this.currentStatus = null
+                    this.eventsToRender = []
 
                 })
 
-                setTimeout(function(){
+                setTimeout(() => {
+                    this.fadeout = false
 
-                    window.requestAnimationFrame(function(){
-
-                        element.removeClass('fadeoutttend')
+                    window.requestAnimationFrame(() => {
+                        setTimeout(() => {
+                            this.fadeoutend = false
+                        }, 300)
 
                         if(clbk) clbk()
                     })
@@ -1269,6 +1537,10 @@ export default {
 
                 
             }
+        },
+
+        sendClick : function(){
+            this.actions_answer(this.textareavalue)
         },
 
         microphoneClick : function(){

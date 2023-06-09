@@ -72,13 +72,13 @@ var Master = function(settings = {}, /*app, */context){
 			titlechunks = [self.type.name]
 		}
 
-		if (self.context.portfolio){
+		/*if (self.context.portfolio){
 			titlechunks.push(self.context.portfolio.name)
 		}
 
 		if (self.context.client){
 			titlechunks.push(self.context.client.name)
-		}
+		}*/
 
 		return {
 			context : self.context,
@@ -99,10 +99,8 @@ var Master = function(settings = {}, /*app, */context){
 
 	var helpers = {
 		getportfolio : function(clbk){
-			if(self.context.portfolio){
-
+			if (self.context.portfolio){
 				settings.helpers.getportfolio(self.context.portfolio, clbk)
-				
 			}
 
 			else{
@@ -749,7 +747,6 @@ Success! Your email was forwarded to complicance departement for review.
 
 						helpers.getportfolio(function(portfolio){
 							helpers.getclient(function(client){
-
 								helpers.hardrequest(function(){
 
 									return settings.ai.generate(self.type.id, self.parameters, {

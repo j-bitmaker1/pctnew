@@ -1179,7 +1179,7 @@ class Vueapi {
     }
 
 
-    openai = function (data, events) {
+    openai = function (data, events, pip) {
         this.store.commit('OPEN_MODAL', {
             id : 'modal_ai',
             module : "ai",
@@ -1190,7 +1190,8 @@ class Vueapi {
             one : true,
             save : true,
             customscroll : true,
-            reversedCustomScroll : true
+            reversedCustomScroll : true,
+            pip : pip || false
         })
     }
 

@@ -4,7 +4,8 @@
         <template v-slot:default="slotProps">
 
             <div class="menuitem"  :title="$t(slotProps.item.text)" :class="slotProps.item.class || ''">
-                <i :class="slotProps.item.icon" />
+                <i :class="slotProps.item.icon" v-if="slotProps.item.icon" />
+                <img :src="require('@/assets/' + slotProps.item.svg)" v-if="slotProps.item.svg"/>
                 <span>{{$t(slotProps.item.text)}}</span>
             </div>
 
@@ -32,6 +33,11 @@
         width: 33px
         text-align: center
         margin-right: $r
+
+    img
+        width: 17px
+        margin-left: 8px
+        margin-right: 8px
 
 ::v-deep
     .simplelist

@@ -1614,7 +1614,7 @@ var ApiWrapper = function (core = {}) {
 
 				if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
-				data.stressTestTypes = ["Losses"]
+				data.stressTestTypes = data.stressTestTypes || ["Losses"]
 				//data.onlyKeyScenarios = true
 
 				p.storageparameters = dbmeta.stress()
@@ -3889,13 +3889,47 @@ var ApiWrapper = function (core = {}) {
 
 			}
 
+			if (extra.capacity){
+				data.Parameters.push({
+					Id : "gptcapacity",
+					Value : JSON.stringify(extra.capacity)
+				})
+			}
+
+			if (extra.positions){
+				data.Parameters.push({
+					Id : "gptpositions",
+					Value : JSON.stringify(extra.positions)
+				})
+			}
+
+			if (extra.crashtest){
+				data.Parameters.push({
+					Id : "gptcrashtest",
+					Value : JSON.stringify(extra.crashtest)
+				})
+			}
+
+			if (extra.benchmarks){
+				data.Parameters.push({
+					Id : "gptbenchmarks",
+					Value : JSON.stringify(extra.benchmarks)
+				})
+			}
+
 			if (context.portfolio){
 				data.RecipientInfo.PortfolioId = context.portfolio
 			}
 
 			if (context.client){
 				data.RecipientInfo.RecipientId = context.client
+				
 			}
+
+			if (extra.clientName){
+				data.RecipientInfo.RecipientName = extra.clientName
+			}
+			
 
 
 			return self.ai.extra.ainfo.get().then(function(info){

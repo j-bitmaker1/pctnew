@@ -77,6 +77,15 @@ var settings = {
                     return null
                 },
             }
+        },
+
+        USER : {
+            adviserinfo : {
+                name: 'adviserinfo',
+                default: function () {
+                    return ''
+                },
+            },
         }
     },
 

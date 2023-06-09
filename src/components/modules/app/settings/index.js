@@ -31,6 +31,14 @@ export default {
                     }
                 ],
 
+                adviserinfo : [
+                    {
+                        text : 'labels.adviserinfoText',
+                        view : 'button',
+                        action : () => this.editAdvisorInfo()
+                    }
+                ],
+
                 stress : [
                     {
                         text : 'labels.scenarioManager',
@@ -103,6 +111,47 @@ export default {
             if(item.action) item.action()
 
             if(item.route) this.$router.push(item.route).catch(e => {})
+        },
+
+        editAdvisorInfo : function(){
+
+            this.core.settings.user.getall().then((settings) => {
+
+                console.log("settings", settings)
+
+                this.core.vueapi.editcustom({
+                    schema : {
+                        fields : [
+                            {
+                                id : 'adviserinfo',
+                                text : 'settings.adviserinfo',
+                                input : 'textarea',
+                                rules : [{
+                                    rule : 'required'
+                                }]
+                            }
+                        ]
+                    },
+                    values : {
+                        adviserinfo : settings.adviserinfo.value || '',
+                    },
+
+                    caption : "Enter advisor info"
+
+                }, 
+                
+                (values) => {
+                    console.log(values)
+
+                    this.core.settings.user.set('adviserinfo', values.adviserinfo || '').then(() => {
+
+                    }).catch(e => {
+                        console.error(e)
+                    })
+                })
+
+            })
         }
+
     },
 }

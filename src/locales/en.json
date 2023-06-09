@@ -15,7 +15,8 @@
 		"help" : "Help",
 		"filemanager" : "File recognition",
 		"capacity" : "Capacity",
-		"ai" : "AI"
+		"ai" : "AI",
+		"openai" : "Analyze via Risk AI"
 	},
 
 	"fields" : {
@@ -78,6 +79,7 @@
 		"68std" : "68%",
 		"95std" : "95%",
 		"997std" : "99.7%",
+		"adviserinfoText" : "Edit advisor info",
 
 		"editbuylist" : "Edit Buy list",
 		"deletebuylist" : "Delete Buy list",
@@ -437,7 +439,8 @@
 		"stress" : "Crash testing",
 		"account" : "Account",
 		"campaigns" : "Campaigns",
-		"integrations" : "Integrations"
+		"integrations" : "Integrations",
+		"adviserinfo" : "Advisor info"
 	},	
 	"themes" : {
 		"white" : "Light theme",

@@ -380,7 +380,9 @@ class PCT {
         var d = {
             scenarios : [],
             ocr : 0,
-            term : p.term
+            term : p.term,
+            ltr : 0,
+            yield : 0
         }
 
         var c = {}
@@ -404,6 +406,14 @@ class PCT {
             d.scenarios.push(scenario)
 
             c[s.id] = scenario
+
+            if(scenario.id == -2){
+                d.yield = scenario.loss || 0
+            }
+
+            if(scenario.id == -1){
+                d.ltr = scenario.loss || 0
+            }
         })
 
         if (ct.positions){
@@ -573,9 +583,11 @@ class PCT {
 
             var percentedValue = (portfolio && portfolio.isModel) || (mode == 'p' && portfolio)
 
-            console.log("percentedValue", percentedValue, portfolio)
             
             var value = percentedValue ? portfolio.total() : total
+
+            console.log("percentedValue", percentedValue, portfolio, total, value)
+
 
             common.cts[i] = this.ctRelative(c, value)
             
@@ -636,6 +648,8 @@ class PCT {
             var cts = {}
             var max = _.max(filtered, (p) => {return p.total()})
             var total = max.total()
+
+            console.log('total', total)
 
             return Promise.all(_.map(filtered, (portfolio) => {
 
@@ -1656,7 +1670,71 @@ class PCT {
     }
 
 
-    
+    benchmarks = function(scale = 1){
+
+        var result = {}
+
+        var spypositions = [{
+            isCovered : true,
+            name :"SPDR S&P 500 ETF TRUST",
+            ticker : "SPY US",
+            value : 100
+        }]
+
+        var spyaggpositions = [{
+            isCovered : true,
+            name :"SPDR S&P 500 ETF TRUST",
+            ticker : "SPY US",
+            value : 60
+        },{
+            isCovered :  true,
+            name : "ISHARES BARCLAYS AGGREGATE",
+            ticker: "AGG US",
+            value: 40,
+        }]
+
+        var getresult = function(index, data){
+            result[index] = {
+                ocr : data.ocr,
+                loss : data.loss * scale,
+                profit : data.profit * scale,
+                scenarios : _.map(data.scenarios, (scenario) => {
+                    return {
+                        ...scenario,
+                        loss : (scenario.loss || 0) * scale
+                    }
+                }),
+                yield : data.yield,
+                ltr : data.ltr
+            }
+
+            var y = _.find(data.scenarios, (s) => {
+                return s.id == -2
+            }) || {}
+
+            result[index].yield = (y.loss || 0) * scale
+
+            var l = _.find(data.scenarios, (s) => {
+                return s.id == -1
+            }) || {}
+
+            result[index].ltr = (l.loss || 0) * scale
+        }
+
+        var promises = [
+            this.stresstestPositions(spypositions).then(r => {
+                getresult('spy', r)
+            }),
+            this.stresstestPositions(spyaggpositions).then(r => {
+                getresult('spyagg', r)
+            })
+        ]
+
+        return Promise.all(promises).then(() => {
+            return Promise.resolve(result)
+        })
+
+    }
 
 }
 

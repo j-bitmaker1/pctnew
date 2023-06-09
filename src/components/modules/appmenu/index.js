@@ -171,7 +171,6 @@ export default {
 		},
 
 		aifeature : function(state){
-			return false
 			return state.features['AI'] ? true : false
 		}
 	}),
