@@ -36,6 +36,10 @@ deploy_main:
         - deploy
         - rxnet
         - web
+    only:
+        - tags
+    except:
+        - branches
 
 # ------------------------------------------
 build_develop:
