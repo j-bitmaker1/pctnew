@@ -21,7 +21,9 @@ build_main:
         - build
         - web
     only:
-        - main
+        - tags
+    except:
+        - branches
 
 deploy_main:
     stage: deploy
@@ -34,8 +36,6 @@ deploy_main:
         - deploy
         - rxnet
         - web
-    only:
-        - main
 
 # ------------------------------------------
 build_develop:
@@ -51,7 +51,7 @@ build_develop:
         - build
         - web
     only:
-        - develop
+        - main
 
 deploy_develop:
     stage: deploy
@@ -64,4 +64,4 @@ deploy_develop:
         - rxnet
         - web
     only:
-        - develop
+        - main
