@@ -78,6 +78,7 @@ export default {
 		auth : state => state.auth,
 
 		sliders : function(){
+			console.log('this.values.salary', this.values.salary)
 			return {
 				'ages' : {
 					text : "Age Horizon",
@@ -100,7 +101,7 @@ export default {
 
 					options : {
 						min : 0,
-						max : f.round(this.values.salary ? this.values.salary * 3 : 10000000, 1000),
+						max : Math.max(f.round(this.values.salary ? this.values.salary * 3 : 10000000, 1000), 100000),
 						interval : 1000,
 						type : Number,
 					}
@@ -143,7 +144,7 @@ export default {
 
 					options : {
 						min : 0,
-						max : f.round(this.values.salary ? this.values.salary/* / 12 */: 1000000, 1000),
+						max : Math.max(f.round(this.values.salary ? this.values.salary/* / 12 */: 1000000, 1000), 100000),
 						interval : 1000,
 						type : Number,
 					}
@@ -154,7 +155,7 @@ export default {
 					mode : 'd',
 					options : {
 						min : 0,
-						max : f.round(this.values.salary ? this.values.salary * 2 : 1000000, 1000),
+						max : Math.max(f.round(this.values.salary ? this.values.salary * 2 : 1000000, 1000), 100000),
 						interval : 1000,
 						type : Number,
 					}
@@ -167,7 +168,7 @@ export default {
 
 					options : {
 						min : 0,
-						max : f.round(this.values.salary ? this.values.salary/* / 12 */: 100000, 1000),
+						max : Math.max(f.round(this.values.salary ? this.values.salary/* / 12 */: 100000, 1000), 100000),
 						interval : 1000,
 						type : Number,
 					}

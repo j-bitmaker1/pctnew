@@ -1,6 +1,11 @@
 <template>
 <div id="client_capacity">
 	<div v-if="!loading">
+	
+		<div class="linenavigation" v-if="questionnaire && fromsettings">
+			<linenavigation :items="navigation" :navdefault="navdefault" :navkey="navkey"/>
+		</div>
+		
 		<capacity :initial="capacityValues" @change="change" ref="capacity"/>
 
 		<div class="savePanel" v-if="profile">
@@ -28,8 +33,6 @@
 #client_capacity
 	padding-left: $r
 
-
-
 ::v-deep
 	.stickedTop
 		top : 0px
@@ -46,6 +49,7 @@ import {
 
 import {Settings} from "@/application/shared/settings";
 
+import linenavigation from "@/components/assets/linenavigation/index.vue";
 
 import capacity from "@/components/modules/app/features/capacity/index.vue"
 
@@ -59,11 +63,28 @@ export default {
 			capacity : null,
 			loading : true,
 			questionnaire : null,
-			fromsettings : null
+			fromsettings : null,
+
+			navigation : [
+				{
+					text : 'labels.capacityfromquestionnaire',
+					id : 'questionnaire',
+					icon : 'far fa-question-circle'
+				},
+				{
+					text : 'labels.capacityfromdefault',
+					id : 'default',
+					icon : 'fas fa-sliders-h'
+				}
+				
+			],
+			navdefault : 'default',
+			navkey : 'source',
 		}
 	},
 	components : {
-		capacity
+		capacity, 
+		linenavigation
 	},
 	computed: mapState({
 		auth: state => state.auth,
@@ -76,8 +97,14 @@ export default {
 
 		capacityValues : function(){
 
-			if (this.fromsettings) return this.fromsettings
+			if (this.fromsettings && this.questionnaire){
+				if(this.active == this.navdefault) {
+					return this.fromsettings
+				}
+				else return this.core.pct.riskscore.convertQrToCapacity(this.questionnaire.capacity)
+			}
 
+			if (this.fromsettings) return this.fromsettings
 			if (this.questionnaire) return this.core.pct.riskscore.convertQrToCapacity(this.questionnaire.capacity)
 		
 			return {"ages":[20,40],"savings":10000,"save":0,"salary":200000,"savemoreRange":[20,40],"withdrawRange":[20,40],"withdraw":0}
@@ -90,7 +117,11 @@ export default {
 
 
 			return 'capacity_' + this.profile.ID
-		}
+		},
+
+		active : function(){
+			return this.$route.query[this.navkey] || this.navdefault
+		},
 	}),
 
 	created(){
@@ -102,6 +133,17 @@ export default {
 			handler : function(){
 				this.load()
 			}
+		},
+
+		active : function(){
+			if (this.$refs['capacity']){
+				setTimeout(() => {
+					this.$refs['capacity'].init()
+				}, 20)
+				
+				console.log("???")
+			}
+				
 		}
 	},
 
@@ -144,6 +186,17 @@ export default {
 
 				//console.log('this.capacity', this.capacity.capacity)
 				this.core.api.crm.contacts.updateCapacity(this.profile.ID, this.capacity.capacity.toFixed(0))
+
+				if(this.active != this.navdefault){
+					this.$router.replace({
+						query : {
+							... this.$route.query,
+							... {
+								[this.navkey] : this.navdefault
+							}
+						}
+					}).catch(e => {})
+				}
 			}
 		},	
 
@@ -158,8 +211,6 @@ export default {
 			this.loading = true
 			
 			return this.core.crm.loadQuestionnaireWithSettings(this.profile).then((r) => {
-
-				console.log("R", r)
 
 				this.questionnaire = r.questionnaire
 				this.fromsettings = r.fromsettings

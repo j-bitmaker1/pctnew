@@ -523,11 +523,11 @@ export default {
 
         sendsnext : function(){
 
-            console.log("sendsnextsendsnext")
-
             this.next()
 
             this.sendSecond()
+
+            this.sendThird().then(r => {})
         },
 
         getalldata : function(){
@@ -605,7 +605,7 @@ export default {
 
         sendThird : function(){
 
-            if(this.finished) return Promise.resolve()
+            //if(this.finished) return Promise.resolve()
 
             if(!this.id) return Promise.reject('id')
 
@@ -625,7 +625,7 @@ export default {
                 preloader : true
             }).then(() => {
 
-				this.finished = true
+				//this.finished = true
 
                 this.save()
 

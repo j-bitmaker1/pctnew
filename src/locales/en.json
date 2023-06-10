@@ -62,6 +62,8 @@
 		"crashtest" : "Stress test",
 		"shares" : "Shares",
 		"capacity" : "Capacity",
+		"capacityfromquestionnaire" : "From questionnaire",
+		"capacityfromdefault" : "Current",
 		"allocation" : "Allocation",
 		"distribution" : "Distribution",
 		"tolerance" : "Tolerance",

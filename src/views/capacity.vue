@@ -8,26 +8,33 @@
 					<span>Capacity</span>
 				</div>
 
-				<div class="forclient">
-					<div class="profileWrapper" v-if="profile">
-						<router-link :to="'client/' + profile.ID">
-							<div id="clientprofile">
-								<div class="data" v-if="profile">
-									<b>{{profile.FName}} {{profile.LName}},</b>&nbsp;<avalue :value="profile.Email"/>
-								</div>
-								<div class="userpicWrapper">
-									<userpic :userinfo="profile || {}" />
-								</div>
-							</div>
-						</router-link>
-					</div>
-				</div>
+				
 			</div>
 		</template>
 		<template v-slot:right>
 			<div class="buttonpanel">
-				<button class="button small" @click="getclient">Select client</button>
 				<i class="fas fa-link" @click="sharequestionnaire"></i>
+				<div class="forclient" v-if="profile">
+					<div class="profileWrapper" >
+						
+						<div id="clientprofile">
+							<div class="data">
+								<router-link :to="'client/' + profile.ID">
+									<b>{{profile.FName}} {{profile.LName}},</b>&nbsp;<avalue :value="profile.Email"/>
+								</router-link>
+							</div>
+							<div class="userpicWrapper">
+								<userpic :userinfo="profile || {}" />
+							</div>
+							<div class="selectanother">
+								<i class="fas fa-caret-down" @click="getclient"></i>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				<button class="button small" v-else @click="getclient">Select client</button>
+				
 			</div>
 
 			
@@ -38,6 +45,8 @@
 		<template v-slot:content>
 
 			<div class="componentWrapper">
+
+				
 				
 				<capacity @profilechanged="profilechanged" :profile="profile"/>
 
@@ -83,9 +92,16 @@
 
 
 	.data
+		align-items: center
 		margin-right: $r
 		display: flex
 		font-size: 0.8em
+
+	.selectanother
+		i
+			font-size: 0.8em
+			margin-left: 0
+			color : srgb(--neutral-grad-2)!important
 			
 .componentWrapper
 
@@ -162,7 +178,7 @@ export default {
 	data : function(){
 		return {
 			profile : null,
-			error : null
+			error : null,
 		}
 	},
 
@@ -186,7 +202,7 @@ export default {
 		},
 
 		sharequestionnaire : function(){
-			this.core.vueapi.sharequestionnaire()
+			this.core.vueapi.sharequestionnaire(this.profile ? this.profile.ID : null)
 		},
 
 		profilechanged : function(client){

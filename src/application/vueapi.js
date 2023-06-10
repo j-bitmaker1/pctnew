@@ -423,9 +423,9 @@ class Vueapi {
         })
     }
 
-    sharequestionnaire = function(){
+    sharequestionnaire = function(id){
 
-        this.core.api.crm.questionnaire.getlink(null, {
+        this.core.api.crm.questionnaire.getlink(id || null, {
             preloader : true
         }).then(url => {
 
