@@ -63,7 +63,7 @@ export default {
                 {
 					id : 'ai',
 					text : 'menu.ai',
-					svg : "logoai.svg",
+					svg : "logoaifull.svg",
 					action : this.openai,
 					features : ['AI'],
 

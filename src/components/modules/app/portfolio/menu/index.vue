@@ -92,7 +92,7 @@ export default {
 
 				{
 					text : 'menu.openai',
-					svg : 'logoai.svg',
+					svg : 'logoaismall.svg',
 					action : 'openai',
             		features : ['AI']
 				}
