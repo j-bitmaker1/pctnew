@@ -3889,12 +3889,15 @@ var ApiWrapper = function (core = {}) {
 
 			}
 
-			if (extra.capacity){
-				data.Parameters.push({
-					Id : "gptcapacity",
-					Value : JSON.stringify(extra.capacity)
-				})
-			}
+			data.Parameters.push({
+				Id : "gptcapacity",
+				Value : JSON.stringify(extra.capacity || {})
+			})
+			
+			data.Parameters.push({
+				Id : "gptbenchmarks",
+				Value : JSON.stringify(extra.benchmarks || {})
+			})
 
 			if (extra.positions){
 				data.Parameters.push({
@@ -3910,12 +3913,7 @@ var ApiWrapper = function (core = {}) {
 				})
 			}
 
-			if (extra.benchmarks){
-				data.Parameters.push({
-					Id : "gptbenchmarks",
-					Value : JSON.stringify(extra.benchmarks)
-				})
-			}
+			
 
 			if (context.portfolio){
 				data.RecipientInfo.PortfolioId = context.portfolio

@@ -267,7 +267,7 @@ export default {
     },
 
     mounted (){
-        this.scrollWidth = this.$refs.bodyWrapper.scrollWidth
+        this.scrollWidth = this.$refs.bodyWrapper ? this.$refs.bodyWrapper.scrollWidth : 0
 
         document.addEventListener('keydown', this.keydown)
         document.addEventListener('keyup', this.keyup)

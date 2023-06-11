@@ -225,9 +225,15 @@ export default {
                             dictionary : ['lookup', 'select', 'find'],
                             needfill : true,
                             action : (clbk) => {
+
+                                var wr = null
     
                                 this.core.vueapi.selectPortfolios((portfolios) => {
                                     var portfolio = portfolios[0]
+
+                                    console.log('selectPortfolios', portfolio)
+
+                                    wr = true
 
                                     selectclbk(clbk, portfolio.id, portfolio.name, portfolio.crmContactId)
 
@@ -235,6 +241,10 @@ export default {
                                     one : true,
 
                                     close : () => {
+                                        if(wr) return
+                                        
+                                        wr = true
+                                        
                                         selectclbk(clbk, null)
                                     }
                                 })
@@ -321,7 +331,18 @@ export default {
                                     
                                 }
                             }
-                        }))
+                        }).concat([
+                            {
+                                type : 'parameter',
+                                text : "Proceed without client",
+                                dictionary : ['without', 'empty'],
+                                action : function(clbk){
+            
+                                    selectclbk(clbk, null)
+            
+                                }
+                            }
+                        ]))
 
                         ready(answers)
                     }

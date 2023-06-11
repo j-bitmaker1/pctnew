@@ -166,11 +166,31 @@ var Master = function(settings = {}, /*app, */context){
 		},
 
 		askParameter : function(clbk){
+
+
+			var index = null
+			
+			_.find(self.parameters, (p, i) => {
+				if(p.question){
+					index = i
+					return true
+				}
+			})
+
+			console.log('self.parameters', self.parameters, index)
+
+
+			if (index){
+				templates.parameterQuestion(index, clbk)
+				return true
+			}
+
 			var needAskParameter = _.find(self.type.parameters, function(parameter){
 
 				if(!parameter.Id) return false
 				
 				if(typeof self.parameters[parameter.Id] == 'undefined'){
+
 					return true
 				}
 	
@@ -513,6 +533,8 @@ Success! Your email was forwarded to complicance departement for review.
 				console.log('id, name, clientid', id, name, clientid)
 				if (!id || !name){
 
+					console.log("???????????????????/")
+
 					self.context.portfolio = null
 
 					if (_clbk)
@@ -746,13 +768,17 @@ Success! Your email was forwarded to complicance departement for review.
 						if(p.before) p.before(false)
 
 						helpers.getportfolio(function(portfolio){
+
+
+							console.log('portfolio', self.context)
+
 							helpers.getclient(function(client){
 								helpers.hardrequest(function(){
 
 									return settings.ai.generate(self.type.id, self.parameters, {
 										test : self.context.test || false,
-										portfolio : portfolio.id,
-										client : client.ID
+										portfolio : portfolio ? portfolio.id : null,
+										client : client ? client.ID : null
 									}, {
 										//refinetext : self.data.text,
 										history : self.history.data,
@@ -917,6 +943,34 @@ Success! Your email was forwarded to complicance departement for review.
 			self.context.test = false
 		},
 
+		parameterQuestion : function(qpindex, clbk){
+
+			var answerFormat = {
+				type : 'parameter',
+				event : {
+					type : 'answers',
+					textanswer : true,
+					clbk : function(text){
+						self.parameters[qpindex] = text
+					},
+					answers : [{
+						dictionary : ['skip'],
+						text : 'Skip',
+						clbk : function(){
+							self.parameters[qpindex] = self.parameters[qpindex].value
+						}
+					}]
+				}
+			}
+
+			clbk([{
+				type : 'message',
+				event : {
+					message : self.parameters[qpindex].question
+				}
+			}, answerFormat])
+		},
+
 		parameter : function(parameter, clbk){
 
 			var answerFormat = {
@@ -950,13 +1004,29 @@ Success! Your email was forwarded to complicance departement for review.
 					type : 'answers',
 					answers : _.map(parameter.Values, function(value){
 
-						return {
-							dictionary : [],
-							text : value,
-							clbk : function(){
-								self.parameters[parameter.Id] = value
+						if(_.isObject(value)){
+							return {
+								dictionary : [],
+								text : value.value,
+								clbk : function(){
+									self.parameters[parameter.Id] = {
+										value : value.value,
+										question : value.question
+									}
+								}
 							}
 						}
+						else{
+							return {
+								dictionary : [],
+								text : value,
+								clbk : function(){
+									self.parameters[parameter.Id] = value
+								}
+							}
+						}
+
+						
 
 					})
 				}
@@ -1251,16 +1321,12 @@ Success! Your email was forwarded to complicance departement for review.
 
 		if (self.type.type == 'speech' || self.type.type == 'email'){
 
-			console.log('self.context', self.context)
-
 			if (typeof self.context.portfolio == 'undefined' && self.type.portfolioRequired){
 				console.log("HERE!")
 				return templates.portfolio(clbk)
 			}
 
 			if (self.type.clientRequired && typeof self.context.client == 'undefined'){
-
-				console.log("HERE!2")
 
 				return templates.client(clbk)
 			}
@@ -1364,6 +1430,7 @@ Success! Your email was forwarded to complicance departement for review.
 
 					portfolioRequired : template.Parameters.PortfolioRequired || false,
 					clientRequired : template.Parameters.ClientRequired || false,
+					skipClient : template.Parameters.skipClient || false,
 					
 					test : template.Parameters.Test || false,
 					order : template.Parameters.Order || 5
