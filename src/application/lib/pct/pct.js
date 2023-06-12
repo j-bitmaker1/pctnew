@@ -1697,18 +1697,23 @@ class PCT {
             result[index] = {
                 ocr : data.ocr,
                 loss : data.loss * scale,
+                ploss : (data.loss).toFixed(1),
                 profit : data.profit * scale,
+                pprofit : (data.profit).toFixed(1),
                 scenarios : _.map(data.scenarios, (scenario) => {
                     return {
                         ...scenario,
-                        loss : (scenario.loss || 0) * scale
+                        loss : (scenario.loss || 0) * scale,
+                        ploss : (scenario.loss || 0).toFixed(1)
                     }
                 }),
-                yield : data.yield,
-                ltr : data.ltr
+                yield : data.yield * scale,
+                pyield : (data.yield).toFixed(1),
+                ltr : data.ltr * scale,
+                pltr : (data.ltr).toFixed(1)
             }
 
-            var y = _.find(data.scenarios, (s) => {
+            /*var y = _.find(data.scenarios, (s) => {
                 return s.id == -2
             }) || {}
 
@@ -1718,7 +1723,7 @@ class PCT {
                 return s.id == -1
             }) || {}
 
-            result[index].ltr = (l.loss || 0) * scale
+            result[index].ltr = (l.loss || 0) * scale*/
         }
 
         var promises = [

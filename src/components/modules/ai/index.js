@@ -61,12 +61,12 @@ export default {
 
         })
 
-        /*this.getextradata({
+        this.getextradata({
             client : 414380,
             portfolio : 15
         }).then(data => {
             console.log("EXTRADATA", data)
-        })*/
+        })
 
 
     },
@@ -362,8 +362,8 @@ export default {
 
             var extra = { }
             var benchmarks = null
-
-            console.log('context', context)
+            var scenarios = []
+            var usedscenarios = []
 
             if (context.portfolio){
 
@@ -372,6 +372,8 @@ export default {
                     this.core.api.pctapi.portfolios.get(context.portfolio).then(r => {
 
                         console.log(r)
+
+                        var total = r.total()
 
                         return this.core.pct.stresstestskt([r], 'd', { term: true, fee : asset => {
                             return r.advisorFee || 0
@@ -387,11 +389,18 @@ export default {
                                 ct.contributors = dct.contributors
                                 dct.ocr = ct.ocr
 
+                                return this.core.pct.scenariosWithCustoms().then(s => {
+                                    scenarios = s
+            
+                                    console.log('scenarios', scenarios)
+                                })
+
                             })
             
                         }).then(() => {
                             return this.core.pct.assets(r).then(assetsInfo => {
                                 var positions = []
+                                
 
                                 console.log('assetsInfo', assetsInfo)
 
@@ -402,6 +411,7 @@ export default {
                                     positions.push({
                                         ticker : p.ticker,
                                         value : p.value,
+                                        pvalue : (100 * p.value / total).toFixed(1),
                                         name : ai.name || "",
                                         expRatio : ai.expRatio || 0
                                     })
@@ -420,27 +430,50 @@ export default {
                         }).then(() => {
 
                             var getbenchmarkscenario = function(index, id){
-                                return (_.find(benchmarks[index].scenarios, (scenario) => {
+
+                                var value = (_.find(benchmarks[index].scenarios, (scenario) => {
                                     return scenario.id == id
                                 }) || {}).loss || 0
-                            }
 
-                            console.log('dct', dct)
+                                return {
+                                    value,
+                                    pvalue : (100 * value / total).toFixed(1)
+                                }
+                            }
 
                             var worstScenarios = _.map(_.first(_.sortBy(dct.scenarios, (scenario) => {
                                 return scenario.loss
                             }), 3), (scenario) => {
 
+                                usedscenarios.push(scenario.id)
+
+                                var info = _.find(scenarios, s => {
+                                    return s.id == scenario.id
+                                }) || {}
+
+                                var contributors = _.first(_.sortBy(scenario.contributors, (contributor) => {
+                                    return contributor.loss
+                                }), 3)
+
+                                contributors = _.map(contributors, (contributor) => {
+                                    return {
+                                        ...contributor,
+                                        pvalue : (100 * contributor.value / total).toFixed(1)
+                                    }
+                                })
+
                                 return {
                                     ...scenario,
-                                    contributors : _.first(_.sortBy(scenario.contributors, (contributor) => {
-                                        return contributor.loss
-                                    }), 3),
+                                    contributors,
 
                                     benchmarks : {
                                         spy : getbenchmarkscenario('spy', scenario.id),
                                         spyagg : getbenchmarkscenario('spyagg', scenario.id)
-                                    }
+                                    },
+
+                                    ploss : (100 * scenario.loss / total).toFixed(1),
+                                    description : info.description || "",
+                                    shocks : info.shocks || ""
                                 }
 
                             })
@@ -457,36 +490,54 @@ export default {
 
                             2), (scenario) => {
 
+                                usedscenarios.push(scenario.id)
+
+                                var info = _.find(scenarios, s => {
+                                    return s.id == scenario.id
+                                }) || {}
+
+                                var contributors = _.first(_.sortBy(scenario.contributors, (contributor) => {
+                                    return contributor.loss
+                                }), 3)
+
+                                contributors = _.map(contributors, (contributor) => {
+                                    return {
+                                        ...contributor,
+                                        pvalue : (100 * contributor.value / total).toFixed(1)
+                                    }
+                                })
+
                                 return {
                                     ...scenario,
-                                    contributors : _.first(_.sortBy(scenario.contributors, (contributor) => {
-                                        return -contributor.loss
-                                    }), 3),
+                                    contributors,
 
                                     benchmarks : {
                                         spy : getbenchmarkscenario('spy', scenario.id),
                                         spyagg : getbenchmarkscenario('spyagg', scenario.id)
-                                    }
+                                    },
+
+                                    ploss : (100 * scenario.loss / total).toFixed(1),
+                                    description : info.description || "",
+                                    shocks : info.shocks || ""
                                 }
                                 
                             })
 
                             extra.crashtest = {
                                 ocr : dct.ocr,
-                                loss : dct.loss,
-                                ltr : dct.ltr,
-                                profit : dct.profit,
                                 term : dct.term,
+                                profit : dct.profit,
+                                pprofit : (100 * dct.profit / total).toFixed(1),
                                 yield : dct.yield,
+                                pyield : (100 * dct.yield / total).toFixed(1),
                                 worstScenarios,
-                                positiveScenarios
+                                positiveScenarios,
+                                total : r.total(),
+                                loss : dct.loss,
+                                ploss: (100 * dct.loss / total).toFixed(1),
+                                ltr : dct.ltr,
+                                pltr : (100 * dct.ltr / total).toFixed(1),
                             }
-
-                            
-
-                            console.log('worstScenarios', worstScenarios)
-                            console.log('positiveScenarios', positiveScenarios)
-                            console.log('benchmarks', benchmarks)
 
                             extra.benchmarks = {
                                 spy : _.clone(benchmarks.spy || {}),
@@ -504,8 +555,6 @@ export default {
                     
                 )
             }
-
-            console.log('context.client', context.client)
 
             if (context.client){
 
@@ -564,8 +613,6 @@ export default {
                             }
 
                             extra.capacity = capacity
-
-                            console.log("HERE")
 
                         })
 

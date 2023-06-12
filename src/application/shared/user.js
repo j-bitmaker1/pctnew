@@ -41,7 +41,7 @@ var User = function ({
         {id : "CRM", trial : true, name : "CRM features", description : "Manage your clients and leads"},
         {id : "PCT", trial : true, name : "PCT features", description : "Advanced risk profiling and capacity features"},
         {id : "CAMPAIGN", name : "Campaigns features", description : "Build up long relationship with clients and follow up leads to close sales with engaging marketing emails"},
-        {id : "AI", name : "AI features", description : "Use 401kAI"}
+        {id : "AI", name : "AI features", description : "Use Advisor AI"}
     ]
 
     var verify = function(){

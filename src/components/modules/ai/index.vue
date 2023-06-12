@@ -66,7 +66,7 @@
                 <div class="inputPaneCenter">
                     <div class="inputPane">
                         <div class="inputWrapper">
-                            <textarea :disabled="speech || loading" placeholder="Enter text" ref="input" :value="textareavalue" @keyup="textareakeyup"></textarea>
+                            <textarea spellcheck="true" :disabled="speech || loading" placeholder="Enter text" ref="input" :value="textareavalue" @keyup="textareakeyup"></textarea>
                             <!--<input type="text" placeholder="Enter text"/>-->
                         </div>
                         <div class="panel">
