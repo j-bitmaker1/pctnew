@@ -484,7 +484,7 @@ export default {
                                         return -scenario.loss
                                     }), 
                                     (scenario) => {
-                                        return scenario.loss > 0
+                                        return (scenario.id != -2) && scenario.loss > 0
                                     }
                                 ),
 
