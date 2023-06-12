@@ -15,10 +15,10 @@
     "cordova-serve-android": "cross-env CORDOVA_PLATFORM=android vue-cli-service cordova-serve-android --emptypublicpath"
   },
   "dependencies": {
+    "@editorjs/editorjs": "=2.18.0",
     "@editorjs/header": "^2.6.2",
     "@editorjs/list": "^1.7.0",
     "@editorjs/paragraph": "^2.8.0",
-    "@editorjs/editorjs" : "=2.18.0",
     "another-json": "^0.2.0",
     "async-each": "^1.0.3",
     "autosize": "^4.0.4",
@@ -59,6 +59,7 @@
     "secure-web-storage": "^1.0.2",
     "sha1": "^1.1.1",
     "svg-png-converter": "^0.0.9",
+    "text-mask-addons": "^3.8.0",
     "underscore": "^1.13.2",
     "unhomoglyph": "^1.0.6",
     "v-click-outside": "^3.1.2",

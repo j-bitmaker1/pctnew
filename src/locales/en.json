@@ -15,7 +15,8 @@
 		"help" : "Help",
 		"filemanager" : "File recognition",
 		"capacity" : "Capacity",
-		"ai" : "RISK AI",
+		"ai" : "Advisor AI",
+		"aim" : "Advisor",
 		"openai" : "Analyze via Risk AI"
 	},
 

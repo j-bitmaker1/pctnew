@@ -15,6 +15,11 @@
 
                     <input v-if="!field.input || field.input == 'input'" :placeholder="field.placeholder || ''" :disabled="field.disabled" :ref="i" :type="field.type" v-model="form[field.id]" v-on:keyup.enter="onEnter(i)"/>
 
+                    <input v-if="field.input == 'phone'" v-mask="'(###) ###-####'" :placeholder="field.placeholder || ''" :disabled="field.disabled" :ref="i" v-model="form[field.id]" v-on:keyup.enter="onEnter(i)"/>
+
+                    <input v-if="field.input == 'currency'" :placeholder="field.placeholder || ''" :disabled="field.disabled" :ref="i" type="number" v-model="form[field.id]" v-on:keyup.enter="onEnter(i)"/>
+
+
                     <textarea v-on:keyup.enter="onEnter(i)" v-if="field.input == 'textarea'" v-model="form[field.id]" :ref="i" :disabled="field.disabled" />
 
                     <select v-if="field.input == 'select'" :disabled="field.disabled" :ref="i" class="custom" v-model="form[field.id]">

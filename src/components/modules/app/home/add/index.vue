@@ -14,8 +14,9 @@
     </tooltip>
 
     <div class="ext" v-else>
-        <button class="button small" :class="{black : i}" v-for="(item, i) in menu" @click="item.action">
-            <i :class="item.icon" />
+        <button class="button small" :class="(i ? 'black' : '') + ' ' + (item.style || '')" v-for="(item, i) in menu" @click="item.action">
+            <i v-if="item.icon" :class="item.icon"/>
+            <img :src="require('@/assets/' + item.svg)" v-if="item.svg"/>
             <span>{{$t(item.text)}}</span>
         </button>
     </div>
@@ -34,6 +35,18 @@
         align-items: center
         margin-right: $r
         justify-content: center
+
+        span
+            margin-bottom: 2px
+
+        &.aibutton
+            background: srgb(--color-good)
+            color : srgb(--text-on-bg-shadow-color)
+            justify-content: flex-start
+
+        img
+            height: 18px
+            margin-right: 2px
 
         i
             margin-top: 2px
@@ -68,8 +81,14 @@ export default {
                     text: 'labels.newPortfolio',
                     icon: 'fas fa-plus',
                     action: this.portfolio,
-
                     features : ['PCT']
+                },
+                {
+                    svg : "logoai.svg",
+                    text: 'menu.ai',
+                    action: this.openai,
+                    style : 'aibutton',
+                    features : ['AI']
                 },
                 {
                     text: 'labels.newClient',
@@ -96,10 +115,12 @@ export default {
                 {
                     text: 'menu.questionnaire',
                     icon: 'fas fa-link',
-                    action: this.sharequestionnaire,
 
+                    action: this.sharequestionnaire,
                     features : ['PCT']
                 },
+
+                
                 
             ]
             

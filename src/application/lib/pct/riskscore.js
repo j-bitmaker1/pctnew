@@ -499,7 +499,7 @@ class Riskscore {
                         {
                             id : 'savings',
                             text : 'riscscore.fields.savings',
-                            type : 'number',
+                            input : 'currency',
                             
                             rules : [{
                                 rule : 'required'
@@ -538,7 +538,7 @@ class Riskscore {
                         {
                             id : 'save',
                             text : 'riscscore.fields.save',
-                            type : 'number',
+                            input : 'currency',
                             rules : [{
                                 rule : 'required'
                             }],
@@ -558,7 +558,7 @@ class Riskscore {
                         {
                             id : 'salary',
                             text : 'riscscore.fields.target',
-                            type : 'number',
+                            input : 'currency',
                             rules : [{
                                 rule : 'required'
                             }],

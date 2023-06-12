@@ -33,7 +33,7 @@
             <i class="fas fa-search"></i>
         </div>
 
-        <div class="aiWrapper" @click="openai" v-if="aifeature">
+        <div class="aiWrapper" @click="openai" v-if="aifeature && !summaryview">
             <img :src="require('@/assets/logoai.svg')" />
         </div>
         

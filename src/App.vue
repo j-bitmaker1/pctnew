@@ -27,6 +27,7 @@ import VueIframe from 'vue-iframes';
 
 import { mapState } from 'vuex';
 
+
 ////////
 
 Vue.use(Vue2TouchEvents, {
