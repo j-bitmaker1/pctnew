@@ -1,5 +1,5 @@
 import _ from "underscore"
-import f from "@/application/shared/functions.js"
+import f from "../shared/functions.js"
 import moment from 'moment'
 class Campaign {
     constructor(data = {}) {

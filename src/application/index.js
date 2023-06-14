@@ -1,32 +1,32 @@
 
 
-import Notifier from "./shared/notifier";
-import Api from "./shared/api";
-import listeners from './shared/listeners'
-import f from './shared/functions'
-import user from './shared/user'
-import wss from './shared/wss'
+import Notifier from "./shared/notifier.js";
+import Api from "./shared/api.js";
+import listeners from './shared/listeners.js'
+import f from './shared/functions.js'
+import user from './shared/user.js'
+import wss from './shared/wss.js'
 
-import CRM from './lib/crm/crm'
-import PCT from './lib/pct/pct'
-import CAMPAIGNS from './campaigns/manager'
+import CRM from './lib/crm/crm.js'
+import PCT from './lib/pct/pct.js'
+import CAMPAIGNS from './campaigns/manager.js'
 
-import Vueapi from './vueapi'
-import Cordovakit from './shared/cordovakit'
-import Filemanager from './lib/common/filemanager'
+import Vueapi from './vueapi.js'
+import Cordovakit from './shared/cordovakit.js'
+import Filemanager from './lib/common/filemanager.js'
 //import FX from './shared/utils/fx.js'
 
-import { Settings, LSSettings } from "./shared/settings";
+import { Settings, LSSettings } from "./shared/settings.js";
 
 
 
-import Updates from "./updates";
-import Filesystem from "./lib/common/filesystem"
-import Activity from "./lib/common/activity"
+import Updates from "./updates.js";
+import Filesystem from "./lib/common/filesystem.js"
+import Activity from "./lib/common/activity.js"
 
-import Images from "./shared/utils/images";
+import Images from "./shared/utils/images.js";
 
-import Integrations from "./shared/integrations";
+import Integrations from "./shared/integrations.js";
 
 var settings = {
     server: {

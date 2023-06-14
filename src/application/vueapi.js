@@ -57,6 +57,11 @@ class Vueapi {
             events : {
                 selected : (contacts) => {
                     if(success) success(contacts)
+                },
+
+                close : () => {
+
+                    if(p.close) p.close()
                 }
             }
         })
@@ -421,6 +426,25 @@ class Vueapi {
                 }
             }
         })
+    }
+
+    complianceReview = function(text, success, p = {}){
+
+        this.store.commit('OPEN_MODAL', {
+            id: 'modal_complianceReview',
+            module: "complianceReview",
+            caption: p.caption || "Send compliance review",
+            data : {
+                text
+            },
+
+            events : {
+                success : function(data){
+                    success(data)
+                }
+            }
+        })
+
     }
 
     sharequestionnaire = function(id){

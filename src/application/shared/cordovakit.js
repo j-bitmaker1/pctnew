@@ -1,5 +1,5 @@
-import f from './functions'
-import FaceId from './utils/faceid'
+import f from './functions.js'
+import FaceId from './utils/faceid.js'
 class Cordovakit {
 	constructor(core){
 

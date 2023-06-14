@@ -1,11 +1,11 @@
-import f from '@/application/shared/functions.js'
+import f from '../../shared/functions.js'
 import _, { isObject } from "underscore"
 
-import Capacity from "./capacity";
-import Riskscore from "./riskscore";
-import ScoreConverter from "./scoreConverter";
+import Capacity from "./capacity.js";
+import Riskscore from "./riskscore.js";
+import ScoreConverter from "./scoreConverter.js";
 
-import { Portfolio } from '@/application/shared/kit.js'
+import { Portfolio } from '../../shared/kit.js'
 
 class PCT {
 
@@ -387,6 +387,8 @@ class PCT {
 
         var c = {}
 
+        console.log('parseStressTest', ct)
+
         _.each(ct.scenarioResults, (s) => {
 
             if(!s.id){ ///crash rating
@@ -533,6 +535,8 @@ class PCT {
             ocr : ct.ocr,
             loss : max ? ct.loss / max : 0,
             profit : max ? ct.profit / max : 0,
+            ltr : max ? ct.profit / max : 0,
+            yield : max ? ct.yield / max : 0,
             scenarios : _.map(ct.scenarios, (s) => {
 
                 return {
@@ -1201,6 +1205,8 @@ class PCT {
                 return a.name
             })
         }
+
+        console.log("DETAILS PARAMETERS", p)
 
 
         return this.getscenarios({term : p.term}).then(scdata => {

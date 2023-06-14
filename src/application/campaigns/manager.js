@@ -1,8 +1,8 @@
 const moment = require('moment');
-import CampaignTemplates from "./templates"
-import varhelper from "./varhelper";
+import CampaignTemplates from "./templates.js"
+import varhelper from "./varhelper.js";
 
-import f from "@/application/shared/functions.js"
+import f from "../shared/functions.js"
 
 import {Signature} from './kit.js'
 

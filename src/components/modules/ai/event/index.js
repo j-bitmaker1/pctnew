@@ -61,7 +61,7 @@ export default {
         },
 
         copymessage : function(){
-            f.copyTextToClipboard(f.convertNewLinesToBr(this.event.data.message))
+            f.copyTextToClipboard(this.event.data.message)
 
             this.core.sitemessage('Text was copied')
         },

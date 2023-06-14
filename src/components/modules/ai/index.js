@@ -140,7 +140,8 @@ export default {
                     name : this.core.user.info.FName,
                     aiadmin : this.core.user.info.Email == 'maximgrishkov@yandex.ru' || 
                         this.core.user.info.Email == 'dsatchkov@rixtrema.com' || 
-                        this.core.user.info.Email == 'yperullo@rixtrema.com'
+                        this.core.user.info.Email == 'yperullo@rixtrema.com' || 
+                        this.core.user.info.Email == 'astarodubtsev@rixtrema.com'
                 },
 
                 template : {
@@ -295,9 +296,13 @@ export default {
                             dictionary : ['lookup', 'select', 'find'],
                             needfill : true,
                             action : (clbk) => {
+
+                                var wr = null
     
                                 this.core.vueapi.selectContacts((contacts) => {
                                     var contact = contacts[0]
+
+                                    wr = true
 
                                     selectclbk(clbk, contact.ID, contact.FName + ' ' + contact.LName)
 
@@ -305,6 +310,11 @@ export default {
                                     one : true,
 
                                     close : () => {
+
+                                        if(wr) return
+                                        
+                                        wr = true
+                                        
                                         selectclbk(clbk, null)
                                     }
                                 })
@@ -528,16 +538,21 @@ export default {
                                 term : dct.term,
                                 profit : dct.profit,
                                 pprofit : (100 * dct.profit / total).toFixed(1),
-                                yield : dct.yield,
-                                pyield : (100 * dct.yield / total).toFixed(1),
+                               
                                 worstScenarios,
                                 positiveScenarios,
                                 total : r.total(),
                                 loss : dct.loss,
                                 ploss: (100 * dct.loss / total).toFixed(1),
-                                ltr : dct.ltr,
-                                pltr : (100 * dct.ltr / total).toFixed(1),
+
+                                yield : total * ct.yield,
+                                pyield : (100 * ct.yield).toFixed(1),
+
+                                ltr : total * ct.ltr,
+                                pltr : (100 * ct.ltr).toFixed(1),
                             }
+
+                            console.log('dct', ct, dct, total)
 
                             extra.benchmarks = {
                                 spy : _.clone(benchmarks.spy || {}),

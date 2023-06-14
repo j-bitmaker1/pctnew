@@ -1,5 +1,4 @@
 import _ from 'underscore';
-import f from './functions'
 
 const dbstorage = function(storageName, version, time) {
     /** Set this flag to TRUE if debug logs needed */

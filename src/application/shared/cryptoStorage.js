@@ -2,8 +2,6 @@
 var CryptoJS = require("crypto-js");
 var SecureStorage = require("secure-web-storage")
 
-import f from './functions'
-
 class Storage extends SecureStorage{
 	constructor(SECRET_KEY){
 

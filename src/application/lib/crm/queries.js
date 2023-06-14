@@ -1,5 +1,5 @@
 import _ from "underscore"
-import f from "@/application/shared/functions.js"
+import f from "../../shared/functions.js"
 
 const and = "AND"
 const or = "OR"
@@ -24,7 +24,9 @@ class Templates {
 
     status_product = function (products) {
 
-        if (!products) products = 'pct'
+        console.log('products', products)
+
+        if (!products) products = ['pct']
 
         return this.condition(conditions.inlist, "products", products)
     }
@@ -137,6 +139,9 @@ class Templates {
     }
 
     group = function (operands, join) {
+
+        operands = _.filter(operands, (o) => {return o})
+
         return {
             join,
             operands
@@ -158,7 +163,7 @@ class Queries {
         return {}
     }
 
-    simplesearch = function ({ search, type, products, customfields = [] }) {
+    simplesearch = function ({ search, type, products, customfields = [], onlyuser = true }) {
         var groups = []
 
 
@@ -166,7 +171,7 @@ class Queries {
             this.t.group([
                 this.t.status_product(products),
                 this.t.status_active(),
-                this.t.userid(this.core.user.info.ID),
+                onlyuser ? this.t.userid(this.core.user.info.ID) : null,
                 this.t.type_eq(type),
 
                 /*... _.map(customfields, (cf) => {

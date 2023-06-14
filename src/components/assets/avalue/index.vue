@@ -31,9 +31,6 @@ export default {
                 }
             }
 
-            
-            
-
             if (EmailValidator.validate(this.value)) return 'email'
         },
 

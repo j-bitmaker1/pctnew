@@ -468,7 +468,7 @@ Success! Your email was forwarded to complicance departement for review.
 			var events = [{
 				type : 'message',
 				event : {
-					message : "Please select the persone for whom the result is generated?"
+					message : "Please select the person for whom the result is generated?"
 				}
 			}]
 
@@ -896,7 +896,7 @@ Success! Your email was forwarded to complicance departement for review.
 							[settings.user.aiadmin && !self.context.test && !self.type.pdf ? actions.makePromt : null, /*actions.copyresult,*/ actions.stop] : 
 							
 							[
-								settings.user.aiadmin && !self.context.test && !self.type.pdf ? actions.makePromt : null, 
+								settings.user.aiadmin && !self.type.pdf ? actions.makePromt : null, 
 								actions.refine,
 
 								self.type.type == 'email' && !self.result.html && self.result.text && !self.context.test && !settings.user.limitedversion ? actions.generateemail : null, 

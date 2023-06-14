@@ -1,6 +1,6 @@
-import f from './functions'
+import f from './functions.js'
 import { Contact, Portfolio, Task, Scenario, Buylist } from './kit.js'
-import { Campaign, Batch, ViewStep, Template, EmailTemplate, Signature } from '@/application/campaigns/kit.js'
+import { Campaign, Batch, ViewStep, Template, EmailTemplate, Signature } from '../campaigns/kit.js'
 
 var Axios = require('axios');
 
@@ -8,7 +8,7 @@ var sha1 = require('sha1');
 var { parseerror } = require('./error')
 
 import moment from 'moment';
-import dbstorage from "./dbstorage";
+import dbstorage from "./dbstorage.js";
 import _ from 'underscore';
 
 var FormDataRequest = function (core = {}, url, system) {
@@ -117,7 +117,7 @@ var Request = function (core = {}, url, system) {
 		if (typeof AbortController != 'undefined') {
 			var controller = p.controller || (new AbortController())
 
-			var time = p.timeout || 30000
+			var time = p.timeout || 60000
 
 			if (window.cordova) {
 				time = time * 2
@@ -1614,7 +1614,7 @@ var ApiWrapper = function (core = {}) {
 
 				if (!data.portfolioId) return Promise.reject({ error: 'Portfolio id empty' })
 
-				data.stressTestTypes = data.stressTestTypes || ["Losses"]
+				data.stressTestTypes = p.stressTestTypes || ["Losses"]
 				//data.onlyKeyScenarios = true
 
 				p.storageparameters = dbmeta.stress()
@@ -4168,6 +4168,7 @@ var ApiWrapper = function (core = {}) {
 				pageNumber : 0,
 				pageSize : 50,
 				StatusFilter : "ACTIVE",
+				SystemFilter : "CRM",
 				sortFields : [
 					{
 						"field": "updated",

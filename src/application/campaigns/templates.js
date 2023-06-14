@@ -1,5 +1,4 @@
-import f from "@/application/shared/functions.js"
-import { _ } from "core-js";
+import f from "../shared/functions.js"
 
 const moment = require('moment');
 import {EditStep, ViewStep, Template, EmailTemplate, Signature} from './kit.js'

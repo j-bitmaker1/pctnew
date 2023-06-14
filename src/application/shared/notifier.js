@@ -1,6 +1,4 @@
-var _ = require('underscore');
-
-import f from "./functions";
+import f from "./functions.js";
 
 const { Howl, Howler } = require('howler');
 

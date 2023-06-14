@@ -454,12 +454,8 @@ export default {
         this.$store.commit("setAPPSTORE", APPSTORE)
         this.$store.commit("setTestsettings", settings)
 
-        console.log('APPSTORE PCTPRO2?', APPSTORE);
-
         if (APPSTORE){
-
             window.addEventListener('message', this.receiveMessage);
-
         }
 
         this.$store.commit("clearall");
@@ -512,6 +508,9 @@ export default {
         this.dscroll()
         this.dresize()
         this.tresize()
+
+
+        //this.core.vueapi.complianceReview('asd')
 
     }
 };

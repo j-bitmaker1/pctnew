@@ -40,8 +40,6 @@
             margin-bottom: 2px
 
         &.aibutton
-            background: srgb(--color-good)
-            color : srgb(--text-on-bg-shadow-color)
             justify-content: flex-start
 
         img

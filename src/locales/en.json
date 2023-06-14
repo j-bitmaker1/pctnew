@@ -705,7 +705,9 @@
 			"crm" : "Show all contacts",
 			"capacity" : "Capacity score",
 			"tolerance" : "Tolerance",
-			"crashrating" : "Crash Rating"
+			"crashrating" : "Crash Rating",
+			"onlymy" : "Show only my contacts",
+			"firms" : "Show contacts of other users from my company"
 		}
 	}
 

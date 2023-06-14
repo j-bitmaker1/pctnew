@@ -122,6 +122,7 @@ export default {
         ai : () => import("@/components/modules/ai/index.vue"),
         ai_menu : () => import("@/components/modules/ai/contents/index.vue"),
         htmlpage: () => import("@/components/common/htmlpage/index.vue"),
+        complianceReview: () => import("@/components/common/complianceReview/index.vue"),
     },
  
     computed: mapState({

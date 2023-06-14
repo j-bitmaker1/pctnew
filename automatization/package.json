@@ -1,0 +1,9 @@
+{
+    "name": "pct auto",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "run": "node core.js"
+    },
+    "type": "module"
+}

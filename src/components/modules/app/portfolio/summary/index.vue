@@ -228,7 +228,7 @@
             
         </div>
 
-        <v-tour name="summarytour" :steps="summarytoursteps" :callbacks="tourclbks" :options="{ highlight: true }"></v-tour>
+        <!--<v-tour name="summarytour" :steps="summarytoursteps" :callbacks="tourclbks" :options="{ highlight: true }"></v-tour>-->
     </template>
 
     <template v-else>

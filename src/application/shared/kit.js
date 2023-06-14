@@ -1,5 +1,5 @@
 import _ from "underscore"
-import XLS from "../lib/pct/xls"
+import XLS from "../lib/pct/xls.js"
 
 class Contact {
     constructor(data = {}) {

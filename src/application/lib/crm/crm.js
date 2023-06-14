@@ -1,5 +1,5 @@
-import Queries from "./queries";
-import {Settings} from "@/application/shared/settings";
+import Queries from "./queries.js";
+import {Settings} from "../../shared/settings.js";
 
 
 class CRM {

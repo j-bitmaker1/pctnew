@@ -3,8 +3,8 @@ var sha1 = require('sha1');
 var Fingerprint2 = require('fingerprintjs2')
 var { error } = require('./error')
 
-import f from './functions'
-import Storage from './cryptoStorage'
+import f from './functions.js'
+import Storage from './cryptoStorage.js'
 
 var User = function ({
     vm,

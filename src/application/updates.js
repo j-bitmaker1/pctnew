@@ -1,5 +1,5 @@
 var _ = require('underscore');
-import f from "./shared/functions";
+import f from "./shared/functions.js";
 
 class Updates {
 
