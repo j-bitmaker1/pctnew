@@ -335,9 +335,9 @@ export default {
 
 				this.portfolio = r
 
-                if (this.summarytoursteps.length){
+                /*if (this.summarytoursteps.length){
                     this.$tours['summarytour'].start()
-                }
+                }*/
 
 				this.core.activity.template('portfolio', this.portfolio)
 

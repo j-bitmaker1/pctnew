@@ -218,7 +218,7 @@ export default {
                 answers : {
                     portfolio : (selectclbk, ready, context = {}) => {
 
-                        var lasts = this.core.activity.getlastsByType('portfolio') || []
+                        var lasts = this.core.activity.getlastsByType('portfolio', 10) || []
 
                         var answers = [{
                             text : "Find portfolio",
