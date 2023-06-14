@@ -1344,7 +1344,6 @@ export default {
 
                     var el = this.$refs['event_' + event.id]
 
-                    console.log("el", el, el[0])
                     if (el && el.length){
                         this.events_heights[event.id] = el[0].getheight()
                     }
