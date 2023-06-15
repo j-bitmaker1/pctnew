@@ -901,7 +901,7 @@ Success! Your email was forwarded to complicance departement for review.
 
 								self.type.type == 'email' && !self.result.html && self.result.text && !self.context.test && !settings.user.limitedversion ? actions.generateemail : null, 
 
-								self.result.text && !self.context.test && !self.result.html ? actions.complianceReview : null, 
+								/*self.result.text && !self.context.test && !self.result.html ? actions.complianceReview : null, */
 								
 								self.context.test ? null : actions.regenerate
 							],
