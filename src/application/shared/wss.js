@@ -17,8 +17,9 @@ var WSS = function(core, url){
             v : false,
             set value(_v){
                 this.v = _v
-
-                core.vm.$store.commit('wssready', this.v)
+                
+                if (core.vm.$store)
+                    core.vm.$store.commit('wssready', this.v)
 
             },
 

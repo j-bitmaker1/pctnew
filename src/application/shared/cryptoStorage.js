@@ -4,7 +4,7 @@ var SecureStorage = require("secure-web-storage")
 
 class Storage extends SecureStorage{
 	constructor(SECRET_KEY){
-
+        
         super(localStorage, {
             hash: function hash(key) {
                 //key = CryptoJS.SHA256(key, SECRET_KEY);

@@ -53,7 +53,7 @@ class CampaignsManager {
             icon : "fas fa-spinner fa-spin",
             text : 'active',
             statistic : 'ActiveCampaigns',
-            img : require('@/assets/ezgif-6-46750ada6552.gif')
+            img : typeof NODE != 'undefined' ? null : require('@/assets/ezgif-6-46750ada6552.gif')
         },
 
         PROCESS : {
@@ -385,7 +385,7 @@ class CampaignsManager {
 
         signature.System = this.mailsystem
 
-        return this.api.signatures.create(signature.export(), {
+        return this.api.signatures.create(signature.exportdata(), {
             preloader : true,
             showStatus : true
         })
@@ -402,7 +402,7 @@ class CampaignsManager {
 
     updateSignature(signature){
             
-        return this.api.signatures.update(signature.export(), {
+        return this.api.signatures.update(signature.exportdata(), {
             preloader : true,
             showStatus : true
         })

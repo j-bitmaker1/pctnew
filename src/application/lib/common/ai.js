@@ -177,9 +177,6 @@ var Master = function(settings = {}, /*app, */context){
 				}
 			})
 
-			console.log('self.parameters', self.parameters, index)
-
-
 			if (index){
 				templates.parameterQuestion(index, clbk)
 				return true
@@ -449,8 +446,6 @@ Success! Your email was forwarded to complicance departement for review.
 
 				var text = ''
 
-				console.log('client', client)
-
 				if(!client){
 					text = 'Contact: Not selected'
 				}
@@ -473,8 +468,6 @@ Success! Your email was forwarded to complicance departement for review.
 			}]
 
 			var selectclbk = (_clbk, id, name) => {
-
-				console.log('id, name', id, name)
 
 				if (!id || !name){
 
@@ -529,11 +522,7 @@ Success! Your email was forwarded to complicance departement for review.
 			}]
 
 			var selectclbk = (_clbk, id, name, clientid) => {
-
-				console.log('id, name, clientid', id, name, clientid)
 				if (!id || !name){
-
-					console.log("???????????????????/")
 
 					self.context.portfolio = null
 
@@ -768,9 +757,6 @@ Success! Your email was forwarded to complicance departement for review.
 						if(p.before) p.before(false)
 
 						helpers.getportfolio(function(portfolio){
-
-
-							console.log('portfolio', self.context)
 
 							helpers.getclient(function(client){
 								helpers.hardrequest(function(){
@@ -1322,7 +1308,6 @@ Success! Your email was forwarded to complicance departement for review.
 		if (self.type.type == 'speech' || self.type.type == 'email'){
 
 			if (typeof self.context.portfolio == 'undefined' && self.type.portfolioRequired){
-				console.log("HERE!")
 				return templates.portfolio(clbk)
 			}
 
@@ -1332,9 +1317,6 @@ Success! Your email was forwarded to complicance departement for review.
 			}
 
 			if (self.stage.autoclient){
-
-				console.log("HERE!3")
-
 
 				self.stage.autoclient = false
 
@@ -1437,8 +1419,6 @@ Success! Your email was forwarded to complicance departement for review.
 				}
 			})
 
-
-			console.log('self.types', self.types)
 
 			if(clbk) clbk()
 		})

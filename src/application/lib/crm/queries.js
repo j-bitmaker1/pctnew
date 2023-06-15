@@ -24,8 +24,6 @@ class Templates {
 
     status_product = function (products) {
 
-        console.log('products', products)
-
         if (!products) products = ['pct']
 
         return this.condition(conditions.inlist, "products", products)

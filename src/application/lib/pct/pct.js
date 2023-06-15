@@ -387,8 +387,6 @@ class PCT {
 
         var c = {}
 
-        console.log('parseStressTest', ct)
-
         _.each(ct.scenarioResults, (s) => {
 
             if(!s.id){ ///crash rating
@@ -590,9 +588,6 @@ class PCT {
             
             var value = percentedValue ? portfolio.total() : total
 
-            console.log("percentedValue", percentedValue, portfolio, total, value)
-
-
             common.cts[i] = this.ctRelative(c, value)
             
             //this.ctRelative(c, portfolio && portfolio.isModel ? portfolio.total() : (mode == 'p' && portfolio ? portfolio.total() : total))
@@ -652,8 +647,6 @@ class PCT {
             var cts = {}
             var max = _.max(filtered, (p) => {return p.total()})
             var total = max.total()
-
-            console.log('total', total)
 
             return Promise.all(_.map(filtered, (portfolio) => {
 
@@ -801,8 +794,6 @@ class PCT {
             return scenario.id == -1
         })
 
-        console.log('term', term)
-
         if(!term) term = 1
 
         if (scenario){
@@ -944,8 +935,6 @@ class PCT {
         var term = 0
 
         return this.annuities().then((list) => {
-
-            console.log('positions', positions)
 
             _.each(positions, (p) => {
 
@@ -1205,9 +1194,6 @@ class PCT {
                 return a.name
             })
         }
-
-        console.log("DETAILS PARAMETERS", p)
-
 
         return this.getscenarios({term : p.term}).then(scdata => {
             data = {

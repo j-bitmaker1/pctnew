@@ -1128,8 +1128,6 @@ class Vueapi {
     editBuylist = function (buylist, success) {
         var data = {}
 
-        console.log('buylist', buylist)
-
         if (buylist){
             data.edit = {
                 name : buylist.name,
@@ -1171,8 +1169,6 @@ class Vueapi {
     buylistsforforms = function(selected){
         this.buylists((b) => {
 
-            console.log('B', b)
-
             selected({
                 value : b.id,
                 label : b.name
@@ -1193,8 +1189,6 @@ class Vueapi {
     
             events : {
                 save : (b) => {
-
-                    console.log("BBB", b)
 
                     if(success) success(b)
                 }

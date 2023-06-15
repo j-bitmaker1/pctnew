@@ -119,7 +119,7 @@ var Request = function (core = {}, url, system) {
 
 			var time = p.timeout || 60000
 
-			if (window.cordova) {
+			if (typeof window != 'undefined' && window.cordova) {
 				time = time * 2
 			}
 
@@ -529,8 +529,6 @@ var ApiWrapper = function (core = {}) {
 		}
 
 		var loaded = getloaded(datahash, data, system, to, p)
-
-		console.log('loaded', loaded)
 
 		if (loaded) return Promise.resolve(loaded)
 
@@ -1465,8 +1463,6 @@ var ApiWrapper = function (core = {}) {
 						type: 'portfolio'
 					}
 
-				console.log('data', data)
-
 				return request(data, 'pctapi', 'Assets/GetLtrCalculation', p).then((r) => {
 
 
@@ -2285,8 +2281,6 @@ var ApiWrapper = function (core = {}) {
 					IsUpdateOnlyThisCustomFields : true
 				}
 
-				console.log('data', data)
-
 				return self.crm.contacts.update(data)
 			},
 
@@ -2303,8 +2297,6 @@ var ApiWrapper = function (core = {}) {
 					}
 					
 				}
-
-				console.log('edata', edata)
 
 				var { updated, from } = core.vxstorage.update(edata, 'client')
 
@@ -3844,6 +3836,7 @@ var ApiWrapper = function (core = {}) {
 				ModelTarget: "LANGCHAIN",
 				makeprompt : context.test ? true : false,
 				AiEmailTemplateId : id,
+				Highload : context.automatization || false,
 				Parameters : _.map(parameters, function(value, id){
 					return {
 						Id : id,
@@ -3928,7 +3921,12 @@ var ApiWrapper = function (core = {}) {
 				data.RecipientInfo.RecipientName = extra.clientName
 			}
 			
-
+			if (extra.advisorInfo){
+				data.Parameters.push({
+					Id : "advisorInfo__",
+					Value : extra.advisorInfo
+				})
+			}
 
 			return self.ai.extra.ainfo.get().then(function(info){
 
@@ -3936,6 +3934,8 @@ var ApiWrapper = function (core = {}) {
 					Id : "advisorInfo__",
 					Value : info
 				})
+
+				console.log(JSON.stringify(data))
 				
 				return request(data, 'chat_ai', 'ai/aimail', p)
 
@@ -4078,7 +4078,6 @@ var ApiWrapper = function (core = {}) {
 			}).then(function(result) {
 
 				self.ai_messages.lists[id] = result
-				console.log("???")
 
 				return Promise.resolve(result)
 			})

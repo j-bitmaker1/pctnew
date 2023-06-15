@@ -167,8 +167,8 @@ class CRM {
 
             else this.schemas.contact = {}
 
-
-            this.store.commit('crmschemas', this.schemas)
+            if (this.store)
+                this.store.commit('crmschemas', this.schemas)
 
             return Promise.resolve()
         })

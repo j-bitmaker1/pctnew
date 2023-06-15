@@ -219,7 +219,7 @@ class EditStep extends Step {
         return new EditStep(this)
     }
 
-    export = function(){
+    exportdata = function(){
         var data = {}
 
         if(this.template) data.template = this.template.toString()
@@ -239,11 +239,11 @@ class EditStep extends Step {
             data.if = this.if
             data.mail = this.mail
             data.success = _.map(this.success, (d) => {
-                return d.export()
+                return d.exportdata()
             })
 
             data.fail = _.map(this.fail, (d) => {
-                return d.export()
+                return d.exportdata()
             })
         }
 
@@ -380,7 +380,7 @@ class Template {
         return t
     }
 
-    export = function(){
+    exportdata = function(){
         var data = {
             Name : this.Name,
             Id : this.Id,
@@ -391,7 +391,7 @@ class Template {
             Info : JSON.stringify({
                 version : this.version,
                 c : f.hexEncode(JSON.stringify(_.map(this.content, (c) => {
-                    return c.export()
+                    return c.exportdata()
                 })))
             })
         }
@@ -446,7 +446,7 @@ class Signature {
         
     }
 
-    export(){
+    exportdata(){
         var d = {
             Id : this.Id,
             System : this.System,
@@ -467,7 +467,7 @@ class Signature {
     }
 
     clone(){
-        return new Signature(this.export())
+        return new Signature(this.exportdata())
     }
 }
 

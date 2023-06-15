@@ -1,5 +1,5 @@
 import _ from "underscore"
-import {Random} from 'random'
+import Random from 'random/dist/cjs/index.js'
 
 var quantile = require( 'compute-quantile' );
 var cdf = require( 'distributions-lognormal-cdf' );
@@ -8,7 +8,7 @@ var normalArray = function(count, sigma){
     if(!count) count = 10000;
 
     var a = [];
-    var random = new Random()
+    var random = new Random.constructor()
 
 
     for(var i = 0; i < count; i++){
@@ -196,7 +196,7 @@ class Capacity {
         var sigma = this.sigma;
         var hv = this.options.simulationCount / 10;
 
-        var random = new Random()
+        var random = new Random.constructor()
         var TDFCR = this.crByYear(years).cr
 
 

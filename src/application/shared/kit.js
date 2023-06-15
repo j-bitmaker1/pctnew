@@ -46,9 +46,6 @@ class Contact {
 
 }
 
-
-
-
 class Portfolio {
     fields = [
         'catalogId',
@@ -149,7 +146,6 @@ class Portfolio {
     }
 }
 
-
 class Buylist {
     fields = [
         'created',
@@ -162,8 +158,6 @@ class Buylist {
     ]
 
     constructor(data = {}) {
-
-        console.log("data", data)
 
         _.each(data, (v, i) => {
             this[i] = v

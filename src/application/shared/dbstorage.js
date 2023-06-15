@@ -40,6 +40,8 @@ const dbstorage = function(storageName, version, time) {
     function initIndexedDb() {
         let db;
 
+        if(typeof indexedDB == 'undefined') return Promise.resolve()
+
         let openRequest = indexedDB.open(storageName, version);
 
         openRequest.onblocked = function (err) {
@@ -547,7 +549,7 @@ const dbstorage = function(storageName, version, time) {
     /**
      * Is IndexedDB supported?
      */
-    if(!window.indexedDB || DebugForceLocalStorage) {
+    if(typeof window != 'undefined' && (!window.indexedDB || DebugForceLocalStorage)) {
         debugLog('PCryptoStorage LOCALSTORAGE_FALLBACK');
         return initLocalStorage();
     }

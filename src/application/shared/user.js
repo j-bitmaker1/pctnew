@@ -16,8 +16,6 @@ var User = function ({
     
 }, {prepare, clearing}) {
 
-
-
     var self = this
     var storage = null
 
@@ -30,7 +28,15 @@ var User = function ({
 
 
     var fcmNotification = null;
-    var device = localStorage['device'] || f.makeid(); localStorage['device'] = device;
+
+    var device = f.makeid()
+    
+    if(typeof localStorage != 'undefined'){
+        if(localStorage['device']) device = localStorage['device']
+        localStorage['device'] = device;
+    }
+
+
     var fingerprint = ''
 
     self.info = {}
@@ -56,7 +62,8 @@ var User = function ({
 
                     if(resolved) return
 
-                    vm.$store.commit('CLOSE_MODAL', 'modal_pincode')
+                    if (vm.$store)
+                        vm.$store.commit('CLOSE_MODAL', 'modal_pincode')
 
                     resolved = true
 
@@ -104,7 +111,17 @@ var User = function ({
             return Promise.resolve(lskey)
         }).then(password => {
 
-            storage = new Storage(password)
+            if(typeof localStorage == 'undefined') {
+                storage = {
+                    setItem : () => {},
+                    getItem : () => {},
+                    removeItem : () => {},
+                    clear : () => {}
+                }
+            }
+            else{
+                storage = new Storage(password)
+            }
 
             return Promise.resolve(storage)
 
@@ -155,16 +172,16 @@ var User = function ({
             return vueapi.pincode('create')
 
         }).then(code => {
-
-            vm.$store.commit('globalpreloader', true)
+            if (vm.$store)
+                vm.$store.commit('globalpreloader', true)
 
             return cordovakit.faceid.set(code).then((r) =>{
-
-                vm.$store.commit('globalpreloader', false)
+                if (vm.$store)
+                    vm.$store.commit('globalpreloader', false)
                 return Promise.resolve(r)
             }).catch(e => {
-
-                vm.$store.commit('globalpreloader', false)
+                if (vm.$store)
+                    vm.$store.commit('globalpreloader', false)
                 return Promise.reject(e)
             })
         }).then(r => {
@@ -255,8 +272,8 @@ var User = function ({
         set value(v) {
 
             this._value = v;
-
-            vm.$store.commit('auth', this.value)
+            if (vm.$store)
+                vm.$store.commit('auth', this.value)
         },
 
         get value() {
@@ -426,7 +443,7 @@ var User = function ({
     }
 
     function startFcm() {
-        if (window.cordova) {
+        if (typeof window != 'undefined' && window.cordova) {
 
             var settoken = function () {
                 FirebasePlugin.getToken(function (fcmToken) {
@@ -598,14 +615,15 @@ var User = function ({
 
         var prs = [self.deletefaceid()]
 
-        if (window.cordova)
+        if (typeof window != 'undefined' && window.cordova)
             prs.push(api.notifications.revoke({ device }).then(r => {
                 localStorage.removeItem(prefix + '-fcm')
 
                 return Promise.resolve()
             }))
 
-        vm.$store.commit('globalpreloader', true)
+        if (vm.$store)
+            vm.$store.commit('globalpreloader', true)
 
         return Promise.all(prs).catch(e => {
             return Promise.resolve()
@@ -615,7 +633,8 @@ var User = function ({
             wss.destroy()
 
         }).finally(() => {
-            vm.$store.commit('globalpreloader', false)
+            if (vm.$store)
+                vm.$store.commit('globalpreloader', false)
         })
 
     }
@@ -688,9 +707,8 @@ var User = function ({
             }
         })
 
-        console.log('self.features', self.features)
-
-        vm.$store.commit('features', self.features)
+        if (vm.$store)
+            vm.$store.commit('features', self.features)
 
     }
 
@@ -755,7 +773,8 @@ var User = function ({
 
         //clearSignin()
 
-        vm.$store.commit('globalpreloader', true)
+        if (vm.$store)
+            vm.$store.commit('globalpreloader', true)
 
         return getstorage().then(() => {
             return setFingerPrint()
@@ -821,7 +840,8 @@ var User = function ({
 
             storage.setItem('ui', result)
 
-            vm.$store.commit('userinfo', self.info)
+            if (vm.$store)
+                vm.$store.commit('userinfo', self.info)
 
             //settings.getall()
 
@@ -836,15 +856,18 @@ var User = function ({
 
             updates.synk()
 
-            wss.init()
+            if(typeof NODE == 'undefined')
+                wss.init()
 
-            vm.$store.commit('globalpreloader', false)
+            if (vm.$store)
+                vm.$store.commit('globalpreloader', false)
 
             return state.value
 
         }).catch(e => {
 
-            vm.$store.commit('globalpreloader', false)
+            if (vm.$store)
+                vm.$store.commit('globalpreloader', false)
 
 
             state.value = 0
@@ -856,7 +879,7 @@ var User = function ({
     self.initlookup = function(){
         var k = login.value + 'lookupInited'
         
-        if (localStorage[k]){
+        if (typeof localStorage == 'undefined' || localStorage[k]){
             return Promise.resolve()
         }
 
