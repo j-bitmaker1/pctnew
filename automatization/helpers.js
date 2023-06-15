@@ -130,16 +130,21 @@ var randomAdvisorInfo = function(){
     return 'test'
 }
 
-var infinityAction = function(promiseFactory, timeout = 1000){
+var infinityAction = function(promiseFactory, timeout = 1000, counter = 1){
+
+    console.log("iteration: " + counter)
+
     var promise = promiseFactory()
 
     return promise.then(() => {
+
+        console.log("iteration success: " + counter)
 
     }).catch(e => {
         console.log('error', e)
     }).finally(() => {
         setTimeout(() => {
-            infinityAction(promiseFactory, timeout)
+            infinityAction(promiseFactory, timeout, counter + 1)
         }, timeout)
     })
 }

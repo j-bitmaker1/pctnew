@@ -28,17 +28,16 @@ helpers.init().then((core) => {
 
         }).then(({template, parameters}) => {
 
-            console.log('extradata', extradata)
-            console.log('parameters', parameters)
-            console.log('template.Id', template.Id)
+            //console.log('extradata', extradata)
+            //console.log('parameters', parameters)
+            //console.log('template.Id', template.Id)
 
             return core.api.ai.generate(template.Id, parameters, {automatization : true}, extradata)
 
         }).then((result) => {
-            console.log('result', result)
+            //console.log('result', result)
         })
 
-        return Promise.resolve()
 
     })
 })

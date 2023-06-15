@@ -3935,8 +3935,6 @@ var ApiWrapper = function (core = {}) {
 					Value : info
 				})
 
-				console.log(JSON.stringify(data))
-				
 				return request(data, 'chat_ai', 'ai/aimail', p)
 
 			})

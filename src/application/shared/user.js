@@ -701,6 +701,8 @@ var User = function ({
                     to : l.ValidTo,
                 }
 
+                console.log('self.features[l.ProductCode].to',l.ProductCode, self.features[l.ProductCode].to)
+
                 self.features[l.ProductCode].valid = f.date.nowUtc1000() < self.features[l.ProductCode].to / 1000
 
                 
