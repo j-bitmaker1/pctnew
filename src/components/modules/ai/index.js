@@ -61,12 +61,12 @@ export default {
 
         })
 
-        /*this.getextradata({
+        this.getextradata({
             client : 414380,
             portfolio : 15
         }).then(data => {
             console.log("EXTRADATA", data)
-        })*/
+        })
 
 
     },

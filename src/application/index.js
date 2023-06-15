@@ -828,6 +828,8 @@ class Core {
                             pltr : (100 * ct.ltr).toFixed(1),
                         }
 
+                        console.log('ct.ltr', ct.ltr)
+
                         extra.benchmarks = {
                             spy : _.clone(benchmarks.spy || {}),
                             spyagg : _.clone(benchmarks.spyagg || {})

@@ -413,6 +413,8 @@ class PCT {
 
             if(scenario.id == -1){
                 d.ltr = scenario.loss || 0
+
+                console.log('d.ltr', d.ltr)
             }
         })
 
@@ -533,7 +535,7 @@ class PCT {
             ocr : ct.ocr,
             loss : max ? ct.loss / max : 0,
             profit : max ? ct.profit / max : 0,
-            ltr : max ? ct.profit / max : 0,
+            ltr : max ? ct.ltr / max : 0,
             yield : max ? ct.yield / max : 0,
             scenarios : _.map(ct.scenarios, (s) => {
 
