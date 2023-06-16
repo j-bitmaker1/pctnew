@@ -2,6 +2,7 @@ import Core from "../src/application/index.js";
 import {Portfolio, Contact} from "../src/application/shared/kit.js";
 import tickers from './data/tickers.json'
 import names from './data/names.json'
+import advisorinfo from './data/advisorinfo.json'
 import portfolionames from './data/portfolionames.json'
 import f from "../src/application/shared/functions.js";
 import 'dotenv/config'
@@ -127,7 +128,7 @@ var createRandomQuestionnaire = function(core){
 }
 
 var randomAdvisorInfo = function(){
-    return 'test'
+    return advisorinfo[f.rand(0, advisorinfo.length - 1)]
 }
 
 var infinityAction = function(promiseFactory, timeout = 1000, counter = 1, id){
