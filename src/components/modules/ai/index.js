@@ -517,6 +517,27 @@ export default {
         
         },
 
+        helpers_recognitionpermissions : function(){
+
+            if(!window.cordova) return Promise.resolve()
+
+            return new Promise((resolve, reject) => {
+                function error(e) {
+    
+                    reject('Permission to use the microphone has not been obtained.')
+                }
+                function success() {
+                    
+                        resolve()
+                    
+                }
+    
+                this.core.media.permissions({ audio: true }).then(success).catch(error)
+            })
+
+            
+        },
+
         helpers_initrecognition : function(){
 
             var constructor = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -1365,7 +1386,18 @@ export default {
 
                 if(this.loading) return
 
-                this.helpers_voiceInput()
+                this.helpers_recognitionpermissions().then(() => {
+                    this.helpers_voiceInput()
+                }).then(e => {
+
+                    this.$message({
+						title : "An error has occurred",
+						message : e
+					})
+
+                })
+ 
+                
             }
                 
         },

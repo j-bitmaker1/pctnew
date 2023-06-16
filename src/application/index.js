@@ -1,6 +1,7 @@
 
 
 import Notifier from "./shared/notifier.js";
+import Media from "./shared/media.js";
 import Api from "./shared/api.js";
 import listeners from './shared/listeners.js'
 import f from './shared/functions.js'
@@ -141,6 +142,7 @@ class Core {
 
         this.external = {}
         this.hiddenInParent = false
+        this.media = new Media()
 
 
         this.settings = {
@@ -727,6 +729,7 @@ class Core {
                             }
                         }
 
+
                         var worstScenarios = _.map(_.first(_.sortBy(dct.scenarios, (scenario) => {
                             return scenario.loss
                         }), 3), (scenario) => {
@@ -742,9 +745,13 @@ class Core {
                             }), 3)
 
                             contributors = _.map(contributors, (contributor) => {
+
+                                var position = r.get(contributor.ticker)
+
                                 return {
                                     ...contributor,
-                                    pvalue : (100 * contributor.value / total).toFixed(1)
+                                    pvalue : (100 * contributor.value / total).toFixed(1),
+                                    rvalue : (100 * contributor.value / position.value).toFixed(1)
                                 }
                             })
 
