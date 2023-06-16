@@ -5,7 +5,7 @@ import f from "../src/application/shared/functions.js";
 
 helpers.init().then((core) => {
 
-    helpers.infinityAction(function(){
+    helpers.multipeInfinityActions(function(){
 
         var portfolio = helpers.createRandomPortfolio(f.rand(1000, 100000), f.rand(10, 30))
         var client = helpers.createRandomClient()
@@ -32,12 +32,12 @@ helpers.init().then((core) => {
             //console.log('parameters', parameters)
             //console.log('template.Id', template.Id)
 
-            return core.api.ai.generate(template.Id, parameters, {automatization : true}, extradata)
+            return core.api.ai.generate(template.Id, parameters, {automatization : 'frontend'}, extradata)
 
         }).then((result) => {
             //console.log('result', result)
         })
 
 
-    })
+    }, 1000, 4)
 })

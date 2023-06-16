@@ -130,9 +130,9 @@ var randomAdvisorInfo = function(){
     return 'test'
 }
 
-var infinityAction = function(promiseFactory, timeout = 1000, counter = 1){
+var infinityAction = function(promiseFactory, timeout = 1000, counter = 1, id){
 
-    console.log("iteration: " + counter)
+    console.log("iteration: " + counter + " - " + id)
 
     var promise = promiseFactory()
 
@@ -144,19 +144,28 @@ var infinityAction = function(promiseFactory, timeout = 1000, counter = 1){
         console.log('error', e)
     }).finally(() => {
         setTimeout(() => {
-            infinityAction(promiseFactory, timeout, counter + 1)
+            infinityAction(promiseFactory, timeout, counter + 1, id)
         }, timeout)
     })
 }
 
+var multipeInfinityActions  = function(promiseFactory, timeout, count){
+    for(var i = 0; i < count; i++){
+        infinityAction(promiseFactory, timeout, 1, i)
+    }
+}
+
 var getRandomAiTemplate = function(core){
     return core.api.ai.template.list().then(list => {
+        console.log(list)
+
         list = _.filter(list, (p) => {
-            return p.Parameters.PortfolioRequired
+            return p && p.Parameters && p.Parameters.PortfolioRequired
         })
 
         var template = list[f.rand(0, list.length - 1)]
         var parameters = {}
+
 
         _.each(template.Parameters.Parameters, (parameter) => {
             if (parameter.Values && parameter.Values.length){
@@ -181,5 +190,6 @@ export default {
     createRandomQuestionnaire,
     infinityAction,
     randomAdvisorInfo,
-    getRandomAiTemplate
+    getRandomAiTemplate,
+    multipeInfinityActions
 }

@@ -186,6 +186,8 @@ export default {
 
 				this.profile = r
 
+				console.log('this.profile', this.profile)
+
 				this.core.activity.template('client', this.profile)
 
 				this.core.crm.contactAutoUpdate(this.profile)

@@ -911,7 +911,7 @@ class Core {
                         },
 
                         result : simulation.capacity || 0,
-                        hasquestionnaire : questionnaire ? true : false
+                        hasquestionnaire : questionnaire || fromsettings ? true : false
                     }
 
                     extra.capacity = capacity

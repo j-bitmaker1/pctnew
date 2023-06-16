@@ -871,7 +871,8 @@ Success! Your email was forwarded to complicance departement for review.
 
 							self.history.data.push({
 								speaker : "Additional Instruction",
-								text : text
+								text : text,
+								userask : true
 							})
 							
 						} : null,

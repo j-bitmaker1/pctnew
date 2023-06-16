@@ -3836,7 +3836,6 @@ var ApiWrapper = function (core = {}) {
 				ModelTarget: "LANGCHAIN",
 				makeprompt : context.test ? true : false,
 				AiEmailTemplateId : id,
-				Highload : context.automatization || false,
 				Parameters : _.map(parameters, function(value, id){
 					return {
 						Id : id,
@@ -3844,6 +3843,10 @@ var ApiWrapper = function (core = {}) {
 					}
 				}),
 				RecipientInfo : {}
+			}
+
+			if(context.automatization){
+				data.Highload = context.automatization
 			}
 
 
@@ -3857,6 +3860,8 @@ var ApiWrapper = function (core = {}) {
 			if (typeof extra.temperature != 'undefined'){
 				data.Temperature = extra.temperature
 			}
+
+			console.log('extra.history', extra.history)
 
 			if (extra.history){
 
@@ -3992,15 +3997,21 @@ var ApiWrapper = function (core = {}) {
 
 					return Promise.resolve(_.map(data.Records, function(record){
 
-
 						try{
-							record.Parameters = JSON.parse(record.Parameters)
 							record.Body = decodeURIComponent(record.Body)
 
 						}
 						catch(e){
-							console.error(e)
-							record.Parameters = {}
+							record.Body = ''
+						}
+
+						try{
+							record.Parameters = JSON.parse(record.Parameters)
+
+						}
+						catch(e){
+							
+							record.Parameters = _.isObject(record.Parameters) ? record.Parameters : {}
 							record.Body = ''
 						}
 						
