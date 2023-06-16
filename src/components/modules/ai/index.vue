@@ -35,7 +35,7 @@
                             firstName="Max" 
                             lastName="Grishkov" 
                             :rendered="rendered[event.id] || false" 
-                            :key="event.id" 
+                            :key="event.id + event.modkey" 
                             :event="event" 
                             v-for="event in currentEvents"
 

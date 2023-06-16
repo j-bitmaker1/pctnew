@@ -53,6 +53,10 @@ export default {
 
     },
 
+    beforeDestroy (){
+        if(this.recognition) this.recognition.abort()
+    },
+
     created () {
 
         if(this.initialcontext) this.context = this.initialcontext
@@ -68,6 +72,7 @@ export default {
             console.log("EXTRADATA", data)
         })
 
+        this.helpers_initrecognition()
 
     },
 
@@ -230,8 +235,6 @@ export default {
                                 this.core.vueapi.selectPortfolios((portfolios) => {
                                     var portfolio = portfolios[0]
 
-                                    console.log('selectPortfolios', portfolio)
-
                                     wr = true
 
                                     selectclbk(clbk, portfolio.id, portfolio.name, portfolio.crmContactId)
@@ -263,8 +266,6 @@ export default {
                                 action : (clbk) => {
                                     this.core.api.pctapi.portfolios.get(portfolio.id).then(r => {
 
-                                        console.log("R", r)
-
                                         /*return this.core.api.crm.contacts.gets({Ids : [r.crmContactId]}).then(c => {
                                             this.profile = c[0]
                                         })*/
@@ -287,7 +288,6 @@ export default {
                         var answers = []
 
                         var lasts = [].concat(this.core.activity.getlastsByType('client') || [], this.core.activity.getlastsByType('lead') || []) 
-                        console.log('lasts', lasts)
                         var answers = [{
                             text : "Select contact",
                             style : 'main',
@@ -382,8 +382,6 @@ export default {
 
         selectchat : function(chat){
 
-            console.log('chat', chat)
-
             this.helpers_clearpaneQuestion(() => {
 
                 var data = null
@@ -404,7 +402,6 @@ export default {
                 Promise.all(promises).then(() => {
 
                     this.initmaster(() => {
-                        console.log("INITED")
                         setTimeout(() => {
                             this.helpers_scrolltofinish()
                         }, 300)
@@ -533,15 +530,19 @@ export default {
 
             var recognition = new (constructor)();
 
+            var fixedtextvalue = ''
+
             recognition.lang = 'en-US';
             recognition.interimResults = true;
             recognition.maxAlternatives = 1;
 
             recognition.onaudiostart = () => {
                 this.speech = true
+                fixedtextvalue = this.textareavalue
             };
 
-            recognition.onaudioend = function(event) {
+            recognition.onaudioend = (event) => {
+                this.speech = false
             };
 
             recognition.onresult = (event) => {
@@ -557,18 +558,19 @@ export default {
 
                 }).join(' ')
 
+                this.textareavalue = (fixedtextvalue ? fixedtextvalue + " " : "") + text
 
-                this.textareavalue = text
-              
+                console.log('hasfinal', hasfinal, event, fixedtextvalue)
                 
-                if (hasfinal){
+                /*if (hasfinal){
                     this.actions_answer(text)
-                }
+                }*/
 
             };
 
             recognition.onend = (event) => {
-                this.textareavalue = ''
+                console.log('onend', event)
+                //this.textareavalue = ''
             };
 
             this.recognition = recognition
@@ -1114,7 +1116,13 @@ export default {
                 return 
             }
 
+            events = _.map(events, (event) => {
+                return {...event}
+            })
             
+            _.each(events, (e, i) => {
+                e.modkey = i + (replace ? 0 : this.eventsToRender.length)
+            })
 
             if (replace){
 
@@ -1135,7 +1143,6 @@ export default {
             _.each(events, (event) => {
                 this.eventsToRender.unshift(event)
             })
-
 
             this.setloading(true, events[0].session)
 
@@ -1352,7 +1359,7 @@ export default {
             if (this.speech){
 
                 if (this.recognition)
-                this.recognition.abort()
+                    this.recognition.abort()
             }
             else{
 
@@ -1365,8 +1372,6 @@ export default {
 
         changemaster : function({type, data}){
             if(this.loading || !this.master) return
-
-            console.log('changemaster', type)
 
             if(type == 'parameter'){
                 this.master.actions.cancelparameter(data)
@@ -1391,9 +1396,6 @@ export default {
 
         startover : function(){
             if(this.loading || !this.master) return
-
-            console.log('startover')
-
 
             this.master.actions.restart()
 

@@ -193,6 +193,7 @@
 			.panel
 				margin-left: auto
 				margin-right: $r
+				display: flex
 
 				.iconbt
 					border-radius: 22px
@@ -214,8 +215,7 @@
 		.input
 			.send
 				display: block
-			.microphone
-				display: none
+			
 
 	&.speech
 		.input
@@ -235,6 +235,13 @@
 				i
 					&::before
 						content: '\f04d'
+
+	&.inputactive.speech
+		.input
+			.microphone
+				i
+					&::before
+						content: '\f04c'
 
 	.events
 		padding: $r $r
