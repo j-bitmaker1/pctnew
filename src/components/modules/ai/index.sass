@@ -121,6 +121,7 @@
 			.loadingWrapper
 				opacity: 1
 
+		.attach,
 		.microphone
 			opacity: 0.1
 
@@ -216,9 +217,13 @@
 			.send
 				display: block
 			
+	&.inputactive
+		.attach
+			display: none
 
 	&.speech
 		.input
+			.attach,
 			.send
 				display: none
 

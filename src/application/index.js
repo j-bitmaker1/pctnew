@@ -953,6 +953,20 @@ class Core {
         })
     }
 
+    gettasks(file){
+        var t = _.filter(this.store.state._task, (t) => {
+            return t.fileId == file.id
+        })
+
+        var obj = {}
+
+        _.each(t, (t) => {
+            obj[t.type] = t
+        })
+
+        return obj
+    }
+
 }
 
 export default Core

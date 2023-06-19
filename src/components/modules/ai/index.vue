@@ -70,6 +70,11 @@
                             <!--<input type="text" placeholder="Enter text"/>-->
                         </div>
                         <div class="panel">
+
+                            <!--<div class="iconbt attach" @click="attach">
+                                <i class="fas fa-paperclip"></i>
+                            </div>-->
+
                             <div class="iconbt microphone" @click="microphoneClick">
                                 <i class="fas fa-microphone"></i>
                             </div>

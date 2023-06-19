@@ -16,8 +16,8 @@
     <div class="ext" v-else>
         <button class="button small" :class="(i ? 'black' : '') + ' ' + (item.style || '')" v-for="(item, i) in menu" @click="item.action">
             <i v-if="item.icon" :class="item.icon"/>
+            <span v-if="item.text">{{$t(item.text)}}</span>
             <img :src="require('@/assets/' + item.svg)" v-if="item.svg"/>
-            <span>{{$t(item.text)}}</span>
         </button>
     </div>
 </div>
@@ -40,11 +40,12 @@
             margin-bottom: 2px
 
         &.aibutton
-            justify-content: flex-start
+            background: transparent
+            border-color: transparent
 
         img
             height: 18px
-            margin-right: 2px
+            margin-left: 6px
 
         i
             margin-top: 2px
@@ -81,13 +82,7 @@ export default {
                     action: this.portfolio,
                     features : ['PCT']
                 },
-                {
-                    svg : "logoai.svg",
-                    text: 'menu.ai',
-                    action: this.openai,
-                    style : 'aibutton',
-                    features : ['AI']
-                },
+                
                 {
                     text: 'labels.newClient',
                     icon: 'fas fa-users',
@@ -117,7 +112,13 @@ export default {
                     action: this.sharequestionnaire,
                     features : ['PCT']
                 },
-
+                {
+                    svg : "logoaifull.svg",
+                    text: '',
+                    action: this.openai,
+                    style : 'aibutton',
+                    features : ['AI']
+                },
                 
                 
             ]

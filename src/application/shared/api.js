@@ -1,5 +1,5 @@
 import f from './functions.js'
-import { Contact, Portfolio, Task, Scenario, Buylist } from './kit.js'
+import { Contact, Portfolio, Task, Scenario, Buylist, TFile, TTask } from './kit.js'
 import { Campaign, Batch, ViewStep, Template, EmailTemplate, Signature } from '../campaigns/kit.js'
 
 var Axios = require('axios');
@@ -3009,7 +3009,14 @@ var ApiWrapper = function (core = {}) {
 				if (r.lastAsyncTasksUpdate) {
 					invalidateStorage.push({
 						updated: f.date.fromstring(r.lastAsyncTasksUpdate, true) / 1000,
-						type: ['tasks']
+						type: ['tasks', 'files']
+					})
+				}
+
+				if (r.lastFilesUpdate) {
+					invalidateStorage.push({
+						updated: f.date.fromstring(r.lastFilesUpdate, true) / 1000,
+						type: ['files']
 					})
 				}
 
@@ -3030,28 +3037,85 @@ var ApiWrapper = function (core = {}) {
 
 	self.tasks = {
 
-		create: function (data = {}, p = {}) {
+		create: function (FileId, Type, TaskParameters = '', p = {}) {
+
+			p.method = "POST"
+
+			return request({ Type, FileId, TaskParameters }, 'api', 'async_task_manager/Tasks/Create', p).then(r => {
+				return Promise.resolve(r.id)
+			})
+
+		},
+
+		restart: function (FileId, Type, TaskParameters = '', p = {}) {
+
+			p.method = "POST"
+
+			return request({ Type, FileId, TaskParameters }, 'api', 'async_task_manager/Tasks/Restart', p).then(r => {
+				return Promise.resolve(r.id)
+			})
+
+		},
+
+		fromfiles : function(tasksraw, id){
+
+			return _.map(tasksraw, (taskraw) => {
+
+				taskraw.fileId = id
+
+				var task = new TTask(taskraw)
+
+				core.vxstorage.set(task, 'task')
+
+				return task
+			})
+		},
+
+		update: function (id, dataManual, p = {}) {
+			p.method = "POST"
+
+			self.invalidateStorageNow(['tasks'])
+
+			core.ignore('task', {
+				id
+			})
+
+			var { updated, from } = core.vxstorage.update({
+				data: dataManual,
+				manual: true,
+				id
+			}, 'task')
+
+			return request({ id, dataManual: JSON.stringify({ Infos: dataManual }) }, 'api', 'async_task_manager/Tasks/Update', p)
+		},
+
+
+	}
+
+	self.files = {
+
+		upload: function (data = {}, p = {}) {
 
 
 			if(!data.file && !data.files) return Promise.reject('empty')
 
-			self.invalidateStorageNow(['tasks'])
+			self.invalidateStorageNow(['files'])
 
 			let formData = new FormData();
 
-			formData.append('Type', 'PARSEPORTFOLIO');
 			formData.append('AppId', 'PCT');
 
 			if(data.file){
 				formData.append("File", data.file);
 			}
+
 			if(data.files){
 				_.each(data.files, (file) => {
 					formData.append("File", file);
 				})
 			}
 
-			return request(formData, 'apiFDH', 'async_task_manager/AsyncTask/Create', p).then(r => {
+			return request(formData, 'apiFDH', 'async_task_manager/Files/Upload', p).then(r => {
 
 				/*core.ignore('task', {
 					id: r.id
@@ -3072,89 +3136,93 @@ var ApiWrapper = function (core = {}) {
 			p.includeCount = "includeCount"
 
 			p.kit = {
-				class: Task,
+				class: TFile,
 				path: 'records'
 			}
 
 			p.vxstorage = {
-				type: 'task',
+				type: 'file',
 				path: 'records'
 			}
 
-			data.includeStatusesFilter = ["NEW", "SUCCESS", "ACTIVE", "FAULTED"]
+			data.includeStatusesFilter = ["ACTIVE"]
 
-			p.storageparameters = dbmeta.tasks()
+			p.storageparameters = dbmeta.files()
 
 			data.appIdsFilter = ["PCT"]
 
-			return paginatedrequest(data, 'api', 'async_task_manager/AsyncTask/ListTasks', p).then(r => {
+			return paginatedrequest(data, 'api', 'async_task_manager/Files/List', p).then(r => {
 
+				_.each(r.data || [], (file) => {
+					/*file.processes = */self.tasks.fromfiles(file.tasks, file.id)
+				})
+
+				console.log("R", r)
 
 				return Promise.resolve(r)
 			})
 		},
 
-		get: function (taskId, p = {}) {
+		get: function (id, p = {}) {
 			p.method = "POST"
 
-			return request({ taskId }, 'api', 'async_task_manager/AsyncTask/GetTask', p)
-		},
+			p.kit = {
+				class: TFile,
+				one: true,
+				path: 'records'
+			}
 
-		update: function (id, dataManual, p = {}) {
-			p.method = "POST"
+			p.vxstorage = {
+				type: 'file',
+				index: id
+			}
 
-			self.invalidateStorageNow(['tasks'])
+			p.storageparameters = dbmeta.files()
 
-			core.ignore('task', {
-				id
+			return request({ taskId }, 'api', 'async_task_manager/Files/Get', p).then((file) => {
+				/*file.processes = */self.tasks.fromfiles(file.tasks, file.id)
+
+				return Promise.resolve(file)
 			})
-
-			var { updated, from } = core.vxstorage.update({
-				data: dataManual,
-				manual: true,
-				id
-			}, 'task')
-
-			return request({ id, dataManual: JSON.stringify({ Infos: dataManual }) }, 'api', 'async_task_manager/AsyncTask/UpdateTask', p)
 		},
 
-		delete: function (taskId, p = {}) {
+		delete: function (id, p = {}) {
 			p.method = "POST"
 
-			self.invalidateStorageNow(['tasks'])
+			self.invalidateStorageNow(['files'])
 
 			core.vxstorage.update({
 				status: "DELETED",
-				id : taskId
-			}, 'task')
+				id : id
+			}, 'file')
 
-			return request({ taskId }, 'api', 'async_task_manager/AsyncTask/DeleteTask', p)
+			return request({ filesIds : [id] }, 'api', 'async_task_manager/Files/Delete', p)
 		},
-		deleteItems: function (taskIds, p = {}) {
+		deleteItems: function (filesIds, p = {}) {
 			p.method = "POST"
 
-			self.invalidateStorageNow(['tasks'])
+			self.invalidateStorageNow(['files'])
 
-			_.each(taskIds, (taskId) => {
+			_.each(filesIds, (id) => {
 				core.vxstorage.update({
 					status: "DELETED",
-					id : taskId
-				}, 'task')
+					id : id
+				}, 'file')
 			})
 
-			return request({ taskIds }, 'api', 'async_task_manager/AsyncTask/DeleteTasks', p)
+			return request({ filesIds }, 'api', 'async_task_manager/Files/Delete', p)
 		},
 
-		getattachment: function (key, taskId, p = {}) {
+		getattachment: function (key, fileID, p = {}) {
 			p.method = "POST"
 
-			var datahash = sha1(key + taskId)
+			var datahash = sha1(key + fileID)
 
 			core.store.commit('globalpreloader', true)
 
 			return dbaction(datahash, () => {
 
-				return request({ taskId, storageKey: key }, 'api', 'async_task_manager/AsyncTask/GetAttachmentLink', p).then(r => {
+				return request({ fileID, storageKey: key }, 'api', 'async_task_manager/Files/GetAttachmentLink', p).then(r => {
 
 
 					return Axios({
@@ -3163,10 +3231,6 @@ var ApiWrapper = function (core = {}) {
 					})
 
 				}).then(r => {
-
-
-					//if(r.config.transformResponse) r.data = r.config.transformResponse(r.data)
-					
 
 					var file = new Blob([r.data], { type: r.headers['content-type'] })
 
@@ -3931,6 +3995,10 @@ var ApiWrapper = function (core = {}) {
 					Id : "advisorInfo__",
 					Value : extra.advisorInfo
 				})
+			}
+
+			if(extra.files){
+				data.files = extra.files
 			}
 
 			return self.ai.extra.ainfo.get().then(function(info){

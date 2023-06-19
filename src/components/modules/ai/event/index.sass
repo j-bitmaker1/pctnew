@@ -132,6 +132,28 @@
         color: srgb(--text-on-bg-shadow-color)
         border-top-left-radius: 0
 
+::v-deep
+    .filemanager_list_file
+        padding: 0
+        align-items: center
+
+        .icon
+            width: 36px
+            height: 36px
+            line-height: 34px
+
+        .data
+            display: flex
+
+        .name
+            span
+                font-size: 0.8em
+
+        .meta
+            margin-left: $r
+            span
+                font-size: 0.8em
+
 .messagestatuspanel
     margin-left: $r
     padding-top: 0.35em

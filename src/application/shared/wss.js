@@ -1,7 +1,7 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import f from './functions.js'
 import moment from 'moment'
-import {Contact, Portfolio, Scenario, Task} from './kit.js'
+import {Contact, Portfolio, Scenario, Task, TTask, TFile} from './kit.js'
 
 var WSS = function(core, url){
     var self = this
@@ -314,26 +314,28 @@ var WSS = function(core, url){
                 var type = ''
                 var types = []
 
-                try{
-
-
                     if(message.x_eventType == 'ASYNCTASKCOMPLETED') {
-                        types = ['task']; invalidate = ['tasks']; data = new Task(data)
+                        types = ['task']; invalidate = ['tasks']; data = new TTask(data)
+
+                        core.updateByWs(data, types, invalidate)
+                        return
+                    }
+
+                    if(message.x_eventType == 'ASYNCTASKPROGRESS') {
+                        types = ['task']; invalidate = ['tasks']; data = new TTask(data)
 
                         core.updateByWs(data, types, invalidate)
                         return
                     }
 
                     if(message.x_eventType == 'ASYNCTASKCREATE') {
-                        type = 'task'; invalidate = ['tasks']; data = new Task(data)
+                        type = 'task'; invalidate = ['tasks']; var task = new TTask(data)
 
-                        core.createByWs(data, type, invalidate)
+                        core.createByWs(task, type, invalidate)
+
                         return
                     }
 
-                }catch(e) {
-                    console.error(e)
-                }
 
             }
 
@@ -346,6 +348,18 @@ var WSS = function(core, url){
                     core.readAllNotifications()
                 }
 
+                return
+            }
+
+            if (message.x_eventType == 'FILEUPLOADED'){
+
+                
+                return
+            }
+
+            if (message.x_eventType == 'FILEDELETED'){
+
+                
                 return
             }
 

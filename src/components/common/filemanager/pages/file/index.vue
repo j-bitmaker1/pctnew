@@ -2,9 +2,9 @@
 <div id="filemanager_pages_file">
     <div class="headerRow">
         <filepreview :file="file" :cut="true" @deleted="deleted"/>
-        <div class="like-modal-close" @click="close">
+        <!--<div class="like-modal-close" @click="close">
             <i class="fas fa-times"></i>
-        </div>
+        </div>-->
     </div>
 
     <div class="filecontents">

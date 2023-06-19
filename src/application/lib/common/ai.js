@@ -22,6 +22,7 @@ var Master = function(settings = {}, /*app, */context){
 	self.recalled = false
 	self.stopped = false
 	self.temperature = defaulttemperature
+	self.files = []
 
 	self.stage = {
 		resultshowed : false,
@@ -59,6 +60,7 @@ var Master = function(settings = {}, /*app, */context){
 			self.history.data = _.clone(data.history.data)
 		}
 		if(data.session) self.session = _.clone(data.session)
+		if(data.files) self.files = _.clone(data.files)
 
 		if(typeof data.temperature != 'undefined') self.temperature = data.temperature
 		
@@ -228,6 +230,7 @@ var Master = function(settings = {}, /*app, */context){
 
 			self.history.type = null
 			self.history.data = []
+			self.files = []
 
 			self.temperature = defaulttemperature
 		},
@@ -761,6 +764,16 @@ Success! Your email was forwarded to complicance departement for review.
 							helpers.getclient(function(client){
 								helpers.hardrequest(function(){
 
+									var files = _.map(self.files, (f) => {
+										return f.replace('rxfile:', '')
+									})
+
+									_.each(self.parameters, (parameter, i) => {
+										if(parameter.Type == 'file' && typeof self.parameters[parameter.Id] != 'undefined'){
+											files.push(self.parameters[parameter.Id].replace('rxfile:', ''))
+										}
+									})
+
 									return settings.ai.generate(self.type.id, self.parameters, {
 										test : self.context.test || false,
 										portfolio : portfolio ? portfolio.id : null,
@@ -768,7 +781,8 @@ Success! Your email was forwarded to complicance departement for review.
 									}, {
 										//refinetext : self.data.text,
 										history : self.history.data,
-										temperature : self.temperature
+										temperature : self.temperature,
+										files
 									})
 
 								})
@@ -981,6 +995,29 @@ Success! Your email was forwarded to complicance departement for review.
 							self.parameters[parameter.Id] = ''
 						}
 					}]
+				}
+
+			}
+
+			if(parameter.Type == 'file'){
+
+				answerFormat.event = {
+					type : 'answers',
+					answers : [
+						{
+							dictionary : ['upload'],
+							text : "Upload file",
+							action : function(clbk){
+								settings.helpers.uploadfile((value) => {
+									
+
+									self.parameters[parameter.Id] = value
+
+									if(clbk) clbk(value)
+								})
+							}
+						}
+					]
 				}
 
 			}
@@ -1477,6 +1514,26 @@ Success! Your email was forwarded to complicance departement for review.
 		if(self.stage.cansave) return 'clean'
 
 		return 'draft'
+	}
+
+	self.addfile = function(id){
+		self.files.push(id)
+	}
+
+	self.removefile = function(id){
+		self.files = _.filter(self.files, (i) => {
+			return i != id
+		})
+
+		var rmp = []
+
+		_.each(self.parameters, (p, i) => {
+			if(p == id) rmp.push(i)
+		})
+
+		_.each(rmp, (i) => {
+			delete self.parameters[i]
+		})
 	}
 
 	return self

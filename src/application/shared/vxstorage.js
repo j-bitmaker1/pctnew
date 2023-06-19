@@ -61,18 +61,25 @@ class VXStorage {
 
     }
 
-    update(obj, type){
+    update(obj, type, index){
 
         if(!this.storage[type]) throw new Error('type: ' + type)
         if(!this.store) throw new Error('notlinked')
 
         var last = this.get(obj[this.index(type)], type)
+        var update = {}
 
         if(!last) return {}
 
         var from = _.clone(last)
 
-        var update = _.extend(last, obj)
+        if(!index)
+            update = _.extend(last, obj)
+        else {
+            update = last
+            delete obj[this.index(type)]
+            update[index] = _.extend(update[index] || {}, obj)
+        }
 
         return {
             updated : this.set(update, type),

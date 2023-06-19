@@ -1377,7 +1377,7 @@ f.removePopoverFromEvent = function (e) {
 
     if (e.path) {
         var sel = _.find(e.path, function (p) {
-            return p.classList && (p.classList.contains('v-popover') || p.classList.contains('tooltip'));
+            return p.classList && (p.classList.contains('v-popover') || p.classList.contains('tooltip') || p.classList.contains('removeclick'));
         })
 
         if (sel) {
@@ -1387,7 +1387,7 @@ f.removePopoverFromEvent = function (e) {
 
     if (f.findinparent(e.target, (el) => {
 
-        return el.classList && (el.classList.contains('v-popover') || el.classList.contains('tooltip'))
+        return el.classList && (el.classList.contains('v-popover') || el.classList.contains('tooltip') || el.classList.contains('removeclick'))
     })) return true
 
 

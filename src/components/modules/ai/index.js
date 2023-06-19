@@ -216,6 +216,27 @@ export default {
                             clbk(c[0])
                         })
                     }, 
+
+                    getfile : (id, clbk) => {
+
+                        id = id.replace('rxfile:', '')
+
+                        return this.core.api.files.get(id).then(c => {
+                            clbk(c)
+                        })
+                    }, 
+
+                    uploadfile : function(clbk){
+                        this.core.vueapi.fileManager({
+                            open : function(file){
+                                clbk('rxfile:' + file.id)
+                            }
+                        }, {
+                            
+                        })
+                    }
+
+                    
                 },
 
                 answers : {
@@ -234,6 +255,8 @@ export default {
     
                                 this.core.vueapi.selectPortfolios((portfolios) => {
                                     var portfolio = portfolios[0]
+
+                                    this.core.activity.template('portfolio', portfolio)
 
                                     wr = true
 
@@ -265,6 +288,8 @@ export default {
                                 text : portfolio.name,
                                 action : (clbk) => {
                                     this.core.api.pctapi.portfolios.get(portfolio.id).then(r => {
+
+                                        this.core.activity.template('portfolio', r)
 
                                         /*return this.core.api.crm.contacts.gets({Ids : [r.crmContactId]}).then(c => {
                                             this.profile = c[0]
@@ -1369,6 +1394,36 @@ export default {
 
                 
             }
+        },
+
+        attach : function(){    
+
+            if(this.loading) return
+
+            this.core.vueapi.fileManager({
+                open : (file) => {
+                    console.log("file,", file)
+
+                    var master = this.master
+
+                    var message = this.add_message({
+                        message : 'rxfile:' + file.id,
+                        you : true
+                    }, master)
+
+                    master.addfile('rxfile:' + file.id)
+
+                    console.log('message', message)
+
+                    var re = [message]
+
+                    this.renders_lazyevents(re, function(){
+
+                    }, master)
+                }
+			}, {
+				
+			})
         },
 
         sendClick : function(){

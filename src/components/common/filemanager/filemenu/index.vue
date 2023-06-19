@@ -56,7 +56,7 @@ export default {
 
 	methods: {
 		deleteFile : function(){
-			this.core.api.tasks.delete(this.file.id, {
+			this.core.api.files.delete(this.file.id, {
 				preloader : true
 			}).then(r => {
 				this.$emit('deleted')
@@ -65,7 +65,7 @@ export default {
 
 		open : function(file){
 
-            this.core.api.tasks.getattachment(file.StorageKey, this.file.id/*, file.ContentType*/).then(r => {
+            this.core.api.files.getattachment(file.StorageKey, this.file.id/*, file.ContentType*/).then(r => {
 
 				this.core.filehandler(r, {
 					name : file.FileName

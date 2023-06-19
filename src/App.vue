@@ -306,14 +306,15 @@ var vxstorage = new VXStorage([{
 }, {
     type : "task",
     index : "id",
-},
-{
+},{
+    type : "file",
+    index : "id",
+}, {
     type : "customscenario",
     index : "id",
     reload : 'api.pctapi.customscenarios.gets',
     invalidateDb : ['stress']
-},
-{
+}, {
     type : 'filesystem',
     index : 'id',
     reload : 'api.pctapi.portfolios.gets'

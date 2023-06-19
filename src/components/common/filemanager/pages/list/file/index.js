@@ -8,7 +8,8 @@ export default {
     name: 'filemanager_list_file',
     props: {
         file : Object,
-        cut : Boolean
+        cut : Boolean,
+        nomenu : Boolean
     },
 
     components : {filespreview, filemenu},
@@ -16,7 +17,8 @@ export default {
     data : function(){
 
         return {
-            loading : false
+            loading : false,
+            processes : ['PARSEPORTFOLIO']
         }
 
     },
@@ -54,6 +56,25 @@ export default {
             return _.filter(this.file.data, (d) => {
                 return d.Name
             }).length > 0
+        },
+
+        tasks : function(state){
+
+            console.log('state._task', this.core.gettasks(this.file))
+
+            return this.core.gettasks(this.file)
+
+            var t = _.filter(state._task, (t) => {
+                return t.fileId == this.file.id
+            })
+
+            var obj = {}
+
+			_.each(t, (t) => {
+				obj[t.type] = t.id
+			})
+
+            return obj
         }
     }),
 
@@ -88,6 +109,14 @@ export default {
             }), (a) => {return a})
             
             this.$emit('createPortfolio', portfolio)
-        }
+        },
+
+        runprocess : function(i){
+            this.$emit('runprocess', i)
+        },
+
+        restartprocess : function(i){
+            this.$emit('restartprocess', i)
+        },
     },
 }

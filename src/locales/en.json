@@ -709,6 +709,12 @@
 			"onlymy" : "Show only my contacts",
 			"firms" : "Show contacts of other users from my company"
 		}
+	},
+
+	"filemanager" : {
+		"processes" : {
+			"PARSEPORTFOLIO" : "Portfolio parsing"
+		}
 	}
 
 }

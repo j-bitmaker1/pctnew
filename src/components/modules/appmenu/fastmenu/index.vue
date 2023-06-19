@@ -3,7 +3,7 @@
     <div class="items">
 
         <transition-group name="menu" tag="div">
-            <div class="item" v-for="item in items" :key="item.id" @click="e => open(item)">
+            <div class="item" v-for="item in items" :key="item.id" :class="item.style || ''" @click="e => open(item)">
                 <div>
                     <i v-if="item.icon" :class="item.icon"/>
                     <img :src="require('@/assets/' + item.svg)" v-if="item.svg"/>

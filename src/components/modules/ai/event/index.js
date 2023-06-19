@@ -1,6 +1,6 @@
 import { mapState } from 'vuex';
 import f from "@/application/shared/functions.js"
-
+import filepreview from "@/components/common/filemanager/pages/list/file/byid.vue"
 export default {
     name: 'ai_event',
     props: {
@@ -15,6 +15,10 @@ export default {
         removed : Boolean,
         height : Number
 
+    },
+
+    components : {
+        filepreview
     },
 
     data : function(){
@@ -43,6 +47,13 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+        itisfile : function(){
+            return (this.event.data.message || "").indexOf('rxfile:') > -1
+        },
+        fileid : function(){
+            console.log('this.event.data', this.event.data)
+            return (this.event.data.message || "").replace('rxfile:', '')
+        }
     }),
 
     methods : {
