@@ -4050,8 +4050,8 @@ var ApiWrapper = function (core = {}) {
 			.then(function(result){
 
 				return Promise.resolve({
-					text : f.clearstring(result.Body || result.body || ""),
-					caption : f.clearstring(result.Subject || result.subject || ""),
+					text : f.formatDollarsInText(f.clearstring(result.Body || result.body || "")),
+					caption : f.formatDollarsInText(f.clearstring(result.Subject || result.subject || "")),
 
 					fullrequest : f.clearstring(result.fullBody || ''),
 					shortrequest : f.clearstring(result.shortBody || ''),
