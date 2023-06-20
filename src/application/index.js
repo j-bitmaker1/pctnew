@@ -708,9 +708,9 @@ class Core {
                                     })
                                 })
 
-                                extra.positions = _.sortBy(positions, (p) => {
+                                extra.positions = _.first(_.sortBy(positions, (p) => {
                                     return - p.value
-                                })
+                                }), 3)
                             })
 
                         })
