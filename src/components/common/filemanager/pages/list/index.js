@@ -7,7 +7,8 @@ import _ from 'underscore';
 export default {
     name: 'filemanager_pages_list',
     props: {
-        scroll : Number
+        scroll : Number,
+		extensions : Array
     },
 
     components : {
@@ -85,9 +86,12 @@ export default {
 		},
 
         payload : function(){
+
+			///extensions
+
             return {
 				//searchStrFilter : this.searchvalue,
-
+				extensionsFilter : this.extensions || null,
 				sortFields : [{
 					field : this.sorting[this.sort].field,
 					order : this.sorting[this.sort].sort

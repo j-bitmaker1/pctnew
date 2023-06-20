@@ -14,7 +14,9 @@ export default {
         context : {
             type : String,
             default : 'portfolio'
-        }
+        },
+
+        allowedExtensions : Array
     },
 
     data : function(){
@@ -55,7 +57,7 @@ export default {
         uploading : function(){
 
             return _.filter(this.hasUploading, (file) => {
-                return f.files.checkExtension(file, this.extensions)
+                return f.files.checkExtension(file, this.allowedExtensions || this.extensions)
             })
 
         }
