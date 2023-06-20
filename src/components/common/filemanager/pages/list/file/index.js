@@ -18,7 +18,7 @@ export default {
 
         return {
             loading : false,
-            processes : ['PARSEPORTFOLIO', 'CUSTOMFILE']
+            processes : ['PARSEPORTFOLIO'/*, 'CUSTOMFILE'*/]
         }
 
     },
