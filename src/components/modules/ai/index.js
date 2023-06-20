@@ -166,6 +166,8 @@ export default {
                             return this.core.api.ai.generate(templateId, parameters, context, extra)
                         }).catch(e => {
 
+                            console.error(e)
+
                             return Promise.reject(e)
                         })
 

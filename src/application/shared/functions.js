@@ -2150,7 +2150,12 @@ f.convertNewLinesToBr = function (str = "") {
 
 f.formatDollarsInText = function (str = '') {
     return str.replace(/(\$([-0-9,])+([.0-9]{0,3})?)/g, (match, p1,p2) => {
-        return f.values.format(undefined, 'd', match.replace("$", ''))
+
+        var formatted = (f.values.format(undefined, 'd', match.replace("$", '')) || '')
+
+        if (formatted.toLowerCase() == '$nan') return match
+
+        return formatted
     })
 }
 

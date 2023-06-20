@@ -858,6 +858,8 @@ Success! Your email was forwarded to complicance departement for review.
 										if(p.clbk) p.clbk('', {hide : true})
 			
 									}).catch(function(error){
+
+										console.error(error)
 			
 										event.hidden = true
 			
@@ -1358,6 +1360,24 @@ Success! Your email was forwarded to complicance departement for review.
 			return templates.intro(clbk)
 		}
 
+		if (self.type.type == 'speech' || self.type.type == 'email' || self.type.type == 'chat'){
+
+			if (typeof self.context.portfolio == 'undefined' && self.type.portfolioRequired){
+				return templates.portfolio(clbk)
+			}
+
+			if (self.type.clientRequired && typeof self.context.client == 'undefined'){
+				return templates.client(clbk)
+			}
+
+			if (self.stage.autoclient){
+
+				self.stage.autoclient = false
+
+				return templates.clientname(clbk)
+			}
+		}
+
 		if (self.type.type == 'chat'){
 
 			if (helpers.askParameter(clbk)){
@@ -1398,24 +1418,7 @@ Success! Your email was forwarded to complicance departement for review.
 			return
 		}
 
-		if (self.type.type == 'speech' || self.type.type == 'email'){
-
-			if (typeof self.context.portfolio == 'undefined' && self.type.portfolioRequired){
-				return templates.portfolio(clbk)
-			}
-
-			if (self.type.clientRequired && typeof self.context.client == 'undefined'){
-
-				return templates.client(clbk)
-			}
-
-			if (self.stage.autoclient){
-
-				self.stage.autoclient = false
-
-				return templates.clientname(clbk)
-			}
-		}
+		
 
 		
 

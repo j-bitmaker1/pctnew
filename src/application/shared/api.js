@@ -3970,14 +3970,16 @@ var ApiWrapper = function (core = {}, platform = "PCT") {
 
 			if (extra.history){
 
-				var history = _.map(extra.history, function(hst){
-					return hst.speaker + ": " + hst.text
+				var history = _.map(extra.history, function(hst, i){
+					return ((hst.userask && (extra.history.length == i + 1)) ? (hst.speaker + ". Current question: ") : (hst.speaker + ": ")) + hst.text
 				}).join("\n\n")
 
-				var historyUser = _.map(_.filter(extra.history, function(h){
+				var userquestions = _.filter(extra.history, function(h, i){
 					return h.userask
-				}), function(hst){
-					return hst.text
+				})
+
+				var historyUser = _.map(userquestions, function(hst, i){
+					return ((userquestions.length == i + 1) ? "Current question: " : '') + hst.text
 				}).join("\n\n")
 
 				data.Parameters.push({
