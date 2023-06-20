@@ -713,7 +713,8 @@
 
 	"filemanager" : {
 		"processes" : {
-			"PARSEPORTFOLIO" : "Portfolio parsing"
+			"PARSEPORTFOLIO" : "Portfolio parsing",
+			"CUSTOMFILE" : "Custom file parsing"
 		}
 	}
 

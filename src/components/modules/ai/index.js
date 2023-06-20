@@ -171,7 +171,6 @@ export default {
 
                     },
                     pdf : (parameters = {}, context = {}, extra = {}) => {
-
                         return this.core.api.ai.pdf(parameters, context, extra)
                     }
                 },
@@ -227,12 +226,22 @@ export default {
                     }, 
 
                     uploadfile : (clbk) => {
+
+                        var fv = false
+
                         this.core.vueapi.fileManager({
                             open : function(file){
+                                fv = true
                                 clbk('rxfile:' + file.id)
-                            }
-                        }, {
+                            },
                             
+                        }, {
+                            close : function(){
+                                console.log("CLOSE")
+                                if(!fv){
+                                    clbk('')
+                                }
+                            }
                         })
                     }
 

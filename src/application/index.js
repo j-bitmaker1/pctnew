@@ -735,9 +735,16 @@ class Core {
                         }
 
 
-                        var worstScenarios = _.map(_.first(_.sortBy(dct.scenarios, (scenario) => {
-                            return scenario.loss
-                        }), 3), (scenario) => {
+                        var worstScenarios = _.map(_.first(
+                            _.filter(
+                                _.sortBy(dct.scenarios, (scenario) => {
+                                    return scenario.loss
+                                }), 
+                                (scenario) => {
+                                    return (scenario.id != -2 && scenario.id != -1) && scenario.loss < 0
+                                }
+                            )
+                        , 3), (scenario) => {
 
                             usedscenarios.push(scenario.id)
 
@@ -782,7 +789,7 @@ class Core {
                                     return -scenario.loss
                                 }), 
                                 (scenario) => {
-                                    return (scenario.id != -2) && scenario.loss > 0
+                                    return (scenario.id != -2 && scenario.id != -1) && scenario.loss > 0
                                 }
                             ),
 

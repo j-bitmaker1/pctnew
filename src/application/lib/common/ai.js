@@ -1011,9 +1011,9 @@ Success! Your email was forwarded to complicance departement for review.
 						{
 							dictionary : ['upload'],
 							text : "Upload file",
+							needfill : true,
 							action : function(clbk){
 								settings.helpers.uploadfile((value) => {
-									
 
 									self.parameters[parameter.Id] = value
 
@@ -1461,6 +1461,21 @@ Success! Your email was forwarded to complicance departement for review.
 				}
 			})
 
+			self.types['pdf_att'] = {
+				id : 'pdf_att',
+				name : "Ask about your document",
+				dictionary : ['document'],
+				shortName : "PDF",
+				type : 'chat',
+				parameters : [{
+					"Name": "Please select a file",
+					"Id": "attach",
+					"Type": "file",
+					"DefaultValue": ""
+				}],
+				order : 4,
+				pdf : true
+			}
 
 			if(clbk) clbk()
 		})

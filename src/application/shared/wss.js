@@ -308,7 +308,7 @@ var WSS = function(core, url){
 
             }   
 
-            if (message.type == 'PARSEPORTFOLIO'){
+            if (message.type == 'PARSEPORTFOLIO' || message.type == 'CUSTOMFILE'){
 
                 var invalidate = []
                 var data = message

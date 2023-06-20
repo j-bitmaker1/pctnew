@@ -304,7 +304,7 @@ var Request = function (core = {}, url, system) {
 	return self
 }
 
-var ApiWrapper = function (core = {}) {
+var ApiWrapper = function (core = {}, platform = "PCT") {
 
 	var self = this;
 
@@ -313,6 +313,7 @@ var ApiWrapper = function (core = {}) {
 	var blockNotify = false
 
 	self.appid = core.appid
+	self.platform = platform
 
 	self.prepare = function () {
 		return Promise.all(_.map(dbmeta, (mf) => {
@@ -2375,7 +2376,7 @@ var ApiWrapper = function (core = {}) {
 
 				self.invalidateStorageNow(['portfolios', 'contacts'])
 
-				data.products = 'PCT'
+				data.products = self.platform
 
 				return request(data, 'api', 'crm/Contacts/Insert', p).then(r => {
 
@@ -2935,7 +2936,7 @@ var ApiWrapper = function (core = {}) {
 		restorePassword: function ({ email }, p = {}) {
 			return request({
 				Email: email,
-				Link: 'PCT'
+				Link: self.platform
 			}, 'api', 'userdata/user/RestorePassword', p)
 		},
 
@@ -2949,7 +2950,7 @@ var ApiWrapper = function (core = {}) {
 
 		settings: {
 			getall: function (type) {
-				return request({ type, product: 'PCT' }, 'api', 'userdata/settings/list', {
+				return request({ type, product: self.platform }, 'api', 'userdata/settings/list', {
 					method: "GET",
 				})
 			},
@@ -2957,7 +2958,7 @@ var ApiWrapper = function (core = {}) {
 			create: function (key, value, type) {
 
 				var data = {}
-				data.Product = 'PCT'
+				data.Product = self.platform
 				data.IsPublic = true
 				data.Type = type
 				data.Name = key
@@ -2971,7 +2972,7 @@ var ApiWrapper = function (core = {}) {
 			update: function (id, key, value, type) {
 
 				var data = {}
-				data.product = 'PCT'
+				data.product = self.platform
 				data.IsPublic = true
 				data.Type = type
 				data.Name = key
@@ -3138,7 +3139,7 @@ var ApiWrapper = function (core = {}) {
 
 			let formData = new FormData();
 
-			formData.append('AppId', 'PCT');
+			formData.append('AppId', self.platform);
 
 			if(data.file){
 				formData.append("File", data.file);
@@ -3184,7 +3185,7 @@ var ApiWrapper = function (core = {}) {
 
 			p.storageparameters = dbmeta.files()
 
-			data.appIdsFilter = ["PCT"]
+			data.appIdsFilter = [self.platform]
 
 			return paginatedrequest(data, 'api', 'async_task_manager/Files/List', p).then(r => {
 
@@ -3367,7 +3368,7 @@ var ApiWrapper = function (core = {}) {
 				p.payloadChange = (data) => {
 					var d = {
 						Parameters : data,
-						Product : 'PCT'
+						Product : self.platform
 					}
 
 					return d
@@ -3387,7 +3388,7 @@ var ApiWrapper = function (core = {}) {
 
 				//data.statusesFilter || (data.statusesFilter = ["ACTIVE"])
 
-				data.PlatformFilter = 'PCT'
+				data.PlatformFilter = self.platform
 				data.ExcludeStatusesFilter = ["DELETED"]
 
 				return paginatedrequest(data, 'campaigns', 'batches/list', p)
@@ -4095,7 +4096,7 @@ var ApiWrapper = function (core = {}) {
 				return request(d, 'campaigns', 'AiEmailTemplates/list', p).then(function(data){
 
 					data.Records = _.filter(data.Records, function(r){
-						return r.Status != 'DELETED' && r.Platform == "CRM"
+						return r.Status != 'DELETED' && r.Platform == self.platform
 					})
 
 					return Promise.resolve(_.map(data.Records, function(record){
@@ -4222,7 +4223,7 @@ var ApiWrapper = function (core = {}) {
 			return self.ai_chats.request('Add', {
 				title : title,
 				currentState : JSON.stringify(state),
-				system : "CRM"
+				system : self.platform
 			}).then(function(r){
 
 				self.ai_messages.lists[r.id] = []
@@ -4279,7 +4280,7 @@ var ApiWrapper = function (core = {}) {
 				pageNumber : 0,
 				pageSize : 50,
 				StatusFilter : "ACTIVE",
-				SystemFilter : "PCT",
+				SystemFilter : self.platform,
 				sortFields : [
 					{
 						"field": "updated",

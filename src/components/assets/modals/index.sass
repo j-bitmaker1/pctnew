@@ -26,5 +26,6 @@
 #modal
     +transition(0.3s)
     &:nth-last-child(2)
-        transform: scale(1.05)
+        &:not(.allscreen)
+            transform: scale(1.05)
         

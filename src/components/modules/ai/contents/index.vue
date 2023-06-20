@@ -3,7 +3,7 @@
     <div class="contentsHeader">
 
         <div class="icon">
-            <img src="img/logo-16.svg" />
+            <img src="@/assets/logoaifull.svg" />
         </div>
 
         
