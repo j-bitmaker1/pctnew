@@ -3989,7 +3989,7 @@ var ApiWrapper = function (core = {}) {
 				return request(d, 'campaigns', 'AiEmailTemplates/list', p).then(function(data){
 
 					data.Records = _.filter(data.Records, function(r){
-						return r.Status != 'DELETED' && r.Platform == "PCT"
+						return r.Status != 'DELETED' && r.Platform == "CRM"
 					})
 
 					return Promise.resolve(_.map(data.Records, function(record){
@@ -4111,7 +4111,7 @@ var ApiWrapper = function (core = {}) {
 			return self.ai_chats.request('Add', {
 				title : title,
 				currentState : JSON.stringify(state),
-				system : "PCT"
+				system : "CRM"
 			}).then(function(r){
 
 				self.ai_messages.lists[r.id] = []
