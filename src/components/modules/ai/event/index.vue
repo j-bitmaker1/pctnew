@@ -55,9 +55,14 @@
                 <div class="messagestatuspanelitem thumbsdown" v-if="event.data.requestId" :class="{active : thumbs < 0}" @click="thumbsdown">
                     <i class="fas fa-thumbs-down"></i>
                 </div>
+            </div>
+        </div>
 
-
-            
+        <div class="messagestatuspanel" v-if="itisfile">
+            <div class="panelitems">
+                <div class="messagestatuspanelitem deletefile" @click="deletefile">
+                    <i class="far fa-times-circle"></i>
+                </div>
             </div>
         </div>
 

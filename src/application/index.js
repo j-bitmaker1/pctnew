@@ -690,24 +690,29 @@ class Core {
         
                     }).then(() => {
                         return this.pct.assets(r).then(assetsInfo => {
-                            var positions = []
 
-                            _.each(r.positions, (p) => {
+                            return this.pct.fundsinfo(r).then(fundsInfo => {
+                                var positions = []
 
-                                var ai = assetsInfo[p.ticker] || {}
+                                _.each(r.positions, (p) => {
 
-                                positions.push({
-                                    ticker : p.ticker,
-                                    value : p.value,
-                                    pvalue : (100 * p.value / total).toFixed(1),
-                                    name : ai.name || "",
-                                    expRatio : ai.expRatio || 0
+                                    var ai = assetsInfo[p.ticker] || {}
+                                    var fi = fundsInfo[p.ticker] || {}
+
+                                    positions.push({
+                                        ticker : p.ticker,
+                                        value : p.value,
+                                        pvalue : (100 * p.value / total).toFixed(1),
+                                        name : ai.name || "",
+                                        expRatio : ai.expRatio || 0
+                                    })
+                                })
+
+                                extra.positions = _.sortBy(positions, (p) => {
+                                    return - p.value
                                 })
                             })
 
-                            extra.positions = _.sortBy(positions, (p) => {
-                                return - p.value
-                            })
                         })
                     }).then(() => {
 
@@ -954,8 +959,10 @@ class Core {
     }
 
     gettasks(file){
-        var t = _.filter(this.store.state._task, (t) => {
+        var t = _.sortBy(_.filter(this.store.state._task, (t) => {
             return t.fileId == file.id
+        }), t => {
+            return Number(t.created)
         })
 
         var obj = {}

@@ -226,7 +226,7 @@ export default {
                         })
                     }, 
 
-                    uploadfile : function(clbk){
+                    uploadfile : (clbk) => {
                         this.core.vueapi.fileManager({
                             open : function(file){
                                 clbk('rxfile:' + file.id)
@@ -1330,6 +1330,23 @@ export default {
                     c()
                 }
 
+                
+            })
+        },
+
+        hideevent : function(event){
+            event.hidden = true
+            this.eventsToRender = _.filter(this.eventsToRender, (e) => {
+                return e.id != event.id
+            })
+        },
+
+        deletefile: function(fileid, event){
+            this.master.removefile(fileid)
+
+            this.hideevent(event)
+
+            this.actions_addnext(this.master, () => {
                 
             })
         },

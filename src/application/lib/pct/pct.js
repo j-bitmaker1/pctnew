@@ -1413,6 +1413,33 @@ class PCT {
         })
     }
 
+    fundsinfo = function(tickers){
+
+        if(!_.isArray(tickers) && tickers.positions) tickers = tickers.positions
+
+        var t = _.uniq(_.filter(_.map(tickers, (t) => {
+            if(isObject(t)) {
+
+                if(!t.isCovered) return null 
+
+                return t.ticker
+            }
+
+            return t
+        }), (t) => {return t}), (t) => {return t})
+
+        return this.api.pctapi.assets.fundsinfo(t).then(r => {
+
+            var mapped = {}
+
+            _.each(r, (a) => {
+                mapped[a.ticker] = a
+            })
+
+            return Promise.resolve(mapped)
+        })
+    }
+
     parseText = function(txt){
         var lines = txt.split(/\r\n/g)
         var assets = []

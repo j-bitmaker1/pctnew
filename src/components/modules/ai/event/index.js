@@ -51,7 +51,7 @@ export default {
             return (this.event.data.message || "").indexOf('rxfile:') > -1
         },
         fileid : function(){
-            console.log('this.event.data', this.event.data)
+        
             return (this.event.data.message || "").replace('rxfile:', '')
         }
     }),
@@ -82,6 +82,24 @@ export default {
 
             this.core.sitemessage('Code was copied')
 
+        },
+
+        deletefile : function(){
+            
+
+            return this.$dialog.confirm(
+                "Are you sure you don't want to use this attachment in a chat?", {
+                okText: 'Yes',
+                cancelText : 'Cancel'
+            })
+    
+            .then((dialog) => {
+
+                this.$emit('deletefile', this.event.data.message)
+
+            }).catch( e => {
+                
+            })
         },
 
         expandhtmlresult : function(){

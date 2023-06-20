@@ -31,6 +31,7 @@
 						<aievent 
                             :ref="'event_' + event.id" 
                             @answer="clickanswer" 
+                            @deletefile="id => {deletefile(id, event)}"
                             :eventsinaction="eventsinaction" 
                             firstName="Max" 
                             lastName="Grishkov" 

@@ -194,6 +194,8 @@ var Master = function(settings = {}, /*app, */context){
 				}
 	
 			})
+
+			console.log('needAskParameter', needAskParameter)
 	
 			if (needAskParameter){
 				templates.parameter(needAskParameter, clbk)
@@ -768,11 +770,13 @@ Success! Your email was forwarded to complicance departement for review.
 										return f.replace('rxfile:', '')
 									})
 
-									_.each(self.parameters, (parameter, i) => {
+									_.each(self.type.parameters, (parameter, i) => {
 										if(parameter.Type == 'file' && typeof self.parameters[parameter.Id] != 'undefined'){
 											files.push(self.parameters[parameter.Id].replace('rxfile:', ''))
 										}
 									})
+
+									files = _.uniq(files, (f) => {return f})
 
 									return settings.ai.generate(self.type.id, self.parameters, {
 										test : self.context.test || false,
@@ -1528,8 +1532,10 @@ Success! Your email was forwarded to complicance departement for review.
 		var rmp = []
 
 		_.each(self.parameters, (p, i) => {
-			if(p == id) rmp.push(i)
+			if(self.parameters[i] == id) rmp.push(i)
 		})
+
+		console.log('rmp', rmp, id, self.parameters)
 
 		_.each(rmp, (i) => {
 			delete self.parameters[i]

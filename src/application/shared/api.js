@@ -406,6 +406,14 @@ var ApiWrapper = function (core = {}) {
 			}
 		},
 
+		financialOneDay: function () {
+			return {
+				storage: 'financialOneDay',
+				time: 60 * 60 * 12,
+				version: 2
+			}
+		},
+
 		customscenarios: function () {
 			return {
 				storage: 'customscenarios',
@@ -1731,6 +1739,33 @@ var ApiWrapper = function (core = {}) {
 
 					return Promise.resolve(result)
 				})
+			},
+
+			fundsinfo: function (tickers, p = {}) {
+				p.storageparameters = dbmeta.financialOneDay()
+
+				p.storageparameters.divide = {
+					requestIndex: 'tickers',
+					getloaded: 'ticker',
+					path: 'records'
+				}
+
+				p.method = "POST"
+
+				var d = {
+					tickers
+				}
+
+				return dbdividerequest(d, 'pctapi', 'Assets/GetFundsInfo', p).then(r => {
+
+					var result = _.map(r.records, (r) => {
+						return {
+							...r
+						}
+					})
+
+					return Promise.resolve(result)
+				})
 			}
 		},
 		portfolios: {
@@ -2997,13 +3032,13 @@ var ApiWrapper = function (core = {}) {
 				if (r.LastModelUpdate)
 					invalidateStorage.push({
 						updated: f.date.fromstring(r.LastModelUpdate, true) / 1000,
-						type: ['system', 'stress', 'financial']
+						type: ['system', 'stress', 'financial', 'financialOneDay']
 					})
 
 				if (r.lastScenariosUpdate)
 					invalidateStorage.push({
 						updated: f.date.fromstring(r.lastScenariosUpdate, true) / 1000,
-						type: ['system', 'stress', 'financial']
+						type: ['system', 'stress', 'financial', 'financialOneDay']
 					})
 
 				if (r.lastAsyncTasksUpdate) {
@@ -3179,7 +3214,7 @@ var ApiWrapper = function (core = {}) {
 
 			p.storageparameters = dbmeta.files()
 
-			return request({ taskId }, 'api', 'async_task_manager/Files/Get', p).then((file) => {
+			return request({ fileId : id }, 'api', 'async_task_manager/Files/Get', p).then((file) => {
 				/*file.processes = */self.tasks.fromfiles(file.tasks, file.id)
 
 				return Promise.resolve(file)
