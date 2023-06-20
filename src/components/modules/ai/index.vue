@@ -31,11 +31,12 @@
 						<aievent 
                             :ref="'event_' + event.id" 
                             @answer="clickanswer" 
+                            @deletefile="id => {deletefile(id, event)}"
                             :eventsinaction="eventsinaction" 
                             firstName="Max" 
                             lastName="Grishkov" 
                             :rendered="rendered[event.id] || false" 
-                            :key="event.id" 
+                            :key="event.id + event.modkey" 
                             :event="event" 
                             v-for="event in currentEvents"
 
@@ -66,10 +67,15 @@
                 <div class="inputPaneCenter">
                     <div class="inputPane">
                         <div class="inputWrapper">
-                            <textarea :disabled="speech || loading" placeholder="Enter text" ref="input" :value="textareavalue" @keyup="textareakeyup"></textarea>
+                            <textarea spellcheck="true" :disabled="speech || loading" placeholder="Enter text" ref="input" :value="textareavalue" @keyup="textareakeyup"></textarea>
                             <!--<input type="text" placeholder="Enter text"/>-->
                         </div>
                         <div class="panel">
+
+                            <!--<div class="iconbt attach" @click="attach">
+                                <i class="fas fa-paperclip"></i>
+                            </div>-->
+
                             <div class="iconbt microphone" @click="microphoneClick">
                                 <i class="fas fa-microphone"></i>
                             </div>

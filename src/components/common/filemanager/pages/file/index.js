@@ -28,7 +28,7 @@ export default {
     created() {
         this.data = []
 
-        _.each(this.file.data, (d) => {
+        _.each(this.task.data, (d) => {
             this.data.push(_.clone(d))
         })
     },
@@ -39,7 +39,7 @@ export default {
     computed: mapState({
         auth : state => state.auth,
         haschanges : function(){
-            return JSON.stringify(this.data) != JSON.stringify(this.file.data)
+            return JSON.stringify(this.data) != JSON.stringify(this.task.data)
         },
         menu : function(){
 			return [
@@ -54,7 +54,7 @@ export default {
 		},
 
         hasassets : function(){
-            return _.filter(this.file.data, (d) => {
+            return _.filter(this.task.data, (d) => {
                 return d.Name
             }).length > 0
         },
@@ -63,12 +63,18 @@ export default {
             return _.filter(this.data, (asset) => {
                 return asset.Ticker || asset.Value > 0
             })
+        },
+
+        task : function(){
+            var task = (this.core.gettasks(this.file) || {})['PARSEPORTFOLIO'] || {}
+
+            return task
         }
     }),
 
     methods : {
         save : function(){
-            this.core.api.tasks.update(this.file.id, this.data, {
+            this.core.api.tasks.update(this.task.id, this.data, {
                 preloader : true,
                 showStatus : true
             }).then(() => {
@@ -108,7 +114,7 @@ export default {
                 assets : []
             }
 
-            portfolio.assets = _.filter(_.map(this.file.data, (d) => {
+            portfolio.assets = _.filter(_.map(this.data, (d) => {
                 if(d.Name){
                     return {
                         isCovered : true,

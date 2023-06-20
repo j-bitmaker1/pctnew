@@ -13,14 +13,14 @@
 
         <div  class="avatar" :class="event.data.you ? 'you' : 'assi'">
             <div class="userpicch">
-                <span class="lbl" v-if="event.data.you">401kAI</span>
+                <span class="lbl" v-if="!event.data.you">401kAI</span>
                 <span v-else>{{firstName.substr(0,1).toUpperCase()}}{{lastName.substr(0,1).toUpperCase()}}</span>        
             </div>
         </div>
 
 
-        <div class="message" :class="event.data.you ? 'you' : 'assi'">
-
+        <div class="message" v-if="!itisfile" :class="event.data.you ? 'you' : 'assi'">
+            
             <template v-if="event.data.message">
 
                 <div class="msg visiblemessage cancopy">
@@ -38,7 +38,11 @@
 
         </div>
 
-        <div class="messagestatuspanel">
+        <div class="file" v-if="itisfile">
+            <filepreview :id="fileid" :cut="true" :nomenu="true"/>
+        </div>
+
+        <div class="messagestatuspanel" v-if="!itisfile">
             <div class="panelitems">
                 <div class="messagestatuspanelitem copymessage" @click="copymessage">
                     <i class="fas fa-copy"></i>
@@ -51,9 +55,14 @@
                 <div class="messagestatuspanelitem thumbsdown" v-if="event.data.requestId" :class="{active : thumbs < 0}" @click="thumbsdown">
                     <i class="fas fa-thumbs-down"></i>
                 </div>
+            </div>
+        </div>
 
-
-            
+        <div class="messagestatuspanel" v-if="itisfile">
+            <div class="panelitems">
+                <div class="messagestatuspanelitem deletefile" @click="deletefile">
+                    <i class="far fa-times-circle"></i>
+                </div>
             </div>
         </div>
 

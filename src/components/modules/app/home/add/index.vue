@@ -14,9 +14,10 @@
     </tooltip>
 
     <div class="ext" v-else>
-        <button class="button small" :class="{black : i}" v-for="(item, i) in menu" @click="item.action">
-            <i :class="item.icon" />
-            <span>{{$t(item.text)}}</span>
+        <button class="button small" :class="(i ? 'black' : '') + ' ' + (item.style || '')" v-for="(item, i) in menu" @click="item.action">
+            <i v-if="item.icon" :class="item.icon"/>
+            <span v-if="item.text">{{$t(item.text)}}</span>
+            <img :src="require('@/assets/' + item.svg)" v-if="item.svg"/>
         </button>
     </div>
 </div>
@@ -34,6 +35,17 @@
         align-items: center
         margin-right: $r
         justify-content: center
+
+        span
+            margin-bottom: 2px
+
+        &.aibutton
+            background: transparent
+            border-color: transparent
+
+        img
+            height: 18px
+            margin-left: 6px
 
         i
             margin-top: 2px
@@ -68,9 +80,9 @@ export default {
                     text: 'labels.newPortfolio',
                     icon: 'fas fa-plus',
                     action: this.portfolio,
-
                     features : ['PCT']
                 },
+                
                 {
                     text: 'labels.newClient',
                     icon: 'fas fa-users',
@@ -96,10 +108,18 @@ export default {
                 {
                     text: 'menu.questionnaire',
                     icon: 'fas fa-link',
-                    action: this.sharequestionnaire,
 
+                    action: this.sharequestionnaire,
                     features : ['PCT']
                 },
+                {
+                    svg : "logoaifull.svg",
+                    text: '',
+                    action: this.openai,
+                    style : 'aibutton',
+                    features : ['AI']
+                },
+                
                 
             ]
             

@@ -1,5 +1,4 @@
 import _ from 'underscore';
-import f from './functions'
 
 const dbstorage = function(storageName, version, time) {
     /** Set this flag to TRUE if debug logs needed */
@@ -40,6 +39,8 @@ const dbstorage = function(storageName, version, time) {
      */
     function initIndexedDb() {
         let db;
+
+        if(typeof indexedDB == 'undefined') return Promise.resolve()
 
         let openRequest = indexedDB.open(storageName, version);
 
@@ -548,7 +549,7 @@ const dbstorage = function(storageName, version, time) {
     /**
      * Is IndexedDB supported?
      */
-    if(!window.indexedDB || DebugForceLocalStorage) {
+    if(typeof window != 'undefined' && (!window.indexedDB || DebugForceLocalStorage)) {
         debugLog('PCryptoStorage LOCALSTORAGE_FALLBACK');
         return initLocalStorage();
     }

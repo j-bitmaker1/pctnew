@@ -36,7 +36,7 @@
 
     <template v-else>
         <div class="empty" v-if="!loading">
-            <span>You don't have any chat history with 401kAI</span>
+            <span>You don't have any chat history with Advisor AI</span>
         </div>
         <div class="loading" v-if="loading">
             <linepreloader />

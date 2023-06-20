@@ -9,11 +9,11 @@
 	</div>
 
 
-	<listpaginated @loading="listloading" placeholder="No files found" activity="client" :select="{context : 'filemanager'}" api="tasks.list" :payload="payload" :start="1" ref="list" @count="setcount" from="pageNumber" to="pageSize" :bypages="true">
+	<listpaginated @loading="listloading" placeholder="No files found" activity="client" :select="{context : 'filemanager'}" api="files.list" :payload="payload" :start="1" ref="list" @count="setcount" from="pageNumber" to="pageSize" :bypages="true">
 
 		<template v-slot:default="slotProps">
 			<div class="fileWrapper mobp">
-                <file @createPortfolio="createPortfolio" @deleted="() => {deleted(slotProps.item)}" :file="slotProps.item" @open="e => {open(slotProps.item)}"/>
+                <file @runprocess="(type) => {runprocess(slotProps.item, type)}" @restartprocess="(type) => {restartprocess(slotProps.item, type)}" @createPortfolio="createPortfolio" @deleted="() => {deleted(slotProps.item)}" :file="slotProps.item" @open="e => {open(slotProps.item)}"/>
 			</div>
 		</template>
 	   

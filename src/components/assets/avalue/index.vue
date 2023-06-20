@@ -20,7 +20,12 @@ export default {
 
         type : function(){
 
+            console.log("AVALUE", this.value)
+
             if(this.value){
+
+                if (EmailValidator.validate(this.value)) return 'email'
+                
                 try{
                     const phoneNumber = parsePhoneNumber(this.value, 'US')
             
@@ -32,9 +37,6 @@ export default {
             }
 
             
-            
-
-            if (EmailValidator.validate(this.value)) return 'email'
         },
 
         formatted : function(){

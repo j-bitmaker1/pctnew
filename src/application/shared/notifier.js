@@ -1,6 +1,4 @@
-var _ = require('underscore');
-
-import f from "./functions";
+import f from "./functions.js";
 
 const { Howl, Howler } = require('howler');
 
@@ -10,7 +8,12 @@ class Notifier {
 		if (!p) p = {}
 
 		this.core = core
-		this.showed = JSON.parse(localStorage[this.key] || "{}")
+		try{
+			this.showed = JSON.parse(localStorage[this.key] || "{}")
+		}catch(e){
+			this.showed = {}
+		}
+		
 
 	}
 

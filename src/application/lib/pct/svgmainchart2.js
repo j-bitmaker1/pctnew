@@ -16,8 +16,6 @@ class SVGMainChart {
 
     createSvgs = function (dcts, name, portfolios, mode) {
 
-        console.log('cts', cts, portfolios)
-
         var cts = {...dcts}
 
         cts.scenarios = _.sortBy(cts.scenarios, s => {
@@ -28,16 +26,12 @@ class SVGMainChart {
         //var dataN = _.sortBy(data.scenarios, (scenario) => { return -scenario.loss });
         var ints = this.getFirstGraphCount(cts.scenarios.length, _.toArray(portfolios).length);
 
-        console.log(cts.scenarios.length);
-        console.log(ints);
-
         this._maxV = cts.max
         this._maxVRelative = cts.total * cts.max
         this.mode = mode
         var len = _.toArray(portfolios).length;
         for (var i = 0; i < ints.length - 1; i++) {
             if(i == 0){
-                console.log(_.toArray(portfolios).length);
                 if ((ints[i + 1] - ints[i])*len == 4) {
                     result.push(this.make4(portfolios, cts, [ints[i], ints[i + 1]], name, 1));
                 }
@@ -90,9 +84,6 @@ class SVGMainChart {
     }
 
     makebatch = function(xw, portfolios, cts, range, high){
-
-        console.log(range[0]);
-        console.log(range[1]);
         for (var i = range[0]; i < range[1]; i++) {
 
             var scenario = cts.scenarios[i]
@@ -123,26 +114,18 @@ class SVGMainChart {
     _createG = function (xw, c, data, k, count, id, total, k0, high, h) {
 
         var l = data.length
-        //console.log('count = ' + count);
-        //console.log('l = ' + l);
-        //console.log('k = ' + k);
         var labelInjected = false
 
         
         _.each(data, (dobj, index) => {
             var v = dobj.loss
-            //console.log('index = ' + index);
-            //console.log('data[index].name = ' + data[index].name);
             //var y = 3 * (k +  index / l) * 2800 / ((count * 4) - 1 )
             //var high = 2880;
             //high = 1440;
             var y = 390 + (high/(count*l))*((k - k0)*l + index);
-            //console.log('y = ' + y)
             //var h = 2 * high / (l * count * 3)
-            //console.log('h = ' + h);
             if (v >= 0) {
                 xw.startElement("g");
-                console.log("h = " + h);
                 xw.startElement("rect");
                 xw.writeAttribute("x", "1395");
                 xw.writeAttribute("y", ((120 - h)/2 + y).toString().replace(',', '.'));
@@ -216,7 +199,6 @@ class SVGMainChart {
             else {
                 xw.startElement("g");
     
-                console.log("h = " + h);
                 xw.startElement("rect");
                 xw.writeAttribute("x", (1395 - (1215 * (-v / this._maxV))).toString().replace(',', '.'));
                 xw.writeAttribute("y", ((120 - h)/2 + y).toString().replace(',', '.'));
@@ -912,7 +894,6 @@ class SVGMainChart {
 
         xw.endDocument();
 
-        //console.log(xw.toString());
         return xw.toString()
 
     }

@@ -278,8 +278,6 @@ class Allocation {
         _.each(grouped, (g, i) => {
             var point = {}
 
-            console.log("NAME", i)
-
             point.name = i
             point.drilldown = i
             point.color = colors ? colors[i] || this.colorbyindex(c) : this.colorbyindex(c)
@@ -343,8 +341,6 @@ class Allocation {
         d.plotOptions.pie.colorByPoint = true
 
         d.series = [chartdata.serie]
-
-        console.log('d', d)
 
         if (!p.print)
             d.drilldown = chartdata.drilldown

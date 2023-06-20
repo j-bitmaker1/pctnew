@@ -5,6 +5,16 @@ import f from '@/application/shared/functions.js';
 import datepicker from '../datepicker/index.vue';
 import timezonepicker from '../timezonepicker/index.vue';
 import slider from '@/components/assets/slider/index.vue';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+import emailMask from 'text-mask-addons/dist/emailMask'
+
+const currencyMask = createNumberMask({
+    prefix: '$',
+    allowDecimal: true,
+    includeThousandsSeparator: true,
+    allowNegative: false,
+});
+
 
 export default {
     name: 'forms',
@@ -42,6 +52,9 @@ export default {
             form: null,
             showerrors: false,
             created: false,
+
+            emailMask,
+            currencyMask
         };
     },
 
@@ -162,18 +175,27 @@ export default {
 
         getinternal: function () {
 
-            console.log('this.form.validate().errors().any()', this.form.validate().errors())
+            console.log('this.form.validate().errors().any()', this.form, this.currencyMask)
 
             if (this.form.validate().errors().any() && !this.ignoreerrors)
                 return null;
 
-            var result = this.form.all();
+            var result = _.clone(this.form.all());
 
             _.each(this.fields, (f) => {
-                if (f.type == 'number' && typeof result[f.id] != 'undefined') {
+                
+
+                if ((f.input == 'phone' || f.input == 'currency') && typeof result[f.id] != 'undefined') {
+                    result[f.id] = result[f.id].replace(/[^0-9]/g, '');
+                }
+
+                if ((f.type == 'number' || f.input == 'currency') && typeof result[f.id] != 'undefined') {
                     result[f.id] = Number(result[f.id]);
                 }
+
             });
+
+            console.log('result', result)
 
             return result;
         },

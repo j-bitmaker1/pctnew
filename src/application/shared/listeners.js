@@ -1,4 +1,4 @@
-import f from './functions'
+import f from './functions.js'
 
 var FocusListener = function (platform) {
 
@@ -12,7 +12,7 @@ var FocusListener = function (platform) {
         pause : {}
     }
 
-    window.focus();
+    if(typeof window != 'undefined') window.focus();
 
     var resume = function (e, resume) {
 
@@ -53,16 +53,20 @@ var FocusListener = function (platform) {
 
         inited = true;
 
-        if (window.cordova) {
+        if(typeof window != 'undefined'){
+            if (window.cordova) {
 
-            document.addEventListener("pause", pause, false);
-            document.addEventListener("resume", resume, false);
-
-            return
+                document.addEventListener("pause", pause, false);
+                document.addEventListener("resume", resume, false);
+    
+                return
+            }
+    
+            window.addEventListener('blur', pause);
+            window.addEventListener('focus', resume);
         }
 
-        window.addEventListener('blur', pause);
-        window.addEventListener('focus', resume);
+        
 
 
     }
@@ -100,7 +104,10 @@ var OnlineListener = function (platform) {
     var interval = null;
     var offlinetime = null;
 
-    self.online = f.deep(window, 'navigator.onLine');
+    
+    self.online = typeof window != 'undefined' ? f.deep(window, 'navigator.onLine') : true;
+
+
     self.clbks = {
         online : {},
         offline : {}
@@ -114,7 +121,7 @@ var OnlineListener = function (platform) {
 
         interval = f.retry(function () {
 
-            var online = f.deep(window, 'navigator.onLine');
+            var online = typeof window != 'undefined' ? f.deep(window, 'navigator.onLine') : true;
 
             if (self.online != online) {
 

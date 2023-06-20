@@ -1,6 +1,6 @@
 import { mapState } from 'vuex';
 import f from "@/application/shared/functions.js"
-
+import filepreview from "@/components/common/filemanager/pages/list/file/byid.vue"
 export default {
     name: 'ai_event',
     props: {
@@ -15,6 +15,10 @@ export default {
         removed : Boolean,
         height : Number
 
+    },
+
+    components : {
+        filepreview
     },
 
     data : function(){
@@ -43,6 +47,13 @@ export default {
     },
     computed: mapState({
         auth : state => state.auth,
+        itisfile : function(){
+            return (this.event.data.message || "").indexOf('rxfile:') > -1
+        },
+        fileid : function(){
+        
+            return (this.event.data.message || "").replace('rxfile:', '')
+        }
     }),
 
     methods : {
@@ -61,7 +72,7 @@ export default {
         },
 
         copymessage : function(){
-            f.copyTextToClipboard(f.convertNewLinesToBr(this.event.data.message))
+            f.copyTextToClipboard(this.event.data.message)
 
             this.core.sitemessage('Text was copied')
         },
@@ -71,6 +82,24 @@ export default {
 
             this.core.sitemessage('Code was copied')
 
+        },
+
+        deletefile : function(){
+            
+
+            return this.$dialog.confirm(
+                "Are you sure you don't want to use this attachment in a chat?", {
+                okText: 'Yes',
+                cancelText : 'Cancel'
+            })
+    
+            .then((dialog) => {
+
+                this.$emit('deletefile', this.event.data.message)
+
+            }).catch( e => {
+                
+            })
         },
 
         expandhtmlresult : function(){

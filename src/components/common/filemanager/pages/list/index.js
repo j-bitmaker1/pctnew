@@ -136,7 +136,7 @@ export default {
         },
 
         deleteitems : function(items){
-            this.core.api.tasks.deleteItems(_.map(items, (i) => {return i.id}), {
+            this.core.api.files.deleteItems(_.map(items, (i) => {return i.id}), {
 				preloader : true,
 				showStatus : true
 			}).then(() => {
@@ -160,6 +160,14 @@ export default {
 
 		createPortfolio : function(portfolio){
 			this.$emit('createPortfolio', portfolio)
-		}
+		},
+
+		runprocess : function(file, type){
+			this.$emit('runprocess', {file, type})
+		},
+
+		restartprocess : function(file, type){
+			this.$emit('restartprocess', {file, type})
+		},
     },
 }

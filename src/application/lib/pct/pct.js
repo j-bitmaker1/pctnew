@@ -1,11 +1,11 @@
-import f from '@/application/shared/functions.js'
+import f from '../../shared/functions.js'
 import _, { isObject } from "underscore"
 
-import Capacity from "./capacity";
-import Riskscore from "./riskscore";
-import ScoreConverter from "./scoreConverter";
+import Capacity from "./capacity.js";
+import Riskscore from "./riskscore.js";
+import ScoreConverter from "./scoreConverter.js";
 
-import { Portfolio } from '@/application/shared/kit.js'
+import { Portfolio } from '../../shared/kit.js'
 
 class PCT {
 
@@ -413,6 +413,8 @@ class PCT {
 
             if(scenario.id == -1){
                 d.ltr = scenario.loss || 0
+
+                console.log('d.ltr', d.ltr)
             }
         })
 
@@ -533,6 +535,8 @@ class PCT {
             ocr : ct.ocr,
             loss : max ? ct.loss / max : 0,
             profit : max ? ct.profit / max : 0,
+            ltr : max ? ct.ltr / max : 0,
+            yield : max ? ct.yield / max : 0,
             scenarios : _.map(ct.scenarios, (s) => {
 
                 return {
@@ -585,9 +589,6 @@ class PCT {
 
             
             var value = percentedValue ? portfolio.total() : total
-
-            console.log("percentedValue", percentedValue, portfolio, total, value)
-
 
             common.cts[i] = this.ctRelative(c, value)
             
@@ -648,8 +649,6 @@ class PCT {
             var cts = {}
             var max = _.max(filtered, (p) => {return p.total()})
             var total = max.total()
-
-            console.log('total', total)
 
             return Promise.all(_.map(filtered, (portfolio) => {
 
@@ -797,8 +796,6 @@ class PCT {
             return scenario.id == -1
         })
 
-        console.log('term', term)
-
         if(!term) term = 1
 
         if (scenario){
@@ -940,8 +937,6 @@ class PCT {
         var term = 0
 
         return this.annuities().then((list) => {
-
-            console.log('positions', positions)
 
             _.each(positions, (p) => {
 
@@ -1202,7 +1197,6 @@ class PCT {
             })
         }
 
-
         return this.getscenarios({term : p.term}).then(scdata => {
             data = {
                 ...data,
@@ -1408,6 +1402,33 @@ class PCT {
         }), (t) => {return t}), (t) => {return t})
 
         return this.api.pctapi.assets.info(t).then(r => {
+
+            var mapped = {}
+
+            _.each(r, (a) => {
+                mapped[a.ticker] = a
+            })
+
+            return Promise.resolve(mapped)
+        })
+    }
+
+    fundsinfo = function(tickers){
+
+        if(!_.isArray(tickers) && tickers.positions) tickers = tickers.positions
+
+        var t = _.uniq(_.filter(_.map(tickers, (t) => {
+            if(isObject(t)) {
+
+                if(!t.isCovered) return null 
+
+                return t.ticker
+            }
+
+            return t
+        }), (t) => {return t}), (t) => {return t})
+
+        return this.api.pctapi.assets.fundsinfo(t).then(r => {
 
             var mapped = {}
 
@@ -1697,18 +1718,23 @@ class PCT {
             result[index] = {
                 ocr : data.ocr,
                 loss : data.loss * scale,
+                ploss : (data.loss).toFixed(1),
                 profit : data.profit * scale,
+                pprofit : (data.profit).toFixed(1),
                 scenarios : _.map(data.scenarios, (scenario) => {
                     return {
                         ...scenario,
-                        loss : (scenario.loss || 0) * scale
+                        loss : (scenario.loss || 0) * scale,
+                        ploss : (scenario.loss || 0).toFixed(1)
                     }
                 }),
-                yield : data.yield,
-                ltr : data.ltr
+                yield : data.yield * scale,
+                pyield : (data.yield).toFixed(1),
+                ltr : data.ltr * scale,
+                pltr : (data.ltr).toFixed(1)
             }
 
-            var y = _.find(data.scenarios, (s) => {
+            /*var y = _.find(data.scenarios, (s) => {
                 return s.id == -2
             }) || {}
 
@@ -1718,7 +1744,7 @@ class PCT {
                 return s.id == -1
             }) || {}
 
-            result[index].ltr = (l.loss || 0) * scale
+            result[index].ltr = (l.loss || 0) * scale*/
         }
 
         var promises = [

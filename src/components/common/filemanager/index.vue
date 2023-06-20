@@ -25,7 +25,7 @@
     </div>
 
     <div class="content">
-       <component :scroll="scroll" ref="page" v-if="getmodule()" :is="getmodule()" v-bind="page.data || {}" @openFile="openFile" @createPortfolio="createPortfolio"/>
+       <component :scroll="scroll" ref="page" v-if="getmodule()" :is="getmodule()" v-bind="page.data || {}" @openFile="openFile" @createPortfolio="createPortfolio" @runprocess="({file, type}) => runprocess(file, type)" @restartprocess="({file, type}) => restartprocess(file, type)"/>
     </div>
 
     <div class="uploading" v-if="hasUploading && hasUploading.length">

@@ -18,34 +18,53 @@
 
         <div class="extended" v-if="!cut" >
 
-            <div class="contents" v-if="file.status == 'SUCCESS' && file.data && file.data.length">
-                <!--<button class="button small black" @click="open" v-if="!hasassets">Show result</button>
-                <button class="button small black" @click="createPortfolio" v-if="hasassets">Create portfolio</button>-->
-                <div class="ticker" v-if="asset.Ticker && asset.Value" :key="i" v-for="(asset, i) in file.data">
-                    <span>{{asset.Ticker}}</span>
-                </div>
+            <div class="process" :key="i" v-for="(i) in processes">
+                <template v-if="i == 'PARSEPORTFOLIO'">
+                    <template v-if="tasks[i]">
+                        <div class="contents" v-if="tasks[i].status == 'SUCCESS' && tasks[i].data && tasks[i].data.length">
+                            <div class="ticker" v-if="asset.Ticker && asset.Value" :key="i" v-for="(asset, i) in tasks[i].data">
+                                <span>{{asset.Ticker}}</span>
+                            </div>
+                        </div>
+
+                        <div class="progress" v-if="tasks[i].status == 'ACTIVE' || tasks[i].status == 'NEW'">
+                            <div class="processcaption">
+                                <span>{{$t('filemanager.processes.' + i)}}</span>
+                            </div>
+                            <div class="row">
+                                <div class="bg" :style="{width : (tasks[i].progress) + '%'}">
+                                </div>
+                            </div>
+                            <div class="value">
+                                <value :value="tasks[i].progress / 100" mode="p" />
+                            </div>
+                        </div>
+
+                        <div class="failed" v-if="tasks[i].status == 'FAULTED'">
+                            <span>Sorry, auto-recognition of this file is not possible.</span>
+                        </div>
+
+                        <div class="failed" v-if="(!tasks[i].data || !tasks[i].data.length) && tasks[i].status == 'SUCCESS'">
+                            <span>No items found in this file.</span>
+                        </div>
+                    </template>
+
+                    <div class="processpanel removeclick" v-if="!tasks[i]">
+                        <button class="button small" @click="e => runprocess(i)">Run {{$t('filemanager.processes.' + i)}}</button>
+                    </div>
+
+                    <div class="processpanel removeclick" v-if="tasks[i] && tasks[i].status == 'FAULTED'">
+                        <button class="button small" @click="e => restartprocess(i)">Try again</button>
+                    </div>
+                </template>
             </div>
 
             
-
-            <div class="progress" v-if="file.status == 'ACTIVE' || file.status == 'NEW'">
-                <div class="row">
-                    <div class="bg" :style="{width : (file.progress) + '%'}">
-                    </div>
-                </div>
-                <div class="value">
-                    <value :value="file.progress / 100" mode="p" />
-                </div>
-            </div>
-
-            <div class="failed" v-if="!file.info || file.status == 'FAULTED' || ((!file.data || !file.data.length) && file.status == 'SUCCESS')">
-                <span>Sorry, auto-recognition of this file is not possible.</span>
-            </div>
         </div>
 
     </div>
 
-    <div class="formenu">
+    <div class="formenu" v-if="!nomenu">
         <filemenu :file="file" @deleted="deleted"/>
     </div>
 </div>

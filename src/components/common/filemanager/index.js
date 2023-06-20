@@ -9,7 +9,12 @@ export default {
     props: {
         upload : Array,
         scroll : Number,
-        fromEditor : Boolean
+        fromEditor : Boolean,
+        open : Function,
+        context : {
+            type : String,
+            default : 'portfolio'
+        }
     },
 
     data : function(){
@@ -98,6 +103,27 @@ export default {
             this.$store.commit('clearUploading')
         },
 
+        process : function(id, type, restart){
+
+            return this.core.api.tasks[restart ? 'restart' : 'create'](id, type).then(r => {
+                console.log("R", r)
+            }).catch(e => {
+                console.error(e)
+                return Promise.resolve()
+            })
+
+        },
+        
+
+        restartprocess : function(file, type){
+            return this.process(file.id, type, true)
+        },
+
+        runprocess : function(file, type){
+            console.log('file, type', file, type)
+            return this.process(file.id, type)
+        },
+
         uploaded : function(data){
 
             if(_.isEmpty(data)) return Promise.resolve()
@@ -108,31 +134,48 @@ export default {
 
             return Promise.all(_.map(data, (d) => {
 
-                return this.core.api.tasks.create({
+                return this.core.api.files.upload({
                     file : d.file,
                     files : d.files
                 }).then(r => {
 
-                //return this.core.filemanager.upload(d.file).then(r => {
+                    console.log("R", r)
+
                     results.push(r)
+
+                    if (this.context == 'portfolio'){
+                        /// 
+                        return this.process(r, 'PARSEPORTFOLIO')
+                    }
+
+                    
                     return Promise.resolve()
                 })
 
             })).then(() => {
 
+                this.$store.commit('icon', {
+                    icon: 'success',
+                })
+
                 if (this.$refs.page && this.$refs.page.reload){
+                    this.$refs.page.reload()
+                }
+
+                /*if (this.$refs.page && this.$refs.page.reload){
 
                     setTimeout(() => {
 
                         this.$store.commit('globalpreloader', true)
+                        this.$store.commit('icon', {
+                            icon: 'success',
+                        })
 
                         setTimeout(() => {
                             this.$refs.page.reload()
                             this.$store.commit('globalpreloader', false)
 
-                            this.$store.commit('icon', {
-                                icon: 'success',
-                            })
+                            
                         }, 2000)
 
                     }, 100)
@@ -142,7 +185,7 @@ export default {
                     this.$store.commit('icon', {
                         icon: 'success',
                     })
-                }
+                }*/
 
             }).catch(e => {
 
@@ -205,11 +248,27 @@ export default {
 			
         openFile : function(file){
 
-            this.core.vueapi.fileManager_File(file, {
-                createPortfolio : this.createPortfolio
-            }, {
-                name : file.info.FileName
-            })
+            if (this.open){
+                this.open(file)
+                this.$emit('close')
+                return
+            }
+
+            console.log('file', file)
+
+
+            if(!this.defaultOpen(file)){
+                this.core.api.files.getattachment(file.info[0].StorageKey, file.id).then(r => {
+
+                    this.core.filehandler(r, {
+                        name : file.FileName
+                    })
+    
+                }).finally(() => {
+                })
+                
+            }
+
         },
 
         back : function(){
@@ -218,6 +277,24 @@ export default {
 
         close : function(){
             this.$emit('close')
+        },
+
+        defaultOpen : function(file){
+
+            ///// ONLY CREATE PORTFOLIO
+
+            var task = (this.core.gettasks(file) || {})['PARSEPORTFOLIO'] || {}
+
+            if (this.context == 'portfolio' && task.status == 'SUCCESS' && task.data && task.data.length){
+                this.core.vueapi.fileManager_File(file, {
+                    createPortfolio : this.createPortfolio
+                }, {
+                    name : file.info.FileName
+                })
+
+                return true
+            }
+            
         },
 
         createPortfolio : function(portfolio){

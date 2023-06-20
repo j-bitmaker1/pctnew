@@ -1,4 +1,3 @@
-import f from '@/application/shared/functions.js'
 import _ from 'underscore'
 
 class Filesystem {

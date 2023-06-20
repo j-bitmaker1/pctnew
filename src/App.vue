@@ -27,6 +27,7 @@ import VueIframe from 'vue-iframes';
 
 import { mapState } from 'vuex';
 
+
 ////////
 
 Vue.use(Vue2TouchEvents, {
@@ -305,14 +306,15 @@ var vxstorage = new VXStorage([{
 }, {
     type : "task",
     index : "id",
-},
-{
+},{
+    type : "file",
+    index : "id",
+}, {
     type : "customscenario",
     index : "id",
     reload : 'api.pctapi.customscenarios.gets',
     invalidateDb : ['stress']
-},
-{
+}, {
     type : 'filesystem',
     index : 'id',
     reload : 'api.pctapi.portfolios.gets'
@@ -453,12 +455,8 @@ export default {
         this.$store.commit("setAPPSTORE", APPSTORE)
         this.$store.commit("setTestsettings", settings)
 
-        console.log('APPSTORE PCTPRO2?', APPSTORE);
-
         if (APPSTORE){
-
             window.addEventListener('message', this.receiveMessage);
-
         }
 
         this.$store.commit("clearall");
@@ -511,6 +509,9 @@ export default {
         this.dscroll()
         this.dresize()
         this.tresize()
+
+
+        //this.core.vueapi.complianceReview('asd')
 
     }
 };

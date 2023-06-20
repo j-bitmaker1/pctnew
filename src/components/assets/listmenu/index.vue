@@ -35,7 +35,7 @@
         margin-right: $r
 
     img
-        width: 17px
+        width: 12px
         margin-left: 8px
         margin-right: 8px
 

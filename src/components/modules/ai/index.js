@@ -53,6 +53,10 @@ export default {
 
     },
 
+    beforeDestroy (){
+        if(this.recognition) this.recognition.abort()
+    },
+
     created () {
 
         if(this.initialcontext) this.context = this.initialcontext
@@ -61,13 +65,14 @@ export default {
 
         })
 
-        /*this.getextradata({
+        this.getextradata({
             client : 414380,
             portfolio : 15
         }).then(data => {
             console.log("EXTRADATA", data)
-        })*/
+        })
 
+        this.helpers_initrecognition()
 
     },
 
@@ -140,7 +145,8 @@ export default {
                     name : this.core.user.info.FName,
                     aiadmin : this.core.user.info.Email == 'maximgrishkov@yandex.ru' || 
                         this.core.user.info.Email == 'dsatchkov@rixtrema.com' || 
-                        this.core.user.info.Email == 'yperullo@rixtrema.com'
+                        this.core.user.info.Email == 'yperullo@rixtrema.com' || 
+                        this.core.user.info.Email == 'astarodubtsev@rixtrema.com'
                 },
 
                 template : {
@@ -156,8 +162,6 @@ export default {
                         return this.getextradata(context).then((data) => {
 
                             extra = {...extra, ...data}
-
-                            console.log("EXTRADATA2", extra, data)
 
                             return this.core.api.ai.generate(templateId, parameters, context, extra)
                         }).catch(e => {
@@ -212,12 +216,33 @@ export default {
                             clbk(c[0])
                         })
                     }, 
+
+                    getfile : (id, clbk) => {
+
+                        id = id.replace('rxfile:', '')
+
+                        return this.core.api.files.get(id).then(c => {
+                            clbk(c)
+                        })
+                    }, 
+
+                    uploadfile : (clbk) => {
+                        this.core.vueapi.fileManager({
+                            open : function(file){
+                                clbk('rxfile:' + file.id)
+                            }
+                        }, {
+                            
+                        })
+                    }
+
+                    
                 },
 
                 answers : {
                     portfolio : (selectclbk, ready, context = {}) => {
 
-                        var lasts = this.core.activity.getlastsByType('portfolio') || []
+                        var lasts = this.core.activity.getlastsByType('portfolio', 10) || []
 
                         var answers = [{
                             text : "Find portfolio",
@@ -231,7 +256,7 @@ export default {
                                 this.core.vueapi.selectPortfolios((portfolios) => {
                                     var portfolio = portfolios[0]
 
-                                    console.log('selectPortfolios', portfolio)
+                                    this.core.activity.template('portfolio', portfolio)
 
                                     wr = true
 
@@ -264,7 +289,7 @@ export default {
                                 action : (clbk) => {
                                     this.core.api.pctapi.portfolios.get(portfolio.id).then(r => {
 
-                                        console.log("R", r)
+                                        this.core.activity.template('portfolio', r)
 
                                         /*return this.core.api.crm.contacts.gets({Ids : [r.crmContactId]}).then(c => {
                                             this.profile = c[0]
@@ -288,16 +313,19 @@ export default {
                         var answers = []
 
                         var lasts = [].concat(this.core.activity.getlastsByType('client') || [], this.core.activity.getlastsByType('lead') || []) 
-                        console.log('lasts', lasts)
                         var answers = [{
                             text : "Select contact",
                             style : 'main',
                             dictionary : ['lookup', 'select', 'find'],
                             needfill : true,
                             action : (clbk) => {
+
+                                var wr = null
     
                                 this.core.vueapi.selectContacts((contacts) => {
                                     var contact = contacts[0]
+
+                                    wr = true
 
                                     selectclbk(clbk, contact.ID, contact.FName + ' ' + contact.LName)
 
@@ -305,6 +333,11 @@ export default {
                                     one : true,
 
                                     close : () => {
+
+                                        if(wr) return
+                                        
+                                        wr = true
+                                        
                                         selectclbk(clbk, null)
                                     }
                                 })
@@ -355,231 +388,7 @@ export default {
     methods : {
 
         getextradata : function(context){
-            var promises = []
-            var ct = null
-            var dct = null
-            var capacity = null
-
-            var extra = { }
-            var benchmarks = null
-
-            console.log('context', context)
-
-            if (context.portfolio){
-
-                promises.push( 
-
-                    this.core.api.pctapi.portfolios.get(context.portfolio).then(r => {
-
-                        console.log(r)
-
-                        return this.core.pct.stresstestskt([r], 'd', { term: true, fee : asset => {
-                            return r.advisorFee || 0
-                        }}).then(cts => {
-
-                            ct = cts.cts[r.id]
-
-                            return this.core.pct.stressdetails(r, {
-                                term : ct.term || null
-                            }).then(R => {
-
-                                dct = R
-                                ct.contributors = dct.contributors
-                                dct.ocr = ct.ocr
-
-                            })
-            
-                        }).then(() => {
-                            return this.core.pct.assets(r).then(assetsInfo => {
-                                var positions = []
-
-                                console.log('assetsInfo', assetsInfo)
-
-                                _.each(r.positions, (p) => {
-
-                                    var ai = assetsInfo[p.ticker] || {}
-
-                                    positions.push({
-                                        ticker : p.ticker,
-                                        value : p.value,
-                                        name : ai.name || "",
-                                        expRatio : ai.expRatio || 0
-                                    })
-                                })
-
-                                extra.positions = _.sortBy(positions, (p) => {
-                                    return - p.value
-                                })
-                            })
-                        }).then(() => {
-
-                            return this.core.pct.benchmarks(r.total() / 100).then(r => {
-                                benchmarks = r
-                            })
-
-                        }).then(() => {
-
-                            var getbenchmarkscenario = function(index, id){
-                                return (_.find(benchmarks[index].scenarios, (scenario) => {
-                                    return scenario.id == id
-                                }) || {}).loss || 0
-                            }
-
-                            console.log('dct', dct)
-
-                            var worstScenarios = _.map(_.first(_.sortBy(dct.scenarios, (scenario) => {
-                                return scenario.loss
-                            }), 3), (scenario) => {
-
-                                return {
-                                    ...scenario,
-                                    contributors : _.first(_.sortBy(scenario.contributors, (contributor) => {
-                                        return contributor.loss
-                                    }), 3),
-
-                                    benchmarks : {
-                                        spy : getbenchmarkscenario('spy', scenario.id),
-                                        spyagg : getbenchmarkscenario('spyagg', scenario.id)
-                                    }
-                                }
-
-                            })
-
-                            var positiveScenarios = _.map(_.first(
-                                _.filter(
-                                    _.sortBy(dct.scenarios, (scenario) => {
-                                        return -scenario.loss
-                                    }), 
-                                    (scenario) => {
-                                        return scenario.loss > 0
-                                    }
-                                ),
-
-                            2), (scenario) => {
-
-                                return {
-                                    ...scenario,
-                                    contributors : _.first(_.sortBy(scenario.contributors, (contributor) => {
-                                        return -contributor.loss
-                                    }), 3),
-
-                                    benchmarks : {
-                                        spy : getbenchmarkscenario('spy', scenario.id),
-                                        spyagg : getbenchmarkscenario('spyagg', scenario.id)
-                                    }
-                                }
-                                
-                            })
-
-                            extra.crashtest = {
-                                ocr : dct.ocr,
-                                loss : dct.loss,
-                                ltr : dct.ltr,
-                                profit : dct.profit,
-                                term : dct.term,
-                                yield : dct.yield,
-                                worstScenarios,
-                                positiveScenarios
-                            }
-
-                            
-
-                            console.log('worstScenarios', worstScenarios)
-                            console.log('positiveScenarios', positiveScenarios)
-                            console.log('benchmarks', benchmarks)
-
-                            extra.benchmarks = {
-                                spy : _.clone(benchmarks.spy || {}),
-                                spyagg : _.clone(benchmarks.spyagg || {})
-                            }
-
-                            delete extra.benchmarks.spy.scenarios
-                            delete extra.benchmarks.spyagg.scenarios
-
-                        })
-
-                    }).catch(e => {
-                        console.error(e)
-                    })
-                    
-                )
-            }
-
-            console.log('context.client', context.client)
-
-            if (context.client){
-
-                promises.push(
-                    this.core.api.crm.contacts.gets({Ids : [context.client]}).then(c => {
-                        var profile = c[0]
-
-                        extra.clientName = profile.FName
-
-                        var monteCarlo = new MonteCarlo()
-
-                        return this.core.crm.loadQuestionnaireWithSettings(profile).then(({questionnaire, fromsettings}) => {
-
-                            var initial = fromsettings ? fromsettings : (questionnaire ? this.core.pct.riskscore.convertQrToCapacity(questionnaire.capacity) : {})
-
-                            var values = {
-                                ... monteCarlo.defaultValues(),
-                                ... initial
-                            }
-
-                            var options = {
-                                age : values.ages[0],
-                                retire : values.ages[1],
-                                savings : values.savings,
-                                save : values.save,
-                                withdraw : values.withdraw,
-                                salary : values.salary //terminal value
-                            }
-                    
-                            var extradata = {
-                                savemoreRange1 : values.savemoreRange[0],
-                                savemoreRange2 : values.savemoreRange[1],
-                                withdrawRange1 : values.withdrawRange[0],
-                                withdrawRange2 : values.withdrawRange[1],
-                                withdraw : values.withdraw
-                            }
-                            
-                            var capacityR = new this.core.pct.capacity({
-                                options : options,
-                                extra : extradata
-                            })
-
-                            var simulation = capacityR.simulation()
-
-                            capacity = {
-                                values : {...options, ...extradata},
-
-                                simulation : {
-                                    max : simulation.max,
-                                    top : simulation.topp,
-                                    under : simulation.underp,
-                                },
-
-                                result : simulation.capacity || 0,
-                                hasquestionnaire : questionnaire ? true : false
-                            }
-
-                            extra.capacity = capacity
-
-                            console.log("HERE")
-
-                        })
-
-                    }).catch(e => {
-                        console.error(e)
-                    })
-                )
-                
-            }
-
-
-            return Promise.all(promises).then(() => {
-                return Promise.resolve(extra)
-            })
+            return this.core.getaidata(context)
         },
        
         componentscrolling : function(e){
@@ -597,8 +406,6 @@ export default {
         },
 
         selectchat : function(chat){
-
-            console.log('chat', chat)
 
             this.helpers_clearpaneQuestion(() => {
 
@@ -620,7 +427,6 @@ export default {
                 Promise.all(promises).then(() => {
 
                     this.initmaster(() => {
-                        console.log("INITED")
                         setTimeout(() => {
                             this.helpers_scrolltofinish()
                         }, 300)
@@ -736,6 +542,27 @@ export default {
         
         },
 
+        helpers_recognitionpermissions : function(){
+
+            if(!window.cordova) return Promise.resolve()
+
+            return new Promise((resolve, reject) => {
+                function error(e) {
+    
+                    reject('Permission to use the microphone has not been obtained.')
+                }
+                function success() {
+                    
+                        resolve()
+                    
+                }
+    
+                this.core.media.permissions({ audio: true }).then(success).catch(error)
+            })
+
+            
+        },
+
         helpers_initrecognition : function(){
 
             var constructor = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -749,15 +576,19 @@ export default {
 
             var recognition = new (constructor)();
 
+            var fixedtextvalue = ''
+
             recognition.lang = 'en-US';
             recognition.interimResults = true;
             recognition.maxAlternatives = 1;
 
             recognition.onaudiostart = () => {
                 this.speech = true
+                fixedtextvalue = this.textareavalue
             };
 
-            recognition.onaudioend = function(event) {
+            recognition.onaudioend = (event) => {
+                this.speech = false
             };
 
             recognition.onresult = (event) => {
@@ -773,18 +604,19 @@ export default {
 
                 }).join(' ')
 
+                this.textareavalue = (fixedtextvalue ? fixedtextvalue + " " : "") + text
 
-                this.textareavalue = text
-              
+                console.log('hasfinal', hasfinal, event, fixedtextvalue)
                 
-                if (hasfinal){
+                /*if (hasfinal){
                     this.actions_answer(text)
-                }
+                }*/
 
             };
 
             recognition.onend = (event) => {
-                this.textareavalue = ''
+                console.log('onend', event)
+                //this.textareavalue = ''
             };
 
             this.recognition = recognition
@@ -1282,7 +1114,6 @@ export default {
 
                     var el = this.$refs['event_' + event.id]
 
-                    console.log("el", el, el[0])
                     if (el && el.length){
                         this.events_heights[event.id] = el[0].getheight()
                     }
@@ -1331,7 +1162,13 @@ export default {
                 return 
             }
 
+            events = _.map(events, (event) => {
+                return {...event}
+            })
             
+            _.each(events, (e, i) => {
+                e.modkey = i + (replace ? 0 : this.eventsToRender.length)
+            })
 
             if (replace){
 
@@ -1352,7 +1189,6 @@ export default {
             _.each(events, (event) => {
                 this.eventsToRender.unshift(event)
             })
-
 
             this.setloading(true, events[0].session)
 
@@ -1498,6 +1334,23 @@ export default {
             })
         },
 
+        hideevent : function(event){
+            event.hidden = true
+            this.eventsToRender = _.filter(this.eventsToRender, (e) => {
+                return e.id != event.id
+            })
+        },
+
+        deletefile: function(fileid, event){
+            this.master.removefile(fileid)
+
+            this.hideevent(event)
+
+            this.actions_addnext(this.master, () => {
+                
+            })
+        },
+
         clickanswer : function({text, event}){
             this.actions_answer(text, event)
         },
@@ -1560,6 +1413,36 @@ export default {
             }
         },
 
+        attach : function(){    
+
+            if(this.loading) return
+
+            this.core.vueapi.fileManager({
+                open : (file) => {
+                    console.log("file,", file)
+
+                    var master = this.master
+
+                    var message = this.add_message({
+                        message : 'rxfile:' + file.id,
+                        you : true
+                    }, master)
+
+                    master.addfile('rxfile:' + file.id)
+
+                    console.log('message', message)
+
+                    var re = [message]
+
+                    this.renders_lazyevents(re, function(){
+
+                    }, master)
+                }
+			}, {
+				
+			})
+        },
+
         sendClick : function(){
             this.actions_answer(this.textareavalue)
         },
@@ -1569,21 +1452,30 @@ export default {
             if (this.speech){
 
                 if (this.recognition)
-                this.recognition.abort()
+                    this.recognition.abort()
             }
             else{
 
                 if(this.loading) return
 
-                this.helpers_voiceInput()
+                this.helpers_recognitionpermissions().then(() => {
+                    this.helpers_voiceInput()
+                }).then(e => {
+
+                    this.$message({
+						title : "An error has occurred",
+						message : e
+					})
+
+                })
+ 
+                
             }
                 
         },
 
         changemaster : function({type, data}){
             if(this.loading || !this.master) return
-
-            console.log('changemaster', type)
 
             if(type == 'parameter'){
                 this.master.actions.cancelparameter(data)
@@ -1608,9 +1500,6 @@ export default {
 
         startover : function(){
             if(this.loading || !this.master) return
-
-            console.log('startover')
-
 
             this.master.actions.restart()
 

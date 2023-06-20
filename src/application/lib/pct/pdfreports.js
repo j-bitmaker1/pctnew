@@ -191,8 +191,6 @@ class PDFReports {
 
         var portfolios = {}
 
-        console.log('portfolio, rollover, ...comparePortfolios', portfolio, rollover, comparePortfolios)
-
         _.each([portfolio, rollover, ...comparePortfolios], (p) => {
             if(p){
                 portfolios[p.id] = p
@@ -702,8 +700,6 @@ class PDFReports {
             if (portfolio.isModel && !rollover.isModel) multiple = rollover.total()
 
             var position = {ticker : asset.ticker, name : asset.name}
-
-            console.log('multiple', multiple, position.value)
 
                 position.value = f.values.format(null, mode, asset.value * multiple) 
                 position._value = asset.value * multiple
@@ -1419,9 +1415,6 @@ class PDFReports {
                     ... initial
                 }
 
-
-                console.log('initial', initial, questionnaire, fromsettings)
-
                 var options = {
                     age : values.ages[0],
                     retire : values.ages[1],
@@ -1595,8 +1588,6 @@ class PDFReports {
 
             }
 
-            console.log("value", value)
-
             var row = [
                 {
                     text : field.text,
@@ -1762,8 +1753,6 @@ class PDFReports {
 
         }).then(tables => {
 
-            console.log('tables', tables)
-
             _.each(tables, (table) => {
                 result.push(table)
             })
@@ -1875,8 +1864,6 @@ class PDFReports {
                         height : image.height * 6
                     }
 
-                    console.log('size', size, colorsBp, assetsInfoBp)
-    
                     var chartData = allocation.chartData(g, colorsBp[group.id])
     
                     var chartOptions = allocation.chartOptions(chartData, {
@@ -1949,9 +1936,6 @@ class PDFReports {
                     widths,
                     body
                 }))
-
-                console.log('result', result)
-
 
                 return Promise.resolve(result)
             })

@@ -172,7 +172,11 @@ export default {
 
 		aifeature : function(state){
 			return state.features['AI'] ? true : false
-		}
+		},
+
+		summaryview : function(){
+			return this.$route.name == 'summary'
+		},
 	}),
 
 	methods : {

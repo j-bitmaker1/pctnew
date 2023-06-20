@@ -1288,8 +1288,21 @@ f.saveFileCordova = function (file, name, todownloads) {
 
 }
 
+function iOS() {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+}
+
 f.isios = function () {
-    return (window.cordova && window.device && f.deep(window, 'device.platform') == 'iOS') || (navigator || {}).platform && /iPad|iPhone|iPod/.test(navigator.platform || '')
+    return (window.cordova && window.device && f.deep(window, 'device.platform') == 'iOS') || iOS()
 }
 
 f.now = function (date) {
@@ -1364,7 +1377,7 @@ f.removePopoverFromEvent = function (e) {
 
     if (e.path) {
         var sel = _.find(e.path, function (p) {
-            return p.classList && (p.classList.contains('v-popover') || p.classList.contains('tooltip'));
+            return p.classList && (p.classList.contains('v-popover') || p.classList.contains('tooltip') || p.classList.contains('removeclick'));
         })
 
         if (sel) {
@@ -1374,7 +1387,7 @@ f.removePopoverFromEvent = function (e) {
 
     if (f.findinparent(e.target, (el) => {
 
-        return el.classList && (el.classList.contains('v-popover') || el.classList.contains('tooltip'))
+        return el.classList && (el.classList.contains('v-popover') || el.classList.contains('tooltip') || el.classList.contains('removeclick'))
     })) return true
 
 

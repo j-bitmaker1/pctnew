@@ -1,8 +1,8 @@
 const moment = require('moment');
-import CampaignTemplates from "./templates"
-import varhelper from "./varhelper";
+import CampaignTemplates from "./templates.js"
+import varhelper from "./varhelper.js";
 
-import f from "@/application/shared/functions.js"
+import f from "../shared/functions.js"
 
 import {Signature} from './kit.js'
 
@@ -53,7 +53,7 @@ class CampaignsManager {
             icon : "fas fa-spinner fa-spin",
             text : 'active',
             statistic : 'ActiveCampaigns',
-            img : require('@/assets/ezgif-6-46750ada6552.gif')
+            img : typeof NODE != 'undefined' ? null : require('@/assets/ezgif-6-46750ada6552.gif')
         },
 
         PROCESS : {
@@ -385,7 +385,7 @@ class CampaignsManager {
 
         signature.System = this.mailsystem
 
-        return this.api.signatures.create(signature.export(), {
+        return this.api.signatures.create(signature.exportdata(), {
             preloader : true,
             showStatus : true
         })
@@ -402,7 +402,7 @@ class CampaignsManager {
 
     updateSignature(signature){
             
-        return this.api.signatures.update(signature.export(), {
+        return this.api.signatures.update(signature.exportdata(), {
             preloader : true,
             showStatus : true
         })

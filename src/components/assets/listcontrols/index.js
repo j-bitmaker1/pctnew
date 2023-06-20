@@ -61,7 +61,6 @@ export default {
         },
 
         filtersApplyied : function(){
-            console.log(JSON.stringify(this.filterValues), JSON.stringify(this.dfilterValues))
             return JSON.stringify(this.filterValues) != JSON.stringify(this.dfilterValues)
         },
 
@@ -101,7 +100,7 @@ export default {
 
                 var values = this.core.settings.ui.get('listcontrols_' + this.store).value
 
-                console.log('values', values)
+                values.searchvalue = ''
 
                 if (values.sortvalue) this.$emit('sort', values.sortvalue)
                 if (values.searchvalue) this.$emit('search', values.searchvalue)

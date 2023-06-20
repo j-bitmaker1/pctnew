@@ -1,32 +1,33 @@
 
 
-import Notifier from "./shared/notifier";
-import Api from "./shared/api";
-import listeners from './shared/listeners'
-import f from './shared/functions'
-import user from './shared/user'
-import wss from './shared/wss'
+import Notifier from "./shared/notifier.js";
+import Media from "./shared/media.js";
+import Api from "./shared/api.js";
+import listeners from './shared/listeners.js'
+import f from './shared/functions.js'
+import user from './shared/user.js'
+import wss from './shared/wss.js'
 
-import CRM from './lib/crm/crm'
-import PCT from './lib/pct/pct'
-import CAMPAIGNS from './campaigns/manager'
+import CRM from './lib/crm/crm.js'
+import PCT from './lib/pct/pct.js'
+import CAMPAIGNS from './campaigns/manager.js'
 
-import Vueapi from './vueapi'
-import Cordovakit from './shared/cordovakit'
-import Filemanager from './lib/common/filemanager'
+import Vueapi from './vueapi.js'
+import Cordovakit from './shared/cordovakit.js'
+import Filemanager from './lib/common/filemanager.js'
 //import FX from './shared/utils/fx.js'
 
-import { Settings, LSSettings } from "./shared/settings";
+import { Settings, LSSettings } from "./shared/settings.js";
 
 
 
-import Updates from "./updates";
-import Filesystem from "./lib/common/filesystem"
-import Activity from "./lib/common/activity"
+import Updates from "./updates.js";
+import Filesystem from "./lib/common/filesystem.js"
+import Activity from "./lib/common/activity.js"
 
-import Images from "./shared/utils/images";
+import Images from "./shared/utils/images.js";
 
-import Integrations from "./shared/integrations";
+import Integrations from "./shared/integrations.js";
 
 var settings = {
     server: {
@@ -141,6 +142,7 @@ class Core {
 
         this.external = {}
         this.hiddenInParent = false
+        this.media = new Media()
 
 
         this.settings = {
@@ -343,10 +345,14 @@ class Core {
             this.online = this.onlineListener.online
         }
 
-        document.addEventListener("drop", this.dropFiles.bind(this))
-        document.addEventListener("dragover", event => {
-            event.preventDefault()
-        })
+        if(typeof document != 'undefined'){
+            document.addEventListener("drop", this.dropFiles.bind(this))
+            document.addEventListener("dragover", event => {
+                event.preventDefault()
+            })
+        }
+
+        
     }
 
     dropFiles = function (event) {
@@ -399,11 +405,9 @@ class Core {
 
         var position = "bottom-right";
 
-        if (this.vm.$store.state.mobile) {
+        if (this.vm.$store && this.vm.$store.state.mobile) {
             position = 'top-left'
         }
-
-        console.log('title', title)
 
         this.vm.$message({
             message: title,
@@ -643,6 +647,331 @@ class Core {
         }
 
         return this.dynamicSettings[sk].set('values_' + id, value)
+    }
+
+    getaidata(context){
+        var promises = []
+        var ct = null
+        var dct = null
+        var capacity = null
+
+        var extra = { }
+        var benchmarks = null
+        var scenarios = []
+        var usedscenarios = []
+
+        if (context.portfolio || context.readyportfolio){
+
+            promises.push( 
+
+                (!context.readyportfolio ? this.api.pctapi.portfolios.get(context.portfolio) : Promise.resolve(context.readyportfolio)).then(r => {
+
+                    var total = r.total()
+
+                    return this.pct.stresstestskt([r], 'd', { term: true, fee : asset => {
+                        return r.advisorFee || 0
+                    }}).then(cts => {
+
+                        ct = cts.cts[r.id]
+
+                        return this.pct.stressdetails(r, {
+                            term : ct.term || null
+                        }).then(R => {
+
+                            dct = R
+                            ct.contributors = dct.contributors
+                            dct.ocr = ct.ocr
+
+                            return this.pct.scenariosWithCustoms().then(s => {
+                                scenarios = s
+                            })
+
+                        })
+        
+                    }).then(() => {
+                        return this.pct.assets(r).then(assetsInfo => {
+
+                            return this.pct.fundsinfo(r).then(fundsInfo => {
+                                var positions = []
+
+                                _.each(r.positions, (p) => {
+
+                                    var ai = assetsInfo[p.ticker] || {}
+                                    var fi = fundsInfo[p.ticker] || {}
+
+                                    positions.push({
+                                        ticker : p.ticker,
+                                        value : p.value,
+                                        pvalue : (100 * p.value / total).toFixed(1),
+                                        name : ai.name || "",
+                                        expRatio : ai.expRatio || 0
+                                    })
+                                })
+
+                                extra.positions = _.sortBy(positions, (p) => {
+                                    return - p.value
+                                })
+                            })
+
+                        })
+                    }).then(() => {
+
+                        return this.pct.benchmarks(r.total() / 100).then(r => {
+                            benchmarks = r
+                        })
+
+                    }).then(() => {
+
+                        var getbenchmarkscenario = function(index, id){
+
+                            var value = (_.find(benchmarks[index].scenarios, (scenario) => {
+                                return scenario.id == id
+                            }) || {}).loss || 0
+
+                            return {
+                                value,
+                                pvalue : (100 * value / total).toFixed(1)
+                            }
+                        }
+
+
+                        var worstScenarios = _.map(_.first(_.sortBy(dct.scenarios, (scenario) => {
+                            return scenario.loss
+                        }), 3), (scenario) => {
+
+                            usedscenarios.push(scenario.id)
+
+                            var info = _.find(scenarios, s => {
+                                return s.id == scenario.id
+                            }) || {}
+
+                            var contributors = _.first(_.sortBy(scenario.contributors, (contributor) => {
+                                return contributor.loss
+                            }), 3)
+
+                            contributors = _.map(contributors, (contributor) => {
+
+                                var position = r.get(contributor.ticker)
+
+                                return {
+                                    ...contributor,
+                                    pvalue : (100 * contributor.value / total).toFixed(1),
+                                    rvalue : (100 * contributor.value / position.value).toFixed(1)
+                                }
+                            })
+
+                            return {
+                                ...scenario,
+                                contributors,
+
+                                benchmarks : {
+                                    spy : getbenchmarkscenario('spy', scenario.id),
+                                    spyagg : getbenchmarkscenario('spyagg', scenario.id)
+                                },
+
+                                ploss : (100 * scenario.loss / total).toFixed(1),
+                                description : info.description || "",
+                                shocks : info.shocks || ""
+                            }
+
+                        })
+
+                        var positiveScenarios = _.map(_.first(
+                            _.filter(
+                                _.sortBy(dct.scenarios, (scenario) => {
+                                    return -scenario.loss
+                                }), 
+                                (scenario) => {
+                                    return (scenario.id != -2) && scenario.loss > 0
+                                }
+                            ),
+
+                        2), (scenario) => {
+
+                            usedscenarios.push(scenario.id)
+
+                            var info = _.find(scenarios, s => {
+                                return s.id == scenario.id
+                            }) || {}
+
+                            var contributors = _.first(_.sortBy(scenario.contributors, (contributor) => {
+                                return contributor.loss
+                            }), 3)
+
+                            contributors = _.map(contributors, (contributor) => {
+                                return {
+                                    ...contributor,
+                                    pvalue : (100 * contributor.value / total).toFixed(1)
+                                }
+                            })
+
+                            return {
+                                ...scenario,
+                                contributors,
+
+                                benchmarks : {
+                                    spy : getbenchmarkscenario('spy', scenario.id),
+                                    spyagg : getbenchmarkscenario('spyagg', scenario.id)
+                                },
+
+                                ploss : (100 * scenario.loss / total).toFixed(1),
+                                description : info.description || "",
+                                shocks : info.shocks || ""
+                            }
+                            
+                        })
+
+                        extra.crashtest = {
+                            ocr : dct.ocr,
+                            term : dct.term,
+                            profit : dct.profit,
+                            pprofit : (100 * dct.profit / total).toFixed(1),
+                            
+                            worstScenarios,
+                            positiveScenarios,
+                            total : r.total(),
+                            loss : dct.loss,
+                            ploss: (100 * dct.loss / total).toFixed(1),
+
+                            yield : total * ct.yield,
+                            pyield : (100 * ct.yield).toFixed(1),
+
+                            ltr : total * ct.ltr,
+                            pltr : (100 * ct.ltr).toFixed(1),
+                        }
+
+                        console.log('ct.ltr', ct.ltr)
+
+                        extra.benchmarks = {
+                            spy : _.clone(benchmarks.spy || {}),
+                            spyagg : _.clone(benchmarks.spyagg || {})
+                        }
+
+                        delete extra.benchmarks.spy.scenarios
+                        delete extra.benchmarks.spyagg.scenarios
+
+                    })
+
+                }).catch(e => {
+                    console.error(e)
+                })
+                
+            )
+        }
+
+        if (context.client){
+
+            promises.push(
+                this.api.crm.contacts.gets({Ids : [context.client]}).then(c => {
+                    var profile = c[0]
+
+                    extra.clientName = profile.FName
+
+                    return this.crm.loadQuestionnaireWithSettings(profile)
+
+                }).then(({questionnaire, fromsettings}) => {
+
+                    var initial = fromsettings ? fromsettings : (questionnaire ? this.pct.riskscore.convertQrToCapacity(questionnaire.capacity) : {})
+
+                    var values = {
+                        ... {
+                            'ages': [20, 40],
+                            'savings': 10000,
+                            'save': 0,
+                            'salary': 200000,
+
+                            //// extra
+
+                            'savemoreRange': [20, 40],
+                            'withdrawRange': [20, 40],
+                            'withdraw': 0
+                        },
+                        ... initial
+                    }
+
+                    var options = {
+                        age : values.ages[0],
+                        retire : values.ages[1],
+                        savings : values.savings,
+                        save : values.save,
+                        withdraw : values.withdraw,
+                        salary : values.salary //terminal value
+                    }
+            
+                    var extradata = {
+                        savemoreRange1 : values.savemoreRange[0],
+                        savemoreRange2 : values.savemoreRange[1],
+                        withdrawRange1 : values.withdrawRange[0],
+                        withdrawRange2 : values.withdrawRange[1],
+                        withdraw : values.withdraw
+                    }
+                    
+                    var capacityR = new this.pct.capacity({
+                        options : options,
+                        extra : extradata
+                    })
+
+                    var simulation = capacityR.simulation()
+
+                    capacity = {
+                        values : {...options, ...extradata},
+
+                        simulation : {
+                            max : simulation.max,
+                            top : simulation.topp,
+                            under : simulation.underp,
+                        },
+
+                        result : simulation.capacity || 0,
+                        hasquestionnaire : questionnaire || fromsettings ? true : false
+                    }
+
+                    extra.capacity = capacity
+
+                }).catch(e => {
+                    console.error(e)
+                })
+            )
+            
+        }
+
+        if (context.readyclient){
+            extra.clientName = context.readyclient.FName
+        }
+
+        if (context.readycapacity){
+            extra.capacity = {
+                values : {...context.readycapacity.options, ...context.readycapacity.extradata},
+                simulation : {
+                    max : context.readycapacity.simulation.max,
+                    top : context.readycapacity.simulation.topp,
+                    under : context.readycapacity.simulation.underp,
+                },
+                result : context.readycapacity.simulation.capacity || 0,
+                hasquestionnaire : true
+            }
+        }
+
+
+        return Promise.all(promises).then(() => {
+            return Promise.resolve(extra)
+        })
+    }
+
+    gettasks(file){
+        var t = _.sortBy(_.filter(this.store.state._task, (t) => {
+            return t.fileId == file.id
+        }), t => {
+            return Number(t.created)
+        })
+
+        var obj = {}
+
+        _.each(t, (t) => {
+            obj[t.type] = t
+        })
+
+        return obj
     }
 
 }

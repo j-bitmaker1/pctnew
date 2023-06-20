@@ -1,4 +1,4 @@
-import f from '@/application/shared/functions.js'
+import f from '../shared/functions.js'
 
 
 var h = {

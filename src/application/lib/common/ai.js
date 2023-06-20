@@ -22,6 +22,7 @@ var Master = function(settings = {}, /*app, */context){
 	self.recalled = false
 	self.stopped = false
 	self.temperature = defaulttemperature
+	self.files = []
 
 	self.stage = {
 		resultshowed : false,
@@ -59,6 +60,7 @@ var Master = function(settings = {}, /*app, */context){
 			self.history.data = _.clone(data.history.data)
 		}
 		if(data.session) self.session = _.clone(data.session)
+		if(data.files) self.files = _.clone(data.files)
 
 		if(typeof data.temperature != 'undefined') self.temperature = data.temperature
 		
@@ -177,9 +179,6 @@ var Master = function(settings = {}, /*app, */context){
 				}
 			})
 
-			console.log('self.parameters', self.parameters, index)
-
-
 			if (index){
 				templates.parameterQuestion(index, clbk)
 				return true
@@ -195,6 +194,8 @@ var Master = function(settings = {}, /*app, */context){
 				}
 	
 			})
+
+			console.log('needAskParameter', needAskParameter)
 	
 			if (needAskParameter){
 				templates.parameter(needAskParameter, clbk)
@@ -231,6 +232,7 @@ var Master = function(settings = {}, /*app, */context){
 
 			self.history.type = null
 			self.history.data = []
+			self.files = []
 
 			self.temperature = defaulttemperature
 		},
@@ -449,8 +451,6 @@ Success! Your email was forwarded to complicance departement for review.
 
 				var text = ''
 
-				console.log('client', client)
-
 				if(!client){
 					text = 'Contact: Not selected'
 				}
@@ -468,13 +468,11 @@ Success! Your email was forwarded to complicance departement for review.
 			var events = [{
 				type : 'message',
 				event : {
-					message : "Please select the persone for whom the result is generated?"
+					message : "Please select the person for whom the result is generated?"
 				}
 			}]
 
 			var selectclbk = (_clbk, id, name) => {
-
-				console.log('id, name', id, name)
 
 				if (!id || !name){
 
@@ -529,11 +527,7 @@ Success! Your email was forwarded to complicance departement for review.
 			}]
 
 			var selectclbk = (_clbk, id, name, clientid) => {
-
-				console.log('id, name, clientid', id, name, clientid)
 				if (!id || !name){
-
-					console.log("???????????????????/")
 
 					self.context.portfolio = null
 
@@ -769,11 +763,20 @@ Success! Your email was forwarded to complicance departement for review.
 
 						helpers.getportfolio(function(portfolio){
 
-
-							console.log('portfolio', self.context)
-
 							helpers.getclient(function(client){
 								helpers.hardrequest(function(){
+
+									var files = _.map(self.files, (f) => {
+										return f.replace('rxfile:', '')
+									})
+
+									_.each(self.type.parameters, (parameter, i) => {
+										if(parameter.Type == 'file' && typeof self.parameters[parameter.Id] != 'undefined'){
+											files.push(self.parameters[parameter.Id].replace('rxfile:', ''))
+										}
+									})
+
+									files = _.uniq(files, (f) => {return f})
 
 									return settings.ai.generate(self.type.id, self.parameters, {
 										test : self.context.test || false,
@@ -782,7 +785,8 @@ Success! Your email was forwarded to complicance departement for review.
 									}, {
 										//refinetext : self.data.text,
 										history : self.history.data,
-										temperature : self.temperature
+										temperature : self.temperature,
+										files
 									})
 
 								})
@@ -885,7 +889,8 @@ Success! Your email was forwarded to complicance departement for review.
 
 							self.history.data.push({
 								speaker : "Additional Instruction",
-								text : text
+								text : text,
+								userask : true
 							})
 							
 						} : null,
@@ -896,12 +901,12 @@ Success! Your email was forwarded to complicance departement for review.
 							[settings.user.aiadmin && !self.context.test && !self.type.pdf ? actions.makePromt : null, /*actions.copyresult,*/ actions.stop] : 
 							
 							[
-								settings.user.aiadmin && !self.context.test && !self.type.pdf ? actions.makePromt : null, 
+								settings.user.aiadmin && !self.type.pdf ? actions.makePromt : null, 
 								actions.refine,
 
 								self.type.type == 'email' && !self.result.html && self.result.text && !self.context.test && !settings.user.limitedversion ? actions.generateemail : null, 
 
-								self.result.text && !self.context.test && !self.result.html ? actions.complianceReview : null, 
+								/*self.result.text && !self.context.test && !self.result.html ? actions.complianceReview : null, */
 								
 								self.context.test ? null : actions.regenerate
 							],
@@ -994,6 +999,29 @@ Success! Your email was forwarded to complicance departement for review.
 							self.parameters[parameter.Id] = ''
 						}
 					}]
+				}
+
+			}
+
+			if(parameter.Type == 'file'){
+
+				answerFormat.event = {
+					type : 'answers',
+					answers : [
+						{
+							dictionary : ['upload'],
+							text : "Upload file",
+							action : function(clbk){
+								settings.helpers.uploadfile((value) => {
+									
+
+									self.parameters[parameter.Id] = value
+
+									if(clbk) clbk(value)
+								})
+							}
+						}
+					]
 				}
 
 			}
@@ -1322,7 +1350,6 @@ Success! Your email was forwarded to complicance departement for review.
 		if (self.type.type == 'speech' || self.type.type == 'email'){
 
 			if (typeof self.context.portfolio == 'undefined' && self.type.portfolioRequired){
-				console.log("HERE!")
 				return templates.portfolio(clbk)
 			}
 
@@ -1332,9 +1359,6 @@ Success! Your email was forwarded to complicance departement for review.
 			}
 
 			if (self.stage.autoclient){
-
-				console.log("HERE!3")
-
 
 				self.stage.autoclient = false
 
@@ -1438,8 +1462,6 @@ Success! Your email was forwarded to complicance departement for review.
 			})
 
 
-			console.log('self.types', self.types)
-
 			if(clbk) clbk()
 		})
 	}
@@ -1496,6 +1518,28 @@ Success! Your email was forwarded to complicance departement for review.
 		if(self.stage.cansave) return 'clean'
 
 		return 'draft'
+	}
+
+	self.addfile = function(id){
+		self.files.push(id)
+	}
+
+	self.removefile = function(id){
+		self.files = _.filter(self.files, (i) => {
+			return i != id
+		})
+
+		var rmp = []
+
+		_.each(self.parameters, (p, i) => {
+			if(self.parameters[i] == id) rmp.push(i)
+		})
+
+		console.log('rmp', rmp, id, self.parameters)
+
+		_.each(rmp, (i) => {
+			delete self.parameters[i]
+		})
 	}
 
 	return self

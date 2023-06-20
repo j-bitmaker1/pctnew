@@ -1,4 +1,4 @@
-import f from '@/application/shared/functions.js'
+import f from '../../shared/functions.js'
 import _ from 'underscore'
 
 class Templates {
@@ -411,7 +411,10 @@ class Activity {
 
         return this.user.id().then(id => {
 
-            this.history = JSON.parse(localStorage[this.key + id] || "[]")
+            try{
+                this.history = JSON.parse(localStorage[this.key + id] || "[]")
+            }
+            catch(e){}
 
         }).catch(e => {
             console.error(e)

@@ -226,7 +226,7 @@ export default {
                             {
                                 id : 'Phone',
                                 text : 'riscscore.fields.phone',
-                 
+                                input : 'phone',
                                 rules : [{
                                     rule : 'required'
                                 },{

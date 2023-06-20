@@ -15,7 +15,8 @@
 		"help" : "Help",
 		"filemanager" : "File recognition",
 		"capacity" : "Capacity",
-		"ai" : "RISK AI",
+		"ai" : "Advisor AI",
+		"aim" : "Advisor",
 		"openai" : "Analyze via Risk AI"
 	},
 
@@ -704,7 +705,15 @@
 			"crm" : "Show all contacts",
 			"capacity" : "Capacity score",
 			"tolerance" : "Tolerance",
-			"crashrating" : "Crash Rating"
+			"crashrating" : "Crash Rating",
+			"onlymy" : "Show only my contacts",
+			"firms" : "Show contacts of other users from my company"
+		}
+	},
+
+	"filemanager" : {
+		"processes" : {
+			"PARSEPORTFOLIO" : "Portfolio parsing"
 		}
 	}
 

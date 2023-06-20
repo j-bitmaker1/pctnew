@@ -163,7 +163,7 @@ export default {
 				
 
 				setTimeout(() => {
-
+					
 					this.styles =  {
 						"transform": "",
 						"-webkit-overflow-scrolling": '',

@@ -1,5 +1,5 @@
-import f from './functions'
-import FaceId from './utils/faceid'
+import f from './functions.js'
+import FaceId from './utils/faceid.js'
 class Cordovakit {
 	constructor(core){
 
@@ -25,9 +25,28 @@ class Cordovakit {
 		this.keyboard()
 		this.links()
 		this.openwith()
+
+		
+
 		//window.StatusBar.hide()
-		window.StatusBar.backgroundColorByHexString('#00000000');
-		window.StatusBar.styleDefault()
+
+		//window.StatusBar.backgroundColorByHexString('#00000000');
+
+		setTimeout(() => {
+			
+			window.NavigationBar.hide()
+
+			setTimeout(() => {
+				window.StatusBar.overlaysWebView(true);
+			}, 500)
+
+			setTimeout(() => {
+				window.StatusBar.styleDefault()
+			}, 1000)
+
+		}, 2000)
+		
+
 		//self.platform.sdk.theme.current == 'white' ? window.StatusBar.styleDefault() : window.StatusBar.styleLightContent()
 	}
 

@@ -121,6 +121,7 @@
 			.loadingWrapper
 				opacity: 1
 
+		.attach,
 		.microphone
 			opacity: 0.1
 
@@ -193,6 +194,7 @@
 			.panel
 				margin-left: auto
 				margin-right: $r
+				display: flex
 
 				.iconbt
 					border-radius: 22px
@@ -214,11 +216,14 @@
 		.input
 			.send
 				display: block
-			.microphone
-				display: none
+			
+	&.inputactive
+		.attach
+			display: none
 
 	&.speech
 		.input
+			.attach,
 			.send
 				display: none
 
@@ -235,6 +240,13 @@
 				i
 					&::before
 						content: '\f04d'
+
+	&.inputactive.speech
+		.input
+			.microphone
+				i
+					&::before
+						content: '\f04c'
 
 	.events
 		padding: $r $r

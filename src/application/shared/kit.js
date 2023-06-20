@@ -1,5 +1,5 @@
 import _ from "underscore"
-import XLS from "../lib/pct/xls"
+import XLS from "../lib/pct/xls.js"
 
 class Contact {
     constructor(data = {}) {
@@ -45,9 +45,6 @@ class Contact {
     }
 
 }
-
-
-
 
 class Portfolio {
     fields = [
@@ -149,7 +146,6 @@ class Portfolio {
     }
 }
 
-
 class Buylist {
     fields = [
         'created',
@@ -162,8 +158,6 @@ class Buylist {
     ]
 
     constructor(data = {}) {
-
-        console.log("data", data)
 
         _.each(data, (v, i) => {
             this[i] = v
@@ -216,17 +210,10 @@ class Task {
     constructor(data = {}) {
 
         this.appId = data.appId
-        this.completed = data.completed || null
-        this.created = data.created || null
         this.id = data.id
-        this.progress = data.progress || 0
-        this.status = data.status || "CREATED"
-        this.type = data.type
         this.userId = data.userId
-
-        if (data.dataManual || data.data){
-            this.data = null
-        }
+        this.created = data.created || null //// TEMP
+        this.processes = {}
 
         if (data.info){
 
@@ -238,6 +225,62 @@ class Task {
             }catch(e){
                 this.info = data.info
             }
+        }
+
+
+        var tempTask = {}
+
+
+        tempTask.completed = data.completed || null
+        tempTask.created = data.created || null
+        tempTask.progress = data.progress || 0
+        tempTask.status = data.status || "CREATED"
+        tempTask.type = data.type
+
+        if (data.dataManual || data.data){
+            tempTask.data = null
+        }
+
+        if (data.dataManual){
+            try{
+                var d = JSON.parse(data.dataManual || "{}")
+                tempTask.data = d.Infos || null
+                tempTask.manual = true
+            }catch(e){}
+        }
+
+        if(!tempTask.data)
+            
+            if (data.data){
+                try{
+                    var d = JSON.parse(data.data || "{}")
+                    tempTask.data = d.Infos || []
+                }catch(e){
+                    tempTask.data = data.data
+                }
+            }
+
+        this.processes[tempTask.type] = tempTask
+    }
+}
+
+class TTask {
+    constructor(data = {}) {
+
+        this.completed = data.completed
+        this.created = data.created
+        this.error = data.error || null
+        this.id = data.id
+        this.fileId = data.fileId
+        this.progress = data.progress
+        this.status = data.status
+        this.taskParameters = data.taskParameters || ''
+        this.type = data.type
+        this.userId = data.userId
+
+
+        if (data.dataManual || data.data){
+            this.data = null
         }
 
         if (data.dataManual){
@@ -259,7 +302,85 @@ class Task {
                 }
             }
 
-        
+   
+        /*this.appId = data.appId
+        this.id = data.id
+        this.userId = data.userId
+        this.created = data.created || null //// TEMP
+        this.processes = {}
+
+        if (data.info){
+
+            this.info = null
+            
+            try{
+                var i = JSON.parse(data.info || "[]")
+                this.info = i
+            }catch(e){
+                this.info = data.info
+            }
+        }
+
+
+        var tempTask = {}
+
+
+        tempTask.completed = data.completed || null
+        tempTask.created = data.created || null
+        tempTask.progress = data.progress || 0
+        tempTask.status = data.status || "CREATED"
+        tempTask.type = data.type
+
+        if (data.dataManual || data.data){
+            tempTask.data = null
+        }
+
+        if (data.dataManual){
+            try{
+                var d = JSON.parse(data.dataManual || "{}")
+                tempTask.data = d.Infos || null
+                tempTask.manual = true
+            }catch(e){}
+        }
+
+        if(!tempTask.data)
+            
+            if (data.data){
+                try{
+                    var d = JSON.parse(data.data || "{}")
+                    tempTask.data = d.Infos || []
+                }catch(e){
+                    tempTask.data = data.data
+                }
+            }
+
+        this.processes[tempTask.type] = tempTask*/
+    }
+}
+
+class TFile {
+    constructor(data = {}) {
+
+        this.appId = data.appId
+        this.id = data.id
+        this.userId = data.userId
+        this.created = data.created || null //// TEMP
+        this.tasks = data.tasks
+
+        if (data.info){
+
+            this.info = null
+            
+            try{
+                var i = JSON.parse(data.info || "[]")
+                this.info = i
+            }catch(e){
+                this.info = data.info
+            }
+        }
+
+
+
     }
 }
 
@@ -275,5 +396,5 @@ class Scenario {
 }
 
 export {
-    Contact, Portfolio, Task, Scenario, Buylist
+    Contact, Portfolio, Task, Scenario, Buylist, TFile, TTask
 }

@@ -1014,8 +1014,6 @@ var Tools = function(p, data){
                     all : {
                         success : function(){
 
-                            console.log("bodies", bodies)
-    
                             _.each(bodies, function(body,i){
     
                                 var t = p.table(body,i)
@@ -1054,8 +1052,6 @@ var Tools = function(p, data){
 
         divideTable : function(table, p){
 
-            console.log('divide', table, table.table.body)
-
             return this.tables({
                 rowsInTable : p.rowsInTable,   
                 pageOffset : p.pageOffset || 0, 
@@ -1075,7 +1071,6 @@ var Tools = function(p, data){
     
                 row : (_p, clbk)=>{
                     var row = _p.item;
-                    console.log('row', row)
                     clbk(row);
                 },
             }).then((tt) => {

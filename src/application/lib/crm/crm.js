@@ -1,5 +1,5 @@
-import Queries from "./queries";
-import {Settings} from "@/application/shared/settings";
+import Queries from "./queries.js";
+import {Settings} from "../../shared/settings.js";
 
 
 class CRM {
@@ -167,8 +167,8 @@ class CRM {
 
             else this.schemas.contact = {}
 
-
-            this.store.commit('crmschemas', this.schemas)
+            if (this.store)
+                this.store.commit('crmschemas', this.schemas)
 
             return Promise.resolve()
         })

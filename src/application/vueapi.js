@@ -57,6 +57,11 @@ class Vueapi {
             events : {
                 selected : (contacts) => {
                     if(success) success(contacts)
+                },
+
+                close : () => {
+
+                    if(p.close) p.close()
                 }
             }
         })
@@ -423,6 +428,25 @@ class Vueapi {
         })
     }
 
+    complianceReview = function(text, success, p = {}){
+
+        this.store.commit('OPEN_MODAL', {
+            id: 'modal_complianceReview',
+            module: "complianceReview",
+            caption: p.caption || "Send compliance review",
+            data : {
+                text
+            },
+
+            events : {
+                success : function(data){
+                    success(data)
+                }
+            }
+        })
+
+    }
+
     sharequestionnaire = function(id){
 
         this.core.api.crm.questionnaire.getlink(id || null, {
@@ -637,7 +661,7 @@ class Vueapi {
             id : 'modal_filemanager_file',
             module : "filemanager_file",
             caption : p.name || "File",
-            mclass : 'withoutheader',
+            mclass : '',
             one : true,
             data : {
                 file
@@ -652,7 +676,7 @@ class Vueapi {
             module : "pdfviewer",
             caption : "Pdf viewer",
             one : true,
-            mclass : 'withoutheader',
+            mclass : '',
             data : {
                 file
             },
@@ -1104,8 +1128,6 @@ class Vueapi {
     editBuylist = function (buylist, success) {
         var data = {}
 
-        console.log('buylist', buylist)
-
         if (buylist){
             data.edit = {
                 name : buylist.name,
@@ -1147,8 +1169,6 @@ class Vueapi {
     buylistsforforms = function(selected){
         this.buylists((b) => {
 
-            console.log('B', b)
-
             selected({
                 value : b.id,
                 label : b.name
@@ -1169,8 +1189,6 @@ class Vueapi {
     
             events : {
                 save : (b) => {
-
-                    console.log("BBB", b)
 
                     if(success) success(b)
                 }

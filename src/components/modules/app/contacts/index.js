@@ -67,6 +67,7 @@ export default {
 
 			filterValues : {
 				products : '1',
+				myfirm : '0',
 				PCT_Capacity : [0, 100],
 				PCT_Tolerance : [0, 100],
 				PCT_CrashRating : [0, 100]
@@ -159,6 +160,10 @@ export default {
 			
 			p.products = productFilter == '1' ? [''] : ['pct']
 
+			p.onlyuser = this.filterValues['myfirm'] == '0' ? true : false
+
+			console.log(p, this.filterValues)
+
 			p.customfields = [{
 				id : '$$PCT_Capacity',
 				value : this.filterValues['PCT_Capacity'],
@@ -204,6 +209,20 @@ export default {
 							},
 							{
 								text : 'filters.leads.crm',
+							},
+						]
+						
+					},
+
+					{
+						id : 'myfirm',
+						input : 'radio',
+						values : [
+							{
+								text : 'filters.leads.onlymy',
+							},
+							{
+								text : 'filters.leads.firms',
 							},
 						]
 						
