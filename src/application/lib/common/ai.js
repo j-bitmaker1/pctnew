@@ -761,64 +761,115 @@ Success! Your email was forwarded to complicance departement for review.
 
 						if(p.before) p.before(false)
 
-						helpers.getportfolio(function(portfolio){
+						var files = _.map(self.files, (f) => {
+							return f.replace('rxfile:', '')
+						})
 
-							helpers.getclient(function(client){
+						_.each(self.type.parameters, (parameter, i) => {
+							if(parameter.Type == 'file' && typeof self.parameters[parameter.Id] != 'undefined'){
+								files.push(self.parameters[parameter.Id].replace('rxfile:', ''))
+							}
+						})
+
+						files = _.uniq(files, (f) => {return f})
+
+						console.log('self.type', self.type, self, files)
+
+						if(self.type.pdf){
+							var lastquestion = _.find([].concat(self.history.data).reverse(), function(v){
+								return v.speaker != 'AI'
+							})
+
+							console.log('lastquestion', lastquestion)
+
+							if(!lastquestion){
+								if(p.clbk) p.clbk("I can't find your last question", {hide : true})
+							}
+							else{
+
+
 								helpers.hardrequest(function(){
-
-									var files = _.map(self.files, (f) => {
-										return f.replace('rxfile:', '')
-									})
-
-									_.each(self.type.parameters, (parameter, i) => {
-										if(parameter.Type == 'file' && typeof self.parameters[parameter.Id] != 'undefined'){
-											files.push(self.parameters[parameter.Id].replace('rxfile:', ''))
-										}
-									})
-
-									files = _.uniq(files, (f) => {return f})
-
-									return settings.ai.generate(self.type.id, self.parameters, {
-										test : self.context.test || false,
-										portfolio : portfolio ? portfolio.id : null,
-										client : client ? client.ID : null
+									return settings.ai.pdf(self.parameters, {
+										query : lastquestion.text
 									}, {
-										//refinetext : self.data.text,
-										history : self.history.data,
-										temperature : self.temperature,
+										session : self.session,
 										files
 									})
-
 								})
-								
+
 								.then(function(r){
-		
-									self.temperature = defaulttemperature
-									
+
 									if (self.type.type == 'chat' && r.text){
 										self.history.data.push({
 											speaker : "AI",
 											text : r.text
 										})
 									}
-		
+
 									self.result = r
-		
+
 									if(p.clbk) p.clbk('', {hide : true})
-		
+
 								}).catch(function(error){
-		
-									event.hidden = true
-		
-		
-		
+
 									if(p.clbk) p.clbk(error, {hide : true})
-		
+
 								})
+							}
 
+
+
+						}
+						else{
+
+							helpers.getportfolio(function(portfolio){
+
+								helpers.getclient(function(client){
+									helpers.hardrequest(function(){
+
+										
+
+										return settings.ai.generate(self.type.id, self.parameters, {
+											test : self.context.test || false,
+											portfolio : portfolio ? portfolio.id : null,
+											client : client ? client.ID : null
+										}, {
+											//refinetext : self.data.text,
+											history : self.history.data,
+											temperature : self.temperature,
+											files
+										})
+
+									})
+									
+									.then(function(r){
+			
+										self.temperature = defaulttemperature
+										
+										if (self.type.type == 'chat' && r.text){
+											self.history.data.push({
+												speaker : "AI",
+												text : r.text
+											})
+										}
+			
+										self.result = r
+			
+										if(p.clbk) p.clbk('', {hide : true})
+			
+									}).catch(function(error){
+			
+										event.hidden = true
+			
+			
+			
+										if(p.clbk) p.clbk(error, {hide : true})
+			
+									})
+
+								})
 							})
-						})
-
+						}
 	
 						
 

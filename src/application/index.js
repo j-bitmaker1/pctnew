@@ -478,8 +478,9 @@ class Core {
 
             })
 
-            if (index > -1) {
+            console.log('data, type', data, type, index)
 
+            if (index > -1) {
 
                 this.ignoring[type].splice(index, 1)
 
@@ -488,8 +489,10 @@ class Core {
 
             try {
 
-
                 var { updated, from = {} } = this.vxstorage.update(data, type)
+
+                console.log('updated, from', updated, from)
+                console.log('updated, from', this.store.state)
 
             } catch (e) {
                 console.error(e)

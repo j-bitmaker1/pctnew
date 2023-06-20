@@ -701,7 +701,8 @@ export default {
 		filemanager : function(images){
 			this.core.vueapi.fileManager({
 				fromEditor : true,
-				upload : images
+				upload : images,
+				context : 'portfolio'
 			}, {
 				createPortfolio : (portfolio) => {
 					if(!this.name) this.name = f.files.getName(portfolio)

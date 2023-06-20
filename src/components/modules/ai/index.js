@@ -171,6 +171,7 @@ export default {
 
                     },
                     pdf : (parameters = {}, context = {}, extra = {}) => {
+                        //extra.session = this.master.session
                         return this.core.api.ai.pdf(parameters, context, extra)
                     }
                 },
@@ -234,6 +235,8 @@ export default {
                                 fv = true
                                 clbk('rxfile:' + file.id)
                             },
+
+                            context : 'ai',
 
                             allowedExtensions : ['pdf']
                             

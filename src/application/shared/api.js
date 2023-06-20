@@ -3095,15 +3095,16 @@ var ApiWrapper = function (core = {}, platform = "PCT") {
 
 		fromfiles : function(tasksraw, id){
 
-			return _.map(tasksraw, (taskraw) => {
+			_.each(tasksraw, (taskraw) => {
 
-				taskraw.fileId = id
+				if(!core.vxstorage.get(taskraw.id, 'task')){
+					taskraw.fileId = id
 
-				var task = new TTask(taskraw)
+					var task = new TTask(taskraw)
+	
+					core.vxstorage.set(task, 'task')
+				}
 
-				core.vxstorage.set(task, 'task')
-
-				return task
 			})
 		},
 
@@ -3913,6 +3914,10 @@ var ApiWrapper = function (core = {}, platform = "PCT") {
 			data.SessionId = extra.session || ''
 			data.History = true
 
+			if (extra.files){
+				data.fileIds = extra.files
+			}
+
 			return request(data, 'chat_ai', 'ai/pdfchat', p).then(function(result){
 
 				return Promise.resolve({
@@ -4033,8 +4038,8 @@ var ApiWrapper = function (core = {}, platform = "PCT") {
 				})
 			}
 
-			if(extra.files){
-				data.files = extra.files
+			if (extra.files){
+				data.fileIds = extra.files
 			}
 
 			return self.ai.extra.ainfo.get().then(function(info){
